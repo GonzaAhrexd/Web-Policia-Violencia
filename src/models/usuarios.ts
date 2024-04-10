@@ -59,8 +59,9 @@ const UsuarioSchema = new mongoose.Schema({
     },
     rol: {
         type:  String,
-        required: true,
-        trim: true
+        required: false,
+        trim: true,
+        default: 'sin_definir'
     }
 },
     {
