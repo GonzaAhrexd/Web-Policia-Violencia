@@ -13,7 +13,7 @@ const UsuarioSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    teléfono: {
+    telefono: {
         type:  Number,
         required: true,
         trim: true
@@ -89,4 +89,4 @@ UsuarioSchema.methods.comparePass = async function(canditePass){
 }
 
 const usuarios = mongoose.model('usuarios', UsuarioSchema)
-module.exports = usuarios;
+export default usuarios;
