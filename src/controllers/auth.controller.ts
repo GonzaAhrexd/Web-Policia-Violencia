@@ -57,9 +57,10 @@ export const register = async (req, res) => {
     }
 }
 
+//Login de usuarios
 export const login = async (req, res) => {
     // Obtención de los datos del formulario de registro
-    const { nombre_de_usuario, pass } = req.body
+    const { nombre_de_usuario , pass } = req.body
     try {
         const usuarioEncontrado = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario })
         if(!usuarioEncontrado) {
@@ -100,9 +101,35 @@ export const login = async (req, res) => {
     }
 }
 
+//Logout 
 export const logout = async (req, res) => {
     res.cookie('token', "",{
     expires: new  Date(0)
     })
     return res.sendStatus(200)
+}
+
+//Perfil  de usuario
+export const profile = async (req, res) => {
+    const usuarioEncontrado = await usuarios.findById(req.user.id)
+    if(!usuarioEncontrado) return res.status(400).json(
+        {message: "User not found"}
+    )
+    return res.json({
+        id: usuarioEncontrado._id,
+        username: usuarioEncontrado.nombre_de_usuario,
+        nombre: usuarioEncontrado.nombre,
+        apellido:  usuarioEncontrado.apellido,
+        telefono: usuarioEncontrado.telefono,
+        credencial: usuarioEncontrado.credencial,
+        unidad: usuarioEncontrado.unidad,
+        jerarquia: usuarioEncontrado.jerarquia,
+        plaza: usuarioEncontrado.plaza,
+        zona: usuarioEncontrado.zona,
+        rol: usuarioEncontrado.rol,
+        createdAt: usuarioEncontrado.createdAt
+
+    })
+  
+
 }

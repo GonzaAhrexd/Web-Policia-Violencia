@@ -15,6 +15,7 @@ const UsuarioSchema = new mongoose.Schema({
     },
     telefono: {
         type:  Number,
+        length: 10,
         required: true,
         trim: true
     },
