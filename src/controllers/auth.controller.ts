@@ -58,6 +58,7 @@ export const register = async (req, res) => {
 }
 
 //Login de usuarios
+//Login de usuarios
 export const login = async (req, res) => {
     // Obtención de los datos del formulario de registro
     const { nombre_de_usuario , pass } = req.body
@@ -101,6 +102,7 @@ export const login = async (req, res) => {
     }
 }
 
+//Logout 
 //Logout 
 export const logout = async (req, res) => {
     res.cookie('token', "",{
