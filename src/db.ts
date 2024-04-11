@@ -9,10 +9,9 @@ const uri = `mongodb+srv://${user}:${pass}@cluster0.uijihcv.mongodb.net/${dbName
  
 //Función que realiza la conexión  a la base de datos de MongoDB
 export const connectDB:any = async () => {
-    console.log(uri)
     try {
         await mongoose.connect(uri)
-        console.log('Base de datos conectada correctamente.')
+        console.log('Base de datos conectada correctamente✅')
     } catch (error) {
         console.log('Error conectando a la base de datos.')
     }

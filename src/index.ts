@@ -7,8 +7,9 @@ import authRoutes from './routes/auth.routes'
 const app = express()
 
 connectDB()
-app.listen(4000)
-console.log("Server is running on port 3000")
+const port:number = 4000
+app.listen(port)
+console.log(`Server is running on port ${port} ✅`)
 app.use(morgan('dev'))
 app.use(express.json())
 app.use('/api',authRoutes)
