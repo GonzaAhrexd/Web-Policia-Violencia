@@ -161,7 +161,7 @@ function Register() {
   ]
 
     return (
-      <div className='gradient  h-screen flex flex-col items-center align-top justify-center'>
+      <div className='gradient h-screen flex flex-col items-center align-top justify-center'>
         <div className='bg-white h-screen w-screen mt-10 flex flex-row md:h-2/3 md:w-1/3  align-middle justify-center rounded-md'>
           <div className='w-screen flex flex-col items-center align-middle justify-center'>
             <h1 className='open-sans text-3xl font-semibold'>¡Registrate ahora!</h1>

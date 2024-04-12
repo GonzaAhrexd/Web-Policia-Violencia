@@ -37,7 +37,7 @@ function SelectRegister({ campo, opciones }: Props) {
     return (
         <div className='flex flex-row'>
             <div className='flex flex-col w-full'>
-                <span className='ml-4'> Unidad </span>
+                <span className='ml-4 font-medium'> Unidad </span>
                 <select
                     className="border open-sans border-gray-300 rounded-md h-10 w-auto my-2 m-4"
                     name="unidad"
