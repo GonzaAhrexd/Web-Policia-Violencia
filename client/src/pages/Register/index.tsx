@@ -188,19 +188,23 @@ function Register() {
        
         h-screen w-screen mt-40 
        
-        sm:h-auto sm:w-auto sm:rounded-md sm:mt-40
+        sm:h-auto sm:w-auto sm:rounded-md sm:mt-40 
        
-        md:h-5/6 md:w-4/6 md:rounded-md md:mt-0
+        md:h-5/6 md:w-4/6 md:rounded-md md:mt-0 
        
-        lg:h-5/6 lg:w-4/6 lg:rounded-md lg:mt-0
+        lg:h-5/6 lg:w-4/6 lg:rounded-md lg:mt-0 
+        
+        xl:h-95/100 xl:w-4/6 xl:rounded-md xl:mt-0 
        
-        xl:h-5/6 xl:w-4/6 xl:rounded-md xl:mt-0
-       
-        2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0
+        2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0 
         '>
-        <div className='w-screen flex flex-col items-center align-middle justify-center'>
-          <h1 className='open-sans text-3xl font-semibold'>¡Registrate ahora!</h1>
-          <form className='flex flex-col align-middle justify-center w-5/6 sm:w-3/5 ' onSubmit={handleSubmit((values) => {
+        <div className='
+        GLOBAL
+        h-full w-full flex flex-col items-center align-middle justify-center
+        '>
+    <h1 className='open-sans text-3xl font-semibold'>¡Registrate ahora!</h1>
+            
+          <form className='flex flex-col align-middle justify-center w-5/6' onSubmit={handleSubmit((values) => {
             console.log(values)
           })}>
             <div className='flex flex-col md:flex-row'>
