@@ -2,12 +2,11 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 //@ts-ignore
 function InputRegister(props) {
-    const { campo, nombre } = props
+    const { campo, nombre, register } = props
     const placeholder = props.placeholder ? props.placeholder : ''
 
-
     console.log(campo, nombre, placeholder)
-    const { register } = useForm()
+ 
     return (
         <div className='flex flex-col md:w-1/2'>
             <span className='font-medium ml-4'>

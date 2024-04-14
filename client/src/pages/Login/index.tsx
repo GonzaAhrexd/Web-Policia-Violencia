@@ -5,7 +5,23 @@ function Login() {
 
   return (
     <div className='gradient h-screen flex flex-col items-center align-middle justify-center'>
-      <div className='bg-white h-screen w-screen md:h-2/3 md:w-1/3 flex align-middle justify-center rounded-md'>
+      <div className='
+       flex flex-row align-middle justify-center bg-white 
+       
+       h-screen w-screen 
+    
+       sm:h-auto sm:w-auto sm:rounded-md sm:mt-0
+      
+       md:h-5/6 md:w-4/6 md:rounded-md md:mt-0
+      
+       lg:h-5/6 lg:w-4/6 lg:rounded-md lg:mt-0
+      
+       xl:h-5/6 xl:w-4/6 xl:rounded-md xl:mt-0
+      
+       2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0
+      
+      
+      '>
         <div className='w-screen flex flex-col items-center align-middle justify-center'>
           <h1 className='open-sans text-3xl font-semibold'>¡Bienvenido!</h1>
          <figure className='flex flex-col'>

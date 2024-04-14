@@ -10,41 +10,50 @@ interface Opcion {
 interface Props {
     campo: string;
     opciones: Opcion[];
+    register: any
+    setValue: any
 }
 
 
-function SelectRegister({ campo, opciones }: Props) {
+function SelectRegister({ campo, opciones, register, setValue }: Props) {
 
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
-
     const handleUnidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedUnidad(event.target.value);
+        const value = event.target.value;
+        setSelectedUnidad(value);
         setSelectedSubunidad('');
         setSelectedSubsubunidad('');
-    };
-
-    const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedSubunidad(event.target.value);
+        // Actualiza el valor en react-hook-form
+        campo == "Unidad" ? setValue('selectedUnidad', value) : setValue('jerarquia', value);
+      };
+      
+      const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = event.target.value;
+        setSelectedSubunidad(value);
         setSelectedSubsubunidad('');
-    };
-
-    const handleSubsubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedSubsubunidad(event.target.value);
-    };
-
+        // Actualiza el valor en react-hook-form
+        setValue('selectedSubunidad', value);
+      };
+      
+      const handleSubsubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = event.target.value;
+        setSelectedSubsubunidad(value);
+        // Actualiza el valor en react-hook-form
+        setValue('selectedSubsubunidad', value);
+      };
     return (
         <div className='flex flex-row'>
             <div className='flex flex-col w-full'>
-                <span className='ml-4 font-medium'> Unidad </span>
+                <span className='ml-4 font-medium'> {campo} </span>
                 <select
                     className="border open-sans border-gray-300 rounded-md h-10 w-auto my-2 m-4"
-                    name="unidad"
+                    name={campo}
                     value={selectedUnidad}
                     onChange={handleUnidadChange}
                 >
-                    <option value="">Seleccione una unidad</option>
+                    <option value="">Seleccione la {campo.toLowerCase()}</option>
                     {opciones.map((unidad: Opcion) => (
                         <option key={unidad.value} value={unidad.value}>
                             {unidad.nombre}
