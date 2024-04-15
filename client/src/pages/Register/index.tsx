@@ -1,8 +1,10 @@
 import { useForm } from 'react-hook-form'
 import InputRegister from '../../components/InputRegister'
 import SelectRegister from '../../components/SelectRegister'
-import { useState } from 'react';
-
+import { useState } from 'react'
+import { set } from 'mongoose'
+import { error } from 'console'
+import { registerRequest } from '../../api/auth'
 
 function Register() {
   const { register, handleSubmit, setValue } = useForm()
@@ -44,8 +46,8 @@ function Register() {
         //FONTANA
         {
           nombre: "Fontana", value: "Fontana", subdivisiones: [
-            { nombre: "Comisaría Primera", value: "Comisaría Primera Fontana"},
-            { nombre: "Comisaría Segunda", value: "Comisaría Segunda Fontana"},
+            { nombre: "Comisaría Primera", value: "Comisaría Primera Fontana" },
+            { nombre: "Comisaría Segunda", value: "Comisaría Segunda Fontana" },
           ]
         },
         //OTROS
@@ -71,8 +73,8 @@ function Register() {
     //VILLA ANGELA
     {
       nombre: "División Violencia Familiar y Género Villa Angela", value: "Villa Angela", subdivisiones: [
-        { nombre: "Comisaría Primera", value: "Comisaría Primera" },
-        { nombre: "Comisaría Segunda", value: "Comisaría Primera" },
+        { nombre: "Comisaría Primera", value: "Comisaría Primera Villa Angela" },
+        { nombre: "Comisaría Segunda", value: "Comisaría Segunda Villa Angela" },
         { nombre: "Comisaría La Clotilde", value: "Comisaría La Clotilde" },
         { nombre: "Comisaría La Tigra", value: "Comisaría La Tigra" },
         { nombre: "Comisaría San Bernardo", value: "Comisaría San Bernardo" },
@@ -86,9 +88,9 @@ function Register() {
     },
     //CHARATA
     {
-      nombre: "División Violencia Familiar y Género Charata", value: "Charata", subdivisioens: [
-        { nombre: "Comisaría Primera", value: "Comisaría Primera" },
-        { nombre: "Comisaría Segunda", value: "Comisaría Segunda" },
+      nombre: "División Violencia Familiar y Género Charata", value: "Charata", subdivisiones: [
+        { nombre: "Comisaría Primera", value: "Comisaría Primera Charata" },
+        { nombre: "Comisaría Segunda", value: "Comisaría Segunda Charata" },
         { nombre: "Comisaría Corcuela", value: "Comisaria Corcuela" },
         { nombre: "Comisaría Las Breñas", value: "Comisaría Las Breñas" },
         { nombre: "Comisaría Campo Largo", value: "Comisaría Campo Largo" },
@@ -180,13 +182,18 @@ function Register() {
   const zonaCampos = [
     { nombre: "Interior", value: "Interior" },
     { nombre: "Capital", value: "Capital" }]
+  const [mensajeError, setMensajeError] = useState("")
+  const [thereIsError, setThereIsError] = useState(false)
   return (
+    <>
+         
     <div className='
       gradient 
       h-screen w-screen
       md:flex md:flex-col md:items-center md:align-top md:justify-center
       '
     >
+    
       <div className='
         flex flex-row align-middle justify-center bg-white 
        
@@ -202,36 +209,61 @@ function Register() {
        
         2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0 
         '>
-        <div className='
-        GLOBAL
-        h-full w-full flex flex-col items-center align-middle justify-center
-        '>
-    <h1 className='open-sans text-3xl font-semibold'>¡Registrate ahora!</h1>
+      
+        <div className='h-full w-full flex flex-col items-center align-middle justify-center'>
+          <h1 className='open-sans text-3xl font-semibold'>¡Registrate ahora!</h1>
+
+          <form className='flex flex-col align-middle justify-center w-5/6' onSubmit={handleSubmit(async(values) => {
+           
+          //Validación longitud de contraseña
+           if (values.pass.length < 6) {
+            setMensajeError("La contraseña debe tener mínimo 6 caracteres");
+            setThereIsError(true);
             
-          <form className='flex flex-col align-middle justify-center w-5/6' onSubmit={handleSubmit((values) => {
-            console.log(values)
+          } else if (values.pass !== values.passrepeat) { //Validación de contraseñas iguales
+            setMensajeError("Las contraseñas no coinciden");
+            setThereIsError(true);
+          }else if ((values.telefono).length !== 10) { //Validación de longitud de teléfono	
+            setMensajeError("Los números de teléfono deben tener 10 dígitos");
+            setThereIsError(true);
+          }
+           else {
+            setMensajeError("");
+            setThereIsError(false);
+            console.log(values);
+            try { 
+              const res = await registerRequest(values);
+              console.log(res.data)
+              setMensajeError(res.data)
+            } catch (error) {
+              console.log(error);
+            }
+            // Aquí puedes hacer lo que quieras con los valores del formulario, como enviarlos a un servidor, etc.
+          }
+          
+        
           })}>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="Nombre" nombre="nombre" register={register} setValue={setValue} type="text"/>
-              <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text"/>
+              <InputRegister campo="Nombre" nombre="nombre" register={register} setValue={setValue} type="text" />
+              <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" />
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="Teléfono" nombre="telefono" placeholder={"Ej. 3624123456"} register={register} setValue={setValue} type="number"/>
-              <InputRegister campo="Nombre de usuario" nombre="username"  register={register} setValue={setValue} type="text"/>
+              <InputRegister campo="Teléfono" nombre="telefono" placeholder={"Ej. 3624123456"} register={register} setValue={setValue} type="number" />
+              <InputRegister campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" />
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="Contraseña" nombre="pass" register={register} type="password"/>
-              <InputRegister campo="Repite la contraseña" nombre="passrepeat"  register={register} setValue={setValue} type="password"/>
+              <InputRegister campo="Contraseña" nombre="pass" register={register} type="password" />
+              <InputRegister campo="Repite la contraseña" nombre="passrepeat" register={register} setValue={setValue} type="password" />
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="N° de Credencial" nombre="credencial"  register={register} setValue={setValue} type="text"/>
-              <SelectRegister campo="Jerarquía" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text"/>
+              <InputRegister campo="N° de Credencial" nombre="credencial" register={register} setValue={setValue} type="text" />
+              <SelectRegister campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text" />
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="N° de Plaza" nombre="plaza"  register={register} setValue={setValue} type="text"/>
-              <SelectRegister campo="Zona" opciones={zonaCampos} register={register} setValue={setValue} type="text"/>
+              <InputRegister campo="N° de Plaza" nombre="plaza" register={register} setValue={setValue} type="text" />
+              <SelectRegister campo="Zona" nombre="zona" opciones={zonaCampos} register={register} setValue={setValue} type="text" />
             </div>
-            <SelectRegister campo="Unidad" opciones={unidadCampos}  register={register}setValue={setValue} type="text"/>
+            <SelectRegister campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" />
 
             <div className='flex flex-col m-4'>
               <div className='flex flex-col md:w-full'>
@@ -240,13 +272,15 @@ function Register() {
               </div>
             </div>
 
-            <div className='flex flex-col md:flex-row'>
+            <div className='flex flex-col'>
+              <span className='text-red-400'> {mensajeError} </span>
               <button className='bg-sky-900 hover:bg-sky-700 text-white w-full h-10 rounded-md my-2'>Crear cuenta</button>
             </div>
           </form>
         </div>
       </div>
     </div>
+    </>
   );
 }
 

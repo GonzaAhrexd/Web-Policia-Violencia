@@ -53,7 +53,7 @@ export const register = async (req, res) => {
     } catch (error) {
         // Respuesta de error
         console.log(error)
-        res.send('error')
+        res.send('Usuario ya existe o no se ingresaron datos')
     }
 }
 

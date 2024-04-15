@@ -13,10 +13,11 @@ interface Props {
     register: any
     setValue: any
     type: string
+    nombre: string
 }
 
 
-function SelectRegister({ campo, opciones, register, setValue }: Props) {
+function SelectRegister({ campo, opciones, nombre, register, setValue }: Props) {
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
@@ -27,9 +28,9 @@ function SelectRegister({ campo, opciones, register, setValue }: Props) {
         setSelectedSubunidad('');
         setSelectedSubsubunidad('');
         // Actualiza el valor en react-hook-form
-        campo == "Unidad" && setValue('Unidad', value) 
-        campo == "Jerarquia" && setValue('Jerarquia', value)
-        campo == "Zona" && setValue('Zona', value)
+        campo == "Unidad" && setValue('unidad', value) 
+        campo == "Jerarquía" && setValue('jerarquia', value)
+        campo == "Zona" && setValue('zona', value)
     };
       
     const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -37,14 +38,14 @@ function SelectRegister({ campo, opciones, register, setValue }: Props) {
         setSelectedSubunidad(value);
         setSelectedSubsubunidad('');
         // Actualiza el valor en react-hook-form
-        setValue('Unidad',  `${selectedUnidad}, ${value}`);
+        setValue('unidad',  `${selectedUnidad}, ${value}`);
     };
       
     const handleSubsubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
         setSelectedSubsubunidad(value);
         // Actualiza el valor en react-hook-form
-        setValue('Unidad', `${selectedUnidad}, ${selectedSubunidad}, ${value}`);
+        setValue('unidad', `${selectedUnidad}, ${selectedSubunidad}, ${value}`);
     };
     return (
         <div className={`flex flex-row ${campo=="Unidad"? "w-full" : "xl:w-1/2"}`}>
@@ -53,7 +54,7 @@ function SelectRegister({ campo, opciones, register, setValue }: Props) {
                 <div className={`flex flex-col xl:flex-row 2xl:flex-col  ${campo=="Unidad"? "xl:w-full 2xl:w-full 2xl:h-10 xl:h-12 xl:mb-5" : "xl:w-full"}`}>
                 <select
                     className= {campo=="Unidad"? "border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full " : "border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 w-full" }
-                    name={campo}
+                    name={nombre}
                     value={selectedUnidad}
                     onChange={handleUnidadChange}
                 >

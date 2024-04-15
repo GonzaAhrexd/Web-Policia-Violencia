@@ -5,8 +5,6 @@ function InputRegister(props) {
     const { campo, nombre, register, type } = props
     const placeholder = props.placeholder ? props.placeholder : ''
 
-    console.log(campo, nombre, placeholder)
- 
     return (
         <div className='flex flex-col md:w-1/2'>
             <span className='font-medium ml-4 xl:text-vw'> {campo} </span>
