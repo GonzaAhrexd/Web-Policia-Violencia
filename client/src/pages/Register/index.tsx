@@ -18,34 +18,34 @@ function Register() {
         //RESISTENCIA
         {
           nombre: "Resistencia", value: "Resistencia", subdivisiones: [
-            { nombre: "Comisaría Primera", value: "Comisaría Primera" },
-            { nombre: "Comisaría Segunda", value: "Comisaría Segunda" },
-            { nombre: "Comisaría Tercera", value: "Comisaría Tercera" },
-            { nombre: "Comisaría Cuarta", value: "Comisaría Cuarta" },
-            { nombre: "Comisaría Quinta", value: "Comisaría Quinta" },
-            { nombre: "Comisaría Sexta", value: "Comisaría Sexta" },
-            { nombre: "Comisaría Séptima", value: "Comisaría Séptima" },
-            { nombre: "Comisaría Octava", value: "Comisaría Octava" },
-            { nombre: "Comisaría Novena", value: "Comisaría Novena" },
-            { nombre: "Comisaría Décima", value: "Comisaría Décima" },
-            { nombre: "Comisaría Décimo Primera", value: "Comisaría Décimo Primera" },
-            { nombre: "Comisaría Décimo Segunda", value: "Comisaría Décimo Segunda" },
-            { nombre: "Comisaría Décimo Tercera", value: "Comisaría Décimo Tercera" },
+            { nombre: "Comisaría Primera", value: "Comisaría Primera Resistencia" },
+            { nombre: "Comisaría Segunda", value: "Comisaría Segunda Resistencia" },
+            { nombre: "Comisaría Tercera", value: "Comisaría Tercera Resistencia" },
+            { nombre: "Comisaría Cuarta", value: "Comisaría Cuarta Resistencia" },
+            { nombre: "Comisaría Quinta", value: "Comisaría Quinta Resistencia" },
+            { nombre: "Comisaría Sexta", value: "Comisaría Sexta Resistencia" },
+            { nombre: "Comisaría Séptima", value: "Comisaría Séptima Resistencia" },
+            { nombre: "Comisaría Octava", value: "Comisaría Octava Resistencia" },
+            { nombre: "Comisaría Novena", value: "Comisaría Novena Resistencia" },
+            { nombre: "Comisaría Décima", value: "Comisaría Décima Resistencia" },
+            { nombre: "Comisaría Décimo Primera", value: "Comisaría Décimo Primera Resistencia" },
+            { nombre: "Comisaría Décimo Segunda", value: "Comisaría Décimo Segunda Resistencia" },
+            { nombre: "Comisaría Décimo Tercera", value: "Comisaría Décimo Tercera Resistencia" },
           ]
         },
         //BARANQUERAS
         {
           nombre: "Barranqueras", value: "Barranqueras", subdivisiones: [
-            { nombre: "Comisaría Primera", value: "Comisaría Primera" },
-            { nombre: "Comisaría Segunda", value: "Comisaría Segunda" },
-            { nombre: "Comisaría Tercera", value: "Comisaría Tercera" },
+            { nombre: "Comisaría Primera", value: "Comisaría Primera Barranqueras" },
+            { nombre: "Comisaría Segunda", value: "Comisaría Segunda Barranqueras" },
+            { nombre: "Comisaría Tercera", value: "Comisaría Tercera Barranqueras" },
           ]
         },
         //FONTANA
         {
           nombre: "Fontana", value: "Fontana", subdivisiones: [
-            { nombre: "Comisaría Primera", value: "Comisaría Primera" },
-            { nombre: "Comisaría Segunda", value: "Comisaría Segunda" },
+            { nombre: "Comisaría Primera", value: "Comisaría Primera Fontana"},
+            { nombre: "Comisaría Segunda", value: "Comisaría Segunda Fontana"},
           ]
         },
         //OTROS
@@ -159,6 +159,7 @@ function Register() {
   ];
 
   const jerarquiaCampos = [
+    { nombre: "Civil", value: "Civil" },
     { nombre: "Agente", value: "Agente" },
     { nombre: "Cabo", value: "Cabo Primero" },
     { nombre: "Sargento", value: "Sargento" },
@@ -176,6 +177,9 @@ function Register() {
 
   ]
 
+  const zonaCampos = [
+    { nombre: "Interior", value: "Interior" },
+    { nombre: "Capital", value: "Capital" }]
   return (
     <div className='
       gradient 
@@ -208,28 +212,26 @@ function Register() {
             console.log(values)
           })}>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="Nombre" nombre="nombre" register={register} setValue={setValue}/>
-              <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue}/>
+              <InputRegister campo="Nombre" nombre="nombre" register={register} setValue={setValue} type="text"/>
+              <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text"/>
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="Teléfono" nombre="telefono" placeholder={"Ej. 3624123456"} register={register} setValue={setValue}/>
-              <InputRegister campo="Nombre de usuario" nombre="username"  register={register} setValue={setValue}/>
+              <InputRegister campo="Teléfono" nombre="telefono" placeholder={"Ej. 3624123456"} register={register} setValue={setValue} type="number"/>
+              <InputRegister campo="Nombre de usuario" nombre="username"  register={register} setValue={setValue} type="text"/>
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="Contraseña" nombre="pass" register={register}/>
-              <InputRegister campo="Repite la contraseña" nombre="passrepeat"  register={register} setValue={setValue}/>
+              <InputRegister campo="Contraseña" nombre="pass" register={register} type="password"/>
+              <InputRegister campo="Repite la contraseña" nombre="passrepeat"  register={register} setValue={setValue} type="password"/>
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="N° de Credencial" nombre="credencial"  register={register} setValue={setValue}/>
-              {/*@ts-ignore*/}
-              <SelectRegister campo="Jerarquía" opciones={jerarquiaCampos} register={register} setValue={setValue}/>
+              <InputRegister campo="N° de Credencial" nombre="credencial"  register={register} setValue={setValue} type="text"/>
+              <SelectRegister campo="Jerarquía" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text"/>
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="N° de Plaza" nombre="plaza"  register={register} setValue={setValue}/>
-              <InputRegister campo="Zona" nombre="jerarquia" register={register} setValue={setValue}/>
+              <InputRegister campo="N° de Plaza" nombre="plaza"  register={register} setValue={setValue} type="text"/>
+              <SelectRegister campo="Zona" opciones={zonaCampos} register={register} setValue={setValue} type="text"/>
             </div>
-            {/*@ts-ignore*/}
-            <SelectRegister campo="Unidad" opciones={unidadCampos}  register={register}setValue={setValue}/>
+            <SelectRegister campo="Unidad" opciones={unidadCampos}  register={register}setValue={setValue} type="text"/>
 
             <div className='flex flex-col m-4'>
               <div className='flex flex-col md:w-full'>

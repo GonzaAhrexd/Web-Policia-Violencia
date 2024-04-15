@@ -2,9 +2,9 @@ import React from 'react'
 import { useState } from 'react';
 
 interface Opcion {
-    value: string;
-    nombre: string;
-    subdivisiones: Opcion[];
+    value?: string;
+    nombre?: string;
+    subdivisiones?: Opcion[];
 }
 
 interface Props {
@@ -12,37 +12,40 @@ interface Props {
     opciones: Opcion[];
     register: any
     setValue: any
+    type: string
 }
 
 
 function SelectRegister({ campo, opciones, register, setValue }: Props) {
-
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
+
     const handleUnidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
         setSelectedUnidad(value);
         setSelectedSubunidad('');
         setSelectedSubsubunidad('');
         // Actualiza el valor en react-hook-form
-        campo == "Unidad" ? setValue('selectedUnidad', value) : setValue('jerarquia', value);
-      };
+        campo == "Unidad" && setValue('Unidad', value) 
+        campo == "Jerarquia" && setValue('Jerarquia', value)
+        campo == "Zona" && setValue('Zona', value)
+    };
       
-      const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
         setSelectedSubunidad(value);
         setSelectedSubsubunidad('');
         // Actualiza el valor en react-hook-form
-        setValue('selectedSubunidad', value);
-      };
+        setValue('Unidad',  `${selectedUnidad}, ${value}`);
+    };
       
-      const handleSubsubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleSubsubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
         setSelectedSubsubunidad(value);
         // Actualiza el valor en react-hook-form
-        setValue('selectedSubsubunidad', value);
-      };
+        setValue('Unidad', `${selectedUnidad}, ${selectedSubunidad}, ${value}`);
+    };
     return (
         <div className={`flex flex-row ${campo=="Unidad"? "w-full" : "xl:w-1/2"}`}>
             <div className='flex flex-col w-full'>
