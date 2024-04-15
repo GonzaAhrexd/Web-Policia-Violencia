@@ -2,9 +2,9 @@ import { useForm } from 'react-hook-form'
 import InputRegister from '../../components/InputRegister'
 import SelectRegister from '../../components/SelectRegister'
 import { useState } from 'react'
-import { set } from 'mongoose'
-import { error } from 'console'
 import { registerRequest } from '../../api/auth'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/auth'
 
 function Register() {
   const { register, handleSubmit, setValue } = useForm()
@@ -182,24 +182,27 @@ function Register() {
   const zonaCampos = [
     { nombre: "Interior", value: "Interior" },
     { nombre: "Capital", value: "Capital" }]
+
   const [mensajeError, setMensajeError] = useState("")
   const [thereIsError, setThereIsError] = useState(false)
+  const navigate = useNavigate();
+  // @ts-ignore
+  const {signUp, user} = useAuth()
+  console.log(user)
   return (
     <>
-         
     <div className='
       gradient 
       h-screen w-screen
       md:flex md:flex-col md:items-center md:align-top md:justify-center
       '
     >
-    
       <div className='
         flex flex-row align-middle justify-center bg-white 
        
-        h-screen w-screen mt-40 
+        h-screen w-screen mt-56
        
-        sm:h-auto sm:w-auto sm:rounded-md sm:mt-40 
+        sm:h-auto sm:w-auto sm:rounded-md sm:mt-0 
        
         md:h-5/6 md:w-4/6 md:rounded-md md:mt-0 
        
@@ -210,16 +213,14 @@ function Register() {
         2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0 
         '>
       
-        <div className='h-full w-full flex flex-col items-center align-middle justify-center'>
+        <div className='h-screen w-screen sm:h-full sm:w-full flex flex-col items-center align-middle justify-center'>
           <h1 className='open-sans text-3xl font-semibold'>¡Registrate ahora!</h1>
 
           <form className='flex flex-col align-middle justify-center w-5/6' onSubmit={handleSubmit(async(values) => {
-           
           //Validación longitud de contraseña
            if (values.pass.length < 6) {
             setMensajeError("La contraseña debe tener mínimo 6 caracteres");
             setThereIsError(true);
-            
           } else if (values.pass !== values.passrepeat) { //Validación de contraseñas iguales
             setMensajeError("Las contraseñas no coinciden");
             setThereIsError(true);
@@ -233,12 +234,18 @@ function Register() {
             console.log(values);
             try { 
               const res = await registerRequest(values);
-              console.log(res.data)
-              setMensajeError(res.data)
+              if(res.data == "Usuario ya existe o no se ingresaron datos"){
+                 setMensajeError("Usuario ya existe o no se ingresaron datos") 
+                } else{
+                  signUp(values)
+                  navigate('/login');
+              }
+              
+
             } catch (error) {
               console.log(error);
             }
-            // Aquí puedes hacer lo que quieras con los valores del formulario, como enviarlos a un servidor, etc.
+       
           }
           
         

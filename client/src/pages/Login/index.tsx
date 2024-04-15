@@ -16,7 +16,7 @@ function Login() {
       
        lg:h-5/6 lg:w-4/6 lg:rounded-md lg:mt-0
       
-       xl:h-5/6 xl:w-4/6 xl:rounded-md xl:mt-0
+       xl:h-95/100 xl:w-4/6 xl:rounded-md xl:mt-0
       
        2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0
       

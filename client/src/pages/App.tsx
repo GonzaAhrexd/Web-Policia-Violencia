@@ -2,6 +2,7 @@ import { useRoutes, BrowserRouter } from 'react-router-dom'
 import Login from './Login'
 import Register from './Register'
 import NotFound from './NotFound'
+import { AuthProvider } from '../context/auth'
 import '../App.css'
 const AppRoutes = () => {
   let routes = useRoutes([
@@ -13,13 +14,17 @@ const AppRoutes = () => {
   return routes
 }
 
+
 const App = () => {
 
   return (
-   <BrowserRouter>
-      <AppRoutes/>
-    </BrowserRouter>
-   
+    <AuthProvider>
+
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+
+    </AuthProvider>
 
   )
 }
