@@ -1,13 +1,16 @@
 import { useForm } from 'react-hook-form'
 import InputRegister from '../../components/InputRegister'
 import SelectRegister from '../../components/SelectRegister'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { registerRequest } from '../../api/auth'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/auth'
-
+import { Link } from 'react-router-dom'
 function Register() {
-  const { register, handleSubmit, setValue } = useForm()
+  const { register, handleSubmit, setValue, formState: {
+    errors
+  } } = useForm()
+
   const unidadCampos = [
     //LAPACHITO
     { nombre: "División Violencia Familiar y Género Lapachito", value: "Lapachito" },
@@ -185,37 +188,24 @@ function Register() {
 
   const [mensajeError, setMensajeError] = useState("")
   const [thereIsError, setThereIsError] = useState(false)
+
   const navigate = useNavigate();
   // @ts-ignore
-  const {signUp, user} = useAuth()
-  console.log(user)
+  const { signUp, user, isAuthenticated} = useAuth()
+
+  useEffect(() => {
+    if(isAuthenticated){
+      navigate('/login')
+    }
+  }, [user, isAuthenticated])
   return (
     <>
-    <div className='
-      gradient 
-      h-screen w-screen
-      md:flex md:flex-col md:items-center md:align-top md:justify-center
-      '
+    <div className='gradient  h-screen w-screen md:flex md:flex-col md:items-center md:align-top md:justify-center'
     >
       <div className='
-        flex flex-row align-middle justify-center bg-white 
-       
-        h-screen w-screen mt-56
-       
-        sm:h-auto sm:w-auto sm:rounded-md sm:mt-0 
-       
-        md:h-5/6 md:w-4/6 md:rounded-md md:mt-0 
-       
-        lg:h-5/6 lg:w-4/6 lg:rounded-md lg:mt-0 
-        
-        xl:h-95/100 xl:w-4/6 xl:rounded-md xl:mt-0 
-       
-        2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0 
-        '>
-      
+        flex flex-row align-middle justify-center bg-white h-screen w-screen mt-56 sm:h-auto sm:w-auto sm:rounded-md sm:mt-0 md:h-5/6 md:w-4/6 md:rounded-md md:mt-0 lg:h-5/6 lg:w-4/6 lg:rounded-md lg:mt-0 xl:h-95/100 xl:w-4/6 xl:rounded-md xl:mt-0 2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0 '>
         <div className='h-screen w-screen sm:h-full sm:w-full flex flex-col items-center align-middle justify-center'>
           <h1 className='open-sans text-3xl font-semibold'>¡Registrate ahora!</h1>
-
           <form className='flex flex-col align-middle justify-center w-5/6' onSubmit={handleSubmit(async(values) => {
           //Validación longitud de contraseña
            if (values.pass.length < 6) {
@@ -231,13 +221,12 @@ function Register() {
            else {
             setMensajeError("");
             setThereIsError(false);
-            console.log(values);
             try { 
               const res = await registerRequest(values);
               if(res.data == "Usuario ya existe o no se ingresaron datos"){
-                 setMensajeError("Usuario ya existe o no se ingresaron datos") 
+                 setMensajeError("Usuario ya existente")
                 } else{
-                  signUp(values)
+                  signUp(res)
                   navigate('/login');
               }
               
@@ -251,36 +240,38 @@ function Register() {
         
           })}>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="Nombre" nombre="nombre" register={register} setValue={setValue} type="text" />
-              <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" />
+              <InputRegister campo="Nombre" nombre="nombre" register={register} setValue={setValue} type="text" error={errors.nombre} />
+              <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido}/>
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="Teléfono" nombre="telefono" placeholder={"Ej. 3624123456"} register={register} setValue={setValue} type="number" />
-              <InputRegister campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" />
+              <InputRegister campo="Teléfono" nombre="telefono" placeholder={"Ej. 3624123456"} register={register} setValue={setValue} type="number" error={errors.telefono}/>
+              <InputRegister campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" error={errors.nombre_de_usuario}/>
+               </div>
+            <div className='flex flex-col md:flex-row'>
+              <InputRegister campo="Contraseña" nombre="pass" register={register} type="password" error = {errors.pass}/>
+              <InputRegister campo="Repite la contraseña" nombre="passrepeat" register={register} setValue={setValue} type="password" error = {errors.passrepeat}/>
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="Contraseña" nombre="pass" register={register} type="password" />
-              <InputRegister campo="Repite la contraseña" nombre="passrepeat" register={register} setValue={setValue} type="password" />
+              <InputRegister campo="N° de Credencial" nombre="credencial" register={register} setValue={setValue} type="text" error = {errors.credencial}/>
+              <SelectRegister campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text"  />
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="N° de Credencial" nombre="credencial" register={register} setValue={setValue} type="text" />
-              <SelectRegister campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text" />
-            </div>
-            <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="N° de Plaza" nombre="plaza" register={register} setValue={setValue} type="text" />
+              <InputRegister campo="N° de Plaza" nombre="plaza" register={register} setValue={setValue} type="text" error= {errors.plaza}/>
               <SelectRegister campo="Zona" nombre="zona" opciones={zonaCampos} register={register} setValue={setValue} type="text" />
             </div>
-            <SelectRegister campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" />
+            <SelectRegister campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text"  />
 
             <div className='flex flex-col m-4'>
               <div className='flex flex-col md:w-full'>
                 <span>DNI en formato PDF</span>
                 <input name="pdf" type="file" accept=".pdf" />
               </div>
-            </div>
+
+             </div>
 
             <div className='flex flex-col'>
               <span className='text-red-400'> {mensajeError} </span>
+              <span className='text-sm'>Ya tienes cuenta? <a href='/login' className='text-sky-900'>Inicia sesión</a></span>
               <button className='bg-sky-900 hover:bg-sky-700 text-white w-full h-10 rounded-md my-2'>Crear cuenta</button>
             </div>
           </form>

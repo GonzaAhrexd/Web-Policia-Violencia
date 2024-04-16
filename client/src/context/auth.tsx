@@ -1,6 +1,6 @@
 //@ts-ignore
-import { createContext, ReactNode, useState, useContext } from 'react';
-import { registerRequest } from '../api/auth'
+import { createContext, ReactNode, useState, useContext, useEffect } from 'react';
+import { registerRequest, loginRequest } from '../api/auth'
 
 type AuthContextType = {
     // Define your context properties here
@@ -22,22 +22,51 @@ export const useAuth = () => {
 } 
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [user, setUser] = useState<AuthContextType | null>(null)
-
-
+    const [user, setUser] = useState(null)
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [errorsAuth, setErrors] = useState(null)
+    //Registro
     const signUp = async (user: any) => {
         try{
-            console.log(user)
-            setUser(user)
+            console.log(user.data)
+            setUser(user.data)
+            setIsAuthenticated(true)
         }catch(error){
             console.log(error)
         }
     }
+    //Login
+    const signIn = async (user: any) => {
+        try{
+            const res = await loginRequest(user)
+            setUser(res.data);
+            setIsAuthenticated(true);
+            console.log(res)
+        }catch(error){
+            console.log(error)
+            //@ts-ignore
+       setErrors(error.response.data.message);
+        }
+    }
+    
+    useEffect(() =>{
+        if(errorsAuth){
+            const timer = setTimeout(() => {
+                setErrors(null)
+            }, 3000)
+            return () => clearTimeout(timer)
+        }
+    },[errorsAuth])
+
+
 
     return (
         <AuthContext.Provider value={{
             signUp,
-            user
+            signIn,
+            user,
+            isAuthenticated,
+            errorsAuth
         }}>
             {children}
         </AuthContext.Provider>
