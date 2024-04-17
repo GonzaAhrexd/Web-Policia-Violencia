@@ -8,6 +8,7 @@ export default {
     extend: {
       fontSize: {
         vw: '0.9vw',
+        "10xl": '10rem'
       },
       height:{
         "1/10": '10%',
