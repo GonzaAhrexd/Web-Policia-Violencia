@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Asumiendo que estás usando react-router
-
+import NavBar  from '../../components/NavBar'; // Asumiendo que tienes un componente NavBar en la ruta especificada
 const NotFound = () => {
+  
   return (
+    
     <div className="flex items-center justify-center h-screen bg-white">
       <div className="md:w-5/10 lg:w-3/10">
       <div className="text-center">

@@ -23,7 +23,7 @@ function SelectRegister({ campo, opciones, nombre, register, setValue, error }: 
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
-
+    const [hadSubmitted, setHadSubmitted] = useState(false)
     const handleUnidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
         setSelectedUnidad(value);
@@ -41,7 +41,7 @@ function SelectRegister({ campo, opciones, nombre, register, setValue, error }: 
         setSelectedSubunidad(value);
         setSelectedSubsubunidad('');
         // Actualiza el valor en react-hook-form
-        setValue('unidad',  `${selectedUnidad}, ${value}`);
+        setValue('unidad',  `${selectedUnidad}, $</div>{value}`);
     };
       
     const handleSubsubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -53,7 +53,7 @@ function SelectRegister({ campo, opciones, nombre, register, setValue, error }: 
     return (
         <div className={`flex flex-row ${campo=="Unidad"? "w-full" : "xl:w-1/2"}`}>
             <div className='flex flex-col w-full'>
-                <span className='ml-4 font-medium xl:text-vw'> {campo}  <span className='text-red-500'> { selectedUnidad? "" : "Requerido" } </span> </span> 
+                <span className='ml-4 font-medium xl:text-vw'> {campo}  <span className='text-red-500'> { (selectedUnidad)? "A" : "Requerido" } </span> </span> 
                 <div className={`flex flex-col xl:flex-row 2xl:flex-col  ${campo=="Unidad"? "xl:w-full 2xl:w-full 2xl:h-10 xl:h-12 xl:mb-5" : "xl:w-full"}`}>
                 <select
                     className= {campo=="Unidad"? "border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full " : "border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 w-full" }
@@ -71,6 +71,7 @@ function SelectRegister({ campo, opciones, nombre, register, setValue, error }: 
 
                 {selectedUnidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones && (
                 <div className='flex flex-row xl:h-full 2xl:h-full xl:w-full'>
+                        
                         <select
                             className="border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                             name="subunidad"

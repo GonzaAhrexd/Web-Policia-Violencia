@@ -1,5 +1,7 @@
 import { z } from 'zod'
-
+import jwt from 'jsonwebtoken'
+import { TOKEN_SECRET } from '../config'
+import usuarios from '../models/usuarios'
 export const registerSchema = z.object({
     nombre: z.string({
         required_error: 'El nombre es requerido',
@@ -48,3 +50,4 @@ export const loginSchema = z.object({
         required_error: 'La contraseña es requerida',
     }),
 })
+

@@ -15,6 +15,7 @@ app.listen(port)
 console.log(`Server is running on port ${port} ✅`)
 app.use(cors({
     origin: 'http://localhost:5173',
+    credentials: true
 }))
 app.use(morgan('dev'))
 app.use(express.json())

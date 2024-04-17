@@ -1,6 +1,8 @@
 import usuarios from '../models/usuarios'
 import { createAccessToken } from '../libs/jwt'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { TOKEN_SECRET } from '../config'
 //Registro de usuarios
 export const register = async (req, res) => {
     // Obtención de los datos del formulario de registro
@@ -134,4 +136,34 @@ export const profile = async (req, res) => {
     })
   
 
+}
+
+export const verifyToken = async (req, res  ) => {
+    const { token } = req.cookies
+
+    if (!token) {
+        return res.status(401).json({ message: 'No hay token' })
+    }
+
+    jwt.verify(token, TOKEN_SECRET, async (err, user) => {
+        if(err) return res.status(401).json({message: "No autorizado"})
+
+        const userFound = await usuarios.findById(user.id)
+        if(!userFound) return res.status(401).json({message: "No autorizado"})
+    
+            return res.json({
+                id: userFound._id,
+                username: userFound.nombre_de_usuario,
+                nombre: userFound.nombre,
+                apellido:  userFound.apellido,
+                telefono: userFound.telefono,
+                credencial: userFound.credencial,
+                unidad: userFound.unidad,
+                jerarquia: userFound.jerarquia,
+                plaza: userFound.plaza,
+                zona: userFound.zona,
+                rol: userFound.rol,
+                createdAt: userFound.createdAt
+            })
+        })
 }
