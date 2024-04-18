@@ -4,7 +4,7 @@ import { useAuth }  from '../../context/auth';
 import NavBar from '../../components/NavBar';
 import CardActions from '../../components/Cards/CardsActions';
 import CardProfile from '../../components/Cards/CardProfile';
-import CardSummary from '../../components/Cards/CardSummary';
+import CardDenunciasRecientes from '../../components/Cards/CardDenunciasRecientes';
 function Home() {
 
   //@ts-ignore
@@ -41,20 +41,29 @@ function Home() {
   
   const [showAdminSection, setShowAdminSection] = useState<boolean>(false);
 
+  const saludosDependiendoLaHora = () => {
+    const fecha = new Date();
+    const hora = fecha.getHours();
+    if(hora >= 0 && hora < 12) {
+      return 'Buenos días';
+    } else if(hora >= 12 && hora < 19) {
+      return 'Buenas tardes';
+    } else {
+      return 'Buenas noches';
+    }
+  }
 
   return (
     <>
-    <div className='flex flex-col align-middle items-center'>
-      <NavBar user={user}/>
-      </div>
+    <NavBar user={user}/>
       <div className='h-screen p-10'>
-      <h1 className='text-4xl sm:text-7xl'>Bienvenido {user?.nombre}</h1>
+      <h1 className='text-4xl sm:text-7xl'>¡{saludosDependiendoLaHora()}, {user?.nombre}!</h1>
       {user?.rol === 'sin_asignar' && (
       <p>Aún se te está asignando el rol, regresa pronto.</p>
       )}
       <div>
         <h2 className='text-3xl my-5'>Accesos directos</h2>
-        <div className='grid gap-1 grid-cols-1 sm:gap-5 sm:grid-cols-5 w-full '> 
+        <div className='grid gap-1 grid-cols-1 sm:gap-5 md:grid-cols-4 lg:grid-cols-5 w-full '> 
         <CardActions mostrar={"Mi perfil"} url={"/mi-perfil"} svg={"M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"}/>
         {isAgente && seccionesAgente.map((seccion, index) => (
           <CardActions key={index} mostrar={seccion.mostrar} url={seccion.url} svg={seccion.svg}/>
@@ -75,9 +84,9 @@ function Home() {
       {user?.rol === 'admin' && (
         <div>
           <h2 className='text-3xl my-5 '>Resumen</h2>
-          <div className='grid gap-1 grid-cols-1 sm:gap-5 sm:grid-cols-5 w-full '> 
+          <div className='grid gap-1 grid-cols-1 sm:gap-5 md:grid-cols-4 lg:grid-cols-5 w-full'> 
         <CardProfile title="Mi cuenta" description= "Mis datos" usuario= {user} />
-        <CardSummary title="Denuncias recientes" description= "Últimas denuncias" usuario= {user} />
+        <CardDenunciasRecientes title="Denuncias recientes" description= "Últimas denuncias" usuario= {user} />
         </div> 
         </div> 
       )}

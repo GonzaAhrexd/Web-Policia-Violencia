@@ -20,7 +20,7 @@ export default function CardsActions({
     <div className={`rounded-lg p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:bg-sky-950 ${showAdminSection? "bg-sky-950" : "bg-sky-900"}`}>
       {mostrar === 'Mostrar sección admin' ? (
         <div className="flex flex-row justify-between cursor-pointer" onClick={() => setShowAdminSection?.(!showAdminSection)}>
-          <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
+          <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-50">
             {showAdminSection ? 'Ocultar sección admin' : 'Mostrar sección admin'}
           </h5>
           <svg
@@ -37,7 +37,7 @@ export default function CardsActions({
       ) : (
         <NavLink to={url}>
           <div className="flex flex-row justify-between">
-            <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
+            <h5 className="mb-2 text-xl font-medium leading-tight  text-neutral-50">
               {mostrar}
             </h5>
             <svg

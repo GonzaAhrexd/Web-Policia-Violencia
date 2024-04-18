@@ -2,15 +2,17 @@ import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { Avatar, Input, Navbar, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, NavbarBrand, NavbarContent, NavbarItem, Link, Button, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu } from "@nextui-org/react";
-
 function NavBar({ user }: any) {
   const [showSubMenu, setShowSubMenu] = useState(false);
   const [showSubMenuAdmin, setShowSubMenuAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const menuItems = [
-    "Mis denuncias",
-    "Cargar denuncias",
+  const isAdmin:boolean = user?.rol === 'admin';
+  const isCarga:boolean = user?.rol === 'carga' || user?.rol === 'admin';
+  const isAgente:boolean = user?.rol === 'agente' || user?.rol === 'admin' || user?.rol === 'carga'; 
+  
+
+  const menuAdminItems = [
     "Denuncias internas",
     "Denuncias externas",
     "Crear resumen general diario",
@@ -20,9 +22,20 @@ function NavBar({ user }: any) {
     "Generar Excel",
     "Selectores de carga",
     "Resumen",
-  ];
-  return (
+  ]
 
+  const menuCargaItems = [
+    "Mis denuncias",
+    "Cargar denuncias",
+  ] 
+
+  const menuAgenteItems = [
+    "Búsqueda",
+  ]
+
+  return (
+    <div className=' flex flex-col align-middle items-center'>
+    
     <Navbar
       className='bg-sky-900 text-white font-medium leading-tight w-full h-1/10 lg:mt-1 lg:w-4/10 lg:rounded-lg flex flex-row align-middle justify-center'
       isBordered
@@ -43,7 +56,7 @@ function NavBar({ user }: any) {
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
 
-        {user?.rol === 'carga' || user?.rol === 'admin' && (
+        {isCarga && (
 
           <Dropdown>
 
@@ -51,7 +64,7 @@ function NavBar({ user }: any) {
               <DropdownTrigger>
                 <Button
                   disableRipple
-                  className="p-0 bg-transparent data-[hover=true]:bg-transparent "
+                  className="p-0 bg-transparent font-medium data-[hover=true]:bg-transparent "
                   endContent={"🚀"}
                   radius="sm"
                   variant="light"
@@ -95,20 +108,20 @@ function NavBar({ user }: any) {
             </DropdownMenu>
           </Dropdown>
         )}
-        {(user?.rol === 'admin' || user.rol === 'agente' || user.rol == 'carga') && (
-          <NavbarItem isActive>
+        {isAgente && (
+          <NavbarItem>
             <Link href="/búsqueda" aria-current="page">
               Búsqueda
             </Link>
           </NavbarItem>
         )}
-        {user?.rol === 'admin' && (
+        {isAdmin && (
           <Dropdown>
             <NavbarItem>
               <DropdownTrigger>
                 <Button
                   disableRipple
-                  className="p-0 bg-transparent data-[hover=true]:bg-transparent "
+                  className="p-0 bg-transparent font-medium data-[hover=true]:bg-transparent "
                   endContent={"🚀"}
                   radius="sm"
                   variant="light"
@@ -268,14 +281,42 @@ function NavBar({ user }: any) {
           </DropdownMenu>
         </Dropdown>
       </NavbarContent>
-      <NavbarMenu>
-        {menuItems.map((item, index) => (
+      <NavbarMenu className='flex flex-col items-center bg-sky-900'>
+      {isCarga && menuCargaItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
               color={
-                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
+                index === 2 ? "primary" : index === menuAdminItems.length - 1 ? "danger" : "foreground"
               }
-              className="w-full"
+              className="w-full text-2xl text-white"
+              href={`/${item.toLowerCase().replace(" ", "-")}`}
+              size="lg"
+            >
+              {item}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+         {isAgente && menuAgenteItems.map((item, index) => (
+          <NavbarMenuItem key={`${item}-${index}`}>
+            <Link
+              color={
+                index === 2 ? "primary" : index === menuAdminItems.length - 1 ? "danger" : "foreground"
+              }
+              className="w-full text-2xl text-white"
+              href={`/${item.toLowerCase().replace(" ", "-")}`}
+              size="lg"
+            >
+              {item}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+        {isAdmin && menuAdminItems.map((item, index) => (
+          <NavbarMenuItem key={`${item}-${index}`}>
+            <Link
+              color={
+                index === 2 ? "primary" : index === menuAdminItems.length - 1 ? "danger" : "foreground"
+              }
+              className="w-full text-2xl text-white"
               href={`/${item.toLowerCase().replace(" ", "-")}`}
               size="lg"
             >
@@ -285,6 +326,7 @@ function NavBar({ user }: any) {
         ))}
       </NavbarMenu>
     </Navbar>
+    </div>
   )
 
 
