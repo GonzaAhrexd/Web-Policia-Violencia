@@ -64,6 +64,12 @@ const UsuarioSchema = new mongoose.Schema({
         required: false,
         trim: true,
         default: 'sin_definir'
+    },
+    imagen: {
+        type:  String,
+        required: false,
+        trim: true,
+        default: 'sin_definir'
     }
 },
     {

@@ -43,6 +43,7 @@ export const register = async (req, res) => {
                 plaza: userSaved.plaza,
                 zona: userSaved.zona,
                 rol: userSaved.rol,
+                imagen: userSaved.imagen? userSaved.imagen : 'sin_definir',
                 createdAt: userSaved.createdAt
 
             })

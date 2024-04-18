@@ -3,14 +3,18 @@ import Login from './Login'
 import Register from './Register'
 import NotFound from './NotFound'
 import Home from './Home'
+import Logout from './Logout'
 import { AuthProvider } from '../context/auth'
 import '../App.css'
+import {NextUIProvider} from "@nextui-org/react";
+
 import ProtectedRoutes from './ProtectedRoutes'
 const AppRoutes = () => {
   let routes = useRoutes([
     { path: '/', element: <Home /> },
     { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
+    { path: '/logout', element: <Logout /> },
     { path: '*', element: <NotFound /> },
   ])
 
@@ -22,6 +26,8 @@ const AppRoutes = () => {
 const App = () => {
 
   return (
+    <NextUIProvider> 
+
     <AuthProvider>
 
       <BrowserRouter>
@@ -31,6 +37,7 @@ const App = () => {
 
     </AuthProvider>
 
+    </NextUIProvider>
   )
 }
 
