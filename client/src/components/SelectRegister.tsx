@@ -15,16 +15,20 @@ interface Props {
     type: string
     nombre: string
     error: any
+    valorOriginal?: string;
 }
 
 
-function SelectRegister({ campo, opciones, nombre, register, setValue, error }: Props) {
+function SelectRegister({ campo, opciones, nombre, register, setValue, error, valorOriginal}: Props) {
+    
+    valorOriginal && setValue(nombre, valorOriginal)
 
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
     const [hadSubmitted, setHadSubmitted] = useState(false)
     const handleUnidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+
         const value = event.target.value;
         setSelectedUnidad(value);
         setSelectedSubunidad('');
@@ -41,7 +45,7 @@ function SelectRegister({ campo, opciones, nombre, register, setValue, error }: 
         setSelectedSubunidad(value);
         setSelectedSubsubunidad('');
         // Actualiza el valor en react-hook-form
-        setValue('unidad',  `${selectedUnidad}, $</div>{value}`);
+        setValue('unidad',  `${selectedUnidad}`);
     };
       
     const handleSubsubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -53,15 +57,15 @@ function SelectRegister({ campo, opciones, nombre, register, setValue, error }: 
     return (
         <div className={`flex flex-row ${campo=="Unidad"? "w-full" : "xl:w-1/2"}`}>
             <div className='flex flex-col w-full'>
-                <span className='ml-4 font-medium xl:text-vw'> {campo}  <span className='text-red-500'> { (selectedUnidad)? "A" : "Requerido" } </span> </span> 
+                <span className='ml-4 font-medium xl:text-vw'> {campo}  </span> 
                 <div className={`flex flex-col xl:flex-row 2xl:flex-col  ${campo=="Unidad"? "xl:w-full 2xl:w-full 2xl:h-10 xl:h-12 xl:mb-5" : "xl:w-full"}`}>
                 <select
                     className= {campo=="Unidad"? "border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full " : "border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 w-full" }
                     name={nombre}
-                    value={selectedUnidad}
+                    value={valorOriginal? valorOriginal : selectedUnidad}
                     onChange={handleUnidadChange}
                 >
-                    <option value="">Seleccione la {campo.toLowerCase()}</option>
+                    <option value="">{selectedUnidad? selectedUnidad : (valorOriginal && !selectedUnidad )? valorOriginal : `Seleccione la ${campo.toLowerCase()}`}</option>
                     {opciones.map((unidad: Opcion) => (
                         <option key={unidad.value} value={unidad.value}>
                             {unidad.nombre}
@@ -77,7 +81,7 @@ function SelectRegister({ campo, opciones, nombre, register, setValue, error }: 
                             name="subunidad"
                             value={selectedSubunidad}
                             onChange={handleSubunidadChange}>
-                            <option value="">Seleccione una subunidad</option>
+                            <option value={valorOriginal && valorOriginal }>Seleccione una subunidad</option>
                             {opciones.find((unidad) => unidad.value === selectedUnidad)?.subdivisiones?.map((subunidad) => (
                                 <option key={subunidad.value} value={subunidad.value}>
                                     {subunidad.nombre}

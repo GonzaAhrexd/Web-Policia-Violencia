@@ -8,8 +8,8 @@ export const register = async (req, res) => {
     // Obtención de los datos del formulario de registro
     try {
         const { nombre, apellido, telefono, pass, nombre_de_usuario, credencial, unidad, jerarquia, plaza, zona, rol } = req.body
-         //Validación en mongodb si ya existe el usuario
-        let userExistente = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario }) 
+        //Validación en mongodb si ya existe el usuario
+        let userExistente = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario })
         // Creación de un nuevo usuario como objeto
         if (req.body.nombre_de_usuario && !userExistente) {
             const newUser = new usuarios({
@@ -35,7 +35,7 @@ export const register = async (req, res) => {
                 id: userSaved._id,
                 username: userSaved.nombre_de_usuario,
                 nombre: userSaved.nombre,
-                apellido:  userSaved.apellido,
+                apellido: userSaved.apellido,
                 telefono: userSaved.telefono,
                 credencial: userSaved.credencial,
                 unidad: userSaved.unidad,
@@ -43,7 +43,7 @@ export const register = async (req, res) => {
                 plaza: userSaved.plaza,
                 zona: userSaved.zona,
                 rol: userSaved.rol,
-                imagen: userSaved.imagen? userSaved.imagen : 'sin_definir',
+                imagen: userSaved.imagen ? userSaved.imagen : 'sin_definir',
                 createdAt: userSaved.createdAt
 
             })
@@ -52,7 +52,7 @@ export const register = async (req, res) => {
             throw new Error('Usuario ya existe o no se ingresaron datos.')
         }
         // Respuesta de que el usuario fue registrado
-   
+
     } catch (error) {
         // Respuesta de error
         console.log(error)
@@ -64,10 +64,10 @@ export const register = async (req, res) => {
 //Login de usuarios
 export const login = async (req, res) => {
     // Obtención de los datos del formulario de registro
-    const { nombre_de_usuario , pass } = req.body
+    const { nombre_de_usuario, pass } = req.body
     try {
         const usuarioEncontrado = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario })
-        if(!usuarioEncontrado) {
+        if (!usuarioEncontrado) {
             return res.status(400).json({ message: 'Usuario no encontrado' })
         }
 
@@ -75,29 +75,29 @@ export const login = async (req, res) => {
 
         if (!isPassMatched) return res.status(400).json({ message: 'Contraseña incorrecta' })
 
-       
-            // Guardar el usuario en la base de datos
+
+        // Guardar el usuario en la base de datos
 
 
-            //Token 
-            const token = await createAccessToken({ id: usuarioEncontrado._id })
-            res.cookie('token', token)
-            //Envio al frontend de los datos del usuario registrado
-            res.json({
-                id: usuarioEncontrado._id,
-                username: usuarioEncontrado.nombre_de_usuario,
-                nombre: usuarioEncontrado.nombre,
-                apellido:  usuarioEncontrado.apellido,
-                telefono: usuarioEncontrado.telefono,
-                credencial: usuarioEncontrado.credencial,
-                unidad: usuarioEncontrado.unidad,
-                jerarquia: usuarioEncontrado.jerarquia,
-                plaza: usuarioEncontrado.plaza,
-                zona: usuarioEncontrado.zona,
-                rol: usuarioEncontrado.rol,
-                createdAt: usuarioEncontrado.createdAt
+        //Token 
+        const token = await createAccessToken({ id: usuarioEncontrado._id })
+        res.cookie('token', token)
+        //Envio al frontend de los datos del usuario registrado
+        res.json({
+            id: usuarioEncontrado._id,
+            username: usuarioEncontrado.nombre_de_usuario,
+            nombre: usuarioEncontrado.nombre,
+            apellido: usuarioEncontrado.apellido,
+            telefono: usuarioEncontrado.telefono,
+            credencial: usuarioEncontrado.credencial,
+            unidad: usuarioEncontrado.unidad,
+            jerarquia: usuarioEncontrado.jerarquia,
+            plaza: usuarioEncontrado.plaza,
+            zona: usuarioEncontrado.zona,
+            rol: usuarioEncontrado.rol,
+            createdAt: usuarioEncontrado.createdAt
 
-            })
+        })
     } catch (error) {
         // Respuesta de error
         console.log(error)
@@ -108,8 +108,8 @@ export const login = async (req, res) => {
 //Logout 
 //Logout 
 export const logout = async (req, res) => {
-    res.cookie('token', "",{
-    expires: new  Date(0)
+    res.cookie('token', "", {
+        expires: new Date(0)
     })
     return res.sendStatus(200)
 }
@@ -117,14 +117,14 @@ export const logout = async (req, res) => {
 //Perfil  de usuario
 export const profile = async (req, res) => {
     const usuarioEncontrado = await usuarios.findById(req.user.id)
-    if(!usuarioEncontrado) return res.status(400).json(
-        {message: "User not found"}
+    if (!usuarioEncontrado) return res.status(400).json(
+        { message: "User not found" }
     )
     return res.json({
         id: usuarioEncontrado._id,
         username: usuarioEncontrado.nombre_de_usuario,
         nombre: usuarioEncontrado.nombre,
-        apellido:  usuarioEncontrado.apellido,
+        apellido: usuarioEncontrado.apellido,
         telefono: usuarioEncontrado.telefono,
         credencial: usuarioEncontrado.credencial,
         unidad: usuarioEncontrado.unidad,
@@ -135,11 +135,11 @@ export const profile = async (req, res) => {
         createdAt: usuarioEncontrado.createdAt
 
     })
-  
+
 
 }
 
-export const verifyToken = async (req, res  ) => {
+export const verifyToken = async (req, res) => {
     const { token } = req.cookies
 
     if (!token) {
@@ -147,24 +147,47 @@ export const verifyToken = async (req, res  ) => {
     }
 
     jwt.verify(token, TOKEN_SECRET, async (err, user) => {
-        if(err) return res.status(401).json({message: "No autorizado"})
+        if (err) return res.status(401).json({ message: "No autorizado" })
 
         const userFound = await usuarios.findById(user.id)
-        if(!userFound) return res.status(401).json({message: "No autorizado"})
-    
-            return res.json({
-                id: userFound._id,
-                username: userFound.nombre_de_usuario,
-                nombre: userFound.nombre,
-                apellido:  userFound.apellido,
-                telefono: userFound.telefono,
-                credencial: userFound.credencial,
-                unidad: userFound.unidad,
-                jerarquia: userFound.jerarquia,
-                plaza: userFound.plaza,
-                zona: userFound.zona,
-                rol: userFound.rol,
-                createdAt: userFound.createdAt
-            })
+        if (!userFound) return res.status(401).json({ message: "No autorizado" })
+
+        return res.json({
+            id: userFound._id,
+            username: userFound.nombre_de_usuario,
+            nombre: userFound.nombre,
+            apellido: userFound.apellido,
+            telefono: userFound.telefono,
+            credencial: userFound.credencial,
+            unidad: userFound.unidad,
+            jerarquia: userFound.jerarquia,
+            plaza: userFound.plaza,
+            zona: userFound.zona,
+            rol: userFound.rol,
+            createdAt: userFound.createdAt
         })
+    })
 }
+
+export const editUser = async (req, res) => {
+
+        const { nombre, apellido, telefono, nombre_de_usuario, credencial, unidad, jerarquia, plaza, zona } = req.body
+        //Validación en mongodb si ya existe el usuario
+
+        try {
+            await usuarios.findByIdAndUpdate(req.params.id, {  //Editar campos del perfil
+                nombre: nombre,
+                apellido: apellido,
+                telefono: telefono,
+                nombre_de_usuario: nombre_de_usuario,
+                credencial: credencial,
+                unidad: unidad,
+                jerarquia: jerarquia,
+                plaza: plaza,
+                zona: zona
+            })
+        }catch (error) {
+           console.log(error)
+        }
+    }
+    

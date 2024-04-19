@@ -8,3 +8,6 @@ export const loginRequest = user => axios.post(`/login`, user)
 export const logoutRequest = () => axios.post(`/logout`)
 //@ts-ignore
 export const verifyToken = (token) => axios.get(`/verify`)
+
+//@ts-ignore
+export const editUser = user => axios.post(`/edit-user:id`, user)

@@ -22,7 +22,7 @@ function Register() {
 
   const navigate = useNavigate();
   // @ts-ignore
-  const { signUp, user, isAuthenticated } = useAuth()
+  const { signUp, user, isAuthenticated  } = useAuth()
 
   useEffect(() => {
     if (isAuthenticated) {
