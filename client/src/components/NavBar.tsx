@@ -37,7 +37,7 @@ function NavBar({ user }: any) {
     <div className=' flex flex-col align-middle items-center'>
     
     <Navbar
-      className='bg-sky-900 text-white font-medium leading-tight w-full h-1/10 lg:mt-1 lg:w-4/10 lg:rounded-lg flex flex-row align-middle justify-center'
+      className='bg-sky-900 text-white font-medium leading-tight w-full h-1/10  lg:w-full flex flex-row align-middle justify-center'
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}

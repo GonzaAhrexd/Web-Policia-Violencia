@@ -10,4 +10,7 @@ export const logoutRequest = () => axios.post(`/logout`)
 export const verifyToken = (token) => axios.get(`/verify`)
 
 //@ts-ignore
-export const editUser = user => axios.post(`/edit-user:id`, user)
+export const editUser = user => ( 
+ 
+    axios.put(`/editar-usuario/${user.id}`, user)
+)

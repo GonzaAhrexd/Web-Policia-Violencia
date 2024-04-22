@@ -5,6 +5,7 @@ import NotFound from './NotFound'
 import Home from './Home'
 import Logout from './Logout'
 import Perfil from './Perfil'
+import CargarDenuncias from './CargarDenuncias'
 import { AuthProvider } from '../context/auth'
 import '../App.css'
 import {NextUIProvider} from "@nextui-org/react";
@@ -14,6 +15,7 @@ const AppRoutes = () => {
   let routes = useRoutes([
     { path: '/', element: <Home /> },
     { path: '/mi-perfil', element: <Perfil /> },
+    { path: '/cargar-denuncias', element: <CargarDenuncias /> },
     { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
     { path: '/logout', element: <Logout /> },

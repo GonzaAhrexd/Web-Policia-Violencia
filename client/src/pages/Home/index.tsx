@@ -5,6 +5,7 @@ import NavBar from '../../components/NavBar';
 import CardActions from '../../components/Cards/CardsActions';
 import CardProfile from '../../components/Cards/CardProfile';
 import CardDenunciasRecientes from '../../components/Cards/CardDenunciasRecientes';
+import { CSSTransition } from 'react-transition-group';
 function Home() {
 
   //@ts-ignore

@@ -175,6 +175,10 @@ export const editUser = async (req, res) => {
         //Validación en mongodb si ya existe el usuario
 
         try {
+            const usuarioEncontrado = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario })
+        if (usuarioEncontrado && usuarioEncontrado._id != req.params.id) {
+         return res.status(400).json({ message: 'Usuario ya existe' })
+        }
             await usuarios.findByIdAndUpdate(req.params.id, {  //Editar campos del perfil
                 nombre: nombre,
                 apellido: apellido,
@@ -186,8 +190,13 @@ export const editUser = async (req, res) => {
                 plaza: plaza,
                 zona: zona
             })
-        }catch (error) {
-           console.log(error)
+
+            res.json({
+                mensaje: "Done!"
+            })
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({ message: 'Hubo un error al actualizar el usuario' });
         }
     }
     

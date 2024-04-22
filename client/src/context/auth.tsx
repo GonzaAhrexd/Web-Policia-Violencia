@@ -64,9 +64,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const editProfile = async (user: any) => {
         try { 
             const res = await editUser(user)
-            setUser(res.data)
-            console.log(res)
-
+          
+                setUser(res.data)
+                console.log(res)
+                return res
         }catch(error){
             console.log(error)
         }

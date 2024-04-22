@@ -8,9 +8,9 @@ import { useAuth } from '../../context/auth'
 import { Link } from 'react-router-dom'
 // Valores de los selects
 
-import { unidadCampos } from './unidadCampos'
-import { jerarquiaCampos } from './jerarquiaCampos'
-import { zonaCampos } from './zonaCampos'
+import { unidadCampos } from '../../GlobalConst/unidadCampos'
+import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos'
+import { zonaCampos } from '../../GlobalConst/zonaCampos'
 
 function Register() {
   const { control, register, handleSubmit, setValue, formState: {

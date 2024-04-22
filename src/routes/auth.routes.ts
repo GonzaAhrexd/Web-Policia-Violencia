@@ -11,6 +11,6 @@ router.post('/login', validateSchema(loginSchema), login)
 router.post('/logout', logout)
 router.get('/profile', authRequired, authAdmin , profile)
 router.get('/verify', verifyToken)
-router.get('/edit-user:id', editUser)
+router.put('/editar-usuario/:id', authRequired, editUser)
 
 export default router
