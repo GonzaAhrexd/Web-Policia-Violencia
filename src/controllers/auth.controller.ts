@@ -3,6 +3,8 @@ import { createAccessToken } from '../libs/jwt'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { TOKEN_SECRET } from '../config'
+const formidable = require('formidable'); //Módulo para formularios
+const fs = require('fs') //Módulo para archivos
 //Registro de usuarios
 export const register = async (req, res) => {
     // Obtención de los datos del formulario de registro

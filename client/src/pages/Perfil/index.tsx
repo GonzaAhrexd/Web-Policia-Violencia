@@ -23,19 +23,17 @@ function Perfil() {
             <div className='h-screen sm:h-full p-2 sm:p-10'>
                 <h2 className='text-3xl my-5'>Mi Perfil </h2>
                 <div className={`flex flex-col lg:flex-row items-center sm:justify-center w-full sm:w-full h-full sm:h-full `}>
-                    <div className={`${isEditing ? "w-full md:w-7/10 lg:w-5/10 xl:w-3/10" : "w-full md:w-7/10 lg:w-3/10"} sm:px-2`}>
+                    <div className={`${isEditing ? "w-full md:w-7/10 lg:w-5/10 xl:w-4/10" : "w-full md:w-7/10 lg:w-4/10"} sm:px-2`}>
                         <CardProfileInfo user={user} isEditing={isEditing} setIsEditing={setIsEditing} />
                     </div>
-                    <div className={`${isEditing ? "w-full md:w-7/10 lg:w-5/10 xl:w-3/10" : "hidden"}`}>
+                    <div className={`${isEditing ? "w-full md:w-7/10 lg:w-5/10 xl:w-4/10 h-full" : "hidden"}`}>
                     <CSSTransition in={isEditing} timeout={300} classNames="fade" unmountOnExit>
                         <CardProfileDataEdit user={user} />
                     </CSSTransition>
                     </div>
 
                 </div>
-                <div>
-                <h2 className='text-3xl my-5'>Estadísticas </h2>
-                </div>
+
             </div>
         </>
     )

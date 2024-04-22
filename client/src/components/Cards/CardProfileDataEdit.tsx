@@ -23,7 +23,7 @@ function CardProfileDataEdit({ user }) {
   return (
     <div className=" mt-10 sm:mt-0 sm:h-full bg-gray-900 pt-6 sm:pt-12 rounded-xl  ">
       <div className="mx-auto w-95/100  bg-gray-500 rounded-lg overflow-hidden shadow-lg">
-        <form action="" className='flex flex-col w-95/100'
+        <form className='flex flex-col w-95/100'
           onSubmit={handleSubmit(async (values) => {
              if (values.telefono.length && values.telefono.length != 10) {
               console.log("El teléfono debe tener 10 dígitos")
