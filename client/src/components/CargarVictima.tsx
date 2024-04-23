@@ -111,10 +111,7 @@ function CargarVictima() {
         <SelectRegister campo="Vinculo con el Agresor" nombre="vinculo_con_agresor" opciones={vinculoConAgresor} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
         <SelectRegister campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.ocupaciones} />
       </div>
-      <div className='flex flex-col md:flex-row items-center justify-center' >
-
-      </div>
-      <div className={`flex flex-col md:flex-row justify-start`}>
+      <div className={`grid grid-cols-1 md:grid-cols-4`}>
         <InputCheckbox campo="Convivencia " nombre="Convivencia" register={register} setValue={setValue} type="checkbox" error={errors.compartenVivienda} />
         <InputCheckbox campo="Hijos" nombre="Hijos" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsHijos} state={isHijos} />
         {isHijos &&
@@ -125,7 +122,7 @@ function CargarVictima() {
             <InputCheckbox campo="Menores discapacitados" nombre="Menores discapacitados" register={register} setValue={setValue} type="checkbox" error={errors.menoresDiscapacitados} />
             <InputCheckbox campo="Hijos con el agresor" nombre="Hijos con el agresor" register={register} setValue={setValue} type="checkbox" error={errors.hijosconagresor} setHook={setIsHijosConAgresor} state={isHijosConAgresor} />
             {isHijosConAgresor &&
-              <InputCheckbox campo="Cantidad" nombre="Cantidad hijos con el agresor" register={register} setValue={setValue} type="number" error={errors.apellido} />
+               <InputRegister campo="Cantidad" nombre="Cantidad hijos con el agresor" register={register} setValue={setValue} type="number" error={errors.apellido} />
             }
           </>
         }
