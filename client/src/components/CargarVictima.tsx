@@ -92,7 +92,7 @@ function CargarVictima() {
   ]
 
   return (
-    <div className='w-6/10'>
+    <div className='w-full lg:w-6/10'>
       <div className='flex flex-col md:flex-row'>
         <InputRegister campo="Nombre" nombre="nombre" register={register} setValue={setValue} type="text" error={errors.nombre} />
         <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} />
@@ -103,11 +103,11 @@ function CargarVictima() {
         <InputRegister campo="DNI" nombre="dni" register={register} setValue={setValue} type="text" error={errors.apellido} />
       </div>
 
-      <div className='flex flex-col md:flex-row'>
+      <div className='flex flex-col lg:flex-row'>
         <SelectRegister campo="Estado Civil" nombre="estado_civil" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil} />
         <SelectRegister campo="Ocupación" nombre="ocupacion" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupaciones} />
       </div>
-      <div className='flex flex-col md:flex-row'>
+      <div className='flex flex-col lg:flex-row'>
         <SelectRegister campo="Vinculo con el Agresor" nombre="vinculo_con_agresor" opciones={vinculoConAgresor} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
         <SelectRegister campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.ocupaciones} />
       </div>

@@ -30,7 +30,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     //Registro
     const signUp = async (user: any) => {
         try {
-            console.log(user.data)
             setUser(user.data)
             setIsAuthenticated(true)
         } catch (error) {
@@ -43,7 +42,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             const res = await loginRequest(user)
             setUser(res.data);
             setIsAuthenticated(true);
-            console.log(res)
         } catch (error) {
             console.log(error)
             //@ts-ignore
@@ -66,7 +64,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             const res = await editUser(user)
           
                 setUser(res.data)
-                console.log(res)
                 return res
         }catch(error){
             console.log(error)
@@ -93,7 +90,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       
             try {
               const res = await verifyToken(cookies.token);
-              console.log(res);
               if (!res.data) return setIsAuthenticated(false);
               setIsAuthenticated(true);
               setUser(res.data);

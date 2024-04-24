@@ -61,7 +61,7 @@ function SelectRegister({ campo, opciones, nombre, register, setValue, error }: 
                     value={selectedUnidad}
                     onChange={handleUnidadChange}
                 >
-                    <option value="">Seleccione la {campo.toLowerCase()}</option>
+                    <option value="">Seleccione {campo.toLowerCase()}</option>
                     {opciones.map((unidad: Opcion) => (
                         <option key={unidad.value} value={unidad.value}>
                             {unidad.nombre}

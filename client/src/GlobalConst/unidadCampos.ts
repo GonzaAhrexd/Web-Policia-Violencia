@@ -10,38 +10,146 @@ export const unidadCampos = [
         //RESISTENCIA
         {
           nombre: "Resistencia", value: "Resistencia", subdivisiones: [
-            { nombre: "Comisaría Primera", value: "Comisaría Primera Resistencia" },
-            { nombre: "Comisaría Segunda", value: "Comisaría Segunda Resistencia" },
-            { nombre: "Comisaría Tercera", value: "Comisaría Tercera Resistencia" },
-            { nombre: "Comisaría Cuarta", value: "Comisaría Cuarta Resistencia" },
-            { nombre: "Comisaría Quinta", value: "Comisaría Quinta Resistencia" },
-            { nombre: "Comisaría Sexta", value: "Comisaría Sexta Resistencia" },
-            { nombre: "Comisaría Séptima", value: "Comisaría Séptima Resistencia" },
-            { nombre: "Comisaría Octava", value: "Comisaría Octava Resistencia" },
-            { nombre: "Comisaría Novena", value: "Comisaría Novena Resistencia" },
-            { nombre: "Comisaría Décima", value: "Comisaría Décima Resistencia" },
-            { nombre: "Comisaría Décimo Primera", value: "Comisaría Décimo Primera Resistencia" },
-            { nombre: "Comisaría Décimo Segunda", value: "Comisaría Décimo Segunda Resistencia" },
-            { nombre: "Comisaría Décimo Tercera", value: "Comisaría Décimo Tercera Resistencia" },
+            { nombre: "Comisaría Primera", value: "Comisaría Primera Resistencia",
+             cuadriculas: [
+              { nombre: "Cuadrícula 1", value: "Cuadrícula 1" },
+              { nombre: "Cuadrícula 2", value: "Cuadrícula 2" },
+              { nombre: "Cuadrícula 3", value: "Cuadrícula 3" },
+              { nombre: "Cuadrícula 4", value: "Cuadrícula 4  " },
+              { nombre: "Cuadrícula 5", value: "Cuadrícula 5" },
+            ] },
+            { nombre: "Comisaría Segunda", value: "Comisaría Segunda Resistencia" ,
+            cuadriculas: [
+             { nombre: "Cuadrícula 6", value: "Cuadrícula 6" },
+              { nombre: "Cuadrícula 7", value: "Cuadrícula 7" },
+              { nombre: "Cuadrícula 8", value: "Cuadrícula 8" },
+              { nombre: "Cuadrícula 9", value: "Cuadrícula 9" },
+              { nombre: "Cuadrícula 10", value: "Cuadrícula 10" },
+           ] },
+            { nombre: "Comisaría Tercera", value: "Comisaría Tercera Resistencia", cuadriculas: [
+              { nombre: "Cuadrícula 11", value: "Cuadrícula 11" },
+              { nombre: "Cuadrícula 12", value: "Cuadrícula 12" },
+              { nombre: "Cuadrícula 13", value: "Cuadrícula 13" },
+              { nombre: "Cuadrícula 14", value: "Cuadrícula 14" },
+            ] },
+            { nombre: "Comisaría Cuarta", value: "Comisaría Cuarta Resistencia" , cuadriculas: [
+              { nombre: "Cuadrícula 15", value: "Cuadrícula 15" },
+              { nombre: "Cuadrícula 16", value: "Cuadrícula 16" },
+              { nombre: "Cuadrícula 17", value: "Cuadrícula 17" },
+              { nombre: "Cuadrícula 18", value: "Cuadrícula 18" },
+              { nombre: "Cuadrícula 19", value: "Cuadrícula 19" },
+            ] },
+            { nombre: "Comisaría Quinta", value: "Comisaría Quinta Resistencia" , cuadriculas: [
+              { nombre: "Cuadrícula 20", value: "Cuadrícula 20" },
+              { nombre: "Cuadrícula 21", value: "Cuadrícula 21" },
+              { nombre: "Cuadrícula 22", value: "Cuadrícula 22" },
+              { nombre: "Cuadrícula 23", value: "Cuadrícula 23" },
+              { nombre: "Cuadrícula 24", value: "Cuadrícula 24" },
+              { nombre: "Cuadrícula 25", value: "Cuadrícula 25" },
+              { nombre: "Cuadrícula 25", value: "Cuadrícula 26" },
+            ]
+            },
+            { nombre: "Comisaría Sexta", value: "Comisaría Sexta Resistencia", cuadriculas: [
+              { nombre: "Cuadrícula 27", value: "Cuadrícula 27" },
+              { nombre: "Cuadrícula 28", value: "Cuadrícula 28" },
+              { nombre: "Cuadrícula 29", value: "Cuadrícula 29" },
+              { nombre: "Cuadrícula 30", value: "Cuadrícula 30" },
+              { nombre: "Cuadrícula 31", value: "Cuadrícula 31" },
+            ]
+            },
+            { nombre: "Comisaría Séptima", value: "Comisaría Séptima Resistencia", cuadriculas: [
+              { nombre: "Cuadrícula 32", value: "Cuadrícula 32" },
+              { nombre: "Cuadrícula 33", value: "Cuadrícula 33" },
+              { nombre: "Cuadrícula 34", value: "Cuadrícula 34" },
+              { nombre: "Cuadrícula 35", value: "Cuadrícula 35" },
+              { nombre: "Cuadrícula 36", value: "Cuadrícula 36" },
+              { nombre: "Cuadrícula 37", value: "Cuadrícula 37" },
+            ]
+             },
+            { nombre: "Comisaría Octava", value: "Comisaría Octava Resistencia", cuadriculas: [
+              { nombre: "Cuadrícula 38", value: "Cuadrícula 38" },
+              { nombre: "Cuadrícula 39", value: "Cuadrícula 39" },
+              { nombre: "Cuadrícula 40", value: "Cuadrícula 40" },
+              { nombre: "Cuadrícula 41", value: "Cuadrícula 41" },
+              { nombre: "Cuadrícula 42", value: "Cuadrícula 42" },
+            ]
+            },
+            { nombre: "Comisaría Novena", value: "Comisaría Novena Resistencia", cuadriculas: [
+              { nombre: "Cuadrícula 43", value: "Cuadrícula 43" },
+              { nombre: "Cuadrícula 44", value: "Cuadrícula 44" },
+              { nombre: "Cuadrícula 45", value: "Cuadrícula 45" },
+              { nombre: "Cuadrícula 46", value: "Cuadrícula 46" },
+              { nombre: "Cuadrícula 47", value: "Cuadrícula 47" },
+            ]
+             },
+            { nombre: "Comisaría Décima", value: "Comisaría Décima Resistencia" , cuadriculas: [
+              { nombre: "Cuadrícula 48", value: "Cuadrícula 48" },
+              { nombre: "Cuadrícula 49", value: "Cuadrícula 49" },
+              { nombre: "Cuadrícula 50", value: "Cuadrícula 50" },
+
+            ]},
+            { nombre: "Comisaría Undecima", value: "Comisaría Undecima Resistencia", cuadriculas: [
+              {nombre: "Cuadrícula 51", value: "Cuadrícula 51"},
+              {nombre: "Cuadrícula 52", value: "Cuadrícula 52"},
+              {nombre: "Cuadrícula 53", value: "Cuadrícula 53"},
+              {nombre: "Cuadrícula 54", value: "Cuadrícula 54"},
+            ] },
+            { nombre: "Comisaría Duodecima", value: "Comisaría Duodecima Resistencia", cuadriculas: [
+              {nombre: "Cuadrícula 55", value: "Cuadrícula 55"},
+              {nombre: "Cuadrícula 56", value: "Cuadrícula 56"},
+              {nombre: "Cuadrícula 57", value: "Cuadrícula 57"},
+            ] },
+           
+            { nombre: "Comisaría Décimo Tercera", value: "Comisaría Décimo Tercera Resistencia", cuadriculas: [
+              {nombre: "Cuadrícula 58", value: "Cuadrícula 58"},
+              {nombre: "Cuadrícula 59", value: "Cuadrícula 59"},
+              {nombre: "Cuadrícula 60", value: "Cuadrícula 60"},
+              {nombre: "Cuadrícula 61", value: "Cuadrícula 61"},
+            ] },
           ]
         },
         //BARANQUERAS
         {
           nombre: "Barranqueras", value: "Barranqueras", subdivisiones: [
-            { nombre: "Comisaría Primera", value: "Comisaría Primera Barranqueras" },
-            { nombre: "Comisaría Segunda", value: "Comisaría Segunda Barranqueras" },
-            { nombre: "Comisaría Tercera", value: "Comisaría Tercera Barranqueras" },
+            { nombre: "Comisaría Primera", value: "Comisaría Primera Barranqueras", cuadriculas: [
+              { nombre: "Cuadrícula 62", value: "Cuadrícula 62" },
+              { nombre: "Cuadrícula 63", value: "Cuadrícula 63" },
+            ] 
+          },
+            { nombre: "Comisaría Segunda", value: "Comisaría Segunda Barranqueras", cuadriculas: [
+              { nombre: "Cuadrícula 64", value: "Cuadrícula 64" },
+              { nombre: "Cuadrícula 65", value: "Cuadrícula 65" },
+              { nombre: "Cuadrícula 66", value: "Cuadrícula 66" },
+            ] },
+            { nombre: "Comisaría Tercera", value: "Comisaría Tercera Barranqueras", cuadriculas: [
+              { nombre: "Cuadrícula 67", value: "Cuadrícula 67" },
+              { nombre: "Cuadrícula 68", value: "Cuadrícula 68" },
+            ] },
           ]
         },
         //FONTANA
-        {
-          nombre: "Fontana", value: "Fontana", subdivisiones: [
-            { nombre: "Comisaría Primera", value: "Comisaría Primera Fontana" },
-            { nombre: "Comisaría Segunda", value: "Comisaría Segunda Fontana" },
-          ]
+        {nombre: "Fontana", value: "Fontana", subdivisiones: [
+            { nombre: "Comisaría Primera", value: "Comisaría Primera Fontana", cuadriculas: [
+              { nombre: "Cuadrícula 71", value: "Cuadrícula 71" },
+              { nombre: "Cuadrícula 72", value: "Cuadrícula 72" },
+              { nombre: "Cuadrícula 73", value: "Cuadrícula 73" }
+            ]},
+            { nombre: "Comisaría Segunda", value: "Comisaría Segunda Fontana", cuadriculas: [
+              { nombre: "Cuadrícula 74", value: "Cuadrícula 74" },
+              { nombre: "Cuadrícula 75", value: "Cuadrícula 75" },
+            ]},
+            
+            { nombre: "Comisaría Tercera", value: "Comisaría Tercera Fontana", cuadriculas: [
+              { nombre: "Cuadrícula 76", value: "Cuadrícula 76" },
+              { nombre: "Cuadrícula 77", value: "Cuadrícula 77" },
+            ]}
+        ]
         },
         //OTROS
-        { nombre: "Puerto Vilelas", value: "Puerto Vilelas" },
+        { nombre: "Puerto Vilelas", value: "Puerto Vilelas", cuadriculas: [
+          { nombre: "Cuadrícula 69", value: "Cuadrícula 69" },
+          { nombre: "Cuadrícula 70", value: "Cuadrícula 70" },
+        ]  },
         { nombre: "Puerto Tirol", value: "Puerto Tirol" },
         { nombre: "Colonia Benitez", value: "Colonia Benitez" },
         { nombre: "Margarita Belén", value: "Margarita Belén" },

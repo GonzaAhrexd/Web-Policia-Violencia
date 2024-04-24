@@ -4,18 +4,17 @@ import NavBar from '../../components/NavBar'
 import CardProfileInfo from '../../components/Cards/CardProfileInfo';
 import CardProfileDataEdit from '../../components/Cards/CardProfileDataEdit';
 import { useState } from 'react';
-import CardsInfoProfile from '../../components/Cards/CardsInfoProfile';
 import { CSSTransition } from 'react-transition-group';
 
 function Perfil() {
     //@ts-ignore
     const { signUp, user, isAuthenticated, isLoading } = useAuth();
+    const [isEditing, setIsEditing] = useState(false)
 
     if (isLoading) return <h1>Cargando...</h1>
 
     if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
 
-    const [isEditing, setIsEditing] = useState(false)
 
     return (
         <>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
-//@ts-ignore
 
 
 interface Props {

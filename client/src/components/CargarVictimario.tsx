@@ -92,7 +92,7 @@ function CargarVictimario   () {
   ]
 
   return (
-    <div className='w-6/10'>
+    <div className='w-full lg:w-6/10'>
       <div className='flex flex-col md:flex-row'>
         <InputRegister campo="Nombre" nombre="nombre" register={register} setValue={setValue} type="text" error={errors.nombre} />
         <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} />
@@ -103,12 +103,12 @@ function CargarVictimario   () {
         <InputRegister campo="DNI" nombre="dni" register={register} setValue={setValue} type="text" error={errors.apellido} />
       </div>
 
-      <div className='flex flex-col md:flex-row'>
+      <div className='flex flex-col lg:flex-row'>
         <SelectRegister campo="Estado Civil" nombre="estado_civil" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil} />
         <SelectRegister campo="Ocupación" nombre="ocupacion" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupaciones} />
       </div>
     
-      <div className={`grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4`}>
+      <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`}>
       
         <InputCheckbox campo="Abuso de Alcohol" nombre="Abuso de Alcohol" register={register} setValue={setValue} type="checkbox"  />          
         <InputCheckbox campo="Antecedentes toxicológicos" nombre="Antecedentes toxicológicos" register={register} setValue={setValue} type="checkbox"  />          

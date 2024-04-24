@@ -9,12 +9,9 @@ import CargarDenuncia from '../../components/CargarDenuncia';
 function CargarDenuncias() {
   //@ts-ignore
   const { signUp, user, isAuthenticated, isLoading } = useAuth();
-
   if (isLoading) return <h1>Cargando...</h1>
-  console.log(user.rol)
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
 
-  const [isEditing, setIsEditing] = useState(false)
 
   if (user.rol === 'carga' || user.rol === 'admin') {
     return (

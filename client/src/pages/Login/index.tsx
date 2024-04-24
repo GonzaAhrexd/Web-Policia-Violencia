@@ -34,7 +34,6 @@ function Login() {
           <h1 className='open-sans text-xl'>Dpto. Violencia Familiar y de Género</h1>
           <form className='flex flex-col items-center align-middle justify-center w-4/5 sm:w-3/5' action=""  onSubmit={handleSubmit(async(values) => {
             signIn(values)
-            console.log(errorsAuth)
             })}>
            <InputLogin campo={"nombre_de_usuario"} nombre={"nombre_de_usuario"} placeholder={"Nombre de usuario"} register={register} type="text" error={errors.nombre_de_usuario}></InputLogin>
             <InputLogin campo={"pass"} nombre={"Contraseña"} placeholder={"Contraseña"} register={register} type="password" error={errors.pass}></InputLogin>

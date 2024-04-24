@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 type Props = {
@@ -7,13 +6,13 @@ type Props = {
     usuario: any
 };
 
-export default function CardProfile({ title, description, usuario }: Props): JSX.Element {
+export default function CardProfile({ title, usuario }: Props): JSX.Element {
 
     const diasDesde = (fecha: Date): number => {
-        fecha = new Date(fecha)
-        let hoy = new Date();
-        //@ts-ignore
-        return Math.ceil((hoy - fecha) / (1000 * 60 * 60 * 24));
+        fecha = new Date(fecha);
+        let hoy: Date = new Date();
+        
+        return Math.ceil((hoy.getTime() - fecha.getTime()) / (1000 * 60 * 60 * 24));
     }
     return (
         <div
