@@ -5,6 +5,7 @@ interface Opcion {
     value?: string;
     nombre?: string;
     subdivisiones?: Opcion[];
+    prefijo?: any;
     cuadriculas? : Opcion[];
 }
 
@@ -28,6 +29,33 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
     const [selectedCuadricula, setSelectedCuadricula] = useState('');
     const [hadSubmitted, setHadSubmitted] = useState(false)
+
+
+    const handleBuscarPrefijo = (comisaria: String) => {
+        //Busca el prefijo de la comisaria entre las opciones, tiene que coincidir con el valor de la comisaria
+        let prefijo = ''
+
+        opciones.map((unidad: Opcion) => {
+            if(unidad != comisaria){
+                unidad.subdivisiones?.map((subunidad: Opcion) => {
+                    if(subunidad.value == comisaria && subunidad.prefijo != undefined){
+                    console.log("Aca1 " + subunidad.prefijo)
+                    prefijo = subunidad.prefijo
+                    }if(subunidad.subdivisiones != undefined){
+                        subunidad.subdivisiones.map((subsubunidad: Opcion) => {
+                            if(subsubunidad.value == comisaria && subsubunidad.prefijo != undefined){
+                                console.log("Acá 2 " + subsubunidad.prefijo)
+                                prefijo = subsubunidad.prefijo
+                            }
+                        })
+                    }
+                })
+            }   
+        })
+
+        return prefijo
+    }
+
     const handleUnidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
         setSelectedUnidad(value);
@@ -44,18 +72,20 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
         setSelectedSubunidad(value);
         setSelectedSubsubunidad('');
         setSelectedCuadricula('');
-        setComisariaPertenece(value)
+        
+        setComisariaPertenece(handleBuscarPrefijo(value))
         // Actualiza el valor en react-hook-form
         setValue('Municipio',  `${value}`);
         
         }
 
-      
+
+
     const handleSubsubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
         setSelectedSubsubunidad(value);
         setSelectedCuadricula('');
-        setComisariaPertenece(value)
+        setComisariaPertenece(handleBuscarPrefijo(value))
         // Actualiza el valor en react-hook-form
         selectedSubunidad != "Puerto Vilelas" ? setValue('Jurisdicción policial', `${value}`) : setValue('Cuadrícula', `${value}`);
 

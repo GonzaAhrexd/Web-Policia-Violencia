@@ -85,7 +85,7 @@ const subdivisionesMetropolitana = [
         {nombre: "Cuadrícula 53", value: "Cuadrícula 53"},
         {nombre: "Cuadrícula 54", value: "Cuadrícula 54"},
       ] },
-      { nombre: "Comisaría Duodecima", value: "Comisaría Duodecima Resistencia", cuadriculas: [
+      { nombre: "Comisaría Duodecima", value: "Comisaría Duodecima Resistencia", prefijo: "222",  cuadriculas: [
         {nombre: "Cuadrícula 55", value: "Cuadrícula 55"},
         {nombre: "Cuadrícula 56", value: "Cuadrícula 56"},
         {nombre: "Cuadrícula 57", value: "Cuadrícula 57"},
@@ -154,9 +154,9 @@ const subdivisionesMetropolitana = [
   { nombre: "La Verde", value: "La Verde", prefijo: "33", },
   { nombre: "Las Palmas", value: "Las Palmas", prefijo: "29"},
   { nombre: "Colonia Popular", value: "Colonia Popular" },
-  { nombre: "Makallé", value: "Makallé", prefijo: "32", },
+  { nombre: "Makallé", value: "Makallé", prefijo: "32" },
   { nombre: "Puerto Bermejo", value: "Puerto Bermejo", prefijo: "44", },
-  { nombre: "Eva Perón", value: "Eva Perón", prefijo: "93" },
+  { nombre: "Puerto Eva Perón", value: "Puerto Eva Perón", prefijo: "93" },
 ]
 
 export const unidadCampos = [
@@ -178,33 +178,33 @@ export const unidadCampos = [
     {
       nombre: "División Violencia Familiar y Género Villa Ángela", value: "Villa Ángela", subdivisiones: [
         { nombre: "Comisaría Primera", value: "Comisaría Primera Villa Ángela", prefijo: "68", },
-        { nombre: "Comisaría Segunda", value: "Comisaría Segunda Villa Ángela" },
+        { nombre: "Comisaría Segunda", value: "Comisaría Segunda Villa Ángela", prefijo: "100", },
         { nombre: "Comisaría La Clotilde", value: "Comisaría La Clotilde", prefijo: "120" },
         { nombre: "Comisaría La Tigra", value: "Comisaría La Tigra", prefijo: "88" },
-        { nombre: "Comisaría San Bernardo", value: "Comisaría San Bernardo" },
+        { nombre: "Comisaría San Bernardo", value: "Comisaría San Bernardo", prefijo: "73" },
         { nombre: "Comisaría Villa Berthet", value: "Comisaría Villa Berthet", prefijo: "69"},
         { nombre: "Comisaría Samuhú", value: "Comisaría Samuhú", prefijo: "119" },
         { nombre: "Comisaría Chorotis", value: "Comisaría Chorotis", prefijo: "117" },
-        { nombre: "Comisaría Coronel Du Graty", value: "Comisaría Coronel Du Graty" },
+        { nombre: "Comisaría Coronel Du Graty", value: "Comisaría Coronel Du Graty", prefijo: "74" },
         { nombre: "Comisaría Enrique Urién", value: "Comisaría Enrique Urién", prefijo: "183" },
-        { nombre: "Comisaría Santa Sylvina", value: "Comisaría Santa Sylvina" },
+        { nombre: "Comisaría Santa Sylvina", value: "Comisaría Santa Sylvina", prefijo: "79" },
       ]
     },
     //CHARATA
     {
       nombre: "División Violencia Familiar y Género Charata", value: "Charata", subdivisiones: [
       { nombre: "Comisaría Primera", value: "Comisaría Primera Charata", prefijo: "71"},
-      { nombre: "Comisaría Segunda", value: "Comisaría Segunda Charata" },
+      { nombre: "Comisaría Segunda", value: "Comisaría Segunda Charata", prefijo: "327" },
       { nombre: "Comisaría Corzuela", value: "Comisaria Corzuela", prefijo: "77" },
       { nombre: "Comisaría Las Breñas", value: "Comisaría Las Breñas", prefijo: "72" },
       { nombre: "Comisaría Campo Largo", value: "Comisaría Campo Largo", prefijo: "55", },
-      { nombre: "Comisaría Concepción del Bermejo", value: "Comisaría Concepción del Bermejo" },
+      { nombre: "Comisaría Concepción del Bermejo", value: "Comisaría Concepción del Bermejo", prefijo: "59" },
       { nombre: "Comisaría Los Frentones", value: "Comisaría Los Frentones", prefijo: "124" },
       { nombre: "Comisaría Pampa del Infierno", value: "Comisaría Pampa del Infierno", prefijo: "59", },
       { nombre: "Comisaría Taco Pozo", value: "Comisaría Taco Pozo", prefijo: "61" },
       { nombre: "Comisaría Gancedo", value: "Comisaría Gancedo", prefijo: "75" },
       { nombre: "Comisaría General Pinedo", value: "Comisaría General Pinedo", prefijo: "70", },
-      { nombre: "Comisaría General Capdevila", value: "Comisaría General Capdevila" },
+      { nombre: "Comisaría General Capdevila", value: "Comisaría General Capdevila", prefijo: "109"  },
       { nombre: "Comisaría Hermoso Campo", value: "Comisaría Hermoso Campo", prefijo: "76" },
       { nombre: "Comisaría San Bernardo", value: "Comisaría San Bernardo", prefijo: "73" },
       { nombre: "Comisaría Coronel Du Graty", value: "Comisaría Coronel Du Graty", prefijo: "74" },
@@ -214,29 +214,29 @@ export const unidadCampos = [
     //General San Martin
     {
       nombre: "División Violencia Familiar y Género Gral. San Martin", value: "General San Martín", subdivisiones: [
-        { nombre: "Comisaría General San Martín", value: "Comisaría General San Martín" },
-        { nombre: "Comisaría Pampa del Indio", value: "Comisaría Pampa del Indio" },
-        { nombre: "Comisaría Presidencia Roca", value: "Comisaría Presidencia Roca" },
+        { nombre: "Comisaría General San Martín", value: "Comisaría General San Martín", prefijo: "27"  },
+        { nombre: "Comisaría Pampa del Indio", value: "Comisaría Pampa del Indio", prefijo: "39"  },
+        { nombre: "Comisaría Presidencia Roca", value: "Comisaría Presidencia Roca", prefijo: "40"  },
         { nombre: "Comisaría Capitán Solari", value: "Comisaría Capitán Solari", prefijo: "144" },
         { nombre: "Comisaría Ciervo Petiso", value: "Comisaría Ciervo Petiso", prefijo: "162" },
-        { nombre: "Comisaría Colonias Unidas", value: "Comisaría Colonias Unidas" },
+        { nombre: "Comisaría Colonias Unidas", value: "Comisaría Colonias Unidas", prefijo: "42" },
         { nombre: "Comisaría Laguna Limpia", value: "Comisaría Laguna Limpia", prefijo: "38", },
-        { nombre: "Comisaría Las Garcitas", value: "Comisaría Las Garcitas" },
+        { nombre: "Comisaría Las Garcitas", value: "Comisaría Las Garcitas", prefijo: "43"  },
         { nombre: "Comisaría La Eduvigis", value: "Comisaría La Eduvigis", prefijo: "37", },
         { nombre: "Comisaría Selvas del Río de Oro", value: "Comisaría Selvas del Río de Oro", prefijo: "232" },
         { nombre: "Comisaría Pampa Almirón", value: "Comisaría Pampa Almirón", prefijo: "138" },
-        { nombre: "Comisaría Colonia Elisa", value: "Comisaría Colonia Elisa" },
+        { nombre: "Comisaría Colonia Elisa", value: "Comisaría Colonia Elisa", prefijo: "41"  },
       ]
     },
     //Juan José Castelli
     {
       nombre: "División Violencia Familiar y Género Metropolitana Juan José Castelli", value: "Juan José Castelli", subdivisiones: [
         { nombre: "Comisaría Primera Juan José Castelli", value: "Comisaría Primera Juan José Castelli", prefijo: "56"},
-        { nombre: "Comisaría Segunda Juan José Castelli", value: "Comisaría Segunda Juan José Castelli", prefijo: "164",},
+        { nombre: "Comisaría Segunda Juan José Castelli", value: "Comisaría Segunda Juan José Castelli", prefijo: "308",},
         { nombre: "Comisaría Tres Isletas", value: "Comisaría Tres Isletas", prefijo: "54", },
         { nombre: "Comisaría El Espinillo", value: "Comisaría El Espinillo", prefijo: "133" },
         { nombre: "Comisaría Fuerte Esperanza", value: "Comisaría Fuerte Esperanza", prefijo: "89" },
-        { nombre: "Comisaría Miraflores", value: "Comisaría Miraflores" },
+        { nombre: "Comisaría Miraflores", value: "Comisaría Miraflores", prefijo: "136" },
         { nombre: "Comisaría Villa Río Bermejito", value: "Comisaría Villa Río Bermejito", prefijo: "63", },
         { nombre: "Comisaría Comandancia Frías", value: "Comisaría Comandancia Frías" , prefijo: "166"},
         { nombre: "Comisaría El Sauzalito", value: "Comisaría El Sauzalito", prefijo: "98" },
@@ -251,13 +251,13 @@ export const unidadCampos = [
         { nombre: "Comisaría Segundo Presidencia Roque Saenz Peña", value: "Comisaría Segundo Presidencia Roque Saenz Peña", prefijo: "51", },
         { nombre: "Comisaría Tercera Presidencia Roque Saenz Peña", value: "Comisaría Tercera Presidencia Roque Saenz Peña", prefijo: "118" },
         { nombre: "Comisaría Cuarta Presidencia Roque Saenz Peña", value: "Comisaría Cuarta Presidencia Roque Saenz Peña", prefijo: "161" },
-        { nombre: "Comisaría Quinta Presidencia Roque Saenz Peña", value: "Comisaría Quinta Presidencia Roque Saenz Peña" },
-        { nombre: "Comisaría Sexta Presidencia Roque Saenz Peña", value: "Comisaría Sexta Presidencia Roque Saenz Peña" },
+        { nombre: "Comisaría Quinta Presidencia Roque Saenz Peña", value: "Comisaría Quinta Presidencia Roque Saenz Peña",prefijo: "285" },
+        { nombre: "Comisaría Sexta Presidencia Roque Saenz Peña", value: "Comisaría Sexta Presidencia Roque Saenz Peña", prefijo: "203" },
         { nombre: "Comisaría El Tacuruzal", value: "Comisaría El Tacuruzal", prefijo: "57" },
         { nombre: "Comisaría Machagai", value: "Comisaría Machagai", prefijo: "53", },
-        { nombre: "Comisaría Presidencia de la Plaza", value: "Comisaría Presidencia de la Plaza" },
+        { nombre: "Comisaría Presidencia de la Plaza", value: "Comisaría Presidencia de la Plaza", prefijo: "28"  },
         { nombre: "Comisaría Quitilipi", value: "Comisaría Quitilipi", prefijo: "52", },
-        { nombre: "Comisaría Colonia Aborigen", value: "Comisaría Colonia Aborigen" },
+        { nombre: "Comisaría Colonia Aborigen", value: "Comisaría Colonia Aborigen" , prefijo: "286" },
         { nombre: "Comisaría Avia Terai", value: "Comisaría Avia Terai", prefijo: "60"},
         { nombre: "Comisaría Napenay", value: "Comisaría Napenay", prefijo: "168" },
       ]

@@ -24,7 +24,6 @@ function CargarDenuncia() {
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col md:flex-row'>
-      <InputExpediente campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="Número de Expediente" register={register} setValue={setValue} type="text" error={errors.expediente}  />
       <SelectRegister campo="Género" nombre="Género" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} />
       <InputDate campo="Fecha" nombre="Fecha" register={register}  type="text" error={errors.fecha}  />
       </div>
@@ -33,8 +32,10 @@ function CargarDenuncia() {
       <InputRegister campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.gis} />
       <InputRegister campo="Barrio" nombre="Barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
        </div>
-       <div className='flex flex-col md:flex-row'>
+       <div className='flex flex-col'>
         <SelectCargaDenuncias campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="Unidad de carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
+        <InputExpediente campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="Número de Expediente" register={register} setValue={setValue} type="text" error={errors.expediente}  />
+     
        </div>
 
        <div className='flex flex-col md:flex-row'>
@@ -45,7 +46,7 @@ function CargarDenuncia() {
       <div className='flex flex-col md:flex-row'>
       <InputDate campo="Fecha de ingreso" nombre="Fecha de ingreso" register={register}  type="text" error={errors.fecha_ingreso}  />
       <InputDate campo="Fecha de salida" nombre="Fecha de salida" register={register}  type="text" error={errors.fecha_salida}  />
-     
+
       </div>
     </div>
   )
