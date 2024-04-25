@@ -16,10 +16,12 @@ interface Props {
     type: string
     nombre: string
     error: any
+    setComisariaPertenece?: any
+
 }
 
 
-function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, error }: Props) {
+function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, error, setComisariaPertenece }: Props) {
 
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
@@ -42,6 +44,7 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
         setSelectedSubunidad(value);
         setSelectedSubsubunidad('');
         setSelectedCuadricula('');
+        setComisariaPertenece(value)
         // Actualiza el valor en react-hook-form
         setValue('Municipio',  `${value}`);
         
@@ -52,6 +55,7 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
         const value = event.target.value;
         setSelectedSubsubunidad(value);
         setSelectedCuadricula('');
+        setComisariaPertenece(value)
         // Actualiza el valor en react-hook-form
         selectedSubunidad != "Puerto Vilelas" ? setValue('Jurisdicción policial', `${value}`) : setValue('Cuadrícula', `${value}`);
 
@@ -82,8 +86,9 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
                 </select>
 
                 {selectedUnidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones && (
-                <div className='flex flex-row xl:h-full 2xl:h-full xl:w-full'>
-                        
+                <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
+                          <span className='ml-4 font-medium xl:text-vw'> Municipio  <span className='text-red-500'> </span> </span> 
+               
                         <select
                             className="border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                             name="subunidad"
@@ -101,7 +106,9 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
                         {selectedSubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => 
                         
                         subunidad.value === selectedSubunidad)?.subdivisiones && (
-                                <select
+                         <div>
+                            <span className='ml-4 font-medium xl:text-vw'> Jurisdicción policial <span className='text-red-500'> </span> </span> 
+                            <select
                                     className=" border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                                     name="subsubunidad"
                                     value={selectedSubsubunidad}
@@ -113,10 +120,14 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
                                         </option>
                                     ))}
                                 </select>
+                        </div>
                         )}
                         {selectedSubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => 
                         
                         subunidad.value === selectedSubunidad)?.cuadriculas && (
+                            <div>
+                            <span className='ml-4 font-medium xl:text-vw'> Cuadricula <span className='text-red-500'> </span> </span> 
+                        
                                 <select
                                     className=" border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                                     name="subsubunidad"
@@ -129,15 +140,19 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
                                         </option>
                                     ))}
                                 </select>
+                            </div>
                         )}
                         {selectedSubsubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones?.find((subsubunidad: Opcion) => subsubunidad.value === selectedSubsubunidad)?.cuadriculas && (
-                            <select
+                            <div>
+                            <span className='ml-4 font-medium xl:text-vw'> Cuadricula </span>
+                        
+                           <select
                                 className="border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                                 name="cuadricula"
                                 value={selectedCuadricula}
                                 onChange={handleCuadriculaChange}
                             >
-                                <option value="">Seleccione una cuadrícula</option>
+                                <option value="">Seleccione una </option>
                                 {opciones.find((unidad) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones?.find((subsubunidad: Opcion) => subsubunidad.value === selectedSubsubunidad)?.cuadriculas?.map((cuadricula) => (
                                     <>
                                     <option key={cuadricula.value} value={cuadricula.value}>
@@ -146,9 +161,9 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
                                     </>
                                 ))}
                             </select>
+                        </div>
                         )}
                     </div>
-                    
                 )}
             </div>
             </div>
