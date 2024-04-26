@@ -12,9 +12,10 @@ interface Props {
     error?: any;
     setHook?: any;
     state?: any;
+    id: any;
 }
 
-function InputCheckbox({ campo, nombre, setValue, register, type, error, setHook, state }:Props) {
+function InputCheckbox({ campo, nombre, setValue, register, type, error, setHook, state, id }:Props) {
     const handleChange = (e:any) => {
       setValue(nombre, e.target.checked);
       if (setHook) {
@@ -30,10 +31,11 @@ function InputCheckbox({ campo, nombre, setValue, register, type, error, setHook
           type={type}
           onChange={handleChange}
           checked={state}
+          id = {id}
           />
           </div>
         <div>
-        <label className="font-medium xl:text-sm">
+        <label htmlFor={id} className="font-medium xl:text-sm">
           {campo}
         </label>
         </div>

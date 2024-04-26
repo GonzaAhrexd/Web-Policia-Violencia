@@ -18,7 +18,7 @@ function InputExpediente({campo, nombre, register, type, error, placeholder, set
         //Obtener solo los últimos 2 números del año
         let date = new Date()
         let year = date.getFullYear().toString()
-        return "-" + year
+        return "-E/" + year
     }
 
 

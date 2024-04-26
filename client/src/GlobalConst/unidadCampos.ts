@@ -147,7 +147,7 @@ const subdivisionesMetropolitana = [
   { nombre: "Isla del Cerrito", value: "Isla del Cerrito", prefijo: "31", },
   { nombre: "Cote Lai", value: "Cote Lai", prefijo: "78" },
   { nombre: "Basail", value: "Basail", prefijo: "30", },
-  { nombre: "Charadai", value: "Charadai" },
+  { nombre: "Charadai", value: "Charadai", prefijo: "80", },
   { nombre: "General Vedia", value: "General Vedia", prefijo: "45"},
   { nombre: "La Escondida", value: "La Escondida" , prefijo: "130"},
   { nombre: "La Leonesa", value: "La Leonesa", prefijo: "106" },

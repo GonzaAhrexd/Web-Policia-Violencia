@@ -3,16 +3,20 @@ import InputRegister from './InputRegister'
 import SelectRegister from './SelectRegister'
 import { useForm } from 'react-hook-form'
 import InputCheckbox from './InputCheckbox'
-function CargarVictima() {
+interface CargarVictimaProps {
+  register: any;
+  setValue: any;
+  errors: any;
+}
+
+function CargarVictima({register, setValue, errors}: CargarVictimaProps) {
 
 
   const [isHijos, setIsHijos] = useState(false)
   const [isHijosConAgresor, setIsHijosConAgresor] = useState(false)
 
 
-  const { register, setValue, formState: {
-    errors
-  } } = useForm()
+  
 
   const estadoCivil = [
     { nombre: 'Soltero/a', value: 'Soltero/a' },
@@ -103,24 +107,24 @@ function CargarVictima() {
         <InputRegister campo="DNI" nombre="dni" register={register} setValue={setValue} type="text" error={errors.apellido} />
       </div>
 
-      <div className='flex flex-col lg:flex-row'>
+      <div className='flex flex-col xl:flex-row'>
         <SelectRegister campo="Estado Civil" nombre="estado_civil" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil} />
         <SelectRegister campo="Ocupación" nombre="ocupacion" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupaciones} />
       </div>
-      <div className='flex flex-col lg:flex-row'>
+      <div className='flex flex-col xl:flex-row'>
         <SelectRegister campo="Vinculo con el Agresor" nombre="vinculo_con_agresor" opciones={vinculoConAgresor} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
         <SelectRegister campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.ocupaciones} />
       </div>
       <div className={`grid grid-cols-1 md:grid-cols-4`}>
-        <InputCheckbox campo="Convivencia " nombre="Convivencia" register={register} setValue={setValue} type="checkbox" error={errors.compartenVivienda} />
-        <InputCheckbox campo="Hijos" nombre="Hijos" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsHijos} state={isHijos} />
+        <InputCheckbox campo="Convivencia " nombre="Convivencia" register={register} setValue={setValue} type="checkbox" error={errors.compartenVivienda} id="convivencia" />
+        <InputCheckbox campo="Hijos" nombre="Hijos" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsHijos} state={isHijos} id="isHijos"/>
         {isHijos &&
           <>
-            <InputCheckbox campo="Dependencia económica" nombre="Dependencia económica" register={register} setValue={setValue} type="checkbox" error={errors.hijosmayores} />
-            <InputCheckbox campo="Mayores de 18" nombre="Mayores de 18" register={register} setValue={setValue} type="checkbox" error={errors.hijosmayores} />
-            <InputCheckbox campo="Menores de 18" nombre="Menores de 18" register={register} setValue={setValue} type="checkbox" error={errors.hijosmenores} />
-            <InputCheckbox campo="Menores discapacitados" nombre="Menores discapacitados" register={register} setValue={setValue} type="checkbox" error={errors.menoresDiscapacitados} />
-            <InputCheckbox campo="Hijos con el agresor" nombre="Hijos con el agresor" register={register} setValue={setValue} type="checkbox" error={errors.hijosconagresor} setHook={setIsHijosConAgresor} state={isHijosConAgresor} />
+            <InputCheckbox campo="Dependencia económica" nombre="Dependencia económica" register={register} setValue={setValue} type="checkbox" error={errors.hijosmayores} id="dependenciaEconomica" />
+            <InputCheckbox campo="Mayores de 18" nombre="Mayores de 18" register={register} setValue={setValue} type="checkbox" error={errors.hijosmayores} id="mayores18"/>
+            <InputCheckbox campo="Menores de 18" nombre="Menores de 18" register={register} setValue={setValue} type="checkbox" error={errors.hijosmenores} id="menores18" />
+            <InputCheckbox campo="Menores discapacitados" nombre="Menores discapacitados" register={register} setValue={setValue} type="checkbox" error={errors.menoresDiscapacitados} id="menoresDiscapacitados" />
+            <InputCheckbox campo="Hijos con el agresor" nombre="Hijos con el agresor" register={register} setValue={setValue} type="checkbox" error={errors.hijosconagresor} setHook={setIsHijosConAgresor} state={isHijosConAgresor} id="hijosConElAgresor"/>
             {isHijosConAgresor &&
                <InputRegister campo="Cantidad" nombre="Cantidad hijos con el agresor" register={register} setValue={setValue} type="number" error={errors.apellido} />
             }

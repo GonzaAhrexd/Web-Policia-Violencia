@@ -3,6 +3,7 @@ import InputRegister from './InputRegister'
 import SelectRegister from './SelectRegister'
 import { useForm } from 'react-hook-form'
 import InputCheckbox from './InputCheckbox'
+import InputRadio from './InputRadio'
 function CargarVictimario   () {
 
 
@@ -91,6 +92,13 @@ function CargarVictimario   () {
     { nombre: 'Tratamiento psicológico', value: 'Tratamiento psicológico' }
   ]
 
+  const opcionesNotificado = [
+    { nombre: 'Aprehensión', value: 'Aprehensión', id: "Aprehension" },
+    { nombre: 'Solicitud de Aprehensión', value: 'Solicitud de Aprehensión', id: "SolicitudAprehension" },
+    { nombre: 'Expedientes c/cautelar', value: 'Expedientes c/cautelar', id: "ExpedientesCCautelar" },
+    {nombre: 'Ninguno', value: 'Ninguno', id: "Ninguno"},
+  ]
+
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col md:flex-row'>
@@ -110,21 +118,18 @@ function CargarVictimario   () {
     
       <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`}>
       
-        <InputCheckbox campo="Abuso de Alcohol" nombre="Abuso de Alcohol" register={register} setValue={setValue} type="checkbox"  />          
-        <InputCheckbox campo="Antecedentes toxicológicos" nombre="Antecedentes toxicológicos" register={register} setValue={setValue} type="checkbox"  />          
-        <InputCheckbox campo="Antecedentes penales" nombre="Antecedentes penales" register={register} setValue={setValue} type="checkbox"  />          
-        <InputCheckbox campo="Antecedentes contravencionales" nombre="Antecedentes contravencionales" register={register} setValue={setValue} type="checkbox"  />          
-        <InputCheckbox campo="Entrenamiento en  combate" nombre="Entrenamiento en técnicas de combate" register={register} setValue={setValue} type="checkbox"  />          
-        <InputCheckbox campo="Aprehensión" nombre="Aprehensión" register={register} setValue={setValue} type="checkbox"  />          
-        <InputCheckbox campo="Solicitud de aprehensión" nombre="Solicitud de aprehensión" register={register} setValue={setValue} type="checkbox"  />          
-        <InputCheckbox campo="Expedientes c/cautelar" nombre="Notificación de expedientes c/cautelar" register={register} setValue={setValue} type="checkbox"  />          
-      
+        <InputCheckbox campo="Abuso de Alcohol" nombre="Abuso de Alcohol" register={register} setValue={setValue} type="checkbox" id="abusoAlcohol"  />          
+        <InputCheckbox campo="Antecedentes toxicológicos" nombre="Antecedentes toxicológicos" register={register} setValue={setValue} type="checkbox" id="antecedentesToxicologicos"  />          
+        <InputCheckbox campo="Antecedentes penales" nombre="Antecedentes penales" register={register} setValue={setValue} type="checkbox" id="antecedentesPenales"  />          
+        <InputCheckbox campo="Antecedentes contravencionales" nombre="Antecedentes contravencionales" register={register} setValue={setValue} type="checkbox" id="antecedentesConvencionales"/>          
+        <InputCheckbox campo="Entrenamiento en  combate" nombre="Entrenamiento en técnicas de combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" />          
       </div>
-
-
+        <>
+        <span className='ml-4 font-medium xl:text-vw'> Notificación </span> 
+        <InputRadio campo="Notificación" nombre="Notificación" register={register} setValue={setValue} type="radio" opciones={opcionesNotificado}  />          
+        </>
 
     </div>
-
   )
 }
 
