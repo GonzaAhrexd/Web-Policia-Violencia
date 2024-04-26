@@ -30,15 +30,16 @@ function CargarDenuncias() {
                 console.log(values)
               })}>
               <div className='flex justify-center'>
-                <CargarVictima register={register} setValue={setValue} errors={errors}/>
+               {/* <CargarVictima register={register} setValue={setValue} errors={errors}/> */}
               </div>
               <h1 className='text-2xl my-5'>Victimario</h1>
               <div className='flex justify-center'>
-              <CargarVictimario />
+             {<CargarVictimario register={register} setValue={setValue} errors={errors}/> }
               </div>
               <h1 className='text-2xl my-5'>Hecho</h1>
               <div className='flex justify-center'>
-              <CargarDenuncia />
+              
+              {/*<CargarDenuncia register={register} setValue={setValue} errors={errors}/> */}
               </div>
               <h1 className='text-2xl my-5'>Observaciones o denuncia</h1>
               <div className='flex justify-center h-80'>

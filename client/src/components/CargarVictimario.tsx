@@ -4,16 +4,19 @@ import SelectRegister from './SelectRegister'
 import { useForm } from 'react-hook-form'
 import InputCheckbox from './InputCheckbox'
 import InputRadio from './InputRadio'
-function CargarVictimario   () {
+
+interface CargarVictimarioProps {
+  register: any;
+  setValue: any;
+  errors: any;
+}
+
+function CargarVictimario   ({register, setValue, errors}:CargarVictimarioProps) {
 
 
   const [isHijos, setIsHijos] = useState(false)
   const [isHijosConAgresor, setIsHijosConAgresor] = useState(false)
 
-
-  const { register, setValue, formState: {
-    errors
-  } } = useForm()
 
   const estadoCivil = [
     { nombre: 'Soltero/a', value: 'Soltero/a' },
@@ -102,18 +105,18 @@ function CargarVictimario   () {
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col md:flex-row'>
-        <InputRegister campo="Nombre" nombre="nombre" register={register} setValue={setValue} type="text" error={errors.nombre} />
-        <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} />
+        <InputRegister campo="Nombre" nombre="nombre_victimario" register={register} setValue={setValue} type="text" error={errors.nombre} />
+        <InputRegister campo="Apellido" nombre="apellido_victimario" register={register} setValue={setValue} type="text" error={errors.apellido} />
       </div>
 
       <div className='flex flex-col md:flex-row'>
-        <InputRegister campo="Edad" nombre="edad" register={register} setValue={setValue} type="number" error={errors.edad} />
-        <InputRegister campo="DNI" nombre="dni" register={register} setValue={setValue} type="text" error={errors.apellido} />
+        <InputRegister campo="Edad" nombre="edad_victmiario" register={register} setValue={setValue} type="number" error={errors.edad} />
+        <InputRegister campo="DNI" nombre="dni_victimario" register={register} setValue={setValue} type="text" error={errors.apellido} />
       </div>
 
-      <div className='flex flex-col lg:flex-row'>
-        <SelectRegister campo="Estado Civil" nombre="estado_civil" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil} />
-        <SelectRegister campo="Ocupación" nombre="ocupacion" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupaciones} />
+      <div className='flex flex-col xl:flex-row'>
+        <SelectRegister campo="Estado Civil" nombre="estado_civil_victimario" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil} />
+        <SelectRegister campo="Ocupación" nombre="ocupacion_victimario" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupaciones} />
       </div>
     
       <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`}>
@@ -126,7 +129,7 @@ function CargarVictimario   () {
       </div>
         <>
         <span className='ml-4 font-medium xl:text-vw'> Notificación </span> 
-        <InputRadio campo="Notificación" nombre="Notificación" register={register} setValue={setValue} type="radio" opciones={opcionesNotificado}  />          
+        <InputRadio campo="Notificación" nombre="Notificación" register={register} setValue={setValue} type="radio" opciones={opcionesNotificado}  defaultValue={3}/>          
         </>
 
     </div>

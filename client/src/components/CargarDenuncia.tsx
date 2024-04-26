@@ -8,10 +8,15 @@ import { useForm } from 'react-hook-form'
 import { unidadCampos } from '../GlobalConst/unidadCampos'
 import InputExpediente from './InputExpediente'
 import { useState } from 'react'
-function CargarDenuncia() {
-  const { control, register, handleSubmit, setValue, formState: {
-    errors
-  } } = useForm()
+
+interface denunciaProps {
+  register: any
+  setValue: any
+  errors: any
+}
+
+function CargarDenuncia({register, setValue, errors}: denunciaProps) {
+
 
   const [comisariaPertenece, setComisariaPertenece] = useState('')
   const [isArmas, setIsArmas] = useState(false)
@@ -131,9 +136,9 @@ function CargarDenuncia() {
          </div>
          {isDenunciadoPorTercero &&
          <div className='flex flex-col md:flex-row'>
-         <InputRegister campo="Nombre" nombre="Nombre" register={register} setValue={setValue} type="text" error={errors.nombre} />
-         <InputRegister campo="Apellido" nombre="Apellido" register={register} setValue={setValue} type="text" error={errors.apellido} />
-         <InputRegister campo="DNI" nombre="DNI" register={register} setValue={setValue} type="text" error={errors.DNI} />
+         <InputRegister campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
+         <InputRegister campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
+         <InputRegister campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
 
          </div>
         }
