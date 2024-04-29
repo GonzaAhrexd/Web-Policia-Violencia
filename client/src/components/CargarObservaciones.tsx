@@ -1,11 +1,13 @@
-import React from 'react'
 import InputTextArea from './InputTextArea'
-import { useForm } from 'react-hook-form'
 
-function CargarObservaciones() {
-    const { control, register, handleSubmit, setValue, formState: {
-        errors
-      } } = useForm()
+interface observacionesProps {
+  register: any
+  setValue: any
+  errors: any
+}
+
+function CargarObservaciones({register, setValue, errors}: observacionesProps) {
+ 
   return (
     <>
         <InputTextArea campo="Observaciones" nombre="Observaciones" register={register} type="text" ></InputTextArea>

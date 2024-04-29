@@ -1,52 +1,96 @@
 import mongoose from 'mongoose'
 
 const victimasSchema = new mongoose.Schema({
-    apellido: {
-        type:  String,
+    nombre: {
+        type: String,
         required: true,
         trim: true
     },
-    nombre: {
-        type:  String,
+    apellido: {
+        type: String,
         required: true,
         trim: true
     },
     edad: {
-        type:  Number,
+        type: Number,
         required: true,
         trim: true
     },
     DNI: {
-        type:  Number,
+        type: String,
         required: true,
         trim: true
     },
     estado_civil: {
-        type:  String,
+        type: String,
         required: true,
         trim: true
     },
     ocupacion: {
-        type:  String,
+        type: String,
         required: true,
         trim: true
     },
-    hijos: {
-        type:  Number,
+    vinculo_con_agresor: {
+        type: String,
         required: true,
         trim: true
     },
-    hijo_mayor_edad: {
-        type:  Boolean,
+    condicion_de_vulnerabilidad: {
+        type: String,
+        required: true,
         trim: true
     },
-    hijo_menor_edad: {
-        type:  Boolean,
+    convivencia: {
+        type: Boolean,
+        required: true,
         trim: true
     },
-    
-    
-    })
+    cantidad_de_denuncias_previas: {
+        type: Number,
+        required: true,
+        trim: true
+    },
+    hijos:{
+        tiene_hijos: {
+            type: Boolean,
+            required: true,
+            trim: true,
+        },
+        dependencia_economica: {
+            type: Boolean,
+            required: true,
+            trim: true,
+            default: false
+        },
+        mayores_de_edad: {
+            type: Boolean,
+            required: true,
+            trim: true,
+            default: false
+        },
+        menores_de_edad: {
+            type: Boolean,
+            required: true,
+            trim: true,
+            default: false
+        },
+        menores_discapacitados: {
+            type: Boolean,
+            required: true,
+            trim: true,
+            default: false
+        },
+        hijos_con_el_agresor: {
+            type: Number,
+            required: true,
+            trim: true,
+            default: false,
+        },
+
+    }
+
+})
 
 const victimas = mongoose.model('victimas', victimasSchema)
 export default victimas;

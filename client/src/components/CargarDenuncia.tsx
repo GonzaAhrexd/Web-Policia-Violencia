@@ -48,6 +48,7 @@ function CargarDenuncia({register, setValue, errors}: denunciaProps) {
     { nombre: "Violencia Laboral", value: "Violencia Laboral" },
     { nombre: "Violencia Obstétrica", value: "Violencia Obstétrica" },
     { nombre: "Violencia Mediática", value: "Violencia Mediática" },
+    { nombre: "Violencia Digital", value: "Violencia Digital" },
     { nombre: "Acoso callejero", value: "Acoso callejero" },
   ]
 
@@ -58,12 +59,44 @@ function CargarDenuncia({register, setValue, errors}: denunciaProps) {
     { nombre: "Elemento Punzante", value: "Elemento Punzante" },
     { nombre: "Elemento Corto Punzante", value: "Elemento Corto Punzante" }
   ]
-  //Cómo extiendo unidadCampos para agregarle más subunidades al de Resistencia? 
-
+  
+  
+  const vinculoConVictima = [
+    { nombre: 'Ninguno', value: 'Ninguno' },
+    //Parejas
+    { nombre: 'Novio/a', value: 'Novio/a' },
+    { nombre: 'Ex Novio/a', value: 'Ex Novio/a' },
+    { nombre: 'Esposo/a', value: 'Esposo/a' },
+    { nombre: 'Ex esposo/a', value: 'Ex esposo/a' },
+    { nombre: 'Concubino/a', value: 'Concubino/a' },
+    { nombre: 'Ex Concubino/a', value: 'Ex Concubino/a' },
+    //Familia
+    { nombre: 'Hijo/a', value: 'Hijo/a' },
+    { nombre: 'Padre', value: 'Padre' },
+    { nombre: 'Madre', value: 'Madre' },
+    { nombre: 'Hermano/a', value: 'Hermano/a' },
+    { nombre: 'Tío/a', value: 'Tío/a' },
+    { nombre: 'Sobrino/a ', value: 'Sobrino/a' },
+    { nombre: 'Nieto/a', value: 'Nieto/a' },
+    { nombre: 'Abuelo/a', value: 'Abuelo/a' },
+    { nombre: 'Primo/a', value: 'Primo/a' },
+    //No familia
+    { nombre: 'Cuñado/a', value: 'Cuñado/a' },
+    { nombre: 'Ex cuñado/a', value: 'Ex cuñado/a' },
+    { nombre: 'Suegro/a', value: 'Suegro/a' },
+    { nombre: 'Ex suegro/a', value: 'Ex suegro/a' },
+    { nombre: 'Yerno', value: 'Yerno' },
+    { nombre: 'Nuera', value: 'Nuera' },
+    { nombre: 'Madrastra', value: 'Madrastra' },
+    { nombre: 'Padrastro', value: 'Padrastro' },
+    { nombre: 'Hijastro', value: 'Hijastro' },
+    { nombre: 'Colega', value: 'Colega' },
+    { nombre: 'Otros', value: 'Otros' },
+  ]
 
   return (
     <div className='w-full lg:w-6/10'>
-      <div className='flex flex-col md:flex-row'>
+      <div className='flex flex-col lg:flex-row'>
         <SelectRegister campo="Género" nombre="Género" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} />
         <InputDate campo="Fecha" nombre="Fecha" register={register} type="text" error={errors.fecha} />
       </div>
@@ -118,7 +151,7 @@ function CargarDenuncia({register, setValue, errors}: denunciaProps) {
         </div>
         {(isDispuestoPorAutoridadJudicial || isSolicitada) &&
         <>
-        <div className='flex flex-col md:flex-row'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
               <InputCheckbox campo="Prohibición de Acercamiento" nombre="Prohibición de Acercamiento" register={register} setValue={setValue} type="checkbox" id="prohibicion" />
               <InputCheckbox campo="Restitución de Menor" nombre="Restitución de Menor" register={register} setValue={setValue} type="checkbox" id="restitucion" />
               <InputCheckbox campo="Exclusión Hogar" nombre="Exclusión Hogar" register={register} setValue={setValue} type="checkbox" id="exclusion" />
@@ -135,12 +168,17 @@ function CargarDenuncia({register, setValue, errors}: denunciaProps) {
           <InputCheckbox campo="Denunciado por tercero" nombre="Denunciado por tercero" register={register} setValue={setValue} type="checkbox" error={errors.denunciado_por_tercero} setHook={setIsDenunciadoPorTercero} state={isDenunciadoPorTercero} id="denunciadoPorTercero" />
          </div>
          {isDenunciadoPorTercero &&
+         <> 
          <div className='flex flex-col md:flex-row'>
          <InputRegister campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
          <InputRegister campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
          <InputRegister campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
-
          </div>
+         <div className='flex flex-col'>
+         
+         <SelectRegister campo="Vinculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculoConVictima} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
+          </div>
+         </>
         }
         </div>
       </div>

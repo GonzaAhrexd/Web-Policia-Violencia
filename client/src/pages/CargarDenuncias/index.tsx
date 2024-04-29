@@ -7,6 +7,7 @@ import CargarVictimario from '../../components/CargarVictimario';
 import CargarDenuncia from '../../components/CargarDenuncia';
 import CargarObservaciones from '../../components/CargarObservaciones';
 import { useForm } from 'react-hook-form';
+import { crearDenuncia, agregarVictima, agregarVictimario } from '../../api/crud';
 function CargarDenuncias() {
   const { control, register, handleSubmit, setValue, formState: {
     errors 
@@ -27,23 +28,24 @@ function CargarDenuncias() {
             <h1 className='text-2xl my-5'>Victima</h1>
             <form action="" onSubmit={  
               handleSubmit(async (values) => {
+                agregarVictima(values)
                 console.log(values)
               })}>
               <div className='flex justify-center'>
-               {/* <CargarVictima register={register} setValue={setValue} errors={errors}/> */}
+                <CargarVictima register={register} setValue={setValue} errors={errors}/> 
               </div>
               <h1 className='text-2xl my-5'>Victimario</h1>
               <div className='flex justify-center'>
-             {<CargarVictimario register={register} setValue={setValue} errors={errors}/> }
+                 {/* <CargarVictimario register={register} setValue={setValue} errors={errors}/> */}
               </div>
               <h1 className='text-2xl my-5'>Hecho</h1>
               <div className='flex justify-center'>
               
-              {/*<CargarDenuncia register={register} setValue={setValue} errors={errors}/> */}
+              {/* <CargarDenuncia register={register} setValue={setValue} errors={errors} /> */}
               </div>
               <h1 className='text-2xl my-5'>Observaciones o denuncia</h1>
               <div className='flex justify-center h-80'>
-              <CargarObservaciones />
+              {/* <CargarObservaciones register={register} setValue={setValue} errors={errors}/> */}
               </div>
 
               <div className="flex justify-center">
