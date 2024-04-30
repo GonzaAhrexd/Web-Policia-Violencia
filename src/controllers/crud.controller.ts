@@ -9,15 +9,28 @@ export const getDenuncias = async (req, res) => {
 
 export const createDenuncia = async (req, res) => {
     console.log("Llegó")
-    try {
-        const {victima_ID, victimario_ID, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento,   restitucion_de_menor,exclusión_de_hogar, alimento_provisorio, 
-        derecho_de_comunicacion,boton_antipanico, denunciado_por_tecero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones} = req.body
 
-        const { Fisica, Psicologica, Sexual, Economica_y_patrimonial, Simbolica } = tipo_de_violencia
+    
+
+    try {
+        const {victima_ID, victimario_ID, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento,   restitucion_de_menor,exclusion_de_hogar, alimento_provisorio, 
+        derecho_de_comunicacion,boton_antipanico, denunciado_por_tecero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, nombre_victimario, apellido_victimario} = req.body
+
+        
+        const findVictima = await victimas.findOne({ DNI: dni_victima })
+        let findVictimario
+
+        if(dni_victimario == "S/N"){
+            findVictimario = await victimario.findOne({ nombre: nombre_victimario, apellido: apellido_victimario })
+        }else{
+            findVictimario = await victimario.findOne({ DNI: dni_victimario })
+        }
+
+
 
         const newDenuncia = new denuncia({
-            victima_ID, 
-            victimario_ID,
+            victima_ID: findVictima?._id ? findVictima._id : victima_ID, 
+            victimario_ID: findVictimario?._id ? findVictimario._id : victimario_ID,
             genero, 
             fecha, 
             direccion, 
@@ -25,8 +38,8 @@ export const createDenuncia = async (req, res) => {
             barrio, 
             unidad_de_carga, 
             municipio, 
-            jurisdiccion_policial, 
-            cuadricula, 
+            jurisdiccion_policial: jurisdiccion_policial ? jurisdiccion_policial : 'No existe', 
+            cuadricula: cuadricula ? cuadricula : 'No existe', 
             isDivision, 
             numero_de_expediente, 
             juzgado_interviniente, 
@@ -34,27 +47,29 @@ export const createDenuncia = async (req, res) => {
             violencia, 
             modalidades, 
             tipo_de_violencia: { 
-                Fisica: Fisica, 
-                Psicologica: Psicologica, 
-                Sexual: Sexual, 
-                Economica_y_patrimonial: Economica_y_patrimonial, 
-                Simbolica: Simbolica, 
+                Fisica: fisica, 
+                Psicologica: psicologica, 
+                Sexual: sexual, 
+                Economica_y_patrimonial: economica_y_patrimonial, 
+                Simbolica: simbolica, 
             },
             empleo_de_armas, 
-            arma_empleada, 
+            arma_empleada: arma_empleada ? arma_empleada : 'Sin armas', 
             medida_solicitada_por_la_victima, 
             medida_dispuesta_por_autoridad_judicial, 
-            prohibicion_de_acercamiento, 
-            restitucion_de_menor,
-            exclusión_de_hogar, 
-            alimento_provisorio, 
-            derecho_de_comunicacion,
-            boton_antipanico, 
-            denunciado_por_tecero, 
-            nombre_tercero, 
-            apellido_tercero, 
-            dni_tercero,
-            vinculo_con_victima,
+            medida: {
+                prohibicion_de_acercamiento, 
+                restitucion_de_menor,
+                exclusion_de_hogar, 
+                alimento_provisorio, 
+                derecho_de_comunicacion,
+                boton_antipanico, 
+            },
+            denunciado_por_tecero: denunciado_por_tecero ? denunciado_por_tecero : false, 
+            nombre_tercero: nombre_tercero ? nombre_tercero : 'Sin tercero', 
+            apellido_tercero: apellido_tercero ? apellido_tercero : 'Sin tercero', 
+            dni_tercero: dni_tercero ? dni_tercero : 'Sin tercero',
+            vinculo_con_victima: vinculo_con_victima ? vinculo_con_victima : 'Sin tercero',
             observaciones
         })
         const denunciaSaved = await newDenuncia.save()
@@ -77,9 +92,7 @@ export const createVictima = async (req, res) => {
     //Victima nueva
     try {
         const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia,  tiene_hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor } = req.body
-        
-//        console.log(nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil, ocupacion, vinculo_con_agresor, condicion_de_vulnerabilidad, convivencia,  tiene_hijos, dependencia_economica, mayores_de_edad, menores_de_edad, menores_discapacitados, hijos_con_el_agresor, cantidad_hijos)
-       
+  
         let victimaExistente = await victimas.findOne({ DNI: dni_victima })        
         
         
@@ -106,11 +119,12 @@ export const createVictima = async (req, res) => {
             })
             
             const victimaSaved = await newVictima.save()
-            res.send('Victima creada con exito')
+            res.json({ message: 'Victima creado con exito', id: victimaSaved._id })
         }else{
             res.send('Victima ya existe')                   
             //Actualiza la victima existente y agrega a cantida de denuncias previas una más
             const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, { $inc: { cantidad_de_denunicas_previas: 1 } }, { new: true })
+            
         }
         
     }catch(error){
@@ -127,16 +141,23 @@ export const updateVictima = async (req, res) => {
 
 export const createVictimario = async (req, res) => {
     try {
-        const { nombre, apellido, edad, DNI, estado_civil, ocupacion, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion,  } = req.body
-        let victimaExistente = await victimario.findOne({ DNI: DNI })        
-        if (req.body.DNI && !victimaExistente) {
+        const { nombre_victimario, apellido_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion,  } = req.body
+        console.log(req.body)
+
+        let victimarioExistente
+        if(dni_victimario == "S/N"){
+            victimarioExistente = await victimario.findOne({ nombre: nombre_victimario, apellido: apellido_victimario })        
+        }else{
+            victimarioExistente = await victimario.findOne({ DNI: dni_victimario })        
+        }
+        if (req.body.dni_victimario && !victimarioExistente) {
             const newVictimario = new victimario({
-                nombre,
-                apellido,
-                edad, 
-                DNI, 
-                estado_civil, 
-                ocupacion, 
+                nombre: nombre_victimario,
+                apellido: apellido_victimario,
+                edad: edad_victimario, 
+                DNI: dni_victimario, 
+                estado_civil: estado_civil_victimario, 
+                ocupacion: ocupacion_victimario, 
                 abuso_de_alcohol, 
                 antecedentes_toxicologicos, 
                 antecedentes_penales, 
@@ -147,11 +168,17 @@ export const createVictimario = async (req, res) => {
             })
             
             const victimarioSaved = await newVictimario.save()
-            res.send('Victimario creado con exito')
+            res.json({ message: 'Victimario creado con exito', id: victimarioSaved._id })
+
         }else{
             res.send('Victimario ya existe')                   
             //Actualiza al victimario existente y agrega a cantida de denuncias previas una más
-            const victimarioUpdated = await victimario.findOneAndUpdate({ DNI: DNI }, { $inc: { cantidad_de_denuncias_previas: 1 } }, { new: true })
+            if(dni_victimario == "S/N"){
+                const victimarioUpdated = await victimario.findOneAndUpdate({ nombre: nombre_victimario, apellido: apellido_victimario }, { $inc: { cantidad_de_denuncias_previas: 1 } }, { new: true })  
+            }else{
+                const victimarioUpdated = await victimario.findOneAndUpdate({ DNI: dni_victimario }, { $inc: { cantidad_de_denuncias_previas: 1 } }, { new: true })  
+            }
+          
      
         }
         

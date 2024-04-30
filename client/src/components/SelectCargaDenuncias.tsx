@@ -60,7 +60,6 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
     useEffect(() => {
         
         if (state == false) {
-            console.log("AAAA")
             selectedSubunidad && setComisariaPertenece(handleBuscarPrefijo(selectedSubunidad) + "-")
         
             selectedSubsubunidad && setComisariaPertenece(handleBuscarPrefijo(selectedSubsubunidad) + "-")
@@ -100,7 +99,11 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
         setSelectedSubsubunidad('');
         setSelectedCuadricula('');
         // Actualiza el valor en react-hook-form       
-        campo == "Unidad de carga" && setValue('Unidad de carga', value)
+        campo == "Unidad de carga" && setValue('unidad_de_carga', value)
+        nombre == "juzgado_interviniente" && setValue('juzgado_interviniente', value)
+        nombre == "violencia" && setValue('violencia', value)
+        nombre == "modalidades" && setValue('modalidades', value)
+        nombre == "tipo_de_arma" && setValue('arma_empleada', value)
 
     };
 
@@ -112,7 +115,7 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
 
         setComisariaPertenece(handleBuscarPrefijo(value) + "-")
         // Actualiza el valor en react-hook-form
-        setValue('Municipio', `${value}`);
+        setValue('municipio', `${value}`);
 
     }
 
@@ -124,14 +127,14 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
         setSelectedCuadricula('');
         setComisariaPertenece(handleBuscarPrefijo(value) + "-")
         // Actualiza el valor en react-hook-form
-        selectedSubunidad != "Puerto Vilelas" ? setValue('Jurisdicción policial', `${value}`) : setValue('Cuadrícula', `${value}`);
+        selectedSubunidad != "Puerto Vilelas" ? setValue('jurisdiccion_policial', `${value}`) : setValue('Cuadrícula', `${value}`);
 
     };
     const handleCuadriculaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
         setSelectedCuadricula(value);
         // Actualiza el valor en react-hook-form
-        setValue('Cuadrícula', `${value}`);
+        setValue('cuadricula', `${value}`);
     };
     return (
         <div className={`flex flex-row w-full`}>

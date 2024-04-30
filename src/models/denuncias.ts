@@ -3,7 +3,7 @@ import { object } from 'zod';
 const denunciaSchema = new mongoose.Schema({
     victima_ID: {
         type: String,
-          required: true,
+        required: true,
         trim: true
     },
     victimario_ID: {
@@ -74,7 +74,8 @@ const denunciaSchema = new mongoose.Schema({
     dependencia_derivada: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        uppercase: true
     },
     violencia: {
         type: String,
@@ -133,35 +134,37 @@ const denunciaSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    prohibicion_de_acercamiento: {
-        type: Boolean,
-        required: true,
-        trim: true
-    },
-    restitucion_de_menor: {
-        type: Boolean,
-        required: true,
-        trim: true
-    },
-    exclusión_de_hogar: {
-        type: Boolean,
-        required: true,
-        trim: true
-    },
-    alimento_provisorio: {
-        type: Boolean,
-        required: true,
-        trim: true
-    },
-    derecho_de_comunicacion: {
-        type: Boolean,
-        required: true,
-        trim: true
-    },
-    boton_antipanico: {
-        type: Boolean,
-        required: true,
-        trim: true
+    medida: {
+        prohibicion_de_acercamiento: {
+            type: Boolean,
+            required: true,
+            trim: true
+        },
+        restitucion_de_menor: {
+            type: Boolean,
+            required: true,
+            trim: true
+        },
+        exclusion_de_hogar: {
+            type: Boolean,
+            required: true,
+            trim: true
+        },
+        alimento_provisorio: {
+            type: Boolean,
+            required: true,
+            trim: true
+        },
+        derecho_de_comunicacion: {
+            type: Boolean,
+            required: true,
+            trim: true
+        },
+        boton_antipanico: {
+            type: Boolean,
+            required: true,
+            trim: true
+        },
     },
     denunciado_por_tecero: {
         type: Boolean,
@@ -186,7 +189,8 @@ const denunciaSchema = new mongoose.Schema({
     },
     observaciones: {
         type: String,
-        trim: true
+        trim: true,
+        required: true
     }
 })
 

@@ -4,12 +4,14 @@ const victimarioSchema = new mongoose.Schema({
     nombre: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        uppercase: true
     },
     apellido: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        uppercase: true
     },
     edad: {
         type: Number,
@@ -19,7 +21,11 @@ const victimarioSchema = new mongoose.Schema({
     DNI: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        set: function(value: string) {
+            return value.replace(/\./g, '').replace(/\s/g, '');
+        }
+        
     },
     estado_civil: {
         type: String,

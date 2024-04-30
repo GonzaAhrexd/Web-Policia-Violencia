@@ -15,9 +15,6 @@ function CargarVictima({register, setValue, errors}: CargarVictimaProps) {
   const [isHijos, setIsHijos] = useState(false)
   const [isHijosConAgresor, setIsHijosConAgresor] = useState(false)
 
-
-  
-
   const estadoCivil = [
     { nombre: 'Soltero/a', value: 'Soltero/a' },
     { nombre: 'Casado/a', value: 'Casado/a' },
@@ -104,7 +101,7 @@ function CargarVictima({register, setValue, errors}: CargarVictimaProps) {
 
       <div className='flex flex-col md:flex-row'>
         <InputRegister campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="number" error={errors.edad} />
-        <InputRegister campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="text" error={errors.apellido} />
+        <InputRegister campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="number" error={errors.dni} />
       </div>
 
       <div className='flex flex-col xl:flex-row'>

@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { crearDenuncia, agregarVictima, agregarVictimario } from '../../api/crud';
 function CargarDenuncias() {
   const { control, register, handleSubmit, setValue, formState: {
-    errors 
+    errors
   } } = useForm()
   //@ts-ignore
   const { signUp, user, isAuthenticated, isLoading } = useAuth();
@@ -26,26 +26,40 @@ function CargarDenuncias() {
           <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>
           <div>
             <h1 className='text-2xl my-5'>Victima</h1>
-            <form action="" onSubmit={  
+            <form action="" onSubmit={
               handleSubmit(async (values) => {
-                agregarVictima(values)
-                console.log(values)
+                const idVictima = await agregarVictima(values).then((id) => {
+                  return id
+                })
+                values.dni_victimario = values.dni_victimario ? values.dni_victimario : 'S/N'
+                const idVictimario = await agregarVictimario(values).then((id) => {
+                  return id
+                })
+
+                values.victima_ID = idVictima
+                values.victimario_ID = idVictimario
+                values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
+                crearDenuncia(values)
+
+                console.log(values.observaciones)
+
               })}>
               <div className='flex justify-center'>
-                <CargarVictima register={register} setValue={setValue} errors={errors}/> 
+                <CargarVictima register={register} setValue={setValue} errors={errors} />
               </div>
               <h1 className='text-2xl my-5'>Victimario</h1>
               <div className='flex justify-center'>
-                 {/* <CargarVictimario register={register} setValue={setValue} errors={errors}/> */}
+                <CargarVictimario register={register} setValue={setValue} errors={errors} />
               </div>
               <h1 className='text-2xl my-5'>Hecho</h1>
               <div className='flex justify-center'>
-              
-              {/* <CargarDenuncia register={register} setValue={setValue} errors={errors} /> */}
+
+                <CargarDenuncia register={register} setValue={setValue} errors={errors} />
+
               </div>
               <h1 className='text-2xl my-5'>Observaciones o denuncia</h1>
               <div className='flex justify-center h-80'>
-              {/* <CargarObservaciones register={register} setValue={setValue} errors={errors}/> */}
+                <CargarObservaciones register={register} setValue={setValue} errors={errors} />
               </div>
 
               <div className="flex justify-center">
