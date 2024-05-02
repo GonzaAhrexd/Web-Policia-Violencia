@@ -26,6 +26,8 @@ function CargarDenuncia({register, setValue, errors}: denunciaProps) {
   const [isDispuestoPorAutoridadJudicial, setIsDispuestoPorAutoridadJudicial] = useState(false)
   const [isDenunciadoPorTercero, setIsDenunciadoPorTercero] = useState(false)
   const [municipio, setMunicipio] = useState('')
+  const [coordenadas, setCoordenadas] = useState('')
+  const [direccion, setDireccion] = useState('')
 
 
   const generos = [{ nombre: "Masculino", value: "Masculino" },
@@ -96,14 +98,10 @@ function CargarDenuncia({register, setValue, errors}: denunciaProps) {
     { nombre: 'Otros', value: 'Otros' },
   ]
 
-  const [coordenadas, setCoordenadas] = useState('')
-  const [direccion, setDireccion] = useState('')
-
   
   const consultarCoordenadas = async () => {
 
     let buscarDir = direccion + "," + municipio 
-
     const fetchCoords = async () => {
         const coords = await getCoords(buscarDir);
         const coordenadasObtenidas = coords.lat + " " + coords.lon // Aquí puedes hacer lo que necesites con las coordenadas
@@ -120,7 +118,7 @@ function CargarDenuncia({register, setValue, errors}: denunciaProps) {
 
   return (
     <div className='w-full lg:w-6/10'>
-      <div className='flex flex-col lg:flex-row'>
+      <div className='flex flex-col xl:flex-row'>
         <SelectRegister campo="Género" nombre="genero" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} />
         <InputDate campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
       </div>

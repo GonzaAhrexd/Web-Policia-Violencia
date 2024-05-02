@@ -71,7 +71,7 @@ function CargarDenuncias() {
                 <CargarObservaciones register={register} setValue={setValue} errors={errors} />
               </div>
 
-              <div className="flex justify-center">
+              <div className="flex justify-center my-3">
                 <button className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-6/10' type="submit">Enviar</button>
               </div>
             </form>

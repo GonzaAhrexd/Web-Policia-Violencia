@@ -28,10 +28,10 @@ interface Props {
     setCoordenadas?: any
     errors?: any
     consultarCoordenadas?: any
-}
+}   
 
 
-function SelectCargaDenuncias({ consultarCoordenadas, direccion, setDireccion, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, error, setComisariaPertenece, state }: Props) {
+function SelectCargaDenuncias({consultarCoordenadas, direccion, setDireccion, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, error, setComisariaPertenece, state }: Props) {
 
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
@@ -149,6 +149,7 @@ function SelectCargaDenuncias({ consultarCoordenadas, direccion, setDireccion, c
 
 
     const handleClick = (coordenadas: any) => {
+        setValue('GIS', coordenadas)
         const coordenadasSeparadas = coordenadas.split(' ')
         const url = `https://www.google.com/maps/d/viewer?mid=1n-ERiPIZT9Q0WlRQoWI_NmvI9jJffohO&g_ep=CAESCjExLjEyNC4xMDIYACDdYio_LDk0MjE2NDEzLDk0MjEyNDk2LDk0MjA3NTA2LDk0MjE3NTIzLDk0MjE4NjUzLDQ3MDg3MTEyLDQ3MDg0MzkzQgJBUg%3D%3D&shorturl=1&ll=${coordenadasSeparadas[0]}%2C${coordenadasSeparadas[1]}&z=20`
         window.open(url, '_blank');
@@ -181,7 +182,7 @@ function SelectCargaDenuncias({ consultarCoordenadas, direccion, setDireccion, c
                         <span className='ml-4 font-medium xl:text-vw'> Municipio  <span className='text-red-500'> </span> </span>
 
                         <select
-                            className="border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
+                            className="border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 w-95/10"
                             name="subunidad"
                             value={selectedSubunidad}
                             onChange={handleSubunidadChange}>
@@ -198,20 +199,25 @@ function SelectCargaDenuncias({ consultarCoordenadas, direccion, setDireccion, c
 
                 {selectedSubunidad &&
 
-                    <div className='flex flex-col md:flex-row'>
+                    <div className='flex flex-col xl:flex-row'>
                         <InputDireccion state={direccion} setState={setDireccion} campo="Dirección" nombre="direccion" register={register} setValue={setValue} type="text" error={errors.direccion} />
                         <InputRegister campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
 
                         <InputDireccion state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.gis} />
-                        <div className='cursor-pointer flex items-center mt-5'>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 mr-2" onClick={() => consultarCoordenadas()}>
+                        <div className='cursor-pointer flex flex-col items-center mt-5 md:flex-row'>
+                            <div className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 md:mr-1 flex items-center justify-center'>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7" onClick={() => consultarCoordenadas()}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                             </svg>
+                            </div>
+                            <div className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 flex items-center justify-center mt-2 md:mt-0'>
 
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7" onClick={() => handleClick(coordenadas)}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                             </svg>
+                            </div>
 
                         </div>
 

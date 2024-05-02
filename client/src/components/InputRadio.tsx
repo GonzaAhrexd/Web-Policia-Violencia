@@ -14,9 +14,9 @@ interface props {
 function InputRadio({ register, nombre, type, defaultValue, handleChange, state, campo, id, opciones }: any) {
 
     return (
-        <div className="flex flex-row justify-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {opciones.map((opcion: any, index: number) => (
-                <div className="flex justify-center items-center" key={opcion.id}>
+                <div className="flex justify-start items-center" key={opcion.id}>
                     <div>
                         <input
                             className="border open-sans border-gray-300 rounded-md h-6 xl:h-6 xl:w-5 2xl:h-6 my-2 xl:my-1 xl:m-2 m-4 pl-2"

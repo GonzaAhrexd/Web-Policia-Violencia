@@ -23,7 +23,7 @@ export const createDenuncia = async (req, res) => {
         let findVictimario
 
         if(dni_victimario == "S/N"){
-            findVictimario = await victimario.findOne({ nombre: nombre_victimario, apellido: apellido_victimario })
+            findVictimario = victimario_ID
         }else{
             findVictimario = await victimario.findOne({ DNI: dni_victimario })
         }
@@ -56,10 +56,10 @@ export const createDenuncia = async (req, res) => {
                 Economica_y_patrimonial: economica_y_patrimonial, 
                 Simbolica: simbolica, 
             },
-            empleo_de_armas, 
+            empleo_de_armas : empleo_de_armas ? empleo_de_armas : false, 
             arma_empleada: arma_empleada ? arma_empleada : 'Sin armas', 
-            medida_solicitada_por_la_victima, 
-            medida_dispuesta_por_autoridad_judicial, 
+            medida_solicitada_por_la_victima: medida_solicitada_por_la_victima ? medida_solicitada_por_la_victima : false, 
+            medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial ? medida_dispuesta_por_autoridad_judicial : false, 
             medida: {
                 prohibicion_de_acercamiento: prohibicion_de_acercamiento ? prohibicion_de_acercamiento : false, 
                 restitucion_de_menor: restitucion_de_menor ? restitucion_de_menor : false,
@@ -148,10 +148,10 @@ export const createVictimario = async (req, res) => {
         console.log(req.body)
 
         let victimarioExistente
-        if(dni_victimario == "S/N"){
-            victimarioExistente = await victimario.findOne({ nombre: nombre_victimario, apellido: apellido_victimario })        
-        }else{
+        if(dni_victimario != "S/N"){
             victimarioExistente = await victimario.findOne({ DNI: dni_victimario })        
+        }else{
+            victimarioExistente = null
         }
         if (req.body.dni_victimario && !victimarioExistente) {
             const newVictimario = new victimario({
@@ -176,9 +176,7 @@ export const createVictimario = async (req, res) => {
         }else{
             res.send('Victimario ya existe')                   
             //Actualiza al victimario existente y agrega a cantida de denuncias previas una más
-            if(dni_victimario == "S/N"){
-                const victimarioUpdated = await victimario.findOneAndUpdate({ nombre: nombre_victimario, apellido: apellido_victimario }, { $inc: { cantidad_de_denuncias_previas: 1 } }, { new: true })  
-            }else{
+            if(dni_victimario != "S/N"){
                 const victimarioUpdated = await victimario.findOneAndUpdate({ DNI: dni_victimario }, { $inc: { cantidad_de_denuncias_previas: 1 } }, { new: true })  
             }
           

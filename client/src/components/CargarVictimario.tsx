@@ -127,11 +127,11 @@ function CargarVictimario   ({register, setValue, errors}:CargarVictimarioProps)
         <InputCheckbox campo="Antecedentes contravencionales" nombre="antecedentes_contravencionales" register={register} setValue={setValue} type="checkbox" id="antecedentesConvencionales"/>          
         <InputCheckbox campo="Entrenamiento en  combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" />          
       </div>
-        <>
+    <>
         <span className='ml-4 font-medium xl:text-vw'> Notificación </span> 
         <InputRadio campo="Notificación" nombre="notificacion" register={register} setValue={setValue} type="radio" opciones={opcionesNotificado}  defaultValue={3}/>          
-        </>
-
+    </>
+    
     </div>
   )
 }
