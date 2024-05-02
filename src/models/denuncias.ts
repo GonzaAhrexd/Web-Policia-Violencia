@@ -66,6 +66,12 @@ const denunciaSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    is_expediente_completo: {
+        type: Boolean,
+        required: true,
+        trim: true,
+        default: false
+    },
     juzgado_interviniente: {
         type: String,
         required: true,

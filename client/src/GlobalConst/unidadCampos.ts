@@ -247,12 +247,14 @@ export const unidadCampos = [
     //Roque Saenz Peña
     {
       nombre: "División Violencia Familiar y Género Presidencia Roque Saenz Peña", value: "Roque Saenz Peña", subdivisiones: [
-        { nombre: "Comisaría Primera Presidencia Roque Saenz Peña", value: "Comisaría Primera Presidencia Roque Saenz Peña", prefijo: "50", },
-        { nombre: "Comisaría Segundo Presidencia Roque Saenz Peña", value: "Comisaría Segundo Presidencia Roque Saenz Peña", prefijo: "51", },
-        { nombre: "Comisaría Tercera Presidencia Roque Saenz Peña", value: "Comisaría Tercera Presidencia Roque Saenz Peña", prefijo: "118" },
-        { nombre: "Comisaría Cuarta Presidencia Roque Saenz Peña", value: "Comisaría Cuarta Presidencia Roque Saenz Peña", prefijo: "161" },
-        { nombre: "Comisaría Quinta Presidencia Roque Saenz Peña", value: "Comisaría Quinta Presidencia Roque Saenz Peña",prefijo: "285" },
-        { nombre: "Comisaría Sexta Presidencia Roque Saenz Peña", value: "Comisaría Sexta Presidencia Roque Saenz Peña", prefijo: "203" },
+        { nombre: "Presidencia Roque Saenz Peña", value: "Presidencia Roque Saenz Peña", prefijo: "50", subdivisiones: [
+          { nombre: "Comisaría Primera", value: "Comisaría Primera Roque Saenz Peña", prefijo: "50" },
+          { nombre: "Comisaría Segunda", value: "Comisaría Segunda Roque Saenz Peña", prefijo: "51" },
+          { nombre: "Comisaría Tercera", value: "Comisaría Tercera Roque Saenz Peña", prefijo: "118" },
+          { nombre: "Comisaría Cuarta", value: "Comisaría Cuarta Roque Saenz Peña", prefijo: "161" },
+          { nombre: "Comisaría Quinta", value: "Comisaría Quinta Roque Saenz Peña", prefijo: "285" },
+          { nombre: "Comisaría Sexta", value: "Comisaría Sexta Roque Saenz Peña", prefijo: "203" },
+       ] },
         { nombre: "Comisaría El Tacuruzal", value: "Comisaría El Tacuruzal", prefijo: "57" },
         { nombre: "Comisaría Machagai", value: "Comisaría Machagai", prefijo: "53", },
         { nombre: "Comisaría Presidencia de la Plaza", value: "Comisaría Presidencia de la Plaza", prefijo: "28"  },

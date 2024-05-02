@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import InputRegister from './InputRegister'
 import SelectCargaDenuncias from './SelectCargaDenuncias'
 import SelectRegister from './SelectRegister'
@@ -8,7 +8,8 @@ import { useForm } from 'react-hook-form'
 import { unidadCampos } from '../GlobalConst/unidadCampos'
 import InputExpediente from './InputExpediente'
 import { useState } from 'react'
-
+import { getCoords } from '../api/coordinates'
+import InputDireccion from './InputDireccion'
 interface denunciaProps {
   register: any
   setValue: any
@@ -24,6 +25,7 @@ function CargarDenuncia({register, setValue, errors}: denunciaProps) {
   const [isSolicitada, setIsSolicitada] = useState(false)
   const [isDispuestoPorAutoridadJudicial, setIsDispuestoPorAutoridadJudicial] = useState(false)
   const [isDenunciadoPorTercero, setIsDenunciadoPorTercero] = useState(false)
+  const [municipio, setMunicipio] = useState('')
 
 
   const generos = [{ nombre: "Masculino", value: "Masculino" },
@@ -94,24 +96,40 @@ function CargarDenuncia({register, setValue, errors}: denunciaProps) {
     { nombre: 'Otros', value: 'Otros' },
   ]
 
+  const [coordenadas, setCoordenadas] = useState('')
+  const [direccion, setDireccion] = useState('')
+
+  
+  const consultarCoordenadas = async () => {
+
+    let buscarDir = direccion + "," + municipio 
+
+    const fetchCoords = async () => {
+        const coords = await getCoords(buscarDir);
+        const coordenadasObtenidas = coords.lat + " " + coords.lon // Aquí puedes hacer lo que necesites con las coordenadas
+        return coordenadasObtenidas
+      };
+
+    if (buscarDir){
+        fetchCoords().then((response) => {
+          setCoordenadas(response)
+        })
+        
+    }
+}
+
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col lg:flex-row'>
         <SelectRegister campo="Género" nombre="genero" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} />
         <InputDate campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
       </div>
-      <div className='flex flex-col md:flex-row'>
-        <InputRegister campo="Dirección" nombre="direccion" register={register} setValue={setValue} type="text" error={errors.direccion} />
-        <InputRegister campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.gis} />
-        <InputRegister campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
-      </div>
       <div className='flex flex-col'>
-        <SelectCargaDenuncias campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />
+        <SelectCargaDenuncias consultarCoordenadas={consultarCoordenadas} direccion={direccion} setDireccion={setDireccion} coordenadas={coordenadas} setCoordenadas={setCoordenadas} errors={errors} setMunicipio={setMunicipio} campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />
         <InputCheckbox campo="División Violencia Familiar y de Género" nombre="isDivision" register={register} setValue={setValue} type="checkbox" setHook={setIsDivision} state={isDivision} id="division" />
         <InputExpediente campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
-
       </div>
-
+   
       <div className='flex flex-col md:flex-row'>
         <SelectCargaDenuncias campo="Juzgado Interviniente" nombre="juzgado_interviniente"  opciones={juzgadoIntervinente}  register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
         <InputRegister campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} />

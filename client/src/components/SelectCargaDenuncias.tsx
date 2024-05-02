@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
+import InputDireccion from './InputDireccion';
+import InputRegister from './InputRegister';
 
 interface Opcion {
     value?: string;
@@ -19,17 +21,24 @@ interface Props {
     error: any
     setComisariaPertenece?: any
     state?: any
-
+    setMunicipio?: any
+    direccion?: any
+    setDireccion?: any
+    coordenadas?: any
+    setCoordenadas?: any
+    errors?: any
+    consultarCoordenadas?: any
 }
 
 
-function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, error, setComisariaPertenece, state }: Props) {
+function SelectCargaDenuncias({ consultarCoordenadas, direccion, setDireccion, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, error, setComisariaPertenece, state }: Props) {
 
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
     const [selectedCuadricula, setSelectedCuadricula] = useState('');
     const [hadSubmitted, setHadSubmitted] = useState(false)
+
 
 
 
@@ -58,12 +67,12 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
     }
 
     useEffect(() => {
-        
+
         if (state == false) {
             selectedSubunidad && setComisariaPertenece(handleBuscarPrefijo(selectedSubunidad) + "-")
-        
+
             selectedSubsubunidad && setComisariaPertenece(handleBuscarPrefijo(selectedSubsubunidad) + "-")
-        
+
         }
 
         if (state && selectedUnidad == "Metropolitana") {
@@ -92,6 +101,7 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
     }, [state])
 
 
+
     const handleUnidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
         setSelectedUnidad(value);
@@ -116,7 +126,7 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
         setComisariaPertenece(handleBuscarPrefijo(value) + "-")
         // Actualiza el valor en react-hook-form
         setValue('municipio', `${value}`);
-
+        setMunicipio(value)
     }
 
 
@@ -136,6 +146,16 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
         // Actualiza el valor en react-hook-form
         setValue('cuadricula', `${value}`);
     };
+
+
+    const handleClick = (coordenadas: any) => {
+        const coordenadasSeparadas = coordenadas.split(' ')
+        const url = `https://www.google.com/maps/d/viewer?mid=1n-ERiPIZT9Q0WlRQoWI_NmvI9jJffohO&g_ep=CAESCjExLjEyNC4xMDIYACDdYio_LDk0MjE2NDEzLDk0MjEyNDk2LDk0MjA3NTA2LDk0MjE3NTIzLDk0MjE4NjUzLDQ3MDg3MTEyLDQ3MDg0MzkzQgJBUg%3D%3D&shorturl=1&ll=${coordenadasSeparadas[0]}%2C${coordenadasSeparadas[1]}&z=20`
+        window.open(url, '_blank');
+    };
+
+    
+
     return (
         <div className={`flex flex-row w-full`}>
             <div className='flex flex-col w-full'>
@@ -147,7 +167,7 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
                         value={selectedUnidad}
                         onChange={handleUnidadChange}
                     >
-                        <option value="">Seleccione {nombre.toLowerCase()}</option>
+                        <option value="">Seleccione {campo.toLowerCase()}</option>
                         {opciones.map((unidad: Opcion) => (
                             <option key={unidad.value} value={unidad.value}>
                                 {unidad.nombre}
@@ -175,6 +195,29 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
                         </select>
                     </div>
                 )}
+
+                {selectedSubunidad &&
+
+                    <div className='flex flex-col md:flex-row'>
+                        <InputDireccion state={direccion} setState={setDireccion} campo="Dirección" nombre="direccion" register={register} setValue={setValue} type="text" error={errors.direccion} />
+                        <InputRegister campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
+
+                        <InputDireccion state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.gis} />
+                        <div className='cursor-pointer flex items-center mt-5'>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 mr-2" onClick={() => consultarCoordenadas()}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7" onClick={() => handleClick(coordenadas)}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                }
                 {selectedSubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) =>
 
                     subunidad.value === selectedSubunidad)?.subdivisiones && (
@@ -225,7 +268,7 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
                             value={selectedCuadricula}
                             onChange={handleCuadriculaChange}
                         >
-                            <option value="">Seleccione una </option>
+                            <option value="">Seleccione una cuadrícula</option>
                             {opciones.find((unidad) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones?.find((subsubunidad: Opcion) => subsubunidad.value === selectedSubsubunidad)?.cuadriculas?.map((cuadricula) => (
                                 <>
                                     <option key={cuadricula.value} value={cuadricula.value}>
@@ -244,3 +287,4 @@ function SelectCargaDenuncias({ campo, opciones, nombre, register, setValue, err
 }
 
 export default SelectCargaDenuncias
+

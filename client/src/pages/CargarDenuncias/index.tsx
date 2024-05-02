@@ -28,6 +28,8 @@ function CargarDenuncias() {
             <h1 className='text-2xl my-5'>Victima</h1>
             <form action="" onSubmit={
               handleSubmit(async (values) => {
+                console.log(values)
+                
                 const idVictima = await agregarVictima(values).then((id) => {
                   return id
                 })
@@ -38,6 +40,13 @@ function CargarDenuncias() {
 
                 values.victima_ID = idVictima
                 values.victimario_ID = idVictimario
+                if(!values.Expediente) {
+                  values.Expediente = 'S/N'
+                  values.is_expediente_completo = false
+                }else{
+                  values.is_expediente_completo = true
+                }
+
                 values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
                 crearDenuncia(values)
 

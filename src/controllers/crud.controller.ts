@@ -14,8 +14,10 @@ export const createDenuncia = async (req, res) => {
 
     try {
         const {victima_ID, victimario_ID, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento,   restitucion_de_menor,exclusion_de_hogar, alimento_provisorio, 
-        derecho_de_comunicacion,boton_antipanico, denunciado_por_tecero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, nombre_victimario, apellido_victimario} = req.body
+        derecho_de_comunicacion,boton_antipanico, denunciado_por_tecero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, nombre_victimario, apellido_victimario, is_expediente_completo} = req.body
 
+
+        console.log(req.body)
         
         const findVictima = await victimas.findOne({ DNI: dni_victima })
         let findVictimario
@@ -42,6 +44,7 @@ export const createDenuncia = async (req, res) => {
             cuadricula: cuadricula ? cuadricula : 'No existe', 
             isDivision, 
             numero_de_expediente, 
+            is_expediente_completo,
             juzgado_interviniente, 
             dependencia_derivada, 
             violencia, 
@@ -58,12 +61,12 @@ export const createDenuncia = async (req, res) => {
             medida_solicitada_por_la_victima, 
             medida_dispuesta_por_autoridad_judicial, 
             medida: {
-                prohibicion_de_acercamiento, 
-                restitucion_de_menor,
-                exclusion_de_hogar, 
-                alimento_provisorio, 
-                derecho_de_comunicacion,
-                boton_antipanico, 
+                prohibicion_de_acercamiento: prohibicion_de_acercamiento ? prohibicion_de_acercamiento : false, 
+                restitucion_de_menor: restitucion_de_menor ? restitucion_de_menor : false,
+                exclusion_de_hogar: exclusion_de_hogar ? exclusion_de_hogar : false, 
+                alimento_provisorio: alimento_provisorio ? alimento_provisorio : false, 
+                derecho_de_comunicacion: derecho_de_comunicacion ? derecho_de_comunicacion : false,
+                boton_antipanico: boton_antipanico ? boton_antipanico : false, 
             },
             denunciado_por_tecero: denunciado_por_tecero ? denunciado_por_tecero : false, 
             nombre_tercero: nombre_tercero ? nombre_tercero : 'Sin tercero', 
