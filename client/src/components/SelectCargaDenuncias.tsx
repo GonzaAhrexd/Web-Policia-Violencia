@@ -28,10 +28,13 @@ interface Props {
     setCoordenadas?: any
     errors?: any
     consultarCoordenadas?: any
+    handleOpenModal?: any
+    info?: any
+    setTitulo?: any
 }   
 
 
-function SelectCargaDenuncias({consultarCoordenadas, direccion, setDireccion, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, error, setComisariaPertenece, state }: Props) {
+function SelectCargaDenuncias({handleOpenModal, consultarCoordenadas, direccion, setDireccion, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, error, setComisariaPertenece, state, info, setTitulo }: Props) {
 
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
@@ -160,7 +163,12 @@ function SelectCargaDenuncias({consultarCoordenadas, direccion, setDireccion, co
     return (
         <div className={`flex flex-row w-full`}>
             <div className='flex flex-col w-full'>
-                <span className='ml-4 font-medium xl:text-vw'> {campo}  <span className='text-red-500'> </span> </span>
+                <span className='ml-4 font-medium flex flex-row xl:text-vw'> {campo}  <span className='text-red-500'> </span>  {campo === "Modalidades" && 
+                   <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-4 cursor-pointer" onClick={() => {setTitulo("Modalidades"),handleOpenModal(info)}}>
+                   <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                 </svg>
+                
+                } </span>
                 <div className={`flex flex-col xl:w-full"}`}>
                     <select
                         className="border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 w-95/10"

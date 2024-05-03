@@ -8,10 +8,26 @@ import CargarDenuncia from '../../components/CargarDenuncia';
 import CargarObservaciones from '../../components/CargarObservaciones';
 import { useForm } from 'react-hook-form';
 import { crearDenuncia, agregarVictima, agregarVictimario } from '../../api/crud';
+import Swal from 'sweetalert2'
+import Modal from '../../components/Modal';
 function CargarDenuncias() {
   const { control, register, handleSubmit, setValue, formState: {
     errors
   } } = useForm()
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [texto, setTexto] = useState(['']);
+  const [titulo, setTitulo] = useState('');
+
+  const handleOpenModal = (text: string[]) => {
+    setIsModalOpen(true);
+    setTexto(text);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  }
+
   //@ts-ignore
   const { signUp, user, isAuthenticated, isLoading } = useAuth();
   if (isLoading) return <h1>Cargando...</h1>
@@ -22,6 +38,10 @@ function CargarDenuncias() {
     return (
       <>
         <NavBar user={user} />
+        <div>
+          {/* @ts-ignore */}
+          {isModalOpen && <Modal titulo={titulo} texto={texto} onClose={handleCloseModal} />}
+        </div>
         <div className='h-screen sm:h-full p-2 sm:p-10'>
           <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>
           <div>
@@ -29,7 +49,7 @@ function CargarDenuncias() {
             <form action="" onSubmit={
               handleSubmit(async (values) => {
                 console.log(values)
-                
+
                 const idVictima = await agregarVictima(values).then((id) => {
                   return id
                 })
@@ -40,10 +60,10 @@ function CargarDenuncias() {
 
                 values.victima_ID = idVictima
                 values.victimario_ID = idVictimario
-                if(!values.Expediente) {
+                if (!values.Expediente) {
                   values.Expediente = 'S/N'
                   values.is_expediente_completo = false
-                }else{
+                } else {
                   values.is_expediente_completo = true
                 }
 
@@ -51,6 +71,17 @@ function CargarDenuncias() {
                 crearDenuncia(values)
 
                 console.log(values.observaciones)
+
+                Swal.fire({
+                  title: '¡Denuncia enviada!',
+                  text: 'La denuncia ha sido cargada con éxito',
+                  icon: 'success',
+                  confirmButtonText: 'Aceptar',
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.reload();
+                  }
+                })
 
               })}>
               <div className='flex justify-center'>
@@ -63,7 +94,7 @@ function CargarDenuncias() {
               <h1 className='text-2xl my-5'>Hecho</h1>
               <div className='flex justify-center'>
 
-                <CargarDenuncia register={register} setValue={setValue} errors={errors} />
+                <CargarDenuncia setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
 
               </div>
               <h1 className='text-2xl my-5'>Observaciones o denuncia</h1>

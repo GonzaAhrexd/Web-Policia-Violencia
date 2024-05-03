@@ -94,25 +94,25 @@ function CargarVictima({register, setValue, errors}: CargarVictimaProps) {
 
   return (
     <div className='w-full lg:w-6/10'>
-      <div className='flex flex-col md:flex-row'>
+      <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Nombre" nombre="nombre_victima" register={register} setValue={setValue} type="text" error={errors.nombre} />
         <InputRegister campo="Apellido" nombre="apellido_victima" register={register} setValue={setValue} type="text" error={errors.apellido} />
       </div>
 
-      <div className='flex flex-col md:flex-row'>
+      <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="number" error={errors.edad} />
         <InputRegister campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="number" error={errors.dni} />
       </div>
 
-      <div className='flex flex-col xl:flex-row'>
+      <div className='flex flex-col xl:flex-row my-2'>
         <SelectRegister campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil} />
         <SelectRegister campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupaciones} />
       </div>
-      <div className='flex flex-col xl:flex-row'>
+      <div className='flex flex-col xl:flex-row my-2'>
         <SelectRegister campo="Vinculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculoConAgresor} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
         <SelectRegister campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad_victima" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.ocupaciones} />
       </div>
-      <div className={`grid grid-cols-1 md:grid-cols-4`}>
+      <div className={`grid grid-cols-1 md:grid-cols-4 my-2` }>
         <InputCheckbox campo="Convivencia " nombre="convivencia" register={register} setValue={setValue} type="checkbox" error={errors.compartenVivienda} id="convivencia" />
         <InputCheckbox campo="Hijos" nombre="hijos" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsHijos} state={isHijos} id="isHijos"/>
         {isHijos &&

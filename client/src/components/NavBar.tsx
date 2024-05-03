@@ -267,14 +267,13 @@ function NavBar({ user }: any) {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat" className='bg-white'>
-            <DropdownItem key="profile" className="h-14 gap-2 ">
+            <DropdownItem key="user" className="h-14 gap-2 ">
               <p className="font-semibold">Sesión iniciada como</p>
               <p className="font-semibold">{user.nombre + " " + user.apellido} </p>
             </DropdownItem>
-            <DropdownItem key="logout" color="danger" href="/mi-perfil">
+            <DropdownItem key="profile" color="danger" href="/mi-perfil">
               Mi Perfil
             </DropdownItem>
-            <DropdownItem key="settings" href="/ajustes">Ajustes</DropdownItem>
             <DropdownItem key="logout" color="danger" href="/logout">
               Cerrar sesión
             </DropdownItem>

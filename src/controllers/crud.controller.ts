@@ -5,16 +5,19 @@ export const getDenuncia = async (req, res) => {
 }
 
 export const getDenuncias = async (req, res) => {
+    try{
+        const denuncias = await denuncia.find()
+        res.json(denuncias)
+    }catch(error){
+        console.log(error)
+    }
+
 }
 
 export const createDenuncia = async (req, res) => {
-    console.log("Llegó")
-
-    
-
     try {
         const {victima_ID, victimario_ID, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento,   restitucion_de_menor,exclusion_de_hogar, alimento_provisorio, 
-        derecho_de_comunicacion,boton_antipanico, denunciado_por_tecero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, nombre_victimario, apellido_victimario, is_expediente_completo} = req.body
+        derecho_de_comunicacion,boton_antipanico, denunciado_por_tecero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, nombre_victimario, apellido_victimario, is_expediente_completo, politica} = req.body
 
 
         console.log(req.body)
@@ -55,6 +58,7 @@ export const createDenuncia = async (req, res) => {
                 Sexual: sexual, 
                 Economica_y_patrimonial: economica_y_patrimonial, 
                 Simbolica: simbolica, 
+                Politica: politica,
             },
             empleo_de_armas : empleo_de_armas ? empleo_de_armas : false, 
             arma_empleada: arma_empleada ? arma_empleada : 'Sin armas', 

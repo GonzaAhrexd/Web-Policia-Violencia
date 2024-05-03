@@ -119,6 +119,11 @@ const denunciaSchema = new mongoose.Schema({
             required: true,
             trim: true
         },
+        Politica: {
+            type: Boolean,
+            required: true,
+            trim: true
+        }
     },
     empleo_de_armas: {
         type: Boolean,
@@ -197,8 +202,18 @@ const denunciaSchema = new mongoose.Schema({
         type: String,
         trim: true,
         required: true
+    },
+    denunciada_cargada_por: {
+        type: String,
+        required: true,
+        trim: true
+    },
+},
+    {
+        timestamps: true
     }
-})
+
+)
 
 const denuncia = mongoose.model('denuncia', denunciaSchema)
 export default denuncia;

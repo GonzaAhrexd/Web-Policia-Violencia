@@ -104,31 +104,32 @@ function CargarVictimario   ({register, setValue, errors}:CargarVictimarioProps)
 
   return (
     <div className='w-full lg:w-6/10'>
-      <div className='flex flex-col md:flex-row'>
+      <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Nombre" nombre="nombre_victimario" register={register} setValue={setValue} type="text" error={errors.nombre} />
         <InputRegister campo="Apellido" nombre="apellido_victimario" register={register} setValue={setValue} type="text" error={errors.apellido} />
       </div>
 
-      <div className='flex flex-col md:flex-row'>
+      <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Edad" nombre="edad_victimario" register={register} setValue={setValue} type="number" error={errors.edad} />
         <InputRegister campo="DNI"  require={false} nombre="dni_victimario" register={register} setValue={setValue} type="text" error={errors.apellido} />
       </div>
 
-      <div className='flex flex-col xl:flex-row'>
+      <div className='flex flex-col xl:flex-row my-2'>
         <SelectRegister campo="Estado Civil" nombre="estado_civil_victimario" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil} />
         <SelectRegister campo="Ocupación" nombre="ocupacion_victimario" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupaciones} />
       </div>
-    
-      <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`}>
-      
+    <>
+    <span className='ml-4 font-medium xl:text-vw'>Detalles</span>
+      <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-2`}>  
         <InputCheckbox campo="Abuso de Alcohol" nombre="abuso_de_alcohol" register={register} setValue={setValue} type="checkbox" id="abusoAlcohol"  />          
         <InputCheckbox campo="Antecedentes toxicológicos" nombre="antecedentes_toxicologicos" register={register} setValue={setValue} type="checkbox" id="antecedentesToxicologicos"  />          
         <InputCheckbox campo="Antecedentes penales" nombre="antecedentes_penales" register={register} setValue={setValue} type="checkbox" id="antecedentesPenales"  />          
         <InputCheckbox campo="Antecedentes contravencionales" nombre="antecedentes_contravencionales" register={register} setValue={setValue} type="checkbox" id="antecedentesConvencionales"/>          
         <InputCheckbox campo="Entrenamiento en  combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" />          
       </div>
+    </>
     <>
-        <span className='ml-4 font-medium xl:text-vw'> Notificación </span> 
+        <span className='ml-4 font-medium xl:text-vw my-2'> Notificación </span> 
         <InputRadio campo="Notificación" nombre="notificacion" register={register} setValue={setValue} type="radio" opciones={opcionesNotificado}  defaultValue={3}/>          
     </>
     
