@@ -66,22 +66,27 @@ function CargarDenuncias() {
                 } else {
                   values.is_expediente_completo = true
                 }
-
+                values.user_id = user.id
                 values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
-                crearDenuncia(values)
-
-                console.log(values.observaciones)
-
-                Swal.fire({
-                  title: '¡Denuncia enviada!',
-                  text: 'La denuncia ha sido cargada con éxito',
-                  icon: 'success',
-                  confirmButtonText: 'Aceptar',
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    window.location.reload();
+  
+                  try{
+                    crearDenuncia(values)
+                    Swal.fire({
+                      title: '¡Denuncia enviada!',
+                      text: 'La denuncia ha sido cargada con éxito',
+                      icon: 'success',
+                      confirmButtonText: 'Aceptar',
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                      
+                       window.location.reload();
+                      }
+                    })
+                  }catch(error){
+                    console.log(error)
                   }
-                })
+
+               
 
               })}>
               <div className='flex justify-center'>

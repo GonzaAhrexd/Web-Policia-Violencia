@@ -152,12 +152,17 @@ function SelectCargaDenuncias({handleOpenModal, consultarCoordenadas, direccion,
 
 
     const handleClick = (coordenadas: any) => {
-        setValue('GIS', coordenadas)
+      
         const coordenadasSeparadas = coordenadas.split(' ')
         const url = `https://www.google.com/maps/d/viewer?mid=1n-ERiPIZT9Q0WlRQoWI_NmvI9jJffohO&g_ep=CAESCjExLjEyNC4xMDIYACDdYio_LDk0MjE2NDEzLDk0MjEyNDk2LDk0MjA3NTA2LDk0MjE3NTIzLDk0MjE4NjUzLDQ3MDg3MTEyLDQ3MDg0MzkzQgJBUg%3D%3D&shorturl=1&ll=${coordenadasSeparadas[0]}%2C${coordenadasSeparadas[1]}&z=20`
         window.open(url, '_blank');
     };
 
+    useEffect(() => {
+        if (coordenadas) {
+          setValue('GIS', coordenadas);
+        }
+      }, [coordenadas, setValue]);
     
 
     return (
@@ -210,7 +215,6 @@ function SelectCargaDenuncias({handleOpenModal, consultarCoordenadas, direccion,
                     <div className='flex flex-col xl:flex-row'>
                         <InputDireccion state={direccion} setState={setDireccion} campo="Dirección" nombre="direccion" register={register} setValue={setValue} type="text" error={errors.direccion} />
                         <InputRegister campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
-
                         <InputDireccion state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.gis} />
                         <div className='cursor-pointer flex flex-col items-center mt-5 md:flex-row'>
                             <div className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 md:mr-1 flex items-center justify-center'>

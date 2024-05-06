@@ -4,9 +4,10 @@ import denuncia from '../models/denuncias'
 export const getDenuncia = async (req, res) => {
 }
 
-export const getDenuncias = async (req, res) => {
+export const getMisDenuncias = async (req, res) => {
     try{
-        const denuncias = await denuncia.find()
+        //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
+        const denuncias = await denuncia.find({ denunciada_cargada_por: req.user.id })
         res.json(denuncias)
     }catch(error){
         console.log(error)
@@ -16,7 +17,7 @@ export const getDenuncias = async (req, res) => {
 
 export const createDenuncia = async (req, res) => {
     try {
-        const {victima_ID, victimario_ID, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento,   restitucion_de_menor,exclusion_de_hogar, alimento_provisorio, 
+        const {user_id, victima_ID, victimario_ID, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento,   restitucion_de_menor,exclusion_de_hogar, alimento_provisorio, 
         derecho_de_comunicacion,boton_antipanico, denunciado_por_tecero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, nombre_victimario, apellido_victimario, is_expediente_completo, politica} = req.body
 
 
@@ -77,7 +78,8 @@ export const createDenuncia = async (req, res) => {
             apellido_tercero: apellido_tercero ? apellido_tercero : 'Sin tercero', 
             dni_tercero: dni_tercero ? dni_tercero : 'Sin tercero',
             vinculo_con_victima: vinculo_con_victima ? vinculo_con_victima : 'Sin tercero',
-            observaciones
+            observaciones,
+            denunciada_cargada_por: user_id
         })
         const denunciaSaved = await newDenuncia.save()
         res.send('Denuncia creada con exito')

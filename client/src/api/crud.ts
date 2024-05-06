@@ -9,6 +9,16 @@ export const crearDenuncia = (denuncia: any) => {
     }
 } 
 
+export const misDenuncias = async () => {
+    try{
+        const response = await axios.get(`/mis-denuncias/`)
+       // console.log(response.data)
+        return response.data
+    }catch(error){
+        console.log(error)
+    }
+}
+
 export const agregarVictima = async (victima: any) => { 
     
     try{

@@ -114,6 +114,8 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors}
     if (buscarDir){
         fetchCoords().then((response) => {
           setCoordenadas(response)
+          console.log(coordenadas)
+          setValue('GIS', coordenadas)
         })
         
     }

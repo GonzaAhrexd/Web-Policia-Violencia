@@ -6,6 +6,7 @@ import CardActions from '../../components/Cards/CardsActions';
 import CardProfile from '../../components/Cards/CardProfile';
 import CardDenunciasRecientes from '../../components/Cards/CardDenunciasRecientes';
 import { CSSTransition } from 'react-transition-group';
+import { misDenuncias } from '../../api/crud';
 function Home() {
 
   //@ts-ignore
@@ -52,6 +53,9 @@ function Home() {
       return 'Buenas noches';
     }
   }
+
+  const [denuncias, setDenuncias] = useState([]);
+
 
   return (
     <>
