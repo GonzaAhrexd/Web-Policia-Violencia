@@ -115,13 +115,14 @@ function NavBar({ user }: any) {
             </Link>
           </NavbarItem>
         )}
+        
         {isAdmin && (
           <Dropdown>
             <NavbarItem>
               <DropdownTrigger>
                 <Button
                   disableRipple
-                  className="p-0 bg-transparent font-medium data-[hover=true]:bg-transparent "
+                  className="p-0 bg-transparent font-medium data-[hover=true]:bg-transparent justify-start "
                   endContent={"🚀"}
                   radius="sm"
                   variant="light"

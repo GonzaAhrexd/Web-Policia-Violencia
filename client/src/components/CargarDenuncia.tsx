@@ -194,7 +194,7 @@ const tiposModalidades = [
           <InputCheckbox campo="Empleo de Armas" nombre="empleo_de_armas" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsArmas} state={isArmas} id="empleo_de_armas" />
           {isArmas &&
             <>
-              <SelectCargaDenuncias campo="" nombre="tipo_de_arma" opciones={opcionesTiposDeArma} register={register} setValue={setValue} type="text" error={errors.modalidad} />
+              <SelectCargaDenuncias campo="Arma empleada" nombre="tipo_de_arma" opciones={opcionesTiposDeArma} register={register} setValue={setValue} type="text" error={errors.modalidad} />
             </>
           }
         </div>
@@ -232,7 +232,6 @@ const tiposModalidades = [
          <InputRegister campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
          </div>
          <div className='flex flex-col'>
-         
          <SelectRegister campo="Vinculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculoConVictima} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
           </div>
          </>

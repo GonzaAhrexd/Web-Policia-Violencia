@@ -48,6 +48,7 @@ function CargarDenuncias() {
             <h1 className='text-2xl my-5'>Victima</h1>
             <form action="" onSubmit={
               handleSubmit(async (values) => {
+                console.log(errors)
                 console.log(values)
 
                 const idVictima = await agregarVictima(values).then((id) => {
