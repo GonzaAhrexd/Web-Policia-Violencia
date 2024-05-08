@@ -47,6 +47,7 @@ function SelectRegister({ campo, opciones, nombre, register, setValue, error }: 
         nombre == "condicion_de_vulnerabilidad_victima"  && setValue('condicion_de_vulnerabilidad_victima', value)
         nombre == "estado_civil_victimario" && setValue('estado_civil_victimario', value)
         nombre == "ocupacion_victimario" && setValue('ocupacion_victimario', value)
+        nombre == "vinculo_con_la_victima" && setValue('vinculo_con_la_victima', value)
         
     };
       

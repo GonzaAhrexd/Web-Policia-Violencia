@@ -11,11 +11,13 @@ import '../App.css'
 import {NextUIProvider} from "@nextui-org/react";
 
 import ProtectedRoutes from './ProtectedRoutes'
+import MisDenuncias from './MisDenuncias'
 const AppRoutes = () => {
   let routes = useRoutes([
     { path: '/', element: <Home /> },
     { path: '/mi-perfil', element: <Perfil /> },
     { path: '/cargar-denuncias', element: <CargarDenuncias /> },
+    { path: '/mis-denuncias', element: <MisDenuncias /> },
     { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
     { path: '/logout', element: <Logout /> },

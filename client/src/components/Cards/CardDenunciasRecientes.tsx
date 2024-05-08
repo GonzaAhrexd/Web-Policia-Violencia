@@ -15,7 +15,8 @@ export default function CardDenunciasRecientes({ usuario, title, description }: 
     const [lastFiveDenuncias, setLastFiveDenuncias] = useState([]);
     useEffect(() => {
         const fetchDenuncias = async () => {
-            const result = await misDenuncias();
+            let values = [{ desde: "no_ingresado" }, { hasta: "no_ingresado" }, { numero_de_expediente: "no_ingresado" }]
+            const result = await misDenuncias(values);
             // @ts-ignore
             console.log(result)
             const lastFiveDenuncias = result.slice(Math.max(result.length - 5, 0)).reverse();

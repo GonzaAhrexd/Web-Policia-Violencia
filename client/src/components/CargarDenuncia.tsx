@@ -32,7 +32,8 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors}
   const [direccion, setDireccion] = useState('')
 
 
-  const generos = [{ nombre: "Masculino", value: "Masculino" },
+  const generos = [
+  { nombre: "Masculino", value: "Masculino" },
   { nombre: "Femenino", value: "Femenino" }]
 
   const juzgadoIntervinente = [

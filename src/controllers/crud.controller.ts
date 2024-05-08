@@ -5,10 +5,39 @@ export const getDenuncia = async (req, res) => {
 }
 
 export const getMisDenuncias = async (req, res) => {
+    const { desde, hasta, numero_de_expediente } = req.params
+console.log(numero_de_expediente)
     try{
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
+
+        if(desde == 'no_ingresado' && hasta == 'no_ingresado' && numero_de_expediente == 'no_ingresado'){
         const denuncias = await denuncia.find({ denunciada_cargada_por: req.user.id })
         res.json(denuncias)
+        }else if(desde != 'no_ingresado' && hasta != 'no_ingresado' && numero_de_expediente == 'no_ingresado'){
+            const denuncias = await denuncia.find({ denunciada_cargada_por: req.user.id, fecha: { $gte: desde, $lte: hasta } })
+            res.json(denuncias)
+        }else if(desde == 'no_ingresado' && hasta == 'no_ingresado' && numero_de_expediente != 'no_ingresado'){
+            const denuncias = await denuncia.find({ denunciada_cargada_por: req.user.id, numero_de_expediente: numero_de_expediente })
+            res.json(denuncias)
+        }else if(desde != 'no_ingresado' && hasta != 'no_ingresado' && numero_de_expediente != 'no_ingresado'){
+            const denuncias = await denuncia.find({ denunciada_cargada_por: req.user.id, fecha: { $gte: desde, $lte: hasta }, numero_de_expediente: numero_de_expediente })
+            res.json(denuncias)
+        }
+        else if(desde != 'no_ingresado' && hasta == 'no_ingresado' && numero_de_expediente == 'no_ingresado'){
+            const denuncias = await denuncia.find({ denunciada_cargada_por: req.user.id, fecha: { $gte: desde } })
+            res.json(denuncias)
+        }else if(desde != 'no_ingresado' && hasta == 'no_ingresado' && numero_de_expediente != 'no_ingresado'){
+            const denuncias = await denuncia.find({ denunciada_cargada_por: req.user.id, fecha: { $gte: desde }, numero_de_expediente: numero_de_expediente })
+            res.json(denuncias)
+        }else if(desde == 'no_ingresado' && hasta != 'no_ingresado' && numero_de_expediente == 'no_ingresado'){
+            const denuncias = await denuncia.find({ denunciada_cargada_por: req.user.id, fecha: { $lte: hasta } })
+            res.json(denuncias)
+        }else if(desde == 'no_ingresado' && hasta != 'no_ingresado' && numero_de_expediente != 'no_ingresado'){
+            const denuncias = await denuncia.find({ denunciada_cargada_por: req.user.id, fecha: { $lte: hasta }, numero_de_expediente: numero_de_expediente })
+            res.json(denuncias)
+        }else{
+            res.json('No se ingresaron datos')
+        }
     }catch(error){
         console.log(error)
     }
@@ -17,8 +46,8 @@ export const getMisDenuncias = async (req, res) => {
 
 export const createDenuncia = async (req, res) => {
     try {
-        const {user_id, victima_ID, victimario_ID, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento,   restitucion_de_menor,exclusion_de_hogar, alimento_provisorio, 
-        derecho_de_comunicacion,boton_antipanico, denunciado_por_tecero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, nombre_victimario, apellido_victimario, is_expediente_completo, politica} = req.body
+        const {user_id, victima_ID, victimario_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento,   restitucion_de_menor,exclusion_de_hogar, alimento_provisorio, 
+        derecho_de_comunicacion,boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica} = req.body
 
 
         console.log(req.body)
@@ -37,6 +66,8 @@ export const createDenuncia = async (req, res) => {
         const newDenuncia = new denuncia({
             victima_ID: findVictima?._id ? findVictima._id : victima_ID, 
             victimario_ID: findVictimario?._id ? findVictimario._id : victimario_ID,
+            victima_nombre: nombre_victima + ' ' + apellido_victima,
+            victimario_nombre: nombre_victimario + ' ' + apellido_victimario,
             genero, 
             fecha, 
             direccion, 
@@ -73,7 +104,7 @@ export const createDenuncia = async (req, res) => {
                 derecho_de_comunicacion: derecho_de_comunicacion ? derecho_de_comunicacion : false,
                 boton_antipanico: boton_antipanico ? boton_antipanico : false, 
             },
-            denunciado_por_tecero: denunciado_por_tecero ? denunciado_por_tecero : false, 
+            denunciado_por_tercero: denunciado_por_tercero ? denunciado_por_tercero : false, 
             nombre_tercero: nombre_tercero ? nombre_tercero : 'Sin tercero', 
             apellido_tercero: apellido_tercero ? apellido_tercero : 'Sin tercero', 
             dni_tercero: dni_tercero ? dni_tercero : 'Sin tercero',
@@ -142,6 +173,21 @@ export const createVictima = async (req, res) => {
     }
 }
 
+
+export const getVictima = async (req, res) => {
+    console.log(req.params.id)
+    try{
+        //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
+        console.log(req.params.id)
+        const victima = await victimas.findOne({ _id: req.params.id })
+        res.json(victima)
+    }catch(error){
+        console.log(error)
+    }
+
+}
+
+
 export const deleteVictima = async (req, res) => {
 }
 
@@ -195,6 +241,17 @@ export const createVictimario = async (req, res) => {
     }
 }
 
+export const getVictimario = async (req, res) => {
+    try{
+
+        const victimarioABuscar = await victimario.findById(req.params.id)
+        
+        res.json(victimarioABuscar)
+    }catch(error){
+        console.log(error)
+    }
+
+}
 export const deleteVictimario = async (req, res) => {
 }
 

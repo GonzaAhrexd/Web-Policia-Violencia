@@ -6,7 +6,17 @@ const denunciaSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    victima_nombre: {
+        type: String,
+        required: true,
+        trim: true
+    },
     victimario_ID: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    victimario_nombre: {
         type: String,
         required: true,
         trim: true
@@ -177,7 +187,7 @@ const denunciaSchema = new mongoose.Schema({
             trim: true
         },
     },
-    denunciado_por_tecero: {
+    denunciado_por_tercero: {
         type: Boolean,
         required: true,
         trim: true
