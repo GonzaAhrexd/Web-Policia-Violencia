@@ -15,6 +15,7 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { LatLng } from 'leaflet';
 import SimpleTableCheckorX from '../../components/SimpleTableCheckorX';
+import InputCheckbox from '../../components/InputCheckbox';
 
 function MisDenuncias() {
     //@ts-ignore
@@ -224,14 +225,6 @@ function MisDenuncias() {
 
         }
 
-        const tiposDeViolencia = [
-            { nombre: "Física", valor: data.tipo_de_violencia.Fisica },
-            { nombre: "Psicológica", valor: data.tipo_de_violencia.Psicologica },
-            { nombre: "Sexual", valor: data.tipo_de_violencia.Sexual },
-            { nombre: "Económica y Patrimonial", valor: data.tipo_de_violencia.Economica_y_patrimonial },
-            { nombre: "Simbólica", valor: data.tipo_de_violencia.Simbolica },
-            { nombre: "Política", valor: data.tipo_de_violencia.Politica }
-        ]
         const detallesVictimario = [
             { nombre: "Abuso de Alcohol", valor: victimarioDatos.abuso_de_alcohol },
             { nombre: "Antecedentes toxicológicos", valor: victimarioDatos.antecedentes_toxicologicos },
@@ -246,91 +239,102 @@ function MisDenuncias() {
             { nombre: "Alimento Provisorio", valor: data.medida.alimento_provisorio },
             { nombre: "Derecho de Comunicación", valor: data.medida.derecho_de_comunicacion },
             { nombre: "Botón antipánico", valor: data.medida.boton_antipanico }
+
+
         ]
 
         const victimaDatosMostrar = [
-            {nombre: "Nombre", valor: victimaDatos.nombre},
-            {nombre: "Apellido", valor: victimaDatos.apellido},
-            {nombre: "Edad", valor: victimaDatos.edad},
-            {nombre: "DNI", valor: victimaDatos.DNI},
-            {nombre: "Estado Civil", valor: victimaDatos.estado_civil},
-            {nombre: "Ocupación", valor: victimaDatos.ocupacion},
-            {nombre: "Vínculo con agresor", valor: victimaDatos.vinculo_con_agresor},
-            {nombre: "Condición de vulnerabilidad", valor: victimaDatos.condicion_de_vulnerabilidad},
-            {nombre: "Denuncias previas", valor: victimaDatos.cantidad_de_denuncias_previas},
-            {nombre: "Tiene hijos", valor: victimaDatos.hijos?.tiene_hijos ? "Sí" : "No"}
+            { nombre: "Nombre", valor: victimaDatos.nombre },
+            { nombre: "Apellido", valor: victimaDatos.apellido },
+            { nombre: "Edad", valor: victimaDatos.edad },
+            { nombre: "DNI", valor: victimaDatos.DNI },
+            { nombre: "Estado Civil", valor: victimaDatos.estado_civil },
+            { nombre: "Ocupación", valor: victimaDatos.ocupacion },
+            { nombre: "Vínculo con agresor", valor: victimaDatos.vinculo_con_agresor },
+            { nombre: "Condición de vulnerabilidad", valor: victimaDatos.condicion_de_vulnerabilidad },
+            { nombre: "Denuncias previas", valor: victimaDatos.cantidad_de_denuncias_previas },
+            { nombre: "Tiene hijos", valor: victimaDatos.hijos?.tiene_hijos ? "Sí" : "No" }
         ]
 
         const hijosVictima = [
-            {nombre: "Dependencia económica", valor: victimaDatos.hijos?.dependencia_economica},
-            {nombre: "Mayores de edad", valor: victimaDatos.hijos?.mayores_de_edad},
-            {nombre: "Menores de edad", valor: victimaDatos.hijos?.menores_de_edad},
-            {nombre: "Menores discapacitadas", valor: victimaDatos.hijos?.menores_discapacitados},
-            {nombre: "Hijos con el agresor", valor: victimaDatos.hijos?.hijos_con_el_agresor}
+            { nombre: "Dependencia económica", valor: victimaDatos.hijos?.dependencia_economica },
+            { nombre: "Mayores de edad", valor: victimaDatos.hijos?.mayores_de_edad },
+            { nombre: "Menores de edad", valor: victimaDatos.hijos?.menores_de_edad },
+            { nombre: "Menores discapacitadas", valor: victimaDatos.hijos?.menores_discapacitados },
+            { nombre: "Hijos con el agresor", valor: victimaDatos.hijos?.hijos_con_el_agresor }
         ]
 
+        const victimarioDatosMostrar = [
+            { nombre: "Nombre", valor: victimarioDatos.nombre },
+            { nombre: "Apellido", valor: victimarioDatos.apellido },
+            { nombre: "Edad", valor: victimarioDatos.edad },
+            { nombre: "DNI", valor: victimarioDatos.DNI },
+            { nombre: "Estado Civil", valor: victimarioDatos.estado_civil },
+            { nombre: "Ocupación", valor: victimarioDatos.ocupacion },
+            { nombre: "Notificación", valor: victimarioDatos.notificacion },
+            { nombre: "Denuncias previas", valor: victimarioDatos.cantidad_de_denuncias_previas }
+        ]
+
+        const hechoDatosMostrar = [
+            { nombre: "Número de expediente", valor: data.numero_de_expediente },
+            { nombre: "Género", valor: data.genero },
+            { nombre: "Fecha", valor: new Date(data.fecha).toLocaleDateString('es-AR') },
+            { nombre: "Empleo de armas", valor: data.empleo_de_armas },
+            { nombre: "Arma empleada", valor: data.arma_empleada },
+            { nombre: "Juzgado Interviniente", valor: data.juzgado_interviniente },
+            { nombre: "Dependencia derivada", valor: data.dependencia_derivada },
+        ]
+
+        const tiposDeViolencia = [
+            { nombre: "Violencia", valor: data.violencia },
+            { nombre: "Modalidad", valor: data.modalidades },
+            { nombre: "Física", valor: data.tipo_de_violencia.Fisica },
+            { nombre: "Psicológica", valor: data.tipo_de_violencia.Psicologica },
+            { nombre: "Sexual", valor: data.tipo_de_violencia.Sexual },
+            { nombre: "Económica y Patrimonial", valor: data.tipo_de_violencia.Economica_y_patrimonial },
+            { nombre: "Simbólica", valor: data.tipo_de_violencia.Simbolica },
+            { nombre: "Política", valor: data.tipo_de_violencia.Politica }
+        ]
+
+        const hechoDatosGeográficos = [
+            { nombre: "Unidad de Carga", valor: data.unidad_de_carga },
+            { nombre: "Municipio", valor: data.municipio },
+            { nombre: "Dirección", valor: data.direccion },
+            { nombre: "Barrio", valor: data.barrio },
+            { nombre: "GIS", valor: data.GIS },
+            { nombre: "Jurisdicción Policial", valor: data.jurisdiccion_policial },
+            { nombre: "Cuadrícula", valor: data.cuadricula },
+            { nombre: "División Familiar y de Género", valor: data.isDivision },
+        ]
+
+        const terceroDatos = [
+            { nombre: "Nombre", valor: data.nombre_tercero },
+            { nombre: "Apellido", valor: data.apellido_tercero },
+            { nombre: "DNI", valor: data.dni_tercero },
+            { nombre: "Vinculo con la víctima", valor: data.vinculo_con_victima }
+        ]
+
+        const medidaSolicitada = [
+            { nombre: "Medida solicitada por la víctima", valor: data.medida_solicitada_por_la_victima },
+            { nombre: "Medida dispuesta por autoridad judicial", valor: data.medida_dispuesta_por_autoridad_judicial },
+        ]
         return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
             <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
             <div className='flex flex-col'>
-                <div className='flex flex-col lg:flex-row'>
-                    <ShowData campo="Nombre" dato={victimaDatos.nombre} />
-                    <ShowData campo="Apellido" dato={victimaDatos.apellido} />
-                </div>
-                <div className='flex flex-col lg:flex-row'>
-                    <ShowData campo="Edad" dato={victimaDatos.edad} />
-                    <ShowData campo="DNI" dato={victimaDatos.DNI} />
-                </div>
-                <div className='flex flex-col lg:flex-row'>
-                    <ShowData campo="Estado Civil" dato={victimaDatos.estado_civil} />
-                    <ShowData campo="Ocupación" dato={victimaDatos.ocupacion} />
-                </div>
-                <div className='flex flex-col lg:flex-row'>
-                    <ShowData campo="Vínculo con agresor" dato={victimaDatos.vinculo_con_agresor} />
-                    <ShowData campo="Condición de vulnerabilidad" dato={victimaDatos.condicion_de_vulnerabilidad} />
-                </div>
-                <div className='flex flex-col lg:flex-row'>
-                    <ShowData campo="Denuncias previas" dato={victimaDatos.cantidad_de_denuncias_previas} />
-                    <ShowData campo="Tiene hijos" dato={victimaDatos.hijos?.tiene_hijos ? "Sí" : "No"} />
-                </div>
-                <SimpleTableCheckorX campo="" datos={victimaDatosMostrar}/>
 
-                 {!victimaDatos.hijos?.tiene_hijos &&  
-                 <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima}/>
-                 }
-
+                <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
+                {victimaDatos.hijos?.tiene_hijos &&
+                    <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />
+                }
                 <h2 className='text-3xl my-5 font-sans	'>Datos del victimario</h2>
 
-                <div className='flex flex-col lg:flex-row'>
-                    <ShowData campo="Género" dato={victimarioDatos.nombre} />
-                    <ShowData campo="Apellido" dato={victimarioDatos.apellido} />
-                </div>
-                <div className='flex flex-col lg:flex-row'>
-                    <ShowData campo="Edad" dato={victimarioDatos.edad} />
-                    <ShowData campo="DNI" dato={victimarioDatos.DNI} />
-                </div>
-                <div className='flex flex-col lg:flex-row'>
-                    <ShowData campo="Estado civil" dato={victimarioDatos.estado_civil} />
-                    <ShowData campo="Ocupación" dato={victimarioDatos.ocupacion} />
-                </div>
-                <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario}/>
-                <div className='flex flex-col lg:flex-row'>
-                <ShowData campo="Notificación" dato={victimarioDatos.notificacion} />
-                <ShowData campo="Denuncias totales" dato={victimarioDatos.cantidad_de_denuncias_previas} />
-                </div>
+                <SimpleTableCheckorX campo="" datos={victimarioDatosMostrar} />
+                <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} />
+
                 <h2 className='text-3xl my-5 font-sans	'>Hecho</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2">
-                    <ShowData campo="Género" dato={data.genero} />
-                    <ShowData campo="Fecha" dato={new Date(data.fecha).toLocaleDateString('es-AR')} />
-                </div>
-                <div className="grid grid-cols-1 ">
-                    <ShowData campo="Unidad de Carga" dato={data.unidad_de_carga} />
-                    <ShowData campo="Municipio" dato={data.municipio} />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3">
-                    <ShowData campo="Dirección" dato={data.direccion} />
-                    <ShowData campo="Barrio" dato={data.barrio} />
-                    <ShowData campo="GIS" dato={data.GIS} />
-                </div>
+
+                <SimpleTableCheckorX campo="" datos={hechoDatosMostrar} />
+                <SimpleTableCheckorX campo="Datos geográficos" datos={hechoDatosGeográficos} />
 
                 <div className='flex flex-col w-full lg:w-7/10 h-4/10 items-center justify-center mx-auto my-5'>
                     <MapContainer center={[lat, lon]} zoom={20} style={{ height: "60vh", width: "100%" }}>
@@ -351,46 +355,17 @@ function MisDenuncias() {
                         </svg>
                     </div>
                 </div>
-
-
-                <div className="grid grid-cols-1 ">
-                    <ShowData campo="Jurisdicción Policial" dato={data.jurisdiccion_policial} />
-                    <ShowData campo="Cuadrícula" dato={data.cuadricula} />
-                    <ShowData campo="División Familiar y de Género" dato={data.isDivision ? "Sí" : "No"} />
-                    <ShowData campo="Número de Expediente" dato={data.numero_de_expediente} />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 ">
-                    <ShowData campo="Juzgado Interviniente" dato={data.juzgado_interviniente} />
-                    <ShowData campo="Dependencia derivada" dato={data.dependencia_derivada} />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 ">
-                    <ShowData campo="Violencia" dato={data.violencia} />
-                    <ShowData campo="Modalidad" dato={data.modalidades} />
-                </div>
-
                 <SimpleTableCheckorX campo="Tipo de Violencia" datos={tiposDeViolencia} />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 ">
-                    <ShowData campo="Empleo de armas" dato={data.empleo_de_armas ? "Sí" : "No"} />
-                    {data.empleo_de_armas &&
-                        <ShowData campo="Arma empleada" dato={data.arma_empleada} />
-                    }
+                <div className='flex flex-col'>
+                    <SimpleTableCheckorX campo="Medida" datos={medidaSolicitada}></SimpleTableCheckorX>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 ">
-                    <ShowData campo="Medida solicitada por la víctima" dato={data.medida_solicitada_por_la_victima ? "Sí" : "No"} />
-                    <ShowData campo="Medida dispuesta por autoridad judicial" dato={data.medida_dispuesta_por_autoridad_judicial ? "Sí" : "No"} />
-                </div>
-                {data.medida_dispuesta_por_autoridad_judicial &&
-                    <SimpleTableCheckorX campo="Medida dispuestas" datos={medidas} />
+                {(data.medida_solicitada_por_la_victima || data.medida_dispuesta_por_autoridad_judicial) &&
+                    <SimpleTableCheckorX campo="Medida dispuesta" datos={medidas} />
                 }
-                <div className="grid grid-cols-1 md:grid-cols-3 ">
-                    <ShowData campo="Denunciado por tercero" dato={data.denunciado_por_tecero ? "Sí" : "No"} />
+                <div className='flex flex-col'>
                     {data.denunciado_por_tecero &&
                         <>
-                            <ShowData campo="Nombre del tercero" dato={data.nombre_tercero} />
-                            <ShowData campo="Apellido del tercero" dato={data.apellido_tercero} />
-                            <ShowData campo="DNI del tercero" dato={data.dni_tercero} />
-                            <ShowData campo="Relación con la víctima" dato={data.vinculo_con_victima} />
+                            <SimpleTableCheckorX campo="Tercero" datos={terceroDatos} />
                         </>
                     }
                 </div >
@@ -411,11 +386,14 @@ function MisDenuncias() {
                 <form className="w-full flex flex-col items-center"
                     onSubmit={
                         handleSubmit(async (values) => {
+                            console.log(values)
                             handleBusqueda(values)
                         })}>
                     <InputDate campo="Desde" nombre="desde" register={register} type="date" error={errors} require={false}></InputDate>
                     <InputDate campo="Hasta" nombre="hasta" register={register} type="date" error={errors} require={false}></InputDate>
                     <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
+                    <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
+                   
                     <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>
                 </form>
                 <div className="flex flex-col w-full">

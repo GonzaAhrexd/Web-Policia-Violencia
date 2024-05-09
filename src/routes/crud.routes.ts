@@ -6,7 +6,7 @@ import {getDenuncia, getMisDenuncias, createDenuncia, deleteDenuncia, updateDenu
 
 const router = Router();
 
-router.get('/mis-denuncias/:desde/:hasta/:numero_de_expediente', authRequired, getMisDenuncias)
+router.get('/mis-denuncias/:desde/:hasta/:numero_de_expediente/:is_expediente_completo', authRequired, getMisDenuncias)
 router.get('/mis-denuncias:id', authRequired, getDenuncia)
 
 router.post('/crear-denuncia/', authRequired, createDenuncia)
