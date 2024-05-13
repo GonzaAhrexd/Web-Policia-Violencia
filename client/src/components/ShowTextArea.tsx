@@ -1,6 +1,11 @@
 import React from 'react'
 
-function ShowTextArea({campo, dato}) {
+
+interface ShowTextAreaProps {
+  campo: string;
+  dato: string;
+}
+function ShowTextArea({campo, dato}:ShowTextAreaProps) {
   return (
     <div className={`flex flex-col w-full`}>
     <span className={`font-medium ml-4 xl:text-vw`}></span>

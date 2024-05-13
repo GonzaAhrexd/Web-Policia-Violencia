@@ -17,7 +17,7 @@ interface Props {
 
 function InputCheckbox({ campo, nombre, setValue, register, type, error, setHook, state, id }:Props) {
   useEffect(() => {
-    setValue(nombre, false);
+    state ? setValue(nombre, state) : setValue(nombre, false);
 }, [setValue, nombre]);
 
   const handleChange = (e:any) => {
@@ -34,7 +34,7 @@ function InputCheckbox({ campo, nombre, setValue, register, type, error, setHook
           className="border open-sans border-gray-300 rounded-md h-6 xl:h-6 xl:w-5 2xl:h-6 my-2 xl:my-1 xl:m-2 m-4 pl-2"
           type={type}
           onChange={handleChange}
-          checked={state}
+          defaultChecked={state}
           id = {id}
           />
           </div>

@@ -12,7 +12,6 @@ export const crearDenuncia = (denuncia: any) => {
 export const misDenuncias = async (values: any) => {
     try{
         const response = await axios.get(`/mis-denuncias/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}/${values.is_expediente_completo ? values.is_expediente_completo : "no_ingresado"}`)
-        console.log(response.data)
         return response.data
     }catch(error){
         console.log(error)
@@ -29,6 +28,18 @@ export const agregarVictima = async (victima: any) => {
         console.log(error)
     }
 } 
+
+export const editarVictima = async (victima: any) => {
+    try{
+        console.log(victima)
+        const response = await axios.put(`/editar-victima/${victima.victima_id}`, victima)
+        return response.data
+    }catch(error){
+        console.log(error)
+    }
+
+
+}
 export const agregarVictimario = async (victimario: any) => {
     
     try{
@@ -57,4 +68,16 @@ export const getVictimario = async (id: string) => {
     }catch(error){
         console.log(error)
     }
+}
+
+export const editarVictimario = async (victimario: any) => {
+    try{
+        console.log(victimario)
+        const response = await axios.put(`/editar-victimario/${victimario.victimario_id}`, victimario)
+        return response.data
+    }catch(error){
+        console.log(error)
+    }
+
+
 }

@@ -31,11 +31,10 @@ interface Props {
     handleOpenModal?: any
     info?: any
     setTitulo?: any
-    valor?: any
 }   
 
 
-function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, error, setComisariaPertenece, state, info, setTitulo }: Props) {
+function EditSelectCargaDenuncias({handleOpenModal, consultarCoordenadas, direccion, setDireccion, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, error, setComisariaPertenece, state, info, setTitulo }: Props) {
 
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
@@ -182,7 +181,7 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                         value={selectedUnidad}
                         onChange={handleUnidadChange}
                     >
-                        <option value="">{valor ? valor : `Seleccione ${campo.toLowerCase()}`}</option>
+                        <option value="">Seleccione {campo.toLowerCase()}</option>
                         {opciones.map((unidad: Opcion) => (
                             <option key={unidad.value} value={unidad.value}>
                                 {unidad.nombre}
@@ -305,5 +304,4 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
     )
 }
 
-export default SelectCargaDenuncias
-
+export default EditSelectCargaDenuncias

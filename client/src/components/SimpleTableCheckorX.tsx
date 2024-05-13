@@ -7,7 +7,7 @@ interface simpleTableCheckorXProps {
 }
 function SimpleTableCheckorX({ campo, datos }: simpleTableCheckorXProps) {
     return (
-        <div className="table w-full m-4 border-2 border-sky-900">
+        <div className="table w-8/10 md:w-full m-4 border-2 border-sky-900">
             <div className='table-row'>
                 <div className="flex flex-col bg-sky-900 text-white font-medium h-10 justify-center p-3">{campo}</div>
                 <div className="table-cell bg-sky-900 text-white font-medium h-10" > </div>

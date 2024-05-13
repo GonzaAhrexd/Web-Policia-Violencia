@@ -11,11 +11,13 @@ import ShowData from '../../components/ShowData';
 import ShowTextArea from '../../components/ShowTextArea';
 import InputRegister from '../../components/InputRegister';
 import InputDate from '../../components/InputDate';
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import { CheckIcon, XMarkIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { LatLng } from 'leaflet';
 import SimpleTableCheckorX from '../../components/SimpleTableCheckorX';
 import InputCheckbox from '../../components/InputCheckbox';
+import EditVictima from '../../components/EditMode/EditVictima';
+import EditSection from '../../components/EditMode/EditSection';
 
 function MisDenuncias() {
     //@ts-ignore
@@ -29,7 +31,6 @@ function MisDenuncias() {
         const fetchDenuncias = async () => {
             const result = await misDenuncias(values);
             // @ts-ignore
-            console.log(result)
             setDenunciasAMostrar(result)
         }
 
@@ -190,7 +191,7 @@ function MisDenuncias() {
             try {
                 const response = await getVictima(id)
                 setVictimaDatos(response)
-                console.log(response)
+
             } catch (error) {
                 console.log(error)
             }
@@ -199,7 +200,7 @@ function MisDenuncias() {
             try {
                 const response = await getVictimario(id)
                 setVictimarioDatos(response)
-                console.log(response)
+
             } catch (error) {
                 console.log(error)
             }
@@ -207,7 +208,7 @@ function MisDenuncias() {
         }
 
         let latLng = data.GIS.split(" ");
-        console.log(latLng)
+
         let lat = latLng[0]
         let lon = latLng[1]
 
@@ -260,7 +261,7 @@ function MisDenuncias() {
             { nombre: "Dependencia económica", valor: victimaDatos.hijos?.dependencia_economica },
             { nombre: "Mayores de edad", valor: victimaDatos.hijos?.mayores_de_edad },
             { nombre: "Menores de edad", valor: victimaDatos.hijos?.menores_de_edad },
-            { nombre: "Menores discapacitadas", valor: victimaDatos.hijos?.menores_discapacitados },
+            { nombre: "Menores discapacitados", valor: victimaDatos.hijos?.menores_discapacitados },
             { nombre: "Hijos con el agresor", valor: victimaDatos.hijos?.hijos_con_el_agresor }
         ]
 
@@ -318,62 +319,76 @@ function MisDenuncias() {
             { nombre: "Medida solicitada por la víctima", valor: data.medida_solicitada_por_la_victima },
             { nombre: "Medida dispuesta por autoridad judicial", valor: data.medida_dispuesta_por_autoridad_judicial },
         ]
+
+        const [editGlobal, setEditGlobal] = useState(false)
+
         return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
-            <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
-            <div className='flex flex-col'>
-
-                <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
-                {victimaDatos.hijos?.tiene_hijos &&
-                    <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />
-                }
-                <h2 className='text-3xl my-5 font-sans	'>Datos del victimario</h2>
-
-                <SimpleTableCheckorX campo="" datos={victimarioDatosMostrar} />
-                <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} />
-
-                <h2 className='text-3xl my-5 font-sans	'>Hecho</h2>
-
-                <SimpleTableCheckorX campo="" datos={hechoDatosMostrar} />
-                <SimpleTableCheckorX campo="Datos geográficos" datos={hechoDatosGeográficos} />
-
-                <div className='flex flex-col w-full lg:w-7/10 h-4/10 items-center justify-center mx-auto my-5'>
-                    <MapContainer center={[lat, lon]} zoom={20} style={{ height: "60vh", width: "100%" }}>
-                        <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker position={[lat, lon]}>
-                            <Popup>
-                                {data.direccion + "," + data.barrio}
-                            </Popup>
-                        </Marker>
-                    </MapContainer>
-
-                    <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-1/2 flex items-center justify-center mt-2 md:mt-0' onClick={() => handleClick(data.GIS)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7" >
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                        </svg>
+            {!editGlobal &&
+                <>             <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
+                    <div className='flex flex-col'>
+                        <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
+                        {victimaDatos.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />}
                     </div>
-                </div>
-                <SimpleTableCheckorX campo="Tipo de Violencia" datos={tiposDeViolencia} />
-                <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="Medida" datos={medidaSolicitada}></SimpleTableCheckorX>
-                </div>
-                {(data.medida_solicitada_por_la_victima || data.medida_dispuesta_por_autoridad_judicial) &&
-                    <SimpleTableCheckorX campo="Medida dispuesta" datos={medidas} />
-                }
-                <div className='flex flex-col'>
-                    {data.denunciado_por_tecero &&
-                        <>
-                            <SimpleTableCheckorX campo="Tercero" datos={terceroDatos} />
-                        </>
+
+                    <h2 className='text-3xl my-5 font-sans	'>Datos del victimario</h2>
+
+                    <SimpleTableCheckorX campo="" datos={victimarioDatosMostrar} />
+                    <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} />
+
+                    <h2 className='text-3xl my-5 font-sans	'>Hecho</h2>
+
+                    <SimpleTableCheckorX campo="" datos={hechoDatosMostrar} />
+                    <SimpleTableCheckorX campo="Datos geográficos" datos={hechoDatosGeográficos} />
+
+                    <div className='flex flex-col w-8/10 lg:w-7/10 h-4/10 items-center justify-center mx-4 md:mx-auto my-5'>
+                        <MapContainer center={[lat, lon]} zoom={20} style={{ height: "60vh", width: "100%" }}>
+                            <TileLayer
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <Marker position={[lat, lon]}>
+                                <Popup>
+                                    {data.direccion + "," + data.barrio}
+                                </Popup>
+                            </Marker>
+                        </MapContainer>
+
+                        <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-1/2 flex items-center justify-center mt-2 md:mt-0' onClick={() => handleClick(data.GIS)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7" >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <SimpleTableCheckorX campo="Tipo de Violencia" datos={tiposDeViolencia} />
+                    <div className='flex flex-col'>
+                        <SimpleTableCheckorX campo="Medida" datos={medidaSolicitada}></SimpleTableCheckorX>
+                    </div>
+                    {(data.medida_solicitada_por_la_victima || data.medida_dispuesta_por_autoridad_judicial) &&
+                        <SimpleTableCheckorX campo="Medida dispuesta" datos={medidas} />
                     }
-                </div >
-                <h2 className='text-3xl my-5 font-sans	'>Observaciones</h2>
-                <div className="flex flex-row">
-                    <ShowTextArea campo="Observaciones" dato={data.observaciones} />
-                </div>
-            </div>
+                    <div className='flex flex-col'>
+                        {data.denunciado_por_tecero &&
+                            <>
+                                <SimpleTableCheckorX campo="Tercero" datos={terceroDatos} />
+                            </>
+                        }
+                    </div >
+                    <h2 className='text-3xl my-5 font-sans	'>Observaciones</h2>
+                    <div className="flex flex-row">
+                        <ShowTextArea campo="Observaciones" dato={data.observaciones} />
+                    </div>
+                    <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
+                        <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
+                            <PencilSquareIcon className="w-7" />
+                        </div>
+                    </div>
+                </>
+            }
+            {editGlobal &&
+                <>  
+                    <EditSection datosHecho={data} datosVictima={victimaDatos} datosVictimario={victimarioDatos} setEditSection={setEditGlobal} editSection={editGlobal} />
+                </>
+            }
         </div>
 
     }
@@ -386,14 +401,13 @@ function MisDenuncias() {
                 <form className="w-full flex flex-col items-center"
                     onSubmit={
                         handleSubmit(async (values) => {
-                            console.log(values)
                             handleBusqueda(values)
                         })}>
                     <InputDate campo="Desde" nombre="desde" register={register} type="date" error={errors} require={false}></InputDate>
                     <InputDate campo="Hasta" nombre="hasta" register={register} type="date" error={errors} require={false}></InputDate>
                     <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                     <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
-                   
+
                     <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>
                 </form>
                 <div className="flex flex-col w-full">

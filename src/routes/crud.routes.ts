@@ -17,12 +17,12 @@ router.put('/editar-denuncias:id', authRequired, updateDenuncia)
 router.post('/crear-victima/', authRequired, createVictima)
 router.get('/victima/:id', authRequired, getVictima)
 router.delete('/eliminar-victima:id', authRequired,  deleteVictima)
-router.put('/editar-victima:id', authRequired, updateVictima)
+router.put('/editar-victima/:id', authRequired, updateVictima)
 
 router.get('/victimario/:id', authRequired, getVictimario)
 router.post('/crear-victimario/', authRequired, createVictimario)
 router.delete('/eliminar-victimario:id', authRequired,  deleteVictimario)
-router.put('/editar-victimario:id', authRequired, updateVictimario)
+router.put('/editar-victimario/:id', authRequired, updateVictimario)
 
 
 

@@ -15,11 +15,14 @@ interface Props {
     type: string
     nombre: string
     error: any
+    isRequired?: any
+    valor?: any
 }
 
 
-function SelectRegister({ campo, opciones, nombre, register, setValue, error }: Props) {
-
+function SelectRegister({ campo, opciones, nombre, register, setValue, error, isRequired, valor }: Props) {
+   
+    const [requiredInput, setRequiredInput] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
@@ -75,9 +78,9 @@ function SelectRegister({ campo, opciones, nombre, register, setValue, error }: 
                     name={nombre}
                     value={selectedUnidad}
                     onChange={handleUnidadChange}
-                    required
+                    required={requiredInput}
                 >
-                    <option value="">Seleccione {campo.toLowerCase()}</option>
+                    <option value="">{valor ? valor : `Seleccione ${campo.toLowerCase()}`}</option>
                     {opciones.map((unidad: Opcion) => (
                         <option key={unidad.value} value={unidad.value}>
                             {unidad.nombre}

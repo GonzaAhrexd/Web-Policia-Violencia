@@ -191,6 +191,35 @@ export const deleteVictima = async (req, res) => {
 }
 
 export const updateVictima = async (req, res) => {
+    try{
+        const { id } = req.params
+        const {nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor } = req.body
+        console.log(req.body)
+        console.log(id)
+        const victimaUpdated = await victimas.findByIdAndUpdate( id , {
+            nombre: nombre_victima,
+            apellido: apellido_victima,
+            edad: edad_victima,
+            DNI: dni_victima,
+            estado_civil: estado_civil_victima,
+            ocupacion: ocupacion_victima,
+            vinculo_con_agresor: vinculo_con_agresor_victima,
+            condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
+            convivencia: convivencia ? convivencia : false,
+            hijos: {
+                tiene_hijos: hijos ? hijos : false,
+                dependencia_economica: dependencia_economica ? dependencia_economica : false,
+                mayores_de_edad: mayor_de_18 ? mayor_de_18 : false,
+                menores_de_edad: menor_de_18 ? menor_de_18 : false,
+                menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,
+                hijos_con_el_agresor: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
+            }
+        }, { new: true })
+        res.json(victimaUpdated)     
+          }catch(error){
+        console.log(error)
+    }
+
 }
 
 export const createVictimario = async (req, res) => {
@@ -255,6 +284,28 @@ export const deleteVictimario = async (req, res) => {
 }
 
 export const updateVictimario = async (req, res) => {
+    const { nombre_victimario, apellido_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion, } = req.body
+    console.log(req.body)
+    try { 
+    const victimarioUpdated = await victimario.findByIdAndUpdate(req.params.id, {
+        nombre: nombre_victimario,
+        apellido: apellido_victimario,
+        edad: edad_victimario,
+        DNI: dni_victimario,
+        estado_civil: estado_civil_victimario,
+        ocupacion: ocupacion_victimario,
+        abuso_de_alcohol,
+        antecedentes_toxicologicos,
+        antecedentes_penales,
+        antecedentes_contravencionales,
+        entrenamiento_en_combate,
+        notificacion,
+    }, { new: true })
+    res.json(victimarioUpdated)
+}catch(error){
+    console.log(error)
+}
+
 }
 
 
