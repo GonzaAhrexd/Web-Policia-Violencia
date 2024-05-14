@@ -10,6 +10,7 @@ import EditVictimario from './EditVictimario'
 import EditHecho from './EditHecho'
 import Modal from '../Modal'
 import InputTextArea from '../InputTextArea'
+import Swal from 'sweetalert2'
 
 // Props
 interface EditSectionProps {
@@ -48,6 +49,7 @@ function EditSection({datosGeograficos, datosVictima, datosVictimario, datosHech
               <form 
                     onSubmit={
                         handleSubmit(async (values) => {
+                            console.log(values)
                             editarVictima(values)
                             editarVictimario(values)
                             console.log(values.numero_expediente)
@@ -60,10 +62,23 @@ function EditSection({datosGeograficos, datosVictima, datosVictimario, datosHech
                                 console.log("asdas")
                                 values.isExpedienteCompleto = false
                             }
-                            
-                            console.log(values)
                             editarDenuncia(values)
-                            console.log(values.denuncia_id)
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Denuncia editada con éxito!',
+                                showConfirmButton: true,
+                                confirmButtonText: 'Aceptar',
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                              
+                               window.location.reload();
+                              }
+                            })
+                            
+                            
+                        
+
                         })}>
                             
 

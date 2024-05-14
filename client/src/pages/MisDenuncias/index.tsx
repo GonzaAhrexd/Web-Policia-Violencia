@@ -1,23 +1,19 @@
 import { useAuth } from '../../context/auth';
 import { Navigate } from 'react-router-dom';
 import NavBar from '../../components/NavBar';
-import { misDenuncias, getVictima, getVictimario } from '../../api/crud';
+import { misDenuncias, getVictima, getVictimario, eliminarDenuncia } from '../../api/crud';
 import { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import SelectRegister from '../../components/SelectRegister';
-import { generos } from '../../GlobalConst/generosCampos';
 import { useForm } from 'react-hook-form'
-import ShowData from '../../components/ShowData';
 import ShowTextArea from '../../components/ShowTextArea';
 import InputRegister from '../../components/InputRegister';
 import InputDate from '../../components/InputDate';
 import { CheckIcon, XMarkIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { LatLng } from 'leaflet';
 import SimpleTableCheckorX from '../../components/SimpleTableCheckorX';
 import InputCheckbox from '../../components/InputCheckbox';
-import EditVictima from '../../components/EditMode/EditVictima';
 import EditSection from '../../components/EditMode/EditSection';
+import Swal from 'sweetalert2';
 
 function MisDenuncias() {
     //@ts-ignore
@@ -183,7 +179,7 @@ function MisDenuncias() {
 
     //@ts-ignore
     const expandedComponents = ({ data }) => {
-
+        console.log(data)
         const [victimaDatos, setVictimaDatos]: any = useState([])
         const [victimarioDatos, setVictimarioDatos]: any = useState([])
 
@@ -322,6 +318,42 @@ function MisDenuncias() {
 
         const [editGlobal, setEditGlobal] = useState(false)
 
+        const handleDelete = async (data: any) => {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, borrar',
+                cancelButtonText: 'Cancelar'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        
+                        console.log(data)
+                        eliminarDenuncia(data._id)
+                        Swal.fire(
+                            'Borrado',
+                            'La denuncia ha sido borrada',
+                            'success'
+                        ).then(() => {
+                            window.location.reload()
+                        })
+                        
+
+                    } catch (error) {
+                        Swal.fire(
+                            'Error',
+                            'Hubo un error al borrar la denuncia',
+                            'error'
+                        )
+                    }
+                }
+            })
+        }
+
         return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
             {!editGlobal &&
                 <>             <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
@@ -367,7 +399,7 @@ function MisDenuncias() {
                         <SimpleTableCheckorX campo="Medida dispuesta" datos={medidas} />
                     }
                     <div className='flex flex-col'>
-                        {data.denunciado_por_tecero &&
+                        {data.denunciado_por_tercero &&
                             <>
                                 <SimpleTableCheckorX campo="Tercero" datos={terceroDatos} />
                             </>
@@ -378,8 +410,11 @@ function MisDenuncias() {
                         <ShowTextArea campo="Observaciones" dato={data.observaciones} />
                     </div>
                     <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
-                        <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
+                        <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
                             <PencilSquareIcon className="w-7" />
+                        </div>
+                        <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
+                            <TrashIcon className="w-7" />
                         </div>
                     </div>
                 </>
@@ -403,10 +438,10 @@ function MisDenuncias() {
                         handleSubmit(async (values) => {
                             handleBusqueda(values)
                         })}>
-                    <InputDate campo="Desde (opcional)" nombre="desde" register={register} type="date" error={errors} require={false}></InputDate>
-                    <InputDate campo="Hasta (opcional)" nombre="hasta" register={register} type="date" error={errors} require={false}></InputDate>
-                    <InputRegister campo="Número de expediente (opcional)" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
-                    <InputCheckbox campo="Falta rellenar el expediente (opcional)" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
+                    <InputDate campo="Desde" nombre="desde" register={register} type="date" error={errors} require={false}></InputDate>
+                    <InputDate campo="Hasta" nombre="hasta" register={register} type="date" error={errors} require={false}></InputDate>
+                    <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
+                    <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
 
                     <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>
                 </form>

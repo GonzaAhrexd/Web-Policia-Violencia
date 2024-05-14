@@ -1,11 +1,15 @@
 import victimas from '../models/victimas'
 import victimario from '../models/victimario'
 import denuncia from '../models/denuncias'
+
+
+
+// DENUNCIAS
 export const getDenuncia = async (req, res) => {
 }
 
+// Obtener denuncias del usuario
 export const getMisDenuncias = async (req, res) => {
-
     interface Query {
         denunciada_cargada_por: string;
         fecha?: {
@@ -43,14 +47,11 @@ export const getMisDenuncias = async (req, res) => {
     }
 }
 
-
+// Crear denuncias
 export const createDenuncia = async (req, res) => {
     try {
         const { user_id, victima_ID, victimario_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
-            derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica } = req.body
-
-
-        console.log(req.body)
+            derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica } = req.body
 
         const findVictima = await victimas.findOne({ DNI: dni_victima })
         let findVictimario
@@ -60,9 +61,6 @@ export const createDenuncia = async (req, res) => {
         } else {
             findVictimario = await victimario.findOne({ DNI: dni_victimario })
         }
-
-
-
         const newDenuncia = new denuncia({
             victima_ID: findVictima?._id ? findVictima._id : victima_ID,
             victimario_ID: findVictimario?._id ? findVictimario._id : victimario_ID,
@@ -108,7 +106,7 @@ export const createDenuncia = async (req, res) => {
             nombre_tercero: nombre_tercero ? nombre_tercero : 'Sin tercero',
             apellido_tercero: apellido_tercero ? apellido_tercero : 'Sin tercero',
             dni_tercero: dni_tercero ? dni_tercero : 'Sin tercero',
-            vinculo_con_victima: vinculo_con_victima ? vinculo_con_victima : 'Sin tercero',
+            vinculo_con_victima: vinculo_con_la_victima ? vinculo_con_la_victima : 'Sin tercero',
             observaciones,
             denunciada_cargada_por: user_id
         })
@@ -120,22 +118,35 @@ export const createDenuncia = async (req, res) => {
     }
 }
 
+// Eliminar denuncias
 export const deleteDenuncia = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        // Buscar la victima y victimario y restarle 1 denuncia para desvincular
+        const denunciaABorrar = await denuncia.findById(id)
+
+        deleteVictima(denunciaABorrar?.victima_ID)
+        deleteVictimario(denunciaABorrar?.victimario_ID)
+
+        const denunciaDeleted = await denuncia.findByIdAndDelete(id)
+        res.json(denunciaDeleted)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
+// Actualizar denuncias
 export const updateDenuncia = async (req, res) => {
-    console.log(req.body)
     try {
         //Edita los parametros de la denuncia salvo los id de la victima y victimario
         const { id } = req.params
         const { nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
-            derecho_de_comunicacion, nuevoExpediente, boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto } = req.body
-        
-            console.log(req.body)
-            console.log(req.isExpedienteCompleto)
-        console.log("Entra aquí")
-    
-            const denunciaUpdated = await denuncia.findByIdAndUpdate(id, {
+            derecho_de_comunicacion, nuevoExpediente, boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto } = req.body
+
+        console.log(req.isExpedienteCompleto)
+
+        const denunciaUpdated = await denuncia.findByIdAndUpdate(id, {
             victima_nombre: nombre_victima + ' ' + apellido_victima,
             victimario_nombre: nombre_victimario + ' ' + apellido_victimario,
             genero,
@@ -167,30 +178,31 @@ export const updateDenuncia = async (req, res) => {
             medida_solicitada_por_la_victima: medida_solicitada_por_la_victima,
             medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial,
             medida: {
-                prohibicion_de_acercamiento: prohibicion_de_acercamiento,
-                restitucion_de_menor: restitucion_de_menor,
-                exclusion_de_hogar: exclusion_de_hogar,
-                alimento_provisorio: alimento_provisorio,
-                derecho_de_comunicacion: derecho_de_comunicacion,
-                boton_antipanico: boton_antipanico,
+                prohibicion_de_acercamiento,
+                restitucion_de_menor,
+                exclusion_de_hogar,
+                alimento_provisorio,
+                derecho_de_comunicacion,
+                boton_antipanico,
             },
             denunciado_por_tercero: denunciado_por_tercero,
             nombre_tercero: nombre_tercero,
             apellido_tercero: apellido_tercero,
             dni_tercero: dni_tercero,
-            vinculo_con_victima: vinculo_con_victima,
+            vinculo_con_victima: vinculo_con_la_victima,
             observaciones,
         }, { new: true })
-        res.json(denunciaUpdated) 
-        
+        res.json(denunciaUpdated)
 
-    }catch(error){
+
+    } catch (error) {
         console.log(error)
     }
 }
 
+// VÍCTIMA
+// Crear víctima
 export const createVictima = async (req, res) => {
-    console.log(req.body)
     //Victima nueva
     try {
         const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor } = req.body
@@ -205,7 +217,7 @@ export const createVictima = async (req, res) => {
                 edad: edad_victima,
                 DNI: dni_victima,
                 estado_civil: estado_civil_victima,
-                ocupacion: estado_civil_victima,
+                ocupacion: ocupacion_victima,
                 vinculo_con_agresor: vinculo_con_agresor_victima,
                 condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
                 convivencia: convivencia ? convivencia : false,
@@ -235,12 +247,11 @@ export const createVictima = async (req, res) => {
     }
 }
 
-
+// Obtener víctima
 export const getVictima = async (req, res) => {
-    console.log(req.params.id)
+
     try {
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
-        console.log(req.params.id)
         const victima = await victimas.findOne({ _id: req.params.id })
         res.json(victima)
     } catch (error) {
@@ -250,16 +261,30 @@ export const getVictima = async (req, res) => {
 }
 
 
-export const deleteVictima = async (req, res) => {
+// Eliminar víctima, solo accesible desde este archivo
+const deleteVictima = async (id) => {
+    try {
+        // Solo si cantidad de denuncias previas una vez restada, se puede borrar
+
+        const victimaABorrar = await victimas.findById(id)
+        if (victimaABorrar?.cantidad_de_denuncias_previas == 1) {
+            const victimaDeleted = await victimas.findByIdAndDelete(id)
+        } else {
+            // Si no es 0, no se puede borrar y debe restar 1 denuncia
+            const victimaUpdated = await victimas.findByIdAndUpdate(id, { $inc: { cantidad_de_denuncias_previas: -1 } }, { new: true })
+        }
+    } catch (error) {
+        console.log(error)
+    }
 }
 
+// Editar víctima
 export const updateVictima = async (req, res) => {
-    try{
+    try {
         const { id } = req.params
-        const {nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor } = req.body
-        console.log(req.body)
-        console.log(id)
-        const victimaUpdated = await victimas.findByIdAndUpdate( id , {
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor } = req.body
+
+        const victimaUpdated = await victimas.findByIdAndUpdate(id, {
             nombre: nombre_victima,
             apellido: apellido_victima,
             edad: edad_victima,
@@ -278,18 +303,18 @@ export const updateVictima = async (req, res) => {
                 hijos_con_el_agresor: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
             }
         }, { new: true })
-        res.json(victimaUpdated)     
-          }catch(error){
+        res.json(victimaUpdated)
+    } catch (error) {
         console.log(error)
     }
 
 }
 
+// VICTIMARIO
+// Crear victimario
 export const createVictimario = async (req, res) => {
     try {
         const { nombre_victimario, apellido_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion, } = req.body
-        console.log(req.body)
-
         let victimarioExistente
         if (dni_victimario != "S/N") {
             victimarioExistente = await victimario.findOne({ DNI: dni_victimario })
@@ -312,18 +337,14 @@ export const createVictimario = async (req, res) => {
                 notificacion,
                 cantidad_de_denuncias_previas: 1
             })
-
             const victimarioSaved = await newVictimario.save()
             res.json({ message: 'Victimario creado con exito', id: victimarioSaved._id })
-
         } else {
             res.send('Victimario ya existe')
             //Actualiza al victimario existente y agrega a cantida de denuncias previas una más
             if (dni_victimario != "S/N") {
                 const victimarioUpdated = await victimario.findOneAndUpdate({ DNI: dni_victimario }, { $inc: { cantidad_de_denuncias_previas: 1 } }, { new: true })
             }
-
-
         }
 
     } catch (error) {
@@ -332,42 +353,55 @@ export const createVictimario = async (req, res) => {
     }
 }
 
+// Listar victimario
+
 export const getVictimario = async (req, res) => {
     try {
-
         const victimarioABuscar = await victimario.findById(req.params.id)
-
         res.json(victimarioABuscar)
     } catch (error) {
         console.log(error)
     }
 
 }
-export const deleteVictimario = async (req, res) => {
+
+// Eliminar victimario, solo accesible desde este archivo
+const deleteVictimario = async (id) => {
+    try {
+        const victimarioABorrar = await victimario.findById(id)
+        if (victimarioABorrar?.cantidad_de_denuncias_previas == 1) {
+            const victimarioDeleted = await victimario.findByIdAndDelete(id)
+        } else {
+            const victimarioUpdated = await victimario.findByIdAndUpdate(id, { $inc: { cantidad_de_denuncias_previas: -1 } }, { new: true })
+        }
+    } catch (error) {
+        console.log(error)
+    }
 }
 
+// Editar victimario
 export const updateVictimario = async (req, res) => {
     const { nombre_victimario, apellido_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion, } = req.body
-    console.log(req.body)
-    try { 
-    const victimarioUpdated = await victimario.findByIdAndUpdate(req.params.id, {
-        nombre: nombre_victimario,
-        apellido: apellido_victimario,
-        edad: edad_victimario,
-        DNI: dni_victimario,
-        estado_civil: estado_civil_victimario,
-        ocupacion: ocupacion_victimario,
-        abuso_de_alcohol,
-        antecedentes_toxicologicos,
-        antecedentes_penales,
-        antecedentes_contravencionales,
-        entrenamiento_en_combate,
-        notificacion,
-    }, { new: true })
-    res.json(victimarioUpdated)
-}catch(error){
-    console.log(error)
-}
+
+    try {
+        const victimarioUpdated = await victimario.findByIdAndUpdate(req.params.id, {
+            nombre: nombre_victimario,
+            apellido: apellido_victimario,
+            edad: edad_victimario,
+            DNI: dni_victimario,
+            estado_civil: estado_civil_victimario,
+            ocupacion: ocupacion_victimario,
+            abuso_de_alcohol,
+            antecedentes_toxicologicos,
+            antecedentes_penales,
+            antecedentes_contravencionales,
+            entrenamiento_en_combate,
+            notificacion,
+        }, { new: true })
+        res.json(victimarioUpdated)
+    } catch (error) {
+        console.log(error)
+    }
 
 }
 
