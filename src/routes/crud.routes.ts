@@ -8,7 +8,7 @@ const router = Router();
 
 router.get('/mis-denuncias/:desde/:hasta/:numero_de_expediente/:is_expediente_completo', authRequired, getMisDenuncias)
 router.get('/mis-denuncias:id', authRequired, getDenuncia)
-
+router.put('/editar-denuncias/:id', authRequired, updateDenuncia)
 router.post('/crear-denuncia/', authRequired, createDenuncia)
 router.delete('/eliminar-denuncias:id', authRequired,  deleteDenuncia)
 router.put('/editar-denuncias:id', authRequired, updateDenuncia)

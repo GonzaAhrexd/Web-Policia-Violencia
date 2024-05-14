@@ -124,6 +124,69 @@ export const deleteDenuncia = async (req, res) => {
 }
 
 export const updateDenuncia = async (req, res) => {
+    console.log(req.body)
+    try {
+        //Edita los parametros de la denuncia salvo los id de la victima y victimario
+        const { id } = req.params
+        const { nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
+            derecho_de_comunicacion, nuevoExpediente, boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto } = req.body
+        
+            console.log(req.body)
+            console.log(req.isExpedienteCompleto)
+        console.log("Entra aquí")
+    
+            const denunciaUpdated = await denuncia.findByIdAndUpdate(id, {
+            victima_nombre: nombre_victima + ' ' + apellido_victima,
+            victimario_nombre: nombre_victimario + ' ' + apellido_victimario,
+            genero,
+            fecha,
+            direccion,
+            GIS,
+            barrio,
+            unidad_de_carga,
+            municipio,
+            jurisdiccion_policial: jurisdiccion_policial,
+            cuadricula: cuadricula,
+            isDivision,
+            numero_de_expediente: nuevoExpediente,
+            juzgado_interviniente,
+            dependencia_derivada,
+            is_expediente_completo: isExpedienteCompleto,
+            violencia,
+            modalidades,
+            tipo_de_violencia: {
+                Fisica: fisica,
+                Psicologica: psicologica,
+                Sexual: sexual,
+                Economica_y_patrimonial: economica_y_patrimonial,
+                Simbolica: simbolica,
+                Politica: politica,
+            },
+            empleo_de_armas: empleo_de_armas,
+            arma_empleada: arma_empleada,
+            medida_solicitada_por_la_victima: medida_solicitada_por_la_victima,
+            medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial,
+            medida: {
+                prohibicion_de_acercamiento: prohibicion_de_acercamiento,
+                restitucion_de_menor: restitucion_de_menor,
+                exclusion_de_hogar: exclusion_de_hogar,
+                alimento_provisorio: alimento_provisorio,
+                derecho_de_comunicacion: derecho_de_comunicacion,
+                boton_antipanico: boton_antipanico,
+            },
+            denunciado_por_tercero: denunciado_por_tercero,
+            nombre_tercero: nombre_tercero,
+            apellido_tercero: apellido_tercero,
+            dni_tercero: dni_tercero,
+            vinculo_con_victima: vinculo_con_victima,
+            observaciones,
+        }, { new: true })
+        res.json(denunciaUpdated) 
+        
+
+    }catch(error){
+        console.log(error)
+    }
 }
 
 export const createVictima = async (req, res) => {

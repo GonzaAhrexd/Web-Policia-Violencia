@@ -13,7 +13,6 @@ interface InputDateProps {
 
 
 function InputDate({valor, campo, nombre, register, type, placeholder, error, require}: InputDateProps) {
-  console.log(valor)
   return (
 
         <div className={`flex flex-col w-full xl:w-1/2`}>

@@ -17,6 +17,9 @@ import InputCheckbox from '../InputCheckbox'
 import InputDate from '../InputDate'
 import InputExpediente from '../InputExpediente'
 import SimpleTableCheckorX from '../SimpleTableCheckorX'
+import EditExpediente from '../EditMode/EditExpediente'
+//Iconos
+import { PencilIcon, XMarkIcon } from '@heroicons/react/24/solid';
 interface denunciaProps {
   register: any
   setValue: any
@@ -24,17 +27,34 @@ interface denunciaProps {
   handleOpenModal: any
   setTitulo: any
   datos: any
+  datosGeograficos: any
 }
 
-function EditHecho({ datos, setTitulo, handleOpenModal, register, setValue, errors }: denunciaProps) {
+function EditHecho({datosGeograficos, datos, setTitulo, handleOpenModal, register, setValue, errors }: denunciaProps) {
 
+  
+  const dividirExpediente = (expediente: string) => {
+    let division = expediente.split("-")
+    let division2 = division[0].split("/")
+    let divisionCompleta = []
 
-  const [comisariaPertenece, setComisariaPertenece] = useState('')
-  const [isArmas, setIsArmas] = useState(false)
+    divisionCompleta[0] = division2[0]
+    divisionCompleta[1] = division2[1]
+    divisionCompleta[2] = division[1]
+    divisionCompleta[3] = division[2]
+
+    console.log(divisionCompleta)
+
+    return divisionCompleta
+  }
+
+  const [expedienteDividido, setExpedienteDividido] = useState(dividirExpediente(datos.numero_de_expediente))
+  const [comisariaPertenece, setComisariaPertenece] = useState(expedienteDividido[1] + "-")
+  const [isArmas, setIsArmas] = useState(datos.empleo_de_armas)
   const [isDivision, setIsDivision] = useState(false)
-  const [isSolicitada, setIsSolicitada] = useState(false)
-  const [isDispuestoPorAutoridadJudicial, setIsDispuestoPorAutoridadJudicial] = useState(false)
-  const [isDenunciadoPorTercero, setIsDenunciadoPorTercero] = useState(false)
+  const [isSolicitada, setIsSolicitada] = useState(datos.medida_solicitada_por_la_victima)
+  const [isDispuestoPorAutoridadJudicial, setIsDispuestoPorAutoridadJudicial] = useState(datos.medida_dispuesta_por_autoridad_judicial)
+  const [isDenunciadoPorTercero, setIsDenunciadoPorTercero] = useState(datos.denunciado_por_tercero)
   const [municipio, setMunicipio] = useState('')
   const [coordenadas, setCoordenadas] = useState('')
   const [direccion, setDireccion] = useState('')
@@ -155,21 +175,32 @@ function EditHecho({ datos, setTitulo, handleOpenModal, register, setValue, erro
 
   const [modificarDatosGeograficos, setModificarDatosGeograficos] = useState(false)
 
+
+
   return (
     <div className='w-full'>
+      <InputRegister campo="denuncia_id" nombre="denuncia_id" register={register} setValue={setValue} type="hidden" error={errors.dependencia_derivada} valor={datos._id} />
       <h1 className='text-2xl my-5'>Hecho</h1>
       <div className='flex flex-col xl:flex-row'>
-        <SelectRegister campo="Género" nombre="genero" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} valor={datos.genero} />
+        <SelectRegister isRequired={false} campo="Género" nombre="genero" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} valor={datos.genero} />
         <InputDate valor={new Date(datos.fecha).toISOString().slice(0, 10)} campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
       </div>
 
       <div className='flex flex-col my-2'>
-          {modificarDatosGeograficos &&
+          {modificarDatosGeograficos ?
             <SelectCargaDenuncias consultarCoordenadas={consultarCoordenadas} direccion={direccion} setDireccion={setDireccion} coordenadas={coordenadas} setCoordenadas={setCoordenadas} errors={errors} setMunicipio={setMunicipio} campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />
+            :
+            <SimpleTableCheckorX campo="Datos geográficos" datos={datosGeograficos} />
           }
+          
+          
+          <div className='flex flex-col md:flex-row items-center justify-center w-full mt-2 '>
+                <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setModificarDatosGeograficos(!modificarDatosGeograficos)}>
+                   {!modificarDatosGeograficos ? <PencilIcon className='h-6'/> : <XMarkIcon className='h-6'/>}                
+              </div>
+          </div>
           <InputCheckbox campo="División Violencia Familiar y de Género" nombre="isDivision" register={register} setValue={setValue} type="checkbox" setHook={setIsDivision} state={isDivision} id="division" />
-          <InputRegister valor={datos.numero_de_expediente} campo="Número de expediente" nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
-
+          <EditExpediente expediente={expedienteDividido} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
         </div>
 
         <div className='flex flex-col md:flex-row my-2'>
@@ -177,8 +208,8 @@ function EditHecho({ datos, setTitulo, handleOpenModal, register, setValue, erro
           <InputRegister campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} valor={datos.dependencia_derivada} />
         </div>
         <div className='flex flex-col md:flex-row my-2' >
-          <SelectCargaDenuncias campo="Violencia" nombre="violencia" opciones={opcionesViolencia} register={register} setValue={setValue} type="text" error={errors.violencia} />
-          <SelectCargaDenuncias setTitulo={setTitulo} info={tiposModalidades} campo="Modalidades" nombre="modalidades" opciones={opcionesModalidades} register={register} setValue={setValue} type="text" error={errors.modalidades} handleOpenModal={handleOpenModal} />
+          <SelectCargaDenuncias valor={datos.violencia} campo="Violencia" nombre="violencia" opciones={opcionesViolencia} register={register} setValue={setValue} type="text" error={errors.violencia} />
+          <SelectCargaDenuncias valor={datos.modalidades} setTitulo={setTitulo} info={tiposModalidades} campo="Modalidades" nombre="modalidades" opciones={opcionesModalidades} register={register} setValue={setValue} type="text" error={errors.modalidades} handleOpenModal={handleOpenModal} />
         </div>
         <>
           <span className='ml-4 font-medium xl:text-vw flex flex-row my-2'> Tipo de Violencia
@@ -207,7 +238,7 @@ function EditHecho({ datos, setTitulo, handleOpenModal, register, setValue, erro
             <InputCheckbox campo="Empleo de Armas" nombre="empleo_de_armas" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsArmas} state={isArmas} id="empleo_de_armas" />
             {isArmas &&
               <>
-                <SelectCargaDenuncias campo="Arma empleada" nombre="tipo_de_arma" opciones={opcionesTiposDeArma} register={register} setValue={setValue} type="text" error={errors.modalidad} />
+                <SelectCargaDenuncias valor={datos.arma_empleada} campo="Arma empleada" nombre="tipo_de_arma" opciones={opcionesTiposDeArma} register={register} setValue={setValue} type="text" error={errors.modalidad} />
               </>
             }
           </div>
@@ -216,18 +247,18 @@ function EditHecho({ datos, setTitulo, handleOpenModal, register, setValue, erro
           <span className='ml-4 font-medium xl:text-vw'> Medida Solicitada </span>
           <div className='flex flex-col md:flex-row'>
             <InputCheckbox campo="Solicitada" nombre="medida_solicitada_por_la_victima" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsSolicitada} state={isSolicitada} id="solicitada" />
-            <InputCheckbox campo="Dispuesto Por Autoridad Judicial" nombre="medida_dispuesta_por_autoridad_judicial" register={register} setValue={setValue} type="checkbox" error={errors.dispuestoPorAutoridadJudicial} setHook={setIsDispuestoPorAutoridadJudicial} state={isDispuestoPorAutoridadJudicial} id="dispuestoPorAutoridad" />
+            <InputCheckbox  campo="Dispuesto Por Autoridad Judicial" nombre="medida_dispuesta_por_autoridad_judicial" register={register} setValue={setValue} type="checkbox" error={errors.dispuestoPorAutoridadJudicial} setHook={setIsDispuestoPorAutoridadJudicial} state={isDispuestoPorAutoridadJudicial} id="dispuestoPorAutoridad" />
           </div>
         </div>
         {(isDispuestoPorAutoridadJudicial || isSolicitada) &&
           <>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
-              <InputCheckbox campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento" register={register} setValue={setValue} type="checkbox" id="prohibicion" />
-              <InputCheckbox campo="Restitución de Menor" nombre="restitucion_de_menor" register={register} setValue={setValue} type="checkbox" id="restitucion" />
-              <InputCheckbox campo="Exclusión Hogar" nombre="exclusion_de_hogar" register={register} setValue={setValue} type="checkbox" id="exclusion" />
-              <InputCheckbox campo="Alimento Provisorio" nombre="alimento_provisorio" register={register} setValue={setValue} type="checkbox" id="alimentoProvisorio" />
-              <InputCheckbox campo="Derecho Comunicación" nombre="derecho_de_comunicacion" register={register} setValue={setValue} type="checkbox" id="derechoComunicacion" />
-              <InputCheckbox campo="Botón Antipánico" nombre="boton_antipanico" register={register} setValue={setValue} type="checkbox" id="botonAntipanico" />
+              <InputCheckbox state={datos.medida.prohibicion_de_acercamiento} campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento" register={register} setValue={setValue} type="checkbox" id="prohibicion" />
+              <InputCheckbox state={datos.medida.restitucion_de_menor} campo="Restitución de Menor" nombre="restitucion_de_menor" register={register} setValue={setValue} type="checkbox" id="restitucion" />
+              <InputCheckbox state={datos.medida.exclusion_de_hogar} campo="Exclusión Hogar" nombre="exclusion_de_hogar" register={register} setValue={setValue} type="checkbox" id="exclusion" />
+              <InputCheckbox state={datos.medida.alimento_provisorio} campo="Alimento Provisorio" nombre="alimento_provisorio" register={register} setValue={setValue} type="checkbox" id="alimentoProvisorio" />
+              <InputCheckbox state={datos.medida.derecho_de_comunicacion} campo="Derecho Comunicación" nombre="derecho_de_comunicacion" register={register} setValue={setValue} type="checkbox" id="derechoComunicacion" />
+              <InputCheckbox state={datos.medida.boton_antipanico} campo="Botón Antipánico" nombre="boton_antipanico" register={register} setValue={setValue} type="checkbox" id="botonAntipanico" />
               <div />
             </div>
           </>
@@ -240,12 +271,12 @@ function EditHecho({ datos, setTitulo, handleOpenModal, register, setValue, erro
           {isDenunciadoPorTercero &&
             <>
               <div className='flex flex-col md:flex-row'>
-                <InputRegister campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
-                <InputRegister campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
-                <InputRegister campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
+                <InputRegister valor={datos.nombre_tercero} campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
+                <InputRegister valor={datos.apellido_tercero} campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
+                <InputRegister valor={datos.dni_tercero} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
               </div>
               <div className='flex flex-col'>
-                <SelectRegister campo="Vinculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculoConVictima} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
+                <SelectRegister valor={datos.vinculo_con_victima} campo="Vinculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculoConVictima} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
               </div>
             </>
           }

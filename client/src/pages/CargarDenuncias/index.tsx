@@ -99,9 +99,7 @@ function CargarDenuncias() {
               </div>
               <h1 className='text-2xl my-5'>Hecho</h1>
               <div className='flex justify-center'>
-
                 <CargarDenuncia setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
-
               </div>
               <h1 className='text-2xl my-5'>Observaciones o denuncia</h1>
               <div className='flex justify-center h-80'>

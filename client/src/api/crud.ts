@@ -31,7 +31,6 @@ export const agregarVictima = async (victima: any) => {
 
 export const editarVictima = async (victima: any) => {
     try{
-        console.log(victima)
         const response = await axios.put(`/editar-victima/${victima.victima_id}`, victima)
         return response.data
     }catch(error){
@@ -80,4 +79,13 @@ export const editarVictimario = async (victimario: any) => {
     }
 
 
+}
+
+export const editarDenuncia = async (denuncia: any) => {
+    try{
+        const response = await axios.put(`/editar-denuncias/${denuncia.denuncia_id}`, denuncia)
+        return response.data
+    }catch(error){
+        console.log(error)
+    }
 }
