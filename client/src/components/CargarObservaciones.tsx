@@ -10,7 +10,7 @@ function CargarObservaciones({register, setValue, errors}: observacionesProps) {
  
   return (
     <>
-        <InputTextArea campo="Observaciones" nombre="observaciones" register={register} type="text" ></InputTextArea>
+        <InputTextArea campo="Observaciones" nombre="observaciones" register={register} type="text" />
     </>
   )
 }

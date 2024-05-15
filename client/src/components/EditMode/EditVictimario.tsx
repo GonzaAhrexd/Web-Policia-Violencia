@@ -34,12 +34,10 @@ function EditVictimario   ({datos, register, setValue, errors}:CargarVictimarioP
         <InputRegister campo="Nombre" nombre="nombre_victimario" register={register} setValue={setValue} type="text" error={errors.nombre_victimario} valor={datos.nombre}/>
         <InputRegister campo="Apellido" nombre="apellido_victimario" register={register} setValue={setValue} type="text" error={errors.apellido_victimario} valor={datos.apellido}/>
       </div>
-
       <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Edad" nombre="edad_victimario" register={register} setValue={setValue} type="number" error={errors.edad_victimario} valor={datos.edad}/>
         <InputRegister campo="DNI"  require={false} nombre="dni_victimario" register={register} setValue={setValue} type="text" error={errors.dni_victimario} valor={datos.DNI}/> 
       </div>
-
       <div className='flex flex-col xl:flex-row my-2'>
         <SelectRegister campo="Estado Civil" nombre="estado_civil_victimario" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victimario} valor={datos.estado_civil} isRequired={false} />
         <SelectRegister campo="Ocupación" nombre="ocupacion_victimario" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupaciones_victimario} valor={datos.ocupacion} isRequired={false} />

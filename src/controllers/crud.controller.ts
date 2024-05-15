@@ -53,6 +53,8 @@ export const createDenuncia = async (req, res) => {
         const { user_id, victima_ID, victimario_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
             derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica } = req.body
 
+        console.log(req.body)
+
         const findVictima = await victimas.findOne({ DNI: dni_victima })
         let findVictimario
 
@@ -95,13 +97,13 @@ export const createDenuncia = async (req, res) => {
             medida_solicitada_por_la_victima: medida_solicitada_por_la_victima ? medida_solicitada_por_la_victima : false,
             medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial ? medida_dispuesta_por_autoridad_judicial : false,
             medida: {
-                prohibicion_de_acercamiento: prohibicion_de_acercamiento ? prohibicion_de_acercamiento : false,
-                restitucion_de_menor: restitucion_de_menor ? restitucion_de_menor : false,
-                exclusion_de_hogar: exclusion_de_hogar ? exclusion_de_hogar : false,
-                alimento_provisorio: alimento_provisorio ? alimento_provisorio : false,
-                derecho_de_comunicacion: derecho_de_comunicacion ? derecho_de_comunicacion : false,
-                boton_antipanico: boton_antipanico ? boton_antipanico : false,
-            },
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial) )? prohibicion_de_acercamiento : false,
+                restitucion_de_menor: (restitucion_de_menor !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? restitucion_de_menor : false,
+                exclusion_de_hogar: (exclusion_de_hogar !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? exclusion_de_hogar : false,
+                alimento_provisorio: (alimento_provisorio !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? alimento_provisorio : false,
+                derecho_de_comunicacion: (derecho_de_comunicacion !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? derecho_de_comunicacion : false,
+                boton_antipanico: (boton_antipanico !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? boton_antipanico : false,
+          },
             denunciado_por_tercero: denunciado_por_tercero ? denunciado_por_tercero : false,
             nombre_tercero: nombre_tercero ? nombre_tercero : 'Sin tercero',
             apellido_tercero: apellido_tercero ? apellido_tercero : 'Sin tercero',
@@ -178,12 +180,12 @@ export const updateDenuncia = async (req, res) => {
             medida_solicitada_por_la_victima: medida_solicitada_por_la_victima,
             medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial,
             medida: {
-                prohibicion_de_acercamiento,
-                restitucion_de_menor,
-                exclusion_de_hogar,
-                alimento_provisorio,
-                derecho_de_comunicacion,
-                boton_antipanico,
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial) )? prohibicion_de_acercamiento : false,
+                restitucion_de_menor: (restitucion_de_menor !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? restitucion_de_menor : false,
+                exclusion_de_hogar: (exclusion_de_hogar !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? exclusion_de_hogar : false,
+                alimento_provisorio: (alimento_provisorio !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? alimento_provisorio : false,
+                derecho_de_comunicacion: (derecho_de_comunicacion !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? derecho_de_comunicacion : false,
+                boton_antipanico: (boton_antipanico !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? boton_antipanico : false,
             },
             denunciado_por_tercero: denunciado_por_tercero,
             nombre_tercero: nombre_tercero,
@@ -206,10 +208,7 @@ export const createVictima = async (req, res) => {
     //Victima nueva
     try {
         const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor } = req.body
-
         let victimaExistente = await victimas.findOne({ DNI: dni_victima })
-
-
         if (req.body.dni_victima && !victimaExistente) {
             const newVictima = new victimas({
                 nombre: nombre_victima,

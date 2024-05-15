@@ -40,6 +40,7 @@ function CargarDenuncias() {
         <NavBar user={user} />
         <div>
           {/* @ts-ignore */}
+
           {isModalOpen && <Modal titulo={titulo} texto={texto} onClose={handleCloseModal} />}
         </div>
         <div className='h-screen sm:h-full p-2 sm:p-10'>

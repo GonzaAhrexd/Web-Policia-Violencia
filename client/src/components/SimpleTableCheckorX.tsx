@@ -7,21 +7,22 @@ interface simpleTableCheckorXProps {
 }
 function SimpleTableCheckorX({ campo, datos }: simpleTableCheckorXProps) {
     return (
-        <div className="table w-8/10 md:w-full m-4 border-2 border-sky-900">
-            <div className='table-row'>
+        <div className="table w-8/10 md:w-full m-4 border-2 border-sky-800">
+            <div className='table-row '>
                 <div className="flex flex-col bg-sky-900 text-white font-medium h-10 justify-center p-3">{campo}</div>
                 <div className="table-cell bg-sky-900 text-white font-medium h-10" > </div>
             </div>
             {datos.map((data:any, index:number) => (
        
-                <div className="table-row" key={index}>
-                    <div className="table-cell pl-4 font-medium text-xl">{data.nombre}</div>
+                <div className="flex flex-row items-between justify-between" key={index}>
+                    <div className="flex pl-4 text-base font-medium md:text-xl w-4/10 md:w-4/10">{data.nombre}</div>
                     {typeof data.valor !== "boolean" ?
-                    <div className="table-cell pl-1">
+                    <div className="flex w-4/10 md:w-2/10">
                         {data.valor}
                     </div>
                         :                    
-                    <div className="table-cell">{data.valor ?
+                    <div className="flex w-4/10 md:w-2/10">{
+                        data.valor ?
                         <CheckIcon className='w-6' />
                         : <XMarkIcon className='w-6' />}
 

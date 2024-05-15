@@ -366,7 +366,6 @@ function MisDenuncias() {
 
                     <SimpleTableCheckorX campo="" datos={victimarioDatosMostrar} />
                     <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} />
-
                     <h2 className='text-3xl my-5 font-sans	'>Hecho</h2>
 
                     <SimpleTableCheckorX campo="" datos={hechoDatosMostrar} />

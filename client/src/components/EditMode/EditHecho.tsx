@@ -179,7 +179,7 @@ function EditHecho({datosGeograficos, datos, setTitulo, handleOpenModal, registe
 
   return (
     <div className='w-full'>
-      <InputRegister campo="denuncia_id" nombre="denuncia_id" register={register} setValue={setValue} type="hidden" error={errors.dependencia_derivada} valor={datos._id} />
+      <InputRegister campo="" nombre="denuncia_id" register={register} setValue={setValue} type="hidden" error={errors.dependencia_derivada} valor={datos._id} />
       <h1 className='text-2xl my-5'>Hecho</h1>
       <div className='flex flex-col xl:flex-row'>
         <SelectRegister isRequired={false} campo="Género" nombre="genero" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} valor={datos.genero} />
@@ -205,7 +205,7 @@ function EditHecho({datosGeograficos, datos, setTitulo, handleOpenModal, registe
 
         <div className='flex flex-col md:flex-row my-2'>
           <SelectCargaDenuncias campo="Juzgado Interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} state={"Aasd"} />
-          <InputRegister campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} valor={datos.dependencia_derivada} />
+          <InputRegister notMid={true} campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} valor={datos.dependencia_derivada} />
         </div>
         <div className='flex flex-col md:flex-row my-2' >
           <SelectCargaDenuncias valor={datos.violencia} campo="Violencia" nombre="violencia" opciones={opcionesViolencia} register={register} setValue={setValue} type="text" error={errors.violencia} />

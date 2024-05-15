@@ -9,17 +9,19 @@ const denunciaSchema = new mongoose.Schema({
     victima_nombre: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        uppercase: true
     },
     victimario_ID: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
     },
     victimario_nombre: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        uppercase: true
     },
     genero: {
         type: String,

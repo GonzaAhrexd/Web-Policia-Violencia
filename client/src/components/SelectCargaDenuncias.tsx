@@ -215,7 +215,7 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
 
                     <div className='flex flex-col xl:flex-row'>
                         <InputDireccion state={direccion} setState={setDireccion} campo="Dirección" nombre="direccion" register={register} setValue={setValue} type="text" error={errors.direccion} />
-                        <InputRegister campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
+                        <InputRegister notMid={true} campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
                         <InputDireccion state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.gis} />
                         <div className='cursor-pointer flex flex-col items-center mt-5 md:flex-row'>
                             <div className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 md:mr-1 flex items-center justify-center' onClick={() => consultarCoordenadas()}>
