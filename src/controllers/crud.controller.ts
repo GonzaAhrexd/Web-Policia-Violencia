@@ -1,8 +1,7 @@
+// Importa los modelos de la base de datos
 import victimas from '../models/victimas'
 import victimario from '../models/victimario'
 import denuncia from '../models/denuncias'
-
-
 
 // DENUNCIAS
 export const getDenuncia = async (req, res) => {
@@ -53,11 +52,11 @@ export const createDenuncia = async (req, res) => {
         const { user_id, victima_ID, victimario_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
             derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica } = req.body
 
-        console.log(req.body)
-
+        // Buscar si la victima y victimario ya existen
         const findVictima = await victimas.findOne({ DNI: dni_victima })
         let findVictimario
 
+        // Si el DNI del victimario es S/N, se asigna el ID del victimario
         if (dni_victimario == "S/N") {
             findVictimario = victimario_ID
         } else {
