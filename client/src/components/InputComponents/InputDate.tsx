@@ -1,4 +1,3 @@
-import React from 'react'
 
 interface InputDateProps {
     campo: string;
@@ -10,7 +9,6 @@ interface InputDateProps {
     require?: boolean;
     valor?: string;
 }
-
 
 function InputDate({valor, campo, nombre, register, type, placeholder, error, require}: InputDateProps) {
   return (

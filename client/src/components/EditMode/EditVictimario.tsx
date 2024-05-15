@@ -6,9 +6,9 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import { editarVictima } from '../../api/crud'
 
 // Componentes
-import InputRadio from '../InputRadio'
-import InputCheckbox from '../InputCheckbox'
-import InputRegister from '../InputRegister'
+import InputRadio from '../InputComponents/InputRadio'
+import InputCheckbox from '../InputComponents/InputCheckbox'
+import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../SelectRegister'
 
 // Campos

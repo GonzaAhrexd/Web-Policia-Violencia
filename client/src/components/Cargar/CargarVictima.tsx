@@ -1,22 +1,19 @@
 import { useState } from 'react'
-import InputRegister from './InputRegister'
-import SelectRegister from './SelectRegister'
+import InputRegister from '../InputComponents/InputRegister'
+import SelectRegister from '../SelectRegister'
 import { useForm } from 'react-hook-form'
-import InputCheckbox from './InputCheckbox'
-import InputRadio from './InputRadio'
-
-interface CargarVictimarioProps {
+import InputCheckbox from '../InputComponents/InputCheckbox'
+interface CargarVictimaProps {
   register: any;
   setValue: any;
   errors: any;
 }
 
-function CargarVictimario   ({register, setValue, errors}:CargarVictimarioProps) {
+function CargarVictima({register, setValue, errors}: CargarVictimaProps) {
 
 
   const [isHijos, setIsHijos] = useState(false)
   const [isHijosConAgresor, setIsHijosConAgresor] = useState(false)
-
 
   const estadoCivil = [
     { nombre: 'Soltero/a', value: 'Soltero/a' },
@@ -95,46 +92,49 @@ function CargarVictimario   ({register, setValue, errors}:CargarVictimarioProps)
     { nombre: 'Tratamiento psicológico', value: 'Tratamiento psicológico' }
   ]
 
-  const opcionesNotificado = [
-    { nombre: 'Aprehensión', value: 'Aprehensión', id: "Aprehension" },
-    { nombre: 'Solicitud de Aprehensión', value: 'Solicitud de Aprehensión', id: "SolicitudAprehension" },
-    { nombre: 'Expedientes c/cautelar', value: 'Expedientes c/cautelar', id: "ExpedientesCCautelar" },
-    {nombre: 'Ninguno', value: 'Ninguno', id: "Ninguno"},
-  ]
-
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col md:flex-row my-2'>
-        <InputRegister campo="Nombre" nombre="nombre_victimario" register={register} setValue={setValue} type="text" error={errors.nombre_victimario} />
-        <InputRegister campo="Apellido" nombre="apellido_victimario" register={register} setValue={setValue} type="text" error={errors.apellido_victimario} />
+        <InputRegister campo="Nombre" nombre="nombre_victima" register={register} setValue={setValue} type="text" error={errors.nombre_victima} />
+        <InputRegister campo="Apellido" nombre="apellido_victima" register={register} setValue={setValue} type="text" error={errors.apellido_victima} />
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>
-        <InputRegister campo="Edad" nombre="edad_victimario" register={register} setValue={setValue} type="number" error={errors.edad_victimario} />
-        <InputRegister campo="DNI"  require={false} nombre="dni_victimario" register={register} setValue={setValue} type="text" error={errors.apellido_victimario} />
+        <InputRegister campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="number" error={errors.edad_victima} />
+        <InputRegister campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="number" error={errors.dni_victima} />
       </div>
 
       <div className='flex flex-col xl:flex-row my-2'>
-        <SelectRegister campo="Estado Civil" nombre="estado_civil_victimario" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victimario} />
-        <SelectRegister campo="Ocupación" nombre="ocupacion_victimario" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupaciones_victimario} />
+        <SelectRegister campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victima} />
+        <SelectRegister campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupacion_victima} />
       </div>
-    <>
-    <span className='ml-4 font-medium xl:text-vw'>Detalles</span>
-      <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-2`}>  
-        <InputCheckbox campo="Abuso de Alcohol" nombre="abuso_de_alcohol" register={register} setValue={setValue} type="checkbox" id="abusoAlcohol"  />          
-        <InputCheckbox campo="Antecedentes toxicológicos" nombre="antecedentes_toxicologicos" register={register} setValue={setValue} type="checkbox" id="antecedentesToxicologicos"  />          
-        <InputCheckbox campo="Antecedentes penales" nombre="antecedentes_penales" register={register} setValue={setValue} type="checkbox" id="antecedentesPenales"  />          
-        <InputCheckbox campo="Antecedentes contravencionales" nombre="antecedentes_contravencionales" register={register} setValue={setValue} type="checkbox" id="antecedentesConvencionales"/>          
-        <InputCheckbox campo="Entrenamiento en  combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" />          
+      <div className='flex flex-col xl:flex-row my-2'>
+        <SelectRegister campo="Vinculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculoConAgresor} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima} />
+        <SelectRegister campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad_victima" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.condicion_de_vulnerabilidad_victima} />
       </div>
-    </>
-    <>
-        <span className='ml-4 font-medium xl:text-vw my-2'> Notificación </span> 
-        <InputRadio campo="Notificación" nombre="notificacion" register={register} setValue={setValue} type="radio" opciones={opcionesNotificado}  defaultValue={3}/>          
-    </>
-    
+      <div className={`grid grid-cols-1 md:grid-cols-3 my-2` }>
+        <InputCheckbox campo="Convivencia " nombre="convivencia" register={register} setValue={setValue} type="checkbox" error={errors.convivencia} id="convivencia" />
+        <InputCheckbox campo="Hijos" nombre="hijos" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsHijos} state={isHijos} id="isHijos"/>
+        {isHijos &&
+          <>
+            <InputCheckbox campo="Dependencia económica" nombre="dependencia_economica" register={register} setValue={setValue} type="checkbox" error={errors.dependencia_economica} id="dependenciaEconomica" />
+            <InputCheckbox campo="Mayores de 18" nombre="mayor_de_18" register={register} setValue={setValue} type="checkbox" error={errors.mayor_de_18} id="mayores18"/>
+            <InputCheckbox campo="Menores de 18" nombre="menor_de_18" register={register} setValue={setValue} type="checkbox" error={errors.menor_de_18} id="menores18" />
+            <InputCheckbox campo="Menores discapacitados" nombre="menores_discapacitados" register={register} setValue={setValue} type="checkbox" error={errors.menores_discapacitados} id="menoresDiscapacitados" />
+            <InputCheckbox campo="Hijos con el agresor" nombre="hijos_con_agresor" register={register} setValue={setValue} type="checkbox" error={errors.hijos_con_agresor} setHook={setIsHijosConAgresor} state={isHijosConAgresor} id="hijosConElAgresor"/>
+           
+          </>
+        }
+         
+      </div>
+      {isHijosConAgresor &&
+               <InputRegister campo="Cantidad" nombre="cantidad_hijos_con_agresor" register={register} setValue={setValue} type="number" error={errors.cantidad_hijos_con_agresor} />
+            }
+
+
     </div>
+
   )
 }
 
-export default CargarVictimario 
+export default CargarVictima

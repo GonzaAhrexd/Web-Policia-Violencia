@@ -1,7 +1,8 @@
-import React from 'react'
+// Hooks
 import { useAuth } from '../../context/auth'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+
 function index() {
     //@ts-ignore
     const { logOut, isAuthenticated } = useAuth()
@@ -10,7 +11,7 @@ function index() {
         if(isAuthenticated){
             logOut()
             setTimeout(() => {
-          navigate('/login')
+            navigate('/login')
             }, 2000)
         }
       }, [isAuthenticated])

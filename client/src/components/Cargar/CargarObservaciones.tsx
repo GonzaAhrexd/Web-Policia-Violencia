@@ -1,4 +1,4 @@
-import InputTextArea from './InputTextArea'
+import InputTextArea from '../InputComponents/InputTextArea'
 
 interface observacionesProps {
   register: any

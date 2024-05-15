@@ -1,13 +1,16 @@
-import { useForm, Controller } from 'react-hook-form'
-import InputRegister from '../../components/InputRegister'
-import SelectRegister from '../../components/SelectRegister'
+
+// Hooks
 import { useEffect, useState } from 'react'
 import { registerRequest } from '../../api/auth'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/auth'
-import { Link } from 'react-router-dom'
-// Valores de los selects
+import { useForm, Controller } from 'react-hook-form'
 
+// Componentes
+import InputRegister from '../../components/InputComponents/InputRegister'
+import SelectRegister from '../../components/SelectRegister'
+
+// Campos
 import { unidadCampos } from '../../GlobalConst/unidadCampos'
 import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos'
 import { zonaCampos } from '../../GlobalConst/zonaCampos'
@@ -24,6 +27,7 @@ function Register() {
   // @ts-ignore
   const { signUp, user, isAuthenticated  } = useAuth()
 
+  // Validación si ya está identificado
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/login')
@@ -107,8 +111,5 @@ function Register() {
     </>
   );
 }
-
-
-
 
 export default Register

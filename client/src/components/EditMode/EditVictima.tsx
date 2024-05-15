@@ -5,9 +5,9 @@ import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
 // Backend
 import { editarVictima } from '../../api/crud'
 //Componentes
-import InputRegister from '../InputRegister'
+import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../SelectRegister'
-import InputCheckbox from '../InputCheckbox'
+import InputCheckbox from '../InputComponents/InputCheckbox'
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'

@@ -1,35 +1,40 @@
+// Autenticación
 import { useAuth } from '../../context/auth';
-import { Navigate } from 'react-router-dom';
-import NavBar from '../../components/NavBar';
-import { misDenuncias, getVictima, getVictimario, eliminarDenuncia } from '../../api/crud';
+// Hooks
 import { useState, useEffect } from 'react';
-import DataTable from 'react-data-table-component';
+import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
-import ShowTextArea from '../../components/ShowTextArea';
-import InputRegister from '../../components/InputRegister';
-import InputDate from '../../components/InputDate';
-import { CheckIcon, XMarkIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
+
+// APIs del BackEnd
+import { misDenuncias, getVictima, getVictimario, eliminarDenuncia } from '../../api/crud';
+// Librerías react
+import DataTable from 'react-data-table-component';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import SimpleTableCheckorX from '../../components/SimpleTableCheckorX';
-import InputCheckbox from '../../components/InputCheckbox';
-import EditSection from '../../components/EditMode/EditSection';
 import Swal from 'sweetalert2';
+// Iconos
+import { CheckIcon, XMarkIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
+import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
+// Componentes
+import NavBar from '../../components/NavBar';
+import SimpleTableCheckorX from '../../components/SimpleTableCheckorX';
+import InputCheckbox from '../../components/InputComponents/InputCheckbox';
+import EditSection from '../../components/EditMode/EditSection';
+import ShowTextArea from '../../components/ShowTextArea';
+import InputRegister from '../../components/InputComponents/InputRegister';
+import InputDate from '../../components/InputComponents/InputDate';
 
 function MisDenuncias() {
     //@ts-ignore
     const { signUp, user, isAuthenticated, isLoading } = useAuth();
     if (isLoading) return <h1>Cargando...</h1>
-    if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
+    if (!isLoading && !isAuthenticated && user.rol!="carga" || user.rol!="admin") return <Navigate to="/login" replace />
 
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     const handleBusqueda = async (values: any) => {
-
         const fetchDenuncias = async () => {
             const result = await misDenuncias(values);
-            // @ts-ignore
             setDenunciasAMostrar(result)
         }
-
         fetchDenuncias();
     }
 
@@ -37,20 +42,10 @@ function MisDenuncias() {
         errors
     } } = useForm()
 
-
+    // Iconos para expandir
     const expandableIcon = {
-        collapsed:
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m9 12.75 3 3m0 0 3-3m-3 3v-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-        ,
-        expanded:
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m15 11.25-3-3m0 0-3 3m3-3v7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-
-
-
+        collapsed: <ArrowDownCircleIcon className='h-6 w-6'/> ,
+        expanded: <ArrowUpCircleIcon className='h-6 w-6'/>
     }
     const columns = [
         {
@@ -177,51 +172,58 @@ function MisDenuncias() {
         },
     };
 
-    //@ts-ignore
-    const expandedComponents = ({ data }) => {
-        console.log(data)
+
+    const expandedComponents = ({ data }:any) => {
+        
+        // State para guardar los datos de la víctima
         const [victimaDatos, setVictimaDatos]: any = useState([])
+        // State para guardar los datos del victimario
         const [victimarioDatos, setVictimarioDatos]: any = useState([])
 
+        // Función para obtener los datos de la víctima
         const victimaObtener = async (id: string) => {
             try {
-                const response = await getVictima(id)
+                // Llamada a la API
+                const response: Response = await getVictima(id)
+                // Establece en el hook los datos de la víctima
                 setVictimaDatos(response)
-
             } catch (error) {
                 console.log(error)
             }
         }
         const victimarioObtener = async (id: string) => {
             try {
-                const response = await getVictimario(id)
+                // Llamada a la API
+                const response: Response = await getVictimario(id)
+                // Establece en el hook los datos de la víctima
                 setVictimarioDatos(response)
-
             } catch (error) {
                 console.log(error)
             }
-
         }
 
-        let latLng = data.GIS.split(" ");
+        // Separar las coordenadas
+        const latLng: Array<number> = data.GIS.split(" ");
+        const lat:number = latLng[0]
+        const lon:number = latLng[1]
 
-        let lat = latLng[0]
-        let lon = latLng[1]
-
-
+        // useEffect para obtener los datos de la víctima y el victimario
         useEffect(() => {
             victimaObtener(data.victima_ID); // Asegúrate de tener un 'id' válido aquí
             victimarioObtener(data.victimario_ID)
         }, [data.victima_ID, data.victimario_ID]); // Se ejecuta cuando el componente se monta y cada vez que 'id' cambia
 
+        // Función para abrir Google Maps con el mapa de y las coordenadas
         const handleClick = (GIS: string) => {
-
+            // Separar las coordenadas
             const coordenadasSeparadas = GIS.split(' ')
+            // URL de Google Maps
             const url = `https://www.google.com/maps/d/viewer?mid=1n-ERiPIZT9Q0WlRQoWI_NmvI9jJffohO&g_ep=CAESCjExLjEyNC4xMDIYACDdYio_LDk0MjE2NDEzLDk0MjEyNDk2LDk0MjA3NTA2LDk0MjE3NTIzLDk0MjE4NjUzLDQ3MDg3MTEyLDQ3MDg0MzkzQgJBUg%3D%3D&shorturl=1&ll=${coordenadasSeparadas[0]}%2C${coordenadasSeparadas[1]}&z=20`
+            // Abrir en una nueva pestaña
             window.open(url, '_blank');
-
         }
 
+        // Detalles del victimario
         const detallesVictimario = [
             { nombre: "Abuso de Alcohol", valor: victimarioDatos.abuso_de_alcohol },
             { nombre: "Antecedentes toxicológicos", valor: victimarioDatos.antecedentes_toxicologicos },
@@ -229,6 +231,7 @@ function MisDenuncias() {
             { nombre: "Antecedentes Contravencionales", valor: victimarioDatos.antecedentes_contravencionales },
             { nombre: "Entrenamiento en combate", valor: victimarioDatos.entrenamiento_en_combate },
         ]
+        // Medidas
         const medidas = [
             { nombre: "Prohibición de acercamiento", valor: data.medida.prohibicion_de_acercamiento },
             { nombre: "Restitución de menor", valor: data.medida.restitucion_de_menor },
@@ -236,10 +239,8 @@ function MisDenuncias() {
             { nombre: "Alimento Provisorio", valor: data.medida.alimento_provisorio },
             { nombre: "Derecho de Comunicación", valor: data.medida.derecho_de_comunicacion },
             { nombre: "Botón antipánico", valor: data.medida.boton_antipanico }
-
-
         ]
-
+        // Mostrar datos de la victima
         const victimaDatosMostrar = [
             { nombre: "Nombre", valor: victimaDatos.nombre },
             { nombre: "Apellido", valor: victimaDatos.apellido },
@@ -252,7 +253,7 @@ function MisDenuncias() {
             { nombre: "Denuncias previas", valor: victimaDatos.cantidad_de_denuncias_previas },
             { nombre: "Tiene hijos", valor: victimaDatos.hijos?.tiene_hijos ? "Sí" : "No" }
         ]
-
+        // Mostrar datos de los hijos
         const hijosVictima = [
             { nombre: "Dependencia económica", valor: victimaDatos.hijos?.dependencia_economica },
             { nombre: "Mayores de edad", valor: victimaDatos.hijos?.mayores_de_edad },
@@ -260,7 +261,7 @@ function MisDenuncias() {
             { nombre: "Menores discapacitados", valor: victimaDatos.hijos?.menores_discapacitados },
             { nombre: "Hijos con el agresor", valor: victimaDatos.hijos?.hijos_con_el_agresor }
         ]
-
+        // Mostrar datos del victimario
         const victimarioDatosMostrar = [
             { nombre: "Nombre", valor: victimarioDatos.nombre },
             { nombre: "Apellido", valor: victimarioDatos.apellido },
@@ -272,6 +273,7 @@ function MisDenuncias() {
             { nombre: "Denuncias previas", valor: victimarioDatos.cantidad_de_denuncias_previas }
         ]
 
+        // Datos del hecho
         const hechoDatosMostrar = [
             { nombre: "Número de expediente", valor: data.numero_de_expediente },
             { nombre: "Género", valor: data.genero },
@@ -282,6 +284,7 @@ function MisDenuncias() {
             { nombre: "Dependencia derivada", valor: data.dependencia_derivada },
         ]
 
+        // Tipos de violencia
         const tiposDeViolencia = [
             { nombre: "Violencia", valor: data.violencia },
             { nombre: "Modalidad", valor: data.modalidades },
@@ -293,6 +296,7 @@ function MisDenuncias() {
             { nombre: "Política", valor: data.tipo_de_violencia.Politica }
         ]
 
+        // Datos geográficos
         const hechoDatosGeográficos = [
             { nombre: "Unidad de Carga", valor: data.unidad_de_carga },
             { nombre: "Municipio", valor: data.municipio },
@@ -304,6 +308,7 @@ function MisDenuncias() {
             { nombre: "División Familiar y de Género", valor: data.isDivision },
         ]
 
+        // Datos del tercero
         const terceroDatos = [
             { nombre: "Nombre", valor: data.nombre_tercero },
             { nombre: "Apellido", valor: data.apellido_tercero },
@@ -311,14 +316,18 @@ function MisDenuncias() {
             { nombre: "Vinculo con la víctima", valor: data.vinculo_con_victima }
         ]
 
+        // Medidas
         const medidaSolicitada = [
             { nombre: "Medida solicitada por la víctima", valor: data.medida_solicitada_por_la_victima },
             { nombre: "Medida dispuesta por autoridad judicial", valor: data.medida_dispuesta_por_autoridad_judicial },
         ]
 
+        // Estado de editar global
         const [editGlobal, setEditGlobal] = useState(false)
 
+        // Controlar cuando se da a eliminar
         const handleDelete = async (data: any) => {
+            // Popup de confirmación
             Swal.fire({
                 title: '¿Estás seguro?',
                 text: "¡No podrás revertir esto!",
@@ -330,10 +339,10 @@ function MisDenuncias() {
                 cancelButtonText: 'Cancelar'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    try {
-                        
-                        console.log(data)
+                    try {                        
+                        // Llamada a la API
                         eliminarDenuncia(data._id)
+                        // Mensaje de éxito
                         Swal.fire(
                             'Borrado',
                             'La denuncia ha sido borrada',
@@ -342,8 +351,8 @@ function MisDenuncias() {
                             window.location.reload()
                         })
                         
-
                     } catch (error) {
+                        // Si hay un error
                         Swal.fire(
                             'Error',
                             'Hubo un error al borrar la denuncia',
@@ -356,7 +365,8 @@ function MisDenuncias() {
 
         return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
             {!editGlobal &&
-                <>             <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
+                <>
+                <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
                     <div className='flex flex-col'>
                         <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
                         {victimaDatos.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />}
@@ -441,7 +451,6 @@ function MisDenuncias() {
                     <InputDate campo="Hasta" nombre="hasta" register={register} type="date" error={errors} require={false}></InputDate>
                     <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                     <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
-
                     <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>
                 </form>
                 <div className="flex flex-col w-full">

@@ -9,13 +9,13 @@ import { unidadCampos } from '../../GlobalConst/unidadCampos'
 import { getCoords } from '../../api/coordinates'
 
 // Componentes
-import InputRegister from '../InputRegister'
-import InputDireccion from '../InputDireccion'
+import InputRegister from '../InputComponents/InputRegister'
+import InputDireccion from '../InputComponents/InputDireccion'
 import SelectCargaDenuncias from '../SelectCargaDenuncias'
 import SelectRegister from '../SelectRegister'
-import InputCheckbox from '../InputCheckbox'
-import InputDate from '../InputDate'
-import InputExpediente from '../InputExpediente'
+import InputCheckbox from '../InputComponents/InputCheckbox'
+import InputDate from '../InputComponents/InputDate'
+import InputExpediente from '../InputComponents/InputExpediente'
 import SimpleTableCheckorX from '../SimpleTableCheckorX'
 import EditExpediente from '../EditMode/EditExpediente'
 //Iconos

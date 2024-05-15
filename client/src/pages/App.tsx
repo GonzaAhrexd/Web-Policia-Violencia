@@ -1,4 +1,7 @@
+// Enrutamiento
 import { useRoutes, BrowserRouter, Route, Routes } from 'react-router-dom'
+
+// Páginas
 import Login from './Login'
 import Register from './Register'
 import NotFound from './NotFound'
@@ -6,12 +9,17 @@ import Home from './Home'
 import Logout from './Logout'
 import Perfil from './Perfil'
 import CargarDenuncias from './CargarDenuncias'
+import MisDenuncias from './MisDenuncias'
+
+// Contexto
 import { AuthProvider } from '../context/auth'
+
+// CSS
 import '../App.css'
+
+// Librerías React
 import {NextUIProvider} from "@nextui-org/react";
 
-import ProtectedRoutes from './ProtectedRoutes'
-import MisDenuncias from './MisDenuncias'
 const AppRoutes = () => {
   let routes = useRoutes([
     { path: '/', element: <Home /> },
@@ -32,15 +40,11 @@ const AppRoutes = () => {
 const App = () => {
 
   return (
-    
     <AuthProvider>
       <NextUIProvider> 
-
       <BrowserRouter>
         <AppRoutes />
-        
       </BrowserRouter>
-
     </NextUIProvider>
     </AuthProvider>
 

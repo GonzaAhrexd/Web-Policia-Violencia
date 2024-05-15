@@ -1,10 +1,12 @@
+// Hooks
 import { useForm } from 'react-hook-form'
-import InputLogin from '../../components/InputLogin'
-import { useAuth } from '../../context/auth'
-import { NavLink } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { NavLink } from 'react-router-dom'
+// Contexto
+import { useAuth } from '../../context/auth'
+// Componentes
+import InputLogin from '../../components/InputComponents/InputLogin'
 function Login() {
   
   const { register, handleSubmit, setValue, formState: {
@@ -35,9 +37,8 @@ function Login() {
           <form className='flex flex-col items-center align-middle justify-center w-4/5 sm:w-3/5' action=""  onSubmit={handleSubmit(async(values) => {
             signIn(values)
             })}>
-           <InputLogin campo={"nombre_de_usuario"} nombre={"nombre_de_usuario"} placeholder={"Nombre de usuario"} register={register} type="text" error={errors.nombre_de_usuario}></InputLogin>
-            <InputLogin campo={"pass"} nombre={"Contraseña"} placeholder={"Contraseña"} register={register} type="password" error={errors.pass}></InputLogin>
-          
+           <InputLogin campo={"nombre_de_usuario"} placeholder={"Nombre de usuario"} register={register} type="text" error={errors.nombre_de_usuario}></InputLogin>
+            <InputLogin campo={"pass"} placeholder={"Contraseña"} register={register} type="password" error={errors.pass}></InputLogin>
              <span>¿Has olvidado la contraseña? </span> <a href='/recover' className='text-sky-900'>Recuperar</a>
             <button className='bg-sky-900 hover:bg-sky-700 text-white w-full h-10 rounded-md my-2'>Iniciar Sesión</button>
             <span className='text-sm'> ¿No tienes cuenta? <NavLink to='/register' className='text-sky-900'>Regístrate</NavLink> </span>

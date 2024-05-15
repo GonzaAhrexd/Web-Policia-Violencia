@@ -1,10 +1,13 @@
+// Hooks
 import { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth }  from '../../context/auth';
+// Componentes
 import NavBar from '../../components/NavBar';
 import CardActions from '../../components/Cards/CardsActions';
 import CardProfile from '../../components/Cards/CardProfile';
 import CardDenunciasRecientes from '../../components/Cards/CardDenunciasRecientes';
+
 import { CSSTransition } from 'react-transition-group';
 import { misDenuncias } from '../../api/crud';
 function Home() {
@@ -43,8 +46,8 @@ function Home() {
   
   const [showAdminSection, setShowAdminSection] = useState<boolean>(false);
   const saludosDependiendoLaHora = () => {
-    const fecha = new Date();
-    const hora = fecha.getHours();
+    const fecha:Date = new Date();
+    const hora:number = fecha.getHours();
     if(hora >= 0 && hora < 12) {
       return 'Buenos días';
     } else if(hora >= 12 && hora <= 19) {
@@ -53,10 +56,6 @@ function Home() {
       return 'Buenas noches';
     }
   }
-
-  const [denuncias, setDenuncias] = useState([]);
-
-
   return (
     <>
     <NavBar user={user}/>

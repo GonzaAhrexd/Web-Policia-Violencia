@@ -9,7 +9,7 @@ import EditVictima from './EditVictima'
 import EditVictimario from './EditVictimario'
 import EditHecho from './EditHecho'
 import Modal from '../Modal'
-import InputTextArea from '../InputTextArea'
+import InputTextArea from '../InputComponents/InputTextArea'
 import Swal from 'sweetalert2'
 
 // Props

@@ -12,7 +12,7 @@ import { zonaCampos } from '../../GlobalConst/zonaCampos';
 import { useAuth } from '../../context/auth';
 
 // Componentes
-import InputRegister from '../InputRegister'
+import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../SelectRegister'
 
 // Definición detiepos
