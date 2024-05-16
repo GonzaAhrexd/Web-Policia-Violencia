@@ -12,14 +12,14 @@ import DataTable from 'react-data-table-component';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import Swal from 'sweetalert2';
 // Iconos
-import { CheckIcon, XMarkIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 // Componentes
 import NavBar from '../../components/NavBar';
-import SimpleTableCheckorX from '../../components/SimpleTableCheckorX';
+import SimpleTableCheckorX from '../../components/ShowData/SimpleTableCheckorX';
 import InputCheckbox from '../../components/InputComponents/InputCheckbox';
 import EditSection from '../../components/EditMode/EditSection';
-import ShowTextArea from '../../components/ShowTextArea';
+import ShowTextArea from '../../components/ShowData/ShowTextArea';
 import InputRegister from '../../components/InputComponents/InputRegister';
 import InputDate from '../../components/InputComponents/InputDate';
 
@@ -27,7 +27,7 @@ function MisDenuncias() {
     //@ts-ignore
     const { signUp, user, isAuthenticated, isLoading } = useAuth();
     if (isLoading) return <h1>Cargando...</h1>
-    if (!isLoading && !isAuthenticated && user.rol!="carga" || user.rol!="admin") return <Navigate to="/login" replace />
+    if (!isLoading && !isAuthenticated && user.rol != "carga" || user.rol != "admin") return <Navigate to="/login" replace />
 
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     const handleBusqueda = async (values: any) => {
@@ -38,14 +38,14 @@ function MisDenuncias() {
         fetchDenuncias();
     }
 
-    const { control, register, handleSubmit, setValue, formState: {
+    const {  register, handleSubmit, setValue, formState: {
         errors
     } } = useForm()
 
     // Iconos para expandir
     const expandableIcon = {
-        collapsed: <ArrowDownCircleIcon className='h-6 w-6'/> ,
-        expanded: <ArrowUpCircleIcon className='h-6 w-6'/>
+        collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
+        expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
     const columns = [
         {
@@ -173,12 +173,14 @@ function MisDenuncias() {
     };
 
 
-    const expandedComponents = ({ data }:any) => {
-        
+    const expandedComponents = ({ data }: any) => {
+
         // State para guardar los datos de la víctima
         const [victimaDatos, setVictimaDatos]: any = useState([])
         // State para guardar los datos del victimario
         const [victimarioDatos, setVictimarioDatos]: any = useState([])
+        // Estado de editar global
+        const [editGlobal, setEditGlobal] = useState(false)
 
         // Función para obtener los datos de la víctima
         const victimaObtener = async (id: string) => {
@@ -204,8 +206,8 @@ function MisDenuncias() {
 
         // Separar las coordenadas
         const latLng: Array<number> = data.GIS.split(" ");
-        const lat:number = latLng[0]
-        const lon:number = latLng[1]
+        const lat: number = latLng[0]
+        const lon: number = latLng[1]
 
         // useEffect para obtener los datos de la víctima y el victimario
         useEffect(() => {
@@ -322,8 +324,6 @@ function MisDenuncias() {
             { nombre: "Medida dispuesta por autoridad judicial", valor: data.medida_dispuesta_por_autoridad_judicial },
         ]
 
-        // Estado de editar global
-        const [editGlobal, setEditGlobal] = useState(false)
 
         // Controlar cuando se da a eliminar
         const handleDelete = async (data: any) => {
@@ -339,7 +339,7 @@ function MisDenuncias() {
                 cancelButtonText: 'Cancelar'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    try {                        
+                    try {
                         // Llamada a la API
                         eliminarDenuncia(data._id)
                         // Mensaje de éxito
@@ -350,7 +350,7 @@ function MisDenuncias() {
                         ).then(() => {
                             window.location.reload()
                         })
-                        
+
                     } catch (error) {
                         // Si hay un error
                         Swal.fire(
@@ -366,7 +366,7 @@ function MisDenuncias() {
         return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
             {!editGlobal &&
                 <>
-                <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
+                    <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
                     <div className='flex flex-col'>
                         <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
                         {victimaDatos.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />}
@@ -429,7 +429,7 @@ function MisDenuncias() {
                 </>
             }
             {editGlobal &&
-                <>  
+                <>
                     <EditSection datosGeograficos={hechoDatosGeográficos} datosHecho={data} datosVictima={victimaDatos} datosVictimario={victimarioDatos} setEditSection={setEditGlobal} editSection={editGlobal} />
                 </>
             }

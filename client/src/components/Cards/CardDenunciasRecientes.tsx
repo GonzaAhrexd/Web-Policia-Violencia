@@ -4,20 +4,16 @@ import { misDenuncias } from '../../api/crud';
 
 type Props = {
     title: string,
-    description: string,
-    usuario: any
 };
 
-export default function CardDenunciasRecientes({ usuario, title, description }: Props): JSX.Element {
+export default function CardDenunciasRecientes({  title }: Props): JSX.Element {
 
 
-    const [denuncias, setDenuncias] = useState([]);
     const [lastFiveDenuncias, setLastFiveDenuncias] = useState([]);
     useEffect(() => {
         const fetchDenuncias = async () => {
             let values = [{ desde: "no_ingresado" }, { hasta: "no_ingresado" }, { numero_de_expediente: "no_ingresado" }]
             const result = await misDenuncias(values);
-            // @ts-ignore
             const lastFiveDenuncias = result.slice(Math.max(result.length - 5, 0)).reverse();
             setLastFiveDenuncias(lastFiveDenuncias);          
         };
@@ -41,7 +37,7 @@ export default function CardDenunciasRecientes({ usuario, title, description }: 
                         </div>
                     ) : ( 
                         lastFiveDenuncias.map((denuncia: any, index: number) => (
-                            <div className='w-full text-black  bg-neutral-300 border rounded-lg mb-2'>
+                            <div key={index} className='w-full text-black  bg-neutral-300 border rounded-lg mb-2'>
                             { denuncia.numero_de_expediente }
                         </div>
                              ))
@@ -55,7 +51,7 @@ export default function CardDenunciasRecientes({ usuario, title, description }: 
 
                 </div>
                 <div
-                    className="border-t-2 border-neutral-100 px-6 py-3 border-neutral-600 text-neutral-50">
+                    className="border-t-2 px-6 py-3 border-neutral-600 text-neutral-50">
 
                 </div>
             </NavLink>

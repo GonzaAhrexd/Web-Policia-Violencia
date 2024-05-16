@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react'
 import { registerRequest } from '../../api/auth'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/auth'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 // Componentes
 import InputRegister from '../../components/InputComponents/InputRegister'
-import SelectRegister from '../../components/SelectRegister'
+import SelectRegister from '../../components/Select/SelectRegister'
 
 // Campos
 import { unidadCampos } from '../../GlobalConst/unidadCampos'
@@ -16,12 +16,11 @@ import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos'
 import { zonaCampos } from '../../GlobalConst/zonaCampos'
 
 function Register() {
-  const { control, register, handleSubmit, setValue, formState: {
+  const { register, handleSubmit, setValue, formState: {
     errors 
   } } = useForm()
 
   const [mensajeError, setMensajeError] = useState("")
-  const [thereIsError, setThereIsError] = useState(false)
 
   const navigate = useNavigate();
   // @ts-ignore
@@ -44,23 +43,22 @@ function Register() {
                 
               if (values.pass.length < 6) {  //Validación longitud de contraseña
                 setMensajeError("La contraseña debe tener mínimo 6 caracteres");
-                setThereIsError(true);
+             
               } else if (values.pass !== values.passrepeat) { //Validación de contraseñas iguales
                 setMensajeError("Las contraseñas no coinciden");
-                setThereIsError(true);
               } else if ((values.telefono).length !== 10) { //Validación de longitud de teléfono	
                 setMensajeError("Los números de teléfono deben tener 10 dígitos");
-                setThereIsError(true);
               }
               else { //Si no hay errores
                 setMensajeError("");
-                setThereIsError(false);
                 try {
                   const res = await registerRequest(values);
                   if (res.data == "Usuario ya existe o no se ingresaron datos") {
                     setMensajeError("Usuario ya existente")
                   } else {
+                    // Envía la información al backend
                     signUp(res)
+                    // Redirecciona a login
                     navigate('/login');
                   }
                 } catch (error) {

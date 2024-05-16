@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+// API para obtener las coordenadas de una dirección
 export const getCoords = async (direccion: any) => { 
     //Hay que crear una carpeta .env.local en la raíz del proyecto y agregar la variable VITE_API_KEY_GEOCODING
     const APIKEY = import.meta.env.VITE_API_KEY_GEOCODING

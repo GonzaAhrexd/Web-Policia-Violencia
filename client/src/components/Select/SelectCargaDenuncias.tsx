@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import InputDireccion from './InputComponents/InputDireccion';
-import InputRegister from './InputComponents/InputRegister';
+import InputDireccion from '../InputComponents/InputDireccion';
+import InputRegister from '../InputComponents/InputRegister';
 
 interface Opcion {
     value?: string;

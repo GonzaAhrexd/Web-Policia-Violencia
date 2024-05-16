@@ -11,12 +11,12 @@ import { getCoords } from '../../api/coordinates'
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import InputDireccion from '../InputComponents/InputDireccion'
-import SelectCargaDenuncias from '../SelectCargaDenuncias'
-import SelectRegister from '../SelectRegister'
+import SelectCargaDenuncias from '../Select/SelectCargaDenuncias'
+import SelectRegister from '../Select/SelectRegister'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputDate from '../InputComponents/InputDate'
 import InputExpediente from '../InputComponents/InputExpediente'
-import SimpleTableCheckorX from '../SimpleTableCheckorX'
+import SimpleTableCheckorX from '../ShowData/SimpleTableCheckorX'
 import EditExpediente from '../EditMode/EditExpediente'
 //Iconos
 import { PencilIcon, XMarkIcon } from '@heroicons/react/24/solid';

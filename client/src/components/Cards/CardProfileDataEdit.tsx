@@ -13,7 +13,7 @@ import { useAuth } from '../../context/auth';
 
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
-import SelectRegister from '../SelectRegister'
+import SelectRegister from '../Select/SelectRegister'
 
 // Definición detiepos
 interface Usuario {

@@ -1,4 +1,4 @@
-export const vinculoConAgresor = [
+export const vinculo = [
     { nombre: 'Ninguno', value: 'Ninguno' },
     //Parejas
     { nombre: 'Novio/a', value: 'Novio/a' },

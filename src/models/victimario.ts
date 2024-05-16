@@ -87,8 +87,12 @@ const victimarioSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    },
+    {
+    timestamps: true // Timestamps para que guarde la fecha de creación y actualización
+    }
 
-})
+)
 
 // Creamos el modelo de victimario en la base de datos
 const victimario = mongoose.model('victimario', victimarioSchema)

@@ -28,7 +28,7 @@ const victimasSchema = new mongoose.Schema({
         type: String, // Tipo de dato String
         required: true, // Campo requerido
         trim: true, // Trim para que no se guarden espacios en blanco
-        set: function(value: string) { // Función para remplazar los puntos y espacios del DNI
+        set: function (value: string) { // Función para remplazar los puntos y espacios del DNI
             return value.replace(/\./g, '').replace(/\s/g, '');
         }
     },
@@ -69,7 +69,7 @@ const victimasSchema = new mongoose.Schema({
         trim: true // Trim para que no se guarden espacios en blanco
     },
     // Definición de parametros relacionados a hijos
-    hijos:{
+    hijos: {
         tiene_hijos: { // Definición de si la victima tiene hijos
             type: Boolean, // Tipo de dato Boolean
             required: true, // Campo requerido
@@ -106,7 +106,10 @@ const victimasSchema = new mongoose.Schema({
             default: false, // Valor por defecto
         },
     }
-})
+},
+    {
+        timestamps: true // Timestamps para que guarde la fecha de creación y actualización
+    })
 
 // Exportamos el modelo de victimas
 const victimas = mongoose.model('victimas', victimasSchema)

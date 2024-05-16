@@ -234,8 +234,31 @@ export const createVictima = async (req, res) => {
             res.json({ message: 'Victima creado con exito', id: victimaSaved._id })
         } else {
             res.send('Victima ya existe')
-            //Actualiza la victima existente y agrega a cantida de denuncias previas una más
-            const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, { $inc: { cantidad_de_denunicas_previas: 1 } }, { new: true })
+            // Actualiza los datos con los nuevos ingresados en caso de que difiera y suma 1 denuncia 
+            const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, {
+                nombre: nombre_victima,
+                apellido: apellido_victima,
+                edad: edad_victima,
+                DNI: dni_victima,
+                estado_civil: estado_civil_victima,
+                ocupacion: ocupacion_victima,
+                vinculo_con_agresor: vinculo_con_agresor_victima,
+                condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
+                convivencia: convivencia ? convivencia : false,
+                hijos: {
+                    tiene_hijos: hijos ? hijos : false,
+                    dependencia_economica: dependencia_economica ? dependencia_economica : false,
+                    mayores_de_edad: mayor_de_18 ? mayor_de_18 : false,
+                    menores_de_edad: menor_de_18 ? menor_de_18 : false,
+                    menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,
+                    hijos_con_el_agresor: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
+                },
+                $inc: { cantidad_de_denunicas_previas: 1 }
+            }, { new: true })
+
+
+
+            //const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, { $inc: { cantidad_de_denunicas_previas: 1 } }, { new: true })
 
         }
 
@@ -341,7 +364,23 @@ export const createVictimario = async (req, res) => {
             res.send('Victimario ya existe')
             //Actualiza al victimario existente y agrega a cantida de denuncias previas una más
             if (dni_victimario != "S/N") {
-                const victimarioUpdated = await victimario.findOneAndUpdate({ DNI: dni_victimario }, { $inc: { cantidad_de_denuncias_previas: 1 } }, { new: true })
+                const victimarioUpdated = await victimario.findOneAndUpdate({ DNI: dni_victimario }, {
+                    nombre: nombre_victimario,
+                    apellido: apellido_victimario,
+                    edad: edad_victimario,
+                    DNI: dni_victimario,
+                    estado_civil: estado_civil_victimario,
+                    ocupacion: ocupacion_victimario,
+                    abuso_de_alcohol,
+                    antecedentes_toxicologicos,
+                    antecedentes_penales,
+                    antecedentes_contravencionales,
+                    entrenamiento_en_combate,
+                    notificacion,
+                    $inc: { cantidad_de_denuncias_previas: 1 } 
+                }, { new: true })
+
+                //const victimarioUpdated = await victimario.findOneAndUpdate({ DNI: dni_victimario }, { $inc: { cantidad_de_denuncias_previas: 1 } }, { new: true })
             }
         }
 

@@ -1,5 +1,5 @@
 // Enrutamiento
-import { useRoutes, BrowserRouter, Route, Routes } from 'react-router-dom'
+import { useRoutes, BrowserRouter } from 'react-router-dom'
 
 // Páginas
 import Login from './Login'
@@ -34,8 +34,6 @@ const AppRoutes = () => {
 
   return routes
 }
-
-
 
 const App = () => {
 

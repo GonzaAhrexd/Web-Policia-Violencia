@@ -8,22 +8,25 @@ import { useAuth } from '../../context/auth'
 // Componentes
 import InputLogin from '../../components/InputComponents/InputLogin'
 function Login() {
-  
-  const { register, handleSubmit, setValue, formState: {
+  // Importamos las funciones necesarias de useForm
+  const { register, handleSubmit, formState: {
     errors
   } } = useForm()
-  
+  // Importamos la función navigate de react-router-dom
   const navigate = useNavigate();
   // @ts-ignore
   const { signUp, user, isAuthenticated} = useAuth()
-
   // @ts-ignore
   const { signIn, errorsAuth } = useAuth()
+
+  // useEffect para redirigir al usuario si ya está autenticado
   useEffect(() => {
     if(isAuthenticated){
       navigate('/')
     }
   }, [user, isAuthenticated])
+  
+  
   return (
     <div className='gradient h-screen flex flex-col items-center align-middle justify-center'>
       <div className='flex flex-row align-middle justify-center bg-white h-screen w-screen sm:h-full sm:w-full sm:rounded-md sm:mt-0 md:h-full md:w-4/6 md:rounded-md md:mt-0 lg:h-9/10 lg:w-6/10 lg:rounded-md lg:mt-0 xl:h-9/10 xl:w-5/10 xl:rounded-md xl:mt-0 2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0'>

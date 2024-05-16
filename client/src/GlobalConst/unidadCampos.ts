@@ -37,7 +37,7 @@ const subdivisionesMetropolitana = [
         { nombre: "Cuadrícula 23", value: "Cuadrícula 23" },
         { nombre: "Cuadrícula 24", value: "Cuadrícula 24" },
         { nombre: "Cuadrícula 25", value: "Cuadrícula 25" },
-        { nombre: "Cuadrícula 25", value: "Cuadrícula 26" },
+        { nombre: "Cuadrícula 26", value: "Cuadrícula 26" },
       ]
       },
       { nombre: "Comisaría Sexta", value: "Comisaría Sexta Resistencia", prefijo: "128", cuadriculas: [

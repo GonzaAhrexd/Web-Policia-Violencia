@@ -9,7 +9,7 @@ import { editarVictima } from '../../api/crud'
 import InputRadio from '../InputComponents/InputRadio'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputRegister from '../InputComponents/InputRegister'
-import SelectRegister from '../SelectRegister'
+import SelectRegister from '../Select/SelectRegister'
 
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'

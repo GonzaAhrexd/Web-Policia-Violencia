@@ -1,5 +1,4 @@
 // React router
-
 import { Link } from 'react-router-dom'
 
 const NotFound = () => {  
