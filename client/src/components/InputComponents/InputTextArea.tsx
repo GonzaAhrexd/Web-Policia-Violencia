@@ -24,7 +24,7 @@ function InputTextArea({ campo, nombre, register, type, variante, valor, placeho
     return (
         <div className={`flex flex-col ${variante!="edit" ? 'md:w-6/10' : "h-56"} w-full`}>
             <span className={`font-medium ml-4 xl:text-vw`}> {campo} </span>
-            <textarea className="border open-sans pl-4 py-5 resize-none text-lg border-gray-300 rounded-md w-full h-full "type={type}
+            <textarea className="border open-sans pl-4 py-5 resize-none text-lg border-gray-300 rounded-md w-full h-56 "type={type}
                 {...register(nombre, { required: true })} placeholder={placeholder} />
         </div>
     )
