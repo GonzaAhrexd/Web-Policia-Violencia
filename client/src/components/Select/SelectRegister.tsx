@@ -20,13 +20,12 @@ interface Props {
 }
 
 
-function SelectRegister({ campo, opciones, nombre, register, setValue, error, isRequired, valor }: Props) {
+function SelectRegister({ campo, opciones, nombre, setValue, isRequired, valor }: Props) {
    
     const [requiredInput, setRequiredInput] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
-    const [hadSubmitted, setHadSubmitted] = useState(false)
     const [isEmpty, setIsEmpty] = useState(false);
 
     const handleUnidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

@@ -1,6 +1,15 @@
-import React from 'react'
-import { Interface } from 'readline'
+/* 
+__________________________________________________________________________________________________
+Uso del componente:
+    EditExpediente recibe los datos de los expedientes para ser mostrados y editados en el formulario
+    de la sección de expediente.
+    Este depende del valor de comisariaPertenece para ir variando en el número a mostrar dependiendo de 
+    la comisaría a la que pertenezca.
+__________________________________________________________________________________________________
+*/
+// Hooks
 import { useEffect } from 'react';
+// Props
 interface InputExpedienteProps {
     campo: string;
     nombre: string;
@@ -14,7 +23,7 @@ interface InputExpedienteProps {
     expediente?: any;
 }
 
-function EditExpediente({expediente, campo, nombre, register, type, error, placeholder, setValue, valor, comisariaPertenece}: InputExpedienteProps) {
+function EditExpediente({expediente, campo, nombre, register, type, error, placeholder, setValue, comisariaPertenece}: InputExpedienteProps) {
     const handleDate = () => {
         //Obtener solo los últimos 2 números del año
         let date = new Date()

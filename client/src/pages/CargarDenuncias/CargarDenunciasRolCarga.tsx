@@ -1,9 +1,6 @@
-
 // Hooks
-import { useAuth } from '../../context/auth';
-import { Navigate } from 'react-router-dom';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 
 // Conexión con BackEnd
 import { crearDenuncia, agregarVictima, agregarVictimario } from '../../api/crud';
@@ -12,43 +9,36 @@ import { crearDenuncia, agregarVictima, agregarVictimario } from '../../api/crud
 import Swal from 'sweetalert2'
 
 // Componentes
-import NavBar from '../../components/NavBar';
-import Modal from '../../components/Modal';
 import CargarVictima from '../../components/Cargar/CargarVictima';
 import CargarVictimario from '../../components/Cargar/CargarVictimario';
 import CargarDenuncia from '../../components/Cargar/CargarDenuncia';
 import CargarObservaciones from '../../components/Cargar/CargarObservaciones';
 
-function CargarDenuncias() {
-  const {  register, handleSubmit, setValue, formState: {
-    errors
-  } } = useForm()
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [texto, setTexto] = useState(['']);
-  const [titulo, setTitulo] = useState('');
+interface CargarDenunciasRolCargaProps {
+    user: any;
+    }
 
-  const handleOpenModal = (text: string[]) => {
-    setIsModalOpen(true);
-    setTexto(text);
-  };
+function CargarDenunciasRolCarga({user}: CargarDenunciasRolCargaProps) {
+    const {  register, handleSubmit, setValue, formState: {
+        errors
+      } } = useForm()
+      
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [texto, setTexto] = useState(['']);
+    const [titulo, setTitulo] = useState('');
+  
+    const handleOpenModal = (text: string[]) => {
+      setIsModalOpen(true);
+      setTexto(text);
+    };
+  
+    const handleCloseModal = () => {
+      setIsModalOpen(false);
+    }
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  }
-
-  //@ts-ignore
-  const { signUp, user, isAuthenticated, isLoading } = useAuth();
-  if (isLoading) return <h1>Cargando...</h1>
-  if (!isLoading && !isAuthenticated && user.rol !== 'carga' || user.rol !== 'admin') return <Navigate to="/login" replace />
-
-    return (
-      <>
-        <NavBar user={user} />
-        <div>
-          {isModalOpen && <Modal titulo={titulo} texto={texto} onClose={handleCloseModal} />}
-        </div>
-        <div className='h-screen sm:h-full p-2 sm:p-10'>
+  return (
+    <div className='h-screen sm:h-full p-2 sm:p-10'>
           <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>
           <div>
             <h1 className='text-2xl my-5'>Victima</h1>
@@ -107,10 +97,9 @@ function CargarDenuncias() {
               </div>
             </form>
           </div>
-        </div>
-      </>
-    );
-  } 
+          </div>
 
+  )
+}
 
-export default CargarDenuncias
+export default CargarDenunciasRolCarga

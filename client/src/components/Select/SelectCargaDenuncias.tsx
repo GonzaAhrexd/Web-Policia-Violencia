@@ -35,17 +35,13 @@ interface Props {
 }   
 
 
-function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, error, setComisariaPertenece, state, info, setTitulo }: Props) {
+function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, setComisariaPertenece, state, info, setTitulo }: Props) {
 
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
     const [selectedCuadricula, setSelectedCuadricula] = useState('');
-    const [hadSubmitted, setHadSubmitted] = useState(false)
-
-
-
-
+   
     const handleBuscarPrefijo = (comisaria: String) => {
         //Busca el prefijo de la comisaria entre las opciones, tiene que coincidir con el valor de la comisaria
         let prefijo = ''
@@ -280,7 +276,6 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                 {selectedSubsubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones?.find((subsubunidad: Opcion) => subsubunidad.value === selectedSubsubunidad)?.cuadriculas && (
                     <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
                         <span className='ml-4 font-medium xl:text-vw'> Cuadricula </span>
-
                         <select
                             className="border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                             name="cuadricula"
@@ -289,11 +284,9 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                         >
                             <option value="">Seleccione una cuadrícula</option>
                             {opciones.find((unidad) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones?.find((subsubunidad: Opcion) => subsubunidad.value === selectedSubsubunidad)?.cuadriculas?.map((cuadricula) => (
-                                <>
                                     <option key={cuadricula.value} value={cuadricula.value}>
                                         {cuadricula.nombre}
                                     </option>
-                                </>
                             ))}
                         </select>
                     </div>

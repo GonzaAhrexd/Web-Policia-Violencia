@@ -1,9 +1,11 @@
+/*
+ Uso del componente:
+    EditVictima recibe los datos de las victimas para ser mostrados y editados en el formulario
+    de la sección de victima.
+    Este componente es utilizado en editSection.
+*/
+// Hooks
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
-
-// Backend
-import { editarVictima } from '../../api/crud'
 //Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
