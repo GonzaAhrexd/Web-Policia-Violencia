@@ -2,7 +2,7 @@
 import victimas from '../models/victimas'
 import victimario from '../models/victimario'
 import denuncia from '../models/denuncias'
-
+import denunciaSinVerificar from '../models/denunciaSinVerificar'
 // DENUNCIAS
 export const getDenuncia = async (req, res) => {
 }
@@ -201,12 +201,55 @@ export const updateDenuncia = async (req, res) => {
     }
 }
 
+// Denuncias cargadas por agentes (Sin verificar)
+export const createDenunciaSinVerificar = async (req, res) => {
+    try {
+        const {nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor  } = req.body
+
+        console.log(req.body)
+        const newDenunciaSinVerificar = new denunciaSinVerificar({
+            estado: "En verificación",
+            nombre_victima: nombre_victima,
+            apellido_victima: apellido_victima,
+            edad_victima: edad_victima,
+            DNI_victima: dni_victima,
+            estado_civil_victima: estado_civil_victima,
+            ocupacion_victima: ocupacion_victima,
+            nacionalidad_victima: nacionalidad_victima,
+            direccion_victima: direccion_victima,
+            telefono_victima: telefono_victima,
+            sabe_leer_y_escribir_victima: SabeLeerYEscribir == "Sí" ? true : false,
+            observaciones: observaciones,
+            preguntas: {
+                desea_ser_asistida: AsistidaPorDichoOrganismo == "Sí" ? true : false,
+                desea_ser_examinada_por_medico: ExaminadaMedicoPolicial == "Sí" ? true : false,
+                desea_accionar_penalmente: AccionarPenalmente == "Sí" ? true : false,
+                desea_agregar_quitar_o_enmendar: AgregarQuitarOEnmendarAlgo == "Sí" ? true : false
+            },
+            secretario: {
+                nombre_completo_secretario: nombre_completo_secretario,
+                jerarquia_secretario: jerarquia_secretario,
+                plaza_secretario: plaza_secretario
+            },
+            instructor: {
+                nombre_completo_instructor: nombre_completo_instructor,
+                jerarquia_instructor: jerarquia_instructor,
+            }
+        })
+
+        const denunciaSinVerificarSaved = await newDenunciaSinVerificar.save()
+        res.send('Denuncia creada con exito')
+        
+    }catch (error){
+        console.log(error)
+    }
+}
 // VÍCTIMA
 // Crear víctima
 export const createVictima = async (req, res) => {
     //Victima nueva
     try {
-        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor } = req.body
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor, telefono_victima, direccion_victima, nacionalidad_victima, sabe_leer_y_escribir } = req.body
         let victimaExistente = await victimas.findOne({ DNI: dni_victima })
         if (req.body.dni_victima && !victimaExistente) {
             const newVictima = new victimas({
@@ -227,7 +270,8 @@ export const createVictima = async (req, res) => {
                     menores_de_edad: menor_de_18 ? menor_de_18 : false,
                     menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,
                     hijos_con_el_agresor: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
-                }
+                },
+               
             })
 
             const victimaSaved = await newVictima.save()

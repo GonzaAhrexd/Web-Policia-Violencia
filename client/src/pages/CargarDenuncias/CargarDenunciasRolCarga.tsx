@@ -68,6 +68,7 @@ function CargarDenunciasRolCarga({user}: CargarDenunciasRolCargaProps) {
                       text: 'La denuncia ha sido cargada con éxito',
                       icon: 'success',
                       confirmButtonText: 'Aceptar',
+                      confirmButtonColor: '#0C4A6E',    
                     }).then((result) => {
                       if (result.isConfirmed) {
                        window.location.reload();
@@ -93,7 +94,7 @@ function CargarDenunciasRolCarga({user}: CargarDenunciasRolCargaProps) {
                 <CargarObservaciones register={register} />
               </div>
               <div className="flex justify-center my-3">
-                <button className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-6/10' type="submit">Enviar</button>
+               <button className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-6/10' type="submit">Enviar</button>
               </div>
             </form>
           </div>

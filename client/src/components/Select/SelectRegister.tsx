@@ -41,8 +41,8 @@ function SelectRegister({ campo, opciones, nombre, setValue, isRequired, valor }
         // Actualiza el valor en react-hook-form
         campo == "Género" && setValue('genero', value)
         campo == "Unidad" && setValue('unidad', value) 
-        campo == "Jerarquía" && setValue('jerarquia', value)
         campo == "Zona" && setValue('zona', value)
+        nombre == "jerarquia" && setValue('jerarquia', value)
         nombre == "estado_civil_victima" && setValue('estado_civil_victima', value)
         nombre == "ocupacion_victima" && setValue('ocupacion_victima', value)
         nombre == "vinculo_con_agresor_victima"  && setValue('vinculo_con_agresor_victima', value)
@@ -50,7 +50,8 @@ function SelectRegister({ campo, opciones, nombre, setValue, isRequired, valor }
         nombre == "estado_civil_victimario" && setValue('estado_civil_victimario', value)
         nombre == "ocupacion_victimario" && setValue('ocupacion_victimario', value)
         nombre == "vinculo_con_la_victima" && setValue('vinculo_con_la_victima', value)
-        
+        nombre == "jerarquia_secretario" && setValue('jerarquia_secretario', value)
+        nombre == "jerarquia_instructor" && setValue('jerarquia_instructor', value)
     };
       
     const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
