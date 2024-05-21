@@ -1,10 +1,8 @@
 // Hooks
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
 
 // Conexión con BackEnd
 import { crearDenunciaSinVerificar } from '../../api/crud';
-import { generarWord } from '../../api/docs';
 // Librerías React
 import Swal from 'sweetalert2'
 
@@ -16,7 +14,7 @@ import CargarPreguntas from '../../components/Cargar/CargarAgente/CargarPregunta
 import CargarInstructorYSecretario from '../../components/Cargar/CargarAgente/CargarInstructor';
 import { pdf } from '@react-pdf/renderer';
 import PDF from './PDF';
-import { PDFDownloadLink } from '@react-pdf/renderer';
+
 interface CargarDenunciasRolCargaProps {
   user: any;
 }
@@ -39,20 +37,6 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
 
       // Abre la URL en una nueva pestaña
       window.open(url);
-
-      /* const values = getValues();
-       const fileData = await generarWord(values); // Suponiendo que generarWord devuelve datos binarios
- 
-       // Crear un blob a partir de los datos binarios
-       const blob = new Blob([fileData], { type: 'application/pdf' });
- 
-       // Crear una URL para el blob
-       const url = URL.createObjectURL(blob);
- 
- 
-       // Abrir una nueva ventana con el visor de PDF
-       window.open(url, '_blank');
- */
 
      }
   return (
@@ -90,11 +74,8 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
           <div className='flex justify-center'>
             <CargarPreguntas register={register} setValue={setValue} errors={errors} />
           </div>
-
           <CargarInstructorYSecretario register={register} setValue={setValue} errors={errors} />
-
           <div className="flex justify-center my-3">
-
             <div className='flex flex-row items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 mx-5 rounded w-3/10' onClick={() => handleImprimir()}>Imprimir</div>
             <button className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 mx-5 rounded w-3/10' type="submit">Enviar</button>
           </div>

@@ -8,7 +8,6 @@ import cors from 'cors' // Módulo para habilitar CORS
 import { connectDB } from './db' // Configuraciones de MongoDB para conectar a la base de datos
 import authRoutes from './routes/auth.routes' // Rutas de autenticación
 import crudRoutes from './routes/crud.routes' // Rutas del CRUD
-import documentsRoutes from './routes/docs.routes' // Rutas de documentos
 // Crear aplicación de express
 const app:express.Application = express()
 // Conectar a la base de datos
@@ -31,4 +30,3 @@ app.use(cookieParser())
 // Rutas de la aplicación
 app.use('/api',authRoutes) // Rutas de autenticación
 app.use('/api',crudRoutes) // Rutas del CRUD
-app.use('/api',documentsRoutes) // Rutas de documentos

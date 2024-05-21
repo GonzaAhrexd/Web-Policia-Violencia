@@ -17,9 +17,24 @@ function PDF({ datos, user }: PDFProps) {
     const año = fecha.getFullYear()
     const horaActual = fecha.getHours().toString().padStart(2, '0') + ":" + fecha.getMinutes().toString().padStart(2, '0')
 
-    console.log(dia, mes, año)
+    type division = {
+        division: string,
+        direccion: string,
+        telefono: string
+    }
 
-
+    const direccionDivisiones:division[] = [
+        {division: "Metropolitana", direccion: "Avenida Alvear Nº 126", telefono: "362461832"},
+        {division: "La Leonesa", direccion: "Santiago del Estero y Entre Ríos", telefono: "3624644562"},
+        {division: "Lapachito", direccion: "25 de Mayo S/N", telefono: "3624605783"},
+        {division: "Roque Saenz Peña", direccion: "Calle 7e/12 y 14", telefono: "3644431835"},
+        {division: "Villa Ángela", direccion: "Echeverría N° 35", telefono: "3735 431438"},
+        {division: "General San Martín", direccion: "Esq. Maipú y Urquiza", telefono: "3725422202"},
+        {division: "Charata", direccion: "9 de Julio N° 575", telefono: "3624222322"},
+        {division: "Juan José Castelli", direccion: "Av. Perón N° 470", telefono: "3624702665"}
+    ]
+    // Según userDivisionZona[0], quiero obtener de direccionDivisiones
+    const direccionDivision:division[] = direccionDivisiones.filter((division) => division.division === userDivisionZona[0])
     const styles = StyleSheet.create({
         page: {
             padding: 30,
@@ -71,8 +86,8 @@ function PDF({ datos, user }: PDFProps) {
             fontSize: 11
         },
         images: {
-            width: 40,
-            height: 40
+            width: "1.17cm",
+            height: "1.70cm"
         },
         textBold: {
             fontWeight: 'bold',
@@ -121,22 +136,18 @@ function PDF({ datos, user }: PDFProps) {
         }
     });
 
-    console.log(datos)
     // Create Document Component
     return (
         <Document>
             <Page style={styles.page}>
                 <View style={styles.header}>
-                    <Image src="Escudo_de_la_Provincia_del_Chaco.svg.png" style={styles.images} />
+                    <Image src="EscudoProvinciaDelChaco.png" style={styles.images} />
                     <View style={styles.sectionCenter}>
-
                         <Text style={styles.textBold}>POLICIA DE LA PROVINCIA DEL</Text>
                         <Text style={styles.textBold}>CHACO</Text>
-
                         <Text>DIVISION VIOLENCIA FAMILIAR Y DE GENERO</Text>
-                        <Text>{userDivisionZona[0].toUpperCase()}</Text>
-                        {/* Editar según dónde se realiza la denuncia */}
-                        <Text>Avenida Alvear Nº 126 - {userDivisionZona[1]} - Chaco; Tel. 4761832</Text>
+                        <Text>{direccionDivision[0].division.toUpperCase()}</Text>
+                        <Text>{direccionDivision[0].direccion} - {direccionDivision[0].division} - Chaco; Tel. {direccionDivision[0].telefono}</Text>
                     </View>
                     <Image src="Escudo_Policia_Chaco_Transparente.png" style={styles.images} />
                 </View>
