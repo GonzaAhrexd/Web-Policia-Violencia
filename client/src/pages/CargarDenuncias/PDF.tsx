@@ -2,10 +2,11 @@ import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/render
 
 interface PDFProps {
     datos: any;
-    user: any
+    user: any;
+    tipoDenuncia: string;
 }
 
-function PDF({ datos, user }: PDFProps) {
+function PDF({tipoDenuncia, datos, user }: PDFProps) {
 
     const userDivisionZona = user.unidad.split(",")
     const fecha:Date = new Date()
@@ -169,14 +170,12 @@ function PDF({ datos, user }: PDFProps) {
                         RESOLUCIONES QUE SE DICTEN SOBRE LA SITUACION DEL IMPUTADO Y CUANDO FUERE MENOR O
                         INCAPAZ SE AUTORIZARA A QUE DURANTE LOS ACTOS PROCESALES SEA ACOMPAÑADA POR PERSONA DE
                         SU CONFIANZA, SIEMPRE QUE ELLO NO PERJUDIQUEN LA DEFENSA DEL IMPUTADO O LOS RESULTADOS
-                        DE LA INVESTIGACIÓN..."</Text>y Ley Nacional Nº 26.485, (Ley de Protección Integral para prevenir sancionar y erradicar la
-                        violencia contra las mujeres en los ámbitos en que desarrolla sus relaciones interpersonales) y los términos de la Ley Provincial Nº
-                        836-N (Ley de Violencia Familiar). Abierto el acto y cedida que le fuere la palabra y en uso de la misma <Text style={styles.boldText}>DENUNCIA:</Text> {datos.observaciones} Seguidamente se le hace saber que existe la Línea 137, ubicado en Calle Mitre N° 171 –Ciudad-,
-                        donde se brinda asesoramiento legal y asistencia psicológica las 24 horas del dia de manera GRATUITA, y la Línea 102 ubicado en
-                        Avenida Sarmiento N° 1675-Ciudad. <Text style={styles.boldText}>PREGUNTADO:</Text> “…Si desea ser asistida por dicho organismo. <Text style={styles.boldText}>RESPONDE:</Text> “{datos.AsistidaPorDichoOrganismo ? "SÍ" : "NO"}
-                        <Text style={styles.boldText}>PREGUNTADO:</Text> Si desea ser examinada por el medico policial en turno…”. <Text style={styles.boldText}>RESPONDE:</Text>{datos.ExaminadaMedicoPolicial ? "SÍ" : "NO"}. <Text style={styles.boldText}>PREGUNTADO:</Text> “…Si desea
+                        DE LA INVESTIGACIÓN..."</Text>{tipoDenuncia=="mujer" && "y Ley Nacional Nº 26.485, (Ley de Protección Integral para prevenir sancionar y erradicar la violencia contra las mujeres en los ámbitos en que desarrolla sus relaciones interpersonales)"} y los términos de la Ley Provincial Nº
+                        836-N (Ley de Violencia Familiar). Abierto el acto y cedida que le fuere la palabra y en uso de la misma <Text style={styles.boldText}>DENUNCIA:</Text> {datos.observaciones} {tipoDenuncia=="mujer" && "Seguidamente se le hace saber que existe la Línea 137, ubicado en Calle Mitre N° 171 -Resistencia-, donde se brinda asesoramiento legal y asistencia psicológica las 24 horas del dia de manera GRATUITA, y la Línea 102 ubicado en Avenida Sarmiento N° 1675-Resistencia-. "} {tipoDenuncia=="mujer" && (
+                        <Text style={styles.boldText}>PREGUNTADO:</Text>)} {tipoDenuncia=="mujer" && "“…Si desea ser asistida por dicho organismo."} {tipoDenuncia=="mujer" && <Text style={styles.boldText}>RESPONDE:</Text>} {tipoDenuncia == "mujer" && `“${datos.AsistidaPorDichoOrganismo ? "SÍ" : "NO" } `}
+                        <Text style={styles.boldText}>PREGUNTADO:</Text> Si desea ser examinad{tipoDenuncia=="mujer" ? "a" : "o"} por el medico policial en turno…”. <Text style={styles.boldText}>RESPONDE:</Text>{datos.ExaminadaMedicoPolicial ? "SÍ" : "NO"}. <Text style={styles.boldText}>PREGUNTADO:</Text> “…Si desea
                         accionar penalmente por el delito que diera lugar…”. <Text style={styles.boldText}>RESPONDE:</Text> {datos.AccionarPenalmente ? "SÍ" : "NO"}. <Text style={styles.boldText}>PREGUNTADO:</Text> Si desea agregar, quitar o enmendar
-                        algo a lo expuesto precedentemente….” <Text style={styles.boldText}>RESPONDE:</Text> Que {datos.AgregarQuitarOEnmendarAlgo} . Se le hace entrega de una copia de esta denuncia y se le notifica
+                        algo a lo expuesto precedentemente….” <Text style={styles.boldText}>RESPONDE:</Text> Que {datos.AgregarQuitarOEnmendarAlgo ? "SÍ" : "NO"} . Se le hace entrega de una copia de esta denuncia y se le notifica
                         que deberá presentarse ante el Juzgado del Menor y de La familia, sito en calle French Nº166- Rcia, al segundo día hábil, para los
                         trámites pertinentes. Con lo que no siendo para más, finaliza el acto, previa íntegra lectura efectuada por la compareciente y para
                         constancia legal de su conformidad firma al pie ante Mí y secretaria.
@@ -185,7 +184,7 @@ function PDF({ datos, user }: PDFProps) {
                 </View>
                 <Text>_____________________________________________________</Text>
                 <View style={styles.sectionSignatureEnd}>
-                        <Text>Firma Denunciante</Text>
+                        <Text>Firma</Text>
                         <Text>Aclaración</Text>
                         <Text>DNI</Text>                 
                 </View>

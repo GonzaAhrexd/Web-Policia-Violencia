@@ -84,13 +84,13 @@ function CardProfileDataEdit({ user }: CardProfileDataEditProps) {
 
           <div className='flex flex-col md:flex-row'>
             <InputRegister campo="N° de Credencial" nombre="credencial" register={register} setValue={setValue} type="text" error={errors.credencial} valor={user.credencial} />
-            <SelectRegister campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text" error={errors.jerarquia} />
+            <SelectRegister isRequired={false} valor={user.jerarquia}  campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text" error={errors.jerarquia} />
           </div>
           <div className='flex flex-col md:flex-row'>
             <InputRegister campo="N° de Plaza" nombre="plaza" register={register} setValue={setValue} type="text" error={errors.plaza} valor={user.plaza} />
-            <SelectRegister campo="Zona" nombre="zona" opciones={zonaCampos} register={register} setValue={setValue} type="text" error={errors.zona} />
+            <SelectRegister isRequired={false} valor={user.zona} campo="Zona" nombre="zona" opciones={zonaCampos} register={register} setValue={setValue} type="text" error={errors.zona} />
           </div>
-          <SelectRegister campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
+          <SelectRegister isRequired={false} valor={user.unidad}  campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
           <span className='text-red-400 pl-3'> {mensajeError} </span>
 
           <div className="flex gap-2 px-2 py-2">

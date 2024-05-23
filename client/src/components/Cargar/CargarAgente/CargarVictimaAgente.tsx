@@ -27,8 +27,8 @@ function CargarVictimaAgente({register, setValue, errors}: CargarVictimaProps) {
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col md:flex-row my-2'>
-        <InputRegister campo="Apellido" nombre="apellido_victima" register={register} setValue={setValue} type="text" error={errors.apellido_victima} />
         <InputRegister campo="Nombre" nombre="nombre_victima" register={register} setValue={setValue} type="text" error={errors.nombre_victima} />
+        <InputRegister campo="Apellido" nombre="apellido_victima" register={register} setValue={setValue} type="text" error={errors.apellido_victima} />
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>

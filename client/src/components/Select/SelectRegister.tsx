@@ -17,10 +17,11 @@ interface Props {
     error: any
     isRequired?: any
     valor?: any
+    setTipoDenuncia?: any
 }
 
 
-function SelectRegister({ campo, opciones, nombre, setValue, isRequired, valor }: Props) {
+function SelectRegister({setTipoDenuncia, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
    
     const [requiredInput, setRequiredInput] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
@@ -39,6 +40,7 @@ function SelectRegister({ campo, opciones, nombre, setValue, isRequired, valor }
         setSelectedSubunidad('');
         setSelectedSubsubunidad('');
         // Actualiza el valor en react-hook-form
+        setTipoDenuncia && setTipoDenuncia(value)
         campo == "Género" && setValue('genero', value)
         campo == "Unidad" && setValue('unidad', value) 
         campo == "Zona" && setValue('zona', value)
@@ -52,6 +54,7 @@ function SelectRegister({ campo, opciones, nombre, setValue, isRequired, valor }
         nombre == "vinculo_con_la_victima" && setValue('vinculo_con_la_victima', value)
         nombre == "jerarquia_secretario" && setValue('jerarquia_secretario', value)
         nombre == "jerarquia_instructor" && setValue('jerarquia_instructor', value)
+        nombre == "tipo_denuncia" && setValue('tipo_denuncia', value)
     };
       
     const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

@@ -17,25 +17,16 @@ import CargarObservaciones from '../../components/Cargar/CargarObservaciones';
 
 interface CargarDenunciasRolCargaProps {
     user: any;
+    handleOpenModal: any;
+    setTitulo: any;
     }
 
-function CargarDenunciasRolCarga({user}: CargarDenunciasRolCargaProps) {
+function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenunciasRolCargaProps) {
     const {  register, handleSubmit, setValue, formState: {
         errors
       } } = useForm()
       
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [texto, setTexto] = useState(['']);
-    const [titulo, setTitulo] = useState('');
   
-    const handleOpenModal = (text: string[]) => {
-      setIsModalOpen(true);
-      setTexto(text);
-    };
-  
-    const handleCloseModal = () => {
-      setIsModalOpen(false);
-    }
 
   return (
     <div className='h-screen sm:h-full p-2 sm:p-10'>
