@@ -2,13 +2,7 @@
 import mongoose, { Model, Mongoose } from 'mongoose'
 
 // Creamos el esquema de Victimas en la base de datos
-const denunciaSinVerificarSchema = new mongoose.Schema({
-    // Definciión del estado
-    estado: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
+const exposicionSchema = new mongoose.Schema({
     // Definición del nombre de la victima
     nombre_victima: {
         type: String, // Tipo de dato String
@@ -78,66 +72,51 @@ const denunciaSinVerificarSchema = new mongoose.Schema({
     },
     // Preguntas
     preguntas: {
-        desea_ser_asistida: {
-            type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
-        },
-        desea_ser_examinada_por_medico: {
-            type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
-        },
-        desea_accionar_penalmente: {
-            type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
-        },
         desea_agregar_quitar_o_enmendar: {
             type: Boolean, // Tipo de dato Boolean
             required: true, // Campo requerido
             trim: true // Trim para que no se guarden espacios en blanco
-        },
-    },
-    agrega: {
-        type: String, // Tipo de dato String
-        required: false, // Campo no requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
-    secretario: {
-        nombre_completo_secretario: {
-            type: String, // Tipo de dato String
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
-        },
-        jerarquia_secretario: {
-            type: String, // Tipo de dato String
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
-        },
-        plaza_secretario: {
-            type: String, // Tipo de dato String
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
         }
-    },
-    instructor: {
-        nombre_completo_instructor: {
+        },
+        agrega: {
             type: String, // Tipo de dato String
-            required: true, // Campo requerido
+            required: false, // Campo no requerido
             trim: true // Trim para que no se guarden espacios en blanco
         },
-        jerarquia_instructor: {
-            type: String, // Tipo de dato String
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
-        }
-    },
+        secretario: {
+            nombre_completo_secretario: {
+                type: String, // Tipo de dato String
+                required: true, // Campo requerido
+                trim: true // Trim para que no se guarden espacios en blanco
+            },
+            jerarquia_secretario: {
+                type: String, // Tipo de dato String
+                required: true, // Campo requerido
+                trim: true // Trim para que no se guarden espacios en blanco
+            },
+            plaza_secretario: {
+                type: String, // Tipo de dato String
+                required: true, // Campo requerido
+                trim: true // Trim para que no se guarden espacios en blanco
+            }
+        },
+        instructor: {
+            nombre_completo_instructor: {
+                type: String, // Tipo de dato String
+                required: true, // Campo requerido
+                trim: true // Trim para que no se guarden espacios en blanco
+            },
+            jerarquia_instructor: {
+                type: String, // Tipo de dato String
+                required: true, // Campo requerido
+                trim: true // Trim para que no se guarden espacios en blanco
+            }
+        },
 },
     {
         timestamps: true // Timestamps para que guarde la fecha de creación y actualización
     })
 
 // Exportamos el modelo de victimas
-const denunciaSinVerificar = mongoose.model('denuncias_sin_verificar', denunciaSinVerificarSchema)
-export default denunciaSinVerificar;
+const exposicion = mongoose.model('exposicion', exposicionSchema)
+export default exposicion;

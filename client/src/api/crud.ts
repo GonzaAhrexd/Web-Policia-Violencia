@@ -19,6 +19,14 @@ export const crearDenunciaSinVerificar = (denuncia: any) => {
     }
 }
 
+export const crearExposicion = (denuncia: any) => {
+    try {
+        axios.post(`/crear-exposicion/`, denuncia)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 // Listar denuncias del usuario conectado
 export const misDenuncias = async (values: any) => {
     try {

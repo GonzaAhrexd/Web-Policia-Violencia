@@ -13,9 +13,10 @@ interface InputRegisterProps {
     setValue?: any;
     require?: boolean;
     notMid?: boolean;
+    notMidMD?: boolean;
 }
 
-function InputRegister({notMid, campo, nombre, register, type, error, require, valor, placeholder, setValue }: InputRegisterProps) {
+function InputRegister({notMidMD, notMid, campo, nombre, register, type, error, require, valor, placeholder, setValue }: InputRegisterProps) {
     placeholder ? placeholder : ''
     if (valor) {
         useEffect(() => {
@@ -28,6 +29,7 @@ function InputRegister({notMid, campo, nombre, register, type, error, require, v
                         ${nombre=='numero_de_expediente' && "flex-col w-full xl:w-1/2"}  
                         ${((campo!== 'Barrio' && nombre!=='numero_de_expediente' && !notMid ) && "flex-col md:w-1/2 ")}
                         ${notMid && "flex-col md:w-full"}
+                        ${notMidMD && "flex-row md:w-full xl:w-1/2"}
                         `
                         }>
             <span className={`font-medium ml-4 xl:text-vw`}> {nombre === "id" ? "" : campo} {error && <span className='text-red-500'>Requerido</span>} </span>

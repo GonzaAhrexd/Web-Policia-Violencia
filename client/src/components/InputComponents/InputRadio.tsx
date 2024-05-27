@@ -9,10 +9,21 @@ interface props {
     id: any
     opciones: any
     defaultValue: any
+    watch?: any
 }
 
-function InputRadio({ register, nombre, type, defaultValue, handleChange, state, campo, id, opciones }: any) {
+function InputRadio({watch, register, nombre, type, defaultValue, handleChange, state, campo, id, opciones }: any) {
+    let watchRadio:any;
 
+    watch ? watchRadio = watch(nombre) : watchRadio = null
+
+    console.log(watchRadio)
+    useEffect(() => {
+        if (watchRadio) {
+            handleChange(watchRadio == "Sí")
+        }
+    }, [watchRadio])
+ 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {opciones.map((opcion: any, index: number) => (
@@ -21,7 +32,6 @@ function InputRadio({ register, nombre, type, defaultValue, handleChange, state,
                         <input
                             className="border open-sans border-gray-300 rounded-md h-6 xl:h-6 xl:w-5 2xl:h-6 my-2 xl:my-1 xl:m-2 m-4 pl-2"
                             type={type}
-                            onChange={handleChange}
                             id={opcion.id}
                             {...register(nombre)}
                             value={opcion.nombre}
