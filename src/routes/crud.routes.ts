@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { authRequired } from '../middlewares/validateToken';
-import {getDenuncia,  getMisDenuncias, createDenuncia, createDenunciaSinVerificar, createExposicion, deleteDenuncia, updateDenuncia, getVictima, createVictima, getVictimario, createVictimario, updateVictimario, updateVictima } from '../controllers/crud.controller'
+import {getDenuncia, deleteDenunciaSinVerificar,  getMisDenuncias, createDenuncia, createDenunciaSinVerificar, getDenunciasSinVerificar, createExposicion, deleteDenuncia, updateDenuncia, getVictima, createVictima, getVictimario, createVictimario, updateVictimario, updateVictima } from '../controllers/crud.controller'
 
 const router = Router();
 
@@ -13,7 +13,8 @@ router.delete('/eliminar-denuncias/:id', authRequired,  deleteDenuncia)
 router.put('/editar-denuncias:id', authRequired, updateDenuncia)
 // Denuncias sin verificar
 router.post('/crear-denuncia-sin-verificar/', authRequired, createDenunciaSinVerificar)
-
+router.get('/denuncias-sin-verificar/', authRequired, getDenunciasSinVerificar)
+router.delete('/eliminar-denuncias-sin-verificar/:id', authRequired,  deleteDenunciaSinVerificar)
 // Exposición
 router.post('/crear-exposicion/', authRequired, createExposicion)
 

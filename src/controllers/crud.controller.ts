@@ -4,6 +4,7 @@ import victimario from '../models/victimario'
 import denuncia from '../models/denuncias'
 import denunciaSinVerificar from '../models/denunciaSinVerificar'
 import exposicion from '../models/exposicion'
+import usuarios from '../models/usuarios'
 // DENUNCIAS
 export const getDenuncia = async (req, res) => {
 }
@@ -138,6 +139,18 @@ export const deleteDenuncia = async (req, res) => {
     }
 }
 
+export const deleteDenunciaSinVerificar = async (req, res) => {
+    try {
+        
+        // En lugar de eliminarlo, quiero que cambies el estado a "Rechazada"
+        const { id } = req.params
+        const denunciaSinVerificarDeleted = await denunciaSinVerificar.findByIdAndUpdate(id, { estado: "Rechazada" })
+        res.json(denunciaSinVerificarDeleted)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 // Actualizar denuncias
 
 // AQUÍ HAY UN ERROR, NO FUNCIONA LA EDICIÓN, SOLUCIONAR URGENTE
@@ -205,11 +218,17 @@ export const updateDenuncia = async (req, res) => {
 // Denuncias cargadas por agentes (Sin verificar)
 export const createDenunciaSinVerificar = async (req, res) => {
     try {
+        // Obtener la división del usuario
+        console.log(req.user)
+        const usuario = await usuarios.findById(req.user.id)
+    
+        const division = usuario?.unidad
         const {nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega  } = req.body
 
         console.log(req.body)
         const newDenunciaSinVerificar = new denunciaSinVerificar({
             estado: "En verificación",
+            division: division,
             nombre_victima: nombre_victima,
             apellido_victima: apellido_victima,
             edad_victima: edad_victima,
@@ -246,7 +265,16 @@ export const createDenunciaSinVerificar = async (req, res) => {
         console.log(error)
     }
 }
+export const getDenunciasSinVerificar = async (req, res) => {
+    try {
+        // Haz el find solamente de los que tengan como estado "En verificación"
+        const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ estado: "En verificación" })
+        res.json(obtenerDenunciasSinVerificar);
+    } catch (error) {
+        res.status(500).json({ message: 'Hubo un error al obtener las denuncias.' });
+    }
 
+}
 // EXPOSICIÓN
 export const createExposicion = async (req, res) => {
     try{

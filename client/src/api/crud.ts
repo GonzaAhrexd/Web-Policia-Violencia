@@ -37,6 +37,14 @@ export const misDenuncias = async (values: any) => {
     }
 }
 
+export const mostrarDenunciasSinVerificar = async () => {
+    try {
+        const response = await axios.get(`/denuncias-sin-verificar/`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
 // Editar denuncias
 export const editarDenuncia = async (denuncia: any) => {
     try {
@@ -53,6 +61,16 @@ export const eliminarDenuncia = async (id: string) => {
     console.log(id)
     try{
         const response = await axios.delete(`/eliminar-denuncias/${id}`)
+        return response.data
+    } catch(error){
+        console.log(error)
+    }
+
+}
+
+export const eliminarDenunciaSinVerificar = async (id:string) => {
+    try{
+        const response = await axios.delete(`/eliminar-denuncias-sin-verificar/${id}`)
         return response.data
     } catch(error){
         console.log(error)

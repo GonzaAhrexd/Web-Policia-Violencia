@@ -10,6 +10,7 @@ import Logout from './Logout'
 import Perfil from './Perfil'
 import CargarDenuncias from './CargarDenuncias'
 import MisDenuncias from './MisDenuncias'
+import VerificarDenuncias from './VerificarDenuncias'
 
 // Contexto
 import { AuthProvider } from '../context/auth'
@@ -26,6 +27,7 @@ const AppRoutes = () => {
     { path: '/mi-perfil', element: <Perfil /> },
     { path: '/cargar-denuncias', element: <CargarDenuncias /> },
     { path: '/mis-denuncias', element: <MisDenuncias /> },
+    { path: '/verificar-denuncias', element: <VerificarDenuncias />},
     { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
     { path: '/logout', element: <Logout /> },
