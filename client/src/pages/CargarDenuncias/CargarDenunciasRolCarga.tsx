@@ -32,7 +32,7 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
     <div className='h-screen sm:h-full p-2 sm:p-10'>
           <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>
           <div>
-            <h1 className='text-2xl my-5'>Victima</h1>
+            <h1 className='text-2xl my-5'>Víctima</h1>
             <form onSubmit={
               handleSubmit(async (values) => {
                 const idVictima = await agregarVictima(values).then((id) => {

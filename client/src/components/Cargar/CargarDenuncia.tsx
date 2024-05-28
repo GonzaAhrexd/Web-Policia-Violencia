@@ -9,7 +9,7 @@ import SelectRegister from '../Select/SelectRegister'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputDate from '../InputComponents/InputDate'
 import InputExpediente from '../InputComponents/InputExpediente'
-
+import EditExpediente from '../EditMode/EditExpediente';
 // Apis y BackEnd
 import { getCoords } from '../../api/coordinates'
 
@@ -30,9 +30,10 @@ interface denunciaProps {
   errors: FieldErrors
   handleOpenModal: any
   setTitulo: any
+  expediente: any
 }
 
-function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors}: denunciaProps) {
+function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors, expediente}: denunciaProps) {
 
 
   const [comisariaPertenece, setComisariaPertenece] = useState('')
@@ -73,8 +74,12 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors}
       <div className='flex flex-col my-2'>
         <SelectCargaDenuncias consultarCoordenadas={consultarCoordenadas} direccion={direccion} setDireccion={setDireccion} coordenadas={coordenadas} setCoordenadas={setCoordenadas} errors={errors} setMunicipio={setMunicipio} campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />
         <InputCheckbox campo="División Violencia Familiar y de Género" nombre="isDivision" register={register} setValue={setValue} type="checkbox" setHook={setIsDivision} state={isDivision} id="division" />
+      {!expediente ? 
         <InputExpediente campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
-      </div>
+        :
+        <EditExpediente expediente={expediente ? expediente : ""} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} ></EditExpediente>
+      }
+        </div>
    
       <div className='flex flex-col md:flex-row my-2'>
         <SelectCargaDenuncias campo="Juzgado Interviniente" nombre="juzgado_interviniente"  opciones={juzgadoIntervinente}  register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />

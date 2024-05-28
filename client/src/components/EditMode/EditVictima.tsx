@@ -30,7 +30,7 @@ function EditVictima({ datos, register, setValue, errors }: CargarVictimaProps) 
 
     return (
         <div className='w-full'>
-            <h1 className='text-2xl my-5'>Victima</h1>
+            <h1 className='text-2xl my-5'>Víctima</h1>
             <InputRegister campo="" nombre="victima_id" register={register} setValue={setValue} type="hidden" error={errors.nombre_victima} valor={datos._id} />
             <div className='flex flex-col md:flex-row my-2'>
                 <InputRegister campo="Nombre" nombre="nombre_victima" register={register} setValue={setValue} type="text" error={errors.nombre_victima} valor={datos.nombre} />

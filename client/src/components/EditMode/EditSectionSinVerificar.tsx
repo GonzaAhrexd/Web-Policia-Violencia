@@ -61,6 +61,20 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
         ocupacion: datos.ocupacion_victima,
         telefono: datos.telefono_victima,
     }
+  // Función para dividir el expediente
+  const dividirExpediente = (expediente: string) => {
+    let division = expediente.split("-")
+    let division2 = division[0].split("/")
+    let divisionCompleta = []
+
+    divisionCompleta[0] = division2[0]
+    divisionCompleta[1] = division2[1]
+    divisionCompleta[2] = division[1]
+    divisionCompleta[3] = division[2]
+
+    return divisionCompleta
+  }
+  const [expedienteDividido] = useState(dividirExpediente(datos.numero_de_expediente))
 
     return (
         <div>
@@ -103,7 +117,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
                                 confirmButtonColor: '#0C4A6E',    
                               }).then((result) => {
                                 if (result.isConfirmed) {
-                               //  window.location.reload();
+                                 window.location.reload();
                                 }
                               })
                             }catch(error){
@@ -111,6 +125,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
                             }
 
                     })}>
+                <h1 className='text-2xl my-5'>Víctima</h1>
                 <div className='flex justify-center'>
                     <VerificarDenunciante datos={datosVictima} register={register} setValue={setValue} errors={errors} />
                 </div>
@@ -120,7 +135,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
                 </div>
                 <h1 className='text-2xl my-5'>Hecho</h1>
               <div className='flex justify-center'>
-                <CargarDenuncia setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
+                <CargarDenuncia expediente={expedienteDividido} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
               </div>
                 <>
                     <h1 className='text-2xl my-5'>Observaciones o denuncia</h1>
