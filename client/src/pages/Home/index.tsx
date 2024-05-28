@@ -7,7 +7,7 @@ import NavBar from '../../components/NavBar';
 import CardActions from '../../components/Cards/CardsActions';
 import CardProfile from '../../components/Cards/CardProfile';
 import CardDenunciasRecientes from '../../components/Cards/CardDenunciasRecientes';
-
+import CardDenunciasPendientesValidacion from '../../components/Cards/CardDenunciasPendientesValidacion';
 
 // Iconos
 import { ListBulletIcon, PencilSquareIcon, ChartPieIcon, InboxStackIcon, DocumentTextIcon, DocumentArrowDownIcon, UserPlusIcon, PresentationChartBarIcon, TableCellsIcon, ArrowUpTrayIcon, DocumentCheckIcon } from '@heroicons/react/24/outline'
@@ -92,6 +92,7 @@ function Home() {
           <div className='grid gap-1 grid-cols-1 sm:gap-5 md:grid-cols-4 lg:grid-cols-5 w-full'> 
         <CardProfile title="Mi cuenta" description= "Mis datos" usuario= {user} />
         <CardDenunciasRecientes title="Denuncias recientes"/>
+        <CardDenunciasPendientesValidacion/>
         </div> 
         </div> 
       )}

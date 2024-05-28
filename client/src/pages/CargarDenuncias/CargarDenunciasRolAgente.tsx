@@ -1,6 +1,7 @@
 // Hooks
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { useEffect } from 'react';
 // Conexión con BackEnd
 import { crearDenunciaSinVerificar, crearExposicion } from '../../api/crud';
 // Librerías React
@@ -15,7 +16,7 @@ import CargarPreguntas from '../../components/Cargar/CargarAgente/CargarPregunta
 import CargarInstructorYSecretario from '../../components/Cargar/CargarAgente/CargarInstructor';
 import CargarTipoDeDenuncia from '../../components/Cargar/CargarAgente/CargarTipoDeDenuncia';
 import PDF from './PDF';
-import { useEffect } from 'react';
+import InputExpediente from '../../components/InputComponents/InputExpediente';
 
 interface CargarDenunciasRolCargaProps {
   user: any;
@@ -30,6 +31,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
   } } = useForm()
 
   const [tipoDenuncia, setTipoDenuncia] = useState('')
+  const [comisariaPertenece, setComisariaPertenece] = useState('')
 
   const handleImprimir = async () => {
     const datos = getValues()
@@ -54,7 +56,9 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
 
             console.log(values)
             if(values.tipo_denuncia == "mujer" || values.tipo_denuncia == "hombre"){
-            crearDenunciaSinVerificar(values)
+              values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
+               console.log(values)
+              crearDenunciaSinVerificar(values)
             }else if(values.tipo_denuncia == "exposicion"){
             crearExposicion(values)
             }
@@ -78,6 +82,10 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
 
           {(tipoDenuncia == "mujer" || tipoDenuncia == "hombre") && (
             <>
+              <h1 className='text-2xl my-5'>Expediente</h1>
+              <div className='flex justify-center'>
+              <InputExpediente campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
+              </div>
               <h1 className='text-2xl my-5'>Denunciante</h1>
               <div className='flex justify-center'>
                 <CargarVictimaAgente register={register} setValue={setValue} errors={errors} />

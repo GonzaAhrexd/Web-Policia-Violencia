@@ -9,6 +9,11 @@ const denunciaSinVerificarSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    numero_de_expediente: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     // División donde se cargó
     division: {
         type: String, // Tipo de dato String
