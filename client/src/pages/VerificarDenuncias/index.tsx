@@ -20,14 +20,18 @@ import expandedComponents from './expandedComponents'
 
 
 function VerificarDenuncias() {
-    const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
+  //@ts-ignore
+  const { signUp, user, isAuthenticated, isLoading } = useAuth();
     
+  const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     useEffect(() => {
         const cargarDenuncias = async () => {
           try {
             const response = await mostrarDenunciasSinVerificar();
-            console.log(response)
-              setDenunciasAMostrar(response);
+            // @ts-ignore
+            setDenunciasAMostrar(response);
+            
+          
           } catch (error) {
             console.error('Hubo un error al cargar las denuncias: ', error);
           }
@@ -43,8 +47,6 @@ function VerificarDenuncias() {
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
 
-    //@ts-ignore
-    const { signUp, user, isAuthenticated, isLoading } = useAuth();
     if (isLoading) return <h1>Cargando...</h1>
     if (!isLoading && !isAuthenticated && user.rol != "carga" || user.rol != "admin") return <Navigate to="/login" replace />
 

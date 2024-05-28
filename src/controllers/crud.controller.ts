@@ -275,6 +275,18 @@ export const getDenunciasSinVerificar = async (req, res) => {
     }
 
 }
+
+// Editar denuncias sin verificar y que cambie a estado Aprobado
+
+export const validarDenuncia = async (req, res) => {
+    try {
+        const { id } = req.params
+        const denunciaSinVerificarUpdateState = await denunciaSinVerificar.findByIdAndUpdate(id, { estado: "Aprobada" })
+        res.json(denunciaSinVerificarUpdateState)
+    } catch (error) {
+        console.log(error)
+    }
+}
 // EXPOSICIÓN
 export const createExposicion = async (req, res) => {
     try{

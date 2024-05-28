@@ -7,17 +7,16 @@ Uso del componente:
 _____________________________________________________________________________________________
 */
 // Hooks
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 // APIs del BackEnd
-import {  eliminarDenunciaSinVerificar } from '../../api/crud';
+import { eliminarDenunciaSinVerificar } from '../../api/crud';
 // Librerías react
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' // Librería para mostrar mapas
 import Swal from 'sweetalert2' // Librería para mostrar popups
 // Iconos
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
 // Componentes
 import SimpleTableCheckorX from '../../components/ShowData/SimpleTableCheckorX';
-import EditSection from '../../components/EditMode/EditSection';
+import EditSectionSinVerificar from '../../components/EditMode/EditSectionSinVerificar';
 import ShowTextArea from '../../components/ShowData/ShowTextArea';
 interface expandedComponentsProps {
     data: any
@@ -38,24 +37,10 @@ function expandedComponents({ data }: expandedComponentsProps) {
 
     const preguntas = [
         { nombre: "¿Desea ser asistida?", valor: data.preguntas.desea_ser_asistida },
-        { nombre: "¿Desea ser examinada por un médico?", valor: data.preguntas.desea_ser_examinada_por_medico},
-        { nombre: "¿Desea accionar penalmente?", valor: data.preguntas.desea_accionar_penalmente},
-        { nombre: "Desea agregar quitar o enmendar algo?", valor: data.preguntas.desea_agregar_quitar_o_enmendar},
+        { nombre: "¿Desea ser examinada por un médico?", valor: data.preguntas.desea_ser_examinada_por_medico },
+        { nombre: "¿Desea accionar penalmente?", valor: data.preguntas.desea_accionar_penalmente },
+        { nombre: "Desea agregar quitar o enmendar algo?", valor: data.preguntas.desea_agregar_quitar_o_enmendar },
     ]
-
-
-
-    // Función para abrir Google Maps con el mapa de y las coordenadas
-    const handleClick = (GIS: string) => {
-        // Separar las coordenadas
-        const coordenadasSeparadas = GIS.split(' ')
-        // URL de Google Maps
-        const url = `https://www.google.com/maps/d/viewer?mid=1n-ERiPIZT9Q0WlRQoWI_NmvI9jJffohO&g_ep=CAESCjExLjEyNC4xMDIYACDdYio_LDk0MjE2NDEzLDk0MjEyNDk2LDk0MjA3NTA2LDk0MjE3NTIzLDk0MjE4NjUzLDQ3MDg3MTEyLDQ3MDg0MzkzQgJBUg%3D%3D&shorturl=1&ll=${coordenadasSeparadas[0]}%2C${coordenadasSeparadas[1]}&z=20`
-        // Abrir en una nueva pestaña
-        window.open(url, '_blank');
-    }
-
-
 
     // Controlar cuando se da a eliminar
     const handleDelete = async (data: any) => {
@@ -110,22 +95,25 @@ function expandedComponents({ data }: expandedComponentsProps) {
         <div className='flex flex-col'>
             <SimpleTableCheckorX campo="" datos={preguntas} />
         </div>
-        {data.preguntas.desea_agregar_quitar_o_enmendar && 
-        <>
-        <h1 className='text-3xl my-5 font-sans	'>Adjunto</h1>
-        <ShowTextArea campo="Hecho" dato={data.agrega} />
-        </>
+        {data.preguntas.desea_agregar_quitar_o_enmendar &&
+            <>
+                <h1 className='text-3xl my-5 font-sans	'>Adjunto</h1>
+                <ShowTextArea campo="Hecho" dato={data.agrega} />
+            </>
         }
-
-<div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
-                    <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
-                        <PencilSquareIcon className="w-7" />
-                    </div>
-                    <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
-                        <TrashIcon className="w-7" />
-                    </div>
-                </div>
-
+        {editGlobal &&
+             <EditSectionSinVerificar datos={data} setEditSection={setEditGlobal} editSection={editGlobal}/>
+        }
+        {!editGlobal && 
+        <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
+            <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
+                <PencilSquareIcon className="w-7" />
+            </div>
+            <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
+                <TrashIcon className="w-7" />
+            </div>
+        </div>
+        }
     </div>
 
 }
