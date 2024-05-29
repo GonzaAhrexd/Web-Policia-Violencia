@@ -6,6 +6,7 @@ import { registerSchema, loginSchema } from '../schemas/auth.schema'
 
 const router:Router = Router()
 
+// Rutas para autenticación de usuario
 router.post('/register', validateSchema(registerSchema), register)
 router.post('/login', validateSchema(loginSchema), login)
 router.post('/logout', logout)

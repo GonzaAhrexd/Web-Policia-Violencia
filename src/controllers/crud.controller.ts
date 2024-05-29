@@ -9,8 +9,9 @@ import usuarios from '../models/usuarios'
 export const getDenuncia = async (req, res) => {
 }
 
-// Obtener denuncias del usuario
+// Obtener denuncias del usuario para mostrarlos
 export const getMisDenuncias = async (req, res) => {
+    // Query con consultas opcionales para filtrar
     interface Query {
         denunciada_cargada_por: string;
         fecha?: {
@@ -20,9 +21,13 @@ export const getMisDenuncias = async (req, res) => {
         numero_de_expediente?: string;
         is_expediente_completo?: boolean;
     }
+    // Obtener los parámetros de la URL
     const { desde, hasta, numero_de_expediente, is_expediente_completo } = req.params;
+    // Crear el objeto de consulta
     const query: Query = { denunciada_cargada_por: req.user.id };
 
+
+    // Si se ingresó un valor, se agrega a la consulta
     if (desde !== 'no_ingresado') {
         query.fecha = { $gte: desde };
     }
@@ -40,10 +45,12 @@ export const getMisDenuncias = async (req, res) => {
         query.is_expediente_completo = !is_expediente_completo;
     }
 
+    // Obtener las denuncias
     try {
         const denuncias = await denuncia.find(query);
         res.json(denuncias);
     } catch (error) {
+        // Error al obtener las denuncias
         res.status(500).json({ message: 'Hubo un error al obtener las denuncias.' });
     }
 }
@@ -51,6 +58,7 @@ export const getMisDenuncias = async (req, res) => {
 // Crear denuncias
 export const createDenuncia = async (req, res) => {
     try {
+        // Obtener los datos de la denuncia
         const { user_id, victima_ID, victimario_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
             derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica } = req.body
 
@@ -64,6 +72,7 @@ export const createDenuncia = async (req, res) => {
         } else {
             findVictimario = await victimario.findOne({ DNI: dni_victimario })
         }
+        // Crear la denuncia
         const newDenuncia = new denuncia({
             victima_ID: findVictima?._id ? findVictima._id : victima_ID,
             victimario_ID: findVictimario?._id ? findVictimario._id : victimario_ID,
@@ -98,13 +107,13 @@ export const createDenuncia = async (req, res) => {
             medida_solicitada_por_la_victima: medida_solicitada_por_la_victima ? medida_solicitada_por_la_victima : false,
             medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial ? medida_dispuesta_por_autoridad_judicial : false,
             medida: {
-                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial) )? prohibicion_de_acercamiento : false,
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? prohibicion_de_acercamiento : false,
                 restitucion_de_menor: (restitucion_de_menor !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? restitucion_de_menor : false,
                 exclusion_de_hogar: (exclusion_de_hogar !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? exclusion_de_hogar : false,
                 alimento_provisorio: (alimento_provisorio !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? alimento_provisorio : false,
                 derecho_de_comunicacion: (derecho_de_comunicacion !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? derecho_de_comunicacion : false,
                 boton_antipanico: (boton_antipanico !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? boton_antipanico : false,
-          },
+            },
             denunciado_por_tercero: denunciado_por_tercero ? denunciado_por_tercero : false,
             nombre_tercero: nombre_tercero ? nombre_tercero : 'Sin tercero',
             apellido_tercero: apellido_tercero ? apellido_tercero : 'Sin tercero',
@@ -113,6 +122,7 @@ export const createDenuncia = async (req, res) => {
             observaciones,
             denunciada_cargada_por: user_id
         })
+        // Guardar la denuncia
         const denunciaSaved = await newDenuncia.save()
         res.send('Denuncia creada con exito')
     } catch (error) {
@@ -139,17 +149,6 @@ export const deleteDenuncia = async (req, res) => {
     }
 }
 
-export const deleteDenunciaSinVerificar = async (req, res) => {
-    try {
-        
-        // En lugar de eliminarlo, quiero que cambies el estado a "Rechazada"
-        const { id } = req.params
-        const denunciaSinVerificarDeleted = await denunciaSinVerificar.findByIdAndUpdate(id, { estado: "Rechazada" })
-        res.json(denunciaSinVerificarDeleted)
-    } catch (error) {
-        console.log(error)
-    }
-}
 
 // Actualizar denuncias
 
@@ -193,7 +192,7 @@ export const updateDenuncia = async (req, res) => {
             medida_solicitada_por_la_victima: medida_solicitada_por_la_victima,
             medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial,
             medida: {
-                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial) )? prohibicion_de_acercamiento : false,
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? prohibicion_de_acercamiento : false,
                 restitucion_de_menor: (restitucion_de_menor !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? restitucion_de_menor : false,
                 exclusion_de_hogar: (exclusion_de_hogar !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? exclusion_de_hogar : false,
                 alimento_provisorio: (alimento_provisorio !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? alimento_provisorio : false,
@@ -221,9 +220,9 @@ export const createDenunciaSinVerificar = async (req, res) => {
         // Obtener la división del usuario
         console.log(req.user)
         const usuario = await usuarios.findById(req.user.id)
-    
+
         const division = usuario?.unidad
-        const {nombre_victima, numero_de_expediente, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega  } = req.body
+        const { nombre_victima, numero_de_expediente, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
 
         console.log(req.body)
         const newDenunciaSinVerificar = new denunciaSinVerificar({
@@ -261,8 +260,8 @@ export const createDenunciaSinVerificar = async (req, res) => {
 
         const denunciaSinVerificarSaved = await newDenunciaSinVerificar.save()
         res.send('Denuncia creada con exito')
-        
-    }catch (error){
+
+    } catch (error) {
         console.log(error)
     }
 }
@@ -278,7 +277,6 @@ export const getDenunciasSinVerificar = async (req, res) => {
 }
 
 // Editar denuncias sin verificar y que cambie a estado Aprobado
-
 export const validarDenuncia = async (req, res) => {
     try {
         const { id } = req.params
@@ -288,10 +286,23 @@ export const validarDenuncia = async (req, res) => {
         console.log(error)
     }
 }
+
+// Eliminar denuncias sin verificar
+export const deleteDenunciaSinVerificar = async (req, res) => {
+    try {
+        // En lugar de eliminarlo, quiero que cambies el estado a "Rechazada"
+        const { id } = req.params
+        const denunciaSinVerificarDeleted = await denunciaSinVerificar.findByIdAndUpdate(id, { estado: "Rechazada" })
+        res.json(denunciaSinVerificarDeleted)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 // EXPOSICIÓN
 export const createExposicion = async (req, res) => {
-    try{
-        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega  } = req.body
+    try {
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
         console.log("LLegó")
         console.log("Expocisión", req.body)
         const newExposicion = new exposicion({
@@ -323,8 +334,8 @@ export const createExposicion = async (req, res) => {
 
         const expoSave = await newExposicion.save()
         res.send('Exposición creada con exito')
-    
-    }catch(error){
+
+    } catch (error) {
         console.log(error)
     }
 }
@@ -355,35 +366,42 @@ export const createVictima = async (req, res) => {
                     menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,
                     hijos_con_el_agresor: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
                 },
-               
+
             })
 
             const victimaSaved = await newVictima.save()
             res.json({ message: 'Victima creado con exito', id: victimaSaved._id })
         } else {
-            res.send('Victima ya existe')
+
+            console.log("HERE")
             // Actualiza los datos con los nuevos ingresados en caso de que difiera y suma 1 denuncia 
+            // Actualiza los datos con los nuevos ingresados en caso de que difiera
             const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, {
-                nombre: nombre_victima,
-                apellido: apellido_victima,
-                edad: edad_victima,
-                DNI: dni_victima,
-                estado_civil: estado_civil_victima,
-                ocupacion: ocupacion_victima,
-                vinculo_con_agresor: vinculo_con_agresor_victima,
-                condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
-                convivencia: convivencia ? convivencia : false,
-                hijos: {
-                    tiene_hijos: hijos ? hijos : false,
-                    dependencia_economica: dependencia_economica ? dependencia_economica : false,
-                    mayores_de_edad: mayor_de_18 ? mayor_de_18 : false,
-                    menores_de_edad: menor_de_18 ? menor_de_18 : false,
-                    menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,
-                    hijos_con_el_agresor: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
-                },
-                $inc: { cantidad_de_denunicas_previas: 1 }
+                $set: {
+                    nombre: nombre_victima,
+                    apellido: apellido_victima,
+                    edad: edad_victima,
+                    DNI: dni_victima,
+                    estado_civil: estado_civil_victima,
+                    ocupacion: ocupacion_victima,
+                    vinculo_con_agresor: vinculo_con_agresor_victima,
+                    condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
+                    convivencia: convivencia ? convivencia : false,
+                    "hijos.tiene_hijos": hijos ? hijos : false,
+                    "hijos.dependencia_economica": dependencia_economica ? dependencia_economica : false,
+                    "hijos.mayores_de_edad": mayor_de_18 ? mayor_de_18 : false,
+                    "hijos.menores_de_edad": menor_de_18 ? menor_de_18 : false,
+                    "hijos.menores_discapacitados": menores_discapacitados ? menores_discapacitados : false,
+                    "hijos.hijos_con_el_agresor": cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
+                }
             }, { new: true })
 
+            // Incrementa la cantidad de denuncias previas
+            await victimas.updateOne({ DNI: dni_victima }, { $inc: { cantidad_de_denuncias_previas: 1 } });
+
+     
+
+            res.send('Victima ya existe')
 
 
             //const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, { $inc: { cantidad_de_denunicas_previas: 1 } }, { new: true })
@@ -506,7 +524,7 @@ export const createVictimario = async (req, res) => {
                     antecedentes_contravencionales,
                     entrenamiento_en_combate,
                     notificacion,
-                    $inc: { cantidad_de_denuncias_previas: 1 } 
+                    $inc: { cantidad_de_denuncias_previas: 1 }
                 }, { new: true })
 
                 //const victimarioUpdated = await victimario.findOneAndUpdate({ DNI: dni_victimario }, { $inc: { cantidad_de_denuncias_previas: 1 } }, { new: true })

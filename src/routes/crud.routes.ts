@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { authRequired } from '../middlewares/validateToken';
 import {validarDenuncia, getDenuncia, deleteDenunciaSinVerificar,  getMisDenuncias, createDenuncia, createDenunciaSinVerificar, getDenunciasSinVerificar, createExposicion, deleteDenuncia, updateDenuncia, getVictima, createVictima, getVictimario, createVictimario, updateVictimario, updateVictima } from '../controllers/crud.controller'
-
 const router = Router();
 
 /* DENUNCIAS
@@ -28,16 +27,18 @@ router.put('/validar-denuncia/:id', authRequired,validarDenuncia )
     sin realizar una denuncia como tal.
 */
 router.post('/crear-exposicion/', authRequired, createExposicion)
-// Víctima
+/*  VICTIMA
+    Son los datos de la víctima de un hecho, estos datos son cargados por personal del área de estadística.
+*/
 router.post('/crear-victima/', authRequired, createVictima)
 router.get('/victima/:id', authRequired, getVictima)
 router.put('/editar-victima/:id', authRequired, updateVictima)
-// Victimario
+/*
+    VICTIMARIO
+    Son los datos del victimario de un hecho, estos datos son cargados por personal del área de estadística.
+*/
 router.get('/victimario/:id', authRequired, getVictimario)
 router.post('/crear-victimario/', authRequired, createVictimario)
 router.put('/editar-victimario/:id', authRequired, updateVictimario)
-
-
-
 
 export default router

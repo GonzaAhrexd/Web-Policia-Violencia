@@ -100,11 +100,10 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
                           } else {
                             values.is_expediente_completo = true
                           }
-                          console.log(user)
-                          console.log(user.id)
+
 
                           values.user_id = user.id
-                          values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
+                          values.numero_de_expediente = values.PrefijoExpediente + values.numero_expediente + values.Expediente + values.SufijoExpediente
                             try{
                               crearDenuncia(values)
                               aprobarDenuncia(datos._id)
@@ -123,7 +122,6 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
                             }catch(error){
                               console.log(error)
                             }
-
                     })}>
                 <h1 className='text-2xl my-5'>Víctima</h1>
                 <div className='flex justify-center'>
