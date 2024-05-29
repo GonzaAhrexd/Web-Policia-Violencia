@@ -77,7 +77,7 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors,
       {!expediente ? 
         <InputExpediente campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
         :
-        <EditExpediente expediente={expediente ? expediente : ""} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} ></EditExpediente>
+        <EditExpediente expediente={expediente} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} ></EditExpediente>
       }
         </div>
    

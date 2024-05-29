@@ -14,7 +14,7 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 
 // Dependencias de la misma carpeta
 import { customStyles } from './dataTableStyles'
-import { columns } from './columnsDataTable'
+import { columnsDataTableVerificar } from './columnsDataTableVerificar'
 import expandedComponents from './expandedComponents'
 
 
@@ -61,7 +61,7 @@ function VerificarDenuncias() {
                     <h2 className='text-2xl my-5'>Denuncias</h2>
                     <DataTable
                         // @ts-ignore
-                        columns={columns}
+                        columns={columnsDataTableVerificar}
                         data={denunciasAMostrar}
                         pagination
                         expandableRows

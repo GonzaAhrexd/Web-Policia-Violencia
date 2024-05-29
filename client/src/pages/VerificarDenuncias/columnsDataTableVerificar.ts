@@ -21,7 +21,7 @@ type Row = {
 
 
 
-export const columns = [
+export const columnsDataTableVerificar = [
     {
         // Número de expediente de la denuncia
         name: 'Número de Expediente',
