@@ -6,7 +6,63 @@ import denunciaSinVerificar from '../models/denunciaSinVerificar'
 import exposicion from '../models/exposicion'
 import usuarios from '../models/usuarios'
 // DENUNCIAS
-export const getDenuncia = async (req, res) => {
+export const getDenuncias = async (req, res) => {
+    interface Query {
+        fecha?: {
+            $gte?: string;
+            $lte?: string;
+        };
+        numero_de_expediente?: string;
+        is_expediente_completo?: boolean;
+        unidad_de_carga?: string;
+        municipio?: string;
+        jurisdiccion_policial?: string
+    }
+    // Obtener los parámetros de la URL
+    const { desde, hasta, numero_de_expediente, is_expediente_completo, division, municipio, comisaria } = req.params;
+    // Crear el objeto de consulta
+    console.log(req.params)
+
+    console.log(comisaria)
+    const query: Query = { };
+
+    // Si se ingresó un valor, se agrega a la consulta
+    if (desde !== 'no_ingresado') {
+        query.fecha = { $gte: desde };
+    }
+
+    if (hasta !== 'no_ingresado') {
+        query.fecha = query.fecha || {};
+        query.fecha.$lte = hasta;
+    }
+
+    if (numero_de_expediente !== 'no_ingresado') {
+        query.numero_de_expediente = numero_de_expediente;
+    }
+
+    if (is_expediente_completo !== 'no_ingresado') {
+        query.is_expediente_completo = !is_expediente_completo;
+    }
+    if (division !== 'no_ingresado'){
+        query.unidad_de_carga = division
+    }
+    if(municipio !== 'no_ingresado'){ 
+        query.municipio = municipio
+    }
+    if(comisaria !== 'no_ingresado'){
+        query.jurisdiccion_policial = comisaria
+    }
+
+    console.log(query)
+    // Obtener las denuncias
+    try {
+        const denuncias = await denuncia.find(query);
+        res.json(denuncias);
+    } catch (error) {
+        // Error al obtener las denuncias
+        res.status(500).json({ message: 'Hubo un error al obtener las denuncias.' });
+    }
+
 }
 
 // Obtener denuncias del usuario para mostrarlos
@@ -476,6 +532,16 @@ export const updateVictima = async (req, res) => {
         console.log(error)
     }
 
+}
+// Buscar víctima
+export const buscarVictima = async (req, res) => {
+    try {
+        const { dni_victima } = req.body
+        const victimaABuscar = await victimas.findOne({ DNI: dni_victima })
+        res.json(victimaABuscar)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 // VICTIMARIO

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { authRequired } from '../middlewares/validateToken';
-import {validarDenuncia, getDenuncia, deleteDenunciaSinVerificar,  getMisDenuncias, createDenuncia, createDenunciaSinVerificar, getDenunciasSinVerificar, createExposicion, deleteDenuncia, updateDenuncia, getVictima, createVictima, getVictimario, createVictimario, updateVictimario, updateVictima } from '../controllers/crud.controller'
+import {validarDenuncia, getDenuncias, deleteDenunciaSinVerificar,  getMisDenuncias, createDenuncia, createDenunciaSinVerificar, getDenunciasSinVerificar, createExposicion, deleteDenuncia, updateDenuncia, getVictima, createVictima, getVictimario, createVictimario, updateVictimario, updateVictima } from '../controllers/crud.controller'
 const router = Router();
 
 /* DENUNCIAS
@@ -8,7 +8,7 @@ const router = Router();
     lo cargado por unidades externas.
 */
 router.get('/mis-denuncias/:desde/:hasta/:numero_de_expediente/:is_expediente_completo', authRequired, getMisDenuncias)
-router.get('/mis-denuncias:id', authRequired, getDenuncia)
+router.get('/buscar-denuncias/:desde/:hasta/:numero_de_expediente/:is_expediente_completo/:division/:municipio/:comisaria', authRequired, getDenuncias)
 router.put('/editar-denuncias/:id', authRequired, updateDenuncia)
 router.post('/crear-denuncia/', authRequired, createDenuncia)
 router.delete('/eliminar-denuncias/:id', authRequired,  deleteDenuncia)

@@ -30,7 +30,7 @@ interface denunciaProps {
   errors: FieldErrors
   handleOpenModal: any
   setTitulo: any
-  expediente: any
+  expediente?: any
 }
 
 function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors, expediente}: denunciaProps) {
