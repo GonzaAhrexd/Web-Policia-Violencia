@@ -1,0 +1,189 @@
+import victimas from '../../models/victimas'
+
+// Crear víctima
+export const createVictima = async (req, res) => {
+    //Victima nueva
+    try {
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor, telefono_victima, direccion_victima, nacionalidad_victima, sabe_leer_y_escribir } = req.body
+        let victimaExistente = await victimas.findOne({ DNI: dni_victima })
+        if (req.body.dni_victima && !victimaExistente) {
+            const newVictima = new victimas({
+                nombre: nombre_victima,
+                apellido: apellido_victima,
+                edad: edad_victima,
+                DNI: dni_victima,
+                estado_civil: estado_civil_victima,
+                ocupacion: ocupacion_victima,
+                vinculo_con_agresor: vinculo_con_agresor_victima,
+                condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
+                convivencia: convivencia ? convivencia : false,
+                cantidad_de_denuncias_previas: 1,
+                hijos: {
+                    tiene_hijos: hijos ? hijos : false,
+                    dependencia_economica: dependencia_economica ? dependencia_economica : false,
+                    mayores_de_edad: mayor_de_18 ? mayor_de_18 : false,
+                    menores_de_edad: menor_de_18 ? menor_de_18 : false,
+                    menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,
+                    hijos_con_el_agresor: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
+                },
+
+            })
+
+            const victimaSaved = await newVictima.save()
+            res.json({ message: 'Victima creado con exito', id: victimaSaved._id })
+        } else {
+
+            console.log("HERE")
+            // Actualiza los datos con los nuevos ingresados en caso de que difiera y suma 1 denuncia 
+            // Actualiza los datos con los nuevos ingresados en caso de que difiera
+            const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, {
+                $set: {
+                    nombre: nombre_victima,
+                    apellido: apellido_victima,
+                    edad: edad_victima,
+                    DNI: dni_victima,
+                    estado_civil: estado_civil_victima,
+                    ocupacion: ocupacion_victima,
+                    vinculo_con_agresor: vinculo_con_agresor_victima,
+                    condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
+                    convivencia: convivencia ? convivencia : false,
+                    "hijos.tiene_hijos": hijos ? hijos : false,
+                    "hijos.dependencia_economica": dependencia_economica ? dependencia_economica : false,
+                    "hijos.mayores_de_edad": mayor_de_18 ? mayor_de_18 : false,
+                    "hijos.menores_de_edad": menor_de_18 ? menor_de_18 : false,
+                    "hijos.menores_discapacitados": menores_discapacitados ? menores_discapacitados : false,
+                    "hijos.hijos_con_el_agresor": cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
+                }
+            }, { new: true })
+
+            // Incrementa la cantidad de denuncias previas
+            await victimas.updateOne({ DNI: dni_victima }, { $inc: { cantidad_de_denuncias_previas: 1 } });
+
+     
+
+            res.send('Victima ya existe')
+
+
+            //const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, { $inc: { cantidad_de_denunicas_previas: 1 } }, { new: true })
+
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.send('Victima ya existe o no se ingresaron datos')
+    }
+}
+// Obtener víctima
+export const getVictima = async (req, res) => {
+
+    try {
+        //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
+        const victima = await victimas.findOne({ _id: req.params.id })
+        res.json(victima)
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+
+// Eliminar víctima, solo accesible desde este archivo
+export const deleteVictima = async (id, denunciaId) => {
+    try {
+        // Buscar la víctima por ID
+        const victimaABorrar = await victimas.findById(id);
+
+        if (victimaABorrar) {
+            // Verificar la cantidad de denuncias previas
+            if (victimaABorrar.cantidad_de_denuncias_previas == 1) {
+                // Si solo tiene una denuncia previa, eliminar la víctima
+                await victimas.findByIdAndDelete(id);
+            } else {
+                // Si tiene más de una denuncia, restar una a la cantidad de denuncias previas
+                // y eliminar el ID de la denuncia del array denuncias_realizadas
+                const updatedDenunciasRealizadas = Array.isArray(victimaABorrar.denuncias_realizadas)
+                    ? victimaABorrar.denuncias_realizadas.filter(denuncia => denuncia !== denunciaId)
+                    : [];
+
+                await victimas.findByIdAndUpdate(id, { 
+                    $inc: { cantidad_de_denuncias_previas: -1 },
+                    denuncias_realizadas: updatedDenunciasRealizadas
+                }, { new: true });
+            }
+        } else {
+            console.log("Victima no encontrada");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// Editar víctima
+export const updateVictima = async (req, res) => {
+    try {
+        const { id } = req.params
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor } = req.body
+
+        const victimaUpdated = await victimas.findByIdAndUpdate(id, {
+            nombre: nombre_victima,
+            apellido: apellido_victima,
+            edad: edad_victima,
+            DNI: dni_victima,
+            estado_civil: estado_civil_victima,
+            ocupacion: ocupacion_victima,
+            vinculo_con_agresor: vinculo_con_agresor_victima,
+            condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
+            convivencia: convivencia ? convivencia : false,
+            hijos: {
+                tiene_hijos: hijos ? hijos : false,
+                dependencia_economica: dependencia_economica ? dependencia_economica : false,
+                mayores_de_edad: mayor_de_18 ? mayor_de_18 : false,
+                menores_de_edad: menor_de_18 ? menor_de_18 : false,
+                menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,
+                hijos_con_el_agresor: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
+            }
+        }, { new: true })
+        res.json(victimaUpdated)
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+// Buscar víctima
+export const buscarVictima = async (req, res) => {
+    interface Query {
+        nombre?: string;
+        apellido?: string;
+        DNI?: string;
+        numero_de_expediente?: string;
+    }
+    // Obtener los parámetros de la URL
+    const { nombre_victima, apellido_victima, dni_victima, numero_de_expediente} = req.params;
+    // Crear el objeto de consulta
+    console.log(req.params)
+
+    
+    const query: Query = { };
+
+
+    if (nombre_victima !== 'no_ingresado') {
+        query.nombre = nombre_victima;
+    }
+    
+    if (apellido_victima !== 'no_ingresado') {
+        query.apellido = apellido_victima;
+    }
+    if (dni_victima !== 'no_ingresado') {
+        query.DNI = dni_victima;
+    }
+    console.log(query)
+    // Obtener las denuncias
+    try {
+        const victimasBuscar = await victimas.find(query);
+        res.json(victimasBuscar);
+    } catch (error) {
+        // Error al obtener las denuncias
+        res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
+    }
+
+}

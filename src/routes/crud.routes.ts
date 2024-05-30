@@ -3,15 +3,15 @@ import { authRequired } from '../middlewares/validateToken';
 import { 
         // DENUNCIAS
         getDenuncias,  getMisDenuncias, createDenuncia, deleteDenuncia, updateDenuncia, getDenunciasId,
-        // DENUNCIAS SIN VERIFICAR
-        createDenunciaSinVerificar, validarDenuncia, getDenunciasSinVerificar,  deleteDenunciaSinVerificar, 
-        // EXPOSICIÓN
-        createExposicion,
-        // VÍCTIMA
-        getVictima, createVictima, updateVictima, buscarVictima,
-        // VICTIMARIO
-        getVictimario, createVictimario, updateVictimario, 
+       // EXPOSICIÓN
+        createExposicion,    
         } from '../controllers/crud.controller'
+ // DENUNCIAS SIN VERIFICAR
+import { createDenunciaSinVerificar, validarDenuncia, getDenunciasSinVerificar,  deleteDenunciaSinVerificar } from '../controllers/CRUD/crudDenunciasSinVerificar' 
+// VICTIMAS
+import { getVictima, createVictima, updateVictima, buscarVictima } from '../controllers/CRUD/crudVictimas'
+// VICTIMARIOS
+import { getVictimario, createVictimario, updateVictimario, buscarVictimario } from '../controllers/CRUD/crudVictimarios'
 const router = Router();
 
 /*  DENUNCIAS
@@ -53,4 +53,6 @@ router.get('/buscar-victima/:nombre_victima/:apellido_victima/:dni_victima/:nume
 router.get('/victimario/:id', authRequired, getVictimario)
 router.post('/crear-victimario/', authRequired, createVictimario)
 router.put('/editar-victimario/:id', authRequired, updateVictimario)
+router.get('/buscar-victimario/:nombre_victimario/:apellido_victimario/:dni_victimario/:numero_de_expediente', authRequired, buscarVictimario)
+
 export default router
