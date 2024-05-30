@@ -180,6 +180,11 @@ export const createDenuncia = async (req, res) => {
         })
         // Guardar la denuncia
         const denunciaSaved = await newDenuncia.save()
+        // Agrega el ID de la denuncia nueva al array que tiene la victima con sus denuncias cargadas
+        await victimas.findByIdAndUpdate(findVictima?._id ? findVictima._id : victima_ID, { $push: { denuncias_realizadas: denunciaSaved._id } })
+       // Agrega el ID de la denuncia nueva al array que tiene el victimario con sus denuncias cargadas
+        await victimario.findByIdAndUpdate(findVictimario?._id ? findVictimario._id : victimario_ID, { $push: { denuncias_en_contra: denunciaSaved._id } })
+       
         res.send('Denuncia creada con exito')
     } catch (error) {
         console.log(error)
@@ -195,8 +200,8 @@ export const deleteDenuncia = async (req, res) => {
         // Buscar la victima y victimario y restarle 1 denuncia para desvincular
         const denunciaABorrar = await denuncia.findById(id)
 
-        deleteVictima(denunciaABorrar?.victima_ID)
-        deleteVictimario(denunciaABorrar?.victimario_ID)
+        deleteVictima(denunciaABorrar?.victima_ID, id)
+        deleteVictimario(denunciaABorrar?.victimario_ID, id)
 
         const denunciaDeleted = await denuncia.findByIdAndDelete(id)
         res.json(denunciaDeleted)
@@ -265,6 +270,17 @@ export const updateDenuncia = async (req, res) => {
         res.json(denunciaUpdated)
 
 
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// Obtener denuncias por ID
+export const getDenunciasId = async (req, res) => {
+    try {
+        const { id } = req.params
+        const denunciaByID = await denuncia.findById(id)
+        res.json(denunciaByID)
     } catch (error) {
         console.log(error)
     }
@@ -486,19 +502,33 @@ export const getVictima = async (req, res) => {
 
 
 // Eliminar víctima, solo accesible desde este archivo
-const deleteVictima = async (id) => {
+const deleteVictima = async (id, denunciaId) => {
     try {
-        // Solo si cantidad de denuncias previas una vez restada, se puede borrar
+        // Buscar la víctima por ID
+        const victimaABorrar = await victimas.findById(id);
 
-        const victimaABorrar = await victimas.findById(id)
-        if (victimaABorrar?.cantidad_de_denuncias_previas == 1) {
-            const victimaDeleted = await victimas.findByIdAndDelete(id)
+        if (victimaABorrar) {
+            // Verificar la cantidad de denuncias previas
+            if (victimaABorrar.cantidad_de_denuncias_previas == 1) {
+                // Si solo tiene una denuncia previa, eliminar la víctima
+                await victimas.findByIdAndDelete(id);
+            } else {
+                // Si tiene más de una denuncia, restar una a la cantidad de denuncias previas
+                // y eliminar el ID de la denuncia del array denuncias_realizadas
+                const updatedDenunciasRealizadas = Array.isArray(victimaABorrar.denuncias_realizadas)
+                    ? victimaABorrar.denuncias_realizadas.filter(denuncia => denuncia !== denunciaId)
+                    : [];
+
+                await victimas.findByIdAndUpdate(id, { 
+                    $inc: { cantidad_de_denuncias_previas: -1 },
+                    denuncias_realizadas: updatedDenunciasRealizadas
+                }, { new: true });
+            }
         } else {
-            // Si no es 0, no se puede borrar y debe restar 1 denuncia
-            const victimaUpdated = await victimas.findByIdAndUpdate(id, { $inc: { cantidad_de_denuncias_previas: -1 } }, { new: true })
+            console.log("Victima no encontrada");
         }
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
 
@@ -535,13 +565,41 @@ export const updateVictima = async (req, res) => {
 }
 // Buscar víctima
 export const buscarVictima = async (req, res) => {
-    try {
-        const { dni_victima } = req.body
-        const victimaABuscar = await victimas.findOne({ DNI: dni_victima })
-        res.json(victimaABuscar)
-    } catch (error) {
-        console.log(error)
+    interface Query {
+        nombre?: string;
+        apellido?: string;
+        DNI?: string;
+        numero_de_expediente?: string;
     }
+    // Obtener los parámetros de la URL
+    const { nombre_victima, apellido_victima, dni_victima, numero_de_expediente} = req.params;
+    // Crear el objeto de consulta
+    console.log(req.params)
+
+    
+    const query: Query = { };
+
+
+    if (nombre_victima !== 'no_ingresado') {
+        query.nombre = nombre_victima;
+    }
+    
+    if (apellido_victima !== 'no_ingresado') {
+        query.apellido = apellido_victima;
+    }
+    if (dni_victima !== 'no_ingresado') {
+        query.DNI = dni_victima;
+    }
+    console.log(query)
+    // Obtener las denuncias
+    try {
+        const victimasBuscar = await victimas.find(query);
+        res.json(victimasBuscar);
+    } catch (error) {
+        // Error al obtener las denuncias
+        res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
+    }
+
 }
 
 // VICTIMARIO
@@ -616,17 +674,35 @@ export const getVictimario = async (req, res) => {
 }
 
 // Eliminar victimario, solo accesible desde este archivo
-const deleteVictimario = async (id) => {
+const deleteVictimario = async (id, denunciaId) => {
     try {
+        // Buscar la víctima por ID
         const victimarioABorrar = await victimario.findById(id)
-        if (victimarioABorrar?.cantidad_de_denuncias_previas == 1) {
-            const victimarioDeleted = await victimario.findByIdAndDelete(id)
+
+        if (victimarioABorrar) {
+            // Verificar la cantidad de denuncias previas
+            if (victimarioABorrar.cantidad_de_denuncias_previas == 1) {
+                // Si solo tiene una denuncia previa, eliminar la víctima
+                await victimario.findByIdAndDelete(id);
+            } else {
+                // Si tiene más de una denuncia, restar una a la cantidad de denuncias previas
+                // y eliminar el ID de la denuncia del array denuncias_realizadas
+                const updateDenunciasEnContra = Array.isArray(victimarioABorrar.denuncias_en_contra)
+                    ? victimarioABorrar.denuncias_en_contra.filter(denuncia => denuncia !== denunciaId)
+                    : [];
+
+                await victimario.findByIdAndUpdate(id, { 
+                    $inc: { cantidad_de_denuncias_previas: -1 },
+                    denuncias_en_contra: updateDenunciasEnContra
+                }, { new: true });
+            }
         } else {
-            const victimarioUpdated = await victimario.findByIdAndUpdate(id, { $inc: { cantidad_de_denuncias_previas: -1 } }, { new: true })
+            console.log("Victimario no encontrado");
         }
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
+
 }
 
 // Editar victimario

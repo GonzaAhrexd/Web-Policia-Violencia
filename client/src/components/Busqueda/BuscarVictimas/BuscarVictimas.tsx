@@ -1,12 +1,7 @@
-import React from 'react'
 // Componentes
-import InputDate from '../../InputComponents/InputDate';
 import InputRegister from '../../InputComponents/InputRegister';
-import InputCheckbox from '../../InputComponents/InputCheckbox';
-import SelectRegister from '../../Select/SelectRegister';
-import SelectDivisionMunicipios from '../../Select/SelectDivisionMunicipios';
 // Backend APIs
-import { buscarDenuncias } from '../../../api/crud';
+import { buscarVictima } from '../../../api/crud';
 // Hooks
 import { useState } from 'react';
 import { useForm } from 'react-hook-form'
@@ -19,22 +14,24 @@ import { customStyles } from './dataTableStyles'
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 
+
+
 // Campos
 function BuscarVictimas() {
-    const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
+    const [victimasMostrar, setVictimasMostrar] = useState([]);
     const { register, handleSubmit, setValue, formState: {
         errors
     } } = useForm()
     const handleBusqueda = async (values: any) => {
 
         console.log(values)
-        /*
-        const fetchDenuncias = async () => {
-            const result = await buscarDenuncias(values);
-            setDenunciasAMostrar(result)
+        
+        const fetchVictimas = async () => {
+            const result = await buscarVictima(values);
+            setVictimasMostrar(result)
             console.log(result)
         }
-        fetchDenuncias(); */
+        fetchVictimas(); 
     }
 
     
@@ -68,7 +65,7 @@ function BuscarVictimas() {
                     <h2 className='text-2xl my-5'>Víctima</h2>
                     <DataTable
                         columns={columns}
-                        data={denunciasAMostrar}
+                        data={victimasMostrar}
                         pagination
                         expandableRows
                         expandableRowsComponent={expandedComponents}

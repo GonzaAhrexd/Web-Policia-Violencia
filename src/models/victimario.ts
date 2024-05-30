@@ -87,7 +87,13 @@ const victimarioSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    denuncias_en_contra: {
+        type: [String], // Tipo de dato Array
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    }
     },
+
     {
     timestamps: true // Timestamps para que guarde la fecha de creación y actualización
     }

@@ -30,6 +30,16 @@ export const buscarDenuncias = async (values: any) => {
         console.log(error)
     }
 }
+
+export const buscarDenunciasPorId = async (id: string) => {
+    try {
+        const response = await axios.get(`/buscar-denuncias-id/${id}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 // Editar denuncias
 export const editarDenuncia = async (denuncia: any) => {
     try {
@@ -134,6 +144,18 @@ export const getVictima = async (id: string) => {
         console.log(error)
     }
 }
+
+// Buscar víctima
+export const buscarVictima = async (values: any) => {
+    try {
+        const response = await axios.get(`/buscar-victima/${values.nombre_victima ? values.nombre_victima : "no_ingresado"}/${values.apellido_victima ? values.apellido_victima : "no_ingresado"}/${values.dni_victima ? values.dni_victima : "no_ingresado"}/${values.numero_de_expediente ? values.numero_de_expediente : "no_ingresado"}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 // VICTIMARIO
 // Agregar victimario
 export const agregarVictimario = async (victimario: any) => {
