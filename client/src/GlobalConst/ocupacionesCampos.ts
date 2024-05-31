@@ -1,8 +1,10 @@
 export const ocupaciones = [
     // Empleado, Jornalero, Personal de Salud, Personal de educación, Profesional, Jubilado, Estudiante, Albañil, Policia, PFA, SPP, SPF, PSA, GNA, Ejército Argentina, PNA, Desocupado, Ama de casa, Empleado público, Comerciante, 
+    { nombre: 'Ama de casa', value: 'Ama de casa' },
     { nombre: 'Empleado', value: 'Empleado' },
     { nombre: 'Empleado público', value: 'Empleado público' },
     { nombre: 'Jornalero', value: 'Jornalero' },
+    {nombre: 'Independiente', value: 'Independiente'},
     { nombre: 'Comerciante', value: 'Comerciante' },
     { nombre: 'Personal de Salud', value: 'Personal de Salud' },
     { nombre: 'Personal de educación', value: 'Personal de educación' },
@@ -19,5 +21,4 @@ export const ocupaciones = [
     { nombre: 'Ejército Argentino', value: 'Ejército Argentino' },
     { nombre: 'Prefectura Naval Argentina', value: 'Prefectura Naval Argentina' },
     { nombre: 'Desocupado', value: 'Desocupado' },
-    { nombre: 'Ama de casa', value: 'Ama de casa' },
 ]

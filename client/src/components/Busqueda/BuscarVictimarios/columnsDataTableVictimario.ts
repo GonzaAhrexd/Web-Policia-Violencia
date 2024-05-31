@@ -8,6 +8,7 @@ type Row = {
     estado_civil: string
 }
 
+
 /* 
 --------------------------------------------------------------------------------------------------------
     CAMPOS
@@ -18,7 +19,7 @@ type Row = {
 ----------------------------------------------------------------------------------------------------------
 */
 
-export const columns = [
+export const columnVictimario = [
     {
         // Número de expediente de la denuncia
         name: 'Nombre',

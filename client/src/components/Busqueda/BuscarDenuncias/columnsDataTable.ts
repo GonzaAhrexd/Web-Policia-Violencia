@@ -22,7 +22,7 @@ type Row = {
 ----------------------------------------------------------------------------------------------------------
 */
 
-export const columns = [
+export const columnsDenuncias = [
     {
         // Número de expediente de la denuncia
         name: 'Número de Expediente',

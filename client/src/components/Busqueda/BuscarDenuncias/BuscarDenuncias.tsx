@@ -1,9 +1,7 @@
-import React from 'react'
 // Componentes
 import InputDate from '../../InputComponents/InputDate';
 import InputRegister from '../../InputComponents/InputRegister';
 import InputCheckbox from '../../InputComponents/InputCheckbox';
-import SelectRegister from '../../Select/SelectRegister';
 import SelectDivisionMunicipios from '../../Select/SelectDivisionMunicipios';
 // Backend APIs
 import { buscarDenuncias } from '../../../api/crud';
@@ -12,7 +10,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component';
 
-import { columns } from './columnsDataTable'
+import { columnsDenuncias } from './columnsDataTable'
 import expandedComponents from './expandedComponents'
 import { customStyles } from './dataTableStyles'
 
@@ -21,7 +19,7 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 
 // Campos
 import { unidadCampos } from '../../../GlobalConst/unidadCampos';
-import { getRandomValues } from 'crypto';
+
 function BuscarDenuncias() {
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     const { register, handleSubmit, setValue, formState: {
@@ -74,7 +72,7 @@ function BuscarDenuncias() {
             <div className="flex flex-col w-full">
                     <h2 className='text-2xl my-5'>Denuncias</h2>
                     <DataTable
-                        columns={columns}
+                        columns={columnsDenuncias}
                         data={denunciasAMostrar}
                         pagination
                         expandableRows

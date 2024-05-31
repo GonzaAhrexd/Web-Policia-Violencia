@@ -74,14 +74,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         window.open(url, '_blank');
     }
 
-    // Detalles del victimario
-    const detallesVictimario = [
-        { nombre: "Abuso de Alcohol", valor: victimarioDatos.abuso_de_alcohol },
-        { nombre: "Antecedentes toxicológicos", valor: victimarioDatos.antecedentes_toxicologicos },
-        { nombre: "Antecedentes Penales", valor: victimarioDatos.antecedentes_penales },
-        { nombre: "Antecedentes Contravencionales", valor: victimarioDatos.antecedentes_contravencionales },
-        { nombre: "Entrenamiento en combate", valor: victimarioDatos.entrenamiento_en_combate },
-    ]
+
     // Medidas
     const medidas = [
         { nombre: "Prohibición de acercamiento", valor: data.medida.prohibicion_de_acercamiento },
@@ -123,7 +116,14 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "Notificación", valor: victimarioDatos.notificacion ? victimarioDatos.notificacion : "No especificado"},
         { nombre: "Denuncias previas", valor: victimarioDatos.cantidad_de_denuncias_previas ? victimarioDatos.cantidad_de_denuncias_previas : "No especificado"}
     ]
-
+    // Detalles del victimario
+    const detallesVictimario = [
+        { nombre: "Abuso de Alcohol", valor: victimarioDatos.abuso_de_alcohol },
+        { nombre: "Antecedentes toxicológicos", valor: victimarioDatos.antecedentes_toxicologicos },
+        { nombre: "Antecedentes Penales", valor: victimarioDatos.antecedentes_penales },
+        { nombre: "Antecedentes Contravencionales", valor: victimarioDatos.antecedentes_contravencionales },
+        { nombre: "Entrenamiento en combate", valor: victimarioDatos.entrenamiento_en_combate },
+    ]
     // Datos del hecho
     const hechoDatosMostrar = [
         { nombre: "Número de expediente", valor: data.numero_de_expediente },

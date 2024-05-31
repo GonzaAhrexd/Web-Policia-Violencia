@@ -66,9 +66,9 @@ function Buscar() {
                     <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10 m-2" onClick={() => handleMostrarDenuncias()}> Denuncias</button>
                 </div>
                 <h1 className='text-3xl my-5'>Búsqueda</h1>
-                {mostrarDenuncias && <BuscarDenuncias />}
                 {mostrarVictimas && <BuscarVictimas/> }
                 {mostrarVictimarios && <BuscarVictimario/>}
+                {mostrarDenuncias && <BuscarDenuncias />}
             </div>
         </div>
     )

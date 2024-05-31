@@ -18,7 +18,7 @@ import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 
-import { columns } from '../BuscarDenuncias/columnsDataTable'
+import { columnsDenuncias } from '../BuscarDenuncias/columnsDataTable'
 import { customStyles } from '../BuscarDenuncias/dataTableStyles'
 // Importa expandedComponents con otro nombre
 
@@ -130,7 +130,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                 <h1 className='text-3xl my-5 font-sans	'>Denuncias realizadas</h1>
                 <div className='flex flex-col'>
                 <DataTable
-                        columns={columns}
+                        columns={columnsDenuncias}
                         data={denunciasAMostrar}
                         pagination
                         customStyles={customStyles}

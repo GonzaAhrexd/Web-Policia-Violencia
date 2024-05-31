@@ -187,3 +187,12 @@ export const editarVictimario = async (victimario: any) => {
         console.log(error)
     }
 }
+// Buscar victimario
+export const buscarVictimario = async (values: any) => {
+    try {
+        const response = await axios.get(`/buscar-victimario/${values.nombre_victimario ? values.nombre_victimario : "no_ingresado"}/${values.apellido_victimario ? values.apellido_victimario : "no_ingresado"}/${values.dni_victimario ? values.dni_victimario : "no_ingresado"}/${values.numero_de_expediente ? values.numero_de_expediente : "no_ingresado"}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

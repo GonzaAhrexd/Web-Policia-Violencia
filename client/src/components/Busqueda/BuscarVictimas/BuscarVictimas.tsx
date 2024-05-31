@@ -7,14 +7,14 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component';
 
-import { columns } from './columnsDataTable'
+//import { columnsVictima } from './columnsDataTable'
 import expandedComponents from './expandedComponents'
 import { customStyles } from './dataTableStyles'
 
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 
-
+import {columnsVictima} from './columnsDataTableVictima'
 
 // Campos
 function BuscarVictimas() {
@@ -53,18 +53,18 @@ function BuscarVictimas() {
                     }
 
                     )}>
-                    <InputRegister campo="Nombre" nombre="nombre_victima" register={register} require={false} type="text" error={errors.nombre}/>
-                    <InputRegister campo="Apellido" nombre="apellido_victima" register={register} require={false} type="text" error={errors.apellido}/>
-                    <InputRegister campo="DNI" nombre="dni_victima" register={register} require={false} type="text" error={errors.dni_victima}/>
-                    <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} require={false} type="text" error={errors.numero_de_expediente}/>
-                 
+                    <InputRegister busqueda={true} campo="Nombre" nombre="nombre_victima" register={register} require={false} type="text" error={errors.nombre}/>
+                    <InputRegister busqueda={true} campo="Apellido" nombre="apellido_victima" register={register} require={false} type="text" error={errors.apellido}/>
+                    <InputRegister busqueda={true} campo="DNI" nombre="dni_victima" register={register} require={false} type="text" error={errors.dni_victima}/>
+                    <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
+               
                  <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>        
             </form>
             
             <div className="flex flex-col w-full">
                     <h2 className='text-2xl my-5'>Víctima</h2>
                     <DataTable
-                        columns={columns}
+                        columns={columnsVictima}
                         data={victimasMostrar}
                         pagination
                         expandableRows
