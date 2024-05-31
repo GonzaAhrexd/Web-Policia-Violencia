@@ -15,6 +15,7 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 // Campos
 function BuscarVictimario() {
     const [victimarioMostrar, setVictimarioMostrar] = useState([]);
+    const [mostrarAlerta, setMostrarAlerta] = useState("");
     const { register, handleSubmit, setValue, formState: {
         errors
     } } = useForm()
@@ -40,9 +41,17 @@ function BuscarVictimario() {
             <form className="w-full flex flex-col items-center"
                 onSubmit={
                     handleSubmit(async (values) => {
-                        handleBusqueda(values)
+                        if (!values.nombre_victimario && !values.apellido_victimario && !values.dni_victimario && !values.numero_de_expediente) {
+                            setVictimarioMostrar([])
+                            setMostrarAlerta("Rellene al menos un campo");
+                            return;
+                          }
+                          setMostrarAlerta("");
+                          handleBusqueda(values)
                     }
                     )}>
+                         {mostrarAlerta && <span className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-5" role="alert"> {mostrarAlerta}</span>}
+             
                     <InputRegister busqueda={true}  campo="Nombre" nombre="nombre_victimario" register={register} require={false} type="text" error={errors.nombre}/>
                     <InputRegister busqueda={true}  campo="Apellido" nombre="apellido_victimario" register={register} require={false} type="text" error={errors.apellido}/>
                     <InputRegister busqueda={true}  campo="DNI" nombre="dni_victimario" register={register} require={false} type="text" error={errors.dni_victima}/>
@@ -51,7 +60,7 @@ function BuscarVictimario() {
                  <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>        
             </form>
             <div className="flex flex-col w-full">
-                    <h2 className='text-2xl my-5'>Víctima</h2>
+                    <h2 className='text-2xl my-5'>Victimario</h2>
                     <DataTable
                         columns={columnVictimario}
                         data={victimarioMostrar}

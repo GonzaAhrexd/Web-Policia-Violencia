@@ -23,7 +23,6 @@ export const authRequired = (req,res,next) => {
 // Crear una función que valide si el usuario es admin
 export const authAdmin = async (req,res,next) => {
     authRequired(req,res, async () => {
-        console.log(req.user)
         try{
             //Busca al usuario en la BD
             const usuario = await usuarios.findById(req.user.id)
@@ -46,7 +45,6 @@ export const authAdmin = async (req,res,next) => {
 // Crear una función que valide si el usuario es carga
 export const authCarga = async (req,res,next) => {
     authRequired(req,res, async () => {
-        console.log(req.user)
         try{
             //Buscamos al usuario en la Base de Datos
             const usuario = await usuarios.findById(req.user.id)            

@@ -19,6 +19,7 @@ import {columnsVictima} from './columnsDataTableVictima'
 // Campos
 function BuscarVictimas() {
     const [victimasMostrar, setVictimasMostrar] = useState([]);
+    const [mostrarAlerta, setMostrarAlerta] = useState("");
     const { register, handleSubmit, setValue, formState: {
         errors
     } } = useForm()
@@ -48,11 +49,17 @@ function BuscarVictimas() {
             <form className="w-full flex flex-col items-center"
                 onSubmit={
                     handleSubmit(async (values) => {
-
+                        setVictimasMostrar([])
+                        if (!values.nombre_victima && !values.apellido_victima && !values.dni_victima && !values.numero_de_expediente) {
+                            setMostrarAlerta("Rellene al menos un campo");
+                            return;
+                          }
+                        setMostrarAlerta("");
                         handleBusqueda(values)
                     }
 
                     )}>
+                        {mostrarAlerta && <span className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-5" role="alert"> {mostrarAlerta}</span>}
                     <InputRegister busqueda={true} campo="Nombre" nombre="nombre_victima" register={register} require={false} type="text" error={errors.nombre}/>
                     <InputRegister busqueda={true} campo="Apellido" nombre="apellido_victima" register={register} require={false} type="text" error={errors.apellido}/>
                     <InputRegister busqueda={true} campo="DNI" nombre="dni_victima" register={register} require={false} type="text" error={errors.dni_victima}/>

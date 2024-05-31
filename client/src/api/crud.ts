@@ -148,7 +148,7 @@ export const getVictima = async (id: string) => {
 // Buscar víctima
 export const buscarVictima = async (values: any) => {
     try {
-        const response = await axios.get(`/buscar-victima/${values.nombre_victima ? values.nombre_victima : "no_ingresado"}/${values.apellido_victima ? values.apellido_victima : "no_ingresado"}/${values.dni_victima ? values.dni_victima : "no_ingresado"}/${values.numero_de_expediente ? values.numero_de_expediente : "no_ingresado"}`)
+        const response = await axios.get(`/buscar-victima/${values.nombre_victima ? values.nombre_victima : "no_ingresado"}/${values.apellido_victima ? values.apellido_victima : "no_ingresado"}/${values.dni_victima ? values.dni_victima : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -190,7 +190,7 @@ export const editarVictimario = async (victimario: any) => {
 // Buscar victimario
 export const buscarVictimario = async (values: any) => {
     try {
-        const response = await axios.get(`/buscar-victimario/${values.nombre_victimario ? values.nombre_victimario : "no_ingresado"}/${values.apellido_victimario ? values.apellido_victimario : "no_ingresado"}/${values.dni_victimario ? values.dni_victimario : "no_ingresado"}/${values.numero_de_expediente ? values.numero_de_expediente : "no_ingresado"}`)
+        const response = await axios.get(`/buscar-victimario/${values.nombre_victimario ? values.nombre_victimario : "no_ingresado"}/${values.apellido_victimario ? values.apellido_victimario : "no_ingresado"}/${values.dni_victimario ? values.dni_victimario : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}`)
         return response.data
     } catch (error) {
         console.log(error)

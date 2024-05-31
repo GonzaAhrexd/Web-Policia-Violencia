@@ -1,5 +1,5 @@
 import victimas from '../../models/victimas'
-
+import denuncias from '../../models/denuncias'
 // Crear víctima
 export const createVictima = async (req, res) => {
     //Victima nueva
@@ -144,6 +144,13 @@ export const updateVictima = async (req, res) => {
             }
         }, { new: true })
         res.json(victimaUpdated)
+        // Actualizar victima_nombre de las denuncias que tenga la víctima en caso de que se haya modificado
+        await denuncias.updateMany({
+            victima_ID: id
+        }, {
+            victima_nombre: `${nombre_victima} ${apellido_victima}`
+        });
+         
     } catch (error) {
         console.log(error)
     }
@@ -152,31 +159,32 @@ export const updateVictima = async (req, res) => {
 // Buscar víctima
 export const buscarVictima = async (req, res) => {
     interface Query {
-        nombre?: string;
-        apellido?: string;
+        nombre?: RegExp;
+        apellido?: RegExp;
         DNI?: string;
-        numero_de_expediente?: string;
+        _id?: string;
     }
     // Obtener los parámetros de la URL
     const { nombre_victima, apellido_victima, dni_victima, numero_de_expediente} = req.params;
-    // Crear el objeto de consulta
-    console.log(req.params)
-
-    
+    // Crear el objeto de consulta    
     const query: Query = { };
-
-
     if (nombre_victima !== 'no_ingresado') {
-        query.nombre = nombre_victima;
+        query.nombre = new RegExp('^' + nombre_victima, 'i');
+        
     }
     
     if (apellido_victima !== 'no_ingresado') {
-        query.apellido = apellido_victima;
+        query.apellido = new RegExp('^' + apellido_victima, 'i');
     }
     if (dni_victima !== 'no_ingresado') {
         query.DNI = dni_victima;
     }
-    console.log(query)
+    if (numero_de_expediente !== 'no_ingresado') {
+        const denuncia = await denuncias.findOne({ numero_de_expediente: numero_de_expediente });
+        if (denuncia) {
+            query._id = denuncia.victima_ID;
+        }
+    }
     // Obtener las denuncias
     try {
         const victimasBuscar = await victimas.find(query);

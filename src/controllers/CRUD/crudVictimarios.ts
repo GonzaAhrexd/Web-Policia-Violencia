@@ -1,9 +1,5 @@
-import victimas from '../../models/victimas'
 import victimario from '../../models/victimario'
-import denuncia from '../../models/denuncias'
-import denunciaSinVerificar from '../../models/denunciaSinVerificar'
-import exposicion from '../../models/exposicion'
-import usuarios from '../../models/usuarios'
+import denuncias from '../../models/denuncias'
 
 // VICTIMARIO
 // Crear victimario
@@ -94,7 +90,7 @@ export const deleteVictimario = async (id, denunciaId) => {
                     ? victimarioABorrar.denuncias_en_contra.filter(denuncia => denuncia !== denunciaId)
                     : [];
 
-                await victimario.findByIdAndUpdate(id, { 
+                await victimario.findByIdAndUpdate(id, {
                     $inc: { cantidad_de_denuncias_previas: -1 },
                     denuncias_en_contra: updateDenunciasEnContra
                 }, { new: true });
@@ -110,6 +106,7 @@ export const deleteVictimario = async (id, denunciaId) => {
 
 // Editar victimario
 export const updateVictimario = async (req, res) => {
+    const { id } = req.params
     const { nombre_victimario, apellido_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion, } = req.body
 
     try {
@@ -127,7 +124,16 @@ export const updateVictimario = async (req, res) => {
             entrenamiento_en_combate,
             notificacion,
         }, { new: true })
+
+        // Actualizar victima_nombre de las denuncias que tenga la víctima en caso de que se haya modificado
+        await denuncias.updateMany({
+            victimario_ID: id
+        }, {
+            victimario_nombre: `${nombre_victimario} ${apellido_victimario}`
+        });
+
         res.json(victimarioUpdated)
+
     } catch (error) {
         console.log(error)
     }
@@ -135,32 +141,34 @@ export const updateVictimario = async (req, res) => {
 }
 
 export const buscarVictimario = async (req, res) => {
-    try{
+    try {
         interface Query {
-            nombre?: string;
-            apellido?: string;
+            nombre?: RegExp;
+            apellido?: RegExp;
             DNI?: string;
             numero_de_expediente?: string;
+            _id?: string;
         }
         // Obtener los parámetros de la URL
-        const { nombre_victimario, apellido_victimario, dni_victimario, numero_de_expediente} = req.params;
+        const { nombre_victimario, apellido_victimario, dni_victimario, numero_de_expediente } = req.params;
         // Crear el objeto de consulta
-        console.log(req.params)
-    
-        
-        const query: Query = { };
-    
+        const query: Query = {};
         if (nombre_victimario !== 'no_ingresado') {
-            query.nombre = nombre_victimario;
+            query.nombre = new RegExp('^' + nombre_victimario, 'i');
         }
-        
+
         if (apellido_victimario !== 'no_ingresado') {
-            query.apellido = apellido_victimario;
+            query.apellido = new RegExp('^' + apellido_victimario, 'i');
         }
         if (dni_victimario !== 'no_ingresado') {
             query.DNI = dni_victimario;
         }
-        console.log(query)
+        if (numero_de_expediente !== 'no_ingresado') {
+            const denuncia = await denuncias.findOne({ numero_de_expediente: numero_de_expediente });
+            if (denuncia) {
+                query._id = denuncia.victimario_ID;
+            }
+        }
         // Obtener las denuncias
         try {
             const victimariosFind = await victimario.find(query);
@@ -169,7 +177,7 @@ export const buscarVictimario = async (req, res) => {
             // Error al obtener las denuncias
             res.status(500).json({ message: 'Hubo un error al obtener los victimarios.' });
         }
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
