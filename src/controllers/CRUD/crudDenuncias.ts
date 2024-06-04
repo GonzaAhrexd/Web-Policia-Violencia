@@ -2,7 +2,7 @@
 import victimas from '../../models/victimas'
 import victimario from '../../models/victimario'
 import denuncia from '../../models/denuncias'
-
+import terceros from '../../models/terceros'
 import { deleteVictimario } from './crudVictimarios'
 import { deleteVictima } from './crudVictimas'
 // DENUNCIAS
@@ -128,9 +128,19 @@ export const createDenuncia = async (req, res) => {
         } else {
             findVictimario = await victimario.findOne({ DNI: dni_victimario })
         }
-        console.log(findVictima ? findVictima : 'No existe')    
-        console.log(findVictimario ? findVictimario : 'No existe')
+        // Busca al tercero por dni si este ya existe
+        const findTercero = await terceros.findOne({ DNI: dni_tercero })
+        // Si el tercero no existe, se crea uno nuevo
+        if (!findTercero) {
 
+            const newTercero = new terceros({
+                nombre: nombre_tercero,
+                apellido: apellido_tercero,
+                DNI: dni_tercero,
+                vinculo_con_victima: vinculo_con_la_victima
+            })
+            await newTercero.save()
+        }
         // Crear la denuncia
         const newDenuncia = new denuncia({
             victima_ID: findVictima?._id ? findVictima._id : victima_ID,
@@ -186,9 +196,10 @@ export const createDenuncia = async (req, res) => {
         // Agrega el ID de la denuncia nueva al array que tiene la victima con sus denuncias cargadas
         await victimas.findByIdAndUpdate(findVictima?._id ? findVictima._id : victima_ID, { $push: { denuncias_realizadas: denunciaSaved._id } })
        // Agrega el ID de la denuncia nueva al array que tiene el victimario con sus denuncias cargadas
-        await victimario.findByIdAndUpdate(findVictimario?._id ? findVictimario._id : victimario_ID, { $push: { denuncias_en_contra: denunciaSaved._id } })
+        await victimario.findByIdAndUpdate(findVictimario?._id ? findVictimario._id : victimario_ID, { $push: { denuncias_en_contra: denunciaSaved._id } })        
+        // Agrega esta denuncia al tercero
+        await terceros.findByIdAndUpdate(findTercero?._id, { $push: { denuncias_realizadas: denunciaSaved._id } })
         
-
         await denuncia.updateMany({
             victima_ID: findVictima?._id ? findVictima._id : victima_ID
         }, {
@@ -229,8 +240,6 @@ export const deleteDenuncia = async (req, res) => {
 
 
 // Actualizar denuncias
-
-// AQUÍ HAY UN ERROR, NO FUNCIONA LA EDICIÓN, SOLUCIONAR URGENTE
 export const updateDenuncia = async (req, res) => {
     try {
         //Edita los parametros de la denuncia salvo los id de la victima y victimario
@@ -291,7 +300,6 @@ export const updateDenuncia = async (req, res) => {
         }, {
             victima_nombre: `${nombre_victima} ${apellido_victima}`
         });
-
         
         await denuncia.updateMany({
             victimario_ID: denunciaUpdated?.victimario_ID

@@ -153,15 +153,55 @@ export const buscarVictimario = async (req, res) => {
         const { nombre_victimario, apellido_victimario, dni_victimario, numero_de_expediente } = req.params;
         // Crear el objeto de consulta
         const query: Query = {};
-        if (nombre_victimario !== 'no_ingresado') {
-            query.nombre = new RegExp('^' + nombre_victimario, 'i');
+        function normalizarLetras(caracter:string) {
+            if (caracter === 's' || caracter === 'z') return '[sz]';
+            if (caracter === 'i' || caracter === 'y') return '[iy]';
+            if ( caracter === 'k' || caracter === 'q') return '[kq]';
+            if ( caracter === 'v' || caracter === 'b') return '[vb]';
+            if ( caracter === 'g' || caracter === 'j') return '[gj]';
+            if (caracter === 'á' || caracter === 'a') return '[áa]';
+            if (caracter === 'é' || caracter === 'e') return '[ée]';
+            if (caracter === 'í' || caracter === 'i') return '[íi]';
+            if (caracter === 'ó' || caracter === 'o') return '[óo]';
+            if (caracter === 'ú' || caracter === 'u') return '[úu]';
+            if (caracter === 'ü') return '[üu]';
+            return caracter;
         }
-
+    
+        function construirExpresionRegular(cadena): any {
+            if (cadena !== 'no_ingresado') {
+                // Convertir la cadena a minúsculas
+                const cadena_lower = cadena.toLowerCase();
+            
+                // Separar los nombres/apellidos y eliminar espacios en blanco adicionales
+                const partes = cadena_lower.trim().split(/\s+/);
+            
+                // Crear la expresión regular
+                const regexPattern = partes
+                    .map(part => part.split('').map(normalizarLetras).join(''))
+                    .join('.*');
+            
+                // Crear expresión regular para buscar todas las combinaciones de nombres/apellidos
+                const regexCombinaciones = partes
+                    .map(part => `(?=.*${part.split('').map(normalizarLetras).join('')})`)
+                    .join('');
+            
+                // Devolver la expresión regular
+                return new RegExp(regexCombinaciones, 'i');
+            } else {
+                // Si no se ha ingresado el nombre/apellido, devolver null
+                return null;
+            }
+        }        
+    
+        if (nombre_victimario !== 'no_ingresado') {
+            query.nombre = new RegExp(construirExpresionRegular(nombre_victimario));
+        }
         if (apellido_victimario !== 'no_ingresado') {
-            query.apellido = new RegExp('^' + apellido_victimario, 'i');
+            query.apellido = new RegExp(construirExpresionRegular(apellido_victimario));
         }
         if (dni_victimario !== 'no_ingresado') {
-            query.DNI = dni_victimario;
+            query.DNI =  dni_victimario.replace(/\./g, '');
         }
         if (numero_de_expediente !== 'no_ingresado') {
             const denuncia = await denuncias.findOne({ numero_de_expediente: numero_de_expediente });

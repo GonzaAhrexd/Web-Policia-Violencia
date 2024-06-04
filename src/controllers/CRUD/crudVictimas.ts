@@ -1,5 +1,6 @@
 import victimas from '../../models/victimas'
 import denuncias from '../../models/denuncias'
+import unorm from 'unorm'
 // Crear víctima
 export const createVictima = async (req, res) => {
     //Victima nueva
@@ -33,7 +34,6 @@ export const createVictima = async (req, res) => {
             res.json({ message: 'Victima creado con exito', id: victimaSaved._id })
         } else {
 
-            console.log("HERE")
             // Actualiza los datos con los nuevos ingresados en caso de que difiera y suma 1 denuncia 
             // Actualiza los datos con los nuevos ingresados en caso de que difiera
             const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, {
@@ -59,7 +59,7 @@ export const createVictima = async (req, res) => {
             // Incrementa la cantidad de denuncias previas
             await victimas.updateOne({ DNI: dni_victima }, { $inc: { cantidad_de_denuncias_previas: 1 } });
 
-     
+
 
             res.send('Victima ya existe')
 
@@ -105,7 +105,7 @@ export const deleteVictima = async (id, denunciaId) => {
                     ? victimaABorrar.denuncias_realizadas.filter(denuncia => denuncia !== denunciaId)
                     : [];
 
-                await victimas.findByIdAndUpdate(id, { 
+                await victimas.findByIdAndUpdate(id, {
                     $inc: { cantidad_de_denuncias_previas: -1 },
                     denuncias_realizadas: updatedDenunciasRealizadas
                 }, { new: true });
@@ -150,7 +150,7 @@ export const updateVictima = async (req, res) => {
         }, {
             victima_nombre: `${nombre_victima} ${apellido_victima}`
         });
-         
+
     } catch (error) {
         console.log(error)
     }
@@ -165,19 +165,68 @@ export const buscarVictima = async (req, res) => {
         _id?: string;
     }
     // Obtener los parámetros de la URL
-    const { nombre_victima, apellido_victima, dni_victima, numero_de_expediente} = req.params;
+    const { nombre_victima, apellido_victima, dni_victima, numero_de_expediente } = req.params;
     // Crear el objeto de consulta    
-    const query: Query = { };
-    if (nombre_victima !== 'no_ingresado') {
-        query.nombre = new RegExp('^' + nombre_victima, 'i');
+    const query: Query = {};
+
+    function normalizarLetras(caracter:string) {
+        if (caracter === 's' || caracter === 'z') return '[sz]';
+        if (caracter === 'i' || caracter === 'y') return '[iy]';
+        if ( caracter === 'k' || caracter === 'q') return '[kq]';
+        if ( caracter === 'v' || caracter === 'b') return '[vb]';
+        if ( caracter === 'g' || caracter === 'j') return '[gj]';
+        if (caracter === 'á' || caracter === 'a') return '[áa]';
+        if (caracter === 'é' || caracter === 'e') return '[ée]';
+        if (caracter === 'í' || caracter === 'i') return '[íi]';
+        if (caracter === 'ó' || caracter === 'o') return '[óo]';
+        if (caracter === 'ú' || caracter === 'u') return '[úu]';
+        if (caracter === 'ü') return '[üu]';
+        return caracter;
+    }
+
+    function construirExpresionRegular(cadena) {
+        console.log("Cadena recibida:", cadena);
+        if (cadena !== 'no_ingresado') {
+            // Convertir la cadena a minúsculas
+            const cadena_lower = cadena.toLowerCase();
+            console.log("Cadena convertida a minúsculas:", cadena_lower);
         
+            // Separar los nombres/apellidos y eliminar espacios en blanco adicionales
+            const partes = cadena_lower.trim().split(/\s+/);
+            console.log("Partes separadas:", partes);
+        
+            // Crear la expresión regular
+            const regexPattern = partes
+                .map(part => part.split('').map(normalizarLetras).join(''))
+                .join('.*');
+            console.log("Expresión regular:", regexPattern);
+        
+            // Crear expresión regular para buscar todas las combinaciones de nombres/apellidos
+            const regexCombinaciones = partes
+                .map(part => `(?=.*${part.split('').map(normalizarLetras).join('')})`)
+                .join('');
+            console.log("Expresión regular de combinaciones:", regexCombinaciones);
+        
+            // Devolver la expresión regular
+            return new RegExp(regexCombinaciones, 'i');
+        } else {
+            // Si no se ha ingresado el nombre/apellido, devolver null
+            return null;
+        }
+    }        
+
+    if (nombre_victima !== 'no_ingresado') {
+        // @ts-ignore
+        query.nombre = new RegExp(construirExpresionRegular(nombre_victima));
     }
-    
     if (apellido_victima !== 'no_ingresado') {
-        query.apellido = new RegExp('^' + apellido_victima, 'i');
+        // @ts-ignore
+        query.apellido = new RegExp(construirExpresionRegular(apellido_victima));
     }
+
     if (dni_victima !== 'no_ingresado') {
-        query.DNI = dni_victima;
+        //Haz que se eliminen . si que se ingresan en el dni
+        query.DNI =  dni_victima.replace(/\./g, '');
     }
     if (numero_de_expediente !== 'no_ingresado') {
         const denuncia = await denuncias.findOne({ numero_de_expediente: numero_de_expediente });
