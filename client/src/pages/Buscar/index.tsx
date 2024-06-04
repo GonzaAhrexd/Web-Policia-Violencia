@@ -49,12 +49,12 @@ function Buscar() {
         setMostrarVictimarios(true)
         setMostrarVictimas(false)
     }
-
     //@ts-ignore
     const { signUp, user, isAuthenticated, isLoading } = useAuth();
+    
     if (isLoading) return <h1>Cargando...</h1>
-    if (!isLoading && !isAuthenticated && user.rol != "carga" || user.rol != "admin") return <Navigate to="/login" replace />
-
+    if (!isLoading && !isAuthenticated && user?.rol != "carga" || user?.rol != "admin") return <Navigate to="/login" replace />
+    
 
     return (
         <div>

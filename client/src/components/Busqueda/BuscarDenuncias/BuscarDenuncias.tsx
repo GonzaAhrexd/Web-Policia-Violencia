@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component';
 
-import { columnsDenuncias } from './columnsDataTable'
+import { columnsDenuncia } from './columnsDataTableDenuncias'
 import expandedComponents from './expandedComponents'
 import { customStyles } from './dataTableStyles'
 
@@ -72,7 +72,7 @@ function BuscarDenuncias() {
             <div className="flex flex-col w-full">
                     <h2 className='text-2xl my-5'>Denuncias</h2>
                     <DataTable
-                        columns={columnsDenuncias}
+                        columns={columnsDenuncia}
                         data={denunciasAMostrar}
                         pagination
                         expandableRows

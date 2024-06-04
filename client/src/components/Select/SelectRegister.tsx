@@ -57,6 +57,7 @@ function SelectRegister({mid, setTipoDenuncia, campo, opciones, nombre, setValue
         nombre == "jerarquia_instructor" && setValue('jerarquia_instructor', value)
         nombre == "tipo_denuncia" && setValue('tipo_denuncia', value)
         nombre == "division" && setValue('division', value)
+        nombre == "denuncias_de" && setValue('denuncias_de', value)
 
     };
       

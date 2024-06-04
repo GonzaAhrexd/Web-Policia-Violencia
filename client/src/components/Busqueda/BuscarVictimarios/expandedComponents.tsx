@@ -15,17 +15,23 @@ import { buscarDenunciasPorId } from '../../../api/crud';
 import DataTable from 'react-data-table-component';
 import Swal from 'sweetalert2' // Librería para mostrar popups
 // Iconos
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
+import { PencilSquareIcon, TrashIcon, PrinterIcon } from '@heroicons/react/24/solid'
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
-import { columnsDenuncias } from '../BuscarDenuncias/columnsDataTable'
+import { columnsDenuncia } from '../BuscarDenuncias/columnsDataTableDenuncias'
 import { customStyles } from '../BuscarDenuncias/dataTableStyles'
 import EditVictimario from '../../../components/EditMode/EditVictimario';
 // Importa expandedComponents con otro nombre
 import { editarVictimario } from '../../../api/crud';
 import  expandedDenuncia from '../BuscarDenuncias/expandedComponents'
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
+
+import InputRegister from '../../../components/InputComponents/InputRegister';
+import SelectCargaDenuncias from '../../Select/SelectCargaDenuncias';
+import { useAuth } from '../../../context/auth';
+import ModoImprimir from './ModoImprimir';
+
 interface expandedComponentsProps {
     data: any
 }
@@ -34,6 +40,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     const [editGlobal, setEditGlobal] = useState(false)
     const [victimaDatos, setVictimaDatos] = useState<any>()
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
+    const [modoImprimir, setModoImprimir] = useState(false);
     const { register, handleSubmit, setValue, formState: {
         errors
     } } = useForm()
@@ -80,48 +87,11 @@ function expandedComponents({ data }: expandedComponentsProps) {
         fetchAllDenuncias();
     }, [])
 
+      
+  //@ts-ignore
+  const { signUp, user, isAuthenticated, isLoading } = useAuth();
 
-    // Controlar cuando se da a eliminar
-    const handleDelete = async (data: any) => {
-        // Popup de confirmación
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¡No podrás revertir esto!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#0C4A6E',
-            cancelButtonColor: '#FF554C',
-            confirmButtonText: 'Sí, borrar',
-            cancelButtonText: 'Cancelar'
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    // Llamada a la API
-                 //   eliminarDenuncia(data._id)
-                    // Mensaje de éxito
-                    Swal.fire({
-                        title: 'Borrado',
-                        text: 'La denuncia ha sido borrada con éxito',
-                        icon: 'success',
-                        confirmButtonColor: '#0C4A6E',
-                    }).then(() => {
-                        window.location.reload()
-                    })
-
-                } catch (error) {
-                    // Si hay un error
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Hubo un error al borrar la denuncia',
-                        icon: 'error',
-                        confirmButtonColor: '#0C4A6E',
-                    }
-                    )
-                }
-            }
-        })
-    }
-
+  
     return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
         {!editGlobal &&
             <>
@@ -133,7 +103,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
               <h1 className='text-3xl my-5 font-sans'>Denuncias</h1>
                 <div className='flex flex-col'>
                 <DataTable
-                        columns={columnsDenuncias}
+                        columns={columnsDenuncia}
                         data={denunciasAMostrar}
                         pagination
                         customStyles={customStyles}
@@ -148,12 +118,21 @@ function expandedComponents({ data }: expandedComponentsProps) {
         /> 
                 </div>
                 <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
+                    <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setModoImprimir(!modoImprimir)}>
+                        <PrinterIcon className="w-7"/>
+                    </div>
                     <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
                         <PencilSquareIcon className="w-7" />
                     </div>
                 </div>
             </>
         }
+        {modoImprimir && 
+            <div>
+                <ModoImprimir modoImprimir={modoImprimir} setModoImprimir={setModoImprimir} denunciasAMostrar={denunciasAMostrar} user={user} data={data} />
+            </div>
+        }
+
         {editGlobal &&
             <div>
                 <form

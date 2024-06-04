@@ -128,12 +128,15 @@ export const createDenuncia = async (req, res) => {
         } else {
             findVictimario = await victimario.findOne({ DNI: dni_victimario })
         }
+        console.log(findVictima ? findVictima : 'No existe')    
+        console.log(findVictimario ? findVictimario : 'No existe')
+
         // Crear la denuncia
         const newDenuncia = new denuncia({
             victima_ID: findVictima?._id ? findVictima._id : victima_ID,
             victimario_ID: findVictimario?._id ? findVictimario._id : victimario_ID,
-            victima_nombre: nombre_victima + ' ' + apellido_victima,
-            victimario_nombre: nombre_victimario + ' ' + apellido_victimario,
+            victima_nombre: findVictima ? findVictima.nombre + ' ' + findVictima.apellido : nombre_victima + ' ' + apellido_victima,
+            victimario_nombre: findVictimario ? (findVictimario.nombre + ' ' + findVictimario.apellido) : (nombre_victimario + ' ' + apellido_victimario),
             genero,
             fecha,
             direccion,
@@ -184,7 +187,21 @@ export const createDenuncia = async (req, res) => {
         await victimas.findByIdAndUpdate(findVictima?._id ? findVictima._id : victima_ID, { $push: { denuncias_realizadas: denunciaSaved._id } })
        // Agrega el ID de la denuncia nueva al array que tiene el victimario con sus denuncias cargadas
         await victimario.findByIdAndUpdate(findVictimario?._id ? findVictimario._id : victimario_ID, { $push: { denuncias_en_contra: denunciaSaved._id } })
-       
+        
+
+        await denuncia.updateMany({
+            victima_ID: findVictima?._id ? findVictima._id : victima_ID
+        }, {
+            victima_nombre: `${nombre_victima} ${apellido_victima}`
+        });
+
+        
+        await denuncia.updateMany({
+            victimario_ID: findVictimario?._id ? findVictimario._id : victima_ID
+        }, {
+            victimario_nombre: `${nombre_victimario} ${apellido_victimario}`
+        });
+        
         res.send('Denuncia creada con exito')
     } catch (error) {
         console.log(error)
@@ -267,8 +284,22 @@ export const updateDenuncia = async (req, res) => {
             vinculo_con_victima: vinculo_con_la_victima,
             observaciones: observaciones,
         }, { new: true })
-        res.json(denunciaUpdated)
 
+        
+        await denuncia.updateMany({
+            victima_ID: denunciaUpdated?.victima_ID
+        }, {
+            victima_nombre: `${nombre_victima} ${apellido_victima}`
+        });
+
+        
+        await denuncia.updateMany({
+            victimario_ID: denunciaUpdated?.victimario_ID
+        }, {
+            victimario_nombre: `${nombre_victimario} ${apellido_victimario}`
+        });
+        
+        res.json(denunciaUpdated)
 
     } catch (error) {
         console.log(error)

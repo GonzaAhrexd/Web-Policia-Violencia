@@ -63,8 +63,8 @@ function MisDenuncias() {
                         handleSubmit(async (values) => {
                             handleBusqueda(values)
                         })}>
-                    <InputDate campo="Desde" nombre="desde" register={register} type="date" error={errors} require={false}></InputDate>
-                    <InputDate campo="Hasta" nombre="hasta" register={register} type="date" error={errors} require={false}></InputDate>
+                    <InputDate campo="Desde" nombre="desde" register={register} type="date" error={errors.desde} require={false}></InputDate>
+                    <InputDate campo="Hasta" nombre="hasta" register={register} type="date" error={errors.hasta} require={false}></InputDate>
                     <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                     <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
                     <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>
