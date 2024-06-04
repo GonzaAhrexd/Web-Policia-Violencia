@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 
 // Conexión con BackEnd
-import { crearDenuncia, agregarVictima, agregarVictimario } from '../../api/crud';
+import { crearDenuncia, agregarVictima, agregarVictimario, crearTercero } from '../../api/crud';
 
 // Librerías React
 import Swal from 'sweetalert2'
@@ -42,6 +42,11 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
                 const idVictimario = await agregarVictimario(values).then((id) => {
                   return id
                 })
+                const idTercero = await crearTercero(values).then((id) => {
+                  return id
+                })
+
+                values.tercero_ID = idTercero
                 values.victima_ID = idVictima
                 values.victimario_ID = idVictimario
                 if (!values.Expediente) {

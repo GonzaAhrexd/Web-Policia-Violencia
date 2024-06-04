@@ -240,6 +240,11 @@ const denunciaSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    tercero_ID: {
+        type: String, // Tipo de dato String
+        trim: true, // Trim para que no se guarden espacios en blanco
+        require: false // Campo no requerido
+    },
     // Definición de los datos del tercero
     nombre_tercero: {
         type: String, // Tipo de dato String

@@ -11,6 +11,8 @@ import { createDenunciaSinVerificar, validarDenuncia, getDenunciasSinVerificar, 
 import { getVictima, createVictima, updateVictima, buscarVictima } from '../controllers/CRUD/crudVictimas'
 // VICTIMARIOS
 import { getVictimario, createVictimario, updateVictimario, buscarVictimario } from '../controllers/CRUD/crudVictimarios'
+// TERCEROS
+import { createTercero, getTercero, updateTercero } from '../controllers/CRUD/crudTerceros'
 const router = Router();
 
 /*  DENUNCIAS
@@ -48,5 +50,12 @@ router.get('/victimario/:id', authRequired, getVictimario)
 router.post('/crear-victimario/', authRequired, createVictimario)
 router.put('/editar-victimario/:id', authRequired, updateVictimario)
 router.get('/buscar-victimario/:nombre_victimario/:apellido_victimario/:dni_victimario/:numero_de_expediente', authRequired, buscarVictimario)
+
+/* TERCEROS
+*/
+router.get('/tercero/:id', authRequired, getTercero)
+router.post('/crear-tercero/', authRequired, createTercero)
+router.put('/editar-tercero/:id', authRequired, updateTercero)
+
 
 export default router

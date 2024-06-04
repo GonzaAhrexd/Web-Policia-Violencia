@@ -59,8 +59,6 @@ export const createVictima = async (req, res) => {
             // Incrementa la cantidad de denuncias previas
             await victimas.updateOne({ DNI: dni_victima }, { $inc: { cantidad_de_denuncias_previas: 1 } });
 
-
-
             res.send('Victima ya existe')
 
 

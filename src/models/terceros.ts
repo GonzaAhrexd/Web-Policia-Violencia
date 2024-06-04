@@ -49,4 +49,5 @@ const tercerosSchema = new mongoose.Schema({
 
 // Exportamos el modelo de victimas
 const terceros = mongoose.model('terceros', tercerosSchema)
+
 export default terceros;

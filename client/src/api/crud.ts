@@ -196,3 +196,37 @@ export const buscarVictimario = async (values: any) => {
         console.log(error)
     }
 }
+
+export const getTercero = async (id: string) => {
+    try {
+        const response = await axios.get(`/tercero/${id}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const crearTercero = async (tercero: any) => {
+    try {
+        const response = await axios.post(`/crear-tercero/`, tercero)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const editarTercero = async (tercero: any) => {
+    try {
+        const response = await axios.put(`/editar-tercero/${tercero.tercero_id}`, tercero)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+export const eliminarTercero = async (id: string) => {
+    try{
+        const response = await axios.delete(`/eliminar-tercero/${id}`)
+        return response.data
+    } catch(error){
+        console.log(error)
+    }
+}
+
