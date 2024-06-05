@@ -17,7 +17,6 @@ function InputRadio({watch, register, nombre, type, defaultValue, handleChange, 
 
     watch ? watchRadio = watch(nombre) : watchRadio = null
 
-    console.log(watchRadio)
     useEffect(() => {
         if (watchRadio) {
             handleChange(watchRadio == "Sí")

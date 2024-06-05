@@ -37,9 +37,10 @@ interface denunciaProps {
   setTitulo: any
   datos: any
   datosGeograficos: any
+  datosTerceros: any
 }
 
-function EditHecho({datosGeograficos, datos, setTitulo, handleOpenModal, register, setValue, errors }: denunciaProps) {
+function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOpenModal, register, setValue, errors }: denunciaProps) {
 
   
   // Función para dividir el expediente
@@ -89,7 +90,8 @@ function EditHecho({datosGeograficos, datos, setTitulo, handleOpenModal, registe
 
   return (
     <div className='w-full'>
-      <InputRegister campo="" nombre="denuncia_id" register={register} setValue={setValue} type="hidden" error={errors.dependencia_derivada} valor={datos._id} />
+      <InputRegister campo="" nombre="denuncia_id" register={register} setValue={setValue} type="hidden" error={errors} valor={datos._id} />
+      <InputRegister campo="" nombre="tercero_ID" register={register} setValue={setValue} type="hidden" error={errors} valor={datos.tercero_ID ? datos.tercero_ID : "No hay tercero"} />
       <h1 className='text-2xl my-5'>Hecho</h1>
       <div className='flex flex-col xl:flex-row'>
         <SelectRegister isRequired={false} campo="Género" nombre="genero" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} valor={datos.genero} />
@@ -182,12 +184,12 @@ function EditHecho({datosGeograficos, datos, setTitulo, handleOpenModal, registe
           {isDenunciadoPorTercero &&
             <>
               <div className='flex flex-col md:flex-row'>
-                <InputRegister valor={datos.nombre_tercero} campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
-                <InputRegister valor={datos.apellido_tercero} campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
-                <InputRegister valor={datos.dni_tercero} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
+                <InputRegister valor={datosTerceros[0].valor} campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
+                <InputRegister valor={datosTerceros[1].valor} campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
+                <InputRegister valor={datosTerceros[2].valor} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
               </div>
               <div className='flex flex-col'>
-                <SelectRegister isRequired={false} valor={datos.vinculo_con_victima} campo="Vinculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
+                <SelectRegister isRequired={false} valor={datosTerceros[3].valor} campo="Vinculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
               </div>
             </>
           }

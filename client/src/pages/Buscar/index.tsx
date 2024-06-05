@@ -17,13 +17,9 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 
 // Componentes
 import NavBar from '../../components/NavBar';
-import InputCheckbox from '../../components/InputComponents/InputCheckbox';
-import InputRegister from '../../components/InputComponents/InputRegister';
-import InputDate from '../../components/InputComponents/InputDate';
 import BuscarDenuncias from '../../components/Busqueda/BuscarDenuncias/BuscarDenuncias';
 // Dependencias de la misma carpeta
 
-import React from 'react'
 import BuscarVictimas from '../../components/Busqueda/BuscarVictimas/BuscarVictimas';
 import BuscarVictimario from '../../components/Busqueda/BuscarVictimarios/BuscarVictimario'
 

@@ -36,19 +36,26 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
             <form onSubmit={
               handleSubmit(async (values) => {
                 const idVictima = await agregarVictima(values).then((id) => {
+                  console.log(id)
                   return id
                 })
                 values.dni_victimario = values.dni_victimario ? values.dni_victimario : 'S/N'
                 const idVictimario = await agregarVictimario(values).then((id) => {
+                  console.log(id)
                   return id
                 })
                 const idTercero = await crearTercero(values).then((id) => {
+                  console.log(id)
                   return id
                 })
 
-                values.tercero_ID = idTercero
+
                 values.victima_ID = idVictima
                 values.victimario_ID = idVictimario
+                values.tercero_ID = idTercero
+                
+                console.log(idTercero)
+
                 if (!values.Expediente) {
                   values.Expediente = 'S/N'
                   values.is_expediente_completo = false
@@ -67,7 +74,7 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
                       confirmButtonColor: '#0C4A6E',    
                     }).then((result) => {
                       if (result.isConfirmed) {
-                       window.location.reload();
+                         window.location.reload();
                       }
                     })
                   }catch(error){

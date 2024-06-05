@@ -3,6 +3,7 @@ import denuncias from '../../models/denuncias'
 // Obtener víctima
 export const getTercero = async (req, res) => {
     try {
+        console.log("HERE")
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
         const tercero = await terceros.findOne({ _id: req.params.id })
         res.json(tercero)
@@ -45,13 +46,13 @@ export const deleteTercero = async (id, denunciaId) => {
 export const updateTercero = async (req, res) => {
     try {
         const { id } = req.params
-        const { nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima } = req.body
+        const { nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima } = req.body
 
         const terceroUpdated = await terceros.findByIdAndUpdate(id, {
             nombre: nombre_tercero,
             apellido: apellido_tercero,
             DNI: dni_tercero,
-            vinculo_con_victima: vinculo_con_victima
+            vinculo_con_victima: vinculo_con_la_victima
         }, { new: true })
         
         res.json(terceroUpdated)
@@ -62,7 +63,7 @@ export const updateTercero = async (req, res) => {
             tercero_nombre: `${nombre_tercero}`,
             tercero_apellido: `${apellido_tercero}`,
             dni_tercero: `${dni_tercero}`,
-            vinculo_con_victima: `${vinculo_con_victima}`
+            vinculo_con_victima: `${vinculo_con_la_victima}`
         });
 
     } catch (error) {
@@ -74,18 +75,22 @@ export const updateTercero = async (req, res) => {
 export const createTercero = async (req, res) => {
     //Tercero nuevo
     try {
-        const { nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_victima,  } = req.body
-        let victimaExistente = await terceros.findOne({ DNI: dni_tercero })
-        if (req.body.dni_victima && !victimaExistente){
-            const newVictima = new terceros({
+        const { nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima } = req.body
+        console.log(req.body)
+        let terceroExistente = await terceros.findOne({ DNI: dni_tercero })
+        
+        console.log(terceroExistente ? 'Tercero ya existe' : 'Tercero nuevo')
+
+        if (req.body.dni_tercero && !terceroExistente){
+            const newTercero = new terceros({
                 nombre: nombre_tercero,
                 apellido: apellido_tercero,
                 DNI: dni_tercero,
-                vinculo_con_victima: vinculo_con_victima,
+                vinculo_con_victima: vinculo_con_la_victima,
             })
 
-            const victimaSaved = await newVictima.save()
-            res.json({ message: 'Tercero creado con exito', id: victimaSaved._id })
+            const terceroSaved = await newTercero.save()
+            res.json({ message: 'Tercero creado con exito', id: terceroSaved._id })
         } else {
 
             // Actualiza los datos con los nuevos ingresados en caso de que difiera y suma 1 denuncia 
@@ -94,7 +99,7 @@ export const createTercero = async (req, res) => {
                     nombre: nombre_tercero,
                     apellido: apellido_tercero,
                     DNI: dni_tercero,
-                    vinculo_con_victima: vinculo_con_victima,
+                    vinculo_con_victima: vinculo_con_la_victima,
                 }
             }, { new: true })
 
@@ -102,7 +107,6 @@ export const createTercero = async (req, res) => {
             await terceros.updateOne({ DNI: dni_tercero }, { $inc: { cantidad_de_denuncias_previas: 1 } });
 
             res.send('Tercero ya existe')
-            //const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, { $inc: { cantidad_de_denunicas_previas: 1 } }, { new: true })
         }
 
     } catch (error) {

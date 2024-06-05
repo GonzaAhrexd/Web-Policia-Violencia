@@ -9,7 +9,7 @@ ________________________________________________________________________________
 // Hooks
 import { useState, useEffect } from 'react';
 // APIs del BackEnd
-import {  getVictima, getVictimario, eliminarDenuncia } from '../../../api/crud';
+import {  getVictima, getVictimario, eliminarDenuncia, getTercero } from '../../../api/crud';
 // Librerías react
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' // Librería para mostrar mapas
 import Swal from 'sweetalert2' // Librería para mostrar popups
@@ -30,7 +30,8 @@ function expandedComponents({data}:expandedComponentsProps) {
     const [victimarioDatos, setVictimarioDatos]: any = useState([])
     // Estado de editar global
     const [editGlobal, setEditGlobal] = useState(false)
-
+    // Guardar terceros
+    const [terceroDatosObtener, setTerceroDatosObtener]: any = useState([])
     // Función para obtener los datos de la víctima
     const victimaObtener = async (id: string) => {
         try {
@@ -53,6 +54,18 @@ function expandedComponents({data}:expandedComponentsProps) {
         }
     }
 
+    const terceroObtener = async (id: string) => {
+        try {
+            // Llamada a la API
+            const response: Response = await getTercero(id)
+            // Establece en el hook los datos de la víctima
+            setTerceroDatosObtener(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
     // Separar las coordenadas
     const latLng: Array<number> = data.GIS.split(" ");
     const lat: number = latLng[0]
@@ -62,6 +75,8 @@ function expandedComponents({data}:expandedComponentsProps) {
     useEffect(() => {
         victimaObtener(data.victima_ID); // Asegúrate de tener un 'id' válido aquí
         victimarioObtener(data.victimario_ID)
+        terceroObtener(data.tercero_ID)
+
     }, [data.victima_ID, data.victimario_ID]); // Se ejecuta cuando el componente se monta y cada vez que 'id' cambia
 
     // Función para abrir Google Maps con el mapa de y las coordenadas
@@ -161,10 +176,10 @@ function expandedComponents({data}:expandedComponentsProps) {
 
     // Datos del tercero
     const terceroDatos = [
-        { nombre: "Nombre", valor: data.nombre_tercero },
-        { nombre: "Apellido", valor: data.apellido_tercero },
-        { nombre: "DNI", valor: data.dni_tercero },
-        { nombre: "Vinculo con la víctima", valor: data.vinculo_con_victima }
+        { nombre: "Nombre", valor: terceroDatosObtener.nombre },
+        { nombre: "Apellido", valor: terceroDatosObtener.apellido },
+        { nombre: "DNI", valor: terceroDatosObtener.DNI },
+        { nombre: "Vinculo con la víctima", valor: terceroDatosObtener.vinculo_con_victima }
     ]
 
     // Medidas
@@ -229,7 +244,6 @@ function expandedComponents({data}:expandedComponentsProps) {
                 <SimpleTableCheckorX campo="" datos={victimarioDatosMostrar} />
                 <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} />
                 <h2 className='text-3xl my-5 font-sans	'>Hecho</h2>
-
                 <SimpleTableCheckorX campo="" datos={hechoDatosMostrar} />
                 <SimpleTableCheckorX campo="Datos geográficos" datos={hechoDatosGeográficos} />
 
@@ -282,7 +296,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         }
         {editGlobal &&
             <>
-                <EditSection datosGeograficos={hechoDatosGeográficos} datosHecho={data} datosVictima={victimaDatos} datosVictimario={victimarioDatos} setEditSection={setEditGlobal} editSection={editGlobal} />
+                <EditSection datosTerceros={terceroDatos} datosGeograficos={hechoDatosGeográficos} datosHecho={data} datosVictima={victimaDatos} datosVictimario={victimarioDatos} setEditSection={setEditGlobal} editSection={editGlobal} />
             </>
         }
     </div>

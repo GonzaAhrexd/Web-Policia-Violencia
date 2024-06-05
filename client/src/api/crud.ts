@@ -54,10 +54,10 @@ export const editarDenuncia = async (denuncia: any) => {
 
 export const eliminarDenuncia = async (id: string) => {
     console.log(id)
-    try{
+    try {
         const response = await axios.delete(`/eliminar-denuncias/${id}`)
         return response.data
-    } catch(error){
+    } catch (error) {
         console.log(error)
     }
 
@@ -82,11 +82,11 @@ export const mostrarDenunciasSinVerificar = async () => {
 }
 
 // Rechazar denuncia
-export const eliminarDenunciaSinVerificar = async (id:string) => {
-    try{
+export const eliminarDenunciaSinVerificar = async (id: string) => {
+    try {
         const response = await axios.delete(`/eliminar-denuncias-sin-verificar/${id}`)
         return response.data
-    } catch(error){
+    } catch (error) {
         console.log(error)
     }
 
@@ -95,10 +95,10 @@ export const eliminarDenunciaSinVerificar = async (id:string) => {
 // Aprobar denuncia
 
 export const aprobarDenuncia = async (id: string) => {
-    try{
+    try {
         const response = await axios.put(`/validar-denuncia/${id}`)
         return response.data
-    } catch(error){
+    } catch (error) {
         console.log(error)
     }
 
@@ -208,24 +208,29 @@ export const getTercero = async (id: string) => {
 export const crearTercero = async (tercero: any) => {
     try {
         const response = await axios.post(`/crear-tercero/`, tercero)
-        return response.data
+        console.log(response)
+        const id = response.data.id
+        console.log(id)
+        return id
     } catch (error) {
         console.log(error)
     }
 }
 export const editarTercero = async (tercero: any) => {
     try {
-        const response = await axios.put(`/editar-tercero/${tercero.tercero_id}`, tercero)
+        console.log(tercero.tercero_ID)
+        
+        const response = await axios.put(`/editar-tercero/${tercero.tercero_ID}`, tercero)
         return response.data
     } catch (error) {
         console.log(error)
     }
 }
 export const eliminarTercero = async (id: string) => {
-    try{
+    try {
         const response = await axios.delete(`/eliminar-tercero/${id}`)
         return response.data
-    } catch(error){
+    } catch (error) {
         console.log(error)
     }
 }

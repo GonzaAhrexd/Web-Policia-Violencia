@@ -10,7 +10,7 @@ ________________________________________________________________________________
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 // APIs y BackEnd
-import { editarVictima, editarVictimario, editarDenuncia } from '../../api/crud'
+import { editarVictima, editarVictimario, editarDenuncia, editarTercero } from '../../api/crud'
 // Componentes
 import EditVictima from './EditVictima'
 import EditVictimario from './EditVictimario'
@@ -28,9 +28,10 @@ interface EditSectionProps {
     setEditSection: any
     editSection: boolean
     datosGeograficos: any
+    datosTerceros: any
 }
 
-function EditSection({ datosGeograficos, datosVictima, datosVictimario, datosHecho, setEditSection, editSection }: EditSectionProps) {
+function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVictimario, datosHecho, setEditSection, editSection }: EditSectionProps) {
     // Utilizamos useForm para manejar los datos del formulario
     const { register, handleSubmit, setValue, formState: {
         errors
@@ -61,6 +62,13 @@ function EditSection({ datosGeograficos, datosVictima, datosVictimario, datosHec
                         editarVictima(values)
                         // Llamamos a editar victimario del backend
                         editarVictimario(values)
+                        // Editar tercero
+                        console.log("Denunciado por tercero: " + values.denunciado_por_tercero)
+
+                        if(values.denunciado_por_tercero){
+                            console.log("qui")
+                            editarTercero(values)
+                        }
                         // Formamos el expediente
                         values.nuevoExpediente = values.PrefijoExpediente + values.numero_expediente + values.Expediente + values.SufijoExpediente
                         // Evaluamos si el expediente está completo para asignarle true o false
@@ -81,13 +89,14 @@ function EditSection({ datosGeograficos, datosVictima, datosVictimario, datosHec
                         }).then((result) => {
                             // Si se confirma el mensaje, recargamos la página
                             if (result.isConfirmed) {
-                                window.location.reload();
+                               window.location.reload();
                             }
                         })
                     })}>
+
                 <EditVictima datos={datosVictima} register={register} setValue={setValue} errors={errors} />
                 <EditVictimario datos={datosVictimario} register={register} setValue={setValue} errors={errors} />
-                <EditHecho datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} />
+                <EditHecho datosTerceros={datosTerceros} datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} />
                 <>
                     <h1 className='text-2xl my-5'>Observaciones o denuncia</h1>
                     <InputTextArea variante="edit" valor={datosHecho.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" ></InputTextArea>
