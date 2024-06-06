@@ -76,7 +76,7 @@ function SelectRegister({mid, setTipoDenuncia, campo, opciones, nombre, setValue
         setValue('unidad', `${selectedUnidad}, ${selectedSubunidad}, ${value}`);
     };
     return (
-        <div className={`flex flex-row ${((campo=="Unidad") || (nombre=="vinculo_con_la_victima"))? "w-full" : "xl:w-1/2"}`}>
+        <div className={`flex flex-row ${((campo=="Unidad") || (nombre=="vinculo_con_la_victima") || mid ) ? "w-full" : "xl:w-1/2"}`}>
             <div className='flex flex-col w-full'>
                 <span className='ml-4 font-medium xl:text-vw'> {campo} </span> 
                 <div className={`flex flex-col 2xl:flex-col  ${campo=="Unidad"? "xl:w-full 2xl:w-full 2xl:h-10 xl:h-12 xl:mb-5" : "xl:w-full"}`}>

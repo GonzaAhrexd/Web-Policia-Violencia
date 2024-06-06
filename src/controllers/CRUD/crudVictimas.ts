@@ -181,21 +181,17 @@ export const buscarVictima = async (req, res) => {
     }
 
     function construirExpresionRegular(cadena) {
-        console.log("Cadena recibida:", cadena);
         if (cadena !== 'no_ingresado') {
             // Convertir la cadena a minúsculas
             const cadena_lower = cadena.toLowerCase();
-            console.log("Cadena convertida a minúsculas:", cadena_lower);
         
             // Separar los nombres/apellidos y eliminar espacios en blanco adicionales
             const partes = cadena_lower.trim().split(/\s+/);
-            console.log("Partes separadas:", partes);
         
             // Crear la expresión regular
             const regexPattern = partes
                 .map(part => part.split('').map(normalizarLetras).join(''))
                 .join('.*');
-            console.log("Expresión regular:", regexPattern);
         
             // Crear expresión regular para buscar todas las combinaciones de nombres/apellidos
             const regexCombinaciones = partes

@@ -63,7 +63,7 @@ function modoImprimir({modoImprimir, setModoImprimir, denunciasAMostrar, user, d
     <div> 
         <InputRegister busqueda={true} notMid={true} campo="Firma atentamente" nombre="atte" register={register} type="text" error={errors.atte}/>
        {!isListarTodo && 
-        <SelectRegister campo="Listar denuncias de" nombre="denuncias_de" setValue={setValue} register={register} error={errors} type="text" opciones={opcionesVictimarios}/>
+        <SelectRegister mid={true} campo="Listar denuncias de" nombre="denuncias_de" setValue={setValue} register={register} error={errors} type="text" opciones={opcionesVictimarios}/>
     }
         <InputCheckbox setHook={setIsListarTodo} state={isListarTodo} campo="Listar todo" nombre="listar_todo" register={register} error={errors.listarTodo} id="listarTodo" type="checkbox" setValue={setValue}/>
     </div>
