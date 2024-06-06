@@ -5,6 +5,7 @@ import denuncia from '../../models/denuncias'
 import terceros from '../../models/terceros'
 import { deleteVictimario } from './crudVictimarios'
 import { deleteVictima } from './crudVictimas'
+import { deleteTercero } from './crudTerceros'
 // DENUNCIAS
 export const getDenuncias = async (req, res) => {
     interface Query {
@@ -218,6 +219,7 @@ export const deleteDenuncia = async (req, res) => {
 
         deleteVictima(denunciaABorrar?.victima_ID, id)
         deleteVictimario(denunciaABorrar?.victimario_ID, id)
+        denunciaABorrar?.tercero_ID != "Sin tercero" && deleteTercero(denunciaABorrar?.tercero_ID, id)
 
         const denunciaDeleted = await denuncia.findByIdAndDelete(id)
         res.json(denunciaDeleted)
