@@ -30,7 +30,7 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 import InputRegister from '../../../components/InputComponents/InputRegister';
 import SelectCargaDenuncias from '../../Select/SelectCargaDenuncias';
 import { useAuth } from '../../../context/auth';
-// import ModoImprimir from './ModoImprimir';
+import ModoImprimir from './ModoImprimir';
 
 interface expandedComponentsProps {
     data: any
@@ -115,11 +115,11 @@ function expandedComponents({ data }: expandedComponentsProps) {
                 </div>
             </>
         }
-        {/* {modoImprimir && 
+         {modoImprimir && 
             <div>
                 <ModoImprimir modoImprimir={modoImprimir} setModoImprimir={setModoImprimir} denunciasAMostrar={denunciasAMostrar} user={user} data={data} />
             </div>
-        } */}
+        }
 
         {editGlobal &&
             <div>

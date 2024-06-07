@@ -20,6 +20,8 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 // Campos
 import { unidadCampos } from '../../../GlobalConst/unidadCampos';
 
+import Excel from './Excel';
+
 function BuscarDenuncias() {
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     const { register, handleSubmit, setValue, formState: {
@@ -68,6 +70,7 @@ function BuscarDenuncias() {
                 <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
                 <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>        
             </form>
+            <Excel denunciasAMostrar={denunciasAMostrar}></Excel>
             
             <div className="flex flex-col w-full">
                     <h2 className='text-2xl my-5'>Denuncias</h2>

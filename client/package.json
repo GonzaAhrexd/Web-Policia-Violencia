@@ -17,6 +17,7 @@
     "@react-pdf/renderer": "^3.4.4",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
     "framer-motion": "^11.1.3",
     "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
@@ -28,7 +29,9 @@
     "react-router-dom": "^6.22.3",
     "react-toastify": "^10.0.5",
     "react-transition-group": "^4.4.5",
-    "sweetalert2": "^11.10.8"
+    "sheetjs-style": "^0.15.8",
+    "sweetalert2": "^11.10.8",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
