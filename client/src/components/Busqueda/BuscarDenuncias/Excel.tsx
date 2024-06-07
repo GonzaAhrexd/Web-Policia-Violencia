@@ -1,6 +1,5 @@
 import React from 'react';
 import { utils, writeFile } from 'xlsx';
-import   'xlsx-style'; // Importar SheetJS-style
 
 import { useState } from 'react';
 
@@ -167,15 +166,12 @@ function Excel({denunciasAMostrar}: denuncia ){
     const hoja = utils.json_to_sheet(denuncias);
 
     hoja['!cols'] = [{ wch: 26 }];
-    hoja['A1'].s = {									// set the style for target cell
-      font: {
-        name: 'ID Testing',
-        sz: 24,
-        bold: true,
-        color: { rgb: "FFFFAA00" }
-      },
-    };
-
+    hoja['A1'] = { v: 'ID', t: 's' };
+    hoja['B1'] = { v: 'Fecha', t: 's' };
+    hoja['C1'] = { v: 'Mes', t: 's' };
+    hoja['D1'] = { v: 'Año', t: 's' };
+    hoja['E1'] = { v: 'Dirección', t: 's' };
+    
     // Crear un libro de trabajo y agregar la hoja de cálculo
     const libro = utils.book_new();
     utils.book_append_sheet(libro, hoja, 'Denuncias');
