@@ -4,7 +4,7 @@ import { utils, writeFile } from 'xlsx';
 import { useState } from 'react';
 
 import { getVictima, getVictimario } from '../../../api/crud';
-
+import {TableCellsIcon} from '@heroicons/react/24/outline'
 interface denuncia {
   denunciasAMostrar: any
 }
@@ -165,13 +165,74 @@ function Excel({denunciasAMostrar}: denuncia ){
     // Crear una hoja de cálculo a partir de los datos de las denuncias
     const hoja = utils.json_to_sheet(denuncias);
 
-    hoja['!cols'] = [{ wch: 26 }];
-    hoja['A1'] = { v: 'ID', t: 's' };
-    hoja['B1'] = { v: 'Fecha', t: 's' };
+    hoja['!cols'] = [{ wch: 26 },{ wch: 10 },{ wch: 6 },{ wch: 6 },{ wch: 20 },{ wch: 26 }];
+    hoja['A1'] = { v: 'ID', t: 's', wch: 26 };
+    hoja['B1'] = { v: 'Fecha', t: 's', wch: 40 };
     hoja['C1'] = { v: 'Mes', t: 's' };
     hoja['D1'] = { v: 'Año', t: 's' };
     hoja['E1'] = { v: 'Dirección', t: 's' };
-    
+    hoja['F1'] = { v: 'GIS', t: 's' };
+    hoja['G1'] = { v: 'Barrio', t: 's' };
+    hoja['H1'] = { v: 'Unidad de carga', t: 's' };
+    hoja['I1'] = { v: 'Municipio', t: 's' };
+    hoja['J1'] = { v: 'Jurisdicción policial', t: 's' };
+    hoja['K1'] = { v: 'Cuadrícula', t: 's' };
+    hoja['L1'] = { v: 'Cargado en la  división', t: 's' };
+    hoja['M1'] = { v: 'Número de expediente', t: 's' };
+    hoja['N1'] = { v: 'Expediente completo', t: 's' };
+    hoja['O1'] = { v: 'Juzgado interviniente', t: 's' };
+    hoja['P1'] = { v: 'Dependencia derivada', t: 's' };
+    hoja['Q1'] = { v: 'Violencia', t: 's' };
+    hoja['R1'] = { v: 'Modalidades', t: 's' };
+    hoja['S1'] = { v: 'Violencia física', t: 's' };
+    hoja['T1'] = { v: 'Violencia psicológica', t: 's' };
+    hoja['U1'] = { v: 'Violencia sexual', t: 's' };
+    hoja['V1'] = { v: 'Violencia económica y patrimonial', t: 's' };
+    hoja['W1'] = { v: 'Violencia simbólica', t: 's' };
+    hoja['X1'] = { v: 'Violencia política', t: 's' };
+    hoja['Y1'] = { v: 'Empleo de armas', t: 's' };
+    hoja['Z1'] = { v: 'Arma empleada', t: 's' };
+    hoja['AA1'] = { v: 'Medida solicitada por la víctima', t: 's' };
+    hoja['AB1'] = { v: 'Medida dispuesta por autoridad judicial', t: 's' };
+    hoja['AC1'] = { v: 'Dirección', t: 's' };
+    hoja['AD1'] = { v: 'Prohibición de acercamiento', t: 's' };
+    hoja['AE1'] = { v: 'Restitución de menor', t: 's' };
+    hoja['AF1'] = { v: 'Exclusión del hogar', t: 's' };
+    hoja['AG1'] = { v: 'Alimento provisorio', t: 's' };
+    hoja['AH1'] = { v: 'Derecho a la comunicación', t: 's' };
+    hoja['AI1'] = { v: 'Botón antipánico', t: 's' };
+    hoja['AJ1'] = { v: 'Denunciado por terceros', t: 's' };
+    hoja['AK1'] = { v: 'Observaciones', t: 's' };
+    hoja['AL1'] = { v: 'Nombre de la víctima', t: 's' };
+    hoja['AM1'] = { v: 'Apellido de la víctima', t: 's' };
+    hoja['AN1'] = { v: 'Edad de la víctima', t: 's' };
+    hoja['AO1'] = { v: 'DNI de la víctima', t: 's' };
+    hoja['AP1'] = { v: 'Estado civil de la víctima', t: 's' };
+    hoja['AQ1'] = { v: 'Ocupación de la víctima', t: 's' };
+    hoja['AR1'] = { v: 'Vínculo con el agresor de la víctima', t: 's' };
+    hoja['AS1'] = { v: 'Condición de vulnerabilidad de la víctima', t: 's' };
+    hoja['AT1'] = { v: 'Convivencia de la víctima', t: 's' };
+    hoja['AU1'] = { v: 'Cantidad de denuncias realizadas por la víctima', t: 's' };
+    hoja['AV1'] = { v: 'Tiene hijos', t: 's' };
+    hoja['AW1'] = { v: 'Dependencia económica', t: 's' };
+    hoja['AX1'] = { v: 'Mayores de edad', t: 's' };
+    hoja['AY1'] = { v: 'Menores de edad', t: 's' };
+    hoja['AZ1'] = { v: 'Menores discapacitados', t: 's' };
+    hoja['BA1'] = { v: 'Hijos con el agresor', t: 's' };
+    hoja['BB1'] = { v: 'Nombre del victimario', t: 's' };
+    hoja['BC1'] = { v: 'Apellido del victimario', t: 's' };
+    hoja['BD1'] = { v: 'Edad del victimario', t: 's' };
+    hoja['BE1'] = { v: 'DNI del victimario', t: 's' };
+    hoja['BF1'] = { v: 'Estado civil del victimario', t: 's' };
+    hoja['BG1'] = { v: 'Ocupación del victimario', t: 's' };
+    hoja['BH1'] = { v: 'Abuso de alcohol del victimario', t: 's' };
+    hoja['BI1'] = { v: 'Antecedentes toxicológicos del victimario', t: 's' };
+    hoja['BJ1'] = { v: 'Antecedentes penales del victimario', t: 's' };
+    hoja['BK1'] = { v: 'Antecedentes contravencionales del victimario', t: 's' };
+    hoja['BL1'] = { v: 'Entrenamiento en combate del victimario', t: 's' };
+    hoja['BM1'] = { v: 'Notificación del victimario', t: 's' };
+    hoja['BN1'] = { v: 'Cantidad de denuncias realizadas contra el victimario', t: 's' };
+
     // Crear un libro de trabajo y agregar la hoja de cálculo
     const libro = utils.book_new();
     utils.book_append_sheet(libro, hoja, 'Denuncias');
@@ -181,9 +242,7 @@ function Excel({denunciasAMostrar}: denuncia ){
   };
 
   return (
-    <div>
-      <button onClick={exportarDenuncias}>Exportar denuncias</button>
-    </div>
+      <button className="flex flex-row items-center justify-center bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10" onClick={exportarDenuncias}><TableCellsIcon className='h-6 w-6' /> Generar Excel</button>
   );
 }
 

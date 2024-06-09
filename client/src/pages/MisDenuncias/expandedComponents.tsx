@@ -79,7 +79,7 @@ function expandedComponents({data}:expandedComponentsProps) {
             terceroObtener(data.tercero_ID)
         
 
-        console.log(terceroDatosObtener)
+
     }, [data.victima_ID, data.victimario_ID]); // Se ejecuta cuando el componente se monta y cada vez que 'id' cambia
 
     // Función para abrir Google Maps con el mapa de y las coordenadas

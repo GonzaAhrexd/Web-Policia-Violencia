@@ -29,7 +29,6 @@ function NavBar({ user }: any) {
     "Cargar denuncias",
     "Crear resumen general diario",
     "Informes",
-    "Generar Excel",
   ]
 
   const menuAgenteItems = [
@@ -47,7 +46,6 @@ function NavBar({ user }: any) {
     { titulo: 'Verificar denuncias', href: '/verificar-denuncias', icon: <ClipboardDocumentCheckIcon className='h-6 w-6' /> },
     { titulo: 'Crear resumen general diario', href: '/resumen-diario', icon: <ChartPieIcon className='h-6 w-6' /> },
     { titulo: 'Informes', href: '/informes', icon: <InboxStackIcon className='h-6 w-6' /> },
-    { titulo: 'Generar Excel', href: '/generar-excel', icon: <TableCellsIcon className='h-6 w-6' /> }
   ]
 
   const SeccionAdmin = [
