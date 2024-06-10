@@ -31,7 +31,7 @@ function BuscarDenuncias() {
         const fetchDenuncias = async () => {
             const result = await buscarDenuncias(values);
             setDenunciasAMostrar(result)
-            console.log(result)
+          
         }
         fetchDenuncias();
     }
