@@ -82,7 +82,8 @@ export const getMisDenuncias = async (req, res) => {
     const { desde, hasta, numero_de_expediente, is_expediente_completo } = req.params;
     // Crear el objeto de consulta
     const query: Query = { denunciada_cargada_por: req.user.id };
-
+    console.log(desde)
+    console.log(hasta)
 
     // Si se ingresó un valor, se agrega a la consulta
     if (desde !== 'no_ingresado') {

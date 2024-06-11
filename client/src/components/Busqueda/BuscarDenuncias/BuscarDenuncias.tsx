@@ -1,8 +1,8 @@
 // Componentes
-import InputDate from '../../InputComponents/InputDate';
 import InputRegister from '../../InputComponents/InputRegister';
 import InputCheckbox from '../../InputComponents/InputCheckbox';
 import SelectDivisionMunicipios from '../../Select/SelectDivisionMunicipios';
+import InputDateRange from '../../InputComponents/InputDateRange';
 // Backend APIs
 import { buscarDenuncias } from '../../../api/crud';
 // Hooks
@@ -24,27 +24,29 @@ import Excel from './Excel';
 
 function BuscarDenuncias() {
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
-    const { register, handleSubmit, setValue, formState: {
+    const { register, handleSubmit, setValue, watch, formState: {
         errors
     } } = useForm()
     const handleBusqueda = async (values: any) => {
         const fetchDenuncias = async () => {
             const result = await buscarDenuncias(values);
-            setDenunciasAMostrar(result)
-          
+            setDenunciasAMostrar(result)     
         }
         fetchDenuncias();
     }
 
-    
+    // Obtén el valor actual del número de expediente del formulario
+const expedienteValue = watch('numero_de_expediente');
+
+// Comprueba si el número de expediente está vacío o no
+const isDateRangeRequired = !expedienteValue;
+
+
     // Iconos para expandir
     const expandableIcon = {
         collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
-
-    
-
     return (
         <>
             <form className="w-full flex flex-col items-center"
@@ -61,8 +63,7 @@ function BuscarDenuncias() {
                     }
 
                     )}>
-                <InputDate campo="Desde" nombre="desde" register={register} type="date" error={errors.desde} require={true}></InputDate>
-                <InputDate campo="Hasta" nombre="hasta" register={register} type="date" error={errors.hasta} require={true}></InputDate>
+                <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired}/>
                 <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                 <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
                     <SelectDivisionMunicipios isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />

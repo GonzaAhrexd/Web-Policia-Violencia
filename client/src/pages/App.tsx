@@ -50,11 +50,10 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <NextUIProvider> 
+      
       <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>
-    </NextUIProvider>
     </AuthProvider>
 
   )

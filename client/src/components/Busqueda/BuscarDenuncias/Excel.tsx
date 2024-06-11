@@ -3,7 +3,7 @@ import { utils, writeFile } from 'xlsx';
 import XLSX from 'xlsx';
 import { useState } from 'react';
 
-import { getVictima, getVictimario } from '../../../api/crud';
+import { getVictima, getVictimario, getTercero } from '../../../api/crud';
 import { TableCellsIcon } from '@heroicons/react/24/outline'
 interface denuncia {
   denunciasAMostrar: any
@@ -77,7 +77,10 @@ function Excel({ denunciasAMostrar }: denuncia) {
     entrenamiento_en_combate_victimario: string,
     notificacion_victimario: string,
     cantidad_de_denuncias_realizadas_contra_el_victimario: string,
-
+    tercero_nombre: string,
+    tercero_apellido: string,
+    tercero_dni: string,
+    tercero_vinculo_con_victima: string,
 
   }
   let denuncias: Array<DenunciasExcel> = []
@@ -88,7 +91,11 @@ function Excel({ denunciasAMostrar }: denuncia) {
     // Obten victimas y victimarios con las llamadas al api, guardalos en una variable victima y victimario los datos
     const victima = await getVictima(denuncia.victima_ID);
     const victimario = await getVictimario(denuncia.victimario_ID);
-
+    let tercero; 
+    if(denuncia.denunciado_por_tercero){
+      console.log("HERE")
+      tercero = await getTercero(denuncia.tercero_ID);
+      }
 
     denuncias.push({
       id: denuncia?._id,
@@ -155,7 +162,12 @@ function Excel({ denunciasAMostrar }: denuncia) {
       antecedentes_contravencionales_victimario: victimario?.antecedentes_contravencionales ? "Sí" : "No",
       entrenamiento_en_combate_victimario: victimario?.entrenamiento_en_combate ? "Sí" : "No",
       notificacion_victimario: victimario?.notificacion,
-      cantidad_de_denuncias_realizadas_contra_el_victimario: victimario?.cantidad_de_denuncias_previas
+      cantidad_de_denuncias_realizadas_contra_el_victimario: victimario?.cantidad_de_denuncias_previas,
+      tercero_nombre: tercero?.nombre ? tercero?.nombre : 'No hay tercero',
+      tercero_apellido: tercero?.apellido ? tercero?.apellido : 'No hay tercero',
+      tercero_dni: tercero?.DNI ? tercero?.DNI : 'No hay tercero',
+      tercero_vinculo_con_victima: tercero?.vinculo_con_victima ? tercero?.vinculo_con_victima : 'No hay tercero',
+    
     });
   });
 
@@ -165,11 +177,8 @@ function Excel({ denunciasAMostrar }: denuncia) {
     // Crear una hoja de cálculo a partir de los datos de las denuncias
     const hoja = XLSX.utils.json_to_sheet(denuncias);
     //   ID        Fecha        Mes        Año      Dirección    GIS         Barrio     Unidad     Municipio  Jurisd.   Cuadri     En div    Num exp    exp compl  juzg in    dep deriv 
-    
-
-
-    hoja['!cols'] = [{ wch: 26 }, { wch: 10 }, { wch: 6 }, { wch: 6 }, { wch: 20 }, { wch: 24 }, { wch: 12 }, { wch: 18 }, { wch: 13 }, { wch: 28 }, { wch: 14 }, { wch: 22 }, { wch: 22 }, { wch: 18 }, { wch: 20 }, { wch: 18 }, { wch: 20 }, { wch: 36 }, { wch: 13 }, { wch: 18 }, { wch: 14 }, { wch: 30 }, { wch: 17 }, { wch: 14 }, { wch: 15 }, { wch: 20 }, { wch: 28 }, { wch: 34 }, { wch: 24 }, { wch: 18 }, { wch: 17 }, { wch: 17 }, { wch: 23 }, { wch: 14 }, { wch: 20 }, { wch: 40 }, { wch: 20 }, { wch: 20 }, { wch: 16 }, { wch: 15 }, { wch: 20 }, { wch: 20 }, { wch: 30 }, { wch: 35 }, { wch: 22 }, { wch: 25 }, { wch: 10 }, { wch: 20 }, { wch: 15 }, { wch: 15 }, { wch: 20 }, { wch: 17 }, { wch: 20 }, { wch: 20 }, { wch: 16 }, { wch: 15 }, { wch: 22 }, { wch: 20 }, { wch: 26 }, { wch: 35 }, { wch: 30 }, { wch: 40 }, { wch: 35 }, { wch: 22 }, { wch: 25 }];
-    hoja['A1'] = { v: 'ID', t: 's', s: { font: { name: "Courier", sz: 24 } } };
+    hoja['!cols'] = [{ wch: 26 }, { wch: 10 }, { wch: 6 }, { wch: 6 }, { wch: 20 }, { wch: 24 }, { wch: 12 }, { wch: 18 }, { wch: 13 }, { wch: 28 }, { wch: 14 }, { wch: 22 }, { wch: 22 }, { wch: 18 }, { wch: 20 }, { wch: 18 }, { wch: 20 }, { wch: 36 }, { wch: 13 }, { wch: 18 }, { wch: 14 }, { wch: 30 }, { wch: 17 }, { wch: 14 }, { wch: 15 }, { wch: 20 }, { wch: 28 }, { wch: 34 }, { wch: 24 }, { wch: 18 }, { wch: 17 }, { wch: 17 }, { wch: 23 }, { wch: 14 }, { wch: 20 }, { wch: 40 }, { wch: 20 }, { wch: 20 }, { wch: 16 }, { wch: 15 }, { wch: 20 }, { wch: 20 }, { wch: 30 }, { wch: 35 }, { wch: 22 }, { wch: 25 }, { wch: 10 }, { wch: 20 }, { wch: 15 }, { wch: 15 }, { wch: 20 }, { wch: 17 }, { wch: 20 }, { wch: 20 }, { wch: 16 }, { wch: 15 }, { wch: 22 }, { wch: 20 }, { wch: 26 }, { wch: 35 }, { wch: 30 }, { wch: 40 }, { wch: 35 }, { wch: 22 }, { wch: 25 }, {wch: 20}, {wch: 20}, {wch: 13}, {wch: 28}];
+    hoja['A1'] = { v: 'ID', t: 's' };
     hoja['B1'] = { v: 'Fecha', t: 's' };
     hoja['C1'] = { v: 'Mes', t: 's' };
     hoja['D1'] = { v: 'Año', t: 's' };
@@ -234,6 +243,10 @@ function Excel({ denunciasAMostrar }: denuncia) {
     hoja['BK1'] = { v: 'Entrenamiento en combate del victimario', t: 's' };
     hoja['BL1'] = { v: 'Notificación del victimario', t: 's' };
     hoja['BM1'] = { v: 'Denuncias previas en contra', t: 's' };
+    hoja['BN1'] = { v: 'Nombre del tercero', t: 's' };
+    hoja['BO1'] = { v: 'Apellido del tercero', t: 's' };
+    hoja['BP1'] = { v: 'DNI del tercero', t: 's' };
+    hoja['BQ1'] = { v: 'Vínculo con la víctima del tercero', t: 's' };
     // Crear un libro de trabajo y agregar la hoja de cálculo
     const libro = utils.book_new();
     utils.book_append_sheet(libro, hoja, 'Denuncias');

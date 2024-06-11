@@ -56,11 +56,10 @@ function BuscarTerceros() {
                     <InputRegister busqueda={true}  campo="Apellido" nombre="apellido_tercero" register={register} require={false} type="text" error={errors.apellido}/>
                     <InputRegister busqueda={true}  campo="DNI" nombre="dni_tercero" register={register} require={false} type="text" error={errors.dni_victima}/>
                     <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} require={false} type="text" error={errors.numero_de_expediente}/>
-                 
                  <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>        
             </form>
             <div className="flex flex-col w-full">
-                    <h2 className='text-2xl my-5'>Terceros</h2>
+                    <h2 className='text-2xl my-5'>Tercero</h2>
                     <DataTable
                         columns={columnTercero}
                         data={tercerosMostrar}
@@ -68,7 +67,6 @@ function BuscarTerceros() {
                         expandableRows
                         customStyles={customStyles}
                         expandableRowsComponent={expandedComponents}
-                        
                         responsive={true}
                         striped={true}
                         highlightOnHover={true}
