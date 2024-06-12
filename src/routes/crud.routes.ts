@@ -13,7 +13,9 @@ import { getVictima, createVictima, updateVictima, buscarVictima } from '../cont
 import { getVictimario, createVictimario, updateVictimario, buscarVictimario } from '../controllers/CRUD/crudVictimarios'
 // TERCEROS
 import { createTercero, getTercero, updateTercero, buscarTercero } from '../controllers/CRUD/crudTerceros'
-const router = Router();
+
+// Llamamos a router para definir las rutas del api
+const router:Router = Router();
 
 /*  DENUNCIAS
     Son todas las denuncias cargadas por personal del área de estadística, ya sea de manera manual o verificando
@@ -52,6 +54,7 @@ router.put('/editar-victimario/:id', authRequired, updateVictimario)
 router.get('/buscar-victimario/:nombre_victimario/:apellido_victimario/:dni_victimario/:numero_de_expediente', authRequired, buscarVictimario)
 
 /* TERCEROS
+    Son los datos de los terceros que realicen denuncias
 */
 router.get('/tercero/:id', authRequired, getTercero)
 router.post('/crear-tercero/', authRequired, createTercero)

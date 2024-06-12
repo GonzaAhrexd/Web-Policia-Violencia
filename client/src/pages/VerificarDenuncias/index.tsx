@@ -20,7 +20,7 @@ import expandedComponents from './expandedComponents'
 
 
 function VerificarDenuncias() {
-  //@ts-ignore
+
   const { signUp, user, isAuthenticated, isLoading } = useAuth();
     
   const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);

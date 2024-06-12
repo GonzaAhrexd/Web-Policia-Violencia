@@ -13,8 +13,8 @@ import CargarVictima from '../../components/Cargar/CargarVictima';
 import CargarVictimario from '../../components/Cargar/CargarVictimario';
 import CargarDenuncia from '../../components/Cargar/CargarDenuncia';
 import CargarObservaciones from '../../components/Cargar/CargarObservaciones';
-
-
+import BuscarExistenteModal from '../../components/ModalBusqueda/BuscarExistenteModal';
+import EditVictima from '../../components/EditMode/EditVictima';
 interface CargarDenunciasRolCargaProps {
     user: any;
     handleOpenModal: any;
@@ -26,13 +26,17 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
         errors
       } } = useForm()
       
-  
+      const [openModalVictima, setOpenModalVictima] = useState(false)
+      const [openModalVictimario, setOpenModalVictimario] = useState(false)
+      const [openModalTercero, setOpenModalTercero] = useState(false)
+      const [victimaCargar, setVictimaCargar] = useState(null)
 
   return (
     <div className='h-screen sm:h-full p-2 sm:p-10'>
           <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>
           <div>
             <h1 className='text-2xl my-5'>Víctima</h1>
+            {openModalVictima && <BuscarExistenteModal setOpenModal={setOpenModalVictima} setVictimaCargar={setVictimaCargar} />}
             <form onSubmit={
               handleSubmit(async (values) => {
                 const idVictima = await agregarVictima(values).then((id) => {
@@ -82,8 +86,18 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
                   }
               })}>
               <div className='flex justify-center'>
+                    <div className='flex items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 mx-5 rounded w-3/10' onClick={() => setOpenModalVictima(true)} >Buscar existente</div>
+              </div>
+              {!victimaCargar ? 
+              <div className='flex justify-center'>
                 <CargarVictima register={register} setValue={setValue} errors={errors} />
               </div>
+              :
+              <div className='flex justify-center'>
+                <EditVictima datos={victimaCargar} register={register} setValue={setValue} errors={errors}/>
+              </div>
+
+              }
               <h1 className='text-2xl my-5'>Victimario</h1>
               <div className='flex justify-center'>
                 <CargarVictimario register={register} setValue={setValue} errors={errors} />

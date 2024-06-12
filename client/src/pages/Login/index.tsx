@@ -14,10 +14,7 @@ function Login() {
   } } = useForm()
   // Importamos la función navigate de react-router-dom
   const navigate = useNavigate();
-  // @ts-ignore
-  const { signUp, user, isAuthenticated} = useAuth()
-  // @ts-ignore
-  const { signIn, errorsAuth } = useAuth()
+  const { signIn, errorsAuth, user, isAuthenticated} = useAuth()
 
   // useEffect para redirigir al usuario si ya está autenticado
   useEffect(() => {
@@ -29,7 +26,7 @@ function Login() {
   
   return (
     <div className='gradient h-screen flex flex-col items-center align-middle justify-center'>
-      <div className='flex flex-row align-middle justify-center bg-white h-screen w-screen sm:h-full sm:w-full sm:rounded-md sm:mt-0 md:h-full md:w-4/6 md:rounded-md md:mt-0 lg:h-9/10 lg:w-6/10 lg:rounded-md lg:mt-0 xl:h-9/10 xl:w-5/10 xl:rounded-md xl:mt-0 2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0'>
+      <div className='flex flex-row align-middle justify-center bg-white h-screen w-screen sm:h-full sm:w-full sm:rounded-md sm:mt-0 md:h-full md:w-full md:rounded-md md:mt-0 lg:h-9/10 lg:w-6/10 lg:rounded-md lg:mt-0 xl:h-9/10 xl:w-5/10 xl:rounded-md xl:mt-0 2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0'>
         <div className='w-screen flex flex-col items-center align-middle justify-center'>
           {errorsAuth && <div className='rounded-md bg-red-500 p-2 text-white'>{errorsAuth}</div>}
           <h1 className='open-sans text-3xl font-semibold'>¡Bienvenido!</h1>

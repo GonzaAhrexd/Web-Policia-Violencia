@@ -1,6 +1,5 @@
 // Enrutamiento
 import { useRoutes, BrowserRouter } from 'react-router-dom'
-
 // Páginas
 // LOGIN E INICIO
 import Home from './Home'
@@ -17,16 +16,14 @@ import VerificarDenuncias from './VerificarDenuncias'
 // BÚSQUEDA
 import Buscar from './Buscar'
 // ADMIN
+
 // Contexto
 import { AuthProvider } from '../context/auth'
-
 // CSS
 import '../App.css'
 
-// Librerías React
-import {NextUIProvider} from "@nextui-org/react";
-
 const AppRoutes = () => {
+  // Rutas de la aplicación
   let routes = useRoutes([
     { path: '/', element: <Home /> },
     { path: '/mi-perfil', element: <Perfil /> },
@@ -47,10 +44,11 @@ const AppRoutes = () => {
 }
 
 const App = () => {
-
+  // AuthProvider valida el login del usuario
+  // BrowserRouter utiliza las rutas y por dentro se encierra con AppRoutes que es la función que tenemos arriba
   return (
+    
     <AuthProvider>
-      
       <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>

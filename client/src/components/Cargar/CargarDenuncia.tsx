@@ -35,7 +35,6 @@ interface denunciaProps {
 
 function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors, expediente}: denunciaProps) {
 
-
   const [comisariaPertenece, setComisariaPertenece] = useState('')
   const [isArmas, setIsArmas] = useState(false)
   const [isDivision, setIsDivision] = useState(false)
@@ -59,12 +58,9 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors,
         fetchCoords().then((response) => {
           setCoordenadas(response)
           setValue('GIS', coordenadas)
-        })
-        
+        })       
     }
 }
-
-
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col xl:flex-row'>
