@@ -21,15 +21,16 @@ interface CargarVictimaProps {
     register: any;
     setValue: any;
     errors: any;
+    md?: any;
 }
 
-function EditVictima({ datos, register, setValue, errors }: CargarVictimaProps) {
+function EditVictima({ datos, register, setValue, errors, md }: CargarVictimaProps) {
 
     const [isHijos, setIsHijos] = useState(datos.hijos.tiene_hijos)
     const [isHijosConAgresor, setIsHijosConAgresor] = useState(datos.hijos ? datos.hijos.hijos_con_el_agresor > 0 : false)
 
     return (
-        <div className='w-full'>
+        <div className={`w-full ${md && "lg:w-6/10"}`}>
             <h1 className='text-2xl my-5'>Víctima</h1>
             <InputRegister campo="" nombre="victima_id" register={register} setValue={setValue} type="hidden" error={errors.nombre_victima} valor={datos._id} />
             <div className='flex flex-col md:flex-row my-2'>

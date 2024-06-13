@@ -15,6 +15,8 @@ import CargarDenuncia from '../../components/Cargar/CargarDenuncia';
 import CargarObservaciones from '../../components/Cargar/CargarObservaciones';
 import BuscarExistenteModal from '../../components/ModalBusqueda/BuscarExistenteModal';
 import EditVictima from '../../components/EditMode/EditVictima';
+import EditVictimario from '../../components/EditMode/EditVictimario';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 interface CargarDenunciasRolCargaProps {
     user: any;
     handleOpenModal: any;
@@ -30,13 +32,18 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
       const [openModalVictimario, setOpenModalVictimario] = useState(false)
       const [openModalTercero, setOpenModalTercero] = useState(false)
       const [victimaCargar, setVictimaCargar] = useState(null)
-
+      const [victimarioCargar, setVictimarioCargar] = useState(null)
   return (
     <div className='h-screen sm:h-full p-2 sm:p-10'>
           <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>
           <div>
-            <h1 className='text-2xl my-5'>Víctima</h1>
-            {openModalVictima && <BuscarExistenteModal setOpenModal={setOpenModalVictima} setVictimaCargar={setVictimaCargar} />}
+
+            <div className='flex items-center'>
+            <h1 className='text-2xl my-5'>Víctima</h1> 
+                    <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text-black font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalVictima(true)}/>
+              </div>
+            {openModalVictima && <BuscarExistenteModal variante={"Víctima"} setOpenModal={setOpenModalVictima} setVictimaCargar={setVictimaCargar} />}
+            {openModalVictimario && <BuscarExistenteModal variante={"Victimario"} setOpenModal={setOpenModalVictimario} setVictimaCargar={setVictimarioCargar} /> }
             <form onSubmit={
               handleSubmit(async (values) => {
                 const idVictima = await agregarVictima(values).then((id) => {
@@ -53,7 +60,8 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
                   return id
                 })
 
-
+                console.log(values)
+                
                 values.victima_ID = idVictima
                 values.victimario_ID = idVictimario
                 values.tercero_ID = idTercero
@@ -78,30 +86,37 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
                       confirmButtonColor: '#0C4A6E',    
                     }).then((result) => {
                       if (result.isConfirmed) {
-                         window.location.reload();
+                  //       window.location.reload();
                       }
                     })
                   }catch(error){
                     console.log(error)
                   }
               })}>
-              <div className='flex justify-center'>
-                    <div className='flex items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 mx-5 rounded w-3/10' onClick={() => setOpenModalVictima(true)} >Buscar existente</div>
-              </div>
+             
               {!victimaCargar ? 
               <div className='flex justify-center'>
                 <CargarVictima register={register} setValue={setValue} errors={errors} />
               </div>
               :
               <div className='flex justify-center'>
-                <EditVictima datos={victimaCargar} register={register} setValue={setValue} errors={errors}/>
+                <EditVictima md={true} datos={victimaCargar} register={register} setValue={setValue} errors={errors}/>
               </div>
 
               }
+               <div className='flex items-center'>
               <h1 className='text-2xl my-5'>Victimario</h1>
+                    <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text-black font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalVictimario(true)}/>
+              </div>
+              {!victimarioCargar ? 
               <div className='flex justify-center'>
                 <CargarVictimario register={register} setValue={setValue} errors={errors} />
               </div>
+              :
+              <div className='flex justify-center'>
+                <EditVictimario md={true} datos={victimarioCargar} register={register} setValue={setValue} errors={errors}/>
+              </div>
+              }
               <h1 className='text-2xl my-5'>Hecho</h1>
               <div className='flex justify-center'>
                 <CargarDenuncia setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />

@@ -53,8 +53,6 @@ export const getDenuncias = async (req, res) => {
     if(comisaria !== 'no_ingresado'){
         query.jurisdiccion_policial = comisaria
     }
-
-    console.log(query)
     // Obtener las denuncias
     try {
         const denuncias = await denuncia.find(query);
@@ -117,9 +115,10 @@ export const getMisDenuncias = async (req, res) => {
 export const createDenuncia = async (req, res) => {
     try {
         // Obtener los datos de la denuncia
-        const { user_id, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
+        const { user_id, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
             derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica } = req.body
-
+        
+            console.log(req.body)
         // Buscar si la victima y victimario ya existen
         const findVictima = await victimas.findOne({ DNI: dni_victima })
         let findVictimario
@@ -140,6 +139,7 @@ export const createDenuncia = async (req, res) => {
             victimario_ID: findVictimario?._id ? findVictimario._id : victimario_ID,
             victima_nombre: findVictima ? findVictima.nombre + ' ' + findVictima.apellido : nombre_victima + ' ' + apellido_victima,
             victimario_nombre: findVictimario ? (findVictimario.nombre + ' ' + findVictimario.apellido) : (nombre_victimario + ' ' + apellido_victimario),
+            relacion_victima_victimario: vinculo_con_agresor_victima,
             genero,
             fecha,
             direccion,

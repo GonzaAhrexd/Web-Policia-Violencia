@@ -30,6 +30,12 @@ const denunciaSchema = new mongoose.Schema({
         trim: true, // Trim para que no se guarden espacios en blanco
         uppercase: true //Uppercase para que se guarde en mayúsculas
     },
+    // Definición relación entre las partes
+    relacion_victima_victimario: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     // Definición del genero de la victima
     genero: {
         type: String, // Tipo de dato String

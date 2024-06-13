@@ -21,13 +21,14 @@ interface CargarVictimarioProps {
   register: any;
   setValue: any;
   errors: any;
+  md?: boolean;
 }
 
-function EditVictimario   ({datos, register, setValue, errors}:CargarVictimarioProps) {
+function EditVictimario   ({md, datos, register, setValue, errors}:CargarVictimarioProps) {
   
   const defaultIndex = opcionesNotificado.findIndex(opcion => opcion.nombre === datos.notificacion);
   return (
-    <div className='w-full'>
+    <div className={`w-full ${md && "lg:w-6/10"}`}>
        <h1 className='text-2xl my-5'>Victimario</h1>
        <InputRegister campo="" nombre="victimario_id" register={register} setValue={setValue} type="hidden" error={errors.nombre_victima} valor={datos._id} />
       <div className='flex flex-col md:flex-row my-2'>
