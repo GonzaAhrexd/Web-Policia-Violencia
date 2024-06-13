@@ -61,7 +61,7 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
                 })
 
                 console.log(values)
-                
+
                 values.victima_ID = idVictima
                 values.victimario_ID = idVictimario
                 values.tercero_ID = idTercero

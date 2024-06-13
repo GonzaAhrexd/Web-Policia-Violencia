@@ -44,7 +44,6 @@ function NavBar({ user }: any) {
     { titulo: 'Mis denuncias', href: '/mis-denuncias' , icon: <ListBulletIcon className='h-6 w-6'/>  },
     { titulo: 'Cargar denuncias', href: '/cargar-denuncias', icon: <PencilSquareIcon className='h-6 w-6' /> },
     { titulo: 'Verificar denuncias', href: '/verificar-denuncias', icon: <ClipboardDocumentCheckIcon className='h-6 w-6' /> },
-    { titulo: 'Crear resumen general diario', href: '/resumen-diario', icon: <ChartPieIcon className='h-6 w-6' /> },
     { titulo: 'Informes', href: '/informes', icon: <InboxStackIcon className='h-6 w-6' /> },
   ]
 

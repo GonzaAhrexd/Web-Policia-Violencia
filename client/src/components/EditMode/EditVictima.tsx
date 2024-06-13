@@ -22,9 +22,10 @@ interface CargarVictimaProps {
     setValue: any;
     errors: any;
     md?: any;
+    vinculo_con_agresor?: any;
 }
 
-function EditVictima({ datos, register, setValue, errors, md }: CargarVictimaProps) {
+function EditVictima({vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
 
     const [isHijos, setIsHijos] = useState(datos.hijos.tiene_hijos)
     const [isHijosConAgresor, setIsHijosConAgresor] = useState(datos.hijos ? datos.hijos.hijos_con_el_agresor > 0 : false)
@@ -46,8 +47,10 @@ function EditVictima({ datos, register, setValue, errors, md }: CargarVictimaPro
                 <SelectRegister valor={datos.ocupacion} campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupacion_victima} isRequired={false} />
             </div>
             <div className='flex flex-col xl:flex-row my-2'>
-                <SelectRegister valor={datos.vinculo_con_agresor} campo="Vinculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima} isRequired={false} />
-                <SelectRegister valor={datos.condicion_de_vulnerabilidad} campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad_victima" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.condicion_de_vulnerabilidad_victima} isRequired={false} />
+                {vinculo_con_agresor ? <SelectRegister opciones={vinculo} campo="Vinculo con el Agresor" nombre="vinculo_con_agresor_victima" register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima} valor={vinculo_con_agresor} /> : 
+                <SelectRegister isRequired={true} valor={vinculo_con_agresor && vinculo_con_agresor } campo="Vinculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima}  />
+                }
+                <SelectRegister  valor={datos.condicion_de_vulnerabilidad} campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad_victima" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.condicion_de_vulnerabilidad_victima} isRequired={false} />
             </div>
             <div className={`grid grid-cols-1 md:grid-cols-3 my-2`}>
                 <InputCheckbox campo="Convivencia " nombre="convivencia" register={register} setValue={setValue} type="checkbox" error={errors.convivencia} id="convivencia" state={datos.convivencia} />

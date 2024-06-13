@@ -107,7 +107,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "DNI", valor: victimaDatos?.DNI ? victimaDatos.DNI : "No especificado"},
         { nombre: "Estado Civil", valor: victimaDatos?.estado_civil ? victimaDatos.estado_civil : "No especificado"},
         { nombre: "Ocupación", valor: victimaDatos?.ocupacion ? victimaDatos.ocupacion : "No especificado"},
-        { nombre: "Vínculo con agresor", valor: victimaDatos?.vinculo_con_agresor ? victimaDatos.vinculo_con_agresor : "No especificado"},
+        { nombre: "Vínculo con agresor", valor: data?.relacion_victima_victimario ? data.relacion_victima_victimario : "No especificado"},
         { nombre: "Condición de vulnerabilidad", valor: victimaDatos?.condicion_de_vulnerabilidad ? victimaDatos.condicion_de_vulnerabilidad : "No especificado"},
         { nombre: "Denuncias previas", valor: victimaDatos?.cantidad_de_denuncias_previas ? victimaDatos.cantidad_de_denuncias_previas : "No especificado"},
         { nombre: "Tiene hijos", valor: victimaDatos?.hijos?.tiene_hijos ? "Sí" : "No" }
@@ -296,7 +296,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         }
         {editGlobal &&
             <>
-                <EditSection datosTerceros={terceroDatos} datosGeograficos={hechoDatosGeográficos} datosHecho={data} datosVictima={victimaDatos} datosVictimario={victimarioDatos} setEditSection={setEditGlobal} editSection={editGlobal} />
+                <EditSection  datosTerceros={terceroDatos} datosGeograficos={hechoDatosGeográficos} datosHecho={data} datosVictima={victimaDatos} datosVictimario={victimarioDatos} setEditSection={setEditGlobal} editSection={editGlobal} />
             </>
         }
     </div>

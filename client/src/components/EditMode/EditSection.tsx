@@ -94,7 +94,7 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                         })
                     })}>
 
-                <EditVictima datos={datosVictima} register={register} setValue={setValue} errors={errors} />
+                <EditVictima vinculo_con_agresor={datosHecho.relacion_victima_victimario} datos={datosVictima} register={register} setValue={setValue} errors={errors} />
                 <EditVictimario datos={datosVictimario} register={register} setValue={setValue} errors={errors} />
                 <EditHecho datosTerceros={datosTerceros} datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} />
                 <>
