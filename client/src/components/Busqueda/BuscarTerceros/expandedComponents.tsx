@@ -49,7 +49,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
     const terceroDatosMostrar = [
         { nombre: "Nombre", valor: data.nombre},
         { nombre: "Apellido", valor: data.apellido},
-        { nombre: "Vínculo con la víctima", valor: data.vinculo_con_victima},
         { nombre: "DNI", valor: data.DNI },
         ]
 

@@ -116,7 +116,7 @@ export const createDenuncia = async (req, res) => {
     try {
         // Obtener los datos de la denuncia
         const { user_id, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
-            derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica } = req.body
+            derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica } = req.body
         
             console.log(req.body)
         // Buscar si la victima y victimario ya existen
@@ -177,6 +177,7 @@ export const createDenuncia = async (req, res) => {
                 boton_antipanico: (boton_antipanico !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? boton_antipanico : false,
             },
             tercero_ID: IdTercero ? IdTercero : 'Sin tercero',
+            vinculo_con_la_victima_tercero: vinculo_con_la_victima ? vinculo_con_la_victima : 'Sin vínculo',
             denunciado_por_tercero: denunciado_por_tercero ? denunciado_por_tercero : false,
             observaciones,
             denunciada_cargada_por: user_id
@@ -279,6 +280,7 @@ export const updateDenuncia = async (req, res) => {
                 boton_antipanico: (boton_antipanico !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? boton_antipanico : false,
             },
             denunciado_por_tercero: denunciado_por_tercero,
+            vinculo_con_la_victima_tercero: vinculo_con_la_victima,
             observaciones: observaciones,
         }, { new: true })
 

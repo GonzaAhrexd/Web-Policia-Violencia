@@ -140,7 +140,7 @@ function Excel({ denunciasAMostrar }: denuncia) {
       dni_victima: victima?.DNI,
       estado_civil_victima: victima?.estado_civil,
       ocupacion_victima: victima?.ocupacion,
-      vinculo_con_agresor_victima: victima?.vinculo_con_agresor,
+      vinculo_con_agresor_victima: denuncia?.relacion_victima_victimario,
       condicion_de_vulnerabilidad_victima: victima?.condicion_de_vulnerabilidad,
       convivencia_victima: victima?.convivencia ? "Sí" : "No",
       cantidad_de_denuncias_realizadas_por_la_victima: victima?.cantidad_de_denuncias_previas,
@@ -166,7 +166,7 @@ function Excel({ denunciasAMostrar }: denuncia) {
       tercero_nombre: tercero?.nombre ? tercero?.nombre : 'No hay tercero',
       tercero_apellido: tercero?.apellido ? tercero?.apellido : 'No hay tercero',
       tercero_dni: tercero?.DNI ? tercero?.DNI : 'No hay tercero',
-      tercero_vinculo_con_victima: tercero?.vinculo_con_victima ? tercero?.vinculo_con_victima : 'No hay tercero',
+      tercero_vinculo_con_victima: denuncia?.vinculo_con_la_victima_tercero ? denuncia?.vinculo_con_la_victima_tercero : 'No hay tercero',
     
     });
   });

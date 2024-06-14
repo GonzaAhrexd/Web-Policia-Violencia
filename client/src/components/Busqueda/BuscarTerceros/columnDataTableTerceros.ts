@@ -34,13 +34,5 @@ export const columnTercero = [
             fontWeight: 500,
         },
     },
-    {
-        name: 'Relación con la víctima',
-        selector: (row:Row) => row.vinculo_con_victima,
-        style: {
-            fontSize: '14px',
-            fontWeight: 500,
-        },
-    }
    
 ];

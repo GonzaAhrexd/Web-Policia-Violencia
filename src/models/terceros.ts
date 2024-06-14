@@ -26,12 +26,6 @@ const tercerosSchema = new mongoose.Schema({
             return value.replace(/\./g, '').replace(/\s/g, '');
         }
     },
-    // Definición del vínculo con el agresor
-    vinculo_con_victima: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },    
     // Denuncias realizadas por el tercero
     denuncias_realizadas: {
         type: [String], // Tipo de dato Array

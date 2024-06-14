@@ -179,7 +179,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "Nombre", valor: terceroDatosObtener.nombre },
         { nombre: "Apellido", valor: terceroDatosObtener.apellido },
         { nombre: "DNI", valor: terceroDatosObtener.DNI },
-        { nombre: "Vinculo con la víctima", valor: terceroDatosObtener.vinculo_con_victima }
+        { nombre: "Vinculo con la víctima", valor: data?.vinculo_con_la_victima_tercero ? data.vinculo_con_la_victima_tercero : "No especificado"}
     ]
 
     // Medidas

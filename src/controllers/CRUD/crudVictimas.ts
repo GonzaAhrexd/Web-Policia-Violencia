@@ -5,7 +5,7 @@ import unorm from 'unorm'
 export const createVictima = async (req, res) => {
     //Victima nueva
     try {
-        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor, telefono_victima, direccion_victima, nacionalidad_victima, sabe_leer_y_escribir } = req.body
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor, telefono_victima, direccion_victima, nacionalidad_victima, sabe_leer_y_escribir } = req.body
         let victimaExistente = await victimas.findOne({ DNI: dni_victima })
         if (req.body.dni_victima && !victimaExistente) {
             const newVictima = new victimas({
@@ -15,7 +15,6 @@ export const createVictima = async (req, res) => {
                 DNI: dni_victima,
                 estado_civil: estado_civil_victima,
                 ocupacion: ocupacion_victima,
-                vinculo_con_agresor: vinculo_con_agresor_victima,
                 condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
                 convivencia: convivencia ? convivencia : false,
                 cantidad_de_denuncias_previas: 1,
@@ -44,7 +43,6 @@ export const createVictima = async (req, res) => {
                     DNI: dni_victima,
                     estado_civil: estado_civil_victima,
                     ocupacion: ocupacion_victima,
-                    vinculo_con_agresor: vinculo_con_agresor_victima,
                     condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
                     convivencia: convivencia ? convivencia : false,
                     "hijos.tiene_hijos": hijos ? hijos : false,
@@ -118,7 +116,7 @@ export const deleteVictima = async (id, denunciaId) => {
 export const updateVictima = async (req, res) => {
     try {
         const { id } = req.params
-        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, vinculo_con_agresor_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor } = req.body
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor } = req.body
 
         const victimaUpdated = await victimas.findByIdAndUpdate(id, {
             nombre: nombre_victima,
@@ -127,7 +125,6 @@ export const updateVictima = async (req, res) => {
             DNI: dni_victima,
             estado_civil: estado_civil_victima,
             ocupacion: ocupacion_victima,
-            vinculo_con_agresor: vinculo_con_agresor_victima,
             condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
             convivencia: convivencia ? convivencia : false,
             hijos: {

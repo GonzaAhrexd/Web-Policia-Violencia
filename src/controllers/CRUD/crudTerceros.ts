@@ -47,13 +47,12 @@ export const updateTercero = async (req, res) => {
     try {
         const { id } = req.params
 
-        const { nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima } = req.body
+        const { nombre_tercero, apellido_tercero, dni_tercero } = req.body
 
         const terceroUpdated = await terceros.findByIdAndUpdate(id, {
             nombre: nombre_tercero,
             apellido: apellido_tercero,
             DNI: dni_tercero,
-            vinculo_con_victima: vinculo_con_la_victima
         }, { new: true })
         
         console.log(terceroUpdated)
@@ -71,7 +70,7 @@ export const updateTercero = async (req, res) => {
 export const createTercero = async (req, res) => {
     //Tercero nuevo
     try {
-        const { nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima } = req.body
+        const { nombre_tercero, apellido_tercero, dni_tercero } = req.body
 
         let terceroExistente = await terceros.findOne({ DNI: dni_tercero })
         if (req.body.dni_tercero && !terceroExistente){
@@ -79,7 +78,6 @@ export const createTercero = async (req, res) => {
                 nombre: nombre_tercero,
                 apellido: apellido_tercero,
                 DNI: dni_tercero,
-                vinculo_con_victima: vinculo_con_la_victima,
                 cantidad_de_denuncias: 1
             })
             const terceroSaved = await newTercero.save()
@@ -91,7 +89,6 @@ export const createTercero = async (req, res) => {
                     nombre: nombre_tercero,
                     apellido: apellido_tercero,
                     DNI: dni_tercero,
-                    vinculo_con_victima: vinculo_con_la_victima,
                 }
             }, { new: true })
             // Incrementa la cantidad de denuncias previas
