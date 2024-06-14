@@ -24,7 +24,7 @@ export const misDenuncias = async (values: any) => {
 // Listar denuncias del usuario actual
 export const buscarDenuncias = async (values: any) => {
     try {
-        const response = await axios.get(`/buscar-denuncias/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}/${values.is_expediente_completo ? values.is_expediente_completo : "no_ingresado"}/${values.division ? values.division : "no_ingresado"}/${values.municipio ? values.municipio : "no_ingresado"}/${values.comisaria ? values.comisaria : "no_ingresado"}`)
+        const response = await axios.get(`/buscar-denuncias/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.id_denuncia ? values.id_denuncia : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}/${values.is_expediente_completo ? values.is_expediente_completo : "no_ingresado"}/${values.division ? values.division : "no_ingresado"}/${values.municipio ? values.municipio : "no_ingresado"}/${values.comisaria ? values.comisaria : "no_ingresado"}`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -148,7 +148,7 @@ export const getVictima = async (id: string) => {
 // Buscar víctima
 export const buscarVictima = async (values: any) => {
     try {
-        const response = await axios.get(`/buscar-victima/${values.nombre_victima ? values.nombre_victima : "no_ingresado"}/${values.apellido_victima ? values.apellido_victima : "no_ingresado"}/${values.dni_victima ? values.dni_victima : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}`)
+        const response = await axios.get(`/buscar-victima/${values.id_victima ? values.id_victima : "no_ingresado"}/${values.nombre_victima ? values.nombre_victima : "no_ingresado"}/${values.apellido_victima ? values.apellido_victima : "no_ingresado"}/${values.dni_victima ? values.dni_victima : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -190,7 +190,7 @@ export const editarVictimario = async (victimario: any) => {
 // Buscar victimario
 export const buscarVictimario = async (values: any) => {
     try {
-        const response = await axios.get(`/buscar-victimario/${values.nombre_victimario ? values.nombre_victimario : "no_ingresado"}/${values.apellido_victimario ? values.apellido_victimario : "no_ingresado"}/${values.dni_victimario ? values.dni_victimario : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}`)
+        const response = await axios.get(`/buscar-victimario/${values.id_victimario ? values.id_victimario : "no_ingresado"}/${values.nombre_victimario ? values.nombre_victimario : "no_ingresado"}/${values.apellido_victimario ? values.apellido_victimario : "no_ingresado"}/${values.dni_victimario ? values.dni_victimario : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -236,7 +236,7 @@ export const eliminarTercero = async (id: string) => {
 }
 export const buscarTercero = async (values: any) => {
     try {
-        const response = await axios.get(`/buscar-tercero/${values.nombre_tercero ? values.nombre_tercero : "no_ingresado"}/${values.apellido_tercero ? values.apellido_tercero : "no_ingresado"}/${values.dni_tercero ? values.dni_tercero : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}`)
+        const response = await axios.get(`/buscar-tercero/${values.id_tercero ? values.id_tercero : "no_ingresado"}/${values.nombre_tercero ? values.nombre_tercero : "no_ingresado"}/${values.apellido_tercero ? values.apellido_tercero : "no_ingresado"}/${values.dni_tercero ? values.dni_tercero : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}`)
         return response.data
     } catch (error) {
         console.log(error)

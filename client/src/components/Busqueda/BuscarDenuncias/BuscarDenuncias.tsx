@@ -30,16 +30,17 @@ function BuscarDenuncias() {
     const handleBusqueda = async (values: any) => {
         const fetchDenuncias = async () => {
             const result = await buscarDenuncias(values);
-            setDenunciasAMostrar(result)     
+            setDenunciasAMostrar(result)
         }
         fetchDenuncias();
     }
 
     // Obtén el valor actual del número de expediente del formulario
-const expedienteValue = watch('numero_de_expediente');
+    const expedienteValue = watch('numero_de_expediente');
+    const idValue = watch("id_denuncia");
 
-// Comprueba si el número de expediente está vacío o no
-const isDateRangeRequired = !expedienteValue;
+    // Comprueba si el número de expediente está vacío o no
+    const isDateRangeRequired = !expedienteValue && !idValue;
 
 
     // Iconos para expandir
@@ -52,51 +53,48 @@ const isDateRangeRequired = !expedienteValue;
             <form className="w-full flex flex-col items-center"
                 onSubmit={
                     handleSubmit(async (values) => {
-
                         // Separa la unidad en division, municipio y comisaria siempre que tenga una , para separar, sino no
-                        if(values.unidad){
-                            values.unidad = values.unidad.split(',')                        
+                        if (values.unidad) {
+                            values.unidad = values.unidad.split(',')
                             values.municipio = values.unidad[1]
                             values.comisaria = values.unidad[2]
                         }
                         handleBusqueda(values)
                     }
-
                     )}>
-                <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired}/>
+                <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} />
+                <InputRegister campo="ID" nombre="id_denuncia" register={register} type="text" error={errors.id_denuncia} require={false}/>
                 <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
+               
                 <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
                     <SelectDivisionMunicipios isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />
                 </div>
                 <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
-                <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>        
+                <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>
             </form>
-            
             <div className="flex flex-col w-full">
-                 
-                    <h2 className='text-2xl my-5'>Denuncias</h2>
-                   
-            <div className="w-full flex flex-col items-center my-2"> 
-             {denunciasAMostrar.length > 0 && 
-                <Excel denunciasAMostrar={denunciasAMostrar}></Excel>
-             }
-            </div>
-                    <DataTable
-                        columns={columnsDenuncia}
-                        data={denunciasAMostrar}
-                        pagination
-                        expandableRows
-                        expandableRowsComponent={expandedComponents}
-                        customStyles={customStyles}
-                        responsive={true}
-                        striped={true}
-                        highlightOnHover={true}
-                        noDataComponent="No hay denuncias para mostrar"
-                        defaultSortFieldId={"Fecha"}
-                        expandableIcon={expandableIcon}
-                    />
+                <h2 className='text-2xl my-5'>Denuncias</h2>
+                <div className="w-full flex flex-col items-center my-2">
+                    {denunciasAMostrar.length > 0 &&
+                        <Excel denunciasAMostrar={denunciasAMostrar}></Excel>
+                    }
                 </div>
-            
+                <DataTable
+                    columns={columnsDenuncia}
+                    data={denunciasAMostrar}
+                    pagination
+                    expandableRows
+                    expandableRowsComponent={expandedComponents}
+                    customStyles={customStyles}
+                    responsive={true}
+                    striped={true}
+                    highlightOnHover={true}
+                    noDataComponent="No hay denuncias para mostrar"
+                    defaultSortFieldId={"Fecha"}
+                    expandableIcon={expandableIcon}
+                />
+            </div>
+
 
         </>
     )

@@ -13,6 +13,7 @@ export const getDenuncias = async (req, res) => {
             $gte?: string;
             $lte?: string;
         };
+        _id?: string;
         numero_de_expediente?: string;
         is_expediente_completo?: boolean;
         unidad_de_carga?: string;
@@ -20,7 +21,7 @@ export const getDenuncias = async (req, res) => {
         jurisdiccion_policial?: string
     }
     // Obtener los parámetros de la URL
-    const { desde, hasta, numero_de_expediente, is_expediente_completo, division, municipio, comisaria } = req.params;
+    const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria } = req.params;
     // Crear el objeto de consulta
     console.log(req.params)
 
@@ -35,6 +36,10 @@ export const getDenuncias = async (req, res) => {
     if (hasta !== 'no_ingresado') {
         query.fecha = query.fecha || {};
         query.fecha.$lte = hasta;
+    }
+
+    if (id_denuncia !== 'no_ingresado') {
+        query._id = id_denuncia;
     }
 
     if (numero_de_expediente !== 'no_ingresado') {

@@ -158,7 +158,7 @@ export const buscarVictima = async (req, res) => {
         _id?: string;
     }
     // Obtener los parámetros de la URL
-    const { nombre_victima, apellido_victima, dni_victima, numero_de_expediente } = req.params;
+    const { nombre_victima, apellido_victima, dni_victima, numero_de_expediente, id_victima } = req.params;
     // Crear el objeto de consulta    
     const query: Query = {};
 
@@ -203,7 +203,9 @@ export const buscarVictima = async (req, res) => {
             return null;
         }
     }        
-
+    if(id_victima !== 'no_ingresado'){
+        query._id = id_victima;
+    }
     if (nombre_victima !== 'no_ingresado') {
         // @ts-ignore
         query.nombre = new RegExp(construirExpresionRegular(nombre_victima));

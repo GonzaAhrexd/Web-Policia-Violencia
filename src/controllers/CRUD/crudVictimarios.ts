@@ -150,7 +150,10 @@ export const buscarVictimario = async (req, res) => {
             _id?: string;
         }
         // Obtener los parámetros de la URL
-        const { nombre_victimario, apellido_victimario, dni_victimario, numero_de_expediente } = req.params;
+        const { nombre_victimario, apellido_victimario, dni_victimario, numero_de_expediente, victimario_id } = req.params;
+        
+        console.log(req.params)
+        
         // Crear el objeto de consulta
         const query: Query = {};
         function normalizarLetras(caracter:string) {
@@ -193,7 +196,9 @@ export const buscarVictimario = async (req, res) => {
                 return null;
             }
         }        
-    
+        if(victimario_id !== 'no_ingresado'){
+            query._id = victimario_id;
+        } 
         if (nombre_victimario !== 'no_ingresado') {
             query.nombre = new RegExp(construirExpresionRegular(nombre_victimario));
         }

@@ -101,6 +101,7 @@ function expandedComponents({data}:expandedComponentsProps) {
     ]
     // Mostrar datos de la victima
     const victimaDatosMostrar = [
+        { nombre: "ID Víctima", valor: data.victima_ID},
         { nombre: "Nombre", valor: victimaDatos?.nombre ? victimaDatos.nombre : "No especificado"},
         { nombre: "Apellido", valor: victimaDatos?.apellido ? victimaDatos.apellido : "No especificado"},
         { nombre: "Edad", valor: victimaDatos?.edad ? victimaDatos.edad : "No especificado"},
@@ -122,6 +123,7 @@ function expandedComponents({data}:expandedComponentsProps) {
     ]
     // Mostrar datos del victimario
     const victimarioDatosMostrar = [
+        { nombre: "ID Victimario", valor: data.victimario_ID},
         { nombre: "Nombre", valor: victimarioDatos.nombre ? victimarioDatos.nombre : "No especificado"},
         { nombre: "Apellido", valor: victimarioDatos.apellido ? victimarioDatos.apellido : "No especificado"},
         { nombre: "Edad", valor: victimarioDatos.edad ? victimarioDatos.edad : "No especificado"},
@@ -141,6 +143,7 @@ function expandedComponents({data}:expandedComponentsProps) {
     ]
     // Datos del hecho
     const hechoDatosMostrar = [
+        { nombre: "ID", valor: data._id},
         { nombre: "Número de expediente", valor: data.numero_de_expediente },
         { nombre: "Género", valor: data.genero },
         { nombre: "Fecha", valor: `${new Date(data.fecha).getUTCDate().toString().padStart(2, '0')}/${(new Date(data.fecha).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(data.fecha).getUTCFullYear()}`},

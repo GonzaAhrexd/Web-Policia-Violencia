@@ -1,6 +1,7 @@
 // Datos que se mostrarán en la tabla de denuncias
 type Row = {
     numero_de_expediente: string;
+    _id: string;
     fecha: string;
     victima_nombre: string;
     victimario_nombre: string;
@@ -23,6 +24,16 @@ type Row = {
 */
 
 export const columnsDenuncia = [
+    {
+        // Número de expediente de la denuncia
+        name: 'ID',
+        selector: (row:Row) => row._id,
+        style: {
+            fontSize: '14px',
+            fontWeight: 500,
+        },
+
+    },
     {
         // Número de expediente de la denuncia
         name: 'Número de Expediente',
