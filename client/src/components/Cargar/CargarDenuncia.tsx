@@ -23,6 +23,10 @@ import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
 import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
 import { tiposDeViolenciaText, tiposModalidades } from '../../GlobalConst/modalTextos'
 
+// Iconos
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+
+
 // Props
 interface denunciaProps {
   register: UseFormRegister<any>
@@ -31,9 +35,11 @@ interface denunciaProps {
   handleOpenModal: any
   setTitulo: any
   expediente?: any
+  setTercero?: any
+  setOpenModalTercero?: any
 }
 
-function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors, expediente}: denunciaProps) {
+function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors, expediente, setTercero, setOpenModalTercero}: denunciaProps) {
 
   const [comisariaPertenece, setComisariaPertenece] = useState('')
   const [isArmas, setIsArmas] = useState(false)
@@ -146,12 +152,24 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors,
           <InputCheckbox campo="Denunciado por tercero" nombre="denunciado_por_tercero" register={register} setValue={setValue} type="checkbox" error={errors.denunciado_por_tercero} setHook={setIsDenunciadoPorTercero} state={isDenunciadoPorTercero} id="denunciadoPorTercero" />
          </div>
          {isDenunciadoPorTercero &&
-         <> 
+         <>  
+          <div className='flex flex-row items-center'>
+        <h1 className='text-2xl my-5'>Datos del Tercero</h1>
+         <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalTercero(true)}/>
+          </div>
+          {!setTercero ? 
          <div className='flex flex-col md:flex-row'>
          <InputRegister campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
          <InputRegister campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
          <InputRegister campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
          </div>
+         :
+         <div className='flex flex-col md:flex-row'>
+         <InputRegister valor={setTercero.nombre} campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
+         <InputRegister valor={setTercero.apellido} campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
+         <InputRegister valor={setTercero.DNI} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
+         </div>
+         }
          <div className='flex flex-col'>
          <SelectRegister campo="Vinculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
           </div>

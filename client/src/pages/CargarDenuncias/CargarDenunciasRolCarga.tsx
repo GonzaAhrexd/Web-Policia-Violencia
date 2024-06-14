@@ -33,6 +33,8 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
       const [openModalTercero, setOpenModalTercero] = useState(false)
       const [victimaCargar, setVictimaCargar] = useState(null)
       const [victimarioCargar, setVictimarioCargar] = useState(null)
+      const [terceroCargar, setTerceroCargar] = useState(null)
+
   return (
     <div className='h-screen sm:h-full p-2 sm:p-10'>
           <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>
@@ -44,6 +46,8 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
               </div>
             {openModalVictima && <BuscarExistenteModal variante={"Víctima"} setOpenModal={setOpenModalVictima} setVictimaCargar={setVictimaCargar} />}
             {openModalVictimario && <BuscarExistenteModal variante={"Victimario"} setOpenModal={setOpenModalVictimario} setVictimaCargar={setVictimarioCargar} /> }
+            {openModalTercero && <BuscarExistenteModal variante={"Tercero"} setOpenModal={setOpenModalTercero} setVictimaCargar={setTerceroCargar} /> }
+            
             <form onSubmit={
               handleSubmit(async (values) => {
                 const idVictima = await agregarVictima(values).then((id) => {
@@ -119,7 +123,7 @@ function CargarDenunciasRolCarga({setTitulo, user, handleOpenModal}: CargarDenun
               }
               <h1 className='text-2xl my-5'>Hecho</h1>
               <div className='flex justify-center'>
-                <CargarDenuncia setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
+                <CargarDenuncia setTercero={terceroCargar} setOpenModalTercero={setOpenModalTercero} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
               </div>
               <h1 className='text-2xl my-5'>Observaciones o denuncia</h1>
               <div className='flex justify-center h-80'>

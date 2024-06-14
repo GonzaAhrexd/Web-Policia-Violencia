@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 // Backend APIs
-import { buscarVictima, buscarVictimario } from '../../api/crud';
+import { buscarVictima, buscarVictimario, buscarTercero } from '../../api/crud';
 // Componentes
 import InputRegister from '../InputComponents/InputRegister';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
@@ -36,8 +36,15 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
                 dni_victimario: values.dni,
                 numero_de_expediente: values.numero_de_expediente
             }
-            
             result = await buscarVictimario(valoresFormateadosVictimarios);
+        }
+        else if(variante == "Tercero"){
+            const valoresFormateadosTercero = {
+                nombre_tercero: values.nombre,
+                apellido_tercero: values.apellido,
+                dni_tercero: values.dni,
+            }
+            result = await buscarTercero(valoresFormateadosTercero);
         }
 
         setVictimasMostrar(result);
