@@ -41,7 +41,7 @@ function BuscarTerceros() {
                 onSubmit={
                     handleSubmit(async (values) => {
 
-                        if (!values.nombre_tercero && !values.apellido_tercero && !values.dni_tercero && !values.numero_de_expediente) {
+                        if (!values.id_tercero && !values.nombre_tercero && !values.apellido_tercero && !values.dni_tercero && !values.numero_de_expediente) {
                             setTercerosMostrar([])
                             setMostrarAlerta("Rellene al menos un campo");
                             return;

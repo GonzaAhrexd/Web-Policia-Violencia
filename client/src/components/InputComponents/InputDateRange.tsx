@@ -9,12 +9,12 @@ type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 interface InputDateRangeProps {
-  register: any;
+  register?: any;
   setValue: any;
   isRequired: boolean;
 }
 
-function InputDateRange({ register, setValue, isRequired }: InputDateRangeProps) {
+function InputDateRange({ setValue, isRequired }: InputDateRangeProps) {
 
   const [date, setDate] = useState<Value>([null, null]);
 
@@ -38,10 +38,6 @@ function InputDateRange({ register, setValue, isRequired }: InputDateRangeProps)
       // Crear las fechas en formato YYYY-MM-DD
       const desdeFormatted = `${utcDesdeYear}-${utcDesdeMonth.toString().padStart(2, '0')}-${utcDesdeDay.toString().padStart(2, '0')}`;
       const hastaFormatted = `${utcHastaYear}-${utcHastaMonth.toString().padStart(2, '0')}-${utcHastaDay.toString().padStart(2, '0')}`;
-
-      // Imprimir las fechas en formato YYYY-MM-DD
-      console.log("Fecha desde:", desdeFormatted);
-      console.log("Fecha hasta:", hastaFormatted);
 
       // Llamar a setDate con las fechas formateadas
       setDate([desde, hasta]);

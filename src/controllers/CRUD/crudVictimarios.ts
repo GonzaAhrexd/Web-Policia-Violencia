@@ -49,11 +49,8 @@ export const createVictimario = async (req, res) => {
                     notificacion,
                     $inc: { cantidad_de_denuncias_previas: 1 }
                 }, { new: true })
-
-                //const victimarioUpdated = await victimario.findOneAndUpdate({ DNI: dni_victimario }, { $inc: { cantidad_de_denuncias_previas: 1 } }, { new: true })
             }
         }
-
     } catch (error) {
         console.log(error)
         res.send('Victima ya existe o no se ingresaron datos')
@@ -61,7 +58,6 @@ export const createVictimario = async (req, res) => {
 }
 
 // Listar victimario
-
 export const getVictimario = async (req, res) => {
     try {
         const victimarioABuscar = await victimario.findById(req.params.id)
@@ -69,7 +65,6 @@ export const getVictimario = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-
 }
 
 // Eliminar victimario, solo accesible desde este archivo

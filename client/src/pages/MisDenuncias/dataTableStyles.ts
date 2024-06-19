@@ -11,7 +11,6 @@ export const customStyles = {
             fontSize: '14px', // Tamaño de la fuente
             backgroundColor: '#0C4A6E', // Color de fondo
             color: "#fff" // Color de la fuente
-
         },
     },
     cells: {

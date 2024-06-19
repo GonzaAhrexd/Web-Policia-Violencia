@@ -2,8 +2,7 @@
 // Hooks
 import { useAuth } from '../../context/auth';
 import { Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 
 // Componentes
 import NavBar from '../../components/NavBar';
@@ -12,9 +11,7 @@ import CargarDenunciasRolCarga from './CargarDenunciasRolCarga';
 import CargarDenunciasRolAgente from './CargarDenunciasRolAgente';
 
 function CargarDenuncias() {
-  const {  register, handleSubmit, setValue, formState: {
-    errors
-  } } = useForm()
+  
   const [modoAvanzado, setModoAvanzado] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [texto, setTexto] = useState(['']);

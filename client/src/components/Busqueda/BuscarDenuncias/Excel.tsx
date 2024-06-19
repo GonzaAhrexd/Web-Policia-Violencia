@@ -1,9 +1,10 @@
-import React from 'react';
+// Importamos de la librería xlsx
 import { utils, writeFile } from 'xlsx';
 import XLSX from 'xlsx';
-import { useState } from 'react';
 
+// Obtenemos la víctima, victimario y tercero desde el Backend
 import { getVictima, getVictimario, getTercero } from '../../../api/crud';
+// Icono de tabla
 import { TableCellsIcon } from '@heroicons/react/24/outline'
 interface denuncia {
   denunciasAMostrar: any
@@ -93,10 +94,9 @@ function Excel({ denunciasAMostrar }: denuncia) {
     const victimario = await getVictimario(denuncia.victimario_ID);
     let tercero; 
     if(denuncia.denunciado_por_tercero){
-      console.log("HERE")
       tercero = await getTercero(denuncia.tercero_ID);
       }
-
+    // Pasarle los datos al array de denuncias para que luego pueda ser mostrado en el Excel
     denuncias.push({
       id: denuncia?._id,
       fecha: `${new Date(denuncia.fecha).getUTCDate().toString().padStart(2, '0')}/${(new Date(denuncia.fecha).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(denuncia.fecha).getUTCFullYear()}`,
@@ -171,12 +171,11 @@ function Excel({ denunciasAMostrar }: denuncia) {
     });
   });
 
-
-
   const exportarDenuncias = () => {
     // Crear una hoja de cálculo a partir de los datos de las denuncias
     const hoja = XLSX.utils.json_to_sheet(denuncias);
-    //   ID        Fecha        Mes        Año      Dirección    GIS         Barrio     Unidad     Municipio  Jurisd.   Cuadri     En div    Num exp    exp compl  juzg in    dep deriv 
+
+    // Modificar celdas para que se vean mejor al visualizar los datos
     hoja['!cols'] = [{ wch: 26 }, { wch: 10 }, { wch: 6 }, { wch: 6 }, { wch: 20 }, { wch: 24 }, { wch: 12 }, { wch: 18 }, { wch: 13 }, { wch: 28 }, { wch: 14 }, { wch: 22 }, { wch: 22 }, { wch: 18 }, { wch: 20 }, { wch: 18 }, { wch: 20 }, { wch: 36 }, { wch: 13 }, { wch: 18 }, { wch: 14 }, { wch: 30 }, { wch: 17 }, { wch: 14 }, { wch: 15 }, { wch: 20 }, { wch: 28 }, { wch: 34 }, { wch: 24 }, { wch: 18 }, { wch: 17 }, { wch: 17 }, { wch: 23 }, { wch: 14 }, { wch: 20 }, { wch: 40 }, { wch: 20 }, { wch: 20 }, { wch: 16 }, { wch: 15 }, { wch: 20 }, { wch: 20 }, { wch: 30 }, { wch: 35 }, { wch: 22 }, { wch: 25 }, { wch: 10 }, { wch: 20 }, { wch: 15 }, { wch: 15 }, { wch: 20 }, { wch: 17 }, { wch: 20 }, { wch: 20 }, { wch: 16 }, { wch: 15 }, { wch: 22 }, { wch: 20 }, { wch: 26 }, { wch: 35 }, { wch: 30 }, { wch: 40 }, { wch: 35 }, { wch: 22 }, { wch: 25 }, {wch: 20}, {wch: 20}, {wch: 13}, {wch: 28}];
     hoja['A1'] = { v: 'ID', t: 's' };
     hoja['B1'] = { v: 'Fecha', t: 's' };

@@ -121,16 +121,15 @@ export const createDenuncia = async (req, res) => {
     try {
         // Obtener los datos de la denuncia
         const { user_id, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
-            derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica } = req.body
+            derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor } = req.body
         
-            console.log(req.body)
         // Buscar si la victima y victimario ya existen
         const findVictima = await victimas.findOne({ DNI: dni_victima })
         let findVictimario
 
         // Si el DNI del victimario es S/N, se asigna el ID del victimario
         if (dni_victimario == "S/N") {
-            findVictimario = victimario_ID
+            findVictimario = await victimario.findById(victimario_ID)
         } else {
             findVictimario = await victimario.findOne({ DNI: dni_victimario })
         }
@@ -145,6 +144,7 @@ export const createDenuncia = async (req, res) => {
             victima_nombre: findVictima ? findVictima.nombre + ' ' + findVictima.apellido : nombre_victima + ' ' + apellido_victima,
             victimario_nombre: findVictimario ? (findVictimario.nombre + ' ' + findVictimario.apellido) : (nombre_victimario + ' ' + apellido_victimario),
             relacion_victima_victimario: vinculo_con_agresor_victima,
+            hijos_victima_con_victimario: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
             genero,
             fecha,
             direccion,
@@ -241,13 +241,19 @@ export const updateDenuncia = async (req, res) => {
     try {
         //Edita los parametros de la denuncia salvo los id de la victima y victimario
         const { id } = req.params
-        const { nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima,  genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
-            derecho_de_comunicacion, nuevoExpediente, boton_antipanico, denunciado_por_tercero, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto } = req.body
-        console.log(id)
+        const { nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor,  genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto } = req.body
+        // Buscar al tercero si se agregó
+       /* let findTercero
+        // Busca si hay tercero
+        if(tercero_ID != "Sin tercero"){
+            findTercero = await terceros.findById(tercero_ID)
+        } */
+        // Actualiza la denuncia 
         const denunciaUpdated = await denuncia.findByIdAndUpdate(id, {
             victima_nombre: nombre_victima + ' ' + apellido_victima,
             victimario_nombre: nombre_victimario + ' ' + apellido_victimario,
             relacion_victima_victimario: vinculo_con_agresor_victima,
+            hijos_victima_con_victimario: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
             genero,
             fecha,
             direccion,
@@ -285,22 +291,28 @@ export const updateDenuncia = async (req, res) => {
                 boton_antipanico: (boton_antipanico !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? boton_antipanico : false,
             },
             denunciado_por_tercero: denunciado_por_tercero,
+            tercero_ID: tercero_ID ? tercero_ID : 'Sin tercero',
             vinculo_con_la_victima_tercero: vinculo_con_la_victima,
             observaciones: observaciones,
         }, { new: true })
 
-        
+        // Actualiza el nombre de la victima en todas las denuncias que tengan el mismo ID
         await denuncia.updateMany({
             victima_ID: denunciaUpdated?.victima_ID
         }, {
             victima_nombre: `${nombre_victima} ${apellido_victima}`
         });
         
+        // Actualiza el nombre del victimario en todas las denuncias que tengan el mismo ID
         await denuncia.updateMany({
             victimario_ID: denunciaUpdated?.victimario_ID
         }, {
             victimario_nombre: `${nombre_victimario} ${apellido_victimario}`
         });
+        
+        // Si se agrega un tercero, se le agrega la denuncia
+        
+        await terceros.findByIdAndUpdate(tercero_ID, { $push: { denuncias_realizadas: denunciaUpdated?._id } })
         
         res.json(denunciaUpdated)
 

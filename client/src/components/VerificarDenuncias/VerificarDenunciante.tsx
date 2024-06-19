@@ -46,7 +46,7 @@ function VerificarDenunciante({ datos, register, setValue, errors }: CargarVicti
         </div>
         <div className='flex flex-col xl:flex-row my-2'>
           <SelectRegister campo="Vinculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima}/>
-          <SelectRegister campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad_victima" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.condicion_de_vulnerabilidad_victima} />
+          <SelectRegister valor={datos?.condicion_de_vulnerabilidad ? datos?.condicion_de_vulnerabilidad : null} campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad_victima" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.condicion_de_vulnerabilidad_victima} />
         </div>
         <div className={`grid grid-cols-1 md:grid-cols-3 my-2` }>
           <InputCheckbox campo="Convivencia " nombre="convivencia" register={register} setValue={setValue} type="checkbox" error={errors.convivencia} id="convivencia" />

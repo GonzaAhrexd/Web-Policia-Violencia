@@ -22,7 +22,7 @@ interface Props {
 }
 
 
-function SelectDivisionMunicipios({mid, setTipoDenuncia, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
+function SelectDivisionMunicipios({ campo, opciones, nombre, setValue, isRequired, valor }: Props) {
    
     const [requiredInput, setRequiredInput] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');

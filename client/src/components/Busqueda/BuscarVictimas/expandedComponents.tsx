@@ -63,7 +63,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Mayores de edad", valor: data?.hijos?.mayores_de_edad },
         { nombre: "Menores de edad", valor: data?.hijos?.menores_de_edad },
         { nombre: "Menores discapacitados", valor: data?.hijos?.menores_discapacitados },
-        { nombre: "Hijos con el agresor", valor: data?.hijos?.hijos_con_el_agresor }
     ]
     // Iconos para expandir
     const expandableIcon = {

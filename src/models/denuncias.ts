@@ -36,6 +36,12 @@ const denunciaSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    hijos_victima_con_victimario: {
+        type: Number, // Tipo de dato Boolean
+        required: true, // Campo requerido
+        trim: true, // Trim para que no se guarden espacios en blanco
+        default: false // Default en false
+    },
     // Definición del genero de la victima
     genero: {
         type: String, // Tipo de dato String

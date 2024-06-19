@@ -35,6 +35,7 @@ const AppRoutes = () => {
     { path: '/búsqueda', element: <Buscar />},
     // Admin
     { path: '/register', element: <Register /> },
+
     { path: '/login', element: <Login /> },
     { path: '/logout', element: <Logout /> },
     { path: '*', element: <NotFound /> },

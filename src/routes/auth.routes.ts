@@ -12,11 +12,11 @@ import { registerSchema, loginSchema } from '../schemas/auth.schema'
 const router:Router = Router()
 
 // Rutas para autenticación de usuario
-router.post('/register', validateSchema(registerSchema), register)
-router.post('/login', validateSchema(loginSchema), login)
-router.post('/logout', logout)
-router.get('/profile', authRequired, authAdmin , profile)
-router.get('/verify', verifyToken)
-router.put('/editar-usuario/:id', authRequired, editUser)
+router.post('/register', validateSchema(registerSchema), register) // Registro de usuario
+router.post('/login', validateSchema(loginSchema), login) // Inicio de sesión
+router.post('/logout', logout) // Cierre de sesión
+router.get('/profile', authRequired, authAdmin , profile) // Perfil de usuario
+router.get('/verify', verifyToken) // Verificación de token
+router.put('/editar-usuario/:id', authRequired, editUser) // Editar usuario
 
 export default router

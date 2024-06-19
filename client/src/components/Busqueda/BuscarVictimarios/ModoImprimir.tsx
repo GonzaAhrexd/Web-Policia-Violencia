@@ -21,9 +21,7 @@ function modoImprimir({modoImprimir, setModoImprimir, denunciasAMostrar, user, d
         errors
     } } = useForm()
     
-    const imprimirAntecedentes = async () => {
-        
-    }
+
     const [isListarTodo, setIsListarTodo] = useState(false)
 
     const [opcionesVictimarios, setOpcionesVictimarios] = useState<any>([])
@@ -48,8 +46,7 @@ function modoImprimir({modoImprimir, setModoImprimir, denunciasAMostrar, user, d
     <form onSubmit={
         handleSubmit(async (values) => {
             
-            console.log(opcionesVictimarios)
-            console.log(values)
+         
             
             // @ts-ignore
             const denunciasFiltradas = denunciasAMostrar.filter(denuncia => denuncia.victima_nombre == values.denuncias_de || values.listar_todo === true);

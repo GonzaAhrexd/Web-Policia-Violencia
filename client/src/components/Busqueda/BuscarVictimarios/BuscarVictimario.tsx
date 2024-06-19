@@ -23,7 +23,6 @@ function BuscarVictimario() {
         const fetchDenuncias = async () => {
             const result = await buscarVictimario(values);
             setVictimarioMostrar(result)
-            console.log(result)
         }
         fetchDenuncias();
     }

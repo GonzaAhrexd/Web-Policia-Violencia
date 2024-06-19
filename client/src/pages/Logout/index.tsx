@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function index() {
-    //@ts-ignore
     const { logOut, isAuthenticated } = useAuth()
     const navigate = useNavigate();
     useEffect(() => {

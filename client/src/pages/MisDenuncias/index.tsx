@@ -1,20 +1,15 @@
 // Autenticación
 import { useAuth } from '../../context/auth';
-
 // Hooks
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
-
 // APIs del BackEnd
 import { misDenuncias } from '../../api/crud';
-
 // Librerías react
 import DataTable from 'react-data-table-component';
-
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
-
 // Componentes
 import NavBar from '../../components/NavBar';
 import InputCheckbox from '../../components/InputComponents/InputCheckbox';

@@ -61,7 +61,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
     useEffect(() => {
         const fetchDenuncias = async (denunciaId:any) => {
             const result = await buscarDenunciasPorId(denunciaId);
-            console.log(result);
             return result;
         }
     
@@ -69,7 +68,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
             const denuncias = await Promise.all(data?.denuncias_realizadas?.map(fetchDenuncias) || []);
             // @ts-ignore
             setDenunciasAMostrar(denuncias);
-            console.log(denuncias)
         }
     
         fetchAllDenuncias();
@@ -126,7 +124,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     onSubmit={
                         handleSubmit(async (values) => {
                             // Llamamos a editar victima del backend
-                            console.log(values)
                             editarTercero(values)
                             // Llamamos a editar victimario del backend
                             // Utilizamos Swal para mostrar un mensaje de éxito

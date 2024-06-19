@@ -3,7 +3,7 @@ import denuncias from '../../models/denuncias'
 // Obtener víctima
 export const getTercero = async (req, res) => {
     try {
-        console.log("HERE")
+        console.log(req.body)
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
         const tercero = await terceros.findOne({ _id: req.params.id })
         res.json(tercero)
@@ -110,7 +110,7 @@ export const buscarTercero = async (req, res) => {
         _id?: string;
     }
     // Obtener los parámetros de la URL
-    const { nombre_tercero, apellido_tercero, dni_tercero, numero_de_expediente } = req.params;
+    const { nombre_tercero, apellido_tercero, dni_tercero, numero_de_expediente, id_tercero } = req.params;
     // Crear el objeto de consulta    
     const query: Query = {};
 
@@ -153,7 +153,9 @@ export const buscarTercero = async (req, res) => {
             return null;
         }
     }        
-
+    if(id_tercero !== 'no_ingresado') {
+        query._id = id_tercero;
+    }
     if (nombre_tercero !== 'no_ingresado') {
         // @ts-ignore
         query.nombre = new RegExp(construirExpresionRegular(nombre_tercero));

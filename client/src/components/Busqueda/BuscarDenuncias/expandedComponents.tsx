@@ -88,8 +88,6 @@ function expandedComponents({data}:expandedComponentsProps) {
         // Abrir en una nueva pestaña
         window.open(url, '_blank');
     }
-
-
     // Medidas
     const medidas = [
         { nombre: "Prohibición de acercamiento", valor: data.medida.prohibicion_de_acercamiento },
@@ -119,7 +117,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "Mayores de edad", valor: victimaDatos?.hijos?.mayores_de_edad },
         { nombre: "Menores de edad", valor: victimaDatos?.hijos?.menores_de_edad },
         { nombre: "Menores discapacitados", valor: victimaDatos?.hijos?.menores_discapacitados },
-        { nombre: "Hijos con el agresor", valor: victimaDatos?.hijos?.hijos_con_el_agresor }
+        { nombre: "Hijos con el agresor", valor: data?.hijos_victima_con_victimario }
     ]
     // Mostrar datos del victimario
     const victimarioDatosMostrar = [

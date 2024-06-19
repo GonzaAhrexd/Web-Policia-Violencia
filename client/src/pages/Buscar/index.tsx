@@ -4,7 +4,6 @@ import { useAuth } from '../../context/auth';
 // Hooks
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { set, useForm } from 'react-hook-form'
 
 // Componentes
 import NavBar from '../../components/NavBar';
@@ -15,30 +14,38 @@ import BuscarVictimario from '../../components/Busqueda/BuscarVictimarios/Buscar
 import BuscarTerceros from '../../components/Busqueda/BuscarTerceros/BuscarTerceros';
 
 function Buscar() {
-    const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
+    // Autenticación
+    const {  user, isAuthenticated, isLoading } = useAuth();
+
+    // Estados
     const [mostrarVictimas, setMostrarVictimas] = useState(false)
     const [mostrarVictimarios, setMostrarVictimarios] = useState(false)
     const [mostrarDenuncias, setMostrarDenuncias] = useState(true)
     const [mostrarTerceros, setMostrarTerceros] = useState(false)
+
+    // Mostrar u ocultar los componentes
+    // Mostrar denuncias y ocultar los demás
     const handleMostrarDenuncias = () => {
         setMostrarDenuncias(true)
         setMostrarVictimarios(false)
         setMostrarVictimas(false)
         setMostrarTerceros(false)
     }
-
+    // Mostrar víctimas y ocultar los demás
     const handleMostrarVictimas = () => {
         setMostrarDenuncias(false)
         setMostrarVictimarios(false)
         setMostrarVictimas(true)
         setMostrarTerceros(false)
     }
+    // Mostrar victimarios y ocultar los demás
     const handleMostrarVictimarios = () => {
         setMostrarDenuncias(false)
         setMostrarVictimarios(true)
         setMostrarVictimas(false)
         setMostrarTerceros(false)
     }
+    // Mostrar terceros y ocultar los demás
     const handleMostrarTerceros = () => {
         setMostrarDenuncias(false)
         setMostrarVictimarios(false)
@@ -46,13 +53,9 @@ function Buscar() {
         setMostrarTerceros(true)
     }
 
-    //@ts-ignore
-    const { signUp, user, isAuthenticated, isLoading } = useAuth();
     
     if (isLoading) return <h1>Cargando...</h1>
     if (!isLoading && !isAuthenticated && user?.rol != "carga" || user?.rol != "admin") return <Navigate to="/login" replace />
-    
-
     return (
         <div>
             <NavBar user={user} />
@@ -62,7 +65,6 @@ function Buscar() {
                     <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-full md:w-3/10 m-2" onClick={() => handleMostrarVictimarios()}> Victimario </button>
                     <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-full md:w-3/10 m-2" onClick={() => handleMostrarTerceros()}> Terceros </button>
                     <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-full md:w-3/10 m-2" onClick={() => handleMostrarDenuncias()}> Denuncias</button>
-            
                 </div>
                 <h1 className='text-3xl my-5'>Búsqueda</h1>
                 {mostrarVictimas && <BuscarVictimas/> }

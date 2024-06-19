@@ -30,13 +30,10 @@ function VerificarDenuncias() {
             const response = await mostrarDenunciasSinVerificar();
             // @ts-ignore
             setDenunciasAMostrar(response);
-            
-          
           } catch (error) {
             console.error('Hubo un error al cargar las denuncias: ', error);
           }
         };
-      
         cargarDenuncias();
       }, []); 
 

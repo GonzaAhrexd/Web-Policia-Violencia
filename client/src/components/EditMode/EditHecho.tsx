@@ -90,8 +90,8 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
 
   return (
     <div className='w-full'>
-      <InputRegister campo="" nombre="denuncia_id" register={register} setValue={setValue} type="hidden" error={errors} valor={datos._id} />
-      <InputRegister campo="" nombre="tercero_ID" register={register} setValue={setValue} type="hidden" error={errors} valor={datos.tercero_ID ? datos.tercero_ID : "No hay tercero"} />
+      <InputRegister campo="" nombre="denuncia_id" register={register} setValue={setValue} type="hidden" error={errors._id} valor={datos._id} />
+      <InputRegister campo="" nombre="tercero_ID" register={register} setValue={setValue} type="hidden" error={errors.tercero_ID} valor={datos.tercero_ID ? datos.tercero_ID : "No hay tercero"} />
       <h1 className='text-2xl my-5'>Hecho</h1>
       <div className='flex flex-col xl:flex-row'>
         <SelectRegister isRequired={false} campo="Género" nombre="genero" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} valor={datos.genero} />

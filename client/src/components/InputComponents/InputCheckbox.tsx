@@ -1,5 +1,5 @@
-import React from 'react'
-import { useForm } from 'react-hook-form'
+
+// Hooks
 import { useEffect } from 'react'
 
 
@@ -15,7 +15,7 @@ interface Props {
     id: any;
 }
 
-function InputCheckbox({ campo, nombre, setValue, register, type, error, setHook, state, id }:Props) {
+function InputCheckbox({ campo, nombre, setValue, type, setHook, state, id }:Props) {
   useEffect(() => {
     state ? setValue(nombre, state) : setValue(nombre, false);
 }, [setValue, nombre]);

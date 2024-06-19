@@ -143,10 +143,10 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
         <div className='flex items-center'>
 
           <h1 className='text-2xl my-5'>Víctima</h1>
-          <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text-black font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalVictimario(true)} />
+          <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text-black font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalVictima(true)} />
         </div>
         <div className='flex justify-center'>
-          <VerificarDenunciante datos={datosVictima} register={register} setValue={setValue} errors={errors} />
+          <VerificarDenunciante datos={victimaCargar ? victimaCargar : datosVictima} register={register} setValue={setValue} errors={errors} />
         </div>
         <div className='flex items-center'>
           <h1 className='text-2xl my-5'>Victimario</h1>
@@ -163,7 +163,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
         }
         <h1 className='text-2xl my-5'>Hecho</h1>
         <div className='flex justify-center'>
-          <CargarDenuncia expediente={expedienteDividido} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
+          <CargarDenuncia setOpenModalTercero={setOpenModalTercero} setTercero={terceroCargar} expediente={expedienteDividido} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
         </div>
         <>
           <h1 className='text-2xl my-5'>Observaciones o denuncia</h1>

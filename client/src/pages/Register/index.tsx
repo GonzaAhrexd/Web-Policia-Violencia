@@ -23,7 +23,6 @@ function Register() {
   const [mensajeError, setMensajeError] = useState("")
 
   const navigate = useNavigate();
-  // @ts-ignore
   const { signUp, user, isAuthenticated  } = useAuth()
 
   // Validación si ya está identificado
@@ -33,10 +32,9 @@ function Register() {
     }
   }, [user, isAuthenticated])
   return (
-    <>
-      <div className='gradient h-screen w-screen md:flex md:flex-col md:items-center md:align-top md:justify-center'>
-        <div className='flex flex-row align-middle justify-center bg-white h-screen w-screen mt-56 sm:h-auto sm:w-auto sm:rounded-md sm:mt-0 md:h-full md:w-full md:rounded-md md:mt-0 lg:h-5/6 lg:w-4/6 lg:rounded-md lg:mt-0 xl:h-95/100 xl:w-4/6 xl:rounded-md xl:mt-0 2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0 '>
-          <div className='h-screen w-screen sm:h-full sm:w-full flex flex-col items-center align-middle justify-center'>
+      <div className='gradient xl:h-screen md:flex md:flex-col md:items-center md:align-top md:justify-center'>
+        <div className='flex flex-row align-middle justify-center bg-white mt-56 sm:h-auto sm:w-auto sm:rounded-md sm:mt-0 md:h-full md:w-full md:rounded-md md:mt-0 lg:h-5/6 lg:w-4/6 lg:rounded-md lg:mt-0 xl:h-95/100 xl:w-4/6 xl:rounded-md xl:mt-0 2xl:h-5/6 2xl:w-2/5 2xl:rounded-md 2xl:mt-0 '>
+          <div className=' h-screen w-screen sm:h-full sm:w-full flex flex-col items-center align-middle justify-center'>
             <h1 className='open-sans text-3xl font-semibold'>¡Registrate ahora!</h1>
             <form className='flex flex-col align-middle justify-center w-5/6' onSubmit={  
               handleSubmit(async (values) => {
@@ -106,7 +104,7 @@ function Register() {
           </div>
         </div>
       </div>
-    </>
+
   );
 }
 

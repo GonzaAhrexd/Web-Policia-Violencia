@@ -47,10 +47,6 @@ function modoImprimir({modoImprimir, setModoImprimir, denunciasAMostrar, user, d
     <h1 className='text-3xl my-5 font-sans	'>Imprimir antecedentes</h1>
     <form onSubmit={
         handleSubmit(async (values) => {
-            
-            console.log(opcionesVictimarios)
-            console.log(values)
-            
             // @ts-ignore
             const denunciasFiltradas = denunciasAMostrar.filter(denuncia => denuncia.victima_nombre == values.denuncias_de || values.listar_todo === true);
 

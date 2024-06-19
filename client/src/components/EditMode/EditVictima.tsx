@@ -23,12 +23,13 @@ interface CargarVictimaProps {
     errors: any;
     md?: any;
     vinculo_con_agresor?: any;
+    hijos_con_agresor?: any;
 }
 
-function EditVictima({vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
+function EditVictima({hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
 
     const [isHijos, setIsHijos] = useState(datos.hijos.tiene_hijos)
-    const [isHijosConAgresor, setIsHijosConAgresor] = useState(datos.hijos ? datos.hijos.hijos_con_el_agresor > 0 : false)
+    const [isHijosConAgresor, setIsHijosConAgresor] = useState(hijos_con_agresor ? hijos_con_agresor > 0 : false)
 
     return (
         <div className={`w-full ${md && "lg:w-6/10"}`}>
@@ -47,7 +48,7 @@ function EditVictima({vinculo_con_agresor, datos, register, setValue, errors, md
                 <SelectRegister valor={datos.ocupacion} campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupacion_victima} isRequired={false} />
             </div>
             <div className='flex flex-col xl:flex-row my-2'>
-                {vinculo_con_agresor ? <SelectRegister opciones={vinculo} campo="Vinculo con el Agresor" nombre="vinculo_con_agresor_victima" register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima} valor={vinculo_con_agresor} /> : 
+                {vinculo_con_agresor ? <SelectRegister isRequired={false} opciones={vinculo} campo="Vinculo con el Agresor" nombre="vinculo_con_agresor_victima" register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima} valor={vinculo_con_agresor} /> : 
                 <SelectRegister isRequired={true} valor={vinculo_con_agresor && vinculo_con_agresor } campo="Vinculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima}  />
                 }
                 <SelectRegister  valor={datos.condicion_de_vulnerabilidad} campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad_victima" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.condicion_de_vulnerabilidad_victima} isRequired={false} />
@@ -66,7 +67,7 @@ function EditVictima({vinculo_con_agresor, datos, register, setValue, errors, md
                 }
             </div>
             {isHijosConAgresor &&
-                <InputRegister campo="Cantidad" nombre="cantidad_hijos_con_agresor" register={register} setValue={setValue} type="number" error={errors.cantidad_hijos_con_agresor} valor={datos.hijos.hijos_con_el_agresor} />
+                <InputRegister campo="Cantidad" nombre="cantidad_hijos_con_agresor" register={register} setValue={setValue} type="number" error={errors.cantidad_hijos_con_agresor} valor={hijos_con_agresor} />
             }
         </div>
 

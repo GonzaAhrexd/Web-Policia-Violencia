@@ -5,7 +5,7 @@ import unorm from 'unorm'
 export const createVictima = async (req, res) => {
     //Victima nueva
     try {
-        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor, telefono_victima, direccion_victima, nacionalidad_victima, sabe_leer_y_escribir } = req.body
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
         let victimaExistente = await victimas.findOne({ DNI: dni_victima })
         if (req.body.dni_victima && !victimaExistente) {
             const newVictima = new victimas({
@@ -24,11 +24,8 @@ export const createVictima = async (req, res) => {
                     mayores_de_edad: mayor_de_18 ? mayor_de_18 : false,
                     menores_de_edad: menor_de_18 ? menor_de_18 : false,
                     menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,
-                    hijos_con_el_agresor: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
                 },
-
             })
-
             const victimaSaved = await newVictima.save()
             res.json({ message: 'Victima creado con exito', id: victimaSaved._id })
         } else {
@@ -50,7 +47,6 @@ export const createVictima = async (req, res) => {
                     "hijos.mayores_de_edad": mayor_de_18 ? mayor_de_18 : false,
                     "hijos.menores_de_edad": menor_de_18 ? menor_de_18 : false,
                     "hijos.menores_discapacitados": menores_discapacitados ? menores_discapacitados : false,
-                    "hijos.hijos_con_el_agresor": cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
                 }
             }, { new: true })
 
@@ -69,7 +65,6 @@ export const createVictima = async (req, res) => {
 }
 // Obtener víctima
 export const getVictima = async (req, res) => {
-
     try {
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
         const victima = await victimas.findOne({ _id: req.params.id })
@@ -77,16 +72,13 @@ export const getVictima = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-
 }
-
 
 // Eliminar víctima, solo accesible desde este archivo
 export const deleteVictima = async (id, denunciaId) => {
     try {
         // Buscar la víctima por ID
         const victimaABorrar = await victimas.findById(id);
-
         if (victimaABorrar) {
             // Verificar la cantidad de denuncias previas
             if (victimaABorrar.cantidad_de_denuncias_previas == 1) {
@@ -98,7 +90,6 @@ export const deleteVictima = async (id, denunciaId) => {
                 const updatedDenunciasRealizadas = Array.isArray(victimaABorrar.denuncias_realizadas)
                     ? victimaABorrar.denuncias_realizadas.filter(denuncia => denuncia !== denunciaId)
                     : [];
-
                 await victimas.findByIdAndUpdate(id, {
                     $inc: { cantidad_de_denuncias_previas: -1 },
                     denuncias_realizadas: updatedDenunciasRealizadas
@@ -116,7 +107,7 @@ export const deleteVictima = async (id, denunciaId) => {
 export const updateVictima = async (req, res) => {
     try {
         const { id } = req.params
-        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados, cantidad_hijos_con_agresor } = req.body
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
 
         const victimaUpdated = await victimas.findByIdAndUpdate(id, {
             nombre: nombre_victima,
@@ -133,7 +124,6 @@ export const updateVictima = async (req, res) => {
                 mayores_de_edad: mayor_de_18 ? mayor_de_18 : false,
                 menores_de_edad: menor_de_18 ? menor_de_18 : false,
                 menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,
-                hijos_con_el_agresor: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
             }
         }, { new: true })
         res.json(victimaUpdated)
@@ -181,21 +171,17 @@ export const buscarVictima = async (req, res) => {
         if (cadena !== 'no_ingresado') {
             // Convertir la cadena a minúsculas
             const cadena_lower = cadena.toLowerCase();
-        
             // Separar los nombres/apellidos y eliminar espacios en blanco adicionales
             const partes = cadena_lower.trim().split(/\s+/);
-        
             // Crear la expresión regular
             const regexPattern = partes
                 .map(part => part.split('').map(normalizarLetras).join(''))
                 .join('.*');
-        
             // Crear expresión regular para buscar todas las combinaciones de nombres/apellidos
             const regexCombinaciones = partes
                 .map(part => `(?=.*${part.split('').map(normalizarLetras).join('')})`)
                 .join('');
             console.log("Expresión regular de combinaciones:", regexCombinaciones);
-        
             // Devolver la expresión regular
             return new RegExp(regexCombinaciones, 'i');
         } else {
@@ -214,7 +200,6 @@ export const buscarVictima = async (req, res) => {
         // @ts-ignore
         query.apellido = new RegExp(construirExpresionRegular(apellido_victima));
     }
-
     if (dni_victima !== 'no_ingresado') {
         //Haz que se eliminen . si que se ingresan en el dni
         query.DNI =  dni_victima.replace(/\./g, '');
@@ -233,5 +218,4 @@ export const buscarVictima = async (req, res) => {
         // Error al obtener las denuncias
         res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
     }
-
 }

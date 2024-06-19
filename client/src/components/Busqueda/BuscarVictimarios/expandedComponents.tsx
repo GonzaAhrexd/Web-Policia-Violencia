@@ -73,7 +73,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
     useEffect(() => {
         const fetchDenuncias = async (denunciaId:any) => {
             const result = await buscarDenunciasPorId(denunciaId);
-            console.log(result);
             return result;
         }
     
@@ -81,7 +80,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
             const denuncias = await Promise.all(data?.denuncias_en_contra?.map(fetchDenuncias) || []);
             // @ts-ignore
             setDenunciasAMostrar(denuncias);
-            console.log(denuncias)
         }
     
         fetchAllDenuncias();

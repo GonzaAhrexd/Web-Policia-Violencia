@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
+
 interface props {
     register: any
     type: string
@@ -12,7 +13,7 @@ interface props {
     watch?: any
 }
 
-function InputRadio({watch, register, nombre, type, defaultValue, handleChange, state, campo, id, opciones }: any) {
+function InputRadio({watch, register, nombre, type, defaultValue, handleChange, opciones }: props) {
     let watchRadio:any;
 
     watch ? watchRadio = watch(nombre) : watchRadio = null

@@ -94,8 +94,6 @@ function BuscarDenuncias() {
                     expandableIcon={expandableIcon}
                 />
             </div>
-
-
         </>
     )
 }

@@ -3,14 +3,14 @@ interface InputDateProps {
     campo: string;
     nombre: string;
     register: any;
-    type: string;
+    type?: string;
     placeholder?: string;
     error: any;
     require?: boolean;
     valor?: string;
 }
 
-function InputDate({valor, campo, nombre, register, type, placeholder, error, require}: InputDateProps) {
+function InputDate({valor, campo, nombre, register, placeholder, error, require}: InputDateProps) {
   return (
         <div className={`flex flex-col w-full xl:w-1/2`}>
             <span className={`font-medium ml-4 xl:text-vw`}> {campo} {error && <span className="text-red-500"> Requerido </span>} </span>

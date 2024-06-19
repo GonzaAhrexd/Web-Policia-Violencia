@@ -10,7 +10,7 @@ ________________________________________________________________________________
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 // APIs y BackEnd
-import { editarVictima, editarVictimario, editarDenuncia, editarTercero } from '../../api/crud'
+import { editarVictima, editarVictimario, editarDenuncia, editarTercero, crearTercero } from '../../api/crud'
 // Componentes
 import EditVictima from './EditVictima'
 import EditVictimario from './EditVictimario'
@@ -63,11 +63,13 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                         // Llamamos a editar victimario del backend
                         editarVictimario(values)
                         // Editar tercero
-                        console.log("Denunciado por tercero: " + values.denunciado_por_tercero)
-
-                        if(values.denunciado_por_tercero){
-                            console.log("qui")
-                            editarTercero(values)
+                        if (values.denunciado_por_tercero) {
+                            if (datosTerceros.denunciado_por_tercero) {
+                                editarTercero(values)
+                            } else {
+                                const idTercero = await crearTercero(values)
+                                values.id_tercero = idTercero
+                            }
                         }
                         // Formamos el expediente
                         values.nuevoExpediente = values.PrefijoExpediente + values.numero_expediente + values.Expediente + values.SufijoExpediente
@@ -89,12 +91,12 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                         }).then((result) => {
                             // Si se confirma el mensaje, recargamos la página
                             if (result.isConfirmed) {
-                               window.location.reload();
+                                window.location.reload();
                             }
                         })
                     })}>
 
-                <EditVictima vinculo_con_agresor={datosHecho.relacion_victima_victimario} datos={datosVictima} register={register} setValue={setValue} errors={errors} />
+                <EditVictima hijos_con_agresor={datosHecho.hijos_victima_con_victimario} vinculo_con_agresor={datosHecho.relacion_victima_victimario} datos={datosVictima} register={register} setValue={setValue} errors={errors} />
                 <EditVictimario datos={datosVictimario} register={register} setValue={setValue} errors={errors} />
                 <EditHecho datosTerceros={datosTerceros} datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} />
                 <>

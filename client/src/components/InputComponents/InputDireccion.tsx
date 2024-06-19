@@ -1,5 +1,5 @@
-import React from 'react'
-import { useForm } from 'react-hook-form'
+
+// Hook
 import { useEffect } from 'react'
 
 interface InputRegisterProps {
@@ -17,7 +17,7 @@ interface InputRegisterProps {
     setState: any;
 }
 
-function InputDireccion ({state, setState, campo, nombre, register, type, error, variante, require, valor, placeholder, setValue }: InputRegisterProps) {
+function InputDireccion ({state, setState, campo, nombre, register, type, error, require, valor, placeholder, setValue }: InputRegisterProps) {
     placeholder ? placeholder : ''
     require ? require : true
 

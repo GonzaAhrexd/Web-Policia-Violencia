@@ -30,7 +30,6 @@ function BuscarVictimas() {
         const fetchVictimas = async () => {
             const result = await buscarVictima(values);
             setVictimasMostrar(result)
-            console.log(result)
         }
         fetchVictimas(); 
     }

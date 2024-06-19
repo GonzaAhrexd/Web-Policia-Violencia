@@ -53,7 +53,6 @@ export const editarDenuncia = async (denuncia: any) => {
 // Eliminar denuncias
 
 export const eliminarDenuncia = async (id: string) => {
-    console.log(id)
     try {
         const response = await axios.delete(`/eliminar-denuncias/${id}`)
         return response.data

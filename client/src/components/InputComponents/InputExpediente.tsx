@@ -1,5 +1,4 @@
-import React from 'react'
-import { Interface } from 'readline'
+
 interface InputExpedienteProps {
     campo: string;
     nombre: string;
@@ -13,7 +12,7 @@ interface InputExpedienteProps {
     expediente?: any
 }
 
-function InputExpediente({campo, nombre, register, type, error, placeholder, setValue, valor, comisariaPertenece, expediente}: InputExpedienteProps) {
+function InputExpediente({campo, nombre, register, type, error, placeholder, comisariaPertenece, expediente}: InputExpedienteProps) {
     const handleDate = () => {
         //Obtener solo los últimos 2 números del año
         let date = new Date()

@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 type AuthContextType = {
     signUp: (user: any) => Promise<void>; 
     signIn: (user: any) => Promise<void>;
-    logOut: (user: any) => Promise<void>;
+    logOut: () => Promise<void>;
     editProfile: (user: any) => any;
     user: any;
     isAuthenticated: boolean;
