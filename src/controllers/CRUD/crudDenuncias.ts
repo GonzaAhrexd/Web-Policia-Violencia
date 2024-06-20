@@ -170,7 +170,7 @@ export const createDenuncia = async (req, res) => {
                 Politica: politica,
             },
             empleo_de_armas: empleo_de_armas ? empleo_de_armas : false,
-            arma_empleada: arma_empleada ? arma_empleada : 'Sin armas',
+            arma_empleada: (arma_empleada && empleo_de_armas) ? arma_empleada : 'Sin armas',
             medida_solicitada_por_la_victima: medida_solicitada_por_la_victima ? medida_solicitada_por_la_victima : false,
             medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial ? medida_dispuesta_por_autoridad_judicial : false,
             medida: {
@@ -241,14 +241,18 @@ export const updateDenuncia = async (req, res) => {
     try {
         //Edita los parametros de la denuncia salvo los id de la victima y victimario
         const { id } = req.params
-        const { nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor,  genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, nombre_tercero, apellido_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto } = req.body
+        const { nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor,  genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto } = req.body
         // Buscar al tercero si se agregó
-       /* let findTercero
+         
+        let findTercero
         // Busca si hay tercero
-        if(tercero_ID != "Sin tercero"){
+       /* if(denunciado_por_tercero && tercero_ID !== "Sin tercero"){
             findTercero = await terceros.findById(tercero_ID)
-        } */
-        // Actualiza la denuncia 
+        }*/ 
+
+        // Actualiza la denuncia
+        
+        console.log(req.body)
         const denunciaUpdated = await denuncia.findByIdAndUpdate(id, {
             victima_nombre: nombre_victima + ' ' + apellido_victima,
             victimario_nombre: nombre_victimario + ' ' + apellido_victimario,
@@ -279,7 +283,7 @@ export const updateDenuncia = async (req, res) => {
                 Politica: politica,
             },
             empleo_de_armas: empleo_de_armas,
-            arma_empleada: arma_empleada,
+            arma_empleada: (arma_empleada && empleo_de_armas) ? arma_empleada : 'Sin armas',
             medida_solicitada_por_la_victima: medida_solicitada_por_la_victima,
             medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial,
             medida: {
@@ -291,8 +295,8 @@ export const updateDenuncia = async (req, res) => {
                 boton_antipanico: (boton_antipanico !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? boton_antipanico : false,
             },
             denunciado_por_tercero: denunciado_por_tercero,
-            tercero_ID: tercero_ID ? tercero_ID : 'Sin tercero',
-            vinculo_con_la_victima_tercero: vinculo_con_la_victima,
+            tercero_ID: (denunciado_por_tercero)? tercero_ID  : ('Sin tercero'),
+            vinculo_con_la_victima_tercero: (denunciado_por_tercero) ? vinculo_con_la_victima : 'Sin vínculo',
             observaciones: observaciones,
         }, { new: true })
 
@@ -311,9 +315,9 @@ export const updateDenuncia = async (req, res) => {
         });
         
         // Si se agrega un tercero, se le agrega la denuncia
-        
+        if(denunciado_por_tercero){
         await terceros.findByIdAndUpdate(tercero_ID, { $push: { denuncias_realizadas: denunciaUpdated?._id } })
-        
+        }
         res.json(denunciaUpdated)
 
     } catch (error) {

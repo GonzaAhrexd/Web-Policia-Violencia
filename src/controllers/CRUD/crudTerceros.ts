@@ -3,7 +3,7 @@ import denuncias from '../../models/denuncias'
 // Obtener víctima
 export const getTercero = async (req, res) => {
     try {
-        console.log(req.body)
+        console.log("HERE")
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
         const tercero = await terceros.findOne({ _id: req.params.id })
         res.json(tercero)
@@ -15,8 +15,9 @@ export const getTercero = async (req, res) => {
 export const deleteTercero = async (id, denunciaId) => {
     try {
         // Buscar la víctima por ID
+        
+        if(id !== "Sin tercero"){
         const terceroABorrar = await terceros.findById(id);
-
         if (terceroABorrar) {
             // Verificar la cantidad de denuncias previas
             if (terceroABorrar.cantidad_de_denuncias == 1) {
@@ -37,6 +38,8 @@ export const deleteTercero = async (id, denunciaId) => {
         } else {
             console.log("Tercero no encontrado");
         }
+    }
+        console.log("No ID")
     } catch (error) {
         console.log(error);
     }
@@ -55,18 +58,12 @@ export const updateTercero = async (req, res) => {
             DNI: dni_tercero,
         }, { new: true })
         
-        console.log(terceroUpdated)
-        
         res.json(terceroUpdated)
         // Actualizar victima_nombre de las denuncias que tenga la víctima en caso de que se haya modificado
-    
-
     } catch (error) {
         console.log(error)
     }
-
 }
-
 export const createTercero = async (req, res) => {
     //Tercero nuevo
     try {
@@ -184,5 +181,4 @@ export const buscarTercero = async (req, res) => {
         // Error al obtener las denuncias
         res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
     }
-
 }

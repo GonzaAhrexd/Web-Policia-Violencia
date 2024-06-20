@@ -20,10 +20,10 @@ export const createVictima = async (req, res) => {
                 cantidad_de_denuncias_previas: 1,
                 hijos: {
                     tiene_hijos: hijos ? hijos : false,
-                    dependencia_economica: dependencia_economica ? dependencia_economica : false,
-                    mayores_de_edad: mayor_de_18 ? mayor_de_18 : false,
-                    menores_de_edad: menor_de_18 ? menor_de_18 : false,
-                    menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,
+                    dependencia_economica: (hijos && dependencia_economica) ? dependencia_economica : false,
+                    mayores_de_edad: (hijos && mayor_de_18) ? mayor_de_18 : false,
+                    menores_de_edad: (hijos && menor_de_18) ? menor_de_18 : false,
+                    menores_discapacitados: (hijos && menores_discapacitados) ? menores_discapacitados : false,
                 },
             })
             const victimaSaved = await newVictima.save()
@@ -49,13 +49,10 @@ export const createVictima = async (req, res) => {
                     "hijos.menores_discapacitados": menores_discapacitados ? menores_discapacitados : false,
                 }
             }, { new: true })
-
             // Incrementa la cantidad de denuncias previas
             await victimas.updateOne({ DNI: dni_victima }, { $inc: { cantidad_de_denuncias_previas: 1 } });
 
             res.send('Victima ya existe')
-            //const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, { $inc: { cantidad_de_denunicas_previas: 1 } }, { new: true })
-
         }
 
     } catch (error) {
@@ -63,7 +60,7 @@ export const createVictima = async (req, res) => {
         res.send('Victima ya existe o no se ingresaron datos')
     }
 }
-// Obtener víctima
+// Obtener víctima  
 export const getVictima = async (req, res) => {
     try {
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia

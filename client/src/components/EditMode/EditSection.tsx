@@ -67,8 +67,10 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                             if (datosTerceros.denunciado_por_tercero) {
                                 editarTercero(values)
                             } else {
+                                console.log("PROBANDO")
                                 const idTercero = await crearTercero(values)
-                                values.id_tercero = idTercero
+                                values.tercero_ID = idTercero
+                                console.log("TERCERO:" + idTercero)
                             }
                         }
                         // Formamos el expediente

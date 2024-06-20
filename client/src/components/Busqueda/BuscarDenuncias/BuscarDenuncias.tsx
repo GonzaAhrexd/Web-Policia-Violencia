@@ -63,7 +63,7 @@ function BuscarDenuncias() {
                     }
                     )}>
                 <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} />
-                <InputRegister campo="ID" nombre="id_denuncia" register={register} type="text" error={errors.id_denuncia} require={false}/>
+                <InputRegister busqueda={true}  campo="ID" nombre="id_denuncia" register={register} type="text" error={errors.id_denuncia} require={false}/>
                 <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                
                 <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
