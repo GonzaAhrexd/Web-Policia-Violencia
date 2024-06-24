@@ -37,7 +37,7 @@ function EditVictimario   ({md, datos, register, setValue, errors}:CargarVictima
         <SelectRegister campo="Ocupación" nombre="ocupacion_victimario" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupaciones_victimario} valor={datos.ocupacion} isRequired={false} />
       </div>
     <>
-    <span className='ml-4 font-medium xl:text-vw'>Detalles</span>
+    <span className='ml-4 font-medium '>Detalles</span>
       <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-2`}>  
         <InputCheckbox campo="Abuso de Alcohol" nombre="abuso_de_alcohol" register={register} setValue={setValue} type="checkbox" id="abusoAlcohol" state={datos.abuso_de_alcohol}/>          
         <InputCheckbox campo="Antecedentes toxicológicos" nombre="antecedentes_toxicologicos" register={register} setValue={setValue} type="checkbox" id="antecedentesToxicologicos" state={datos.antecedentes_toxicologicos} />          
@@ -47,7 +47,7 @@ function EditVictimario   ({md, datos, register, setValue, errors}:CargarVictima
       </div>
     </>
     <>
-        <span className='ml-4 font-medium xl:text-vw my-2'> Notificación </span> 
+        <span className='ml-4 font-medium  my-2'> Notificación </span> 
         <InputRadio campo="Notificación" nombre="notificacion" register={register} type="radio" opciones={opcionesNotificado}  defaultValue={defaultIndex}/>          
     </>
     

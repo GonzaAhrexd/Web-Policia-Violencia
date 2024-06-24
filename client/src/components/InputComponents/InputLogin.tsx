@@ -18,7 +18,7 @@ function InputLogin({ campo, register, type, error, placeholder }: InputLoginPro
                 {...register(campo, { required: true })}
                 placeholder={placeholder}
             />
-            <span className='font-medium ml-4 xl:text-vw'>
+            <span className='font-medium ml-4 '>
                 {error && <span className='text-red-500'>Campo requerido</span>}
             </span>
         </>

@@ -7,8 +7,6 @@ import { crearDenunciaSinVerificar, crearExposicion } from '../../api/crud';
 // Librerías React
 import Swal from 'sweetalert2'
 import { pdf } from '@react-pdf/renderer';
-
-
 // Componentes
 import CargarVictimaAgente from '../../components/Cargar/CargarAgente/CargarVictimaAgente';
 import CargarObservaciones from '../../components/Cargar/CargarObservaciones';
@@ -23,9 +21,6 @@ interface CargarDenunciasRolCargaProps {
 }
 
 function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
-  // Create styles
-
-
   const {watch, register, handleSubmit, setValue, getValues, formState: {
     errors
   } } = useForm()
@@ -84,7 +79,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
             <>
               <h1 className='text-2xl my-5'>Expediente</h1>
               <div className='flex justify-center'>
-              <InputExpediente campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
+              <InputExpediente cargaAgente={true} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
               </div>
               <h1 className='text-2xl my-5'>Denunciante</h1>
               <div className='flex justify-center'>

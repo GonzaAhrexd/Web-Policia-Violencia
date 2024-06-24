@@ -47,21 +47,21 @@ function CargarPreguntas({watch, tipoDenuncia, register, setValue, errors }: Car
               saber que existe la Línea 137, ubicado en Calle Mitre N° 171 -Resistencia-, donde se brinda asesoramiento legal y
               asistencia psicológica las 24 horas del dia de manera GRATUITA, y la Línea 102 ubicado en Avenida Sarmiento
               N° 1675-Resistencia-.</p>
-            <span className='ml-4 font-medium xl:text-vw my-2'> ¿Desea ser asistid{tipoDenuncia == "mujer" ? "a" : "o"} por dicho organismo? </span>
-            <InputRadio campo="AsistidaPorDichoOrganismo" nombre="AsistidaPorDichoOrganismo" register={register} setValue={setValue} type="radio" opciones={opcionesAsistidaPorDichoOrganismo} defaultValue={3} />
+            <span className='ml-4 font-medium  my-2'> ¿Desea ser asistid{tipoDenuncia == "mujer" ? "a" : "o"} por dicho organismo? </span>
+            <InputRadio campo="AsistidaPorDichoOrganismo" nombre="AsistidaPorDichoOrganismo" register={register}  type="radio" opciones={opcionesAsistidaPorDichoOrganismo} defaultValue={3} />
           </div>
         }
         <div className='flex flex-col my-2'>
-          <span className='ml-4 font-medium xl:text-vw my-2'> ¿Desea ser examinad{tipoDenuncia == "mujer" ? "a" : "o"} por el medico policial en turno? </span>
-          <InputRadio campo="ExaminadaMedicoPolicial" nombre="ExaminadaMedicoPolicial" register={register} setValue={setValue} type="radio" opciones={opcionesExaminadaMedicoPolicial} defaultValue={3} />
+          <span className='ml-4 font-medium  my-2'> ¿Desea ser examinad{tipoDenuncia == "mujer" ? "a" : "o"} por el medico policial en turno? </span>
+          <InputRadio campo="ExaminadaMedicoPolicial" nombre="ExaminadaMedicoPolicial" register={register}  type="radio" opciones={opcionesExaminadaMedicoPolicial} defaultValue={3} />
         </div>
         <div className='flex flex-col my-2'>
-          <span className='ml-4 font-medium xl:text-vw my-2'> ¿Desea accionar penalmente por el delito que diera lugar? </span>
-          <InputRadio campo="AccionarPenalmente" nombre="AccionarPenalmente" register={register} setValue={setValue} type="radio" opciones={opcionesAccionarPenalmente} defaultValue={3} />
+          <span className='ml-4 font-medium  my-2'> ¿Desea accionar penalmente por el delito que diera lugar? </span>
+          <InputRadio campo="AccionarPenalmente" nombre="AccionarPenalmente" register={register}  type="radio" opciones={opcionesAccionarPenalmente} defaultValue={3} />
         </div>
         <div className='flex flex-col my-2'>
-        <span className='ml-4 font-medium xl:text-vw my-2'> ¿Desea agregar, quitar o enmendar algo a lo expuesto precedentemente? </span>
-        <InputRadio handleChange={setIsAgregado} state={isAgregado} watch={watch} campo="AgregarQuitarOEnmendarAlgo" nombre="AgregarQuitarOEnmendarAlgo" register={register} setValue={setValue} type="radio" opciones={opcionesAgregarQuitarOEnmendarAlgo} defaultValue={3} />
+        <span className='ml-4 font-medium  my-2'> ¿Desea agregar, quitar o enmendar algo a lo expuesto precedentemente? </span>
+        <InputRadio handleChange={setIsAgregado} state={isAgregado} watch={watch} campo="AgregarQuitarOEnmendarAlgo" nombre="AgregarQuitarOEnmendarAlgo" register={register} type="radio" opciones={opcionesAgregarQuitarOEnmendarAlgo} defaultValue={3} />
        </div>
         {isAgregado &&
         <div className='flex flex-col my-2'>
@@ -74,8 +74,8 @@ function CargarPreguntas({watch, tipoDenuncia, register, setValue, errors }: Car
     return ( 
       <div className='w-full lg:w-6/10'>
       <div className='flex flex-col my-2'>
-        <span className='ml-4 font-medium xl:text-vw my-2'> ¿Desea agregar, quitar o enmendar algo a lo expuesto precedentemente? </span>
-        <InputRadio handleChange={setIsAgregado} state={isAgregado} watch={watch} campo="AgregarQuitarOEnmendarAlgo" nombre="AgregarQuitarOEnmendarAlgo" register={register} setValue={setValue} type="radio" opciones={opcionesAgregarQuitarOEnmendarAlgo} defaultValue={3} />
+        <span className='ml-4 font-medium my-2'> ¿Desea agregar, quitar o enmendar algo a lo expuesto precedentemente? </span>
+        <InputRadio handleChange={setIsAgregado} state={isAgregado} watch={watch} campo="AgregarQuitarOEnmendarAlgo" nombre="AgregarQuitarOEnmendarAlgo" register={register} type="radio" opciones={opcionesAgregarQuitarOEnmendarAlgo} defaultValue={3} />
        </div>
         {isAgregado &&
         <div className='flex flex-col my-2'>

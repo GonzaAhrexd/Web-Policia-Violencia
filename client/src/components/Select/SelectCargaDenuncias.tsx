@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import InputDireccion from '../InputComponents/InputDireccion';
 import InputRegister from '../InputComponents/InputRegister';
-
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 interface Opcion {
     value?: string;
     nombre?: string;
@@ -165,12 +165,14 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
     return (
         <div className={`flex flex-row w-full`}>
             <div className='flex flex-col w-full'>
-                <span className='ml-4 font-medium flex flex-row xl:text-vw'> {nombre!="tipo_de_arma" ? campo : ""}  <span className='text-red-500'> </span>  {campo === "Modalidades" && 
-                   <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-4 cursor-pointer" onClick={() => {setTitulo("Modalidades"),handleOpenModal(info)}}>
-                   <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-                 </svg>
+                <span className='ml-4 font-medium flex flex-row '> {nombre!="tipo_de_arma" ? campo : ""}  <span className='text-red-500'> </span>  
                 
-                } </span>
+                {campo === "Modalidades" &&   
+                  <QuestionMarkCircleIcon className="w-6 h-4 cursor-pointer" onClick={() => (
+                    setTitulo("Modalidades"),
+                    handleOpenModal(info)
+                  )}/>} 
+                </span>
                 <div className={`flex flex-col xl:w-full"}`}>
                     <select
                         className="border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 w-95/10"
@@ -189,7 +191,7 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
 
                 {selectedUnidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones && (
                     <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
-                        <span className='ml-4 font-medium xl:text-vw'> Municipio  <span className='text-red-500'> </span> </span>
+                        <span className='ml-4 font-medium '> Municipio  <span className='text-red-500'> </span> </span>
 
                         <select
                             className="border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 w-95/10"
@@ -237,7 +239,7 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
 
                     subunidad.value === selectedSubunidad)?.subdivisiones && (
                         <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
-                            <span className='ml-4 font-medium xl:text-vw'> Jurisdicción policial <span className='text-red-500'> </span> </span>
+                            <span className='ml-4 font-medium '> Jurisdicción policial <span className='text-red-500'> </span> </span>
                             <select
                                 className=" border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                                 name="subsubunidad"
@@ -257,7 +259,7 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                     subunidad.value === selectedSubunidad)?.cuadriculas && (
                         <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
 
-                            <span className='ml-4 font-medium xl:text-vw'> Cuadricula <span className='text-red-500'> </span> </span>
+                            <span className='ml-4 font-medium '> Cuadricula <span className='text-red-500'> </span> </span>
 
                             <select
                                 className=" border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
@@ -275,7 +277,7 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                     )}
                 {selectedSubsubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones?.find((subsubunidad: Opcion) => subsubunidad.value === selectedSubsubunidad)?.cuadriculas && (
                     <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
-                        <span className='ml-4 font-medium xl:text-vw'> Cuadricula </span>
+                        <span className='ml-4 font-medium '> Cuadricula </span>
                         <select
                             className="border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                             name="cuadricula"

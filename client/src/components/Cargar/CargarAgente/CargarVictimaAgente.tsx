@@ -48,8 +48,8 @@ function CargarVictimaAgente({register, setValue, errors}: CargarVictimaProps) {
  </div>
 
  <div className='flex flex-col my-2'>
-      <span className='ml-4 font-medium xl:text-vw my-2'> ¿Sabe leer y escribir?</span> 
-        <InputRadio campo="SabeLeerYEscribir" nombre="SabeLeerYEscribir" register={register} setValue={setValue} type="radio" opciones={opcionesSabeLeerYEscribir}  defaultValue={3}/>          
+      <span className='ml-4 font-medium my-2'> ¿Sabe leer y escribir?</span> 
+        <InputRadio campo="SabeLeerYEscribir" nombre="SabeLeerYEscribir" register={register} type="radio" opciones={opcionesSabeLeerYEscribir}  defaultValue={3}/>          
      </div>
 
 </div>

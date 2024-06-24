@@ -29,6 +29,7 @@ import SimpleTableCheckorX from '../ShowData/SimpleTableCheckorX'
 import EditExpediente from '../EditMode/EditExpediente'
 //Iconos
 import { PencilIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 interface denunciaProps {
   register: any
   setValue: any
@@ -105,8 +106,6 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
             :
             <SimpleTableCheckorX campo="Datos geográficos" datos={datosGeograficos} />
           }
-          
-          
           <div className='flex flex-col md:flex-row items-center justify-center w-full mt-2 '>
                 <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setModificarDatosGeograficos(!modificarDatosGeograficos)}>
                    {!modificarDatosGeograficos ? <PencilIcon className='h-6'/> : <XMarkIcon className='h-6'/>}                
@@ -125,15 +124,12 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
           <SelectCargaDenuncias valor={datos.modalidades} setTitulo={setTitulo} info={tiposModalidades} campo="Modalidades" nombre="modalidades" opciones={opcionesModalidades} register={register} setValue={setValue} type="text" error={errors.modalidades} handleOpenModal={handleOpenModal} />
         </div>
         <>
-          <span className='ml-4 font-medium xl:text-vw flex flex-row my-2'> Tipo de Violencia
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-4 cursor-pointer" onClick={() => (
-
+          <span className='ml-4 font-medium  flex flex-row my-2'> Tipo de Violencia
+            <QuestionMarkCircleIcon className="w-6 h-4 cursor-pointer" onClick={() => (
               setTitulo("Tipos de Violencia"),
               handleOpenModal(tiposDeViolenciaText)
-
-            )}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-            </svg>
+            )}/>
+            
           </span>
           <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2`}>
             <InputCheckbox campo="Física" nombre="fisica" register={register} setValue={setValue} type="checkbox" id="fisica" state={datos.tipo_de_violencia.Fisica} />
@@ -145,7 +141,7 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
           </div>
         </>
         <div className='flex flex-col my-2'>
-          <span className='ml-4 font-medium xl:text-vw'> Empleo de armas </span>
+          <span className='ml-4 font-medium '> Empleo de armas </span>
 
           <div className='flex flex-col md:flex-row my-2'>
             <InputCheckbox campo="Empleo de Armas" nombre="empleo_de_armas" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsArmas} state={isArmas} id="empleo_de_armas" />
@@ -157,7 +153,7 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
           </div>
         </div>
         <div className='flex flex-col my-2'>
-          <span className='ml-4 font-medium xl:text-vw'> Medida Solicitada </span>
+          <span className='ml-4 font-medium '> Medida Solicitada </span>
           <div className='flex flex-col md:flex-row'>
             <InputCheckbox campo="Solicitada" nombre="medida_solicitada_por_la_victima" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsSolicitada} state={isSolicitada} id="solicitada" />
             <InputCheckbox  campo="Dispuesto Por Autoridad Judicial" nombre="medida_dispuesta_por_autoridad_judicial" register={register} setValue={setValue} type="checkbox" error={errors.dispuestoPorAutoridadJudicial} setHook={setIsDispuestoPorAutoridadJudicial} state={isDispuestoPorAutoridadJudicial} id="dispuestoPorAutoridad" />
@@ -177,7 +173,7 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
           </>
         }
         <div className='flex flex-col '>
-          <span className='ml-4 font-medium xl:text-vw'> Denunciado por tercero</span>
+          <span className='ml-4 font-medium '> Denunciado por tercero</span>
           <div className='flex flex-col md:flex-row'>
             <InputCheckbox campo="Denunciado por tercero" nombre="denunciado_por_tercero" register={register} setValue={setValue} type="checkbox" error={errors.denunciado_por_tercero} setHook={setIsDenunciadoPorTercero} state={isDenunciadoPorTercero} id="denunciadoPorTercero" />
           </div>

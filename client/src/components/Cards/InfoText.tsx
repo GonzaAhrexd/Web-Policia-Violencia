@@ -1,7 +1,9 @@
-import React from 'react'
+interface InfoTextProps {
+  campo: string;
+  valor: string;
+}
 
-// @ts-ignore
-function InfoText({campo, valor}) {
+function InfoText({campo, valor}: InfoTextProps) {
   return (
     <div className={`flex flex-col md:w-1/2`}>
     <span className='font-medium ml-4 xl:text-vw text-white'> {campo} </span> 

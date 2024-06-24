@@ -48,7 +48,7 @@ function InputDateRange({ setValue, isRequired }: InputDateRangeProps) {
 
   return (
     <div className="flex flex-col w-full xl:w-1/2">
-      <span className="font-medium ml-4 xl:text-vw"> Rango de fechas </span>
+      <span className="font-medium ml-4 "> Rango de fechas </span>
       <DateRangePicker className="flex items-center justify-center align-center border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 pl-2" onChange={(date:any) => { handleDate(date)}} value={date}  clearIcon={null} calendarIcon={<CalendarIcon className='h-6 w-6'/>} required={isRequired} />
     </div>
 

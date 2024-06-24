@@ -96,7 +96,7 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors,
 
       </div>
       <>
-        <span className='ml-4 font-medium xl:text-vw flex flex-row my-2'> Tipo de Violencia  
+        <span className='ml-4 font-medium flex flex-row my-2'> Tipo de Violencia  
           <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-4 cursor-pointer" onClick={() => (
           
           setTitulo("Tipos de Violencia"),
@@ -117,7 +117,7 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors,
         </div>
       </>
       <div className='flex flex-col my-2'>
-        <span className='ml-4 font-medium xl:text-vw'> Empleo de armas </span>
+        <span className='ml-4 font-medium'> Empleo de armas </span>
 
         <div className='flex flex-col md:flex-row my-2'>
           <InputCheckbox campo="Empleo de Armas" nombre="empleo_de_armas" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsArmas} state={isArmas} id="empleo_de_armas" />
@@ -129,7 +129,7 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors,
         </div>
       </div>
       <div className='flex flex-col my-2'>
-        <span className='ml-4 font-medium xl:text-vw'> Medida Solicitada </span>
+        <span className='ml-4 font-medium'> Medida Solicitada </span>
         <div className='flex flex-col md:flex-row'>
           <InputCheckbox campo="Solicitada" nombre="medida_solicitada_por_la_victima" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsSolicitada} state={isSolicitada} id="solicitada" />
           <InputCheckbox campo="Dispuesto Por Autoridad Judicial" nombre="medida_dispuesta_por_autoridad_judicial" register={register} setValue={setValue} type="checkbox" error={errors.dispuestoPorAutoridadJudicial} setHook={setIsDispuestoPorAutoridadJudicial} state={isDispuestoPorAutoridadJudicial} id="dispuestoPorAutoridad" />
@@ -149,7 +149,7 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors,
         </>
         }
          <div className='flex flex-col '>
-        <span className='ml-4 font-medium xl:text-vw'> Denunciado por tercero</span>
+        <span className='ml-4 font-medium'> Denunciado por tercero</span>
         <div className='flex flex-col md:flex-row'>
           <InputCheckbox campo="Denunciado por tercero" nombre="denunciado_por_tercero" register={register} setValue={setValue} type="checkbox" error={errors.denunciado_por_tercero} setHook={setIsDenunciadoPorTercero} state={isDenunciadoPorTercero} id="denunciadoPorTercero" />
          </div>
