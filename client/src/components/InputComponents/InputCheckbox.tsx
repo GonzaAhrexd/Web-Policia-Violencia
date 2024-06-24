@@ -28,7 +28,7 @@ function InputCheckbox({ campo, nombre, setValue, type, setHook, state, id }:Pro
     };
   
     return (
-      <div className="flex flex-row justify-start">
+      <div className="flex flex-row justify-start items-center">
          <div>
         <input
           className="border open-sans border-gray-300 rounded-md h-6 xl:h-6 xl:w-5 2xl:h-6 my-2 xl:my-1 xl:m-2 m-4 pl-2"

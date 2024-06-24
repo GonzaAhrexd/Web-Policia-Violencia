@@ -180,7 +180,7 @@ export const getVictimario = async (id: string) => {
 // Editar victimario
 export const editarVictimario = async (victimario: any) => {
     try {
-        const response = await axios.put(`/editar-victimario/${victimario.victimario_id}`, victimario)
+        const response = await axios.put(`/editar-victimario/${victimario.victimario_ID}`, victimario)
         return response.data
     } catch (error) {
         console.log(error)

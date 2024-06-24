@@ -27,8 +27,8 @@ function modoImprimir({modoImprimir, setModoImprimir, denunciasAMostrar, user, d
 
     useEffect(() => {
         denunciasAMostrar.forEach((denuncia: any) => {
-            // @ts-ignore
-            setOpcionesVictimarios((opcionesVictimarios) => {
+
+            setOpcionesVictimarios((opcionesVictimarios:any) => {
                 // @ts-ignore
                 if (!opcionesVictimarios.some(opcion => opcion.nombre === denuncia.victimario_nombre)) {
                     return [...opcionesVictimarios, {nombre: denuncia.victimario_nombre, value: denuncia.victimario_nombre}];
@@ -47,10 +47,10 @@ function modoImprimir({modoImprimir, setModoImprimir, denunciasAMostrar, user, d
             
           
             
+            
             // @ts-ignore
             const denunciasFiltradas = denunciasAMostrar.filter(denuncia => denuncia.victimario_nombre == values.denuncias_de || values.listar_todo === true);
-
-            // @ts-ignore
+            // Crea un blob con el PDF
             const blob = await pdf(<PDF datos={data} user={user} denunciasAMostrar={denunciasFiltradas} valores={values}/>).toBlob();
             // Crea una URL de objeto a partir del blob
             const url = URL.createObjectURL(blob);

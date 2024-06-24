@@ -1,4 +1,3 @@
-
 // Hooks
 import { useEffect, useState } from 'react'
 import { registerRequest } from '../../api/auth'

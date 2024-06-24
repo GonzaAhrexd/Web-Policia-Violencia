@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 interface InputRegisterProps {
     campo: string;
     nombre: string;
-    register: any;
+    register?: any;
     type: string;
     variante?: any;
     valor?: any;

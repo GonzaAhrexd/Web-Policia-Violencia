@@ -7,10 +7,8 @@ import { authRequired, authAdmin } from '../middlewares/validateToken'
 import { validateSchema } from '../middlewares/validator.middleware';
 // Esquemas para validar datos
 import { registerSchema, loginSchema } from '../schemas/auth.schema'
-
 // Uso de Router de express
 const router:Router = Router()
-
 // Rutas para autenticación de usuario
 router.post('/register', validateSchema(registerSchema), register) // Registro de usuario
 router.post('/login', validateSchema(loginSchema), login) // Inicio de sesión

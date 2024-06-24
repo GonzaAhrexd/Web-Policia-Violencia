@@ -10,8 +10,7 @@ import CardProfileInfo from '../../components/Cards/CardProfileInfo';
 import CardProfileDataEdit from '../../components/Cards/CardProfileDataEdit';
 
 function Perfil() {
-    //@ts-ignore
-    const { signUp, user, isAuthenticated, isLoading } = useAuth();
+    const { user, isAuthenticated, isLoading } = useAuth();
     const [isEditing, setIsEditing] = useState(false)
     // Validación si está logeado
     if (isLoading) return <h1>Cargando...</h1>

@@ -1,10 +1,3 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
-
-// Backend
-import { editarVictima } from '../../api/crud'
-
 // Componentes
 import InputRadio from '../InputComponents/InputRadio'
 import InputCheckbox from '../InputComponents/InputCheckbox'
@@ -30,7 +23,7 @@ function EditVictimario   ({md, datos, register, setValue, errors}:CargarVictima
   return (
     <div className={`w-full ${md && "lg:w-6/10"}`}>
        <h1 className='text-2xl my-5'>Victimario</h1>
-       <InputRegister campo="" nombre="victimario_id" register={register} setValue={setValue} type="hidden" error={errors.nombre_victima} valor={datos._id} />
+       <InputRegister campo="" nombre="victimario_ID" register={register} setValue={setValue} type="hidden" error={errors.nombre_victima} valor={datos._id} />
       <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Nombre" nombre="nombre_victimario" register={register} setValue={setValue} type="text" error={errors.nombre_victimario} valor={datos.nombre}/>
         <InputRegister campo="Apellido" nombre="apellido_victimario" register={register} setValue={setValue} type="text" error={errors.apellido_victimario} valor={datos.apellido}/>
@@ -55,7 +48,7 @@ function EditVictimario   ({md, datos, register, setValue, errors}:CargarVictima
     </>
     <>
         <span className='ml-4 font-medium xl:text-vw my-2'> Notificación </span> 
-        <InputRadio campo="Notificación" nombre="notificacion" register={register} setValue={setValue} type="radio" opciones={opcionesNotificado}  defaultValue={defaultIndex}/>          
+        <InputRadio campo="Notificación" nombre="notificacion" register={register} type="radio" opciones={opcionesNotificado}  defaultValue={defaultIndex}/>          
     </>
     
     </div>

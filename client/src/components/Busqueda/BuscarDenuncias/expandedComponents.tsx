@@ -75,7 +75,9 @@ function expandedComponents({data}:expandedComponentsProps) {
     useEffect(() => {
         victimaObtener(data.victima_ID); // Asegúrate de tener un 'id' válido aquí
         victimarioObtener(data.victimario_ID)
-        terceroObtener(data.tercero_ID)
+        if(data.denunciado_por_tercero){
+            terceroObtener(data.tercero_ID)
+        }
 
     }, [data.victima_ID, data.victimario_ID]); // Se ejecuta cuando el componente se monta y cada vez que 'id' cambia
 

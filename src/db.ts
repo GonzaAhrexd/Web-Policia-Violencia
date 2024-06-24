@@ -14,7 +14,7 @@ export const connectDB = async (): Promise<void> => {
     try {
         // Conecta a la base de datos con mongoose
         await mongoose.connect(uri)
-        console.log('Base de datos conectada correctamente✅')
+        console.log('Base de datos conectada correctamente ✅')
     } catch (error: Error | unknown) {
         console.log('Error conectando a la base de datos.')
     }

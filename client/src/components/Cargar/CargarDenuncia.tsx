@@ -1,5 +1,5 @@
 // Hooks
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 
 // Componentes
@@ -50,6 +50,8 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors,
   const [municipio, setMunicipio] = useState('')
   const [coordenadas, setCoordenadas] = useState('')
   const [direccion, setDireccion] = useState('')
+
+  
 
   const consultarCoordenadas = async () => {
 

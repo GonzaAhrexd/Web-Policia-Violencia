@@ -4,12 +4,12 @@ interface props {
     register: any
     type: string
     nombre: string
-    handleChange: any
-    state: any
+    handleChange?: any
+    state?: any
     campo: any
-    id: any
-    opciones: any
-    defaultValue: any
+    id?: any
+    opciones?: any
+    defaultValue?: any
     watch?: any
 }
 
