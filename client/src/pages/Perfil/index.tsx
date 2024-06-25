@@ -2,39 +2,48 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/auth';
 import { Navigate } from 'react-router-dom';
-// Librerías React
-import { CSSTransition } from 'react-transition-group';
 // Componentes
 import NavBar from '../../components/NavBar'
-import CardProfileInfo from '../../components/Cards/CardProfileInfo';
-import CardProfileDataEdit from '../../components/Cards/CardProfileDataEdit';
+import CardDataUsuario from '../../components/Cards/CardDataUsuario';
+import CardUserDenunciasRecientes from '../../components/Cards/CardUserDenunciasRecientes';
+import CardEditDataUser from '../../components/Cards/CardEditDataUser';
+function index() {
 
-function Perfil() {
-    const { user, isAuthenticated, isLoading } = useAuth();
-    const [isEditing, setIsEditing] = useState(false)
-    // Validación si está logeado
-    if (isLoading) return <h1>Cargando...</h1>
-    if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const [isEditing, setIsEditing] = useState(false)
+  // Validación si está logeado
+  if (isLoading) return <h1>Cargando...</h1>
+  if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
 
-    return (
-        <>
-            <NavBar user={user} />
-            <div className='h-screen sm:h-full p-2 sm:p-10'>
-                <h2 className='text-3xl my-5'>Mi Perfil </h2>
-                <div className={`flex flex-col lg:flex-row items-center sm:justify-center w-full sm:w-full h-full sm:h-full `}>
-                    <div className={`${isEditing ? "w-full md:w-7/10 lg:w-5/10 xl:w-4/10" : "w-full md:w-7/10 lg:w-4/10"} sm:px-2`}>
-                        <CardProfileInfo user={user} isEditing={isEditing} setIsEditing={setIsEditing} />
-                    </div>
-                    <div className={`${isEditing ? "w-full md:w-7/10 lg:w-5/10 xl:w-4/10 h-full" : "hidden"}`}>
-                        <CSSTransition in={isEditing} timeout={300} classNames="fade" unmountOnExit>
-                            <CardProfileDataEdit user={user} />
-                        </CSSTransition>
-                    </div>
-                </div>
-            </div>
-        </>
-    )
 
+  return (
+    <>
+      <NavBar user={user} />
+
+      <div className="max-w-full h-full mx-auto bg-gray-100 shadow-md rounded-lg overflow-hidden">
+        <div className="flex justify-center mt-10">
+          <div className="w-32 h-32 bg-gray-300 rounded-full overflow-hidden">
+            <img className="h-32 w-32 rounded-full"
+              src={user.imagen ? user.imagen : "/user.png"} alt="" />
+          </div>
+        </div>
+        <div className="text-center mt-4">
+          <h1 className="text-2xl font-semibold">{user.nombre} {user.apellido}</h1>
+        </div>
+        <div className="flex flex-col md:flex-row justify-evenly mt-10 p-6">
+          {!isEditing ?
+            <>    
+              <CardDataUsuario datosUsuario={user} setIsEditing={setIsEditing} />
+              <CardUserDenunciasRecientes />
+            </>
+            :
+            <CardEditDataUser user={user} setIsEditing={setIsEditing} />
+          }
+        </div>
+      </div>
+    </>
+
+  )
 }
 
-export default Perfil
+export default index

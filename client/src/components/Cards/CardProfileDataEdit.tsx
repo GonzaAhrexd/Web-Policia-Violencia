@@ -42,7 +42,6 @@ function CardProfileDataEdit({ user }: CardProfileDataEditProps) {
   // Mensaje de error
   const [mensajeError, setMensajeError] = useState("")
 
-  // @ts-ignore
   const { editProfile } = useAuth()
 
   
