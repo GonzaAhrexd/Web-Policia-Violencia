@@ -136,7 +136,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
             {!victimaCargar ? // Si no hay datos de la víctima a cargar, mostrar el formulario de carga
               <CargarVictima register={register} setValue={setValue} errors={errors} />
               : // Si hay datos de la víctima a cargar, mostrar el formulario de edición
-              <EditVictima md={true} datos={victimaCargar} register={register} setValue={setValue} errors={errors} />
+              <EditVictima existente={true} md={true} datos={victimaCargar} register={register} setValue={setValue} errors={errors} />
             }
           </div>
           <div className='flex items-center'>
@@ -147,7 +147,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
             {!victimarioCargar ? // Si no hay datos del victimario a cargar, mostrar el formulario de carga
               <CargarVictimario register={register} setValue={setValue} errors={errors} />
               : // Si hay datos del victimario a cargar, mostrar el formulario de edición
-              <EditVictimario md={true} datos={victimarioCargar} register={register} setValue={setValue} errors={errors} />
+              <EditVictimario existente={true} md={true} datos={victimarioCargar} register={register} setValue={setValue} errors={errors} />
             }
           </div>
           <h1 className='text-2xl my-5'>Hecho</h1>

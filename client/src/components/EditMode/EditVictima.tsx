@@ -24,16 +24,17 @@ interface CargarVictimaProps {
     md?: any;
     vinculo_con_agresor?: any;
     hijos_con_agresor?: any;
+    existente?: any;
 }
 
-function EditVictima({hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
+function EditVictima({existente, hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
 
     const [isHijos, setIsHijos] = useState(datos.hijos.tiene_hijos)
     const [isHijosConAgresor, setIsHijosConAgresor] = useState(hijos_con_agresor ? hijos_con_agresor > 0 : false)
 
     return (
         <div className={`w-full ${md && "lg:w-6/10"}`}>
-            <h1 className='text-2xl my-5'>Víctima</h1>
+            {!existente && <h1 className='text-2xl my-5'>Víctima</h1>}
             <InputRegister campo="" nombre="victima_id" register={register} setValue={setValue} type="hidden" error={errors.nombre_victima} valor={datos._id} />
             <div className='flex flex-col md:flex-row my-2'>
                 <InputRegister campo="Nombre" nombre="nombre_victima" register={register} setValue={setValue} type="text" error={errors.nombre_victima} valor={datos.nombre} />

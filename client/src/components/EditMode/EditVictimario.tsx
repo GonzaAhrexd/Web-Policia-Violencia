@@ -15,14 +15,15 @@ interface CargarVictimarioProps {
   setValue: any;
   errors: any;
   md?: boolean;
+  existente?: any;
 }
 
-function EditVictimario   ({md, datos, register, setValue, errors}:CargarVictimarioProps) {
+function EditVictimario   ({existente, md, datos, register, setValue, errors}:CargarVictimarioProps) {
   
   const defaultIndex = opcionesNotificado.findIndex(opcion => opcion.nombre === datos.notificacion);
   return (
     <div className={`w-full ${md && "lg:w-6/10"}`}>
-       <h1 className='text-2xl my-5'>Victimario</h1>
+       {!existente && <h1 className='text-2xl my-5'>Victimario</h1>}
        <InputRegister campo="" nombre="victimario_ID" register={register} setValue={setValue} type="hidden" error={errors.nombre_victima} valor={datos._id} />
       <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Nombre" nombre="nombre_victimario" register={register} setValue={setValue} type="text" error={errors.nombre_victimario} valor={datos.nombre}/>

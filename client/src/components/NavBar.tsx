@@ -18,7 +18,7 @@ function NavBar({ user }: any) {
   const menuAdminItems = [
     "Denuncias internas",
     "Denuncias externas",
-    "Administrar usuarios SCUDAM",
+    "Administrar usuarios",
     "Registro de actividad",
     "Selectores de carga",
     "Resumen",
@@ -26,9 +26,9 @@ function NavBar({ user }: any) {
 
   const menuCargaItems = [
     "Mis denuncias",
+    "Verificar denuncias",
     "Cargar denuncias",
-    "Crear resumen general diario",
-    "Informes",
+    "Estadísticas",
   ]
 
   const menuAgenteItems = [
@@ -44,7 +44,7 @@ function NavBar({ user }: any) {
     { titulo: 'Mis denuncias', href: '/mis-denuncias' , icon: <ListBulletIcon className='h-6 w-6'/>  },
     { titulo: 'Cargar denuncias', href: '/cargar-denuncias', icon: <PencilSquareIcon className='h-6 w-6' /> },
     { titulo: 'Verificar denuncias', href: '/verificar-denuncias', icon: <ClipboardDocumentCheckIcon className='h-6 w-6' /> },
-    { titulo: 'Estadísticas', href: '/estadisticas', icon: <ChartPieIcon className='h-6 w-6' /> },
+    { titulo: 'Estadísticas', href: '/estadísticas', icon: <ChartPieIcon className='h-6 w-6' /> },
   ]
 
   const SeccionAdmin = [
