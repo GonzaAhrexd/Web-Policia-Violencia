@@ -1,9 +1,9 @@
 /*
 _____________________________________________________________________________________________ 
 Uso del componente:
-    expandedComponents es una dependencia de la tabla mostrada en /MisDenuncias 
-    Recibe los datos de la víctima, victimario y hecho para mostrarlos en una tabla
-    y en un mapa. Además, se puede editar la denuncia y eliminarla.
+    expandedComponents es una dependencia de la tabla mostrada en /VerificarDenuncias. 
+    Recibe los datos para mostrarlos en una tabla. 
+    Y desde aquí es posible verificar la denuncia o rechazarla.
 _____________________________________________________________________________________________
 */
 // Hooks
@@ -18,13 +18,16 @@ import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
 import SimpleTableCheckorX from '../../components/ShowData/SimpleTableCheckorX';
 import EditSectionSinVerificar from '../../components/EditMode/EditSectionSinVerificar';
 import ShowTextArea from '../../components/ShowData/ShowTextArea';
+
 interface expandedComponentsProps {
     data: any
 }
+
 function expandedComponents({ data }: expandedComponentsProps) {
 
     const [editGlobal, setEditGlobal] = useState(false)
 
+    // Datos para mostrar en la tabla
     const denuncianteDatos = [
         { nombre: "Nombre", valor: data.nombre_victima },
         { nombre: "Apellido", valor: data.apellido_victima },

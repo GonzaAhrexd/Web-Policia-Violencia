@@ -9,15 +9,16 @@ import CardProfile from '../../components/Cards/CardProfile';
 import CardDenunciasRecientes from '../../components/Cards/CardDenunciasRecientes';
 import CardDenunciasPendientesValidacion from '../../components/Cards/CardDenunciasPendientesValidacion';
 // Iconos
-import { UserIcon, MagnifyingGlassIcon ,  ListBulletIcon, PencilSquareIcon, ClipboardDocumentCheckIcon,   DocumentCheckIcon, ChartPieIcon, InboxStackIcon, DocumentTextIcon, DocumentArrowDownIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
+import { UserIcon, MagnifyingGlassIcon ,  ListBulletIcon, PencilSquareIcon, ClipboardDocumentCheckIcon, ChartPieIcon, DocumentTextIcon, DocumentArrowDownIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
 
 function Home() {
+  // Obtiene los datos del usuario y verifica si está autenticado desde el contexto
+  const { user, isAuthenticated, isLoading } = useAuth();
+  // Estados
   const [showAdminSection, setShowAdminSection] = useState<boolean>(false);
   
-  const { signUp, user, isAuthenticated, isLoading } = useAuth();
-
+  // Validación de cargando y si está logeado
   if(isLoading) return <h1>Cargando...</h1>
-  
   if(!isLoading && !isAuthenticated) return <Navigate to="/login" replace/>
   
 
@@ -60,7 +61,7 @@ function Home() {
     <NavBar user={user}/>
       <div className='h-screen p-10'>
       <h1 className='text-4xl sm:text-7xl'>¡{saludosDependiendoLaHora()}, {user?.nombre}!</h1>
-      {user?.rol === 'sin_asignar' && (
+      {user?.rol === 'sin_definir' && (
       <p>Aún se te está asignando el rol, regresa pronto.</p>
       )}
       <div>

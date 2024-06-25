@@ -21,13 +21,17 @@ import expandedComponents from './expandedComponents'
 import { customStyles } from './dataTableStyles'
 
 function MisDenuncias() {
+    // Estados
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
 
+    // Se realiza la búsqueda de las denuncias con los datos ingresados
     const handleBusqueda = async (values: any) => {
+        // Se obtienen las denuncias con una función asíncrona
         const fetchDenuncias = async () => {
             const result = await misDenuncias(values);
             setDenunciasAMostrar(result)
         }
+        // Se ejecuta la función asíncrona
         fetchDenuncias();
     }
 
@@ -40,9 +44,8 @@ function MisDenuncias() {
         collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
-
-    //@ts-ignore
-    const { signUp, user, isAuthenticated, isLoading } = useAuth();
+    // Se obtiene el usuario y se verifica si está autenticado
+    const { user, isAuthenticated, isLoading } = useAuth();
     if (isLoading) return <h1>Cargando...</h1>
     if (!isLoading && !isAuthenticated && user.rol != "carga" || user.rol != "admin") return <Navigate to="/login" replace />
 
@@ -56,8 +59,8 @@ function MisDenuncias() {
                     onSubmit={
                         handleSubmit(async (values) => {
                             handleBusqueda(values)
-                            })}>
-                   <InputDateRange register={register} setValue={setValue} isRequired={false}/>
+                        })}>
+                    <InputDateRange register={register} setValue={setValue} isRequired={false} />
                     <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                     <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
                     <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>

@@ -1,3 +1,6 @@
+/*
+ [ PERFIL ] Perfil del usuario, donde se muestra la información del usuario y sus denuncias recientes.
+*/
 // Hooks
 import { useState } from 'react';
 import { useAuth } from '../../context/auth';

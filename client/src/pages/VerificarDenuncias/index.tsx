@@ -1,3 +1,7 @@
+/*
+  [ VerificarDenuncias ] Sección de la página de inicio que muestra las denuncias sin verificar, cargado
+   por los agentes que aún faltan rellenar datos estadísticos.
+*/
 // Autenticación
 import { useAuth } from '../../context/auth';
 // Hooks
@@ -21,7 +25,7 @@ import expandedComponents from './expandedComponents'
 
 function VerificarDenuncias() {
 
-  const { signUp, user, isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
     
   const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     useEffect(() => {
