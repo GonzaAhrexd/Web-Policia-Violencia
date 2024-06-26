@@ -42,15 +42,16 @@ function expandedComponents({ data }: expandedComponentsProps) {
     } } = useForm()
     // Datos de la víctima
     const victimaDatosMostrar = [
-        { nombre: "Nombre", valor: data.nombre },
-        { nombre: "Apellido", valor: data.apellido },
-        { nombre: "Edad", valor: data.edad },
-        { nombre: "DNI", valor: data.DNI },
-        { nombre: "Estado Civil", valor: data.estado_civil },
-        { nombre: "Ocupación", valor: data.ocupacion },
-        { nombre: "Vínculo con agresor", valor: data.vinculo_con_agresor },
-        { nombre: "Condición de vulnerabilidad", valor: data.condicion_de_vulnerabilidad },
-        { nombre: "Denuncias previas", valor: data.cantidad_de_denuncias_previas },
+        { nombre: "Nombre", valor: data.nombre ? data.nombre : "No especificado"},
+        { nombre: "Apellido", valor: data.apellido ? data.apellido : "No especificado"  },
+        { nombre: "Dirección", valor: data.direccion ? data.direccion : "No especificado"  },
+        { nombre: "Edad", valor: data.edad ? data.edad : "No especificado"  },
+        { nombre: "DNI", valor: data.DNI ? data.DNI : "No especificado"  },
+        { nombre: "Estado Civil", valor: data.estado_civil ? data.estado_civil : "No especificado"  },
+        { nombre: "Ocupación", valor: data.ocupacion ? data.ocupacion : "No especificado"  },
+        { nombre: "Vínculo con agresor", valor: data.vinculo_con_agresor ? data.vinculo_con_agresor : "No especificado"  },
+        { nombre: "Condición de vulnerabilidad", valor: data.condicion_de_vulnerabilidad ? data.condicion_de_vulnerabilidad : "No especificado"  },
+        { nombre: "Denuncias previas", valor: data.cantidad_de_denuncias_previas ? data.cantidad_de_denuncias_previas : "No especificado"},
         { nombre: "Tiene hijos", valor: data?.hijos?.tiene_hijos ? "Sí" : "No" }
     ]
     // Mostrar datos de los hijos

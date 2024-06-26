@@ -166,7 +166,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
           <CargarDenuncia setOpenModalTercero={setOpenModalTercero} setTercero={terceroCargar} expediente={expedienteDividido} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
         </div>
         <>
-          <h1 className='text-2xl my-5'>Observaciones o denuncia</h1>
+          <h1 className='text-2xl my-5'>Observaciones</h1>
           <InputTextArea variante="edit" valor={datos.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" ></InputTextArea>
         </>
         <div className='flex flex-col md:flex-row items-center justify-center w-full my-2'>

@@ -17,16 +17,22 @@ const victimarioSchema = new mongoose.Schema({
         trim: true, // Trim para que no se guarden espacios en blanco
         uppercase: true //Uppercase para que se guarde en mayúsculas
     },
+    // Definición de la dirección del victimario
+    direccion: {
+        type: String, // Tipo de dato String
+        required: false, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     // Definición de la edad del victimario
     edad: {
         type: Number, // Tipo de dato Number
-        required: true, // Campo requerido
+        required: false, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
     // Definición del DNI del victimario
     DNI: {
         type: String, // Tipo de dato String
-        required: true, // Campo requerido
+        required: false, // Campo requerido
         trim: true, // Trim para que no se guarden espacios en blanco
         set: function(value: string) { // Función para remplazar los puntos y espacios del DNI
             return value.replace(/\./g, '').replace(/\s/g, '');

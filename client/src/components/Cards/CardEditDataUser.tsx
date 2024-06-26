@@ -8,10 +8,10 @@ import { unidadCampos } from '../../GlobalConst/unidadCampos';
 import { zonaCampos } from '../../GlobalConst/zonaCampos';
 import { useAuth } from '../../context/auth';
 
-
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
+import InputNumber from '../InputComponents/InputNumber'
 
 interface InputRegisterProps {
     user: any
@@ -57,7 +57,7 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
                     <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} valor={user.apellido} />
                 </div>
                 <div className='flex flex-col md:flex-row'>
-                    <InputRegister campo="Teléfono" nombre="telefono" placeholder={user.telefono} register={register} setValue={setValue} type="number" error={errors.telefono} valor={user.telefono} />
+                    <InputNumber campo="Teléfono" nombre="telefono" placeholder={user.telefono} register={register} setValue={setValue} type="text" error={errors.telefono} valor={user.telefono} maxLenght={14} />
                     <InputRegister campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" error={errors.nombre_de_usuario} valor={user.username} />
                 </div>
 

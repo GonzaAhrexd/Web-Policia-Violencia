@@ -10,6 +10,7 @@ import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputDate from '../InputComponents/InputDate'
 import InputExpediente from '../InputComponents/InputExpediente'
 import EditExpediente from '../EditMode/EditExpediente';
+import InputNumber from '../InputComponents/InputNumber'
 // Apis y BackEnd
 import { getCoords } from '../../api/coordinates'
 
@@ -164,6 +165,7 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors,
          <InputRegister campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
          <InputRegister campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
          <InputRegister campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
+   
          </div>
          :
          <div className='flex flex-col md:flex-row'>
@@ -173,7 +175,7 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors,
          </div>
          }
          <div className='flex flex-col'>
-         <SelectRegister campo="Vinculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
+         <SelectRegister campo="Vínculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
           </div>
          </>
         }

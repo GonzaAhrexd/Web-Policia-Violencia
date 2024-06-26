@@ -6,7 +6,7 @@ import denuncias from '../../models/denuncias'
 export const createVictimario = async (req, res) => {
     try {
         // Extraemos los datos del body
-        const { nombre_victimario, apellido_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion, } = req.body
+        const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion, } = req.body
         // Buscar si ya existe un víctimario con el DNI ingresado
         let victimarioExistente
         if (dni_victimario != "S/N") {
@@ -19,6 +19,7 @@ export const createVictimario = async (req, res) => {
             const newVictimario = new victimario({
                 nombre: nombre_victimario,
                 apellido: apellido_victimario,
+                direccion: direccion_victimario,
                 edad: edad_victimario,
                 DNI: dni_victimario,
                 estado_civil: estado_civil_victimario,
@@ -40,6 +41,7 @@ export const createVictimario = async (req, res) => {
                 const victimarioUpdated = await victimario.findOneAndUpdate({ DNI: dni_victimario }, {
                     nombre: nombre_victimario,
                     apellido: apellido_victimario,
+                    direccion: direccion_victimario,
                     edad: edad_victimario,
                     DNI: dni_victimario,
                     estado_civil: estado_civil_victimario,
@@ -105,12 +107,13 @@ export const deleteVictimario = async (id, denunciaId) => {
 // Editar victimario
 export const updateVictimario = async (req, res) => {
     const { id } = req.params
-    const { nombre_victimario, apellido_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion, } = req.body
+    const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion, } = req.body
 
     try {
         const victimarioUpdated = await victimario.findByIdAndUpdate(req.params.id, {
             nombre: nombre_victimario,
             apellido: apellido_victimario,
+            direccion: direccion_victimario,
             edad: edad_victimario,
             DNI: dni_victimario,
             estado_civil: estado_civil_victimario,

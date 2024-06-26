@@ -104,6 +104,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "ID Víctima", valor: data.victima_ID},
         { nombre: "Nombre", valor: victimaDatos?.nombre ? victimaDatos.nombre : "No especificado"},
         { nombre: "Apellido", valor: victimaDatos?.apellido ? victimaDatos.apellido : "No especificado"},
+        { nombre: "Dirección", valor: victimaDatos?.direccion ? victimaDatos.direccion : "No específicado"},
         { nombre: "Edad", valor: victimaDatos?.edad ? victimaDatos.edad : "No especificado"},
         { nombre: "DNI", valor: victimaDatos?.DNI ? victimaDatos.DNI : "No especificado"},
         { nombre: "Estado Civil", valor: victimaDatos?.estado_civil ? victimaDatos.estado_civil : "No especificado"},
@@ -126,6 +127,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "ID Victimario", valor: data.victimario_ID},
         { nombre: "Nombre", valor: victimarioDatos.nombre ? victimarioDatos.nombre : "No especificado"},
         { nombre: "Apellido", valor: victimarioDatos.apellido ? victimarioDatos.apellido : "No especificado"},
+        { nombre: "Dirección", valor: victimarioDatos?.direccion ? victimarioDatos.direccion : "No específicado"},
         { nombre: "Edad", valor: victimarioDatos.edad ? victimarioDatos.edad : "No especificado"},
         { nombre: "DNI", valor: victimarioDatos.DNI ? victimarioDatos.DNI : "No especificado"},
         { nombre: "Estado Civil", valor: victimarioDatos.estado_civil ? victimarioDatos.estado_civil : "No especificado"},
@@ -182,7 +184,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "Nombre", valor: terceroDatosObtener.nombre },
         { nombre: "Apellido", valor: terceroDatosObtener.apellido },
         { nombre: "DNI", valor: terceroDatosObtener.DNI },
-        { nombre: "Vinculo con la víctima", valor: data?.vinculo_con_la_victima_tercero ? data.vinculo_con_la_victima_tercero : "No especificado"}
+        { nombre: "Vínculo con la víctima", valor: data?.vinculo_con_la_victima_tercero ? data.vinculo_con_la_victima_tercero : "No especificado"}
     ]
 
     // Medidas

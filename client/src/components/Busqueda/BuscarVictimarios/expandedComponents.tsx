@@ -15,7 +15,7 @@ import { buscarDenunciasPorId } from '../../../api/crud';
 import DataTable from 'react-data-table-component';
 import Swal from 'sweetalert2' // Librería para mostrar popups
 // Iconos
-import { PencilSquareIcon, TrashIcon, PrinterIcon } from '@heroicons/react/24/solid'
+import { PencilSquareIcon, PrinterIcon } from '@heroicons/react/24/solid'
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
@@ -27,8 +27,6 @@ import { editarVictimario } from '../../../api/crud';
 import  expandedDenuncia from '../BuscarDenuncias/expandedComponents'
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 
-import InputRegister from '../../../components/InputComponents/InputRegister';
-import SelectCargaDenuncias from '../../Select/SelectCargaDenuncias';
 import { useAuth } from '../../../context/auth';
 import ModoImprimir from './ModoImprimir';
 
@@ -38,7 +36,6 @@ interface expandedComponentsProps {
 function expandedComponents({ data }: expandedComponentsProps) {
     // State para guardar los datos de la víctima
     const [editGlobal, setEditGlobal] = useState(false)
-    const [victimaDatos, setVictimaDatos] = useState<any>()
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     const [modoImprimir, setModoImprimir] = useState(false);
     const { register, handleSubmit, setValue, formState: {
@@ -47,14 +44,15 @@ function expandedComponents({ data }: expandedComponentsProps) {
     // Datos de la víctima
     // Mostrar datos del victimario
     const victimarioDatosMostrar = [
-        { nombre: "Nombre", valor: data.nombre},
-        { nombre: "Apellido", valor: data.apellido},
-        { nombre: "Edad", valor: data.edad},
-        { nombre: "DNI", valor: data.DNI },
-        { nombre: "Estado Civil", valor: data.estado_civil},
-        { nombre: "Ocupación", valor: data.ocupacion},
-        { nombre: "Notificación", valor: data.notificacion },
-        { nombre: "Denuncias previas", valor: data.cantidad_de_denuncias_previas}
+        { nombre: "Nombre", valor: data.nombre ? data.nombre : "No especificado" },
+        { nombre: "Apellido", valor: data.apellido ? data.apellido : "No especificado"},
+        { nombre: "Dirección", valor: data.direccion ? data.direccion : "No especificado"  },
+        { nombre: "Edad", valor: data.edad ? data.edad : "No especificado"  },
+        { nombre: "DNI", valor: data.DNI ? data.DNI : "No especificado"  },
+        { nombre: "Estado Civil", valor: data.estado_civil ? data.estado_civil : "No especificado"  },
+        { nombre: "Ocupación", valor: data.ocupacion ? data.ocupacion : "No especificado"  },
+        { nombre: "Notificación", valor: data.notificacion ? data.notificacion : "No especificado"  },
+        { nombre: "Denuncias previas", valor: data.cantidad_de_denuncias_previas }
     ]
     // Detalles del victimario
     const detallesVictimario = [

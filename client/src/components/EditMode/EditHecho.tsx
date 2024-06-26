@@ -185,7 +185,7 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
                 <InputRegister valor={datosTerceros[2].valor} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
               </div>
               <div className='flex flex-col'>
-                <SelectRegister isRequired={false} valor={datosTerceros[3].valor} campo="Vinculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
+                <SelectRegister isRequired={false} valor={datosTerceros[3].valor} campo="Vínculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
               </div>
             </>
           }

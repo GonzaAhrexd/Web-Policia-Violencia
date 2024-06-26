@@ -15,6 +15,7 @@ import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
 import { vinculo } from '../../GlobalConst/vinculoCampos'
 import { condicionVulnerabilidad } from '../../GlobalConst/condicionesVulnerabilidadCampos'
+import InputNumber from '../InputComponents/InputNumber'
 
 interface CargarVictimaProps {
     datos: any;
@@ -36,8 +37,8 @@ function VerificarDenunciante({ datos, register, setValue, errors }: CargarVicti
         </div>
   
         <div className='flex flex-col md:flex-row my-2'>
-          <InputRegister campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="number" error={errors.edad_victima} valor={datos.edad}/>
-          <InputRegister campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="number" error={errors.dni_victima} valor={datos.DNI}/>
+          <InputNumber campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} valor={datos.edad} maxLenght={2}/>
+          <InputNumber campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="text" error={errors.dni_victima} valor={datos.DNI} maxLenght={8} />
         </div>
   
         <div className='flex flex-col xl:flex-row my-2'>
@@ -45,7 +46,7 @@ function VerificarDenunciante({ datos, register, setValue, errors }: CargarVicti
           <SelectRegister campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupacion_victima} isRequired={false} valor={datos.ocupacion}/>
         </div>
         <div className='flex flex-col xl:flex-row my-2'>
-          <SelectRegister campo="Vinculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima}/>
+          <SelectRegister campo="Vínculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima}/>
           <SelectRegister valor={datos?.condicion_de_vulnerabilidad ? datos?.condicion_de_vulnerabilidad : null} campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad_victima" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.condicion_de_vulnerabilidad_victima} />
         </div>
         <div className={`grid grid-cols-1 md:grid-cols-3 my-2` }>
@@ -62,7 +63,7 @@ function VerificarDenunciante({ datos, register, setValue, errors }: CargarVicti
           }
            
         </div>
-        {isHijosConAgresor && <InputRegister campo="Cantidad" nombre="cantidad_hijos_con_agresor" register={register} setValue={setValue} type="number" error={errors.cantidad_hijos_con_agresor} /> }
+        {isHijosConAgresor && <InputNumber campo="Cantidad" nombre="cantidad_hijos_con_agresor" register={register} setValue={setValue} type="text" error={errors.cantidad_hijos_con_agresor} maxLenght={2} /> }
   
   
       </div>

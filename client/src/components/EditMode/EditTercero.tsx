@@ -7,7 +7,8 @@
 //Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister';
-
+import InputNumber from '../InputComponents/InputNumber';
+// Campos
 import { vinculo } from '../../GlobalConst/vinculoCampos'
 interface CargarVictimaProps {
     datos: any;
@@ -26,7 +27,7 @@ function EditTercero({ datos, register, setValue, errors }: CargarVictimaProps) 
             </div>
             <div className='flex flex-col md:flex-row my-2'>
                 <SelectRegister valor={datos.vinculo_con_victima} campo="Vínculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.relacion_con_la_victima} isRequired={false} />
-                <InputRegister campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="number" error={errors.dni_victima} valor={datos.DNI} />
+                <InputNumber campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.dni_victima} valor={datos.DNI} maxLenght={8}/>
             </div>
         </div>
     )

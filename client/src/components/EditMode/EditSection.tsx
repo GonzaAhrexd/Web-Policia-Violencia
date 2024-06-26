@@ -102,7 +102,7 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                 <EditVictimario datos={datosVictimario} register={register} setValue={setValue} errors={errors} />
                 <EditHecho datosTerceros={datosTerceros} datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} />
                 <>
-                    <h1 className='text-2xl my-5'>Observaciones o denuncia</h1>
+                    <h1 className='text-2xl my-5'>Observaciones</h1>
                     <InputTextArea variante="edit" valor={datosHecho.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" ></InputTextArea>
                 </>
                 <div className='flex flex-col md:flex-row items-center justify-center w-full my-2'>

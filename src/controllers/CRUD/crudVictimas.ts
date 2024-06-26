@@ -5,13 +5,14 @@ import unorm from 'unorm'
 export const createVictima = async (req, res) => {
     //Victima nueva
     try {
-        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
+        const { nombre_victima, apellido_victima, direccion_victima,  edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
         let victimaExistente = await victimas.findOne({ DNI: dni_victima })
         if (req.body.dni_victima && !victimaExistente) {
             const newVictima = new victimas({
                 nombre: nombre_victima,
                 apellido: apellido_victima,
                 edad: edad_victima,
+                direccion: direccion_victima,
                 DNI: dni_victima,
                 estado_civil: estado_civil_victima,
                 ocupacion: ocupacion_victima,
@@ -36,6 +37,7 @@ export const createVictima = async (req, res) => {
                 $set: {
                     nombre: nombre_victima,
                     apellido: apellido_victima,
+                    direccion: direccion_victima,
                     edad: edad_victima,
                     DNI: dni_victima,
                     estado_civil: estado_civil_victima,
@@ -104,11 +106,12 @@ export const deleteVictima = async (id, denunciaId) => {
 export const updateVictima = async (req, res) => {
     try {
         const { id } = req.params
-        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
+        const { nombre_victima, apellido_victima, direccion_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
 
         const victimaUpdated = await victimas.findByIdAndUpdate(id, {
             nombre: nombre_victima,
             apellido: apellido_victima,
+            direccion: direccion_victima,
             edad: edad_victima,
             DNI: dni_victima,
             estado_civil: estado_civil_victima,

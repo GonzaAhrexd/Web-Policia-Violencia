@@ -17,10 +17,16 @@ const victimasSchema = new mongoose.Schema({
         trim: true, // Trim para que no se guarden espacios en blanco
         uppercase: true //Uppercase para que se guarde en mayúsculas
     },
+    // Definición de la dirección de la victima
+    direccion: {
+        type: String, // Tipo de dato String
+        required: false, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     // Definciión de la edad de la victima
     edad: {
         type: Number, // Tipo de dato Number
-        required: true, // Campo requerido
+        required: false, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
     // Definición del DNI de la victima

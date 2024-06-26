@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form'
 // Componentes
 import InputRegister from '../../components/InputComponents/InputRegister'
 import SelectRegister from '../../components/Select/SelectRegister'
-
+import InputNumber from '../../components/InputComponents/InputNumber'
 // Campos
 import { unidadCampos } from '../../GlobalConst/unidadCampos'
 import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos'
@@ -76,7 +76,7 @@ function Register() {
               <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} />
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="Teléfono" nombre="telefono" placeholder={"Ej. 3624123456"} register={register} setValue={setValue} type="number" error={errors.telefono} />
+              <InputNumber campo="Teléfono" nombre="telefono" placeholder={"Ej. 3624123456"} register={register} setValue={setValue} type="text" error={errors.telefono} maxLenght={14}/>
               <InputRegister campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" error={errors.nombre_de_usuario} />
             </div>
             <div className='flex flex-col md:flex-row'>

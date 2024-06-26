@@ -23,7 +23,7 @@ function index() {
     <>
       <NavBar user={user} />
 
-      <div className="max-w-full h-full mx-auto bg-gray-100 shadow-md rounded-lg overflow-hidden">
+      <div className="max-w-full h-full xl:h-screen mx-auto bg-gray-100 shadow-md rounded-lg overflow-hidden">
         <div className="flex justify-center mt-10">
           <div className="w-32 h-32 bg-gray-300 rounded-full overflow-hidden">
             <img className="h-32 w-32 rounded-full"

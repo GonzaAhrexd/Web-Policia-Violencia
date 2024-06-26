@@ -2,9 +2,6 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react';
 
-// Dependencias
-import { NavLink } from 'react-router-dom';
-
 // Campos y variables globales
 import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos';
 import { unidadCampos } from '../../GlobalConst/unidadCampos';
@@ -14,8 +11,9 @@ import { useAuth } from '../../context/auth';
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
+import InputNumber from '../InputComponents/InputNumber'
 
-// Definición detiepos
+// Definición de tipos
 interface Usuario {
   id: number,
   nombre: string,
@@ -35,7 +33,7 @@ interface CardProfileDataEditProps {
 function CardProfileDataEdit({ user }: CardProfileDataEditProps) {
 
   // useForm
-  const { control, register, handleSubmit, setValue, formState: {
+  const {  register, handleSubmit, setValue, formState: {
     errors
   } } = useForm()
 
@@ -77,8 +75,8 @@ function CardProfileDataEdit({ user }: CardProfileDataEditProps) {
             <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} valor={user.apellido} />
           </div>
           <div className='flex flex-col md:flex-row'>
-            <InputRegister campo="Teléfono" nombre="telefono" placeholder={user.telefono} register={register} setValue={setValue} type="number" error={errors.telefono} valor={user.telefono} />
-            <InputRegister campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" error={errors.nombre_de_usuario} valor={user.username} />
+            <InputNumber campo="Teléfono" nombre="telefono" placeholder={user.telefono} register={register} setValue={setValue} type="text" error={errors.telefono} valor={user.telefono} maxLenght={14}/>
+            <InputRegister campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" error={errors.nombre_de_usuario} valor={user.username}/>
           </div>
 
           <div className='flex flex-col md:flex-row'>
