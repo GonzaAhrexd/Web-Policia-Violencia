@@ -148,7 +148,7 @@ export const createDenuncia = async (req, res) => {
             genero,
             fecha,
             direccion,
-            GIS,
+            GIS: GIS ? GIS : "No específicado",
             barrio,
             unidad_de_carga,
             municipio,

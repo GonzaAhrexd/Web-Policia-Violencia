@@ -56,7 +56,7 @@ export const columnVictimario = [
     },
     {
         name: 'Edad',
-        selector: (row:Row) => row.edad,
+        selector: (row:Row) => row.edad ? row.edad : "No específicado",
         style: {
             fontSize: '14px',
             fontWeight: 500,

@@ -112,6 +112,16 @@ export const crearExposicion = (denuncia: any) => {
         console.log(error)
     }
 }
+export const buscarExposicion = async (values: any) => {
+    try {
+        const response = await axios.get(`/buscar-exposicion/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.id_exposicion ? values.id_exposicion : "no_ingresado"}/${values.nombre_victima ? values.nombre_victima : "no_ingresado"}/${values.apellido_victima ? values.apellido_victima : "no_ingresado"}/${values.dni_victima ? values.dni_victima : "no_ingresado"}`)
+        console.log(response)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 // VÍCTIMA
 // Agregar víctima
@@ -218,7 +228,7 @@ export const crearTercero = async (tercero: any) => {
 export const editarTercero = async (tercero: any) => {
     try {
         console.log(tercero.tercero_id)
-        
+
         const response = await axios.put(`/editar-tercero/${tercero.tercero_id}`, tercero)
         return response.data
     } catch (error) {

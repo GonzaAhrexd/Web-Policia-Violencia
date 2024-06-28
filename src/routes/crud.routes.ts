@@ -4,7 +4,7 @@ import { authRequired } from '../middlewares/validateToken';
 // DENUNCIAS
 import { getDenuncias,  getMisDenuncias, createDenuncia, deleteDenuncia, updateDenuncia, getDenunciasId } from '../controllers/CRUD/crudDenuncias'
 // EXPOSICIÓN
-import { createExposicion } from '../controllers/CRUD/crudExposicion'
+import { createExposicion, buscarExposicion } from '../controllers/CRUD/crudExposicion'
  // DENUNCIAS SIN VERIFICAR
 import { createDenunciaSinVerificar, validarDenuncia, getDenunciasSinVerificar,  deleteDenunciaSinVerificar } from '../controllers/CRUD/crudDenunciasSinVerificar' 
 // VICTIMAS
@@ -51,6 +51,7 @@ router.put('/validar-denuncia/:id', authRequired,validarDenuncia )
     sin realizar una denuncia como tal. */
 // Crear exposición
 router.post('/crear-exposicion/', authRequired, createExposicion)
+router.get('/buscar-exposicion/:desde/:hasta/:id_exposicion/:nombre_victima/:apellido_victima/:dni_victima/', authRequired, buscarExposicion)
 /*  VICTIMA
     Son los datos de la víctima de un hecho, estos datos son cargados por personal del área de estadística. */
 // Crear victima

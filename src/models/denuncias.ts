@@ -63,8 +63,9 @@ const denunciaSchema = new mongoose.Schema({
     // Definición del GIS de la denuncia
     GIS: {
         type: String, // Tipo de dato String
-        required: true, // Campo requerido
+        required: false, // Campo requerido
         trim: true, // Trim para que no se guarden espacios en blanco      
+        default: 'No asignado',
         set: function(value) {
             // Remover caracteres no deseados usando una expresión regular
             return value ? value.replace(/[^\d\-. ]/g, '').replace(/\s+/g, ' ').trim() : value;

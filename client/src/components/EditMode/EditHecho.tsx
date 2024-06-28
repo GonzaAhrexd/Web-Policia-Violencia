@@ -1,10 +1,11 @@
 /*
 ______________________________________________________________________________
-Uso del componente:
+    Uso del componente:
     EditHecho recibe los datos del hecho para ser mostrados y editados en el formulario
     de la sección de hecho.
-______________________________________________________________________________
-*/
+______________________________________________________________________________ */
+
+// Hooks
 import { useState } from 'react'
 // Campos
 import { generos } from '../../GlobalConst/generosCampos'
@@ -15,10 +16,8 @@ import { opcionesViolencia } from '../../GlobalConst/violenciaCampos'
 import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
 import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
 import { tiposDeViolenciaText, tiposModalidades } from '../../GlobalConst/modalTextos'
-
 // Backend
 import { getCoords } from '../../api/coordinates'
-
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import SelectCargaDenuncias from '../Select/SelectCargaDenuncias'
@@ -30,6 +29,7 @@ import EditExpediente from '../EditMode/EditExpediente'
 //Iconos
 import { PencilIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
+
 interface denunciaProps {
   register: any
   setValue: any
@@ -42,19 +42,15 @@ interface denunciaProps {
 }
 
 function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOpenModal, register, setValue, errors }: denunciaProps) {
-
-  
   // Función para dividir el expediente
   const dividirExpediente = (expediente: string) => {
     let division = expediente.split("-")
     let division2 = division[0].split("/")
     let divisionCompleta = []
-
     divisionCompleta[0] = division2[0]
     divisionCompleta[1] = division2[1]
     divisionCompleta[2] = division[1]
     divisionCompleta[3] = division[2]
-
     return divisionCompleta
   }
 
@@ -161,7 +157,7 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
         </div>
         {(isDispuestoPorAutoridadJudicial || isSolicitada) &&
           <>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
+        <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md`}>
               <InputCheckbox state={datos.medida.prohibicion_de_acercamiento} campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento" register={register} setValue={setValue} type="checkbox" id="prohibicion" />
               <InputCheckbox state={datos.medida.restitucion_de_menor} campo="Restitución de Menor" nombre="restitucion_de_menor" register={register} setValue={setValue} type="checkbox" id="restitucion" />
               <InputCheckbox state={datos.medida.exclusion_de_hogar} campo="Exclusión Hogar" nombre="exclusion_de_hogar" register={register} setValue={setValue} type="checkbox" id="exclusion" />

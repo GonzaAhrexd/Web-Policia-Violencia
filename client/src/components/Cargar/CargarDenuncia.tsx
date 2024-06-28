@@ -1,5 +1,5 @@
 // Hooks
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 
 // Componentes
@@ -10,7 +10,6 @@ import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputDate from '../InputComponents/InputDate'
 import InputExpediente from '../InputComponents/InputExpediente'
 import EditExpediente from '../EditMode/EditExpediente';
-import InputNumber from '../InputComponents/InputNumber'
 // Apis y BackEnd
 import { getCoords } from '../../api/coordinates'
 
@@ -138,7 +137,7 @@ function CargarDenuncia({setTitulo, handleOpenModal, register, setValue, errors,
         </div>
         {(isDispuestoPorAutoridadJudicial || isSolicitada) &&
         <>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
+              <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md`}>
               <InputCheckbox campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento" register={register} setValue={setValue} type="checkbox" id="prohibicion" />
               <InputCheckbox campo="Restitución de Menor" nombre="restitucion_de_menor" register={register} setValue={setValue} type="checkbox" id="restitucion" />
               <InputCheckbox campo="Exclusión Hogar" nombre="exclusion_de_hogar" register={register} setValue={setValue} type="checkbox" id="exclusion" />

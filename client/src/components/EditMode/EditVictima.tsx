@@ -26,9 +26,10 @@ interface CargarVictimaProps {
     vinculo_con_agresor?: any;
     hijos_con_agresor?: any;
     existente?: any;
+    variante?: any;
 }
 
-function EditVictima({ existente, hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
+function EditVictima({ variante, existente, hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
 
     const [isHijos, setIsHijos] = useState(datos.hijos.tiene_hijos)
     const [isHijosConAgresor, setIsHijosConAgresor] = useState(hijos_con_agresor ? hijos_con_agresor > 0 : false)
@@ -41,33 +42,37 @@ function EditVictima({ existente, hijos_con_agresor, vinculo_con_agresor, datos,
                 <InputRegister campo="Nombre" nombre="nombre_victima" register={register} setValue={setValue} type="text" error={errors.nombre_victima} valor={datos.nombre} />
                 <InputRegister campo="Apellido" nombre="apellido_victima" register={register} setValue={setValue} type="text" error={errors.apellido_victima} valor={datos.apellido} />
             </div>
-            <div className='flex flex-col md:flex-row my-2'>
-                <InputRegister campo="Dirección" nombre="direccion_victima" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victima} valor={datos.direccion} />
-                <InputNumber campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} valor={datos.edad} maxLenght={2} />
-            </div>
-            <div className='flex flex-col xl:flex-row my-2'>
-                <InputNumber campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="text" error={errors.dni_victima} valor={datos.DNI} maxLenght={8} />
-                <SelectRegister valor={datos.estado_civil} campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victima} isRequired={false} />
-            </div>
-            <div className='flex flex-col xl:flex-row my-2'>
-                <SelectRegister valor={datos.ocupacion} campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupacion_victima} isRequired={false} />
-                <SelectRegister valor={datos.condicion_de_vulnerabilidad} campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad_victima" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.condicion_de_vulnerabilidad_victima} isRequired={false} />
-            </div>
-            <div className={`grid grid-cols-1 md:grid-cols-3 my-2`}>
-                <InputCheckbox campo="Convivencia " nombre="convivencia" register={register} setValue={setValue} type="checkbox" error={errors.convivencia} id="convivencia" state={datos.convivencia} />
-                <InputCheckbox campo="Hijos" nombre="hijos" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsHijos} state={isHijos} id="isHijos" />
-                {isHijos &&
-                    <>
-                        <InputCheckbox campo="Dependencia económica" nombre="dependencia_economica" register={register} setValue={setValue} type="checkbox" error={errors.dependencia_economica} id="dependenciaEconomica" state={datos.hijos.dependencia_economica} />
-                        <InputCheckbox campo="Mayores de 18" nombre="mayor_de_18" register={register} setValue={setValue} type="checkbox" error={errors.mayor_de_18} id="mayores18" state={datos.hijos.mayores_de_edad} />
-                        <InputCheckbox campo="Menores de 18" nombre="menor_de_18" register={register} setValue={setValue} type="checkbox" error={errors.menor_de_18} id="menores18" state={datos.hijos.menores_de_edad} />
-                        <InputCheckbox campo="Menores discapacitados" nombre="menores_discapacitados" register={register} setValue={setValue} type="checkbox" error={errors.menores_discapacitados} id="menoresDiscapacitados" state={datos.hijos.menores_discapacitados} />
-                    </>
-                }
-            </div>
-        </div>
+                    <div className='flex flex-col md:flex-row my-2'>
+                        <InputRegister campo="Dirección" nombre="direccion_victima" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victima} valor={datos.direccion} />
+                        <InputNumber campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} valor={datos.edad} maxLenght={2} />
+                        <InputNumber campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="text" error={errors.dni_victima} valor={datos.DNI} maxLenght={8} />
+                    </div>
+                    <div className='flex flex-col xl:flex-row my-2'>
+                        <SelectRegister valor={datos.estado_civil} campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victima} isRequired={false} />
+                        <SelectRegister valor={datos.ocupacion} campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupacion_victima} isRequired={false} />
+                    </div>
+                    <div className='flex flex-col xl:flex-row my-2'>
+                        {existente && <SelectRegister campo="Vínculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima} /> }
+                        <SelectRegister valor={datos.condicion_de_vulnerabilidad} campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad_victima" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.condicion_de_vulnerabilidad_victima} isRequired={false} />
+                    </div>
+                    <div className={`grid grid-cols-1 md:grid-cols-3 my-2`}>
+                        <InputCheckbox campo="Convivencia " nombre="convivencia" register={register} setValue={setValue} type="checkbox" error={errors.convivencia} id="convivencia" state={datos.convivencia} />
+                        <InputCheckbox campo="Hijos" nombre="hijos" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsHijos} state={isHijos} id="isHijos" />
+                    </div>
+                    {isHijos &&
+                        <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md`}>
+                            <InputCheckbox campo="Dependencia económica" nombre="dependencia_economica" register={register} setValue={setValue} type="checkbox" error={errors.dependencia_economica} id="dependenciaEconomica" state={datos.hijos.dependencia_economica} />
+                            <InputCheckbox campo="Mayores de 18" nombre="mayor_de_18" register={register} setValue={setValue} type="checkbox" error={errors.mayor_de_18} id="mayores18" state={datos.hijos.mayores_de_edad} />
+                            <InputCheckbox campo="Menores de 18" nombre="menor_de_18" register={register} setValue={setValue} type="checkbox" error={errors.menor_de_18} id="menores18" state={datos.hijos.menores_de_edad} />
+                            <InputCheckbox campo="Menores discapacitados" nombre="menores_discapacitados" register={register} setValue={setValue} type="checkbox" error={errors.menores_discapacitados} id="menoresDiscapacitados" state={datos.hijos.menores_discapacitados} />
+                            {existente && <InputCheckbox campo="Hijos con el agresor" nombre="hijos_con_agresor" register={register} setValue={setValue} type="checkbox" error={errors.hijos_con_agresor} setHook={setIsHijosConAgresor} state={isHijosConAgresor} id="hijosConElAgresor" />}
+                        </div>
+                    }
 
-    )
+{(isHijosConAgresor && existente) && <InputNumber campo="Cantidad" nombre="cantidad_hijos_con_agresor" register={register} setValue={setValue} type="text" error={errors.cantidad_hijos_con_agresor} maxLenght={2} />}
+
+        </div>
+            )
 }
 
-export default EditVictima
+            export default EditVictima

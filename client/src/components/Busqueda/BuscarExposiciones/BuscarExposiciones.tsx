@@ -4,7 +4,7 @@ import InputCheckbox from '../../InputComponents/InputCheckbox';
 import SelectDivisionMunicipios from '../../Select/SelectDivisionMunicipios';
 import InputDateRange from '../../InputComponents/InputDateRange';
 // Backend APIs
-import { buscarDenuncias } from '../../../api/crud';
+import { buscarExposicion } from '../../../api/crud';
 // Hooks
 import { useState } from 'react';
 import { useForm } from 'react-hook-form'
@@ -20,30 +20,33 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 // Campos
 import { unidadCampos } from '../../../GlobalConst/unidadCampos';
 
-import Excel from './Excel';
-
-function BuscarDenuncias() {
+function BuscarExposiciones() {
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     const { register, handleSubmit, setValue, watch, formState: {
         errors
     } } = useForm()
     const handleBusqueda = async (values: any) => {
         const fetchDenuncias = async () => {
-            const result = await buscarDenuncias(values);
+            const result = await buscarExposicion(values);
             setDenunciasAMostrar(result)
         }
         fetchDenuncias();
     }
+
     // Obtén el valor actual del número de expediente del formulario
     const expedienteValue = watch('numero_de_expediente');
     const idValue = watch("id_denuncia");
+
     // Comprueba si el número de expediente está vacío o no
     const isDateRangeRequired = !expedienteValue && !idValue;
+
+
     // Iconos para expandir
     const expandableIcon = {
         collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
+    
     return (
         <>
             <form className="w-full flex flex-col items-center"
@@ -58,22 +61,17 @@ function BuscarDenuncias() {
                         handleBusqueda(values)
                     }
                     )}>
-                <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} />
-                <InputRegister busqueda={true}  campo="ID" nombre="id_denuncia" register={register} type="text" error={errors.id_denuncia} require={false}/>
-                <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
-               
-                <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
-                    <SelectDivisionMunicipios isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />
-                </div>
-                <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
+                {/* <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} /> */}
+                <InputRegister busqueda campo="ID" nombre="id_exposicion" register={register} type="text" error={errors.id_denuncia} require={false}/>
+                <InputRegister busqueda campo="Nombre víctima" nombre="nombre_victima" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
+                <InputRegister busqueda campo="Apellido víctima" nombre="apellido_victima" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
+                <InputRegister busqueda campo="DNI víctima" nombre="dni_victima" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                 <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
             </form>
             <div className="flex flex-col w-full">
                 <h2 className='text-2xl my-5'>Denuncias</h2>
                 <div className="w-full flex flex-col items-center my-2">
-                    {denunciasAMostrar.length > 0 &&
-                        <Excel denunciasAMostrar={denunciasAMostrar}></Excel>
-                    }
+                    
                 </div>
                 <DataTable
                     columns={columnsDenuncia}
@@ -94,4 +92,4 @@ function BuscarDenuncias() {
     )
 }
 
-export default BuscarDenuncias
+export default BuscarExposiciones
