@@ -258,7 +258,7 @@ function Excel({ denunciasAMostrar }: denuncia) {
   };
 
   return (
-    <button className="flex flex-row items-center justify-center bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-full md:w-3/10" onClick={exportarDenuncias}><TableCellsIcon className='h-6 w-6' /> Generar Excel</button>
+    <button className="flex flex-row items-center justify-center bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10" onClick={exportarDenuncias}><TableCellsIcon className='h-6 w-6' /> Generar Excel</button>
   );
 }
 

@@ -46,13 +46,9 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
             }
             result = await buscarTercero(valoresFormateadosTercero);
         }
-
         setVictimasMostrar(result);
-        console.log(result);
     };
-
     const handleBusqueda = (values: any) => {
-        console.log(values);
         fetchVictimas(values);
     };
 
@@ -93,7 +89,7 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
                         <InputRegister busqueda={true} campo="Apellido" nombre="apellido" register={register} require={false} type="text" error={errors.apellido} />
                         <InputRegister busqueda={true} campo="DNI" nombre="dni" register={register} require={false} type="text" error={errors.dni_victima} />
                         <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false} />
-                        <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-3/10">Buscar</button>
+                        <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-3/10">Buscar</button>
                     </form>
 
                     <table className="table-auto w-full">

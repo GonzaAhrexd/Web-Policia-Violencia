@@ -29,7 +29,6 @@
         }
         const handleWheel = (e: React.WheelEvent<HTMLInputElement>) => {
             if (type === 'number') {
-                console.log("PRUEBA")
                 e.preventDefault();
                 e.stopPropagation();
             }

@@ -3,7 +3,6 @@ import denuncias from '../../models/denuncias'
 // Obtener víctima
 export const getTercero = async (req, res) => {
     try {
-        console.log("HERE")
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
         const tercero = await terceros.findOne({ _id: req.params.id })
         res.json(tercero)

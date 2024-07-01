@@ -6,13 +6,11 @@ import usuarios from '../../models/usuarios'
 export const createDenunciaSinVerificar = async (req, res) => {
     try {
         // Obtener la división del usuario
-        console.log(req.user)
         const usuario = await usuarios.findById(req.user.id)
 
         const division = usuario?.unidad
         const { nombre_victima, numero_de_expediente, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
 
-        console.log(req.body)
         const newDenunciaSinVerificar = new denunciaSinVerificar({
             estado: "En verificación",
             numero_de_expediente: numero_de_expediente,

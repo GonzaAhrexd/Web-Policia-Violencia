@@ -48,7 +48,7 @@ function Home() {
   const saludosDependiendoLaHora = () => {
     const fecha:Date = new Date();
     const hora:number = fecha.getHours();
-    if(hora >= 0 && hora < 12) {
+    if(hora >= 6 && hora < 12) {
       return 'Buenos días';
     } else if(hora >= 12 && hora <= 19) {
       return 'Buenas tardes';

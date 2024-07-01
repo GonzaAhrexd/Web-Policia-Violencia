@@ -31,7 +31,7 @@ function Modal({ texto, onClose, titulo }: ModalProps) {
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 flex flex-row items-center justify-center">
-            <button type="button" className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-6/10" onClick={onClose}>
+            <button type="button" className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10" onClick={onClose}>
               Cerrar
             </button>
           </div>

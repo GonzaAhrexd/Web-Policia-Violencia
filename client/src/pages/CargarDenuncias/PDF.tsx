@@ -11,7 +11,6 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
     const userDivisionZona = user.unidad.split(",")
     const fecha: Date = new Date()
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-    console.log(fecha)
     // Obtener día, mes y año por separado
     const dia = fecha.getDate()
     const mes = meses[fecha.getMonth()]

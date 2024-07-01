@@ -72,7 +72,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
     useEffect(() => {
         const fetchDenuncias = async (denunciaId: any) => {
             const result = await buscarDenunciasPorId(denunciaId);
-            console.log(result);
             return result;
         }
 
@@ -111,10 +110,10 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     />
                 </div>
                 <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
-                <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setModoImprimir(!modoImprimir)}>
+                <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setModoImprimir(!modoImprimir)}>
                         <PrinterIcon className="w-7"/>
                     </div>
-                    <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
+                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
                         <PencilSquareIcon className="w-7" />
                     </div>
                 </div>
@@ -151,10 +150,10 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     <EditVictima datos={data} register={register} setValue={setValue} errors={errors} />
 
                     <div className='flex flex-col md:flex-row items-center justify-center w-full my-2'>
-                        <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setEditGlobal(!editGlobal)}>
+                        <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setEditGlobal(!editGlobal)}>
                             <XMarkIcon className="w-7" />
                         </div>
-                        <button className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2 ' >
+                        <button className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2 ' >
                             <CheckIcon className="w-7" />
                         </button>
                     </div>

@@ -2,6 +2,8 @@ import { z } from 'zod'
 import jwt from 'jsonwebtoken'
 import { TOKEN_SECRET } from '../config'
 import usuarios from '../models/usuarios'
+
+// Valida los datos ingresados al registrar un usuario
 export const registerSchema = z.object({
     nombre: z.string({
         required_error: 'El nombre es requerido',
@@ -37,11 +39,9 @@ export const registerSchema = z.object({
     zona: z.string({
         required_error: 'La zona es requerida',
     }).min(0).max(64),
-
-
-
 })
 
+// Valida los datos ingresados al iniciar sesión
 export const loginSchema = z.object({
     nombre_de_usuario: z.string({
         required_error: 'El nombre de usuario es requerido',

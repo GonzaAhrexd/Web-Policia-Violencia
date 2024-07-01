@@ -50,7 +50,6 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
         {openModalTercero && <BuscarExistenteModal variante={"Tercero"} setOpenModal={setOpenModalTercero} setVictimaCargar={setTerceroCargar} />}
         <form onSubmit={
           handleSubmit(async (values) => {
-            console.log(values)
             // Mostrar una alerta de confirmación antes de cargar la denuncia
             Swal.fire({
               title: '¿Estás seguro?',
@@ -159,7 +158,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
             <CargarObservaciones register={register} />
           </div>
           <div className="flex justify-center my-3">
-            <button className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-6/10' type="submit">Enviar</button>
+            <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10' type="submit">Enviar</button>
           </div>
         </form>
       </div>

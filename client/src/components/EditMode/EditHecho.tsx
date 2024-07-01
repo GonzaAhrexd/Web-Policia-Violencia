@@ -103,7 +103,7 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
             <SimpleTableCheckorX campo="Datos geográficos" datos={datosGeograficos} />
           }
           <div className='flex flex-col md:flex-row items-center justify-center w-full mt-2 '>
-                <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setModificarDatosGeograficos(!modificarDatosGeograficos)}>
+                <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setModificarDatosGeograficos(!modificarDatosGeograficos)}>
                    {!modificarDatosGeograficos ? <PencilIcon className='h-6'/> : <XMarkIcon className='h-6'/>}                
               </div>
           </div>

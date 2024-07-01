@@ -23,9 +23,6 @@ export const getDenuncias = async (req, res) => {
     // Obtener los parámetros de la URL
     const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria } = req.params;
     // Crear el objeto de consulta
-    console.log(req.params)
-
-    console.log(comisaria)
     const query: Query = { };
 
     // Si se ingresó un valor, se agrega a la consulta
@@ -85,9 +82,7 @@ export const getMisDenuncias = async (req, res) => {
     const { desde, hasta, numero_de_expediente, is_expediente_completo } = req.params;
     // Crear el objeto de consulta
     const query: Query = { denunciada_cargada_por: req.user.id };
-    console.log(desde)
-    console.log(hasta)
-
+  
     // Si se ingresó un valor, se agrega a la consulta
     if (desde !== 'no_ingresado') {
         query.fecha = { $gte: desde };
@@ -122,7 +117,6 @@ export const createDenuncia = async (req, res) => {
         // Obtener los datos de la denuncia
         const { user_id, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
             derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor } = req.body
-        console.log(req.body)
         // Buscar si la victima y victimario ya existen
         const findVictima = await victimas.findOne({ DNI: dni_victima })
         let findVictimario
@@ -250,9 +244,7 @@ export const updateDenuncia = async (req, res) => {
             findTercero = await terceros.findById(tercero_ID)
         }*/ 
 
-        // Actualiza la denuncia
-        
-        console.log(req.body)
+        // Actualiza la denuncia        
         const denunciaUpdated = await denuncia.findByIdAndUpdate(id, {
             victima_nombre: nombre_victima + ' ' + apellido_victima,
             victimario_nombre: nombre_victimario + ' ' + apellido_victimario,

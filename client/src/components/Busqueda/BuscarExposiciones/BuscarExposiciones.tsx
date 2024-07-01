@@ -1,7 +1,5 @@
 // Componentes
 import InputRegister from '../../InputComponents/InputRegister';
-import InputCheckbox from '../../InputComponents/InputCheckbox';
-import SelectDivisionMunicipios from '../../Select/SelectDivisionMunicipios';
 import InputDateRange from '../../InputComponents/InputDateRange';
 // Backend APIs
 import { buscarExposicion } from '../../../api/crud';
@@ -9,16 +7,12 @@ import { buscarExposicion } from '../../../api/crud';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component';
-
 import { columnsDenuncia } from './columnsDataTableDenuncias'
 import expandedComponents from './expandedComponents'
 import { customStyles } from './dataTableStyles'
 
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
-
-// Campos
-import { unidadCampos } from '../../../GlobalConst/unidadCampos';
 
 function BuscarExposiciones() {
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
@@ -61,12 +55,12 @@ function BuscarExposiciones() {
                         handleBusqueda(values)
                     }
                     )}>
-                {/* <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} /> */}
+                <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} />
                 <InputRegister busqueda campo="ID" nombre="id_exposicion" register={register} type="text" error={errors.id_denuncia} require={false}/>
                 <InputRegister busqueda campo="Nombre víctima" nombre="nombre_victima" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                 <InputRegister busqueda campo="Apellido víctima" nombre="apellido_victima" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                 <InputRegister busqueda campo="DNI víctima" nombre="dni_victima" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
-                <button className="bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
+                <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
             </form>
             <div className="flex flex-col w-full">
                 <h2 className='text-2xl my-5'>Denuncias</h2>

@@ -53,7 +53,7 @@ function CargarDenuncias() {
       {(user.rol === 'carga' || user.rol === 'admin') &&
         <div className='w-full flex flex-col justify-center items-center sm:h-full p-2 sm:p-10'>
           <h2 className='text-3xl my-5'>Modo</h2>
-          <div className='flex items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-900 text-white font-bold p-2 mx-5 rounded w-full md:w-3/10' onClick={() => handleModoAvanzado()} >{modoAvanzado ? "Modo Avanzado" : "Modo Simple"}</div>
+          <div className='flex items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-700 text-white font-bold p-2 mx-5 rounded w-full md:w-3/10' onClick={() => handleModoAvanzado()} >{modoAvanzado ? "Modo Avanzado" : "Modo Simple"}</div>
         </div>
       }
 

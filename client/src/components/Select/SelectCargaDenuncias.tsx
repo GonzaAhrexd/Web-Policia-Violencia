@@ -216,13 +216,13 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                         <InputRegister notMid={true} campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
                         <InputDireccion state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.gis} />
                         <div className='cursor-pointer flex flex-col items-center mt-5 md:flex-row'>
-                            <div className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 md:mr-1 flex items-center justify-center' onClick={() => consultarCoordenadas()}>
+                            <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 md:mr-1 flex items-center justify-center' onClick={() => consultarCoordenadas()}>
 
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7" >
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                             </svg>
                             </div>
-                            <div className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 flex items-center justify-center mt-2 md:mt-0' onClick={() => handleClick(coordenadas)}>
+                            <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 flex items-center justify-center mt-2 md:mt-0' onClick={() => handleClick(coordenadas)}>
 
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7" >
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />

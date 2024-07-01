@@ -115,13 +115,20 @@ export const crearExposicion = (denuncia: any) => {
 export const buscarExposicion = async (values: any) => {
     try {
         const response = await axios.get(`/buscar-exposicion/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.id_exposicion ? values.id_exposicion : "no_ingresado"}/${values.nombre_victima ? values.nombre_victima : "no_ingresado"}/${values.apellido_victima ? values.apellido_victima : "no_ingresado"}/${values.dni_victima ? values.dni_victima : "no_ingresado"}`)
-        console.log(response)
         return response.data
     } catch (error) {
         console.log(error)
     }
 }
+export const eliminarExposicion = async (id: string) => {
+    try {
+        const response = await axios.delete(`/eliminar-exposicion/${id}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
 
+}
 
 // VÍCTIMA
 // Agregar víctima
@@ -206,6 +213,8 @@ export const buscarVictimario = async (values: any) => {
     }
 }
 
+// TERCERO
+// Obtener tercero
 export const getTercero = async (id: string) => {
     try {
         const response = await axios.get(`/tercero/${id}`)
@@ -214,27 +223,29 @@ export const getTercero = async (id: string) => {
         console.log(error)
     }
 }
+
+// Crear tercero
 export const crearTercero = async (tercero: any) => {
     try {
         const response = await axios.post(`/crear-tercero/`, tercero)
-        console.log(response)
         const id = response.data.id
-        console.log(id)
         return id
     } catch (error) {
         console.log(error)
     }
 }
+
+// Editar tercero
 export const editarTercero = async (tercero: any) => {
     try {
-        console.log(tercero.tercero_id)
-
         const response = await axios.put(`/editar-tercero/${tercero.tercero_id}`, tercero)
         return response.data
     } catch (error) {
         console.log(error)
     }
 }
+
+// Eliminar tercero
 export const eliminarTercero = async (id: string) => {
     try {
         const response = await axios.delete(`/eliminar-tercero/${id}`)
@@ -243,6 +254,8 @@ export const eliminarTercero = async (id: string) => {
         console.log(error)
     }
 }
+
+// Buscar tercero
 export const buscarTercero = async (values: any) => {
     try {
         const response = await axios.get(`/buscar-tercero/${values.id_tercero ? values.id_tercero : "no_ingresado"}/${values.nombre_tercero ? values.nombre_tercero : "no_ingresado"}/${values.apellido_tercero ? values.apellido_tercero : "no_ingresado"}/${values.dni_tercero ? values.dni_tercero : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}`)

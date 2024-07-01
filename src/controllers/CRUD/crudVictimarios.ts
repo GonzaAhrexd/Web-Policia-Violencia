@@ -152,9 +152,6 @@ export const buscarVictimario = async (req, res) => {
         }
         // Obtener los parámetros de la URL
         const { nombre_victimario, apellido_victimario, dni_victimario, numero_de_expediente, victimario_id } = req.params;
-        
-        console.log(req.params)
-        
         // Crear el objeto de consulta
         const query: Query = {};
         function normalizarLetras(caracter:string) {

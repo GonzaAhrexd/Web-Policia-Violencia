@@ -35,7 +35,7 @@ function CardUserDenunciasRecientes() {
             )
             }
             <NavLink to="/mis-denuncias">
-            <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-full flex items-center justify-center mt-2 md:mt-0' >
+            <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full flex items-center justify-center mt-2 md:mt-0' >
                 Ver todo
             </div>
             </NavLink>

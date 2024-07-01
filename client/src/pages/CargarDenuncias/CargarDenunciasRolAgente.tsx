@@ -30,7 +30,6 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
 
   const handleImprimir = async () => {
     const datos = getValues()
-    console.log(datos)
     const blob = await pdf(<PDF tipoDenuncia={tipoDenuncia} datos={datos} user={user} />).toBlob();
     // Crea una URL de objeto a partir del blob
     const url = URL.createObjectURL(blob);
@@ -40,7 +39,6 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
 
   useEffect(() => {
     const datos = getValues()
-    console.log(datos)
   }, [tipoDenuncia])
   return (
     <div className='h-screen sm:h-full p-2 sm:p-10'>
@@ -48,11 +46,8 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
       <div>
         <form onSubmit={
           handleSubmit(async (values) => {
-
-            console.log(values)
             if(values.tipo_denuncia == "mujer" || values.tipo_denuncia == "hombre"){
               values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
-               console.log(values)
               crearDenunciaSinVerificar(values)
             }else if(values.tipo_denuncia == "exposicion"){
             crearExposicion(values)
@@ -95,8 +90,8 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               </div>
               <CargarInstructorYSecretario register={register} setValue={setValue} errors={errors} />
               <div className="flex justify-center my-3">
-                <div className='flex flex-row items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 mx-5 rounded w-3/10' onClick={() => handleImprimir()}>Imprimir</div>
-                <button className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 mx-5 rounded w-3/10' type="submit">Enviar</button>
+                <div className='flex flex-row items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 mx-5 rounded w-3/10' onClick={() => handleImprimir()}>Imprimir</div>
+                <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 mx-5 rounded w-3/10' type="submit">Enviar</button>
               </div>
             </>
           )}
@@ -116,8 +111,8 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               </div>
               <CargarInstructorYSecretario register={register} setValue={setValue} errors={errors} />
               <div className="flex justify-center my-3">
-                <div className='flex flex-row items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 mx-5 rounded w-3/10' onClick={() => handleImprimir()}>Imprimir</div>
-                <button className='bg-sky-950 hover:bg-sky-900 text-white font-bold py-2 mx-5 rounded w-3/10' type="submit">Enviar</button>
+                <div className='flex flex-row items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 mx-5 rounded w-3/10' onClick={() => handleImprimir()}>Imprimir</div>
+                <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 mx-5 rounded w-3/10' type="submit">Enviar</button>
               </div>
             </>
           )}

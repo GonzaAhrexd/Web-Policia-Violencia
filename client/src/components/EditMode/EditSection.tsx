@@ -67,10 +67,8 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                             if (datosTerceros.denunciado_por_tercero) {
                                 editarTercero(values)
                             } else {
-                                console.log("PROBANDO")
                                 const idTercero = await crearTercero(values)
                                 values.tercero_ID = idTercero
-                                console.log("TERCERO:" + idTercero)
                             }
                         }
                         // Formamos el expediente
@@ -106,10 +104,10 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                     <InputTextArea variante="edit" valor={datosHecho.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" ></InputTextArea>
                 </>
                 <div className='flex flex-col md:flex-row items-center justify-center w-full my-2'>
-                    <div className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setEditSection(!editSection)}>
+                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setEditSection(!editSection)}>
                         <XMarkIcon className="w-7" />
                     </div>
-                    <button className='bg-sky-950 hover:bg-sky-900 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2 ' >
+                    <button className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2 ' >
                         <CheckIcon className="w-7" />
                     </button>
                 </div>

@@ -5,8 +5,6 @@ import exposicion from '../../models/exposicion'
 export const createExposicion = async (req, res) => {
     try {
         const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
-        console.log("LLegó")
-        console.log("Expocisión", req.body)
         const newExposicion = new exposicion({
             nombre_victima: nombre_victima,
             apellido_victima: apellido_victima,
@@ -46,29 +44,28 @@ export const createExposicion = async (req, res) => {
 
 export const buscarExposicion = async (req, res) => {
     interface Query {
-        fecha?: {
+        createdAt?: {
             $gte?: string;
             $lte?: string;
         };
-        nombre_victima?: string;
-        apellido_victima?: string;
+        nombre_victima?: RegExp;
+        apellido_victima?: RegExp;
         DNI_victima?: string;
         _id?: string;
     }
     // Obtener los parámetros de la URL
     const { desde, hasta, id_exposicion, nombre_victima, apellido_victima, dni_victima } = req.params;
     // Crear el objeto de consulta
-    console.log(req.params)
     const query: Query = { };
 
     // Si se ingresó un valor, se agrega a la consulta
     if (desde !== 'no_ingresado') {
-        query.fecha = { $gte: desde };
+        query.createdAt = { $gte: desde };
     }
 
     if (hasta !== 'no_ingresado') {
-        query.fecha = query.fecha || {};
-        query.fecha.$lte = hasta;
+        query.createdAt = query.createdAt || {};
+        query.createdAt.$lte = hasta;
     }
 
     if (id_exposicion !== 'no_ingresado') {
@@ -104,7 +101,6 @@ export const buscarExposicion = async (req, res) => {
             const regexCombinaciones = partes
                 .map(part => `(?=.*${part.split('').map(normalizarLetras).join('')})`)
                 .join('');
-            console.log("Expresión regular de combinaciones:", regexCombinaciones);
             // Devolver la expresión regular
             return new RegExp(regexCombinaciones, 'i');
         } else {
@@ -124,20 +120,22 @@ export const buscarExposicion = async (req, res) => {
         //Haz que se eliminen . si que se ingresan en el dni
         query.DNI_victima =  dni_victima.replace(/\./g, '');
     }
-
     // Obtener las denuncias
     try {
         const exposiciones  = await exposicion.find(query);
-        
         res.json(exposiciones);
     } catch (error) {
         // Error al obtener las denuncias
         res.status(500).json({ message: 'Hubo un error al obtener las denuncias.' });
     }
-
-    
-
-
-
 }
 
+export const deleteExposicion = async (req, res) => {
+    try {
+        const { id } = req.params
+        await exposicion.findByIdAndDelete(id)
+        res.send('Exposición eliminada con éxito')
+    } catch (error) {
+        console.log(error)
+    }
+}

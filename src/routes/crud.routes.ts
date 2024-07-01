@@ -1,10 +1,12 @@
+// Importamos Router desde express
 import { Router } from 'express';
+// Importamos los middlewares que vamos a utilizar
 import { authRequired } from '../middlewares/validateToken';
 
 // DENUNCIAS
 import { getDenuncias,  getMisDenuncias, createDenuncia, deleteDenuncia, updateDenuncia, getDenunciasId } from '../controllers/CRUD/crudDenuncias'
 // EXPOSICIÓN
-import { createExposicion, buscarExposicion } from '../controllers/CRUD/crudExposicion'
+import { createExposicion, buscarExposicion, deleteExposicion } from '../controllers/CRUD/crudExposicion'
  // DENUNCIAS SIN VERIFICAR
 import { createDenunciaSinVerificar, validarDenuncia, getDenunciasSinVerificar,  deleteDenunciaSinVerificar } from '../controllers/CRUD/crudDenunciasSinVerificar' 
 // VICTIMAS
@@ -17,10 +19,12 @@ import { createTercero, getTercero, updateTercero, buscarTercero } from '../cont
 // Llamamos a router para definir las rutas del api
 const router:Router = Router();
 
-/*  DENUNCIAS
+/*  -----------------------------------------------------------------------------------------------------------------
+    DENUNCIAS: 
     Son todas las denuncias cargadas por personal del área de estadística, ya sea de manera manual o verificando
-    lo cargado por unidades externas. */
-
+    lo cargado por unidades externas. 
+    -----------------------------------------------------------------------------------------------------------------
+*/
 // Denuncias del usuario logueado
 router.get('/mis-denuncias/:desde/:hasta/:numero_de_expediente/:is_expediente_completo', authRequired, getMisDenuncias)
 // Buscar entre todas las denuncias
@@ -31,13 +35,16 @@ router.put('/editar-denuncias/:id', authRequired, updateDenuncia)
 router.post('/crear-denuncia/', authRequired, createDenuncia)
 // Eliminar denuncia por id
 router.delete('/eliminar-denuncias/:id', authRequired,  deleteDenuncia)
+// Buscar denuncia por id
 router.get('/buscar-denuncias-id/:id', authRequired, getDenunciasId)
 
-/*  DENUNCIAS SIN VERIFICAR
+/*  -----------------------------------------------------------------------------------------------------------------
+    DENUNCIAS SIN VERIFICAR
     Son las denuncias cargadas por agentes y personal externo al área de estadística, estos cuentan con menos
     datos a la hora de cargar y queda en estado de revisión, hasta que personal del área de estadística lo apruebe o
-    lo rechace */
-
+    lo rechace 
+    -----------------------------------------------------------------------------------------------------------------    
+*/
 // Crear denuncia sin verificar
 router.post('/crear-denuncia-sin-verificar/', authRequired, createDenunciaSinVerificar)
 // Buscar denuncias sin verificar
@@ -46,24 +53,34 @@ router.get('/denuncias-sin-verificar/', authRequired, getDenunciasSinVerificar)
 router.delete('/eliminar-denuncias-sin-verificar/:id', authRequired,  deleteDenunciaSinVerificar)
 // Validar denuncia sin verificar
 router.put('/validar-denuncia/:id', authRequired,validarDenuncia )
-/*  EXPOSICIÓN
+/*  -----------------------------------------------------------------------------------------------------------------
+    EXPOSICIÓN
     Son exposiciones cargadas por agentes y personal externo. Es cuando una persona quiere exponer sobre un hecho
-    sin realizar una denuncia como tal. */
+    sin realizar una denuncia como tal. 
+    -----------------------------------------------------------------------------------------------------------------
+*/
 // Crear exposición
 router.post('/crear-exposicion/', authRequired, createExposicion)
 router.get('/buscar-exposicion/:desde/:hasta/:id_exposicion/:nombre_victima/:apellido_victima/:dni_victima/', authRequired, buscarExposicion)
-/*  VICTIMA
-    Son los datos de la víctima de un hecho, estos datos son cargados por personal del área de estadística. */
-// Crear victima
+router.delete('/eliminar-exposicion/:id', authRequired,  deleteExposicion)
+/*  -----------------------------------------------------------------------------------------------------------------
+    VICTIMA
+    Son los datos de la víctima de un hecho, estos datos son cargados por personal del área de estadística. 
+    -----------------------------------------------------------------------------------------------------------------
+*/
+// Crear víctima
 router.post('/crear-victima/', authRequired, createVictima)
-// Buscar victima
+// Buscar víctima
 router.get('/victima/:id', authRequired, getVictima)
-// Editar victima
+// Editar víctima
 router.put('/editar-victima/:id', authRequired, updateVictima)
-// Buscar victima
+// Buscar víctima
 router.get('/buscar-victima/:id_victima/:nombre_victima/:apellido_victima/:dni_victima/:numero_de_expediente', authRequired, buscarVictima)
-/*  VICTIMARIO
-    Son los datos del victimario de un hecho, estos datos son cargados por personal del área de estadística. */
+/*  -----------------------------------------------------------------------------------------------------------------
+    VICTIMARIO
+    Son los datos del victimario de un hecho, estos datos son cargados por personal del área de estadística. 
+    -----------------------------------------------------------------------------------------------------------------
+*/    
 // Buscar victimario por id
 router.get('/victimario/:id', authRequired, getVictimario)
 // Crear victimario
@@ -72,7 +89,11 @@ router.post('/crear-victimario/', authRequired, createVictimario)
 router.put('/editar-victimario/:id', authRequired, updateVictimario)
 // Buscar victimario
 router.get('/buscar-victimario/:victimario_id/:nombre_victimario/:apellido_victimario/:dni_victimario/:numero_de_expediente', authRequired, buscarVictimario)
-/* TERCEROS: Son los datos de los terceros que realicen denuncias */
+/*  ----------------------------------------------------------------------------------------------------------------- 
+    TERCEROS 
+    Son los datos de los terceros que realicen denuncias 
+    -----------------------------------------------------------------------------------------------------------------
+*/
 // Buscar tercero por id
 router.get('/tercero/:id', authRequired, getTercero)
 // Crear tercero
