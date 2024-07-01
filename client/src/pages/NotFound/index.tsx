@@ -1,5 +1,6 @@
 /* 
-[ PÁGINA 404 ] Página de error 404 que se muestra cuando una ruta no es encontrada
+  [ ERROR 404 ] 
+   Descripción: Página de error 404 que se muestra cuando una ruta no es encontrada
 */
 
 // React router

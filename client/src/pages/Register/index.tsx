@@ -1,5 +1,6 @@
 /* 
-  [ Register ] Página de registro de usuario donde se solicitan los datos del usuario para registrarse 
+  [ /register ] 
+   Descripción: Página de registro de usuario donde se solicitan los datos del usuario para registrarse 
    en el sistema
 */
 
@@ -93,10 +94,10 @@ function Register() {
             </div>
             <SelectRegister campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
             <div className='flex flex-col m-4'>
-              <div className='flex flex-col md:w-full'>
+              {/* <div className='flex flex-col md:w-full'>
                 <span>DNI en formato PDF</span>
                 <input name="pdf" type="file" accept=".pdf" />
-              </div>
+              </div> */}
             </div>
             <div className='flex flex-col'>
               <span className='text-red-400'> {mensajeError} </span>

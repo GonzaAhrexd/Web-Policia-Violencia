@@ -1,3 +1,7 @@
+/*
+    [Búsqueda]
+    Descripción: Página para buscar denuncias, víctimas, victimarios, terceros y exposiciones, mediante distintos filtros.
+*/
 // Autenticación
 import { useAuth } from '../../context/auth';
 
@@ -13,7 +17,6 @@ import BuscarVictimas from '../../components/Busqueda/BuscarVictimas/BuscarVicti
 import BuscarVictimario from '../../components/Busqueda/BuscarVictimarios/BuscarVictimario';
 import BuscarTerceros from '../../components/Busqueda/BuscarTerceros/BuscarTerceros';
 import BuscarExposiciones from '../../components/Busqueda/BuscarExposiciones/BuscarExposiciones';
-import { button } from '@nextui-org/theme';
 
 function Buscar() {
     // Autenticación
@@ -82,12 +85,12 @@ function Buscar() {
     return (
         <div>
             <NavBar user={user} />
-                <div className='flex flex-col md:flex-row items-center justify-center'>
-                    <button className={`${buttonSelected == "victima" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700   text-white font-bold py-2 px-4 rounded w-full md:w-1/10 m-2`} onClick={() => handleMostrarVictimas()}> Víctima </button>
-                    <button className={`${buttonSelected == "victimario" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/10 m-2`} onClick={() => handleMostrarVictimarios()}> Victimario </button>
-                    <button className={`${buttonSelected == "terceros" ? "bg-sky-700" : "bg-sky-950"}  hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/10 m-2`}onClick={() => handleMostrarTerceros()}> Terceros </button>
-                    <button className={`${buttonSelected == "denuncias" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/10 m-2`} onClick={() => handleMostrarDenuncias()}> Denuncias</button>
-                    <button className={`${buttonSelected == "exposicion" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/10 m-2`} onClick={() => handleMostrarExposiciones()}> Exposiciones</button>
+                <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
+                    <button className={`${buttonSelected == "victima" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700   text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2`} onClick={() => handleMostrarVictimas()}> Víctima </button>
+                    <button className={`${buttonSelected == "victimario" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2`} onClick={() => handleMostrarVictimarios()}> Victimario </button>
+                    <button className={`${buttonSelected == "terceros" ? "bg-sky-700" : "bg-sky-950"}  hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2`}onClick={() => handleMostrarTerceros()}> Terceros </button>
+                    <button className={`${buttonSelected == "denuncias" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2`} onClick={() => handleMostrarDenuncias()}> Denuncias</button>
+                    <button className={`${buttonSelected == "exposicion" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2`} onClick={() => handleMostrarExposiciones()}> Exposiciones</button>
                 </div>
             <div className='h-screen sm:h-full p-2 sm:p-10'>
                 <h1 className='text-3xl my-5'>Búsqueda</h1>

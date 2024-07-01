@@ -1,3 +1,7 @@
+/*
+  [/logout] 
+  Descripción: Página de cierre de sesión, solo muestra un mensaje de cerrando sesión
+*/
 // Hooks
 import { useAuth } from '../../context/auth'
 import { useEffect } from 'react'

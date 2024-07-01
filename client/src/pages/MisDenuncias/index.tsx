@@ -1,3 +1,8 @@
+/*
+  [ /mis-denuncias ] 
+   Descripción: Página de mis denuncias para que el usuario pueda ver las denuncias que ha realizado
+*/
+
 // Autenticación
 import { useAuth } from '../../context/auth';
 // Hooks

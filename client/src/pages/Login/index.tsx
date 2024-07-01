@@ -1,3 +1,7 @@
+/*
+  [/login]
+  Descripción: Este componente es el encargado de mostrar el formulario de inicio de sesión.
+*/
 // Hooks
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
@@ -39,7 +43,7 @@ function Login() {
             })}>
            <InputLogin campo={"nombre_de_usuario"} placeholder={"Nombre de usuario"} register={register} type="text" error={errors.nombre_de_usuario}></InputLogin>
             <InputLogin campo={"pass"} placeholder={"Contraseña"} register={register} type="password" error={errors.pass}></InputLogin>
-             <span>¿Has olvidado la contraseña? </span> <a href='/recover' className='text-sky-900'>Recuperar</a>
+             {/* <span>¿Has olvidado la contraseña? </span> <a href='/recover' className='text-sky-900'>Recuperar</a> */}
             <button className='bg-sky-900 hover:bg-sky-700 text-white w-full h-10 rounded-md my-2'>Iniciar Sesión</button>
             <span className='text-sm'> ¿No tienes cuenta? <NavLink to='/register' className='text-sky-900'>Regístrate</NavLink> </span>
           </form> 

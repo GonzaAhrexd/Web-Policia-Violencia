@@ -1,3 +1,10 @@
+/*
+  [/]
+  Descripción: Este componente es la página de inicio de la aplicación,
+  aquí se muestran los accesos directos a las diferentes 
+  secciones de la aplicación.
+*/
+
 // Hooks
 import { useState  } from 'react';
 import {  Navigate } from 'react-router-dom';
@@ -56,6 +63,8 @@ function Home() {
       return 'Buenas noches';
     }
   }
+
+
   return (
     <>
     <NavBar user={user}/>
