@@ -17,7 +17,7 @@ function CardUserDenunciasRecientes({user}:CardUserDenunciasRecientesProps ) {
         const fetchDenuncias = async () => {
             let values = [{ desde: "no_ingresado" }, { hasta: "no_ingresado" }, { numero_de_expediente: "no_ingresado" }]
             let result
-            if(user.rol === 'carga'){
+            if(user.rol === 'carga' || user.rol === 'admin'){
                 result = await misDenuncias(values);
             }else{
                 result = await misDenunciasSinVerificar(values);
