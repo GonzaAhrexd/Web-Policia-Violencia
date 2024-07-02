@@ -70,7 +70,7 @@ export const crearDenunciaSinVerificar = (denuncia: any) => {
     }
 }
 
-
+// Mostrar todas las denuncias pendietnes de validación
 export const mostrarDenunciasSinVerificar = async () => {
     try {
         const response = await axios.get(`/denuncias-sin-verificar/`)
@@ -103,6 +103,15 @@ export const aprobarDenuncia = async (id: string) => {
 
 }
 
+// Ver denuncias sin verificar del usuario actual
+export const misDenunciasSinVerificar = async (values: any) => {
+    try {
+        const response = await axios.get(`/mis-denuncias-sin-verificar/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
 // EXPOSICIÓN
 // Crear exposición
 export const crearExposicion = (denuncia: any) => {

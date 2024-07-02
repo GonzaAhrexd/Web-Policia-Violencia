@@ -13,6 +13,7 @@ export const createDenunciaSinVerificar = async (req, res) => {
 
         const newDenunciaSinVerificar = new denunciaSinVerificar({
             estado: "En verificación",
+            cargado_por: req.user.id,
             numero_de_expediente: numero_de_expediente,
             division: division,
             nombre_victima: nombre_victima,
@@ -80,6 +81,16 @@ export const deleteDenunciaSinVerificar = async (req, res) => {
         const { id } = req.params
         const denunciaSinVerificarDeleted = await denunciaSinVerificar.findByIdAndUpdate(id, { estado: "Rechazada" })
         res.json(denunciaSinVerificarDeleted)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const listarMisDenunciasSinVerificar = async (req, res) => {
+    try {
+        console.log(req.user.id)
+        const misDenunciasSinVerificar = await denunciaSinVerificar.find({ cargado_por: req.user.id })
+        res.json(misDenunciasSinVerificar)
     } catch (error) {
         console.log(error)
     }

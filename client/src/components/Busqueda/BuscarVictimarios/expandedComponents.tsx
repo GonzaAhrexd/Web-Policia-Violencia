@@ -117,9 +117,11 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setModoImprimir(!modoImprimir)}>
                         <PrinterIcon className="w-7"/>
                     </div>
+                    {user.rol == "agente" || user.rol == "admin" && 
                     <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
                         <PencilSquareIcon className="w-7" />
                     </div>
+                    }
                 </div>
             </>
         }

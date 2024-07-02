@@ -19,7 +19,6 @@ function index() {
   if (isLoading) return <h1>Cargando...</h1>
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
 
-
   return (
     <>
       <NavBar user={user} />
@@ -37,8 +36,14 @@ function index() {
         <div className="flex flex-col md:flex-row justify-evenly mt-10 p-6">
           {!isEditing ?
             <>    
+              {user.rol != 'sin_definir' ?
+              <>
               <CardDataUsuario datosUsuario={user} setIsEditing={setIsEditing} />
-              <CardUserDenunciasRecientes />
+              <CardUserDenunciasRecientes user={user}/>
+              </>
+              : 
+              <CardDataUsuario datosUsuario={user} setIsEditing={setIsEditing} />
+              }
             </>
             :
             <CardEditDataUser user={user} setIsEditing={setIsEditing} />

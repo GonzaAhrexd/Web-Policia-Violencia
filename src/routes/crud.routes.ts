@@ -8,7 +8,7 @@ import { getDenuncias,  getMisDenuncias, createDenuncia, deleteDenuncia, updateD
 // EXPOSICIÓN
 import { createExposicion, buscarExposicion, deleteExposicion } from '../controllers/CRUD/crudExposicion'
  // DENUNCIAS SIN VERIFICAR
-import { createDenunciaSinVerificar, validarDenuncia, getDenunciasSinVerificar,  deleteDenunciaSinVerificar } from '../controllers/CRUD/crudDenunciasSinVerificar' 
+import { createDenunciaSinVerificar, validarDenuncia, getDenunciasSinVerificar,  deleteDenunciaSinVerificar, listarMisDenunciasSinVerificar  } from '../controllers/CRUD/crudDenunciasSinVerificar' 
 // VICTIMAS
 import { getVictima, createVictima, updateVictima, buscarVictima } from '../controllers/CRUD/crudVictimas'
 // VICTIMARIOS
@@ -53,6 +53,8 @@ router.get('/denuncias-sin-verificar/', authRequired, getDenunciasSinVerificar)
 router.delete('/eliminar-denuncias-sin-verificar/:id', authRequired,  deleteDenunciaSinVerificar)
 // Validar denuncia sin verificar
 router.put('/validar-denuncia/:id', authRequired,validarDenuncia )
+// Buscar denuncias sin verificar por el id del usuario
+router.get('/mis-denuncias-sin-verificar/:desde/:hasta/:numero_de_expediente/', authRequired, listarMisDenunciasSinVerificar)
 /*  -----------------------------------------------------------------------------------------------------------------
     EXPOSICIÓN
     Son exposiciones cargadas por agentes y personal externo. Es cuando una persona quiere exponer sobre un hecho

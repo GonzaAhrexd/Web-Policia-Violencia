@@ -138,6 +138,10 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
               <EditVictima existente={true} md={true} datos={victimaCargar} register={register} setValue={setValue} errors={errors} />
             }
           </div>
+          {/* Haz una linea gris que divida, pero que solo salga a la mitad como los demás inputs */}
+          {/* <div className='flex justify-center items-center'> 
+            <div className='border-t-2 border-gray-500 my-5 w-6/10'></div>
+          </div> */}
           <div className='flex items-center'>
             <h1 className='text-2xl my-5'>Victimario</h1>
             <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text-black font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalVictimario(true)} />

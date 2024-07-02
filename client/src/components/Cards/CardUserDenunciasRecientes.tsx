@@ -1,17 +1,27 @@
 // Hooks
 import { useState, useEffect } from 'react';
 // BACKEND 
-import { misDenuncias } from '../../api/crud';
+import { misDenuncias, misDenunciasSinVerificar } from '../../api/crud';
 
 import { NavLink } from 'react-router-dom';
-function CardUserDenunciasRecientes() {
+
+interface CardUserDenunciasRecientesProps {
+    user: any;
+}
+
+function CardUserDenunciasRecientes({user}:CardUserDenunciasRecientesProps ) {
 
 
     const [lastFiveDenuncias, setLastFiveDenuncias] = useState([]);
     useEffect(() => {
         const fetchDenuncias = async () => {
             let values = [{ desde: "no_ingresado" }, { hasta: "no_ingresado" }, { numero_de_expediente: "no_ingresado" }]
-            const result = await misDenuncias(values);
+            let result
+            if(user.rol === 'carga'){
+                result = await misDenuncias(values);
+            }else{
+                result = await misDenunciasSinVerificar(values);
+            }
             const lastFiveDenuncias = result.slice(Math.max(result.length - 5, 0)).reverse();
             setLastFiveDenuncias(lastFiveDenuncias);
         };

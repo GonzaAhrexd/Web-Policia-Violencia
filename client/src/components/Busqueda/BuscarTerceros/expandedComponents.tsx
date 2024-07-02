@@ -24,7 +24,7 @@ import { customStyles } from '../BuscarDenuncias/dataTableStyles'
 import EditTercero from '../../../components/EditMode/EditTercero';
 // Importa expandedComponents con otro nombre
 import { editarTercero } from '../../../api/crud';
-import  expandedDenuncia from '../BuscarDenuncias/expandedComponents'
+import expandedDenuncia from '../BuscarDenuncias/expandedComponents'
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 
 import InputRegister from '../../../components/InputComponents/InputRegister';
@@ -47,10 +47,10 @@ function expandedComponents({ data }: expandedComponentsProps) {
     // Datos de la víctima
     // Mostrar datos del victimario
     const terceroDatosMostrar = [
-        { nombre: "Nombre", valor: data.nombre},
-        { nombre: "Apellido", valor: data.apellido},
+        { nombre: "Nombre", valor: data.nombre },
+        { nombre: "Apellido", valor: data.apellido },
         { nombre: "DNI", valor: data.DNI },
-        ]
+    ]
 
     // Iconos para expandir
     const expandableIcon = {
@@ -59,35 +59,35 @@ function expandedComponents({ data }: expandedComponentsProps) {
     }
 
     useEffect(() => {
-        const fetchDenuncias = async (denunciaId:any) => {
+        const fetchDenuncias = async (denunciaId: any) => {
             const result = await buscarDenunciasPorId(denunciaId);
             return result;
         }
-    
+
         const fetchAllDenuncias = async () => {
             const denuncias = await Promise.all(data?.denuncias_realizadas?.map(fetchDenuncias) || []);
             // @ts-ignore
             setDenunciasAMostrar(denuncias);
         }
-    
+
         fetchAllDenuncias();
     }, [])
 
-      
-  //@ts-ignore
-  const { signUp, user, isAuthenticated, isLoading } = useAuth();
 
-  
+    //@ts-ignore
+    const { signUp, user, isAuthenticated, isLoading } = useAuth();
+
+
     return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
         {!editGlobal &&
             <>
                 <h1 className='text-3xl my-5 font-sans	'>Datos del tercero</h1>
-                    <div className='flex flex-col'>
-                        <SimpleTableCheckorX campo="Datos" datos={terceroDatosMostrar} />
-                    </div>
-              <h1 className='text-3xl my-5 font-sans'>Denuncias</h1>
                 <div className='flex flex-col'>
-                <DataTable
+                    <SimpleTableCheckorX campo="Datos" datos={terceroDatosMostrar} />
+                </div>
+                <h1 className='text-3xl my-5 font-sans'>Denuncias</h1>
+                <div className='flex flex-col'>
+                    <DataTable
                         columns={columnsDenuncia}
                         data={denunciasAMostrar}
                         pagination
@@ -100,19 +100,21 @@ function expandedComponents({ data }: expandedComponentsProps) {
                         expandableIcon={expandableIcon}
                         expandableRows
                         expandableRowsComponent={expandedDenuncia}
-        /> 
+                    />
                 </div>
                 <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
                     <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setModoImprimir(!modoImprimir)}>
-                        <PrinterIcon className="w-7"/>
+                        <PrinterIcon className="w-7" />
                     </div>
-                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
-                        <PencilSquareIcon className="w-7" />
-                    </div>
+                    {user.rol == "agente" || user.rol == "admin" &&
+                        <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
+                            <PencilSquareIcon className="w-7" />
+                        </div>
+                    }
                 </div>
             </>
         }
-         {modoImprimir && 
+        {modoImprimir &&
             <div>
                 <ModoImprimir modoImprimir={modoImprimir} setModoImprimir={setModoImprimir} denunciasAMostrar={denunciasAMostrar} user={user} data={data} />
             </div>
@@ -153,7 +155,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                 </form>
             </div>
         }
-        
+
 
     </div>
 
