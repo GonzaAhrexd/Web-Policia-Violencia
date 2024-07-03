@@ -154,7 +154,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "Fecha", valor: `${new Date(data.fecha).getUTCDate().toString().padStart(2, '0')}/${(new Date(data.fecha).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(data.fecha).getUTCFullYear()}`},
         { nombre: "Empleo de armas", valor: data.empleo_de_armas },
         { nombre: "Arma empleada", valor: data.arma_empleada },
-        { nombre: "Juzgado Interviniente", valor: data.juzgado_interviniente },
+        { nombre: "Juzgado Interviniente", valor: data.juzgado_interviniente + " " + (data.juzgado_interviniente_numero && data.juzgado_interviniente_numero)},
         { nombre: "Dependencia derivada", valor: data.dependencia_derivada },
     ]
 

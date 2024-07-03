@@ -49,7 +49,7 @@ function VerificarDenuncias() {
     }
 
     if (isLoading) return <h1>Cargando...</h1>
-    if (!isLoading && !isAuthenticated && user.rol != "carga" || user.rol != "admin") return <Navigate to="/login" replace />
+    if (!isLoading && !isAuthenticated && (user.rol != "carga" || user.rol != "admin")) return <Navigate to="/login" replace />
 
 
     return (

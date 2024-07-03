@@ -4,9 +4,8 @@ ______________________________________________________________________________
     EditHecho recibe los datos del hecho para ser mostrados y editados en el formulario
     de la sección de hecho.
 ______________________________________________________________________________ */
-
 // Hooks
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // Campos
 import { generos } from '../../GlobalConst/generosCampos'
 import { unidadCampos } from '../../GlobalConst/unidadCampos'
@@ -54,6 +53,7 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
     return divisionCompleta
   }
 
+
   // Estados
   const [expedienteDividido] = useState(dividirExpediente(datos.numero_de_expediente))
   const [comisariaPertenece, setComisariaPertenece] = useState(expedienteDividido[1] + "-")
@@ -92,7 +92,6 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
       <h1 className='text-2xl my-5'>Hecho</h1>
       <div className='flex flex-col xl:flex-row'>
         <SelectRegister isRequired={false} campo="Género" nombre="genero" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} valor={datos.genero} />
-       
         <InputDate valor={new Date(datos.fecha).toISOString().slice(0, 10)} campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
       </div>
 
@@ -112,7 +111,8 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
         </div>
 
         <div className='flex flex-col md:flex-row my-2'>
-          <SelectCargaDenuncias campo="Juzgado Interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} state={"Aasd"} />
+          <SelectCargaDenuncias valor={datos.juzgado_interviniente}  campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente}/>
+          <InputRegister valor={datos.juzgado_interviniente_numero} campo="Número" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero}/>
           <InputRegister notMid={true} campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} valor={datos.dependencia_derivada} />
         </div>
         <div className='flex flex-col md:flex-row my-2' >

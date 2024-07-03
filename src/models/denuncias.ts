@@ -126,6 +126,11 @@ const denunciaSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    juzgado_interviniente_numero: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     // Definición de la dependencia derivada
     dependencia_derivada: {
         type: String, // Tipo de dato String
