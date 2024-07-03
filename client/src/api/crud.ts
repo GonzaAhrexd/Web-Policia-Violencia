@@ -273,3 +273,13 @@ export const buscarTercero = async (values: any) => {
         console.log(error)
     }
 }
+
+// Reportar errores
+export const reportarErrores = async (values: any) => {
+    try {
+        const response = await axios.post(`/reporte-errores/`, values)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

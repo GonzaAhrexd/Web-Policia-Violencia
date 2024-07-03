@@ -16,6 +16,9 @@ import { getVictimario, createVictimario, updateVictimario, buscarVictimario } f
 // TERCEROS
 import { createTercero, getTercero, updateTercero, buscarTercero } from '../controllers/CRUD/crudTerceros'
 
+// REPORTE ERRORES
+import { createReporteErrores } from '../controllers/CRUD/crudReportesErrores'
+
 // Llamamos a router para definir las rutas del api
 const router:Router = Router();
 
@@ -105,4 +108,7 @@ router.put('/editar-tercero/:id', authRequired, updateTercero)
 // Buscar tercero
 router.get('/buscar-tercero/:id_tercero/:nombre_tercero/:apellido_tercero/:dni_tercero/:numero_de_expediente', authRequired, buscarTercero)
 
+
+// Reporte de erores
+router.post('/reporte-errores/', authRequired, createReporteErrores)
 export default router
