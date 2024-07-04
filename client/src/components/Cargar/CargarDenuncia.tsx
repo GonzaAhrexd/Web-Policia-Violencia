@@ -52,12 +52,12 @@ function
   const [municipio, setMunicipio] = useState('')
   const [coordenadas, setCoordenadas] = useState('')
   const [direccion, setDireccion] = useState('')
-
+  const [barrio, setBarrio] = useState('')
 
 
   const consultarCoordenadas = async () => {
 
-    let buscarDir = direccion + "," + municipio
+    let buscarDir = direccion + "," + barrio + "," + municipio
     const fetchCoords = async () => {
       const coords = await getCoords(buscarDir);
       const coordenadasObtenidas = coords.lat + " " + coords.lon // Aquí puedes hacer lo que necesites con las coordenadas

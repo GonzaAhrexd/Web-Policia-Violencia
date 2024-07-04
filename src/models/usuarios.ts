@@ -65,7 +65,7 @@ const UsuarioSchema = new mongoose.Schema({
     // Definición de la plaza
     plaza: {
         type:  String,
-        required: true,
+        required: false,
         trim: true
     },
     // Definición de la zona

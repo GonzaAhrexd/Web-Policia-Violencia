@@ -22,7 +22,7 @@ export const register = async (req, res) => {
                 credencial,
                 unidad,
                 jerarquia,
-                plaza,
+                plaza : plaza ? plaza : 'Sin definir',
                 zona,
             })
             // Guardar el usuario en la base de datos

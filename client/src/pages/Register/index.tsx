@@ -31,7 +31,8 @@ function Register() {
   const navigate = useNavigate();
   // Estados  
   const [mensajeError, setMensajeError] = useState("")
-  // Validación si ya está identificado
+  // Estado para controlar que se presionó el botón
+  const [buttonClicked, setButtonClicked] = useState(false)
 
   // Validación si ya está identificado, si es así redirige a login
   useEffect(() => {
@@ -58,9 +59,11 @@ function Register() {
               else { //Si no hay errores
                 setMensajeError("");
                 try {
+                  setButtonClicked(true)
                   const res = await registerRequest(values);
                   if (res.data == "Usuario ya existe o no se ingresaron datos") {
                     setMensajeError("Usuario ya existente")
+                    setButtonClicked(false)
                   } else {
                     // Envía la información al backend
                     signUp(res)
@@ -77,7 +80,7 @@ function Register() {
               <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} />
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputNumber campo="Teléfono" nombre="telefono" placeholder={"Ej. 3624123456"} register={register} setValue={setValue} type="text" error={errors.telefono} maxLenght={14}/>
+              <InputNumber campo="Teléfono" nombre="telefono" placeholder={"Ej. 3624123456"} register={register} setValue={setValue} type="text" error={errors.telefono} maxLenght={10}/>
               <InputRegister campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" error={errors.nombre_de_usuario} />
             </div>
             <div className='flex flex-col md:flex-row'>
@@ -89,10 +92,10 @@ function Register() {
               <SelectRegister campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text" error={errors.jerarquia} />
             </div>
             <div className='flex flex-col md:flex-row'>
-              <InputRegister campo="N° de Plaza" nombre="plaza" register={register} setValue={setValue} type="text" error={errors.plaza} />
+              <InputRegister require={false} campo="N° de Plaza" nombre="plaza" register={register} setValue={setValue} type="text" error={errors.plaza} />
               <SelectRegister campo="Zona" nombre="zona" opciones={zonaCampos} register={register} setValue={setValue} type="text" error={errors.zona} />
             </div>
-            <SelectRegister campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
+            <SelectRegister notComisaria campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
             <div className='flex flex-col m-4'>
               {/* <div className='flex flex-col md:w-full'>
                 <span>DNI en formato PDF</span>
@@ -102,7 +105,9 @@ function Register() {
             <div className='flex flex-col'>
               <span className='text-red-400'> {mensajeError} </span>
               <span className='text-sm'>Ya tienes cuenta? <a href='/login' className='text-sky-900'>Inicia sesión</a></span>
+           { !buttonClicked && 
               <button className='bg-sky-900 hover:bg-sky-700 text-white w-full h-10 rounded-md my-2'>Crear cuenta</button>
+           }
             </div>
           </form>
         </div>

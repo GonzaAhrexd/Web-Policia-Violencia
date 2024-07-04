@@ -19,10 +19,11 @@ interface Props {
     valor?: any
     mid?: boolean
     setTipoDenuncia?: any
+    notComisaria?: boolean
 }
 
 
-function SelectRegister({mid, setTipoDenuncia, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
+function SelectRegister({notComisaria, mid, setTipoDenuncia, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
    
     const [requiredInput, setRequiredInput] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
@@ -111,7 +112,7 @@ function SelectRegister({mid, setTipoDenuncia, campo, opciones, nombre, setValue
                             ))}
                         </select>
 
-                        {selectedSubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones && (
+                        {(selectedSubunidad && !notComisaria) && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones && (
                                 <select
                                     className=" border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                                     name="subsubunidad"
