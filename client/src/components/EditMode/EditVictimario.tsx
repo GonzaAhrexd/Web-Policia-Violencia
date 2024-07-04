@@ -1,5 +1,4 @@
 // Componentes
-import InputRadio from '../InputComponents/InputRadio'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
