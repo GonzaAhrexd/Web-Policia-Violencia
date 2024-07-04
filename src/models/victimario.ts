@@ -81,12 +81,6 @@ const victimarioSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
-    // Definición de si fue notificado
-    notificacion: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
     // Definición de la cantidad de denuncias previas
     cantidad_de_denuncias_previas: {
         type: Number, // Tipo de dato Number

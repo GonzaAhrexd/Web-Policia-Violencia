@@ -66,23 +66,45 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
   const [coordenadas, setCoordenadas] = useState('')
   const [direccion, setDireccion] = useState('')
   const [modificarDatosGeograficos, setModificarDatosGeograficos] = useState(false)
+  const [barrio, setBarrio] = useState('')
 
-  // Función para consultar las coordenadas
   const consultarCoordenadas = async () => {
-    let buscarDir = direccion + "," + municipio
-    const fetchCoords = async () => {
-      const coords = await getCoords(buscarDir);
-      const coordenadasObtenidas = coords.lat + " " + coords.lon // Aquí puedes hacer lo que necesites con las coordenadas
-      return coordenadasObtenidas
+    let buscarDir = direccion + "," + barrio + "," + municipio;
+    const fetchCoords = async (query: any) => {
+      try {
+        const coords = await getCoords(query);
+        if (coords && coords.lat && coords.lon) {
+          const coordenadasObtenidas = coords.lat + " " + coords.lon;
+          return coordenadasObtenidas;
+        }
+        return null;
+      } catch (error) {
+        console.error("Error al obtener coordenadas:", error);
+        return null;
+      }
     };
+  
     if (buscarDir) {
-      fetchCoords().then((response) => {
-        setCoordenadas(response)
-        setValue('GIS', coordenadas)
-      })
-
+      fetchCoords(buscarDir).then((response) => {
+        if (response) {
+          // Si se obtuvieron coordenadas con la dirección completa
+          setCoordenadas(response);
+          setValue('GIS', coordenadas);
+        } else {
+          // Si no se obtuvieron coordenadas, intentar solo con barrio y municipio
+          const buscarSinDireccion = barrio + "," + municipio;
+          fetchCoords(buscarSinDireccion).then((responseSinDireccion) => {
+            if (responseSinDireccion) {
+              setCoordenadas(responseSinDireccion);
+              setValue('GIS', coordenadas);
+            } else {
+              console.log("No se pudieron obtener las coordenadas.");
+            }
+          });
+        }
+      });
     }
-  }
+  };
 
 
   return (
@@ -97,8 +119,8 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
 
       <div className='flex flex-col my-2'>
           {modificarDatosGeograficos ?
-            <SelectCargaDenuncias consultarCoordenadas={consultarCoordenadas} direccion={direccion} setDireccion={setDireccion} coordenadas={coordenadas} setCoordenadas={setCoordenadas} errors={errors} setMunicipio={setMunicipio} campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />
-            :
+        <SelectCargaDenuncias consultarCoordenadas={consultarCoordenadas} direccion={direccion} barrio={barrio} setBarrio={setBarrio} setDireccion={setDireccion} coordenadas={coordenadas} setCoordenadas={setCoordenadas} errors={errors} setMunicipio={setMunicipio} campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />
+        :
             <SimpleTableCheckorX campo="Datos geográficos" datos={datosGeograficos} />
           }
           <div className='flex flex-col md:flex-row items-center justify-center w-full mt-2 '>

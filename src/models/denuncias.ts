@@ -1,5 +1,6 @@
 // Importamos mongoose para poder crear el modelo de la base de datos
 import mongoose from 'mongoose'
+import { promiseHooks } from 'v8';
 import { object } from 'zod';
 
 // Creamos el esquema de denuncia en la base de datos
@@ -252,6 +253,29 @@ const denunciaSchema = new mongoose.Schema({
             trim: true // Trim para que no se guarden espacios en blanco
         },
     },
+    medida_dispuesta: {
+        prohibicion_de_acercamiento: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
+        },
+        exclusion_de_hogar: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
+        },
+        boton_antipanico: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
+        },
+        notificacion: {
+            type: String, // Tipo de dato String
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
+        },
+    },
+    
     // Definición de la denuncia realizada por tercero
     denunciado_por_tercero: {
         type: Boolean, // Tipo de dato Boolean

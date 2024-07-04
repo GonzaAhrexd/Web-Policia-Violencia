@@ -56,21 +56,43 @@ function
 
 
   const consultarCoordenadas = async () => {
-
-    let buscarDir = direccion + "," + barrio + "," + municipio
-    const fetchCoords = async () => {
-      const coords = await getCoords(buscarDir);
-      const coordenadasObtenidas = coords.lat + " " + coords.lon // Aquí puedes hacer lo que necesites con las coordenadas
-      return coordenadasObtenidas
+    let buscarDir = direccion + "," + barrio + "," + municipio;
+  
+    const fetchCoords = async (query: any) => {
+      try {
+        const coords = await getCoords(query);
+        if (coords && coords.lat && coords.lon) {
+          const coordenadasObtenidas = coords.lat + " " + coords.lon;
+          return coordenadasObtenidas;
+        }
+        return null;
+      } catch (error) {
+        console.error("Error al obtener coordenadas:", error);
+        return null;
+      }
     };
-
+  
     if (buscarDir) {
-      fetchCoords().then((response) => {
-        setCoordenadas(response)
-        setValue('GIS', coordenadas)
-      })
+      fetchCoords(buscarDir).then((response) => {
+        if (response) {
+          // Si se obtuvieron coordenadas con la dirección completa
+          setCoordenadas(response);
+          setValue('GIS', coordenadas);
+        } else {
+          // Si no se obtuvieron coordenadas, intentar solo con barrio y municipio
+          const buscarSinDireccion = barrio + "," + municipio;
+          fetchCoords(buscarSinDireccion).then((responseSinDireccion) => {
+            if (responseSinDireccion) {
+              setCoordenadas(responseSinDireccion);
+              setValue('GIS', coordenadas);
+            } else {
+              console.log("No se pudieron obtener las coordenadas.");
+            }
+          });
+        }
+      });
     }
-  }
+  };
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col xl:flex-row'>
@@ -78,7 +100,7 @@ function
         <InputDate campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
       </div>
       <div className='flex flex-col my-2'>
-        <SelectCargaDenuncias consultarCoordenadas={consultarCoordenadas} direccion={direccion} setDireccion={setDireccion} coordenadas={coordenadas} setCoordenadas={setCoordenadas} errors={errors} setMunicipio={setMunicipio} campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />
+        <SelectCargaDenuncias consultarCoordenadas={consultarCoordenadas} direccion={direccion} barrio={barrio} setBarrio={setBarrio} setDireccion={setDireccion} coordenadas={coordenadas} setCoordenadas={setCoordenadas} errors={errors} setMunicipio={setMunicipio} campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />
         <InputCheckbox campo="División Violencia Familiar y de Género" nombre="isDivision" register={register} setValue={setValue} type="checkbox" setHook={setIsDivision} state={isDivision} id="division" />
         {!expediente ?
           <InputExpediente campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />

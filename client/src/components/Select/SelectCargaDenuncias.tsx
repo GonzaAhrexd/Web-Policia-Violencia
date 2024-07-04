@@ -24,6 +24,8 @@ interface Props {
     setMunicipio?: any
     direccion?: any
     setDireccion?: any
+    barrio?: any
+    setBarrio?: any
     coordenadas?: any
     setCoordenadas?: any
     errors?: any
@@ -35,7 +37,7 @@ interface Props {
 }   
 
 
-function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, setComisariaPertenece, state, info, setTitulo }: Props) {
+function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, barrio, setBarrio, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, setComisariaPertenece, state, info, setTitulo }: Props) {
 
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
@@ -213,8 +215,10 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
 
                     <div className='flex flex-col xl:flex-row'>
                         <InputDireccion state={direccion} setState={setDireccion} campo="Dirección" nombre="direccion" register={register} setValue={setValue} type="text" error={errors.direccion} />
-                        <InputRegister notMid={true} campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
-                        <InputDireccion state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.gis} />
+                        <InputDireccion state={barrio} setState={setBarrio} campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
+                        
+                        {/* <InputDireccion campo="Barrio" nombre="barrio" register={register} setValue={setValue} setState={setBarrio} type="text" error={errors.barrio} /> */}
+                        <InputDireccion state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.GIS} />
                         <div className='cursor-pointer flex flex-col items-center mt-5 md:flex-row'>
                             <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 md:mr-1 flex items-center justify-center' onClick={() => consultarCoordenadas()}>
 
