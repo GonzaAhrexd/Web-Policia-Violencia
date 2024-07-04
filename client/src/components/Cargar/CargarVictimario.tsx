@@ -45,10 +45,6 @@ function CargarVictimario({ register, setValue, errors }: CargarVictimarioProps)
           <InputCheckbox campo="Entrenamiento en  combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" />
         </div>
       </>
-      <>
-        <span className='ml-4 font-medium my-2'> Notificación </span>
-        <InputRadio campo="Notificación" nombre="notificacion" register={register} type="radio" opciones={opcionesNotificado} defaultValue={3} />
-      </>
     </div>
   )
 }

@@ -10,6 +10,7 @@ import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputDate from '../InputComponents/InputDate'
 import InputExpediente from '../InputComponents/InputExpediente'
 import EditExpediente from '../EditMode/EditExpediente';
+import InputRadio from '../InputComponents/InputRadio'
 // Apis y BackEnd
 import { getCoords } from '../../api/coordinates'
 
@@ -22,7 +23,7 @@ import { opcionesViolencia } from '../../GlobalConst/violenciaCampos'
 import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
 import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
 import { tiposDeViolenciaText, tiposModalidades } from '../../GlobalConst/modalTextos'
-
+import { opcionesNotificado } from '../../GlobalConst/opcionesNotificadoCampos'
 // Iconos
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 
@@ -46,8 +47,6 @@ function
   const [comisariaPertenece, setComisariaPertenece] = useState('')
   const [isArmas, setIsArmas] = useState(false)
   const [isDivision, setIsDivision] = useState(false)
-  const [isSolicitada, setIsSolicitada] = useState(false)
-  const [isDispuestoPorAutoridadJudicial, setIsDispuestoPorAutoridadJudicial] = useState(false)
   const [isDenunciadoPorTercero, setIsDenunciadoPorTercero] = useState(false)
   const [municipio, setMunicipio] = useState('')
   const [coordenadas, setCoordenadas] = useState('')
@@ -57,7 +56,7 @@ function
 
   const consultarCoordenadas = async () => {
     let buscarDir = direccion + "," + barrio + "," + municipio;
-  
+
     const fetchCoords = async (query: any) => {
       try {
         const coords = await getCoords(query);
@@ -71,7 +70,7 @@ function
         return null;
       }
     };
-  
+
     if (buscarDir) {
       fetchCoords(buscarDir).then((response) => {
         if (response) {
@@ -110,23 +109,19 @@ function
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>
-        <SelectCargaDenuncias campo="Organizmo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
+        <SelectCargaDenuncias campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
         <InputRegister campo="Número" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero} />
         <InputRegister campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} />
       </div>
       <div className='flex flex-col md:flex-row my-2' >
         <SelectCargaDenuncias campo="Violencia" nombre="violencia" opciones={opcionesViolencia} register={register} setValue={setValue} type="text" error={errors.violencia} />
         <SelectCargaDenuncias setTitulo={setTitulo} info={tiposModalidades} campo="Modalidades" nombre="modalidades" opciones={opcionesModalidades} register={register} setValue={setValue} type="text" error={errors.modalidades} handleOpenModal={handleOpenModal} />
-
-
       </div>
       <>
         <span className='ml-4 font-medium flex flex-row my-2'> Tipo de Violencia
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-4 cursor-pointer" onClick={() => (
-
             setTitulo("Tipos de Violencia"),
             handleOpenModal(tiposDeViolenciaText)
-
           )}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
           </svg>
@@ -154,25 +149,31 @@ function
         </div>
       </div>
       <div className='flex flex-col my-2'>
-        <span className='ml-4 font-medium'> Medida Solicitada </span>
-        <div className='flex flex-col md:flex-row'>
-          <InputCheckbox campo="Solicitada" nombre="medida_solicitada_por_la_victima" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsSolicitada} state={isSolicitada} id="solicitada" />
-          <InputCheckbox campo="Dispuesto Por Autoridad Judicial" nombre="medida_dispuesta_por_autoridad_judicial" register={register} setValue={setValue} type="checkbox" error={errors.dispuestoPorAutoridadJudicial} setHook={setIsDispuestoPorAutoridadJudicial} state={isDispuestoPorAutoridadJudicial} id="dispuestoPorAutoridad" />
-        </div>
+        <span className='ml-4 font-medium'> Medida Solicitada por la víctima</span>
       </div>
-      {(isDispuestoPorAutoridadJudicial || isSolicitada) &&
-        <>
-          <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md`}>
-            <InputCheckbox campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento" register={register} setValue={setValue} type="checkbox" id="prohibicion" />
-            <InputCheckbox campo="Restitución de Menor" nombre="restitucion_de_menor" register={register} setValue={setValue} type="checkbox" id="restitucion" />
-            <InputCheckbox campo="Exclusión Hogar" nombre="exclusion_de_hogar" register={register} setValue={setValue} type="checkbox" id="exclusion" />
-            <InputCheckbox campo="Alimento Provisorio" nombre="alimento_provisorio" register={register} setValue={setValue} type="checkbox" id="alimentoProvisorio" />
-            <InputCheckbox campo="Derecho Comunicación" nombre="derecho_de_comunicacion" register={register} setValue={setValue} type="checkbox" id="derechoComunicacion" />
-            <InputCheckbox campo="Botón Antipánico" nombre="boton_antipanico" register={register} setValue={setValue} type="checkbox" id="botonAntipanico" />
-            <div />
-          </div>
-        </>
-      }
+      <div className={`grid grid-cols-1 md:grid-cols-3 my-2 md:border-0 bg-white rounded-md`}>
+        <InputCheckbox campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento" register={register} setValue={setValue} type="checkbox" id="prohibicion" />
+        <InputCheckbox campo="Restitución de Menor" nombre="restitucion_de_menor" register={register} setValue={setValue} type="checkbox" id="restitucion" />
+        <InputCheckbox campo="Exclusión Hogar" nombre="exclusion_de_hogar" register={register} setValue={setValue} type="checkbox" id="exclusion" />
+        <InputCheckbox campo="Alimento Provisorio" nombre="alimento_provisorio" register={register} setValue={setValue} type="checkbox" id="alimentoProvisorio" />
+        <InputCheckbox campo="Derecho Comunicación" nombre="derecho_de_comunicacion" register={register} setValue={setValue} type="checkbox" id="derechoComunicacion" />
+        <InputCheckbox campo="Botón Antipánico" nombre="boton_antipanico" register={register} setValue={setValue} type="checkbox" id="botonAntipanico" />
+        <div />
+      </div>
+      <div className='flex flex-col my-2'>
+        <span className='ml-4 font-medium'> Medida dispuesta por la autoridad judicial</span>
+      </div>
+      <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-white rounded-md`}>
+        <InputCheckbox campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento_dispuesta" register={register} setValue={setValue} type="checkbox" id="prohibicion_dispuesta" />
+        <InputCheckbox campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
+        <InputCheckbox campo="Botón Antipánico" nombre="boton_antipanico_dispuesta" register={register} setValue={setValue} type="checkbox" id="botonAntipanico_dispuesta" />
+      </div>
+      <>
+        <span className='ml-4 font-medium my-2'> Notificación </span>
+        <InputRadio campo="Notificación" nombre="notificacion" register={register} type="radio" opciones={opcionesNotificado} defaultValue={3} />
+      </>
+
+
       <div className='flex flex-col '>
         <span className='ml-4 font-medium'> Denunciado por tercero</span>
         <div className='flex flex-col md:flex-row'>

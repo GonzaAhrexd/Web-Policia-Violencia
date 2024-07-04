@@ -15,6 +15,7 @@ import { opcionesViolencia } from '../../GlobalConst/violenciaCampos'
 import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
 import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
 import { tiposDeViolenciaText, tiposModalidades } from '../../GlobalConst/modalTextos'
+import { opcionesNotificado } from '../../GlobalConst/opcionesNotificadoCampos'
 // Backend
 import { getCoords } from '../../api/coordinates'
 // Componentes
@@ -25,6 +26,7 @@ import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputDate from '../InputComponents/InputDate'
 import SimpleTableCheckorX from '../ShowData/SimpleTableCheckorX'
 import EditExpediente from '../EditMode/EditExpediente'
+import InputRadio from '../InputComponents/InputRadio'
 //Iconos
 import { PencilIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
@@ -68,6 +70,8 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
   const [modificarDatosGeograficos, setModificarDatosGeograficos] = useState(false)
   const [barrio, setBarrio] = useState('')
 
+  const defaultIndex = opcionesNotificado.findIndex(opcion => opcion.nombre === datos.medida_dispuesta.notificacion);
+
   const consultarCoordenadas = async () => {
     let buscarDir = direccion + "," + barrio + "," + municipio;
     const fetchCoords = async (query: any) => {
@@ -83,7 +87,7 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
         return null;
       }
     };
-  
+
     if (buscarDir) {
       fetchCoords(buscarDir).then((response) => {
         if (response) {
@@ -118,98 +122,109 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
       </div>
 
       <div className='flex flex-col my-2'>
-          {modificarDatosGeograficos ?
-        <SelectCargaDenuncias consultarCoordenadas={consultarCoordenadas} direccion={direccion} barrio={barrio} setBarrio={setBarrio} setDireccion={setDireccion} coordenadas={coordenadas} setCoordenadas={setCoordenadas} errors={errors} setMunicipio={setMunicipio} campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />
-        :
-            <SimpleTableCheckorX campo="Datos geográficos" datos={datosGeograficos} />
-          }
-          <div className='flex flex-col md:flex-row items-center justify-center w-full mt-2 '>
-                <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setModificarDatosGeograficos(!modificarDatosGeograficos)}>
-                   {!modificarDatosGeograficos ? <PencilIcon className='h-6'/> : <XMarkIcon className='h-6'/>}                
-              </div>
+        {modificarDatosGeograficos ?
+          <SelectCargaDenuncias consultarCoordenadas={consultarCoordenadas} direccion={direccion} barrio={barrio} setBarrio={setBarrio} setDireccion={setDireccion} coordenadas={coordenadas} setCoordenadas={setCoordenadas} errors={errors} setMunicipio={setMunicipio} campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />
+          :
+          <SimpleTableCheckorX campo="Datos geográficos" datos={datosGeograficos} />
+        }
+        <div className='flex flex-col md:flex-row items-center justify-center w-full mt-2 '>
+          <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setModificarDatosGeograficos(!modificarDatosGeograficos)}>
+            {!modificarDatosGeograficos ? <PencilIcon className='h-6' /> : <XMarkIcon className='h-6' />}
           </div>
-          <InputCheckbox campo="División Violencia Familiar y de Género" nombre="isDivision" register={register} setValue={setValue} type="checkbox" setHook={setIsDivision} state={isDivision} id="division" />
-          <EditExpediente expediente={expedienteDividido} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
         </div>
+        <InputCheckbox campo="División Violencia Familiar y de Género" nombre="isDivision" register={register} setValue={setValue} type="checkbox" setHook={setIsDivision} state={isDivision} id="division" />
+        <EditExpediente expediente={expedienteDividido} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
+      </div>
+
+      <div className='flex flex-col md:flex-row my-2'>
+        <SelectCargaDenuncias valor={datos.juzgado_interviniente} campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
+        <InputRegister valor={datos.juzgado_interviniente_numero} campo="Número" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero} />
+        <InputRegister notMid={true} campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} valor={datos.dependencia_derivada} />
+      </div>
+      <div className='flex flex-col md:flex-row my-2' >
+        <SelectCargaDenuncias valor={datos.violencia} campo="Violencia" nombre="violencia" opciones={opcionesViolencia} register={register} setValue={setValue} type="text" error={errors.violencia} />
+        <SelectCargaDenuncias valor={datos.modalidades} setTitulo={setTitulo} info={tiposModalidades} campo="Modalidades" nombre="modalidades" opciones={opcionesModalidades} register={register} setValue={setValue} type="text" error={errors.modalidades} handleOpenModal={handleOpenModal} />
+      </div>
+      <>
+        <span className='ml-4 font-medium  flex flex-row my-2'> Tipo de Violencia
+          <QuestionMarkCircleIcon className="w-6 h-4 cursor-pointer" onClick={() => (
+            setTitulo("Tipos de Violencia"),
+            handleOpenModal(tiposDeViolenciaText)
+          )} />
+
+        </span>
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2`}>
+          <InputCheckbox campo="Física" nombre="fisica" register={register} setValue={setValue} type="checkbox" id="fisica" state={datos.tipo_de_violencia.Fisica} />
+          <InputCheckbox campo="Psicológica" nombre="psicologica" register={register} setValue={setValue} type="checkbox" id="psicologica" state={datos.tipo_de_violencia.Psicologica} />
+          <InputCheckbox campo="Sexual" nombre="sexual" register={register} setValue={setValue} type="checkbox" id="sexual" state={datos.tipo_de_violencia.Sexual} />
+          <InputCheckbox campo="Económica y Patrimonial" nombre="economica_y_patrimonial" register={register} setValue={setValue} type="checkbox" id="economica_patrimonial" state={datos.tipo_de_violencia.Economica_y_patrimonial} />
+          <InputCheckbox campo="Simbólica" nombre="simbolica" register={register} setValue={setValue} type="checkbox" id="simbolica" state={datos.tipo_de_violencia.Simbolica} />
+          <InputCheckbox campo="Política" nombre="politica" register={register} setValue={setValue} type="checkbox" id="politica" state={datos.tipo_de_violencia.Politica} />
+        </div>
+      </>
+      <div className='flex flex-col my-2'>
+        <span className='ml-4 font-medium '> Empleo de armas </span>
 
         <div className='flex flex-col md:flex-row my-2'>
-          <SelectCargaDenuncias valor={datos.juzgado_interviniente}  campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente}/>
-          <InputRegister valor={datos.juzgado_interviniente_numero} campo="Número" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero}/>
-          <InputRegister notMid={true} campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} valor={datos.dependencia_derivada} />
-        </div>
-        <div className='flex flex-col md:flex-row my-2' >
-          <SelectCargaDenuncias valor={datos.violencia} campo="Violencia" nombre="violencia" opciones={opcionesViolencia} register={register} setValue={setValue} type="text" error={errors.violencia} />
-          <SelectCargaDenuncias valor={datos.modalidades} setTitulo={setTitulo} info={tiposModalidades} campo="Modalidades" nombre="modalidades" opciones={opcionesModalidades} register={register} setValue={setValue} type="text" error={errors.modalidades} handleOpenModal={handleOpenModal} />
-        </div>
-        <>
-          <span className='ml-4 font-medium  flex flex-row my-2'> Tipo de Violencia
-            <QuestionMarkCircleIcon className="w-6 h-4 cursor-pointer" onClick={() => (
-              setTitulo("Tipos de Violencia"),
-              handleOpenModal(tiposDeViolenciaText)
-            )}/>
-            
-          </span>
-          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2`}>
-            <InputCheckbox campo="Física" nombre="fisica" register={register} setValue={setValue} type="checkbox" id="fisica" state={datos.tipo_de_violencia.Fisica} />
-            <InputCheckbox campo="Psicológica" nombre="psicologica" register={register} setValue={setValue} type="checkbox" id="psicologica" state={datos.tipo_de_violencia.Psicologica} />
-            <InputCheckbox campo="Sexual" nombre="sexual" register={register} setValue={setValue} type="checkbox" id="sexual" state={datos.tipo_de_violencia.Sexual} />
-            <InputCheckbox campo="Económica y Patrimonial" nombre="economica_y_patrimonial" register={register} setValue={setValue} type="checkbox" id="economica_patrimonial" state={datos.tipo_de_violencia.Economica_y_patrimonial} />
-            <InputCheckbox campo="Simbólica" nombre="simbolica" register={register} setValue={setValue} type="checkbox" id="simbolica" state={datos.tipo_de_violencia.Simbolica} />
-            <InputCheckbox campo="Política" nombre="politica" register={register} setValue={setValue} type="checkbox" id="politica" state={datos.tipo_de_violencia.Politica} />
-          </div>
-        </>
-        <div className='flex flex-col my-2'>
-          <span className='ml-4 font-medium '> Empleo de armas </span>
-
-          <div className='flex flex-col md:flex-row my-2'>
-            <InputCheckbox campo="Empleo de Armas" nombre="empleo_de_armas" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsArmas} state={isArmas} id="empleo_de_armas" />
-            {isArmas &&
-              <>
-                <SelectCargaDenuncias valor={datos.arma_empleada} campo="Arma empleada" nombre="tipo_de_arma" opciones={opcionesTiposDeArma} register={register} setValue={setValue} type="text" error={errors.modalidad} />
-              </>
-            }
-          </div>
-        </div>
-        <div className='flex flex-col my-2'>
-          <span className='ml-4 font-medium '> Medida Solicitada </span>
-          <div className='flex flex-col md:flex-row'>
-            <InputCheckbox campo="Solicitada" nombre="medida_solicitada_por_la_victima" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsSolicitada} state={isSolicitada} id="solicitada" />
-            <InputCheckbox  campo="Dispuesto Por Autoridad Judicial" nombre="medida_dispuesta_por_autoridad_judicial" register={register} setValue={setValue} type="checkbox" error={errors.dispuestoPorAutoridadJudicial} setHook={setIsDispuestoPorAutoridadJudicial} state={isDispuestoPorAutoridadJudicial} id="dispuestoPorAutoridad" />
-          </div>
-        </div>
-        {(isDispuestoPorAutoridadJudicial || isSolicitada) &&
-          <>
-        <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md`}>
-              <InputCheckbox state={datos.medida.prohibicion_de_acercamiento} campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento" register={register} setValue={setValue} type="checkbox" id="prohibicion" />
-              <InputCheckbox state={datos.medida.restitucion_de_menor} campo="Restitución de Menor" nombre="restitucion_de_menor" register={register} setValue={setValue} type="checkbox" id="restitucion" />
-              <InputCheckbox state={datos.medida.exclusion_de_hogar} campo="Exclusión Hogar" nombre="exclusion_de_hogar" register={register} setValue={setValue} type="checkbox" id="exclusion" />
-              <InputCheckbox state={datos.medida.alimento_provisorio} campo="Alimento Provisorio" nombre="alimento_provisorio" register={register} setValue={setValue} type="checkbox" id="alimentoProvisorio" />
-              <InputCheckbox state={datos.medida.derecho_de_comunicacion} campo="Derecho Comunicación" nombre="derecho_de_comunicacion" register={register} setValue={setValue} type="checkbox" id="derechoComunicacion" />
-              <InputCheckbox state={datos.medida.boton_antipanico} campo="Botón Antipánico" nombre="boton_antipanico" register={register} setValue={setValue} type="checkbox" id="botonAntipanico" />
-              <div />
-            </div>
-          </>
-        }
-        <div className='flex flex-col '>
-          <span className='ml-4 font-medium '> Denunciado por tercero</span>
-          <div className='flex flex-col md:flex-row'>
-            <InputCheckbox campo="Denunciado por tercero" nombre="denunciado_por_tercero" register={register} setValue={setValue} type="checkbox" error={errors.denunciado_por_tercero} setHook={setIsDenunciadoPorTercero} state={isDenunciadoPorTercero} id="denunciadoPorTercero" />
-          </div>
-          {isDenunciadoPorTercero &&
+          <InputCheckbox campo="Empleo de Armas" nombre="empleo_de_armas" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsArmas} state={isArmas} id="empleo_de_armas" />
+          {isArmas &&
             <>
-              <div className='flex flex-col md:flex-row'>
-                <InputRegister valor={datosTerceros[0].valor} campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
-                <InputRegister valor={datosTerceros[1].valor} campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
-                <InputRegister valor={datosTerceros[2].valor} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
-              </div>
-              <div className='flex flex-col'>
-                <SelectRegister isRequired={false} valor={datosTerceros[3].valor} campo="Vínculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
-              </div>
+              <SelectCargaDenuncias valor={datos.arma_empleada} campo="Arma empleada" nombre="tipo_de_arma" opciones={opcionesTiposDeArma} register={register} setValue={setValue} type="text" error={errors.modalidad} />
             </>
           }
         </div>
       </div>
-      )
+      <div className='flex flex-col my-2'>
+        <span className='ml-4 font-medium '> Medida Solicitada </span>
+        <div className='flex flex-col md:flex-row'>
+          <InputCheckbox campo="Solicitada" nombre="medida_solicitada_por_la_victima" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsSolicitada} state={isSolicitada} id="solicitada" />
+          <InputCheckbox campo="Dispuesto Por Autoridad Judicial" nombre="medida_dispuesta_por_autoridad_judicial" register={register} setValue={setValue} type="checkbox" error={errors.dispuestoPorAutoridadJudicial} setHook={setIsDispuestoPorAutoridadJudicial} state={isDispuestoPorAutoridadJudicial} id="dispuestoPorAutoridad" />
+        </div>
+      </div>
+      <div className='flex flex-col my-2'>
+        <span className='ml-4 font-medium'> Medida Solicitada por la víctima</span>
+      </div>
+      <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md`}>
+        <InputCheckbox state={datos.medida.prohibicion_de_acercamiento} campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento" register={register} setValue={setValue} type="checkbox" id="prohibicion" />
+        <InputCheckbox state={datos.medida.restitucion_de_menor} campo="Restitución de Menor" nombre="restitucion_de_menor" register={register} setValue={setValue} type="checkbox" id="restitucion" />
+        <InputCheckbox state={datos.medida.exclusion_de_hogar} campo="Exclusión Hogar" nombre="exclusion_de_hogar" register={register} setValue={setValue} type="checkbox" id="exclusion" />
+        <InputCheckbox state={datos.medida.alimento_provisorio} campo="Alimento Provisorio" nombre="alimento_provisorio" register={register} setValue={setValue} type="checkbox" id="alimentoProvisorio" />
+        <InputCheckbox state={datos.medida.derecho_de_comunicacion} campo="Derecho Comunicación" nombre="derecho_de_comunicacion" register={register} setValue={setValue} type="checkbox" id="derechoComunicacion" />
+        <InputCheckbox state={datos.medida.boton_antipanico} campo="Botón Antipánico" nombre="boton_antipanico" register={register} setValue={setValue} type="checkbox" id="botonAntipanico" />
+        <div />
+      </div>
+      <div className='flex flex-col my-2'>
+        <span className='ml-4 font-medium'> Medida dispuesta por la autoridad judicial</span>
+      </div>
+      <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-white rounded-md`}>
+        <InputCheckbox state={datos.medida_dispuesta.prohibicion_de_acercamiento } campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento_dispuesta" register={register} setValue={setValue} type="checkbox" id="prohibicion_dispuesta" />
+        <InputCheckbox state={datos.medida_dispuesta.exclusion_de_hogar} campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
+        <InputCheckbox state={datos.medida_dispuesta.boton_antipanico } campo="Botón Antipánico" nombre="boton_antipanico_dispuesta" register={register} setValue={setValue} type="checkbox" id="botonAntipanico_dispuesta" />
+      </div>
+      <>
+        <span className='ml-4 font-medium  my-2'> Notificación </span>
+        <InputRadio campo="Notificación" nombre="notificacion" register={register} type="radio" opciones={opcionesNotificado} defaultValue={defaultIndex} />
+      </>
+      <div className='flex flex-col '>
+        <span className='ml-4 font-medium '> Denunciado por tercero</span>
+        <div className='flex flex-col md:flex-row'>
+          <InputCheckbox campo="Denunciado por tercero" nombre="denunciado_por_tercero" register={register} setValue={setValue} type="checkbox" error={errors.denunciado_por_tercero} setHook={setIsDenunciadoPorTercero} state={isDenunciadoPorTercero} id="denunciadoPorTercero" />
+        </div>
+        {isDenunciadoPorTercero &&
+          <>
+            <div className='flex flex-col md:flex-row'>
+              <InputRegister valor={datosTerceros[0].valor} campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
+              <InputRegister valor={datosTerceros[1].valor} campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
+              <InputRegister valor={datosTerceros[2].valor} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
+            </div>
+            <div className='flex flex-col'>
+              <SelectRegister isRequired={false} valor={datosTerceros[3].valor} campo="Vínculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
+            </div>
+          </>
+        }
+      </div>
+    </div>
+  )
 }
 
 export default EditHecho

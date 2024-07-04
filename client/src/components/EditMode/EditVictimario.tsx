@@ -7,7 +7,6 @@ import InputNumber from '../InputComponents/InputNumber'
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
-import { opcionesNotificado } from '../../GlobalConst/opcionesNotificadoCampos'
 
 interface CargarVictimarioProps {
   datos: any;
@@ -20,7 +19,6 @@ interface CargarVictimarioProps {
 
 function EditVictimario   ({existente, md, datos, register, setValue, errors}:CargarVictimarioProps) {
   
-  const defaultIndex = opcionesNotificado.findIndex(opcion => opcion.nombre === datos.notificacion);
   return (
     <div className={`w-full ${md && "lg:w-6/10"}`}>
        {!existente && <h1 className='text-2xl my-5'>Victimario</h1>}
@@ -48,11 +46,7 @@ function EditVictimario   ({existente, md, datos, register, setValue, errors}:Ca
         <InputCheckbox campo="Entrenamiento en  combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" state={datos.entrenamiento_en_combate}/>          
       </div>
     </>
-    <>
-        <span className='ml-4 font-medium  my-2'> Notificación </span> 
-        <InputRadio campo="Notificación" nombre="notificacion" register={register} type="radio" opciones={opcionesNotificado}  defaultValue={defaultIndex}/>          
-    </>
-    
+  
     </div>
   )
 }

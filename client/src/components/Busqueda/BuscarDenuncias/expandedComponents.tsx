@@ -93,15 +93,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         // Abrir en una nueva pestaña
         window.open(url, '_blank');
     }
-    // Medidas
-    const medidas = [
-        { nombre: "Prohibición de acercamiento", valor: data.medida.prohibicion_de_acercamiento },
-        { nombre: "Restitución de menor", valor: data.medida.restitucion_de_menor },
-        { nombre: "Exclusión de Hogar", valor: data.medida.exclusion_de_hogar },
-        { nombre: "Alimento Provisorio", valor: data.medida.alimento_provisorio },
-        { nombre: "Derecho de Comunicación", valor: data.medida.derecho_de_comunicacion },
-        { nombre: "Botón antipánico", valor: data.medida.boton_antipanico }
-    ]
+   
     // Mostrar datos de la victima
     const victimaDatosMostrar = [
         { nombre: "ID Víctima", valor: data.victima_ID},
@@ -135,7 +127,6 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "DNI", valor: victimarioDatos.DNI ? victimarioDatos.DNI : "No especificado"},
         { nombre: "Estado Civil", valor: victimarioDatos.estado_civil ? victimarioDatos.estado_civil : "No especificado"},
         { nombre: "Ocupación", valor: victimarioDatos.ocupacion ? victimarioDatos.ocupacion : "No especificado"},
-        { nombre: "Notificación", valor: victimarioDatos.notificacion ? victimarioDatos.notificacion : "No especificado"},
         { nombre: "Denuncias previas", valor: victimarioDatos.cantidad_de_denuncias_previas ? victimarioDatos.cantidad_de_denuncias_previas : "No especificado"}
     ]
     // Detalles del victimario
@@ -190,10 +181,23 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "Vínculo con la víctima", valor: data?.vinculo_con_la_victima_tercero ? data.vinculo_con_la_victima_tercero : "No especificado"}
     ]
 
+     // Medidas
+     const medidas = [
+        { nombre: "Prohibición de acercamiento", valor: data.medida.prohibicion_de_acercamiento },
+        { nombre: "Restitución de menor", valor: data.medida.restitucion_de_menor },
+        { nombre: "Exclusión de Hogar", valor: data.medida.exclusion_de_hogar },
+        { nombre: "Alimento Provisorio", valor: data.medida.alimento_provisorio },
+        { nombre: "Derecho de Comunicación", valor: data.medida.derecho_de_comunicacion },
+        { nombre: "Botón antipánico", valor: data.medida.boton_antipanico }
+    ]
+
+
     // Medidas
-    const medidaSolicitada = [
-        { nombre: "Medida solicitada por la víctima", valor: data.medida_solicitada_por_la_victima },
-        { nombre: "Medida dispuesta por autoridad judicial", valor: data.medida_dispuesta_por_autoridad_judicial },
+    const medidaDispuestaPorLaAutoridadJudicial = [
+        { nombre: "Prohibición de acercamiento", valor: data.medida_dispuesta.prohibicion_de_acercamiento },
+        { nombre: "Exclusión de Hogar", valor: data.medida_dispuesta.exclusion_de_hogar },
+        { nombre: "Botón antipánico", valor: data.medida_dispuesta.boton_antipanico },
+        { nombre: "Notificación", valor: data.medida_dispuesta.notificacion }
     ]
 
 
@@ -280,12 +284,9 @@ function expandedComponents({data}:expandedComponentsProps) {
                     
                 </div>
                 <SimpleTableCheckorX campo="Tipo de Violencia" datos={tiposDeViolencia} />
-                <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="Medida" datos={medidaSolicitada}/>
-                </div>
-                {(data.medida_solicitada_por_la_victima || data.medida_dispuesta_por_autoridad_judicial) &&
-                    <SimpleTableCheckorX campo="Medida dispuesta" datos={medidas} />
-                }
+                <SimpleTableCheckorX campo="Medida solicitada por la víctima" datos={medidas} />
+                <SimpleTableCheckorX campo="Medida dispuesta por la autoridad judicial" datos={medidaDispuestaPorLaAutoridadJudicial} />
+                
                 <div className='flex flex-col'>
                     {data.denunciado_por_tercero &&
                         <>

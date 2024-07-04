@@ -6,7 +6,7 @@ import denuncias from '../../models/denuncias'
 export const createVictimario = async (req, res) => {
     try {
         // Extraemos los datos del body
-        const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion, } = req.body
+        const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate } = req.body
         // Buscar si ya existe un víctimario con el DNI ingresado
         let victimarioExistente
         if (dni_victimario != "S/N") {
@@ -29,7 +29,6 @@ export const createVictimario = async (req, res) => {
                 antecedentes_penales,
                 antecedentes_contravencionales,
                 entrenamiento_en_combate,
-                notificacion,
                 cantidad_de_denuncias_previas: 1
             })
             const victimarioSaved = await newVictimario.save()
@@ -51,7 +50,6 @@ export const createVictimario = async (req, res) => {
                     antecedentes_penales,
                     antecedentes_contravencionales,
                     entrenamiento_en_combate,
-                    notificacion,
                     $inc: { cantidad_de_denuncias_previas: 1 }
                 }, { new: true })
             }
@@ -107,7 +105,7 @@ export const deleteVictimario = async (id, denunciaId) => {
 // Editar victimario
 export const updateVictimario = async (req, res) => {
     const { id } = req.params
-    const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, notificacion, } = req.body
+    const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate } = req.body
 
     try {
         const victimarioUpdated = await victimario.findByIdAndUpdate(req.params.id, {
@@ -123,7 +121,6 @@ export const updateVictimario = async (req, res) => {
             antecedentes_penales,
             antecedentes_contravencionales,
             entrenamiento_en_combate,
-            notificacion,
         }, { new: true })
 
         // Actualizar victima_nombre de las denuncias que tenga la víctima en caso de que se haya modificado

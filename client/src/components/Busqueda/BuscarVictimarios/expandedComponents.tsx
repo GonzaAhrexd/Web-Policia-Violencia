@@ -51,7 +51,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "DNI", valor: data.DNI ? data.DNI : "No especificado"  },
         { nombre: "Estado Civil", valor: data.estado_civil ? data.estado_civil : "No especificado"  },
         { nombre: "Ocupación", valor: data.ocupacion ? data.ocupacion : "No especificado"  },
-        { nombre: "Notificación", valor: data.notificacion ? data.notificacion : "No especificado"  },
         { nombre: "Denuncias previas", valor: data.cantidad_de_denuncias_previas }
     ]
     // Detalles del victimario

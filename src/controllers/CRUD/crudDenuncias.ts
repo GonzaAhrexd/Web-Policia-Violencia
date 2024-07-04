@@ -116,7 +116,7 @@ export const createDenuncia = async (req, res) => {
     try {
         // Obtener los datos de la denuncia
         const { user_id, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
-            derecho_de_comunicacion, boton_antipanico, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor } = req.body
+            derecho_de_comunicacion, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, notificacion, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor } = req.body
         // Buscar si la victima y victimario ya existen
         const findVictima = await victimas.findOne({ DNI: dni_victima })
         let findVictimario
@@ -166,15 +166,19 @@ export const createDenuncia = async (req, res) => {
             },
             empleo_de_armas: empleo_de_armas ? empleo_de_armas : false,
             arma_empleada: (arma_empleada && empleo_de_armas) ? arma_empleada : 'Sin armas',
-            medida_solicitada_por_la_victima: medida_solicitada_por_la_victima ? medida_solicitada_por_la_victima : false,
-            medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial ? medida_dispuesta_por_autoridad_judicial : false,
             medida: {
-                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? prohibicion_de_acercamiento : false,
-                restitucion_de_menor: (restitucion_de_menor !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? restitucion_de_menor : false,
-                exclusion_de_hogar: (exclusion_de_hogar !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? exclusion_de_hogar : false,
-                alimento_provisorio: (alimento_provisorio !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? alimento_provisorio : false,
-                derecho_de_comunicacion: (derecho_de_comunicacion !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? derecho_de_comunicacion : false,
-                boton_antipanico: (boton_antipanico !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? boton_antipanico : false,
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined ) ? prohibicion_de_acercamiento : false,
+                restitucion_de_menor: (restitucion_de_menor !== undefined ) ? restitucion_de_menor : false,
+                exclusion_de_hogar: (exclusion_de_hogar !== undefined ) ? exclusion_de_hogar : false,
+                alimento_provisorio: (alimento_provisorio !== undefined ) ? alimento_provisorio : false,
+                derecho_de_comunicacion: (derecho_de_comunicacion !== undefined ) ? derecho_de_comunicacion : false,
+                boton_antipanico: (boton_antipanico !== undefined) ? boton_antipanico : false,
+            },
+            medida_dispuesta: {
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento_dispuesta !== undefined ) ? prohibicion_de_acercamiento_dispuesta : false,
+                exclusion_de_hogar: (exclusion_de_hogar_dispuesta !== undefined) ? exclusion_de_hogar_dispuesta : false,
+                boton_antipanico: (boton_antipanico_dispuesta !== undefined) ? boton_antipanico_dispuesta : false,
+                notificacion: notificacion ? notificacion : false
             },
             tercero_ID: IdTercero ? IdTercero : 'Sin tercero',
             vinculo_con_la_victima_tercero: vinculo_con_la_victima ? vinculo_con_la_victima : 'Sin vínculo',
@@ -236,7 +240,7 @@ export const updateDenuncia = async (req, res) => {
     try {
         //Edita los parametros de la denuncia salvo los id de la victima y victimario
         const { id } = req.params
-        const { nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor,  genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto } = req.body
+        const { nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor,  genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, notificacion, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto } = req.body
         // Buscar al tercero si se agregó
          
         let findTercero
@@ -281,12 +285,18 @@ export const updateDenuncia = async (req, res) => {
             medida_solicitada_por_la_victima: medida_solicitada_por_la_victima,
             medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial,
             medida: {
-                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? prohibicion_de_acercamiento : false,
-                restitucion_de_menor: (restitucion_de_menor !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? restitucion_de_menor : false,
-                exclusion_de_hogar: (exclusion_de_hogar !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? exclusion_de_hogar : false,
-                alimento_provisorio: (alimento_provisorio !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? alimento_provisorio : false,
-                derecho_de_comunicacion: (derecho_de_comunicacion !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? derecho_de_comunicacion : false,
-                boton_antipanico: (boton_antipanico !== undefined && (medida_solicitada_por_la_victima || medida_dispuesta_por_autoridad_judicial)) ? boton_antipanico : false,
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined ) ? prohibicion_de_acercamiento : false,
+                restitucion_de_menor: (restitucion_de_menor !== undefined ) ? restitucion_de_menor : false,
+                exclusion_de_hogar: (exclusion_de_hogar !== undefined ) ? exclusion_de_hogar : false,
+                alimento_provisorio: (alimento_provisorio !== undefined ) ? alimento_provisorio : false,
+                derecho_de_comunicacion: (derecho_de_comunicacion !== undefined ) ? derecho_de_comunicacion : false,
+                boton_antipanico: (boton_antipanico !== undefined) ? boton_antipanico : false,
+            },
+            medida_dispuesta: {
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento_dispuesta !== undefined ) ? prohibicion_de_acercamiento_dispuesta : false,
+                exclusion_de_hogar: (exclusion_de_hogar_dispuesta !== undefined) ? exclusion_de_hogar_dispuesta : false,
+                boton_antipanico: (boton_antipanico_dispuesta !== undefined) ? boton_antipanico_dispuesta : false,
+                notificacion: notificacion ? notificacion : false
             },
             denunciado_por_tercero: denunciado_por_tercero,
             tercero_ID: (denunciado_por_tercero)? tercero_ID  : ('Sin tercero'),

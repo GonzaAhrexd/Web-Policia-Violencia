@@ -124,7 +124,6 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
         setSelectedSubunidad(value);
         setSelectedSubsubunidad('');
         setSelectedCuadricula('');
-
         setComisariaPertenece(handleBuscarPrefijo(value) + "-")
         // Actualiza el valor en react-hook-form
         setValue('municipio', `${value}`);

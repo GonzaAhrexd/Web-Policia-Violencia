@@ -202,18 +202,6 @@ const denunciaSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
-    // Definición de la medida solicitada por la victima
-    medida_solicitada_por_la_victima: {
-        type: Boolean, // Tipo de dato Boolean
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
-    // Definición de la medida dispuesta por autoridad judicial
-    medida_dispuesta_por_autoridad_judicial: {
-        type: Boolean, // Tipo de dato Boolean
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
     // Definición de la medida
     medida: {
         // Definición de prohibicion de acercamiento
