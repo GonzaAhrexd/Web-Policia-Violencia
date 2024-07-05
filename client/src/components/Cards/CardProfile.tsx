@@ -1,3 +1,7 @@
+/* 
+    Este componente es un card que muestra la información de un usuario.
+    Se utiliza en la vista de perfil de usuario y en la vista de usuarios.
+*/
 import { NavLink } from 'react-router-dom';
 
 type Props = {

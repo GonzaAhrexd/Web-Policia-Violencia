@@ -1,4 +1,9 @@
-import React from 'react'
+/*
+    Componente utilizado en el index de la página
+
+    Muestra de forma rápida las denuncias que están pendientes de validación
+*/
+
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 // APIs del BackEnd

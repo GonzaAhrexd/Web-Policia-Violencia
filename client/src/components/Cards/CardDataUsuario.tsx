@@ -1,3 +1,9 @@
+/*
+  Componente utilizado en /mi-perfil
+  Muestra los datos del usuario y cuenta con el botón para poner en modo de edición
+
+
+*/
 interface CardDataUsuarioProps {
     datosUsuario: any
     setIsEditing: any
