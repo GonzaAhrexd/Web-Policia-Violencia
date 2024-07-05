@@ -127,6 +127,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
             });
           })
         }>
+          
           <div className='flex items-center'>
             <h1 className='text-2xl my-5'>Víctima</h1>
             <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text-black font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalVictima(true)} />

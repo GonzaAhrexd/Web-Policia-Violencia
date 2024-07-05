@@ -137,13 +137,13 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>
-        <SelectCargaDenuncias valor={datos.juzgado_interviniente} campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
+        <SelectCargaDenuncias isRequired={false} valor={datos.juzgado_interviniente} campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
         <InputRegister valor={datos.juzgado_interviniente_numero} campo="Número" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero} />
         <InputRegister notMid={true} campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} valor={datos.dependencia_derivada} />
       </div>
       <div className='flex flex-col md:flex-row my-2' >
-        <SelectCargaDenuncias valor={datos.violencia} campo="Violencia" nombre="violencia" opciones={opcionesViolencia} register={register} setValue={setValue} type="text" error={errors.violencia} />
-        <SelectCargaDenuncias valor={datos.modalidades} setTitulo={setTitulo} info={tiposModalidades} campo="Modalidades" nombre="modalidades" opciones={opcionesModalidades} register={register} setValue={setValue} type="text" error={errors.modalidades} handleOpenModal={handleOpenModal} />
+        <SelectCargaDenuncias isRequired={false} valor={datos.violencia} campo="Violencia" nombre="violencia" opciones={opcionesViolencia} register={register} setValue={setValue} type="text" error={errors.violencia} />
+        <SelectCargaDenuncias isRequired={false} valor={datos.modalidades} setTitulo={setTitulo} info={tiposModalidades} campo="Modalidades" nombre="modalidades" opciones={opcionesModalidades} register={register} setValue={setValue} type="text" error={errors.modalidades} handleOpenModal={handleOpenModal} />
       </div>
       <>
         <span className='ml-4 font-medium  flex flex-row my-2'> Tipo de Violencia
@@ -169,7 +169,7 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
           <InputCheckbox campo="Empleo de Armas" nombre="empleo_de_armas" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsArmas} state={isArmas} id="empleo_de_armas" />
           {isArmas &&
             <>
-              <SelectCargaDenuncias valor={datos.arma_empleada} campo="Arma empleada" nombre="tipo_de_arma" opciones={opcionesTiposDeArma} register={register} setValue={setValue} type="text" error={errors.modalidad} />
+              <SelectCargaDenuncias isRequired={false} valor={datos.arma_empleada} campo="Arma empleada" nombre="tipo_de_arma" opciones={opcionesTiposDeArma} register={register} setValue={setValue} type="text" error={errors.modalidad} />
             </>
           }
         </div>

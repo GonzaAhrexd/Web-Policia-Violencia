@@ -122,7 +122,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
             values.user_id = user.id
             values.numero_de_expediente = values.PrefijoExpediente + values.numero_expediente + values.Expediente + values.SufijoExpediente
             try {
-              crearDenuncia(values)
+              crearDenuncia(values) 
               aprobarDenuncia(datos._id)
 
               Swal.fire({

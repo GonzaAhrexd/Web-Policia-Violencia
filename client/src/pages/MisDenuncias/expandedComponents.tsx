@@ -114,7 +114,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "ID", valor: data.victima_ID},
         { nombre: "Nombre", valor: victimaDatos?.nombre ? victimaDatos.nombre : "No especificado"},
         { nombre: "Apellido", valor: victimaDatos?.apellido ? victimaDatos.apellido : "No especificado"},
-        { nombre: "Dirección", valor: victimaDatos?.direccion ? victimaDatos.direccion : "No específicado"},
+        { nombre: "Domicilio", valor: victimaDatos?.direccion ? victimaDatos.direccion : "No específicado"},
         { nombre: "Edad", valor: victimaDatos?.edad ? victimaDatos.edad : "No especificado"},
         { nombre: "DNI", valor: victimaDatos?.DNI ? victimaDatos.DNI : "No especificado"},
         { nombre: "Estado Civil", valor: victimaDatos?.estado_civil ? victimaDatos.estado_civil : "No especificado"},
@@ -137,7 +137,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "ID", valor: data.victimario_ID},
         { nombre: "Nombre", valor: victimarioDatos.nombre ? victimarioDatos.nombre : "No especificado"},
         { nombre: "Apellido", valor: victimarioDatos.apellido ? victimarioDatos.apellido : "No especificado"},
-        { nombre: "Dirección", valor: victimarioDatos?.direccion ? victimarioDatos.direccion : "No específicado"},
+        { nombre: "Domicilio", valor: victimarioDatos?.direccion ? victimarioDatos.direccion : "No específicado"},
         { nombre: "Edad", valor: victimarioDatos.edad ? victimarioDatos.edad : "No especificado"},
         { nombre: "DNI", valor: victimarioDatos.DNI ? victimarioDatos.DNI : "No especificado"},
         { nombre: "Estado Civil", valor: victimarioDatos.estado_civil ? victimarioDatos.estado_civil : "No especificado"},
@@ -174,7 +174,7 @@ function expandedComponents({data}:expandedComponentsProps) {
     const hechoDatosGeográficos = [
         { nombre: "Unidad de Carga", valor: data.unidad_de_carga },
         { nombre: "Municipio", valor: data.municipio },
-        { nombre: "Dirección", valor: data.direccion },
+        { nombre: "Lugar del hecho", valor: data.direccion },
         { nombre: "Barrio", valor: data.barrio },
         { nombre: "GIS", valor: data.GIS },
         { nombre: "Jurisdicción Policial", valor: data.jurisdiccion_policial },
@@ -192,12 +192,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "Vínculo con la víctima", valor: data?.vinculo_con_la_victima_tercero ? data.vinculo_con_la_victima_tercero : "No especificado"}
     ] 
 
-    // Medidas
-    const medidaSolicitada = [
-        { nombre: "Medida solicitada por la víctima", valor: data.medida_solicitada_por_la_victima },
-        { nombre: "Medida dispuesta por autoridad judicial", valor: data.medida_dispuesta_por_autoridad_judicial },
-    ]
-
+   
     // Controlar cuando se da a eliminar
     const handleDelete = async (data: any) => {
         // Popup de confirmación
@@ -277,9 +272,7 @@ function expandedComponents({data}:expandedComponentsProps) {
                     </div>
                 </div>
                 <SimpleTableCheckorX campo="Tipo de Violencia" datos={tiposDeViolencia} />
-                <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="Medida" datos={medidaSolicitada}/>
-                </div>
+                
                 {(data.medida_solicitada_por_la_victima || data.medida_dispuesta_por_autoridad_judicial) &&
                     <SimpleTableCheckorX campo="Medida dispuesta" datos={medidas} />
                 }

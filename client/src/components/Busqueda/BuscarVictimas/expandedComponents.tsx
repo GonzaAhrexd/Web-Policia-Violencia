@@ -44,7 +44,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     const victimaDatosMostrar = [
         { nombre: "Nombre", valor: data.nombre ? data.nombre : "No especificado"},
         { nombre: "Apellido", valor: data.apellido ? data.apellido : "No especificado"  },
-        { nombre: "Dirección", valor: data.direccion ? data.direccion : "No especificado"  },
+        { nombre: "Domicilio de la víctima", valor: data.direccion ? data.direccion : "No especificado"  },
         { nombre: "Edad", valor: data.edad ? data.edad : "No especificado"  },
         { nombre: "DNI", valor: data.DNI ? data.DNI : "No especificado"  },
         { nombre: "Estado Civil", valor: data.estado_civil ? data.estado_civil : "No especificado"  },

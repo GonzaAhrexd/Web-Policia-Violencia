@@ -27,9 +27,9 @@ function EditVictimario   ({existente, md, datos, register, setValue, errors}:Ca
         <InputRegister campo="Apellido" nombre="apellido_victimario" register={register} setValue={setValue} type="text" error={errors.apellido_victimario} valor={datos.apellido}/>
       </div>
       <div className='flex flex-col md:flex-row my-2'>
-        <InputRegister campo="Dirección" nombre="direccion_victimario" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victimario} valor={datos.direccion}/>
+        <InputRegister campo="Domicilio del victimario" nombre="direccion_victimario" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victimario} valor={datos.direccion}/>
         <InputNumber require={false} campo="Edad" nombre="edad_victimario" register={register} setValue={setValue} type="text" error={errors.edad_victimario} valor={datos.edad} maxLenght={2}/>
-        <InputNumber require={false} campo="DNI" nombre="dni_victimario" register={register} setValue={setValue} type="text" error={errors.dni_victimario} valor={datos.DNI} maxLenght={8}/> 
+        <InputRegister require={false} campo="DNI" nombre="dni_victimario" register={register} setValue={setValue} type="text" error={errors.dni_victimario} valor={datos.DNI}/> 
       </div>
       <div className='flex flex-col xl:flex-row my-2'>
         <SelectRegister campo="Estado Civil" nombre="estado_civil_victimario" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victimario} valor={datos.estado_civil} isRequired={false} />

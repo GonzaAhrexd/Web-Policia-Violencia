@@ -46,7 +46,7 @@ function EditVictima({editarConDenuncia, variante, existente, hijos_con_agresor,
                 <InputRegister campo="Apellido" nombre="apellido_victima" register={register} setValue={setValue} type="text" error={errors.apellido_victima} valor={datos.apellido} />
             </div>
             <div className='flex flex-col md:flex-row my-2'>
-                <InputRegister campo="Dirección" nombre="direccion_victima" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victima} valor={datos.direccion} />
+                <InputRegister campo="Domicilio de la víctima" nombre="direccion_victima" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victima} valor={datos.direccion} />
                 <InputNumber campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} valor={datos.edad} maxLenght={2} />
                 <InputNumber campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="text" error={errors.dni_victima} valor={datos.DNI} maxLenght={8} />
             </div>

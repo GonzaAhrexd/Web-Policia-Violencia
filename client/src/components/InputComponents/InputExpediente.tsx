@@ -28,7 +28,7 @@ function InputExpediente({campo, nombre, register, type, error, placeholder, com
             <input className={`border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 pl-2`} type={type} defaultValue="130/"
                 {...register("PrefijoExpediente", { required: true })} placeholder={placeholder} />            
             <input className={`border open-sans border-gray-300 rounded-md h-10 xl:h-8  2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 pl-2`} type={type}
-                {...register(nombre, { required: true })} placeholder={placeholder} defaultValue={comisariaPertenece}/>
+                {...register(nombre, { required: false })} placeholder={placeholder} defaultValue={comisariaPertenece}/>
                             <input className={`border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 pl-2`} type={type}
                 {...register("Expediente", { required: false })}  placeholder={placeholder} />
             <input className={`border open-sans border-gray-300 rounded-md h-10 xl:h-8  2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 pl-2`} type={type} defaultValue={handleDate()  }

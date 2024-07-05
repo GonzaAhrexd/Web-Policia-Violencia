@@ -33,7 +33,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Apellido", valor: data.apellido_victima },
         { nombre: "DNI", valor: data.DNI_victima },
         { nombre: "Nacionalidad", valor: data.nacionalidad_victima },
-        { nombre: "Dirección", valor: data.direccion_victima },
+        { nombre: "Domicilio", valor: data.direccion_victima },
         { nombre: "Teléfono", valor: data.telefono_victima },
         { nombre: "¿Sabe leer y Escribir?", valor: data.sabe_leer_y_escribir_victima },
     ]

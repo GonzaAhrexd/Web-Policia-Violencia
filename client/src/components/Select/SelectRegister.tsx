@@ -60,6 +60,7 @@ function SelectRegister({notComisaria, mid, setTipoDenuncia, campo, opciones, no
         nombre == "division" && setValue('division', value)
         nombre == "denuncias_de" && setValue('denuncias_de', value)
         nombre == "apartado" && setValue('apartado', value)
+        nombre == "juzgado_interviniente" && setValue('juzgado_interviniente', value)
     };
       
     const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

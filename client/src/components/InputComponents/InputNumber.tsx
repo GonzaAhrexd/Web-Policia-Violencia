@@ -1,5 +1,7 @@
 // Hooks
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+// Iconos
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 interface InputRegisterProps {
   campo: string;
@@ -19,8 +21,8 @@ interface InputRegisterProps {
 }
 
 function InputNumber({maxLenght, busqueda, notMidMD, notMid, campo, nombre, register, error, require, valor, placeholder, setValue }: InputRegisterProps) {
+  const [avisoRequerido, setAvisoRequerido] = useState(false)
   placeholder = placeholder || '';
-
   if (valor) {
     useEffect(() => {
       setValue(nombre, valor);
@@ -48,16 +50,16 @@ function InputNumber({maxLenght, busqueda, notMidMD, notMid, campo, nombre, regi
 
   return (
     <div className={getClassName( notMid, notMidMD)}>
-      <span className={`font-medium ml-4`}> {nombre === "id" ? "" : campo} {error && <span className='text-red-500'>{error.message}</span>} </span>
+      <span className={`flex font-medium ml-4`}> {nombre === "id" ? "" : campo} {error && <ExclamationCircleIcon className='w-6 text-red-600 cursor-pointer' onMouseEnter={() => setAvisoRequerido(true)} onMouseLeave={() => setAvisoRequerido(false)} />} {avisoRequerido && <span className="text-red-600">Requerido</span>} </span>
       <input
         className={`border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 pl-2`}
         type="text"
         {...register(nombre, {
-          required: require !== false,
-          pattern: {
-            value: /^[0-9]*$/,
-            message: "Solo se permiten números."
-          },
+          required: require === false ? false : true ,
+            pattern: {
+              value: /^[0-9]*$/,
+              message: "Solo se permiten números."
+            },
         })}
         placeholder={placeholder}
         onInput={handleInput}

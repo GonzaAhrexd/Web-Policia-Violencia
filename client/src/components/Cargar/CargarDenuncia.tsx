@@ -11,6 +11,7 @@ import InputDate from '../InputComponents/InputDate'
 import InputExpediente from '../InputComponents/InputExpediente'
 import EditExpediente from '../EditMode/EditExpediente';
 import InputRadio from '../InputComponents/InputRadio'
+import InputNumber from '../InputComponents/InputNumber'
 // Apis y BackEnd
 import { getCoords } from '../../api/coordinates'
 
@@ -26,6 +27,7 @@ import { tiposDeViolenciaText, tiposModalidades } from '../../GlobalConst/modalT
 import { opcionesNotificado } from '../../GlobalConst/opcionesNotificadoCampos'
 // Iconos
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 
 
 // Props
@@ -40,9 +42,7 @@ interface denunciaProps {
   setOpenModalTercero?: any
 }
 
-function
-
-  CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors, expediente, setTercero, setOpenModalTercero }: denunciaProps) {
+function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors, expediente, setTercero, setOpenModalTercero }: denunciaProps) {
 
   const [comisariaPertenece, setComisariaPertenece] = useState('')
   const [isArmas, setIsArmas] = useState(false)
@@ -109,8 +109,8 @@ function
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>
-        <SelectCargaDenuncias campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
-        <InputRegister campo="Número" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero} />
+        <SelectRegister isRequired={true} campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
+        <InputRegister require={false} campo="Número" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero} />
         <InputRegister campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} />
       </div>
       <div className='flex flex-col md:flex-row my-2' >
@@ -119,12 +119,12 @@ function
       </div>
       <>
         <span className='ml-4 font-medium flex flex-row my-2'> Tipo de Violencia
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-4 cursor-pointer" onClick={() => (
+          
+          <QuestionMarkCircleIcon className="w-6 cursor-pointer" onClick={() => (
             setTitulo("Tipos de Violencia"),
             handleOpenModal(tiposDeViolenciaText)
-          )}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-          </svg>
+          )}/>
+         
         </span>
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2`}>
           <InputCheckbox campo="Física" nombre="fisica" register={register} setValue={setValue} type="checkbox" id="fisica" />
@@ -187,16 +187,16 @@ function
             </div>
             {!setTercero ?
               <div className='flex flex-col md:flex-row'>
-                <InputRegister campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
-                <InputRegister campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
-                <InputRegister campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
+                <InputRegister campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre_tercero} />
+                <InputRegister campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido_tercero} />
+                <InputNumber maxLenght={8} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.dni_tercero} />
 
               </div>
               :
               <div className='flex flex-col md:flex-row'>
                 <InputRegister valor={setTercero.nombre} campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre} />
                 <InputRegister valor={setTercero.apellido} campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido} />
-                <InputRegister valor={setTercero.DNI} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
+                <InputNumber maxLenght={8} valor={setTercero.DNI} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
               </div>
             }
             <div className='flex flex-col'>

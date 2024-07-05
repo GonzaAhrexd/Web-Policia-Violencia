@@ -34,11 +34,12 @@ interface Props {
     info?: any
     setTitulo?: any
     valor?: any
+    isRequired?: any
 }   
 
 
-function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, barrio, setBarrio, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, setComisariaPertenece, state, info, setTitulo }: Props) {
-
+function SelectCargaDenuncias({isRequired, valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, barrio, setBarrio, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, setComisariaPertenece, state, info, setTitulo }: Props) {
+    const [requiredInput, setRequiredInput] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
@@ -72,11 +73,10 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
 
         if (state == false) {
             selectedSubunidad && setComisariaPertenece(handleBuscarPrefijo(selectedSubunidad) + "-")
-
             selectedSubsubunidad && setComisariaPertenece(handleBuscarPrefijo(selectedSubsubunidad) + "-")
-
         }
 
+        // Setea el prefijo de la comisaria según la unidad seleccionada si se selecciona que fue en la división de género
         if (state && selectedUnidad == "Metropolitana") {
             setComisariaPertenece("371-")
         } else if (state && selectedUnidad == "La Leonesa") {
@@ -149,10 +149,13 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
     };
 
 
+    // Abre una nueva pestaña con las coordenadas en Google Maps
     const handleClick = (coordenadas: any) => {
-      
+        // Separa las coordenadas en latitud y longitud
         const coordenadasSeparadas = coordenadas.split(' ')
+        // Forma la URL de Google Maps con las coordenadas
         const url = `https://www.google.com/maps/d/viewer?mid=1n-ERiPIZT9Q0WlRQoWI_NmvI9jJffohO&g_ep=CAESCjExLjEyNC4xMDIYACDdYio_LDk0MjE2NDEzLDk0MjEyNDk2LDk0MjA3NTA2LDk0MjE3NTIzLDk0MjE4NjUzLDQ3MDg3MTEyLDQ3MDg0MzkzQgJBUg%3D%3D&shorturl=1&ll=${coordenadasSeparadas[0]}%2C${coordenadasSeparadas[1]}&z=20`
+        // Abre la URL en una nueva pestaña
         window.open(url, '_blank');
     };
 
@@ -169,7 +172,7 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                 <span className='ml-4 font-medium flex flex-row '> {nombre!="tipo_de_arma" ? campo : ""}  <span className='text-red-500'> </span>  
                 
                 {campo === "Modalidades" &&   
-                  <QuestionMarkCircleIcon className="w-6 h-4 cursor-pointer" onClick={() => (
+                  <QuestionMarkCircleIcon className="w-6 cursor-pointer" onClick={() => (
                     setTitulo("Modalidades"),
                     handleOpenModal(info)
                   )}/>} 
@@ -180,6 +183,7 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                         name={nombre}
                         value={selectedUnidad}
                         onChange={handleUnidadChange}
+                        required={requiredInput}
                     >
                         <option value="">{valor ? valor : `Seleccione ${campo.toLowerCase()}`}</option>
                         {opciones.map((unidad: Opcion) => (
@@ -193,11 +197,11 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                 {selectedUnidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones && (
                     <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
                         <span className='ml-4 font-medium '> Municipio  <span className='text-red-500'> </span> </span>
-
                         <select
                             className="border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 w-95/10"
                             name="subunidad"
                             value={selectedSubunidad}
+                            required={requiredInput}
                             onChange={handleSubunidadChange}>
                             <option value="">Seleccione municipio</option>
                             {
@@ -213,11 +217,9 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                 {selectedSubunidad &&
 
                     <div className='flex flex-col xl:flex-row'>
-                        <InputDireccion state={direccion} setState={setDireccion} campo="Dirección" nombre="direccion" register={register} setValue={setValue} type="text" error={errors.direccion} />
-                        <InputDireccion state={barrio} setState={setBarrio} campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
-                        
-                        {/* <InputDireccion campo="Barrio" nombre="barrio" register={register} setValue={setValue} setState={setBarrio} type="text" error={errors.barrio} /> */}
-                        <InputDireccion state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.GIS} />
+                        <InputDireccion require={true} state={direccion} setState={setDireccion} campo="Domicilio" nombre="direccion" register={register} setValue={setValue} type="text" error={errors.direccion} />
+                        <InputDireccion require={true} state={barrio} setState={setBarrio} campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />                        
+                        <InputDireccion require={true} state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.GIS} />
                         <div className='cursor-pointer flex flex-col items-center mt-5 md:flex-row'>
                             <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 md:mr-1 flex items-center justify-center' onClick={() => consultarCoordenadas()}>
 
@@ -247,7 +249,9 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                                 className=" border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                                 name="subsubunidad"
                                 value={selectedSubsubunidad}
+                                required={requiredInput}
                                 onChange={handleSubsubunidadChange}>
+
                                 <option value="">Seleccione jurisdicción policial</option>
                                 {opciones.find((unidad) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones?.map((subsubunidad) => (
                                     <option key={subsubunidad.value} value={subsubunidad.value}>
@@ -268,6 +272,7 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                                 className=" border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                                 name="subsubunidad"
                                 value={selectedSubsubunidad}
+                                required={true}
                                 onChange={handleSubsubunidadChange}>
                                 <option value="">Seleccione cuadrícula</option>
                                 {opciones.find((unidad) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.cuadriculas?.map((cuadricula) => (
@@ -285,6 +290,7 @@ function SelectCargaDenuncias({valor, handleOpenModal, consultarCoordenadas, dir
                             className="border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
                             name="cuadricula"
                             value={selectedCuadricula}
+                            required={true}
                             onChange={handleCuadriculaChange}
                         >
                             <option value="">Seleccione una cuadrícula</option>

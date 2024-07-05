@@ -34,7 +34,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Estado civil víctima", valor: data.estado_civil_victima },
         { nombre: "Ocupación víctima", valor: data.ocupacion_victima },
         { nombre: "Nacionalidad de la víctima", valor: data.nacionalidad_victima },
-        { nombre: "Dirección víctima", valor: data.direccion_victima },
+        { nombre: "Domicilio de la víctima", valor: data.direccion_victima },
         { nombre: "Teléfono víctima", valor: data.telefono_victima },
         { nombre: "Con instrucción", valor: data.sabe_leer_y_escribir_victima },
     ]

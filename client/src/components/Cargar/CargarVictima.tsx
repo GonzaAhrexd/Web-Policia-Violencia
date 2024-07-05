@@ -32,7 +32,7 @@ function CargarVictima({ register, setValue, errors }: CargarVictimaProps) {
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>
-        <InputRegister campo="Dirección" nombre="direccion_victima" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victima} />
+        <InputRegister campo="Domicilio" nombre="direccion_victima" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victima} />
         <InputNumber campo="Edad" nombre="edad_victima" require={false} register={register} setValue={setValue} type="text" error={errors.edad_victima} maxLenght={2} />
         <InputNumber campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="text" error={errors.dni_victima} maxLenght={8} />
       </div>
