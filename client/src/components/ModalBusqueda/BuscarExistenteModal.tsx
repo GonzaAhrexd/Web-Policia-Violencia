@@ -5,6 +5,7 @@ import { buscarVictima, buscarVictimario, buscarTercero } from '../../api/crud';
 // Componentes
 import InputRegister from '../InputComponents/InputRegister';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import InputNumber from '../InputComponents/InputNumber';
 
 
 interface BuscarExistenteModalProps {
@@ -25,7 +26,7 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
             const valoresFormateadosVictima = {
                 nombre_victima: values.nombre,
                 apellido_victima: values.apellido,
-                dni_victima: values.dni,
+                dni_victima: values.dni != "S/N" ? values.dni : null,
                 numero_de_expediente: values.numero_de_expediente
             }
             result = await buscarVictima(valoresFormateadosVictima);
@@ -71,7 +72,7 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
         <div>
             <div className="fixed inset-0 flex items-center justify-center z-50">
                 <div className="absolute inset-0 bg-black opacity-50"></div>
-                <div className="bg-white w-6/10 h-9/10 rounded p-5 relative overflow-auto">
+                <div className="bg-white w-9/10 md:w-6/10 h-9/10 rounded p-5 relative overflow-auto">
                     <h2 className="text-2xl mb-4">Buscar {variante} Existente</h2>
 
                     <XCircleIcon onClick={() => setOpenModal(false)} className="cursor-pointer h-10 rounded absolute top-0 right-0 m-2 text-black" />
@@ -85,10 +86,10 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
                                 {mostrarAlerta}
                             </span>
                         )}
-                        <InputRegister busqueda={true} campo="Nombre" nombre="nombre" register={register} require={false} type="text" error={errors.nombre} />
-                        <InputRegister busqueda={true} campo="Apellido" nombre="apellido" register={register} require={false} type="text" error={errors.apellido} />
-                        <InputRegister busqueda={true} campo="DNI" nombre="dni" register={register} require={false} type="text" error={errors.dni_victima} />
-                        <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false} />
+                        <InputRegister busqueda={true} campo="Nombre" nombre="nombre" register={register} require={false} type="text" error={errors.nombre}/>
+                        <InputRegister busqueda={true} campo="Apellido" nombre="apellido" register={register} require={false} type="text" error={errors.apellido}/>
+                        <InputNumber busqueda={true} campo="DNI" nombre="dni" register={register} require={false} type="text" error={errors.dni_victima} maxLenght={8}/>
+                        <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}/>
                         <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-3/10">Buscar</button>
                     </form>
 

@@ -22,13 +22,13 @@ interface InputRegisterProps {
 
 function InputRegister({ busqueda, notMidMD, notMid, campo, nombre, register, type, error, require, valor, placeholder, setValue }: InputRegisterProps) {
     const [avisoRequerido, setAvisoRequerido] = useState(false)
-    
+
     placeholder ? placeholder : ''
-    if (valor) {
-        useEffect(() => {
+    useEffect(() => {
+        if (valor) {
             setValue(nombre, valor);
-        }, [setValue, nombre, valor]);
-    }
+        }
+    }, [setValue, nombre, valor]);
 
 
     // @ts-ignore

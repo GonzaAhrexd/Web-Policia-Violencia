@@ -6,7 +6,13 @@ export const createVictima = async (req, res) => {
     //Victima nueva
     try {
         const { nombre_victima, apellido_victima, direccion_victima,  edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
-        let victimaExistente = await victimas.findOne({ DNI: dni_victima })
+        let victimaExistente 
+        if (dni_victima != "S/N") {
+            victimaExistente = await victimas.findOne({ DNI: dni_victima })
+        } else {
+            victimaExistente = null
+        }
+        
         if (req.body.dni_victima && !victimaExistente) {
             const newVictima = new victimas({
                 nombre: nombre_victima,
@@ -32,7 +38,6 @@ export const createVictima = async (req, res) => {
         } else {
 
             // Actualiza los datos con los nuevos ingresados en caso de que difiera y suma 1 denuncia 
-            // Actualiza los datos con los nuevos ingresados en caso de que difiera
             const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, {
                 $set: {
                     nombre: nombre_victima,

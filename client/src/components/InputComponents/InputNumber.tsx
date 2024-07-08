@@ -23,11 +23,11 @@ interface InputRegisterProps {
 function InputNumber({maxLenght, busqueda, notMidMD, notMid, campo, nombre, register, error, require, valor, placeholder, setValue }: InputRegisterProps) {
   const [avisoRequerido, setAvisoRequerido] = useState(false)
   placeholder = placeholder || '';
-  if (valor) {
-    useEffect(() => {
+  useEffect(() => {
+      if (valor) {
       setValue(nombre, valor);
-    }, [setValue, nombre, valor]);
-  }
+    }
+  }, [setValue, nombre, valor]);
 
   function getClassName( notMid?: boolean, notMidMD?: boolean) {
     if (notMid) {
@@ -55,7 +55,7 @@ function InputNumber({maxLenght, busqueda, notMidMD, notMid, campo, nombre, regi
         className={`border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 pl-2`}
         type="text"
         {...register(nombre, {
-          required: require === false ? false : true ,
+          required: require === false ? false : true,
             pattern: {
               value: /^[0-9]*$/,
               message: "Solo se permiten números."

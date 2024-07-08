@@ -129,7 +129,7 @@ const denunciaSchema = new mongoose.Schema({
     },
     juzgado_interviniente_numero: {
         type: String, // Tipo de dato String
-        required: true, // Campo requerido
+        required: false, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
     // Definición de la dependencia derivada

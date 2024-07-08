@@ -46,7 +46,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Apellido", valor: data.apellido ? data.apellido : "No especificado"  },
         { nombre: "Domicilio de la víctima", valor: data.direccion ? data.direccion : "No especificado"  },
         { nombre: "Edad", valor: data.edad ? data.edad : "No especificado"  },
-        { nombre: "DNI", valor: data.DNI ? data.DNI : "No especificado"  },
+        { nombre: "DNI", valor: (data.DNI && data.DNI != "S/N") ? data.DNI : "No especificado"  },
         { nombre: "Estado Civil", valor: data.estado_civil ? data.estado_civil : "No especificado"  },
         { nombre: "Ocupación", valor: data.ocupacion ? data.ocupacion : "No especificado"  },
         { nombre: "Vínculo con agresor", valor: data.vinculo_con_agresor ? data.vinculo_con_agresor : "No especificado"  },

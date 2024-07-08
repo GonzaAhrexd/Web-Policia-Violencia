@@ -66,6 +66,9 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
                 // Crear la víctima y retornar el id
                let idVictima = null;
                let idVictimario = null; 
+
+               values.dni_victima = values.dni_victima ? values.dni_victima : 'S/N';
+
                if(!values.victima_ID){
                   idVictima = await agregarVictima(values).then((id) => {
                    return id;

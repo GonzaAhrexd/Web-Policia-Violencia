@@ -31,9 +31,9 @@ function index() {
           </div>
         </div>
         <div className="text-center mt-4">
-          <h1 className="text-2xl font-semibold">{user.nombre} {user.apellido}</h1>
+          <h1 className="text-4xl font-semibold">{user.nombre} {user.apellido}</h1>
         </div>
-        <div className="flex flex-col md:flex-row justify-evenly mt-10 p-6">
+        <div className="flex flex-col md:flex-row justify-evenly mt-10 p-14">
           {!isEditing ?
             <>    
               {user.rol != 'sin_definir' ?
