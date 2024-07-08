@@ -21,9 +21,6 @@ function modoImprimir({modoImprimir, setModoImprimir, denunciasAMostrar, user, d
         errors
     } } = useForm()
     
-    const imprimirAntecedentes = async () => {
-        
-    }
     const [isListarTodo, setIsListarTodo] = useState(false)
 
     const [opcionesVictimarios, setOpcionesVictimarios] = useState<any>([])

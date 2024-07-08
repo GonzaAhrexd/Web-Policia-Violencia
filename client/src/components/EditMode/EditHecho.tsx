@@ -5,7 +5,7 @@ ______________________________________________________________________________
     de la sección de hecho.
 ______________________________________________________________________________ */
 // Hooks
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 // Campos
 import { generos } from '../../GlobalConst/generosCampos'
 import { unidadCampos } from '../../GlobalConst/unidadCampos'

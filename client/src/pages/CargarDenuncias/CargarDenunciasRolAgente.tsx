@@ -1,7 +1,6 @@
 // Hooks
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { useEffect } from 'react';
 // Conexión con BackEnd
 import { crearDenunciaSinVerificar, crearExposicion } from '../../api/crud';
 // Librerías React
@@ -26,7 +25,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
   } } = useForm()
 
   const [tipoDenuncia, setTipoDenuncia] = useState('')
-  const [comisariaPertenece, setComisariaPertenece] = useState('')
+  const [comisariaPertenece, ] = useState('')
 
   const handleImprimir = async () => {
     const datos = getValues()
@@ -37,9 +36,6 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
     window.open(url);
   }
 
-  useEffect(() => {
-    const datos = getValues()
-  }, [tipoDenuncia])
   return (
     <div className='h-screen sm:h-full p-2 sm:p-10'>
       <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>

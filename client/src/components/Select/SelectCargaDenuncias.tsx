@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import InputDireccion from '../InputComponents/InputDireccion';
-import InputRegister from '../InputComponents/InputRegister';
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 interface Opcion {
     value?: string;
@@ -39,7 +38,7 @@ interface Props {
 
 
 function SelectCargaDenuncias({isRequired, valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, barrio, setBarrio, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, setComisariaPertenece, state, info, setTitulo }: Props) {
-    const [requiredInput, setRequiredInput] = useState(isRequired!=null ? isRequired : true)
+    const [requiredInput, ] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');

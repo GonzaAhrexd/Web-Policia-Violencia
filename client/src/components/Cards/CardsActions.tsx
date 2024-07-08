@@ -1,4 +1,3 @@
-import { SVG } from 'leaflet';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 

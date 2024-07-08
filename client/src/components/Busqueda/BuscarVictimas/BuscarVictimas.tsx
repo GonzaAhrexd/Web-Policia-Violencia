@@ -20,7 +20,7 @@ import { columnsVictima } from './columnsDataTableVictima'
 function BuscarVictimas() {
     const [victimasMostrar, setVictimasMostrar] = useState([]);
     const [mostrarAlerta, setMostrarAlerta] = useState("");
-    const { register, handleSubmit, setValue, formState: {
+    const { register, handleSubmit, formState: {
         errors
     } } = useForm()
     const handleBusqueda = async (values: any) => {

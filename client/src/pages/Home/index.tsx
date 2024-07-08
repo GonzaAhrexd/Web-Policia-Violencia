@@ -16,7 +16,7 @@ import CardProfile from '../../components/Cards/CardProfile';
 import CardDenunciasRecientes from '../../components/Cards/CardDenunciasRecientes';
 import CardDenunciasPendientesValidacion from '../../components/Cards/CardDenunciasPendientesValidacion';
 // Iconos
-import {UsersIcon, ExclamationTriangleIcon, UserIcon, MagnifyingGlassIcon, ListBulletIcon, PencilSquareIcon, ClipboardDocumentCheckIcon, ChartPieIcon, DocumentTextIcon, DocumentArrowDownIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
+import { ExclamationTriangleIcon, UserIcon, MagnifyingGlassIcon, ListBulletIcon, PencilSquareIcon, ClipboardDocumentCheckIcon, ChartPieIcon, DocumentTextIcon, DocumentArrowDownIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
 
 function Home() {
   // Obtiene los datos del usuario y verifica si está autenticado desde el contexto

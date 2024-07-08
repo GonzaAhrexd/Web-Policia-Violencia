@@ -24,11 +24,11 @@ interface Props {
 
 function SelectDivisionMunicipios({ campo, opciones, nombre, setValue, isRequired, valor }: Props) {
    
-    const [requiredInput, setRequiredInput] = useState(isRequired!=null ? isRequired : true)
+    const [requiredInput, ] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
-    const [isEmpty, setIsEmpty] = useState(false);
+    const [ , setIsEmpty] = useState(false);
 
     const handleUnidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (event.target.value === '') {

@@ -32,7 +32,7 @@ interface CargarVictimaProps {
 
 }
 
-function EditVictima({ editarConDenuncia, variante, existente, hijos_con_agresor, cantidad_hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
+function EditVictima({ editarConDenuncia, existente, hijos_con_agresor, cantidad_hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
 
     const [isHijos, setIsHijos] = useState(datos.hijos.tiene_hijos)
     const [isHijosConAgresor, setIsHijosConAgresor] = useState(hijos_con_agresor ? hijos_con_agresor > 0 : false)

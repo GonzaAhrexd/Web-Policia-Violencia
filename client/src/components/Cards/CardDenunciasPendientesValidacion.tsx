@@ -1,6 +1,5 @@
 /*
     Componente utilizado en el index de la página
-
     Muestra de forma rápida las denuncias que están pendientes de validación
 */
 

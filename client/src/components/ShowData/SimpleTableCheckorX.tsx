@@ -1,4 +1,3 @@
-import React from 'react'
 import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid'
 
 interface simpleTableCheckorXProps {

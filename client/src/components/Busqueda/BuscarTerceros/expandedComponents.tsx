@@ -15,7 +15,7 @@ import { buscarDenunciasPorId } from '../../../api/crud';
 import DataTable from 'react-data-table-component';
 import Swal from 'sweetalert2' // Librería para mostrar popups
 // Iconos
-import { PencilSquareIcon, TrashIcon, PrinterIcon } from '@heroicons/react/24/solid'
+import { PencilSquareIcon, PrinterIcon } from '@heroicons/react/24/solid'
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
@@ -27,8 +27,6 @@ import { editarTercero } from '../../../api/crud';
 import expandedDenuncia from '../BuscarDenuncias/expandedComponents'
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 
-import InputRegister from '../../../components/InputComponents/InputRegister';
-import SelectCargaDenuncias from '../../Select/SelectCargaDenuncias';
 import { useAuth } from '../../../context/auth';
 import ModoImprimir from './ModoImprimir';
 
@@ -38,7 +36,6 @@ interface expandedComponentsProps {
 function expandedComponents({ data }: expandedComponentsProps) {
     // State para guardar los datos de la víctima
     const [editGlobal, setEditGlobal] = useState(false)
-    const [victimaDatos, setVictimaDatos] = useState<any>()
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     const [modoImprimir, setModoImprimir] = useState(false);
     const { register, handleSubmit, setValue, formState: {

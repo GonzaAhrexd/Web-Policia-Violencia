@@ -16,7 +16,7 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 function BuscarTerceros() {
     const [tercerosMostrar, setTercerosMostrar] = useState([]);
     const [mostrarAlerta, setMostrarAlerta] = useState("");
-    const { register, handleSubmit, setValue, formState: {
+    const { register, handleSubmit, formState: {
         errors
     } } = useForm()
     const handleBusqueda = async (values: any) => {

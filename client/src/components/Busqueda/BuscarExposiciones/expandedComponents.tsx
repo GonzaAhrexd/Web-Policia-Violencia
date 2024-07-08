@@ -23,7 +23,7 @@ interface expandedComponentsProps {
 function expandedComponents({ data }: expandedComponentsProps) {
 
     // Estado de editar global
-    const [editGlobal, setEditGlobal] = useState(false)
+    const [editGlobal, ] = useState(false)
     // Datos del hecho
 
     const victimaDatosMostrar = [

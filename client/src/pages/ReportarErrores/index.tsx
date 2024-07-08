@@ -4,11 +4,8 @@
 // Hooks
 import { useAuth } from '../../context/auth';
 import { Navigate } from 'react-router-dom';
-import { useState } from 'react';
 // Componentes
 import NavBar from '../../components/NavBar';
-import Modal from '../../components/Modal';
-import InputRegister from '../../components/InputComponents/InputRegister';
 import InputTextArea from '../../components/InputComponents/InputTextArea';
 import Swal from 'sweetalert2';
 
@@ -19,7 +16,7 @@ import { reportarErrores } from '../../api/crud';
 
 function CargarDenuncias() {
 
-    const { register, handleSubmit, setValue, watch, formState: {
+    const { register, handleSubmit, setValue, formState: {
         errors
     } } = useForm()
 

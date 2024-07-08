@@ -15,7 +15,7 @@ interface CargarVictimaProps {
   watch?: any;
 }
 
-function CargarPreguntas({watch, tipoDenuncia, register, setValue, errors }: CargarVictimaProps) {
+function CargarPreguntas({watch, tipoDenuncia, register }: CargarVictimaProps) {
 
   const [isAgregado, setIsAgregado] = useState(false)
 
