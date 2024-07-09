@@ -14,7 +14,6 @@ function NavBar({ user }: any) {
   const isCarga: boolean = user?.rol === 'carga' || user?.rol === 'admin';
   const isAgente: boolean = user?.rol === 'agente' || user?.rol === 'admin' || user?.rol === 'carga';
 
-
   const menuAdminItems = [
     "Denuncias internas",
     "Denuncias externas",
@@ -22,30 +21,30 @@ function NavBar({ user }: any) {
     "Registro de actividad",
     "Selectores de carga",
     "Resumen",
-  ]
+    ]
 
   const menuCargaItems = [
     "Mis denuncias",
     "Verificar denuncias",
     "Cargar denuncias",
     "Estadísticas",
-  ]
+    ]
 
   const menuAgenteItems = [
     "Búsqueda",
-  ]
+    ]
 
   const seccionDenunciasAgentes = [
     { titulo: 'Mis denuncias', href: '/mis-denuncias', icon: <ListBulletIcon className='h-6 w-6' /> },
     { titulo: 'Cargar denuncias', href: '/cargar-denuncias', icon: <PencilSquareIcon className='h-6 w-6' /> },
-  ]
+    ]
 
   const SeccionDenunciasCarga = [
     { titulo: 'Mis denuncias', href: '/mis-denuncias', icon: <ListBulletIcon className='h-6 w-6' /> },
     { titulo: 'Cargar denuncias', href: '/cargar-denuncias', icon: <PencilSquareIcon className='h-6 w-6' /> },
     { titulo: 'Verificar denuncias', href: '/verificar-denuncias', icon: <ClipboardDocumentCheckIcon className='h-6 w-6' /> },
     { titulo: 'Estadísticas', href: '/estadísticas', icon: <ChartPieIcon className='h-6 w-6' /> },
-  ]
+    ]
 
   const SeccionAdmin = [
     { titulo: 'Denuncias internas', href: '/denuncias-internas', icon: <DocumentTextIcon className='h-6 w-6' /> },
@@ -54,14 +53,13 @@ function NavBar({ user }: any) {
     { titulo: 'Registro de actividad', href: '/registro-de-actividad', icon: <PresentationChartBarIcon className='h-6 w-6' /> },
     { titulo: 'Selectores de carga', href: '/selectores-de-carga', icon: <ArrowUpTrayIcon className='h-6 w-6' /> },
     { titulo: 'Resumen', href: '/resumen', icon: <ClipboardDocumentIcon className='h-6 w-6' /> },
-  ]
+    ]
 
   return (
-    <div 
-    className='flex flex-col align-middle items-center'
-    >
+    
+    <div className='flex flex-col align-middle items-center'>
       <Navbar
-        className='bg-sky-900 text-white font-medium leading-tight w-full h-1/10 lg:w-full flex flex-row align-middle justify-center'
+        className='bg-sky-900 text-white font-medium leading-tight w-full h-1/10 flex flex-row align-middle justify-center'
         isBordered
         isMenuOpen={isMenuOpen}
         onMenuOpenChange={setIsMenuOpen}
@@ -77,14 +75,7 @@ function NavBar({ user }: any) {
             <figure className='w-full h-full  flex flex-row items-center justify-center'>
               <img className='w-10' src="/Escudo_Policia_Chaco_Transparente.png" alt="" />
             </figure>
-            <div>
-              <div className='text-lg'>
-                <p>Policía del Chaco</p>
-              </div>
-              <div className='text-xs'>
-                Dpto. Violencia Familiar y de Género
-              </div>
-            </div>
+            
           </NavLink>
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
@@ -174,7 +165,6 @@ function NavBar({ user }: any) {
               </Link>
             </NavbarItem>
           )}
-
           {isAdmin && (
             <Dropdown>
               <NavbarItem>
@@ -197,9 +187,7 @@ function NavBar({ user }: any) {
                   base: "gap-4",
                 }}
               >
-
                 {SeccionAdmin.map((item, index) => (
-
                   <DropdownItem
                     className='bg-white'
                     key={index}

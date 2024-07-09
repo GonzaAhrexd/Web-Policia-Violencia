@@ -150,9 +150,9 @@ function PDF({ valores, datos, user, denunciasAMostrar }: PDFProps) {
                 <View style={styles.header}>
                     <Image src="EscudoProvinciaDelChaco.png" style={styles.images} />
                     <View style={styles.sectionCenter}>
-                        <Text style={styles.textBold}>POLICIA DE LA PROVINCIA DEL</Text>
+                        <Text style={styles.textBold}>POLICÍA DE LA PROVINCIA DEL</Text>
                         <Text style={styles.textBold}>CHACO</Text>
-                        <Text>DIVISION VIOLENCIA FAMILIAR Y DE GENERO</Text>
+                        <Text>DIVISIÓN VIOLENCIA FAMILIAR Y DE GÉNERO</Text>
                         <Text>{direccionDivision[0].division.toUpperCase()}</Text>
                         <Text>{direccionDivision[0].direccion} - {direccionDivision[0].division} - Chaco; Tel. {direccionDivision[0].telefono}</Text>
                     </View>
@@ -170,12 +170,12 @@ function PDF({ valores, datos, user, denunciasAMostrar }: PDFProps) {
                 </View>
                 {denunciasAMostrar.map((denuncia: any, index: number) => {
                     return (
-                       
-                            <View style={styles.section} key={index}>
-                                    <View>
-                                        <Text>{(index + 1) + ')'} Dcia de fecha {new Date(denuncia.fecha).toLocaleDateString('es-AR')}-{denuncia.jurisdiccion_policial}, Expediente {denuncia.numero_de_expediente} denuncia realizada por {denuncia.victima_nombre} </Text>
-                                    </View>
-                                </View>
+
+                        <View style={styles.section} key={index}>
+                            <View>
+                                <Text>{(index + 1) + ')'} Dcia de fecha {new Date(denuncia.fecha).toLocaleDateString('es-AR')}-{denuncia.jurisdiccion_policial}, Expediente {denuncia.numero_de_expediente} denuncia realizada por {denuncia.victima_nombre} </Text>
+                            </View>
+                        </View>
                     );
                 })}
                 <View style={styles.section}>

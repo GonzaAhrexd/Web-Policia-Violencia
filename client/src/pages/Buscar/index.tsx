@@ -95,8 +95,8 @@ function Buscar() {
                 <h1 className='text-3xl my-5'>Búsqueda</h1>
                 {mostrarVictimas && <BuscarVictimas/> }
                 {mostrarVictimarios && <BuscarVictimario/>}
-                {mostrarDenuncias && <BuscarDenuncias />}
                 {mostrarTerceros && <BuscarTerceros/>}
+                {mostrarDenuncias && <BuscarDenuncias />}
                 {mostrarExposiciones && <BuscarExposiciones/>}
             </div>
         </div>

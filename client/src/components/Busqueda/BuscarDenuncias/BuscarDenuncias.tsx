@@ -33,6 +33,7 @@ function BuscarDenuncias() {
             setDenunciasAMostrar(result)
         }
         fetchDenuncias();
+        console.log(denunciasAMostrar)
     }
     // Obtén el valor actual del número de expediente del formulario
     const expedienteValue = watch('numero_de_expediente');
@@ -72,7 +73,7 @@ function BuscarDenuncias() {
                 <h2 className='text-2xl my-5'>Denuncias</h2>
                 <div className="w-full flex flex-col items-center my-2">
                     {denunciasAMostrar.length > 0 &&
-                        <Excel denunciasAMostrar={denunciasAMostrar}></Excel>
+                        <Excel denunciasAMostrar={denunciasAMostrar}/>
                     }
                 </div>
                 <DataTable
