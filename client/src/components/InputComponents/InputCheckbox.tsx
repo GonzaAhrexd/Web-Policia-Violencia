@@ -1,7 +1,5 @@
-
 // Hooks
 import { useEffect } from 'react'
-
 
 interface Props {
     campo: string;
