@@ -34,7 +34,7 @@ function CardDenunciasPendientesValidacion() {
           {cantidadDenunciasPendientes}
         </div>
         <div className='flex text-white text-2xl justify-center items-center'>
-          Denuncias pendientes de validación
+          Denuncia{cantidadDenunciasPendientes > 1 ? "s" : ""} pendiente{cantidadDenunciasPendientes > 1 ? "s" : ""} de validación
         </div>
       </div>
       

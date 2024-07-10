@@ -68,7 +68,7 @@ function Home() {
 
   return (
     <>
-      <NavBar user={user} />
+      <NavBar user={user} />  
       <div className='h-screen p-10'>
         <h1 className='text-4xl sm:text-7xl'>¡{saludosDependiendoLaHora()}, {user?.nombre}!</h1>
 

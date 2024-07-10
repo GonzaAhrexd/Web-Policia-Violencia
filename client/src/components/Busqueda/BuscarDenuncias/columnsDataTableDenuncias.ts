@@ -11,8 +11,8 @@ type Row = {
     violencia: string;
     modalidades: string;
     createdAt: string;
-}
 
+}
 /* 
 --------------------------------------------------------------------------------------------------------
     CAMPOS

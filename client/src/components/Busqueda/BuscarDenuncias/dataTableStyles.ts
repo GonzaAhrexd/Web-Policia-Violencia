@@ -16,8 +16,8 @@ export const customStyles = {
     },
     cells: {
         style: {
-            paddingLeft: '8px', // Le da padding izquierdo a las celdas
-            paddingRight: '8px', // Le da padding derecho a las celdas
+            paddingLeft: '6px', // Le da padding izquierdo a las celdas
+            paddingRight: '6px', // Le da padding derecho a las celdas
         },
     },
 };

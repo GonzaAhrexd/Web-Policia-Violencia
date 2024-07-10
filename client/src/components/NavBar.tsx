@@ -57,10 +57,11 @@ function NavBar({ user }: any) {
 
   return (
     
-    <div className='flex flex-col align-middle items-center'>
+    <div className='flex flex-row '>
       <Navbar
-        className='bg-sky-900 text-white font-medium leading-tight w-full h-1/10 flex flex-row align-middle justify-center'
+        className='bg-sky-900 text-white font-medium leading-tight h-1/10 flex flex-row align-middle justify-center'
         isBordered
+        as="div"
         isMenuOpen={isMenuOpen}
         onMenuOpenChange={setIsMenuOpen}
       >
@@ -204,7 +205,6 @@ function NavBar({ user }: any) {
           )}
         </NavbarContent>
         <NavbarContent as="div" className="items-center" justify="end">
-
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <Avatar
