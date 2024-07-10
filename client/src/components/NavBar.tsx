@@ -74,7 +74,7 @@ function NavBar({ user }: any) {
           className="flex flex-row items-center space-x-2"
           >
             <figure className='w-full h-full  flex flex-row items-center justify-center'>
-              <img className='w-10' src="/Escudo_Policia_Chaco_Transparente.png" alt="" />
+              <img className='w-10' src="Escudo_Policia_Chaco_Transparente.png" alt="" />
             </figure>
             
           </NavLink>

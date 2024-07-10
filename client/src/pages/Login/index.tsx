@@ -35,7 +35,7 @@ function Login() {
           {errorsAuth && <div className='rounded-md bg-red-500 p-2 text-white'>{errorsAuth}</div>}
           <h1 className='open-sans text-3xl font-semibold'>¡Bienvenido!</h1>
          <figure className='flex flex-col'>
-            <img className='w-28 sm:w-20' src="/Escudo_Policia_Chaco_Transparente.png" alt="" />
+            <img className='w-28 sm:w-20' src="Escudo_Policia_Chaco_Transparente.png" alt="" />
           </figure>
           <h1 className='open-sans text-xl'>Dpto. Violencia Familiar y de Género</h1>
           <form className='flex flex-col items-center align-middle justify-center w-4/5 sm:w-3/5' action=""  onSubmit={handleSubmit(async(values) => {
