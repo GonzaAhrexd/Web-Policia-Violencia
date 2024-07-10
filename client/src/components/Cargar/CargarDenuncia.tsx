@@ -29,6 +29,7 @@ import { opcionesNotificado } from '../../GlobalConst/opcionesNotificadoCampos'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 
+import Swal from 'sweetalert2'
 
 // Props
 interface denunciaProps {
@@ -85,7 +86,14 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
               setCoordenadas(responseSinDireccion);
               setValue('GIS', coordenadas);
             } else {
-              console.log("No se pudieron obtener las coordenadas.");
+              Swal.fire({
+                icon: 'error',
+                title: 'Error al obtener coordenadas',
+                text: 'No se pudieron obtener las coordenadas de la dirección ingresada. Por favor, verifique los datos ingresados.',
+                confirmButtonColor: '#0C4A6E',
+                confirmButtonText: 'Aceptar'
+              });
+
             }
           });
         }

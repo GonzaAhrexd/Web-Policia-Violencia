@@ -9,7 +9,7 @@ ________________________________________________________________________________
 // Hooks
 import { useState, useEffect } from 'react';
 // APIs del BackEnd
-import {  getVictima, getVictimario, eliminarDenuncia, getTercero } from '../../../api/crud';
+import { getVictima, getVictimario, eliminarDenuncia, getTercero } from '../../../api/crud';
 // Librerías react
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' // Librería para mostrar mapas
 import Swal from 'sweetalert2' // Librería para mostrar popups
@@ -24,7 +24,7 @@ import { useAuth } from '../../../context/auth';
 interface expandedComponentsProps {
     data: any
 }
-function expandedComponents({data}:expandedComponentsProps) {
+function expandedComponents({ data }: expandedComponentsProps) {
     // Obtener datos del usuario
     const { user } = useAuth()
     // State para guardar los datos de la víctima
@@ -78,7 +78,7 @@ function expandedComponents({data}:expandedComponentsProps) {
     useEffect(() => {
         victimaObtener(data.victima_ID); // Asegúrate de tener un 'id' válido aquí
         victimarioObtener(data.victimario_ID)
-        if(data.denunciado_por_tercero){
+        if (data.denunciado_por_tercero) {
             terceroObtener(data.tercero_ID)
         }
 
@@ -93,20 +93,20 @@ function expandedComponents({data}:expandedComponentsProps) {
         // Abrir en una nueva pestaña
         window.open(url, '_blank');
     }
-   
+
     // Mostrar datos de la victima
     const victimaDatosMostrar = [
-        { nombre: "ID Víctima", valor: data.victima_ID},
-        { nombre: "Nombre", valor: victimaDatos?.nombre ? victimaDatos.nombre : "No especificado"},
-        { nombre: "Apellido", valor: victimaDatos?.apellido ? victimaDatos.apellido : "No especificado"},
-        { nombre: "Domicilio", valor: victimaDatos?.direccion ? victimaDatos.direccion : "No específicado"},
-        { nombre: "Edad", valor: victimaDatos?.edad ? victimaDatos.edad : "No especificado"},
-        { nombre: "DNI", valor: (data.DNI && data.DNI != "S/N") ? data.DNI : "No especificado"  },
-        { nombre: "Estado Civil", valor: victimaDatos?.estado_civil ? victimaDatos.estado_civil : "No especificado"},
-        { nombre: "Ocupación", valor: victimaDatos?.ocupacion ? victimaDatos.ocupacion : "No especificado"},
-        { nombre: "Vínculo con agresor", valor: data?.relacion_victima_victimario ? data.relacion_victima_victimario : "No especificado"},
-        { nombre: "Condición de vulnerabilidad", valor: victimaDatos?.condicion_de_vulnerabilidad ? victimaDatos.condicion_de_vulnerabilidad : "No especificado"},
-        { nombre: "Denuncias previas", valor: victimaDatos?.cantidad_de_denuncias_previas ? victimaDatos.cantidad_de_denuncias_previas : "No especificado"},
+        { nombre: "ID Víctima", valor: data.victima_ID },
+        { nombre: "Nombre", valor: victimaDatos?.nombre ? victimaDatos.nombre : "No especificado" },
+        { nombre: "Apellido", valor: victimaDatos?.apellido ? victimaDatos.apellido : "No especificado" },
+        { nombre: "Domicilio", valor: victimaDatos?.direccion ? victimaDatos.direccion : "No específicado" },
+        { nombre: "Edad", valor: victimaDatos?.edad ? victimaDatos.edad : "No especificado" },
+        { nombre: "DNI", valor: (data.DNI && data.DNI != "S/N") ? data.DNI : "No especificado" },
+        { nombre: "Estado Civil", valor: victimaDatos?.estado_civil ? victimaDatos.estado_civil : "No especificado" },
+        { nombre: "Ocupación", valor: victimaDatos?.ocupacion ? victimaDatos.ocupacion : "No especificado" },
+        { nombre: "Vínculo con agresor", valor: data?.relacion_victima_victimario ? data.relacion_victima_victimario : "No especificado" },
+        { nombre: "Condición de vulnerabilidad", valor: victimaDatos?.condicion_de_vulnerabilidad ? victimaDatos.condicion_de_vulnerabilidad : "No especificado" },
+        { nombre: "Denuncias previas", valor: victimaDatos?.cantidad_de_denuncias_previas ? victimaDatos.cantidad_de_denuncias_previas : "No especificado" },
         { nombre: "Tiene hijos", valor: victimaDatos?.hijos?.tiene_hijos ? "Sí" : "No" }
     ]
     // Mostrar datos de los hijos
@@ -119,15 +119,15 @@ function expandedComponents({data}:expandedComponentsProps) {
     ]
     // Mostrar datos del victimario
     const victimarioDatosMostrar = [
-        { nombre: "ID Victimario", valor: data.victimario_ID},
-        { nombre: "Nombre", valor: victimarioDatos.nombre ? victimarioDatos.nombre : "No especificado"},
-        { nombre: "Apellido", valor: victimarioDatos.apellido ? victimarioDatos.apellido : "No especificado"},
-        { nombre: "Domicilio", valor: victimarioDatos?.direccion ? victimarioDatos.direccion : "No específicado"},
-        { nombre: "Edad", valor: victimarioDatos.edad ? victimarioDatos.edad : "No especificado"},
-        { nombre: "DNI", valor: victimarioDatos.DNI ? victimarioDatos.DNI : "No especificado"},
-        { nombre: "Estado Civil", valor: victimarioDatos.estado_civil ? victimarioDatos.estado_civil : "No especificado"},
-        { nombre: "Ocupación", valor: victimarioDatos.ocupacion ? victimarioDatos.ocupacion : "No especificado"},
-        { nombre: "Denuncias previas", valor: victimarioDatos.cantidad_de_denuncias_previas ? victimarioDatos.cantidad_de_denuncias_previas : "No especificado"}
+        { nombre: "ID Victimario", valor: data.victimario_ID },
+        { nombre: "Nombre", valor: victimarioDatos.nombre ? victimarioDatos.nombre : "No especificado" },
+        { nombre: "Apellido", valor: victimarioDatos.apellido ? victimarioDatos.apellido : "No especificado" },
+        { nombre: "Domicilio", valor: victimarioDatos?.direccion ? victimarioDatos.direccion : "No específicado" },
+        { nombre: "Edad", valor: victimarioDatos.edad ? victimarioDatos.edad : "No especificado" },
+        { nombre: "DNI", valor: victimarioDatos.DNI ? victimarioDatos.DNI : "No especificado" },
+        { nombre: "Estado Civil", valor: victimarioDatos.estado_civil ? victimarioDatos.estado_civil : "No especificado" },
+        { nombre: "Ocupación", valor: victimarioDatos.ocupacion ? victimarioDatos.ocupacion : "No especificado" },
+        { nombre: "Denuncias previas", valor: victimarioDatos.cantidad_de_denuncias_previas ? victimarioDatos.cantidad_de_denuncias_previas : "No especificado" }
     ]
     // Detalles del victimario
     const detallesVictimario = [
@@ -139,13 +139,13 @@ function expandedComponents({data}:expandedComponentsProps) {
     ]
     // Datos del hecho
     const hechoDatosMostrar = [
-        { nombre: "ID", valor: data._id},
+        { nombre: "ID", valor: data._id },
         { nombre: "Número de expediente", valor: data.numero_de_expediente },
         { nombre: "Género", valor: data.genero },
-        { nombre: "Fecha", valor: `${new Date(data.fecha).getUTCDate().toString().padStart(2, '0')}/${(new Date(data.fecha).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(data.fecha).getUTCFullYear()}`},
+        { nombre: "Fecha", valor: `${new Date(data.fecha).getUTCDate().toString().padStart(2, '0')}/${(new Date(data.fecha).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(data.fecha).getUTCFullYear()}` },
         { nombre: "Empleo de armas", valor: data.empleo_de_armas },
         { nombre: "Arma empleada", valor: data.arma_empleada },
-        { nombre: "Juzgado Interviniente", valor: data.juzgado_interviniente + " " + (data.juzgado_interviniente_numero && data.juzgado_interviniente_numero)},
+        { nombre: "Juzgado Interviniente", valor: data.juzgado_interviniente + " " + (data.juzgado_interviniente_numero && data.juzgado_interviniente_numero) },
         { nombre: "Dependencia derivada", valor: data.dependencia_derivada },
     ]
 
@@ -167,7 +167,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "Municipio", valor: data.municipio },
         { nombre: "Lugar del hecho", valor: data.direccion },
         { nombre: "Barrio", valor: data.barrio },
-        { nombre: "GIS", valor: data.GIS},
+        { nombre: "GIS", valor: data.GIS },
         { nombre: "Jurisdicción Policial", valor: data.jurisdiccion_policial },
         { nombre: "Cuadrícula", valor: data.cuadricula },
         { nombre: "División Familiar y de Género", valor: data.isDivision },
@@ -178,11 +178,11 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "Nombre", valor: terceroDatosObtener.nombre },
         { nombre: "Apellido", valor: terceroDatosObtener.apellido },
         { nombre: "DNI", valor: terceroDatosObtener.DNI },
-        { nombre: "Vínculo con la víctima", valor: data?.vinculo_con_la_victima_tercero ? data.vinculo_con_la_victima_tercero : "No especificado"}
+        { nombre: "Vínculo con la víctima", valor: data?.vinculo_con_la_victima_tercero ? data.vinculo_con_la_victima_tercero : "No especificado" }
     ]
 
-     // Medidas
-     const medidas = [
+    // Medidas
+    const medidas = [
         { nombre: "Prohibición de acercamiento", valor: data.medida.prohibicion_de_acercamiento },
         { nombre: "Restitución de menor", valor: data.medida.restitucion_de_menor },
         { nombre: "Exclusión de Hogar", valor: data.medida.exclusion_de_hogar },
@@ -242,7 +242,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         })
     }
 
-    return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
+    return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
         {!editGlobal &&
             <>
                 <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
@@ -260,33 +260,32 @@ function expandedComponents({data}:expandedComponentsProps) {
                 <SimpleTableCheckorX campo="Datos geográficos" datos={hechoDatosGeográficos} />
 
                 <div className='flex flex-col w-8/10 lg:w-7/10 h-4/10 items-center justify-center mx-4 md:mx-auto my-5'>
-                {hechoDatosGeográficos[4].valor ?
-                 <> 
-                 <MapContainer center={[lat, lon]} zoom={20} style={{ height: "60vh", width: "100%" }}>
-                        <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker position={[lat, lon]}>
-                            <Popup>
-                                {data.direccion + "," + data.barrio}
-                            </Popup>
-                        </Marker>
-                    </MapContainer>
-                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-1/2 flex items-center justify-center mt-2 ' onClick={() => handleClick(data.GIS)}>
-                    <MapPinIcon  className='w-7 h-7'/>
-                 </div>
-                 </>
-                    :
-                    <div className='font-bold py-2 px-4 rounded w-full flex items-center justify-center'>
-                        <p>No es posible cargar el mapa. Verifique si el GIS está ingresado de manera correcta</p>
-                    </div>
+                    {hechoDatosGeográficos[4].valor ?
+                        <>
+                            <MapContainer center={[lat, lon]} zoom={20} style={{ height: "60vh", width: "100%" }}>
+                                <TileLayer
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                />
+                                <Marker position={[lat, lon]}>
+                                    <Popup>
+                                        {data.direccion + "," + data.barrio}
+                                    </Popup>
+                                </Marker>
+                            </MapContainer>
+                            <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-1/2 flex items-center justify-center mt-2 ' onClick={() => handleClick(data.GIS)}>
+                                <MapPinIcon className='w-7 h-7' />
+                            </div>
+                        </>
+                        :
+                        <div className='font-bold py-2 px-4 rounded w-full flex items-center justify-center'>
+                            <p>No es posible cargar el mapa. Verifique si el GIS está ingresado de manera correcta</p>
+                        </div>
                     }
-                    
+
                 </div>
                 <SimpleTableCheckorX campo="Tipo de Violencia" datos={tiposDeViolencia} />
                 <SimpleTableCheckorX campo="Medida solicitada por la víctima" datos={medidas} />
                 <SimpleTableCheckorX campo="Medida dispuesta por la autoridad judicial" datos={medidaDispuestaPorLaAutoridadJudicial} />
-                
                 <div className='flex flex-col'>
                     {data.denunciado_por_tercero &&
                         <>
@@ -294,25 +293,25 @@ function expandedComponents({data}:expandedComponentsProps) {
                         </>
                     }
                 </div >
-                <h2 className='text-3xl my-5 font-sans	'>Observaciones</h2>
+                <h2 className='text-3xl my-5 font-sans'>Observaciones</h2>
                 <div className="flex flex-row">
                     <ShowTextArea campo="Observaciones" dato={data.observaciones} />
                 </div>
-                <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
-                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
+                <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>
+                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
                         <PencilSquareIcon className="w-7" />
                     </div>
-                    {user.rol == "agente" || user.rol == "admin" && 
-                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
-                        <TrashIcon className="w-7" />
-                    </div>
+                    {(user.rol == "carga" || user.rol == "admin") &&
+                        <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
+                            <TrashIcon className="w-7" />
+                        </div>
                     }
                 </div>
             </>
         }
         {editGlobal &&
             <>
-                <EditSection  datosTerceros={terceroDatos} datosGeograficos={hechoDatosGeográficos} datosHecho={data} datosVictima={victimaDatos} datosVictimario={victimarioDatos} setEditSection={setEditGlobal} editSection={editGlobal} />
+                <EditSection datosTerceros={terceroDatos} datosGeograficos={hechoDatosGeográficos} datosHecho={data} datosVictima={victimaDatos} datosVictimario={victimarioDatos} setEditSection={setEditGlobal} editSection={editGlobal} />
             </>
         }
     </div>

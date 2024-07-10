@@ -12,7 +12,7 @@ import ShowTextArea from '../../components/ShowData/ShowTextArea';
 interface expandedComponentsProps {
     data: any
 }
-function expandedComponents({data}:expandedComponentsProps) {
+function expandedComponents({ data }: expandedComponentsProps) {
 
 
 
@@ -29,7 +29,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         { nombre: "Teléfono víctima", valor: data.telefono_victima },
         { nombre: "Con instrucción", valor: data.sabe_leer_y_escribir_victima },
     ]
-    
+
     const preguntas = [
         { nombre: "¿Desea ser asistida por la línea 137?", valor: data.preguntas.desea_ser_asistida },
         { nombre: "¿Desea ser examinada por un médico?", valor: data.preguntas.desea_ser_examinada_por_medico },
@@ -51,35 +51,35 @@ function expandedComponents({data}:expandedComponentsProps) {
 
 
     // Controlar cuando se da a eliminar
-   
+
 
     return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
-            <>
-                <h1 className='text-5xl my-5 font-sans'> Estado de la denuncia: {data.estado == "En verificación" && "En verificación ⏸️"} {data.estado == "Aprobada" && "Aprobado ✅"} {data.estado == "Rechazada" && "Rechazado ❌"}  </h1>
-                <h1 className='text-3xl my-5 font-sans'>Datos de la víctima</h1>
-                <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
-                </div>
-                <h1 className='text-3xl my-5 font-sans'>Preguntas</h1>
-                <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="" datos={preguntas} />
-                </div>
-                
-                <h2 className='text-3xl my-5 font-sans	'>Observaciones</h2>
-                <div className="flex flex-row">
-                    <ShowTextArea campo="Observaciones" dato={data.observaciones} />
-                </div>
+        <>
+            <h1 className='text-5xl my-5 font-sans'> Estado de la denuncia: {data.estado == "En verificación" && "En verificación ⏸️"} {data.estado == "Aprobada" && "Aprobado ✅"} {data.estado == "Rechazada" && "Rechazado ❌"}  </h1>
+            <h1 className='text-3xl my-5 font-sans'>Datos de la víctima</h1>
+            <div className='flex flex-col'>
+                <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
+            </div>
+            <h1 className='text-3xl my-5 font-sans'>Preguntas</h1>
+            <div className='flex flex-col'>
+                <SimpleTableCheckorX campo="" datos={preguntas} />
+            </div>
 
-                {data.preguntas.desea_agregar_quitar_o_enmendar &&
-                    <>
-                        <h2 className='text-3xl my-5 font-sans	'>Exposición</h2>
-                        <div className="flex flex-row">
-                            <ShowTextArea campo="Observaciones" dato={data.agrega} />
-                        </div>
-                    </>
-                }
-            </>
-        
+            <h2 className='text-3xl my-5 font-sans	'>Observaciones</h2>
+            <div className="flex flex-row">
+                <ShowTextArea campo="Observaciones" dato={data.observaciones} />
+            </div>
+
+            {data.preguntas.desea_agregar_quitar_o_enmendar &&
+                <>
+                    <h2 className='text-3xl my-5 font-sans	'>Exposición</h2>
+                    <div className="flex flex-row">
+                        <ShowTextArea campo="Observaciones" dato={data.agrega} />
+                    </div>
+                </>
+            }
+        </>
+
         <h2 className='text-3xl my-5 font-sans'>Secretario</h2>
         <div className='flex flex-row'>
             <SimpleTableCheckorX campo="" datos={secretarioDatosMostrar} />
@@ -89,7 +89,7 @@ function expandedComponents({data}:expandedComponentsProps) {
         <div className='flex flex-row'>
             <SimpleTableCheckorX campo="" datos={instructorDatosMostrar} />
         </div>
-      
+
 
     </div>
 

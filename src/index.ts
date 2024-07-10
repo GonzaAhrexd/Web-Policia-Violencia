@@ -4,7 +4,8 @@ import morgan from 'morgan' // Módula para ver las peticiones HTTP en la consol
 import cookieParser from 'cookie-parser' // Módulo para manejar cookies
 import cors from 'cors' // Módulo para habilitar CORS
 // Para leer las variables de entorno
-require('dotenv').config() 
+import dotenv from 'dotenv'
+dotenv.config()
 // Archivos locales a importar
 import { connectDB } from './db' // Configuraciones de MongoDB para conectar a la base de datos
 import authRoutes from './routes/auth.routes' // Rutas de autenticación
@@ -12,13 +13,11 @@ import crudRoutes from './routes/crud.routes' // Rutas del CRUD
 // Crear aplicación de express
 const app:express.Application = express()
 // Conectar a la base de datos
-connectDB()
+connectDB().catch(err => console.error(`No se pudo conectar a MongoDB ❌: ${err}`))
+
 // Puerto de la aplicación
 const port:number = 4000
 const corsOrigin:string | undefined = process.env.corsOrigin
-// Iniciar el servidor
-app.listen(port)
-console.log(`Server is running on port ${port} ✅`)
 // Permite a la aplicación recibir datos en formato JSON
 app.use(cors({
     origin: corsOrigin,
@@ -32,3 +31,9 @@ app.use(cookieParser())
 // Rutas de la aplicación
 app.use('/api',authRoutes) // Rutas de autenticación
 app.use('/api',crudRoutes) // Rutas del CRUD
+// Iniciar el servidor
+app.listen(port, () => {
+    console.log(`Servidor funcionando en puerto ${port} ✅`)
+  }).on('error', (err) => {
+    console.error(`Eror al inciar el servidor: ${err}`)
+  })

@@ -8,10 +8,8 @@ import usuarios from '../models/usuarios'
 export const authRequired = (req, res, next) => {
     // Extraer el token de las cookies
     const { token } = req.cookies
-
     // Si no hay token, devolver un mensaje de error
     if (!token) return res.status(401).json({ message: "No token, authorization invalid" })
-
     // Verificar el token con la clave secreta
     jwt.verify(token, TOKEN_SECRET, (err, user) => {
         if (err) return res.status(403).json({ message: "Invalid token" })
@@ -26,14 +24,11 @@ export const authAdmin = async (req, res, next) => {
         try {
             //Busca al usuario en la BD
             const usuario = await usuarios.findById(req.user.id)
-
             //Verifica si el usuario es admin
             const isAdmin = usuario?.rol == "admin";
             const isAdminDoubleCheck = usuario?.admin;
-
             //Si no es admin, devuelve el siguiente mensaje
             if (!isAdmin && !isAdminDoubleCheck) return res.status(403).json({ message: "You are not an admin" })
-
             //Si lo es, continúa a la página solicitada
             next()
         } catch (err) {

@@ -58,6 +58,7 @@ function MisDenunciasAgente() {
             <form className="w-full flex flex-col items-center"
                 onSubmit={
                     handleSubmit(async (values) => {
+                        // Se realiza la búsqueda de las denuncias
                         handleBusqueda(values)
                     })}>
                 <InputDateRange register={register} setValue={setValue} isRequired={false} />
@@ -68,7 +69,7 @@ function MisDenunciasAgente() {
 
             <div className="flex flex-col w-full">
                 <h2 className='text-2xl my-5'>Denuncias</h2>
-                { <DataTable
+                {<DataTable
                     columns={columns}
                     data={denunciasAMostrar}
                     pagination
@@ -81,9 +82,9 @@ function MisDenunciasAgente() {
                     noDataComponent="No hay denuncias para mostrar"
                     defaultSortFieldId={"Fecha"}
                     expandableIcon={expandableIcon}
-                /> }
+                />}
             </div>
-            </div>            
+        </div>
     )
 }
 

@@ -33,7 +33,6 @@ function BuscarDenuncias() {
             setDenunciasAMostrar(result)
         }
         fetchDenuncias();
-        console.log(denunciasAMostrar)
     }
     // Obtén el valor actual del número de expediente del formulario
     const expedienteValue = watch('numero_de_expediente');

@@ -22,7 +22,6 @@ function index() {
   return (
     <>
       <NavBar user={user} />
-
       <div className="max-w-full h-full xl:h-screen mx-auto bg-gray-100 shadow-md rounded-lg overflow-hidden">
         <div className="flex justify-center mt-10">
           <div className="w-32 h-32 bg-gray-300 rounded-full overflow-hidden">
@@ -35,14 +34,14 @@ function index() {
         </div>
         <div className="flex flex-col md:flex-row justify-evenly mt-10 p-14">
           {!isEditing ?
-            <>    
+            <>
               {user.rol != 'sin_definir' ?
-              <>
-              <CardDataUsuario datosUsuario={user} setIsEditing={setIsEditing} />
-              <CardUserDenunciasRecientes user={user}/>
-              </>
-              : 
-              <CardDataUsuario datosUsuario={user} setIsEditing={setIsEditing} />
+                <>
+                  <CardDataUsuario datosUsuario={user} setIsEditing={setIsEditing} />
+                  <CardUserDenunciasRecientes user={user} />
+                </>
+                :
+                <CardDataUsuario datosUsuario={user} setIsEditing={setIsEditing} />
               }
             </>
             :

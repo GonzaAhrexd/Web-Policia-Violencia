@@ -104,7 +104,7 @@ function Home() {
         {(user?.rol === 'admin' || user?.rol === 'carga') && (
           <div>
             <h2 className='text-3xl my-5 '>Resumen</h2>
-            <div className='grid gap-1 grid-cols-1 sm:gap-5 md:grid-cols-3 lg:grid-cols-5 w-full'>
+            <div className='grid gap-1 grid-cols-1 sm:grid-cols-1 sm:gap-5 md:grid-cols-3 xl:grid-cols-5 w-full'>
               <CardProfile title="Mi cuenta" description="Mis datos" usuario={user} />
               <CardDenunciasRecientes title="Denuncias recientes" />
               <CardDenunciasPendientesValidacion />

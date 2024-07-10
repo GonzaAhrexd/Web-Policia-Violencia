@@ -69,20 +69,23 @@ function expandedComponents({ data }: expandedComponentsProps) {
  //@ts-ignore
  const { signUp, user, isAuthenticated, isLoading } = useAuth();
 
-    useEffect(() => {
-        const fetchDenuncias = async (denunciaId: any) => {
-            const result = await buscarDenunciasPorId(denunciaId);
-            return result;
-        }
+ useEffect(() => {
+    const fetchDenuncias = async (denunciaId: any) => {
+        const result = await buscarDenunciasPorId(denunciaId);
+        // Asumiendo que buscarDenunciasPorId retorna null si no encuentra la denuncia
+        return result;
+    }
 
-        const fetchAllDenuncias = async () => {
-            const denuncias = await Promise.all(data?.denuncias_realizadas?.map(fetchDenuncias) || []);
-            // @ts-ignore
-            setDenunciasAMostrar(denuncias);
-        }
-
-        fetchAllDenuncias();
-    }, [])
+    const fetchAllDenuncias = async () => {
+        const denuncias = await Promise.all(data?.denuncias_realizadas?.map(fetchDenuncias) || []);
+        // Filtrar resultados nulos o indefinidos
+        const denunciasFiltradas = denuncias.filter(denuncia => denuncia !== null && denuncia !== undefined);
+        // @ts-ignore
+        setDenunciasAMostrar(denunciasFiltradas);
+    }
+    
+    fetchAllDenuncias();
+}, [])
 
     return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
         {!editGlobal &&
@@ -93,6 +96,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     {data?.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />}
                 </div>
                 <h1 className='text-3xl my-5 font-sans	'>Denuncias realizadas</h1>
+                
                 <div className='flex flex-col'>
                     <DataTable
                         columns={columnsDenuncia}
@@ -107,8 +111,9 @@ function expandedComponents({ data }: expandedComponentsProps) {
                         expandableIcon={expandableIcon}
                         expandableRows
                         expandableRowsComponent={expandedDenuncia}
-                    />
+                        />
                 </div>
+                    
                 <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
                 <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setModoImprimir(!modoImprimir)}>
                         <PrinterIcon className="w-7"/>
@@ -138,7 +143,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                             // Utilizamos Swal para mostrar un mensaje de éxito
                             Swal.fire({
                                 icon: 'success',
-                                title: '¡Denuncia editada con éxito!',
+                                title: 'Víctima editada con éxito!',
                                 showConfirmButton: true,
                                 confirmButtonText: 'Aceptar',
                                 confirmButtonColor: '#0C4A6E',

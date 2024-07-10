@@ -2,7 +2,6 @@
   [/verificar-denuncias]
   Descripción: Página para verificar denuncias.
 */
-
 // Enrutamiento
 import { useRoutes, BrowserRouter } from 'react-router-dom'
 // Páginas
@@ -22,7 +21,6 @@ import VerificarDenuncias from './VerificarDenuncias'
 import Buscar from './Buscar'
 // ADMIN
 import ReportarErrores from './ReportarErrores'
-
 // Contexto
 import { AuthProvider } from '../context/auth'
 // CSS

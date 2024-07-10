@@ -27,7 +27,6 @@ export const columnsVictima = [
             fontSize: '14px',
             fontWeight: 500,
         },
-
     },
     {
         name: 'Apellido',
@@ -68,6 +67,5 @@ export const columnsVictima = [
             fontSize: '14px',
             fontWeight: 500,
         },
-    }
-   
+    } 
 ];

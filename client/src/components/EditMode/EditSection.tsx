@@ -53,7 +53,7 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
     }
 
     return (
-        <div>
+        <div className='w-8/10 md:w-full'>
             {isModalOpen && <Modal titulo={titulo} texto={texto} onClose={handleCloseModal} />}
             <form
                 onSubmit={
@@ -101,13 +101,13 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                 <EditHecho datosTerceros={datosTerceros} datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} />
                 <>
                     <h1 className='text-2xl my-5'>Observaciones</h1>
-                    <InputTextArea variante="edit" valor={datosHecho.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" ></InputTextArea>
+                    <InputTextArea variante={"edit"}  valor={datosHecho.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" ></InputTextArea>
                 </>
-                <div className='flex flex-col md:flex-row items-center justify-center w-full my-2'>
-                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setEditSection(!editSection)}>
+                <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>
+                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditSection(!editSection)}>
                         <XMarkIcon className="w-7" />
                     </div>
-                    <button className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2 ' >
+                    <button className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' >
                         <CheckIcon className="w-7" />
                     </button>
                 </div>
