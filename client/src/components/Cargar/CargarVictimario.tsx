@@ -5,21 +5,39 @@ import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputNumber from '../InputComponents/InputNumber'
+import InputCheckboxExternalCondition from '../InputComponents/InputCheckboxExternalCondition';
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
+import { useEffect, useState } from 'react';
 
 // Props
 interface CargarVictimarioProps {
   register: UseFormRegister<any>;
   setValue: UseFormSetValue<any>;
   errors: FieldErrors;
+  watch: any;
 }
 
-function CargarVictimario({ register, setValue, errors }: CargarVictimarioProps) {
+function CargarVictimario({watch, register, setValue, errors }: CargarVictimarioProps) {
+
+
+  const [entrenamiento_en_combate, setEntrenamiento_en_combate] = useState(false)
+
+  const ocupacionVictimario = watch('ocupacion_victimario');
+  useEffect(() => {
+    if ((ocupacionVictimario === "Policía Provincial") || (ocupacionVictimario === "Policía Federal Argentina") || (ocupacionVictimario == "Servicio Penitenciario Provincial") || (ocupacionVictimario == "Servicio Penitenciario Federal") || (ocupacionVictimario === "Policía de Seguridad Aeroportuaria") || (ocupacionVictimario == "Gendarmería Nacional Argentina") || (ocupacionVictimario == "Ejército Argentino") || (ocupacionVictimario == "Prefectura Naval Argentina") ) {
+      setEntrenamiento_en_combate(true);
+    } else {
+      // Opcional: establecer en false si se desea resetear el estado para otras ocupaciones
+      setEntrenamiento_en_combate(false);
+    }
+  }, [ocupacionVictimario]); // Dependencia del efecto
+
+
 
   return (
-    <div className='w-full lg:w-6/10'>
+    <div className='w-full lg:w-6/10'> 
       <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Nombre" nombre="nombre_victimario" register={register} setValue={setValue} type="text" error={errors.nombre_victimario} />
         <InputRegister campo="Apellido" nombre="apellido_victimario" register={register} setValue={setValue} type="text" error={errors.apellido_victimario} />
@@ -40,7 +58,7 @@ function CargarVictimario({ register, setValue, errors }: CargarVictimarioProps)
           <InputCheckbox campo="Antecedentes toxicológicos" nombre="antecedentes_toxicologicos" register={register} setValue={setValue} type="checkbox" id="antecedentesToxicologicos" />
           <InputCheckbox campo="Antecedentes penales" nombre="antecedentes_penales" register={register} setValue={setValue} type="checkbox" id="antecedentesPenales" />
           <InputCheckbox campo="Antecedentes contravencionales" nombre="antecedentes_contravencionales" register={register} setValue={setValue} type="checkbox" id="antecedentesConvencionales" />
-          <InputCheckbox campo="Entrenamiento en  combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" />
+          <InputCheckboxExternalCondition campo="Entrenamiento en combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" state={entrenamiento_en_combate}/>
         </div>
       </>
     </div>

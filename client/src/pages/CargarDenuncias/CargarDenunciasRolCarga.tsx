@@ -26,7 +26,7 @@ interface CargarDenunciasRolCargaProps {
 }
 
 function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDenunciasRolCargaProps) {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const { register, watch, handleSubmit, setValue, formState: { errors } } = useForm();
 
   // Modal de búsqueda de víctima
   const [openModalVictima, setOpenModalVictima] = useState(false);
@@ -152,7 +152,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
           </div>
           <div className='flex justify-center'>
             {!victimarioCargar ? // Si no hay datos del victimario a cargar, mostrar el formulario de carga
-              <CargarVictimario register={register} setValue={setValue} errors={errors} />
+              <CargarVictimario watch={watch} register={register} setValue={setValue} errors={errors} />
               : // Si hay datos del victimario a cargar, mostrar el formulario de edición
               <EditVictimario existente={true} md={true} datos={victimarioCargar} register={register} setValue={setValue} errors={errors} />
             }
