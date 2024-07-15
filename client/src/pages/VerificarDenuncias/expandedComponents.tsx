@@ -24,9 +24,7 @@ interface expandedComponentsProps {
 }
 
 function expandedComponents({ data }: expandedComponentsProps) {
-
     const [editGlobal, setEditGlobal] = useState(false)
-
     // Datos para mostrar en la tabla
     const denuncianteDatos = [
         { nombre: "Nombre", valor: data.nombre_victima },
@@ -37,7 +35,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Teléfono", valor: data.telefono_victima },
         { nombre: "¿Sabe leer y Escribir?", valor: data.sabe_leer_y_escribir_victima },
     ]
-
+    // Preguntas para mostrar en la tabla
     const preguntas = [
         { nombre: "¿Desea ser asistida?", valor: data.preguntas.desea_ser_asistida },
         { nombre: "¿Desea ser examinada por un médico?", valor: data.preguntas.desea_ser_examinada_por_medico },

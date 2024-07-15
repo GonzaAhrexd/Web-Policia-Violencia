@@ -174,17 +174,11 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
           }
         </div>
       </div>
-      <div className='flex flex-col my-2'>
-        <span className='ml-4 font-medium '> Medida Solicitada </span>
-        <div className='flex flex-col md:flex-row'>
-          <InputCheckbox campo="Solicitada" nombre="medida_solicitada_por_la_victima" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsSolicitada} state={isSolicitada} id="solicitada" />
-          <InputCheckbox campo="Dispuesto Por Autoridad Judicial" nombre="medida_dispuesta_por_autoridad_judicial" register={register} setValue={setValue} type="checkbox" error={errors.dispuestoPorAutoridadJudicial} setHook={setIsDispuestoPorAutoridadJudicial} state={isDispuestoPorAutoridadJudicial} id="dispuestoPorAutoridad" />
-        </div>
-      </div>
+     
       <div className='flex flex-col my-2'>
         <span className='ml-4 font-medium'> Medida Solicitada por la víctima</span>
       </div>
-      <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md`}>
+      <div className={`grid grid-cols-1 md:grid-cols-3 my-2 rounded-md`}>
         <InputCheckbox state={datos.medida.prohibicion_de_acercamiento} campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento" register={register} setValue={setValue} type="checkbox" id="prohibicion" />
         <InputCheckbox state={datos.medida.boton_antipanico} campo="Botón Antipánico" nombre="boton_antipanico" register={register} setValue={setValue} type="checkbox" id="botonAntipanico" />
         <InputCheckbox state={datos.medida.restitucion_de_menor} campo="Restitución de Menor" nombre="restitucion_de_menor" register={register} setValue={setValue} type="checkbox" id="restitucion" />

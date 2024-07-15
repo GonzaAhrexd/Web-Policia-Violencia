@@ -37,7 +37,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
   // @ts-ignore
   const { user } = useAuth();
   // Utilizamos useForm para manejar los datos del formulario
-  const { register, handleSubmit, setValue, formState: {
+  const { register, watch, handleSubmit, setValue, formState: {
     errors
   } } = useForm()
 
@@ -154,7 +154,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
         </div>
         {!victimarioCargar ?
           <div className='flex justify-center'>
-            <CargarVictimario register={register} setValue={setValue} errors={errors} />
+            <CargarVictimario watch={watch} register={register} setValue={setValue} errors={errors} />
           </div>
           :
           <div className='flex justify-center'>
