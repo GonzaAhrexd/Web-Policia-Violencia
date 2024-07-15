@@ -190,7 +190,7 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
           <>
             <div className='flex flex-row items-center'>
               <h1 className='text-2xl my-5'>Datos del Tercero</h1>
-              <MagnifyingGlassIcon className='bg-sky-950 hover:bg-sky-700 flex items-center justify-center cursor-pointer text-white font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalTercero(true)} />
+              <MagnifyingGlassIcon className='bg-sky-950 hover:bg-sky-700 flex items-center text-white justify-center cursor-pointer font-bold py-2 mx-5 rounded w-10 h-10'  onClick={() => setOpenModalTercero(true)} />
             </div>
             {!setTercero ?
               <div className='flex flex-col md:flex-row'>

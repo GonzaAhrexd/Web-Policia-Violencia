@@ -143,14 +143,14 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
         <div className='flex items-center'>
 
           <h1 className='text-2xl my-5'>Víctima</h1>
-          <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text-black font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalVictima(true)} />
+          <MagnifyingGlassIcon className='bg-sky-950 hover:bg-sky-700 flex items-center text-white justify-center cursor-pointer font-bold py-2 mx-5 rounded w-10 h-10'  onClick={() => setOpenModalVictima(true)} />
         </div>
         <div className='flex justify-center'>
           <VerificarDenunciante datos={victimaCargar ? victimaCargar : datosVictima} register={register} setValue={setValue} errors={errors} />
         </div>
         <div className='flex items-center'>
           <h1 className='text-2xl my-5'>Victimario</h1>
-          <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text-black font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalVictimario(true)} />
+          <MagnifyingGlassIcon className='bg-sky-950 hover:bg-sky-700 flex items-center text-white justify-center cursor-pointer font-bold py-2 mx-5 rounded w-10 h-10'  onClick={() => setOpenModalVictimario(true)} />
         </div>
         {!victimarioCargar ?
           <div className='flex justify-center'>
@@ -167,7 +167,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
         </div>
         <>
           <h1 className='text-2xl my-5'>Observaciones</h1>
-          <InputTextArea variante="edit" valor={datos.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" ></InputTextArea>
+          <InputTextArea variante="edit" valor={datos.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" />
         </>
         <div className='flex flex-col md:flex-row items-center justify-center w-full my-2'>
           <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setEditSection(!editSection)}>

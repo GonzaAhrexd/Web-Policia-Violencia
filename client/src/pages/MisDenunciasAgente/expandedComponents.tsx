@@ -64,12 +64,10 @@ function expandedComponents({ data }: expandedComponentsProps) {
             <div className='flex flex-col'>
                 <SimpleTableCheckorX campo="" datos={preguntas} />
             </div>
-
             <h2 className='text-3xl my-5 font-sans	'>Observaciones</h2>
             <div className="flex flex-row">
                 <ShowTextArea campo="Observaciones" dato={data.observaciones} />
             </div>
-
             {data.preguntas.desea_agregar_quitar_o_enmendar &&
                 <>
                     <h2 className='text-3xl my-5 font-sans	'>Exposición</h2>
@@ -79,18 +77,14 @@ function expandedComponents({ data }: expandedComponentsProps) {
                 </>
             }
         </>
-
         <h2 className='text-3xl my-5 font-sans'>Secretario</h2>
         <div className='flex flex-row'>
             <SimpleTableCheckorX campo="" datos={secretarioDatosMostrar} />
         </div>
-
         <h2 className='text-3xl my-5 font-sans'>Instructor</h2>
         <div className='flex flex-row'>
             <SimpleTableCheckorX campo="" datos={instructorDatosMostrar} />
         </div>
-
-
     </div>
 
 }
