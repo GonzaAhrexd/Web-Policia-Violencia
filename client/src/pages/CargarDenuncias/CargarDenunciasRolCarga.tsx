@@ -133,7 +133,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
           
           <div className='flex items-center'>
             <h1 className='text-2xl my-5'>Víctima</h1>
-            <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text-black font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalVictima(true)} />
+            <MagnifyingGlassIcon className='bg-sky-950 hover:bg-sky-700 flex items-center text-white justify-center cursor-pointer font-bold py-2 mx-5 rounded w-10 h-10'  onClick={() => setOpenModalVictima(true)}/>
           </div>
           <div className='flex justify-center'>
             {!victimaCargar ? // Si no hay datos de la víctima a cargar, mostrar el formulario de carga
@@ -148,7 +148,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
           </div> */}
           <div className='flex items-center'>
             <h1 className='text-2xl my-5'>Victimario</h1>
-            <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text-black font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalVictimario(true)} />
+            <MagnifyingGlassIcon className='bg-sky-950 hover:bg-sky-700 flex items-center justify-center cursor-pointer text-white font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalVictimario(true)} />
           </div>
           <div className='flex justify-center'>
             {!victimarioCargar ? // Si no hay datos del victimario a cargar, mostrar el formulario de carga

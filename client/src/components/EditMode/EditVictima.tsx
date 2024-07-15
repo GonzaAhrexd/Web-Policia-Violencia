@@ -46,9 +46,9 @@ function EditVictima({ editarConDenuncia, existente, hijos_con_agresor, cantidad
                 <InputRegister campo="Apellido" nombre="apellido_victima" register={register} setValue={setValue} type="text" error={errors.apellido_victima} valor={datos.apellido} />
             </div>
             <div className='flex flex-col md:flex-row my-2'>
-                <InputRegister campo="Domicilio de la víctima" nombre="direccion_victima" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victima} valor={datos.direccion != "" ? datos.direccion : " "} />
                 <InputNumber require={false} campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} valor={datos.edad != null ? datos.edad : ""} maxLenght={2} />
                 <InputNumber require={false} campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="text" error={errors.dni_victima} valor={datos.DNI != "S/N" ? datos.DNI : ""} maxLenght={8} />
+                <InputRegister require={false} campo="Domicilio" nombre="direccion_victima"  register={register} setValue={setValue} type="text" error={errors.direccion_victima} valor={datos.direccion != "" ? datos.direccion : " "} />
             </div>
             <div className='flex flex-col xl:flex-row my-2'>
                 <SelectRegister valor={datos.estado_civil} campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victima} isRequired={false} />

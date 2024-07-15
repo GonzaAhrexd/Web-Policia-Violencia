@@ -25,9 +25,9 @@ function CargarVictimario({ register, setValue, errors }: CargarVictimarioProps)
         <InputRegister campo="Apellido" nombre="apellido_victimario" register={register} setValue={setValue} type="text" error={errors.apellido_victimario} />
       </div>
       <div className='flex flex-col md:flex-row my-2'>
-        <InputRegister campo="Domicilio" nombre="direccion_victimario" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victimario} />
         <InputNumber campo="Edad" nombre="edad_victimario" register={register} require={false} setValue={setValue} type="text" error={errors.edad_victimario} maxLenght={2} />
         <InputNumber campo="DNI" nombre="dni_victimario" require={false} register={register} setValue={setValue} type="text" error={errors.dni_victimario} maxLenght={8} />
+        <InputRegister campo="Domicilio" nombre="direccion_victimario" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victimario} />
       </div>
       <div className='flex flex-col xl:flex-row my-2'>
         <SelectRegister campo="Estado Civil" nombre="estado_civil_victimario" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victimario} />

@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // Backend APIs
 import { buscarVictima, buscarVictimario, buscarTercero } from '../../api/crud';
 // Componentes
@@ -19,6 +19,23 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
     const [mostrarAlerta, setMostrarAlerta] = useState("");
 
     const { register, handleSubmit, formState: { errors } } = useForm();
+
+    useEffect(() => {
+        // Al presionar esc del teclado se cierra el modal
+        const cerrarModal = (e: any) => {
+            // Si se presiona la tecla escape
+            if (e.key === 'Escape') {
+                // Cerrar el modal
+                setOpenModal(false);
+            }
+        };
+        // Agregar el evento para cerrar el modal al presionar la tecla escape
+        window.addEventListener('keydown', cerrarModal);
+        // Remover el evento al desmontar el componente
+        return () => {
+            window.removeEventListener('keydown', cerrarModal);
+        };
+    }, []);
 
     const fetchVictimas = async (values: any) => {
         let result

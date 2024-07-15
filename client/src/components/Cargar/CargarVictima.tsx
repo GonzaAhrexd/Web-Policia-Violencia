@@ -1,5 +1,5 @@
 // Hooks
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
@@ -24,6 +24,13 @@ function CargarVictima({ register, setValue, errors }: CargarVictimaProps) {
   const [isHijos, setIsHijos] = useState(false) // Para mostrar o no los campos de hijos si es seleccionado el checkbox hijos
   const [isHijosConAgresor, setIsHijosConAgresor] = useState(false) // Para mostrar o no el campo de cantidad de hijos con el agresor si es seleccionado el checkbox hijos con el agresor
 
+  // Si se desmarca el checkbox hijos, se desmarca el checkbox hijos con el agresor
+  useEffect(() => {
+    if (!isHijos) {
+      setIsHijosConAgresor(false)
+    }
+  }, [isHijos])
+
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col md:flex-row my-2'>
@@ -32,9 +39,9 @@ function CargarVictima({ register, setValue, errors }: CargarVictimaProps) {
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>
-        <InputRegister campo="Domicilio" nombre="direccion_victima" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victima} />
         <InputNumber campo="Edad" nombre="edad_victima" require={false} register={register} setValue={setValue} type="text" error={errors.edad_victima} maxLenght={2} />
         <InputNumber campo="DNI" nombre="dni_victima" require={false} register={register} setValue={setValue} type="text" error={errors.dni_victima} maxLenght={8} />
+        <InputRegister campo="Domicilio" nombre="direccion_victima" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victima} />
       </div>
       <div className='flex flex-col xl:flex-row my-2'>
         <SelectRegister campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victima} />

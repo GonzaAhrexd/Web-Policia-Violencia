@@ -118,7 +118,7 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
 
       <div className='flex flex-col md:flex-row my-2'>
         <SelectRegister isRequired={true} campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
-        <InputRegister require={false} campo="Número" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero} />
+        <InputRegister require={false} campo="Número del organismo judicial" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero} />
         <InputRegister campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} />
       </div>
       <div className='flex flex-col md:flex-row my-2' >
@@ -146,7 +146,6 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
       </>
       <div className='flex flex-col my-2'>
         <span className='ml-4 font-medium'> Empleo de armas </span>
-
         <div className='flex flex-col md:flex-row my-2'>
           <InputCheckbox campo="Empleo de Armas" nombre="empleo_de_armas" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsArmas} state={isArmas} id="empleo_de_armas" />
           {isArmas &&
@@ -161,11 +160,11 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
       </div>
       <div className={`grid grid-cols-1 md:grid-cols-3 my-2 md:border-0 bg-white rounded-md`}>
         <InputCheckbox campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento" register={register} setValue={setValue} type="checkbox" id="prohibicion" />
+        <InputCheckbox campo="Botón Antipánico" nombre="boton_antipanico" register={register} setValue={setValue} type="checkbox" id="botonAntipanico" />
         <InputCheckbox campo="Restitución de Menor" nombre="restitucion_de_menor" register={register} setValue={setValue} type="checkbox" id="restitucion" />
         <InputCheckbox campo="Exclusión Hogar" nombre="exclusion_de_hogar" register={register} setValue={setValue} type="checkbox" id="exclusion" />
         <InputCheckbox campo="Alimento Provisorio" nombre="alimento_provisorio" register={register} setValue={setValue} type="checkbox" id="alimentoProvisorio" />
         <InputCheckbox campo="Derecho Comunicación" nombre="derecho_de_comunicacion" register={register} setValue={setValue} type="checkbox" id="derechoComunicacion" />
-        <InputCheckbox campo="Botón Antipánico" nombre="boton_antipanico" register={register} setValue={setValue} type="checkbox" id="botonAntipanico" />
         <div />
       </div>
       <div className='flex flex-col my-2'>
@@ -173,8 +172,8 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
       </div>
       <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-white rounded-md`}>
         <InputCheckbox campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento_dispuesta" register={register} setValue={setValue} type="checkbox" id="prohibicion_dispuesta" />
-        <InputCheckbox campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
         <InputCheckbox campo="Botón Antipánico" nombre="boton_antipanico_dispuesta" register={register} setValue={setValue} type="checkbox" id="botonAntipanico_dispuesta" />
+        <InputCheckbox campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
       </div>
       <>
         <span className='ml-4 font-medium my-2'> Notificación </span>
@@ -191,7 +190,7 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
           <>
             <div className='flex flex-row items-center'>
               <h1 className='text-2xl my-5'>Datos del Tercero</h1>
-              <MagnifyingGlassIcon className='flex items-center justify-center cursor-pointer text font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalTercero(true)} />
+              <MagnifyingGlassIcon className='bg-sky-950 hover:bg-sky-700 flex items-center justify-center cursor-pointer text-white font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalTercero(true)} />
             </div>
             {!setTercero ?
               <div className='flex flex-col md:flex-row'>

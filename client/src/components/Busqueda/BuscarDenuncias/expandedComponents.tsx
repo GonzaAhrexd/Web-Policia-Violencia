@@ -250,9 +250,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
                     {victimaDatos?.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />}
                 </div>
-
                 <h2 className='text-3xl my-5 font-sans	'>Datos del victimario</h2>
-
                 <SimpleTableCheckorX campo="" datos={victimarioDatosMostrar} />
                 <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} />
                 <h2 className='text-3xl my-5 font-sans	'>Hecho</h2>
