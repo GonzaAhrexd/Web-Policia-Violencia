@@ -52,9 +52,59 @@ const victimasSchema = new mongoose.Schema({
     },
     // Definición de la condición de vulnerabilidad de la victima
     condicion_de_vulnerabilidad: {
-        type: String, // Tipo de dato String
+        type: Boolean, // Tipo de dato String
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
+    },
+    condiciones_de_vulnerabilidad: {
+        embarazo: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true, // Trim para que no se guarden espacios en blanco
+            default: false // Valor por defecto
+        },
+        periodo_post_parto: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true, // Trim para que no se guarden espacios en blanco
+            default: false // Valor por defecto
+        },
+        periodo_de_lactancia: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true, // Trim para que no se guarden espacios en blanco
+            default: false // Valor por defecto
+        },
+        discapacidad: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true, // Trim para que no se guarden espacios en blanco
+            default: false // Valor por defecto
+        },
+        enfermedad_cronica: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true, // Trim para que no se guarden espacios en blanco
+            default: false // Valor por defecto
+        },
+        adulto_mayor: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true, // Trim para que no se guarden espacios en blanco
+            default: false // Valor por defecto
+        },
+        menor_de_edad: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true, // Trim para que no se guarden espacios en blanco
+            default: false // Valor por defecto
+        },
+        tratamiento_psicologico: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true, // Trim para que no se guarden espacios en blanco
+            default: false // Valor por defecto
+        },
     },
     // Definición de la convivencia con el agresor
     convivencia: {

@@ -6,30 +6,46 @@ import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputNumber from '../InputComponents/InputNumber'
+import InputRadio from '../InputComponents/InputRadio'
 // Campos 
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
 import { vinculo } from '../../GlobalConst/vinculoCampos'
-import { condicionVulnerabilidad } from '../../GlobalConst/condicionesVulnerabilidadCampos'
 
 // Props
 interface CargarVictimaProps {
   register: UseFormRegister<any>;
   setValue: UseFormSetValue<any>;
   errors: FieldErrors;
+  watch: any;
 }
 
-function CargarVictima({ register, setValue, errors }: CargarVictimaProps) {
+function CargarVictima({watch, register, setValue, errors }: CargarVictimaProps) {
   // Estados
   const [isHijos, setIsHijos] = useState(false) // Para mostrar o no los campos de hijos si es seleccionado el checkbox hijos
   const [isHijosConAgresor, setIsHijosConAgresor] = useState(false) // Para mostrar o no el campo de cantidad de hijos con el agresor si es seleccionado el checkbox hijos con el agresor
-
+  const [isCondicionVulnerabilidad, setIsCondicionVulnerabilidad] = useState(false) // Para mostrar o no el campo de condición de vulnerabilidad si es seleccionado el checkbox condición de vulnerabilidad
   // Si se desmarca el checkbox hijos, se desmarca el checkbox hijos con el agresor
   useEffect(() => {
     if (!isHijos) {
       setIsHijosConAgresor(false)
     }
   }, [isHijos])
+
+  const opcionesCondicionDeVulnerabilidad = [
+    { nombre: 'Sí', value: 'si', id: "si_asistida" },
+    { nombre: 'No', value: 'no', id: "no_asistida" },
+  ]
+
+  const opcionesConvivencia = [
+    { nombre: 'Sí', value: 'si', id: "si_convivencia" },
+    { nombre: 'No', value: 'no', id: "no_convivencia" },
+  ]
+
+  const opcionesHijos = [
+    { nombre: 'Sí', value: 'si', id: "si_hijos" },
+    { nombre: 'No', value: 'no', id: "no_hijos" },
+  ]
 
   return (
     <div className='w-full lg:w-6/10'>
@@ -46,16 +62,36 @@ function CargarVictima({ register, setValue, errors }: CargarVictimaProps) {
       <div className='flex flex-col xl:flex-row my-2'>
         <SelectRegister campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victima} />
         <SelectRegister campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupacion_victima} />
+        <SelectRegister campo="Vínculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima} />
       </div>
       <div className='flex flex-col xl:flex-row my-2'>
-        <SelectRegister campo="Vínculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima} />
-        <SelectRegister campo="Condición de Vulnerabilidad" nombre="condicion_de_vulnerabilidad_victima" opciones={condicionVulnerabilidad} register={register} setValue={setValue} type="text" error={errors.condicion_de_vulnerabilidad_victima} />
       </div>
-      <div className={`grid grid-cols-1 md:grid-cols-3 my-2`}>
-        <InputCheckbox campo="Convivencia " nombre="convivencia" register={register} setValue={setValue} type="checkbox" error={errors.convivencia} id="convivencia" />
-        <InputCheckbox campo="Hijos" nombre="hijos" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsHijos} state={isHijos} id="isHijos" />
-      </div>
+      <div className='flex flex-col my-2'>
+        <span className='ml-4 font-medium'>Condición de vulnerabilidad</span>
+        <InputRadio watch={watch} handleChange={setIsCondicionVulnerabilidad} campo="condicion_de_vulnerabilidad" nombre="condicion_de_vulnerabilidad" register={register} type="radio" opciones={opcionesCondicionDeVulnerabilidad} defaultValue={1} />
+        {isCondicionVulnerabilidad && 
+        <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md`}>
+        <InputCheckbox campo="Embarazo" nombre="embarazo" register={register} setValue={setValue} type="checkbox" error={errors.dependencia_economica} id="dependencia_economica" />
+        <InputCheckbox campo="Periodo Post-parto" nombre="periodo_post_parto" register={register} setValue={setValue} type="checkbox" error={errors.periodo_post_parto} id="periodo_post_parto" />
+        <InputCheckbox campo="Periodo de lactancia" nombre="periodo_de_lactancia" register={register} setValue={setValue} type="checkbox" error={errors.periodo_de_lactancia} id="periodo_de_lactancia" />
+        <InputCheckbox campo="Discapacidad" nombre="discapacidad" register={register} setValue={setValue} type="checkbox" error={errors.discapacidad} id="discapacidad" />
+        <InputCheckbox campo="Enfermedad Crónica" nombre="enfermedad_cronica" register={register} setValue={setValue} type="checkbox" error={errors.enfermedad_cronica} id="enfermedad_cronica" />
+        <InputCheckbox campo="Adulto mayor" nombre="adulto_mayor" register={register} setValue={setValue} type="checkbox" error={errors.adulto_mayor} id="adulto_mayor" />
+        <InputCheckbox campo="Menor de edad" nombre="menor_de_edad" register={register} setValue={setValue} type="checkbox" error={errors.menor_de_edad} id="menor_de_edad" />
+        <InputCheckbox campo="Tratamiento psicológico" nombre="tratamiento_psicologico" register={register} setValue={setValue} type="checkbox" error={errors.tratamiento_psicologico} id="tratamiento_psicologico" />
+        </div>
+        }
 
+      </div>
+      <div className='flex flex-col my-2'>
+        <span className='ml-4 font-medium'>Convivencia</span>      
+        <InputRadio campo="convivencia" nombre="convivencia" register={register} type="radio" opciones={opcionesConvivencia} defaultValue={1} />
+      </div>
+      
+      <div className='flex flex-col my-2'>
+        <span className='ml-4 font-medium'>Hijos</span>
+        <InputRadio watch={watch} handleChange={setIsHijos} campo="hijos" nombre="hijos" register={register} type="radio" opciones={opcionesHijos} defaultValue={1} />
+      </div>
       {isHijos &&
         <div className='bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md'>
           <div className={`grid grid-cols-1 md:grid-cols-3 my-2`}>
@@ -65,16 +101,16 @@ function CargarVictima({ register, setValue, errors }: CargarVictimaProps) {
             <InputCheckbox campo="Menores discapacitados" nombre="menores_discapacitados" register={register} setValue={setValue} type="checkbox" error={errors.menores_discapacitados} id="menoresDiscapacitados" />
             <InputCheckbox campo="Hijos con el agresor" nombre="hijos_con_agresor" register={register} setValue={setValue} type="checkbox" error={errors.hijos_con_agresor} setHook={setIsHijosConAgresor} state={isHijosConAgresor} id="hijosConElAgresor" />
           </div>
-          {isHijosConAgresor && 
+          {isHijosConAgresor &&
             <InputNumber campo="Cantidad" nombre="cantidad_hijos_con_agresor" register={register} setValue={setValue} type="text" error={errors.cantidad_hijos_con_agresor} maxLenght={2} />
           }
-          </div>
+        </div>
       }
 
 
-        </div>
+    </div>
 
   )
 }
 
-      export default CargarVictima
+export default CargarVictima

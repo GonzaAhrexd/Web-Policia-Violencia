@@ -51,6 +51,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
         <form onSubmit={
           handleSubmit(async (values) => {
             // Mostrar una alerta de confirmación antes de cargar la denuncia
+            console.log(values)
             Swal.fire({
               title: '¿Estás seguro?',
               text: "Podrás editarlo más adelante.",
@@ -115,7 +116,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
                   }).then((result) => {
                     if (result.isConfirmed) {
                       // Si se confirma, recargar la página
-                      window.location.reload();
+                      // window.location.reload();
                     }
                   });
                 } catch (error) {
@@ -137,7 +138,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
           </div>
           <div className='flex justify-center'>
             {!victimaCargar ? // Si no hay datos de la víctima a cargar, mostrar el formulario de carga
-              <CargarVictima register={register} setValue={setValue} errors={errors} />
+              <CargarVictima watch={watch} register={register} setValue={setValue} errors={errors} />
               : // Si hay datos de la víctima a cargar, mostrar el formulario de edición
               <EditVictima existente={true} md={true} datos={victimaCargar} register={register} setValue={setValue} errors={errors} />
             }
