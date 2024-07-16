@@ -5,7 +5,10 @@ import unorm from 'unorm'
 export const createVictima = async (req, res) => {
     //Victima nueva
     try {
-        const { nombre_victima, apellido_victima, direccion_victima,  edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
+        const { nombre_victima, apellido_victima, direccion_victima,  edad_victima, dni_victima, 
+                estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad, 
+                embarazo, periodo_post_parto, periodo_de_lactancia, discapacidad, enfermedad_cronica, adulto_mayor, menor_de_edad, tratamiento_psicologico,
+                convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
         let victimaExistente 
         if (dni_victima != "S/N") {
             victimaExistente = await victimas.findOne({ DNI: dni_victima })
@@ -22,11 +25,21 @@ export const createVictima = async (req, res) => {
                 DNI: dni_victima,
                 estado_civil: estado_civil_victima,
                 ocupacion: ocupacion_victima,
-                condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
-                convivencia: convivencia ? convivencia : false,
+                condicion_de_vulnerabilidad: condicion_de_vulnerabilidad == "Sí" ? true : false,
+                condiciones_de_vulnerabilidad: {
+                    embarazo: embarazo ? embarazo : false,
+                    periodo_post_parto: periodo_post_parto ? periodo_post_parto : false,
+                    periodo_de_lactancia: periodo_de_lactancia ? periodo_de_lactancia : false,
+                    discapacidad: discapacidad ? discapacidad : false,
+                    enfermedad_cronica: enfermedad_cronica ? enfermedad_cronica : false,
+                    adulto_mayor: adulto_mayor ? adulto_mayor : false,
+                    menor_de_edad: menor_de_edad ? menor_de_edad : false,
+                    tratamiento_psicologico: tratamiento_psicologico ? tratamiento_psicologico : false
+                },
+                convivencia: convivencia === "Sí" ? true : false,
                 cantidad_de_denuncias_previas: 1,
                 hijos: {
-                    tiene_hijos: hijos ? hijos : false,
+                    tiene_hijos: hijos === "Sí" ? true : false,
                     dependencia_economica: (hijos && dependencia_economica) ? dependencia_economica : false,
                     mayores_de_edad: (hijos && mayor_de_18) ? mayor_de_18 : false,
                     menores_de_edad: (hijos && menor_de_18) ? menor_de_18 : false,
@@ -47,9 +60,19 @@ export const createVictima = async (req, res) => {
                     DNI: dni_victima,
                     estado_civil: estado_civil_victima,
                     ocupacion: ocupacion_victima,
-                    condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
-                    convivencia: convivencia ? convivencia : false,
-                    "hijos.tiene_hijos": hijos ? hijos : false,
+                    condicion_de_vulnerabilidad: condicion_de_vulnerabilidad == "Sí" ? true : false,
+                    condiciones_de_vulnerabilidad: {
+                        embarazo: embarazo ? embarazo : false,
+                        periodo_post_parto: periodo_post_parto ? periodo_post_parto : false,
+                        periodo_de_lactancia: periodo_de_lactancia ? periodo_de_lactancia : false,
+                        discapacidad: discapacidad ? discapacidad : false,
+                        enfermedad_cronica: enfermedad_cronica ? enfermedad_cronica : false,
+                        adulto_mayor: adulto_mayor ? adulto_mayor : false,
+                        menor_de_edad: menor_de_edad ? menor_de_edad : false,
+                        tratamiento_psicologico: tratamiento_psicologico ? tratamiento_psicologico : false
+                    },
+                    convivencia: convivencia === "Sí" ? true : false,
+                    "hijos.tiene_hijos": hijos === "Sí" ? true : false,
                     "hijos.dependencia_economica": dependencia_economica ? dependencia_economica : false,
                     "hijos.mayores_de_edad": mayor_de_18 ? mayor_de_18 : false,
                     "hijos.menores_de_edad": menor_de_18 ? menor_de_18 : false,
@@ -111,7 +134,10 @@ export const deleteVictima = async (id, denunciaId) => {
 export const updateVictima = async (req, res) => {
     try {
         const { id } = req.params
-        const { nombre_victima, apellido_victima, direccion_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad_victima, convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
+        const { nombre_victima, apellido_victima, direccion_victima, edad_victima,
+                dni_victima, estado_civil_victima, ocupacion_victima,
+                condicion_de_vulnerabilidad, embarazo, periodo_post_parto, periodo_de_lactancia, discapacidad, enfermedad_cronica, adulto_mayor, menor_de_edad, tratamiento_psicologico, 
+                convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
 
         const victimaUpdated = await victimas.findByIdAndUpdate(id, {
             nombre: nombre_victima,
@@ -121,10 +147,20 @@ export const updateVictima = async (req, res) => {
             DNI: dni_victima,
             estado_civil: estado_civil_victima,
             ocupacion: ocupacion_victima,
-            condicion_de_vulnerabilidad: condicion_de_vulnerabilidad_victima,
-            convivencia: convivencia ? convivencia : false,
+            condicion_de_vulnerabilidad: condicion_de_vulnerabilidad == "Sí" ? true : false,
+            condiciones_de_vulnerabilidad: {
+                embarazo: embarazo ? embarazo : false,
+                periodo_post_parto: periodo_post_parto ? periodo_post_parto : false,
+                periodo_de_lactancia: periodo_de_lactancia ? periodo_de_lactancia : false,
+                discapacidad: discapacidad ? discapacidad : false,
+                enfermedad_cronica: enfermedad_cronica ? enfermedad_cronica : false,
+                adulto_mayor: adulto_mayor ? adulto_mayor : false,
+                menor_de_edad: menor_de_edad ? menor_de_edad : false,
+                tratamiento_psicologico: tratamiento_psicologico ? tratamiento_psicologico : false
+            },
+            convivencia: convivencia === "Sí" ? true : false,
             hijos: {
-                tiene_hijos: hijos ? hijos : false,
+                tiene_hijos: hijos === "Sí" ? true : false,
                 dependencia_economica: dependencia_economica ? dependencia_economica : false,
                 mayores_de_edad: mayor_de_18 ? mayor_de_18 : false,
                 menores_de_edad: menor_de_18 ? menor_de_18 : false,

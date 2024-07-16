@@ -59,49 +59,49 @@ const victimasSchema = new mongoose.Schema({
     condiciones_de_vulnerabilidad: {
         embarazo: {
             type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
+            required: false, // Campo requerido
             trim: true, // Trim para que no se guarden espacios en blanco
             default: false // Valor por defecto
         },
         periodo_post_parto: {
             type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
+            required: false, // Campo requerido
             trim: true, // Trim para que no se guarden espacios en blanco
             default: false // Valor por defecto
         },
         periodo_de_lactancia: {
             type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
+            required: false, // Campo requerido
             trim: true, // Trim para que no se guarden espacios en blanco
             default: false // Valor por defecto
         },
         discapacidad: {
             type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
+            required: false, // Campo requerido
             trim: true, // Trim para que no se guarden espacios en blanco
             default: false // Valor por defecto
         },
         enfermedad_cronica: {
             type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
+            required: false, // Campo requerido
             trim: true, // Trim para que no se guarden espacios en blanco
             default: false // Valor por defecto
         },
         adulto_mayor: {
             type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
+            required: false, // Campo requerido
             trim: true, // Trim para que no se guarden espacios en blanco
             default: false // Valor por defecto
         },
         menor_de_edad: {
             type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
+            required: false, // Campo requerido
             trim: true, // Trim para que no se guarden espacios en blanco
             default: false // Valor por defecto
         },
         tratamiento_psicologico: {
             type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
+            required: false, // Campo requerido
             trim: true, // Trim para que no se guarden espacios en blanco
             default: false // Valor por defecto
         },

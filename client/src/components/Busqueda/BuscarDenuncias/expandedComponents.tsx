@@ -109,6 +109,17 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Denuncias previas", valor: victimaDatos?.cantidad_de_denuncias_previas ? victimaDatos.cantidad_de_denuncias_previas : "No especificado" },
         { nombre: "Tiene hijos", valor: victimaDatos?.hijos?.tiene_hijos ? "Sí" : "No" }
     ]
+    // Mostrar condiciones de vulnerabilidad
+    const condicion_de_vulnerabilidad = [
+        { nombre: "Embarazo", valor: victimaDatos?.condiciones_de_vulnerabilidad?.embarazo },
+        { nombre: "Periodo Post-parto", valor: victimaDatos?.condiciones_de_vulnerabilidad?.periodo_post_parto },
+        { nombre: "Periodo de lactancia", valor: victimaDatos?.condiciones_de_vulnerabilidad?.periodo_de_lactancia },
+        { nombre: "Discapacidad", valor: victimaDatos?.condiciones_de_vulnerabilidad?.discapacidad },
+        { nombre: "Enfermedad Crónica", valor: victimaDatos?.condiciones_de_vulnerabilidad?.enfermedad_cronica },
+        { nombre: "Adulto mayor", valor: victimaDatos?.condiciones_de_vulnerabilidad?.adulto_mayor },
+        { nombre: "Menor de edad", valor: victimaDatos?.condiciones_de_vulnerabilidad?.menor_de_edad },
+        { nombre: "Tratamiento psicológico", valor: victimaDatos?.condiciones_de_vulnerabilidad?.tratamiento_psicologico },
+    ]
     // Mostrar datos de los hijos
     const hijosVictima = [
         { nombre: "Dependencia económica", valor: victimaDatos?.hijos?.dependencia_economica },
