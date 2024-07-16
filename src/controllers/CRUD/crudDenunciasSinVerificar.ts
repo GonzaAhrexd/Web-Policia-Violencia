@@ -7,10 +7,10 @@ export const createDenunciaSinVerificar = async (req, res) => {
     try {
         // Obtener la división del usuario
         const usuario = await usuarios.findById(req.user.id)
-
         const division = usuario?.unidad
+        // Obtener los datos de la denuncia
         const { nombre_victima, numero_de_expediente, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
-
+        // Crear la denuncia
         const newDenunciaSinVerificar = new denunciaSinVerificar({
             estado: "En verificación",
             cargado_por: req.user.id,
@@ -44,7 +44,7 @@ export const createDenunciaSinVerificar = async (req, res) => {
                 jerarquia_instructor: jerarquia_instructor,
             }
         })
-
+        // Guardar la denuncia
         const denunciaSinVerificarSaved = await newDenunciaSinVerificar.save()
         res.send('Denuncia creada con exito')
 
@@ -52,6 +52,7 @@ export const createDenunciaSinVerificar = async (req, res) => {
         console.log(error)
     }
 }
+// Obtener todas las denuncias sin verificar
 export const getDenunciasSinVerificar = async (req, res) => {
     try {
         // Haz el find solamente de los que tengan como estado "En verificación"
@@ -86,6 +87,7 @@ export const deleteDenunciaSinVerificar = async (req, res) => {
     }
 }
 
+// Listar mis denuncias sin verificar
 export const listarMisDenunciasSinVerificar = async (req, res) => {
     try {
         console.log(req.user.id)

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import InputDireccion from '../InputComponents/InputDireccion';
-import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
+import { QuestionMarkCircleIcon, MapPinIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 interface Opcion {
     value?: string;
     nombre?: string;
@@ -34,29 +35,39 @@ interface Props {
     setTitulo?: any
     valor?: any
     isRequired?: any
-}   
+}
 
 
-function SelectCargaDenuncias({isRequired, valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, barrio, setBarrio, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, setComisariaPertenece, state, info, setTitulo }: Props) {
-    const [requiredInput, ] = useState(isRequired!=null ? isRequired : true)
+function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, barrio, setBarrio, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, setComisariaPertenece, state, info, setTitulo }: Props) {
+    
+    // Estados para guardar las opciones seleccionadas
+    const [requiredInput,] = useState(isRequired != null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
     const [selectedCuadricula, setSelectedCuadricula] = useState('');
-   
+
     const handleBuscarPrefijo = (comisaria: String) => {
         //Busca el prefijo de la comisaria entre las opciones, tiene que coincidir con el valor de la comisaria
         let prefijo = ''
-
+        // Utiliza un map anidado para recorrer las opciones y buscar el prefijo de la comisaria
         opciones.map((unidad: Opcion) => {
+            // Si la unidad no es la comisaria, busca en las subdivisiones
             if (unidad != comisaria) {
+                // Si la comisaria tiene subdivisiones, busca en ellas
                 unidad.subdivisiones?.map((subunidad: Opcion) => {
+                    // Si la comisaria coincide con el valor de la comisaria, guarda el prefijo
                     if (subunidad.value == comisaria && subunidad.prefijo != undefined) {
-
+                        // Guarda el prefijo de la comisaria
                         prefijo = subunidad.prefijo
-                    } if (subunidad.subdivisiones != undefined) {
+                    }
+                    // Si la comisaria tiene subdivisiones, busca en ellas
+                    if (subunidad.subdivisiones != undefined) {
+                        // Si la comisaria coincide con el valor de la comisaria, guarda el prefijo
                         subunidad.subdivisiones.map((subsubunidad: Opcion) => {
+                            // Si la comisaria coincide con el valor de la comisaria, guarda el prefijo
                             if (subsubunidad.value == comisaria && subsubunidad.prefijo != undefined) {
+                                // Guarda el prefijo de la comisaria
                                 prefijo = subsubunidad.prefijo
                             }
                         })
@@ -160,21 +171,21 @@ function SelectCargaDenuncias({isRequired, valor, handleOpenModal, consultarCoor
 
     useEffect(() => {
         if (coordenadas) {
-          setValue('GIS', coordenadas);
+            setValue('GIS', coordenadas);
         }
-      }, [coordenadas, setValue]);
-    
+    }, [coordenadas, setValue]);
+
 
     return (
         <div className={`flex flex-row w-full`}>
             <div className='flex flex-col w-full'>
-                <span className='ml-4 font-medium flex flex-row '> {nombre!="tipo_de_arma" ? campo : ""}  <span className='text-red-500'> </span>  
-                
-                {campo === "Modalidades" &&   
-                  <QuestionMarkCircleIcon className="w-6 cursor-pointer" onClick={() => (
-                    setTitulo("Modalidades"),
-                    handleOpenModal(info)
-                  )}/>} 
+                <span className='ml-4 font-medium flex flex-row '> {nombre != "tipo_de_arma" ? campo : ""}  <span className='text-red-500'> </span>
+
+                    {campo === "Modalidades" &&
+                        <QuestionMarkCircleIcon className="w-6 cursor-pointer" onClick={() => (
+                            setTitulo("Modalidades"),
+                            handleOpenModal(info)
+                        )} />}
                 </span>
                 <div className={`flex flex-col xl:w-full"}`}>
                     <select
@@ -217,21 +228,14 @@ function SelectCargaDenuncias({isRequired, valor, handleOpenModal, consultarCoor
 
                     <div className='flex flex-col xl:flex-row'>
                         <InputDireccion require={true} state={direccion} setState={setDireccion} campo="Domicilio" nombre="direccion" register={register} setValue={setValue} type="text" error={errors.direccion} />
-                        <InputDireccion require={true} state={barrio} setState={setBarrio} campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />                        
+                        <InputDireccion require={true} state={barrio} setState={setBarrio} campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
                         <InputDireccion require={true} state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.GIS} />
                         <div className='cursor-pointer flex flex-col items-center mt-5 md:flex-row'>
-                            <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 md:mr-1 flex items-center justify-center' onClick={() => consultarCoordenadas()}>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7" >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                            </svg>
+                            <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/2 md:mr-1 flex items-center justify-center' onClick={() => consultarCoordenadas()}>
+                                <MagnifyingGlassIcon className="w-7 h-7" />
                             </div>
-                            <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10 md:w-1/2 flex items-center justify-center mt-2 md:mt-0' onClick={() => handleClick(coordenadas)}>
-
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7" >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                            </svg>
+                            <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/2 flex items-center justify-center mt-2 md:mt-0' onClick={() => handleClick(coordenadas)}>
+                                <MapPinIcon className="w-7 h-7" />
                             </div>
 
                         </div>
@@ -294,9 +298,9 @@ function SelectCargaDenuncias({isRequired, valor, handleOpenModal, consultarCoor
                         >
                             <option value="">Seleccione una cuadrícula</option>
                             {opciones.find((unidad) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones?.find((subsubunidad: Opcion) => subsubunidad.value === selectedSubsubunidad)?.cuadriculas?.map((cuadricula) => (
-                                    <option key={cuadricula.value} value={cuadricula.value}>
-                                        {cuadricula.nombre}
-                                    </option>
+                                <option key={cuadricula.value} value={cuadricula.value}>
+                                    {cuadricula.nombre}
+                                </option>
                             ))}
                         </select>
                     </div>
