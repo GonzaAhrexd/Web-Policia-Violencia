@@ -30,15 +30,16 @@ function InputCheckbox({ campo, nombre, setValue, type, setHook, state, id }: Pr
     <div className="flex flex-row justify-start items-center">
       <div>
         <input
-          className="border open-sans border-gray-300 rounded-md h-6 xl:h-6 xl:w-5 2xl:h-6 my-2 xl:my-1 xl:m-2 m-4 pl-2"
+          className="cursor-pointer border open-sans border-gray-300 rounded-md h-6 xl:h-6 xl:w-5 2xl:h-6 my-2 xl:my-1 xl:m-2 m-4 pl-2"
           type={type}
           onChange={handleChange}
           defaultChecked={state}
           id={id}
+          disabled={state}
         />
       </div>
       <div>
-        <label htmlFor={id} className="font-medium xl:text-sm">
+        <label htmlFor={id} className="cursor-pointer font-medium xl:text-sm">
           {campo}
         </label>
       </div>

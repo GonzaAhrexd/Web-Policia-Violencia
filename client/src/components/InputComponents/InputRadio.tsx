@@ -29,7 +29,7 @@ function InputRadio({watch, register, nombre, type, defaultValue, handleChange, 
                 <div className="flex justify-start items-center" key={opcion.id}>
                     <div>
                         <input
-                            className="border open-sans border-gray-300 rounded-md h-6 xl:h-6 xl:w-5 2xl:h-6 my-2 xl:my-1 xl:m-2 m-4 pl-2"
+                            className="cursor-pointer border open-sans border-gray-300 rounded-md h-6 xl:h-6 xl:w-5 2xl:h-6 my-2 xl:my-1 xl:m-2 m-4 pl-2"
                             type={type}
                             id={opcion.id}
                             {...register(nombre)}
@@ -38,7 +38,7 @@ function InputRadio({watch, register, nombre, type, defaultValue, handleChange, 
                         />
                     </div>
                     <div>
-                        <label htmlFor={opcion.id} className="font-medium xl:text-sm">
+                        <label htmlFor={opcion.id} className="cursor-pointer font-medium xl:text-sm">
                             {opcion.nombre}
                         </label>
                     </div>
