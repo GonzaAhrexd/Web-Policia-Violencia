@@ -53,6 +53,7 @@ function Home() {
   const isCarga: boolean = user?.rol === 'carga' || user?.rol === 'admin';
   const isAgente: boolean = user?.rol === 'agente' || user?.rol === 'admin' || user?.rol === 'carga';
 
+  // Función para saludar dependiendo de la hora
   const saludosDependiendoLaHora = () => {
     const fecha: Date = new Date();
     const hora: number = fecha.getHours();
@@ -71,7 +72,6 @@ function Home() {
       <NavBar user={user} />  
       <div className='h-screen p-10'>
         <h1 className='text-4xl sm:text-7xl'>¡{saludosDependiendoLaHora()}, {user?.nombre}!</h1>
-
         {user?.rol === 'sin_definir' && (
           <div className='flex mt-10 text-xl'>
             <p>Aún se te está asignando el rol, regresa pronto.</p>

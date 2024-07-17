@@ -21,18 +21,19 @@ interface InputRegisterProps {
 }
 
 function InputRegister({ busqueda, notMidMD, notMid, campo, nombre, register, type, error, require, valor, placeholder, setValue }: InputRegisterProps) {
+    // Estados
     const [avisoRequerido, setAvisoRequerido] = useState(false)
-
+    // Si no se recibe un placeholder, se setea como string vacío
     placeholder ? placeholder : ''
+    // Si se recibe un valor, se setea en el formulario directamente con setValue
     useEffect(() => {
         if (valor) {
             setValue(nombre, valor);
         }
     }, [setValue, nombre, valor]);
 
-
-    // @ts-ignore
-    function getClassName(campo, nombre, notMid, notMidMD) {
+    // Función para obtener el nombre de la clase dependiendo del campo
+    function getClassName(campo:String, nombre:String, notMid:any, notMidMD:any) {
         if (campo === 'Barrio' || nombre === 'numero_de_expediente') {
             return "flex flex-col w-full xl:w-1/2";
         } else if (notMid) {

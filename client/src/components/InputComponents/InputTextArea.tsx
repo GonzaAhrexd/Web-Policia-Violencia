@@ -15,6 +15,7 @@ interface InputRegisterProps {
 function InputTextArea({ campo, nombre, register, type, variante, valor, placeholder, setValue }: InputRegisterProps) {
     placeholder ? placeholder : ''
 
+    // Si se recibe un valor, se setea en el formulario directamente con setValue
     if (valor) {
         useEffect(() => {
             setValue(nombre, valor);

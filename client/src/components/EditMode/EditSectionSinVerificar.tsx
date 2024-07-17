@@ -69,6 +69,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
     apellido: datos.apellido_victima,
     DNI: datos.DNI_victima,
     edad: datos.edad_victima,
+    direccion: datos.direccion_victima,
     estado_civil: datos.estado_civil_victima,
     ocupacion: datos.ocupacion_victima,
     telefono: datos.telefono_victima,
@@ -99,7 +100,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
       <form
         onSubmit={
           handleSubmit(async (values) => {
-
+            // Verifica si se cambió el select de estado civil y ocupación, si es así, conserva los valores, sino, los reemplaza por los que ya estaban
             values.estado_civil_victima ? values.estado_civil_victima = values.estado_civil_victima : values.estado_civil_victima = datosVictima.estado_civil
             values.ocupacion_victima ? values.ocupacion_victima = values.ocupacion_victima : values.ocupacion_victima = datosVictima.ocupacion
             const idVictima = await agregarVictima(values).then((id) => {
@@ -146,7 +147,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
           <MagnifyingGlassIcon className='bg-sky-950 hover:bg-sky-700 flex items-center text-white justify-center cursor-pointer font-bold py-2 mx-5 rounded w-10 h-10'  onClick={() => setOpenModalVictima(true)} />
         </div>
         <div className='flex justify-center'>
-          <VerificarDenunciante datos={victimaCargar ? victimaCargar : datosVictima} register={register} setValue={setValue} errors={errors} />
+          <VerificarDenunciante watch={watch} datos={victimaCargar ? victimaCargar : datosVictima} register={register} setValue={setValue} errors={errors} />
         </div>
         <div className='flex items-center'>
           <h1 className='text-2xl my-5'>Victimario</h1>

@@ -24,11 +24,11 @@ export const createVictimario = async (req, res) => {
                 DNI: dni_victimario,
                 estado_civil: estado_civil_victimario,
                 ocupacion: ocupacion_victimario,
-                abuso_de_alcohol,
-                antecedentes_toxicologicos,
-                antecedentes_penales,
-                antecedentes_contravencionales,
-                entrenamiento_en_combate,
+                abuso_de_alcohol: abuso_de_alcohol ? abuso_de_alcohol : false,
+                antecedentes_toxicologicos: antecedentes_toxicologicos ? antecedentes_toxicologicos : false,
+                antecedentes_penales: antecedentes_penales ? antecedentes_penales : false,
+                antecedentes_contravencionales: antecedentes_contravencionales ? antecedentes_contravencionales : false,
+                entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,
                 cantidad_de_denuncias_previas: 1
             })
             const victimarioSaved = await newVictimario.save()
@@ -45,11 +45,11 @@ export const createVictimario = async (req, res) => {
                     DNI: dni_victimario,
                     estado_civil: estado_civil_victimario,
                     ocupacion: ocupacion_victimario,
-                    abuso_de_alcohol,
-                    antecedentes_toxicologicos,
-                    antecedentes_penales,
-                    antecedentes_contravencionales,
-                    entrenamiento_en_combate,
+                    abuso_de_alcohol: abuso_de_alcohol ? abuso_de_alcohol : false,
+                    antecedentes_toxicologicos: antecedentes_toxicologicos ? antecedentes_toxicologicos : false,
+                    antecedentes_penales: antecedentes_penales ? antecedentes_penales : false,
+                    antecedentes_contravencionales: antecedentes_contravencionales ? antecedentes_contravencionales : false,
+                    entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,
                     $inc: { cantidad_de_denuncias_previas: 1 }
                 }, { new: true })
             }

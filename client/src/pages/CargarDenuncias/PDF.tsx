@@ -22,7 +22,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
         direccion: string,
         telefono: string
     }
-
+    // Direcciones de las divisiones
     const direccionDivisiones: division[] = [
         { division: "Metropolitana", direccion: "Avenida Alvear Nº 126", telefono: "362461832" },
         { division: "La Leonesa", direccion: "Santiago del Estero y Entre Ríos", telefono: "3624644562" },

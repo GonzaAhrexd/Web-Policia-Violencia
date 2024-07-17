@@ -101,7 +101,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Apellido", valor: victimaDatos?.apellido ? victimaDatos.apellido : "No especificado" },
         { nombre: "Domicilio", valor: victimaDatos?.direccion ? victimaDatos.direccion : "No específicado" },
         { nombre: "Edad", valor: victimaDatos?.edad ? victimaDatos.edad : "No especificado" },
-        { nombre: "DNI", valor: (data.DNI && data.DNI != "S/N") ? data.DNI : "No especificado" },
+        { nombre: "DNI", valor: (victimaDatos?.DNI && victimaDatos?.DNI != "S/N") ? victimaDatos?.DNI : "No especificado" },
         { nombre: "Estado Civil", valor: victimaDatos?.estado_civil ? victimaDatos.estado_civil : "No especificado" },
         { nombre: "Ocupación", valor: victimaDatos?.ocupacion ? victimaDatos.ocupacion : "No especificado" },
         { nombre: "Vínculo con agresor", valor: data?.relacion_victima_victimario ? data.relacion_victima_victimario : "No especificado" },
@@ -135,7 +135,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Apellido", valor: victimarioDatos.apellido ? victimarioDatos.apellido : "No especificado" },
         { nombre: "Domicilio", valor: victimarioDatos?.direccion ? victimarioDatos.direccion : "No específicado" },
         { nombre: "Edad", valor: victimarioDatos.edad ? victimarioDatos.edad : "No especificado" },
-        { nombre: "DNI", valor: victimarioDatos.DNI ? victimarioDatos.DNI : "No especificado" },
+        { nombre: "DNI", valor: (victimarioDatos?.DNI && victimarioDatos?.DNI != "S/N") ? victimarioDatos?.DNI : "No especificado" },
         { nombre: "Estado Civil", valor: victimarioDatos.estado_civil ? victimarioDatos.estado_civil : "No especificado" },
         { nombre: "Ocupación", valor: victimarioDatos.ocupacion ? victimarioDatos.ocupacion : "No especificado" },
         { nombre: "Denuncias previas", valor: victimarioDatos.cantidad_de_denuncias_previas ? victimarioDatos.cantidad_de_denuncias_previas : "No especificado" }
