@@ -51,7 +51,6 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
         <form onSubmit={
           handleSubmit(async (values) => {
             // Mostrar una alerta de confirmación antes de cargar la denuncia
-            console.log(values)
             Swal.fire({
               title: '¿Estás seguro?',
               text: "Podrás editarlo más adelante.",
@@ -140,7 +139,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
             {!victimaCargar ? // Si no hay datos de la víctima a cargar, mostrar el formulario de carga
               <CargarVictima watch={watch} register={register} setValue={setValue} errors={errors} />
               : // Si hay datos de la víctima a cargar, mostrar el formulario de edición
-              <EditVictima existente={true} md={true} datos={victimaCargar} register={register} setValue={setValue} errors={errors} />
+              <EditVictima watch={watch} existente={true} md={true} datos={victimaCargar} register={register} setValue={setValue} errors={errors} />
             }
           </div>
           {/* Haz una linea gris que divida, pero que solo salga a la mitad como los demás inputs */}

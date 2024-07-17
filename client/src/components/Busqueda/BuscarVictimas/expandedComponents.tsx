@@ -97,7 +97,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
     
     fetchAllDenuncias();
 }, [])
-    console.log(data?.condicion_de_vulnerabilidad ? 0 : 1)
     return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
         {!editGlobal &&
             <>

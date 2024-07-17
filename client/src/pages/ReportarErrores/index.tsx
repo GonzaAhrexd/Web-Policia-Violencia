@@ -58,8 +58,6 @@ function CargarDenuncias() {
             <div className='w-full sm:w-1/2'>
             <form onSubmit={
           handleSubmit(async (values) => {
-
-            console.log(values)
             // Mostrar una alerta de confirmación antes de cargar la denuncia
             Swal.fire({
               title: '¿Estás seguro?',
