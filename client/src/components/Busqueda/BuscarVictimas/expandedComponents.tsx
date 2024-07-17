@@ -37,7 +37,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     const [modoImprimir, setModoImprimir] = useState(false);
 
-    const { register, handleSubmit, setValue, formState: {
+    const { register, watch,  handleSubmit, setValue, formState: {
         errors
     } } = useForm()
     // Datos de la víctima
@@ -49,10 +49,21 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "DNI", valor: (data.DNI && data.DNI != "S/N") ? data.DNI : "No especificado"  },
         { nombre: "Estado Civil", valor: data.estado_civil ? data.estado_civil : "No especificado"  },
         { nombre: "Ocupación", valor: data.ocupacion ? data.ocupacion : "No especificado"  },
-        { nombre: "Vínculo con agresor", valor: data.vinculo_con_agresor ? data.vinculo_con_agresor : "No especificado"  },
-        { nombre: "Condición de vulnerabilidad", valor: data.condicion_de_vulnerabilidad ? data.condicion_de_vulnerabilidad : "No especificado"  },
+        // { nombre: "Vínculo con agresor", valor: data.vinculo_con_agresor ? data.vinculo_con_agresor : "No especificado"  },
+        { nombre: "Condición de vulnerabilidad", valor: data.condicion_de_vulnerabilidad   },
         { nombre: "Denuncias previas", valor: data.cantidad_de_denuncias_previas ? data.cantidad_de_denuncias_previas : "No especificado"},
         { nombre: "Tiene hijos", valor: data?.hijos?.tiene_hijos ? "Sí" : "No" }
+    ]
+     // Mostrar condiciones de vulnerabilidad
+     const condicion_de_vulnerabilidad = [
+        { nombre: "Embarazo", valor: data?.condiciones_de_vulnerabilidad?.embarazo },
+        { nombre: "Periodo Post-parto", valor: data?.condiciones_de_vulnerabilidad?.periodo_post_parto },
+        { nombre: "Periodo de lactancia", valor: data?.condiciones_de_vulnerabilidad?.periodo_de_lactancia },
+        { nombre: "Discapacidad", valor: data?.condiciones_de_vulnerabilidad?.discapacidad },
+        { nombre: "Enfermedad Crónica", valor: data?.condiciones_de_vulnerabilidad?.enfermedad_cronica },
+        { nombre: "Adulto mayor", valor: data?.condiciones_de_vulnerabilidad?.adulto_mayor },
+        { nombre: "Menor de edad", valor: data?.condiciones_de_vulnerabilidad?.menor_de_edad },
+        { nombre: "Tratamiento psicológico", valor: data?.condiciones_de_vulnerabilidad?.tratamiento_psicologico },
     ]
     // Mostrar datos de los hijos
     const hijosVictima = [
@@ -86,13 +97,14 @@ function expandedComponents({ data }: expandedComponentsProps) {
     
     fetchAllDenuncias();
 }, [])
-
+    console.log(data?.condicion_de_vulnerabilidad ? 0 : 1)
     return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
         {!editGlobal &&
             <>
                 <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
                 <div className='flex flex-col'>
                     <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
+                    {data?.condicion_de_vulnerabilidad && <SimpleTableCheckorX campo="Condiciones de vulnerabilidad" datos={condicion_de_vulnerabilidad} />}
                     {data?.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />}
                 </div>
                 <h1 className='text-3xl my-5 font-sans	'>Denuncias realizadas</h1>
@@ -154,7 +166,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                                 }
                             })
                         })}>
-                    <EditVictima datos={data} register={register} setValue={setValue} errors={errors} />
+                    <EditVictima watch={watch} datos={data} register={register} setValue={setValue} errors={errors} />
                     <div className='flex flex-col md:flex-row items-center justify-center w-full my-2'>
                         <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setEditGlobal(!editGlobal)}>
                             <XMarkIcon className="w-7" />
@@ -163,7 +175,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
                             <CheckIcon className="w-7" />
                         </button>
                     </div>
-                    
                 </form>
             </div>
         }

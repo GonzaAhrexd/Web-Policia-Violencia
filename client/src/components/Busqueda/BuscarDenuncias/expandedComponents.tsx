@@ -259,6 +259,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                 <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
                 <div className='flex flex-col'>
                     <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
+                    {victimaDatos?.condicion_de_vulnerabilidad && <SimpleTableCheckorX campo="Condición de vulnerabilidad" datos={condicion_de_vulnerabilidad} />}
                     {victimaDatos?.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />}
                 </div>
                 <h2 className='text-3xl my-5 font-sans	'>Datos del victimario</h2>

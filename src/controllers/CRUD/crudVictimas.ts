@@ -149,14 +149,14 @@ export const updateVictima = async (req, res) => {
             ocupacion: ocupacion_victima,
             condicion_de_vulnerabilidad: condicion_de_vulnerabilidad == "Sí" ? true : false,
             condiciones_de_vulnerabilidad: {
-                embarazo: embarazo ? embarazo : false,
-                periodo_post_parto: periodo_post_parto ? periodo_post_parto : false,
-                periodo_de_lactancia: periodo_de_lactancia ? periodo_de_lactancia : false,
-                discapacidad: discapacidad ? discapacidad : false,
-                enfermedad_cronica: enfermedad_cronica ? enfermedad_cronica : false,
-                adulto_mayor: adulto_mayor ? adulto_mayor : false,
-                menor_de_edad: menor_de_edad ? menor_de_edad : false,
-                tratamiento_psicologico: tratamiento_psicologico ? tratamiento_psicologico : false
+                embarazo: (embarazo && condicion_de_vulnerabilidad == "Sí") ? embarazo : false,
+                periodo_post_parto: (periodo_post_parto && condicion_de_vulnerabilidad == "Sí") ? periodo_post_parto : false,
+                periodo_de_lactancia: (periodo_de_lactancia && condicion_de_vulnerabilidad == "Sí") ? periodo_de_lactancia : false,
+                discapacidad: (discapacidad && condicion_de_vulnerabilidad == "Sí") ? discapacidad : false,
+                enfermedad_cronica: (enfermedad_cronica && condicion_de_vulnerabilidad == "Sí") ? enfermedad_cronica : false,
+                adulto_mayor: (adulto_mayor && condicion_de_vulnerabilidad == "Sí") ? adulto_mayor : false,
+                menor_de_edad: (menor_de_edad && condicion_de_vulnerabilidad == "Sí") ? menor_de_edad : false,
+                tratamiento_psicologico: (tratamiento_psicologico && condicion_de_vulnerabilidad == "Sí") ? tratamiento_psicologico : false
             },
             convivencia: convivencia === "Sí" ? true : false,
             hijos: {

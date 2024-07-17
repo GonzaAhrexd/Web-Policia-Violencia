@@ -33,7 +33,7 @@ interface EditSectionProps {
 
 function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVictimario, datosHecho, setEditSection, editSection }: EditSectionProps) {
     // Utilizamos useForm para manejar los datos del formulario
-    const { register, handleSubmit, setValue, formState: {
+    const { register, watch, handleSubmit, setValue, formState: {
         errors
     } } = useForm()
 
@@ -96,7 +96,7 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                         })
                     })}>
 
-                <EditVictima editarConDenuncia cantidad_hijos_con_agresor={datosHecho.hijos_victima_con_victimario} hijos_con_agresor={datosHecho.hijos_victima_con_victimario} vinculo_con_agresor={datosHecho.relacion_victima_victimario} datos={datosVictima} register={register} setValue={setValue} errors={errors} />
+                <EditVictima watch={watch} editarConDenuncia cantidad_hijos_con_agresor={datosHecho.hijos_victima_con_victimario} hijos_con_agresor={datosHecho.hijos_victima_con_victimario} vinculo_con_agresor={datosHecho.relacion_victima_victimario} datos={datosVictima} register={register} setValue={setValue} errors={errors} />
                 <EditVictimario datos={datosVictimario} register={register} setValue={setValue} errors={errors} />
                 <EditHecho datosTerceros={datosTerceros} datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} />
                 <>
