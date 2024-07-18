@@ -44,6 +44,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     // Datos de la víctima
     // Mostrar datos del victimario
     const victimarioDatosMostrar = [
+        { nombre: "ID", valor: data._id},
         { nombre: "Nombre", valor: data.nombre ? data.nombre : "No especificado" },
         { nombre: "Apellido", valor: data.apellido ? data.apellido : "No especificado" },
         { nombre: "Domicilio del victimario", valor: data.direccion ? data.direccion : "No especificado" },
@@ -51,7 +52,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "DNI", valor: (data.DNI && data.DNI != "S/N") ? data.DNI : "No especificado" },
         { nombre: "Estado Civil", valor: data.estado_civil ? data.estado_civil : "No especificado" },
         { nombre: "Ocupación", valor: data.ocupacion ? data.ocupacion : "No especificado" },
-        { nombre: "Denuncias previas", valor: data.cantidad_de_denuncias_previas }
+        { nombre: "Denuncias previas", valor: data.denuncias_en_contra.length }
     ]
     // Detalles del victimario
     const detallesVictimario = [
@@ -68,11 +69,13 @@ function expandedComponents({ data }: expandedComponentsProps) {
     }
 
     useEffect(() => {
+        // Función para buscar las denuncias por ID
         const fetchDenuncias = async (denunciaId: any) => {
             const result = await buscarDenunciasPorId(denunciaId);
             return result;
         }
 
+        // Función para buscar todas las denuncias
         const fetchAllDenuncias = async () => {
             const denuncias = await Promise.all(data?.denuncias_en_contra?.map(fetchDenuncias) || []);
             // Filtrar resultados nulos o indefinidos
@@ -84,10 +87,8 @@ function expandedComponents({ data }: expandedComponentsProps) {
         fetchAllDenuncias();
     }, [])
 
-
-    //@ts-ignore
-    const { signUp, user, isAuthenticated, isLoading } = useAuth();
-
+    // Hook para obtener el usuario
+    const { user } = useAuth();
 
     return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
         {!editGlobal &&
@@ -155,7 +156,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
                             })
                         })}>
                     <EditVictimario datos={data} register={register} setValue={setValue} errors={errors} />
-
                     <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>
                         <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
                             <XMarkIcon className="w-7" />

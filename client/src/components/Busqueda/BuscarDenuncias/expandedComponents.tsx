@@ -42,6 +42,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
             const response: Response = await getVictima(id)
             // Establece en el hook los datos de la víctima
             setVictimaDatos(response)
+
         } catch (error) {
             console.log(error)
         }
@@ -105,7 +106,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Ocupación", valor: victimaDatos?.ocupacion ? victimaDatos.ocupacion : "No especificado" },
         { nombre: "Vínculo con agresor", valor: data?.relacion_victima_victimario ? data.relacion_victima_victimario : "No especificado" },
         { nombre: "Condición de vulnerabilidad", valor: victimaDatos?.condicion_de_vulnerabilidad ? victimaDatos.condicion_de_vulnerabilidad : "No especificado" },
-        { nombre: "Denuncias previas", valor: victimaDatos?.cantidad_de_denuncias_previas ? victimaDatos.cantidad_de_denuncias_previas : "No especificado" },
+        { nombre: "Denuncias previas", valor: victimaDatos?.denuncias_realizadas?.length },
         { nombre: "Tiene hijos", valor: victimaDatos?.hijos?.tiene_hijos ? "Sí" : "No" }
     ]
     // Mostrar condiciones de vulnerabilidad
@@ -137,7 +138,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "DNI", valor: (victimarioDatos?.DNI && victimarioDatos?.DNI != "S/N") ? victimarioDatos?.DNI : "No especificado" },
         { nombre: "Estado Civil", valor: victimarioDatos.estado_civil ? victimarioDatos.estado_civil : "No especificado" },
         { nombre: "Ocupación", valor: victimarioDatos.ocupacion ? victimarioDatos.ocupacion : "No especificado" },
-        { nombre: "Denuncias previas", valor: victimarioDatos.cantidad_de_denuncias_previas ? victimarioDatos.cantidad_de_denuncias_previas : "No especificado" }
+        { nombre: "Denuncias previas", valor: victimarioDatos?.denuncias_en_contra?.length }
     ]
     // Detalles del victimario
     const detallesVictimario = [
@@ -214,6 +215,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     // Controlar cuando se da a eliminar
     const handleDelete = async (data: any) => {
         // Popup de confirmación
+        console.log(victimaDatos)
         Swal.fire({
             title: '¿Estás seguro?',
             text: "¡No podrás revertir esto!",

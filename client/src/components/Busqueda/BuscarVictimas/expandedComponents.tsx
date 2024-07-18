@@ -46,6 +46,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     } } = useForm()
     // Datos de la víctima
     const victimaDatosMostrar = [
+        { nombre: "ID", valor: data._id},
         { nombre: "Nombre", valor: data.nombre ? data.nombre : "No especificado" },
         { nombre: "Apellido", valor: data.apellido ? data.apellido : "No especificado" },
         { nombre: "Domicilio de la víctima", valor: data.direccion ? data.direccion : "No especificado" },
@@ -54,8 +55,8 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Estado Civil", valor: data.estado_civil ? data.estado_civil : "No especificado" },
         { nombre: "Ocupación", valor: data.ocupacion ? data.ocupacion : "No especificado" },
         // { nombre: "Vínculo con agresor", valor: data.vinculo_con_agresor ? data.vinculo_con_agresor : "No especificado"  },
-        { nombre: "Condición de vulnerabilidad", valor: data.condicion_de_vulnerabilidad },
-        { nombre: "Denuncias previas", valor: data.cantidad_de_denuncias_previas ? data.cantidad_de_denuncias_previas : "No especificado" },
+        { nombre: "Condición de vulnerabilidad", valor: data.condicion_de_vulnerabilidad ? data.condicion_de_vulnerabilidad : "No especificado"},
+        { nombre: "Denuncias previas", valor: data.denuncias_realizadas.length },
         { nombre: "Tiene hijos", valor: data?.hijos?.tiene_hijos ? "Sí" : "No" }
     ]
     // Mostrar condiciones de vulnerabilidad

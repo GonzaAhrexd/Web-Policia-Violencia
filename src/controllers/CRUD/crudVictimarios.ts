@@ -9,6 +9,8 @@ export const createVictimario = async (req, res) => {
         const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate } = req.body
         // Buscar si ya existe un víctimario con el DNI ingresado
         let victimarioExistente
+
+        console.log(req.body)
         if (dni_victimario != "S/N") {
             victimarioExistente = await victimario.findOne({ DNI: dni_victimario })
         } else {
