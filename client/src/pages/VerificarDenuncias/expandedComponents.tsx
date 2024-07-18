@@ -58,8 +58,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    // Llamada a la API
-                    // A IMPLEMENTAR 
                     eliminarDenunciaSinVerificar(data._id)
                     // Mensaje de éxito
                     Swal.fire({

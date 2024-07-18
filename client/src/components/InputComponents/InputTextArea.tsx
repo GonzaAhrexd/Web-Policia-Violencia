@@ -1,6 +1,7 @@
 // Hooks
 import { useEffect } from 'react'
 
+// Props
 interface InputRegisterProps {
     campo: string;
     nombre: string;
@@ -13,15 +14,14 @@ interface InputRegisterProps {
 }
 
 function InputTextArea({ campo, nombre, register, type, variante, valor, placeholder, setValue }: InputRegisterProps) {
+    // Si no se recibe un placeholder, se setea como string vacío
     placeholder ? placeholder : ''
-
     // Si se recibe un valor, se setea en el formulario directamente con setValue
     if (valor) {
         useEffect(() => {
             setValue(nombre, valor);
         }, [setValue, nombre, valor]);
     }
-
     return (
         <div className={`flex flex-col ${variante!="edit" ? 'w-full md:w-6/10' : "w-full h-56"} `}>
             <span className={`font-medium ml-4 `}> {campo} </span>
@@ -30,5 +30,4 @@ function InputTextArea({ campo, nombre, register, type, variante, valor, placeho
         </div>
     )
 }
-
 export default InputTextArea

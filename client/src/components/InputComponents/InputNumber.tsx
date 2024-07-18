@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 // Iconos
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-
+// Props
 interface InputRegisterProps {
   campo: string;
   nombre: string;
@@ -21,14 +21,18 @@ interface InputRegisterProps {
 }
 
 function InputNumber({maxLenght, busqueda, notMidMD, notMid, campo, nombre, register, error, require, valor, placeholder, setValue }: InputRegisterProps) {
+  // Estados
   const [avisoRequerido, setAvisoRequerido] = useState(false)
+  // Si el placeholder no tiene valor, se asigna un string vacío
   placeholder = placeholder || '';
+  // UseEffect para asignar el valor al campo
   useEffect(() => {
       if (valor) {
       setValue(nombre, valor);
     }
   }, [setValue, nombre, valor]);
 
+  // Función para obtener la clase del input
   function getClassName( notMid?: boolean, notMidMD?: boolean) {
     if (notMid) {
       return "flex flex-col w-full md:w-full";
@@ -41,6 +45,8 @@ function InputNumber({maxLenght, busqueda, notMidMD, notMid, campo, nombre, regi
     }
   }
 
+
+  // Función para manejar el input
   const handleInput = (event: any) => {
     event.target.value = event.target.value.replace(/[^0-9]/g, '');
     if (event.target.value.length > maxLenght ) {

@@ -1,5 +1,7 @@
+// Hooks
 import { useEffect } from 'react'
 
+// Props
 interface props {
     register: any
     type: string
@@ -14,9 +16,11 @@ interface props {
 }
 
 function InputRadio({watch, register, nombre, type, defaultValue, handleChange, opciones }: props) {
+    // watchRadio para ver si el radio button está seleccionado
     let watchRadio:any;
-
+    // Si se recibe un watch, se asigna el valor a watchRadio
     watch ? watchRadio = watch(nombre) : watchRadio = null
+    // UseEffect para asignar el valor al campo
     useEffect(() => {
         if (watchRadio) {
             handleChange(watchRadio == "Sí")

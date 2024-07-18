@@ -27,9 +27,13 @@ import expandedDenuncia from '../BuscarDenuncias/expandedComponents'
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 import { useAuth } from '../../../context/auth';
 import ModoImprimir from './ModoImprimir';
+
+// Props
 interface expandedComponentsProps {
     data: any
 }
+
+
 function expandedComponents({ data }: expandedComponentsProps) {
 
     // State para guardar los datos de la víctima
@@ -37,25 +41,25 @@ function expandedComponents({ data }: expandedComponentsProps) {
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     const [modoImprimir, setModoImprimir] = useState(false);
 
-    const { register, watch,  handleSubmit, setValue, formState: {
+    const { register, watch, handleSubmit, setValue, formState: {
         errors
     } } = useForm()
     // Datos de la víctima
     const victimaDatosMostrar = [
-        { nombre: "Nombre", valor: data.nombre ? data.nombre : "No especificado"},
-        { nombre: "Apellido", valor: data.apellido ? data.apellido : "No especificado"  },
-        { nombre: "Domicilio de la víctima", valor: data.direccion ? data.direccion : "No especificado"  },
-        { nombre: "Edad", valor: data.edad ? data.edad : "No especificado"  },
-        { nombre: "DNI", valor: (data.DNI && data.DNI != "S/N") ? data.DNI : "No especificado"  },
-        { nombre: "Estado Civil", valor: data.estado_civil ? data.estado_civil : "No especificado"  },
-        { nombre: "Ocupación", valor: data.ocupacion ? data.ocupacion : "No especificado"  },
+        { nombre: "Nombre", valor: data.nombre ? data.nombre : "No especificado" },
+        { nombre: "Apellido", valor: data.apellido ? data.apellido : "No especificado" },
+        { nombre: "Domicilio de la víctima", valor: data.direccion ? data.direccion : "No especificado" },
+        { nombre: "Edad", valor: data.edad ? data.edad : "No especificado" },
+        { nombre: "DNI", valor: (data.DNI && data.DNI != "S/N") ? data.DNI : "No especificado" },
+        { nombre: "Estado Civil", valor: data.estado_civil ? data.estado_civil : "No especificado" },
+        { nombre: "Ocupación", valor: data.ocupacion ? data.ocupacion : "No especificado" },
         // { nombre: "Vínculo con agresor", valor: data.vinculo_con_agresor ? data.vinculo_con_agresor : "No especificado"  },
-        { nombre: "Condición de vulnerabilidad", valor: data.condicion_de_vulnerabilidad   },
-        { nombre: "Denuncias previas", valor: data.cantidad_de_denuncias_previas ? data.cantidad_de_denuncias_previas : "No especificado"},
+        { nombre: "Condición de vulnerabilidad", valor: data.condicion_de_vulnerabilidad },
+        { nombre: "Denuncias previas", valor: data.cantidad_de_denuncias_previas ? data.cantidad_de_denuncias_previas : "No especificado" },
         { nombre: "Tiene hijos", valor: data?.hijos?.tiene_hijos ? "Sí" : "No" }
     ]
-     // Mostrar condiciones de vulnerabilidad
-     const condicion_de_vulnerabilidad = [
+    // Mostrar condiciones de vulnerabilidad
+    const condicion_de_vulnerabilidad = [
         { nombre: "Embarazo", valor: data?.condiciones_de_vulnerabilidad?.embarazo },
         { nombre: "Periodo Post-parto", valor: data?.condiciones_de_vulnerabilidad?.periodo_post_parto },
         { nombre: "Periodo de lactancia", valor: data?.condiciones_de_vulnerabilidad?.periodo_de_lactancia },
@@ -77,26 +81,25 @@ function expandedComponents({ data }: expandedComponentsProps) {
         collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
- //@ts-ignore
- const { signUp, user, isAuthenticated, isLoading } = useAuth();
+    const { user } = useAuth();
 
- useEffect(() => {
-    const fetchDenuncias = async (denunciaId: any) => {
-        const result = await buscarDenunciasPorId(denunciaId);
-        // Asumiendo que buscarDenunciasPorId retorna null si no encuentra la denuncia
-        return result;
-    }
+    useEffect(() => {
+        const fetchDenuncias = async (denunciaId: any) => {
+            const result = await buscarDenunciasPorId(denunciaId);
+            // Asumiendo que buscarDenunciasPorId retorna null si no encuentra la denuncia
+            return result;
+        }
 
-    const fetchAllDenuncias = async () => {
-        const denuncias = await Promise.all(data?.denuncias_realizadas?.map(fetchDenuncias) || []);
-        // Filtrar resultados nulos o indefinidos
-        const denunciasFiltradas = denuncias.filter(denuncia => denuncia !== null && denuncia !== undefined);
-        // @ts-ignore
-        setDenunciasAMostrar(denunciasFiltradas);
-    }
-    
-    fetchAllDenuncias();
-}, [])
+        const fetchAllDenuncias = async () => {
+            const denuncias = await Promise.all(data?.denuncias_realizadas?.map(fetchDenuncias) || []);
+            // Filtrar resultados nulos o indefinidos
+            const denunciasFiltradas = denuncias.filter(denuncia => denuncia !== null && denuncia !== undefined);
+            // @ts-ignore
+            setDenunciasAMostrar(denunciasFiltradas);
+        }
+
+        fetchAllDenuncias();
+    }, [])
     return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
         {!editGlobal &&
             <>
@@ -107,7 +110,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     {data?.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />}
                 </div>
                 <h1 className='text-3xl my-5 font-sans	'>Denuncias realizadas</h1>
-                
                 <div className='flex flex-col'>
                     <DataTable
                         columns={columnsDenuncia}
@@ -122,22 +124,22 @@ function expandedComponents({ data }: expandedComponentsProps) {
                         expandableIcon={expandableIcon}
                         expandableRows
                         expandableRowsComponent={expandedDenuncia}
-                        />
+                    />
                 </div>
-                    
+
                 <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
-                <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setModoImprimir(!modoImprimir)}>
-                        <PrinterIcon className="w-7"/>
+                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setModoImprimir(!modoImprimir)}>
+                        <PrinterIcon className="w-7" />
                     </div>
-                    {(user.rol == "carga" || user.rol == "admin") && 
+                    {(user.rol == "carga" || user.rol == "admin") &&
                         <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
-                        <PencilSquareIcon className="w-7" />
-                    </div>
+                            <PencilSquareIcon className="w-7" />
+                        </div>
                     }
                 </div>
             </>
         }
-            {modoImprimir && 
+        {modoImprimir &&
             <div>
                 <ModoImprimir modoImprimir={modoImprimir} setModoImprimir={setModoImprimir} denunciasAMostrar={denunciasAMostrar} user={user} data={data} />
             </div>
@@ -148,20 +150,32 @@ function expandedComponents({ data }: expandedComponentsProps) {
                 <form
                     onSubmit={
                         handleSubmit(async (values) => {
-                            // Llamamos a editar victima del backend
-                            editarVictima(values)
-                            // Llamamos a editar victimario del backend
-                            // Utilizamos Swal para mostrar un mensaje de éxito
                             Swal.fire({
-                                icon: 'success',
-                                title: 'Víctima editada con éxito!',
-                                showConfirmButton: true,
-                                confirmButtonText: 'Aceptar',
+                                title: '¿Estás seguro?',
+                                text: "Podrás seguir editando más adelante.",
+                                icon: 'warning',
+                                showCancelButton: true,
                                 confirmButtonColor: '#0C4A6E',
-                            }).then((result) => {
-                                // Si se confirma el mensaje, recargamos la página
+                                cancelButtonColor: '#FF554C',
+                                confirmButtonText: 'Sí, subir',
+                                cancelButtonText: 'Cancelar'
+                            }).then(async (result) => {
                                 if (result.isConfirmed) {
-                                    window.location.reload();
+                                    // Llamamos a editar victima del backend
+                                    editarVictima(values)
+                                    // Utilizamos Swal para mostrar un mensaje de éxito
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Víctima editada con éxito!',
+                                        showConfirmButton: true,
+                                        confirmButtonText: 'Aceptar',
+                                        confirmButtonColor: '#0C4A6E',
+                                    }).then((result) => {
+                                        // Si se confirma el mensaje, recargamos la página
+                                        if (result.isConfirmed) {
+                                            window.location.reload();
+                                        }
+                                    })
                                 }
                             })
                         })}>

@@ -42,6 +42,19 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
       <div>
         <form onSubmit={
           handleSubmit(async (values) => {
+            Swal.fire({
+              title: '¿Estás seguro?',
+              text: "Una vez enviado, debe ser verificado.",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#0C4A6E',
+              cancelButtonColor: '#FF554C',
+              confirmButtonText: 'Sí, subir',
+              cancelButtonText: 'Cancelar'
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+
+
             if(values.tipo_denuncia == "mujer" || values.tipo_denuncia == "hombre"){
               values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
               crearDenunciaSinVerificar(values)
@@ -59,8 +72,13 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
                 window.location.reload()
               }
             })
+          }
+            
+          })
 
-          })}>
+          })}
+
+          >
           <h1 className='text-2xl my-5'>Tipo de denuncia</h1>
           <div className='flex justify-center'>
             <CargarTipoDeDenuncia setTipoDenuncia={setTipoDenuncia} register={register} setValue={setValue} errors={errors} />

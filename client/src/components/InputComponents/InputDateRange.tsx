@@ -1,13 +1,17 @@
+// Hooks
 import { useState } from 'react';
+// Componentes
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
-//import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css';
-import '../../App.css';
-//import 'react-calendar/dist/Calendar.css';
+// Iconos
 import { CalendarIcon } from '@heroicons/react/24/outline';
-type ValuePiece = Date | null;
+// Importar CSS
+import '../../App.css';
 
+// Tipos
+type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
+// Props
 interface InputDateRangeProps {
   register?: any;
   setValue: any;
@@ -16,10 +20,14 @@ interface InputDateRangeProps {
 
 function InputDateRange({ setValue, isRequired }: InputDateRangeProps) {
 
+  // Estado para manejar el rango de fechas
   const [date, setDate] = useState<Value>([null, null]);
 
+  // Función para manejar el rango de fechas
   const handleDate = (dates: [Date, Date] | null) => {
+    // Si las fechas no son nulas
     if (dates !== null) {
+      // Extraer las fechas desde y hasta
       const [desde, hasta] = dates;
 
       // Crear objetos Date con las fechas proporcionadas
@@ -51,7 +59,6 @@ function InputDateRange({ setValue, isRequired }: InputDateRangeProps) {
       <span className="font-medium ml-4 "> Rango de fechas </span>
       <DateRangePicker className="flex items-center justify-center align-center border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 pl-2" onChange={(date:any) => { handleDate(date)}} value={date}  clearIcon={null} calendarIcon={<CalendarIcon className='h-6 w-6'/>} required={isRequired} />
     </div>
-
   );
 }
 

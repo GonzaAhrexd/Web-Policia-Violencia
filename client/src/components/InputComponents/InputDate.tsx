@@ -1,3 +1,6 @@
+/* [Input Date]
+  Se utiliza para crear un input de tipo date.
+*/
 // Hooks
 import { useState } from 'react'
 
@@ -15,8 +18,8 @@ interface InputDateProps {
 }
 
 function InputDate({valor, campo, nombre, register, placeholder, error, require}: InputDateProps) {
+  // Estado 
   const [avisoRequerido, setAvisoRequerido] = useState(false)
-
 
   return (
         <div className={`flex flex-col w-full xl:w-1/2`}>

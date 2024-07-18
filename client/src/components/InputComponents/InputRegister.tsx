@@ -1,9 +1,8 @@
-// SOLUCIONAR
-// No permitir bajar y subir con el scroll el número si es de tipo number
-import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 // Hooks
 import { useEffect, useState } from 'react'
-
+// Iconos
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
+// Props
 interface InputRegisterProps {
     campo: string;
     nombre: string;

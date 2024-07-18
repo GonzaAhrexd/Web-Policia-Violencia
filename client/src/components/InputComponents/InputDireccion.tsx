@@ -1,9 +1,7 @@
-
 // Hook
 import { useEffect, useState } from 'react'
-
+// Iconos
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
-
 
 interface InputRegisterProps {
     campo: string;
@@ -21,11 +19,14 @@ interface InputRegisterProps {
 }
 
 function InputDireccion ({state, setState, campo, nombre, register, type, error, require, valor, placeholder, setValue }: InputRegisterProps) {
+    // Estado
     const [avisoRequerido, setAvisoRequerido] = useState(false)
+    // Placeholder
     placeholder ? placeholder : ''
-
+    // Si se ingresa require, se asigna el valor, sino se asigna true
     require ? require : true
 
+    // Si se ingresa un valor, se asigna el valor al campo
     if (valor) {
         useEffect(() => {
             setValue(nombre, valor);

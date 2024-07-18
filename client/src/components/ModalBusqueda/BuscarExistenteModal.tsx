@@ -17,7 +17,7 @@ interface BuscarExistenteModalProps {
 function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: BuscarExistenteModalProps) {
     const [victimasMostrar, setVictimasMostrar] = useState([]);
     const [mostrarAlerta, setMostrarAlerta] = useState("");
-
+    // useForm para el formulario
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     useEffect(() => {
@@ -36,8 +36,8 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
             window.removeEventListener('keydown', cerrarModal);
         };
     }, []);
-
-    const fetchVictimas = async (values: any) => {
+    // Función para buscar víctimas, victimarios o terceros
+    const fetchPersonas = async (values: any) => {
         let result
         if (variante == "Víctima") {
             const valoresFormateadosVictima = {
@@ -67,7 +67,7 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
         setVictimasMostrar(result);
     };
     const handleBusqueda = (values: any) => {
-        fetchVictimas(values);
+        fetchPersonas(values);
     };
 
     const onSubmit = (values: any) => {

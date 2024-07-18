@@ -1,3 +1,7 @@
+/*
+  [ Input Login ]
+    Se utiliza para crear un input de tipo texto para el login.
+*/
 type InputLoginProps = {
     campo: string;
     register: any;
@@ -7,7 +11,7 @@ type InputLoginProps = {
 };
 
 function InputLogin({ campo, register, type, error, placeholder }: InputLoginProps) {
-    
+    // Si no se recibe un placeholder, se asigna un string vacío
      placeholder ? placeholder : '';
 
     return (

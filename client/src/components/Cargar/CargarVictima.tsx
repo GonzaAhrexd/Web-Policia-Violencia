@@ -79,8 +79,8 @@ function CargarVictima({watch, register, setValue, errors }: CargarVictimaProps)
         <InputCheckbox campo="Periodo de lactancia" nombre="periodo_de_lactancia" register={register} setValue={setValue} type="checkbox" error={errors.periodo_de_lactancia} id="periodo_de_lactancia" />
         <InputCheckbox campo="Discapacidad" nombre="discapacidad" register={register} setValue={setValue} type="checkbox" error={errors.discapacidad} id="discapacidad" />
         <InputCheckbox campo="Enfermedad Crónica" nombre="enfermedad_cronica" register={register} setValue={setValue} type="checkbox" error={errors.enfermedad_cronica} id="enfermedad_cronica" />
-        <InputCheckbox setHook={setIsAdultoMayor} state={isMenorEdad} campo="Adulto mayor" nombre="adulto_mayor" register={register} setValue={setValue} type="checkbox" error={errors.adulto_mayor} id="adulto_mayor" /> 
-        <InputCheckbox setHook={setIsMenorEdad} state={isAdultoMayor} campo="Menor de edad" nombre="menor_de_edad" register={register} setValue={setValue} type="checkbox" error={errors.menor_de_edad} id="menor_de_edad" /> 
+        <InputCheckbox setHook={setIsAdultoMayor} disabled={isMenorEdad} campo="Adulto mayor" nombre="adulto_mayor" register={register} setValue={setValue} type="checkbox" error={errors.adulto_mayor} id="adulto_mayor" /> 
+        <InputCheckbox setHook={setIsMenorEdad} disabled={isAdultoMayor} campo="Menor de edad" nombre="menor_de_edad" register={register} setValue={setValue} type="checkbox" error={errors.menor_de_edad} id="menor_de_edad" /> 
         <InputCheckbox campo="Tratamiento psicológico" nombre="tratamiento_psicologico" register={register} setValue={setValue} type="checkbox" error={errors.tratamiento_psicologico} id="tratamiento_psicologico" />
         </div>
         }

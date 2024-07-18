@@ -34,7 +34,7 @@ interface EditSectionProps {
 }
 
 function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSectionProps) {
-  // @ts-ignore
+
   const { user } = useAuth();
   // Utilizamos useForm para manejar los datos del formulario
   const { register, watch, handleSubmit, setValue, formState: {
@@ -100,6 +100,19 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
       <form
         onSubmit={
           handleSubmit(async (values) => {
+
+            Swal.fire({
+              title: '¿Estás seguro?',
+              text: "Podrás editarlo más adelante.",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#0C4A6E',
+              cancelButtonColor: '#FF554C',
+              confirmButtonText: 'Sí, subir',
+              cancelButtonText: 'Cancelar'
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+              
             // Verifica si se cambió el select de estado civil y ocupación, si es así, conserva los valores, sino, los reemplaza por los que ya estaban
             values.estado_civil_victima ? values.estado_civil_victima = values.estado_civil_victima : values.estado_civil_victima = datosVictima.estado_civil
             values.ocupacion_victima ? values.ocupacion_victima = values.ocupacion_victima : values.ocupacion_victima = datosVictima.ocupacion
@@ -140,6 +153,8 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
             } catch (error) {
               console.log(error)
             }
+          }
+        })
           })}>
         <div className='flex items-center'>
 

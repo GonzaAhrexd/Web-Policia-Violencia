@@ -31,6 +31,7 @@ import InputRadio from '../InputComponents/InputRadio'
 import { PencilIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
 
+// Props
 interface denunciaProps {
   register: any
   setValue: any
@@ -61,8 +62,6 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
   const [comisariaPertenece, setComisariaPertenece] = useState(expedienteDividido[1] + "-")
   const [isArmas, setIsArmas] = useState(datos.empleo_de_armas)
   const [isDivision, setIsDivision] = useState(false)
-  const [isSolicitada, setIsSolicitada] = useState(datos.medida_solicitada_por_la_victima)
-  const [isDispuestoPorAutoridadJudicial, setIsDispuestoPorAutoridadJudicial] = useState(datos.medida_dispuesta_por_autoridad_judicial)
   const [isDenunciadoPorTercero, setIsDenunciadoPorTercero] = useState(datos.denunciado_por_tercero)
   const [municipio, setMunicipio] = useState('')
   const [coordenadas, setCoordenadas] = useState('')
@@ -70,14 +69,21 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
   const [modificarDatosGeograficos, setModificarDatosGeograficos] = useState(false)
   const [barrio, setBarrio] = useState('')
 
+  // Index de la opción por defecto
   const defaultIndex = opcionesNotificado.findIndex(opcion => opcion.nombre === datos.medida_dispuesta.notificacion);
 
+  // Función para consultar las coordenadas
   const consultarCoordenadas = async () => {
+    // Dirección a buscar
     let buscarDir = direccion + "," + barrio + "," + municipio;
+    // Función para obtener las coordenadas
     const fetchCoords = async (query: any) => {
       try {
+        // Obtener las coordenadas
         const coords = await getCoords(query);
+        // Si se obtienen las coordenadas
         if (coords && coords.lat && coords.lon) {
+          // Devolver las coordenadas
           const coordenadasObtenidas = coords.lat + " " + coords.lon;
           return coordenadasObtenidas;
         }
@@ -88,8 +94,11 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
       }
     };
 
+    // Si se ingresó una dirección
     if (buscarDir) {
+      // Obtener las coordenadas con la dirección completa
       fetchCoords(buscarDir).then((response) => {
+        // Si se obtuvieron coordenadas
         if (response) {
           // Si se obtuvieron coordenadas con la dirección completa
           setCoordenadas(response);

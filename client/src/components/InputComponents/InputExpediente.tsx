@@ -1,4 +1,9 @@
-
+/*
+    [InputExpediente]
+    Este componente se utiliza para ingresar el número de expediente, que consta de 4 partes 
+    (PrefijoExpediente, Comisaría, Expediente y SufijoExpediente).
+*/
+// Props
 interface InputExpedienteProps {
     campo: string;
     nombre: string;
@@ -14,6 +19,7 @@ interface InputExpedienteProps {
 }
 
 function InputExpediente({campo, nombre, register, type, error, placeholder, comisariaPertenece, expediente, cargaAgente}: InputExpedienteProps) {
+    // Función para obtener el año actual
     const handleDate = () => {
         //Obtener solo los últimos 2 números del año
         let date = new Date()

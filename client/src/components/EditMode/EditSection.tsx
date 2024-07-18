@@ -58,40 +58,55 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
             <form
                 onSubmit={
                     handleSubmit(async (values) => {
-                        // Llamamos a editar victima del backend
-                        editarVictima(values)
-                        // Llamamos a editar victimario del backend
-                        editarVictimario(values)
-                        // Editar tercero
-                        if (values.denunciado_por_tercero) {
-                            if (datosTerceros.denunciado_por_tercero) {
-                                editarTercero(values)
-                            } else {
-                                const idTercero = await crearTercero(values)
-                                values.tercero_ID = idTercero
-                            }
-                        }
-                        // Formamos el expediente
-                        values.nuevoExpediente = values.PrefijoExpediente + values.numero_expediente + values.Expediente + values.SufijoExpediente
-                        // Evaluamos si el expediente está completo para asignarle true o false
-                        if (values.Expediente !== 'S/N') {
-                            values.isExpedienteCompleto = true
-                        } else {
-                            values.isExpedienteCompleto = false
-                        }
-                        // Llamamos a editar denuncia del backend
-                        editarDenuncia(values)
-                        // Utilizamos Swal para mostrar un mensaje de éxito
                         Swal.fire({
-                            icon: 'success',
-                            title: '¡Denuncia editada con éxito!',
-                            showConfirmButton: true,
-                            confirmButtonText: 'Aceptar',
+                            title: '¿Estás seguro?',
+                            text: "Podrás seguir editando más adelante.",
+                            icon: 'warning',
+                            showCancelButton: true,
                             confirmButtonColor: '#0C4A6E',
-                        }).then((result) => {
-                            // Si se confirma el mensaje, recargamos la página
+                            cancelButtonColor: '#FF554C',
+                            confirmButtonText: 'Sí, subir',
+                            cancelButtonText: 'Cancelar'
+                        }).then(async (result) => {
+
                             if (result.isConfirmed) {
-                                window.location.reload();
+
+                                // Llamamos a editar victima del backend
+                                editarVictima(values)
+                                // Llamamos a editar victimario del backend
+                                editarVictimario(values)
+                                // Editar tercero
+                                if (values.denunciado_por_tercero) {
+                                    if (datosTerceros.denunciado_por_tercero) {
+                                        editarTercero(values)
+                                    } else {
+                                        const idTercero = await crearTercero(values)
+                                        values.tercero_ID = idTercero
+                                    }
+                                }
+                                // Formamos el expediente
+                                values.nuevoExpediente = values.PrefijoExpediente + values.numero_expediente + values.Expediente + values.SufijoExpediente
+                                // Evaluamos si el expediente está completo para asignarle true o false
+                                if (values.Expediente !== 'S/N') {
+                                    values.isExpedienteCompleto = true
+                                } else {
+                                    values.isExpedienteCompleto = false
+                                }
+                                // Llamamos a editar denuncia del backend
+                                editarDenuncia(values)
+                                // Utilizamos Swal para mostrar un mensaje de éxito
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '¡Denuncia editada con éxito!',
+                                    showConfirmButton: true,
+                                    confirmButtonText: 'Aceptar',
+                                    confirmButtonColor: '#0C4A6E',
+                                }).then((result) => {
+                                    // Si se confirma el mensaje, recargamos la página
+                                    if (result.isConfirmed) {
+                                            window.location.reload();
+                                    }
+                                })
                             }
                         })
                     })}>
@@ -101,7 +116,7 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                 <EditHecho datosTerceros={datosTerceros} datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} />
                 <>
                     <h1 className='text-2xl my-5'>Observaciones</h1>
-                    <InputTextArea variante={"edit"}  valor={datosHecho.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" ></InputTextArea>
+                    <InputTextArea variante={"edit"} valor={datosHecho.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" ></InputTextArea>
                 </>
                 <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>
                     <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditSection(!editSection)}>

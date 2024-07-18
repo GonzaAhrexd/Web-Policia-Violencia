@@ -1,6 +1,13 @@
+/*
+  [Input Checkbox]
+  Se utiliza para crear un input de tipo checkbox con un label al lado y que puede realizar 
+  cambios en los estados del componente padre.
+*/
+
 // Hooks
 import { useEffect } from 'react'
 
+// Props
 interface Props {
   campo: string;
   nombre: string;
@@ -10,15 +17,18 @@ interface Props {
   error?: any;
   setHook?: any;
   state?: any;
+  disabled?: boolean;
   id: any;
 }
 
-function InputCheckbox({ campo, nombre, setValue, type, setHook, state, id }: Props) {
+function InputCheckbox({disabled, campo, nombre, setValue, type, setHook, state, id }: Props) {
   
+  // Si el estado cambia, se actualiza el valor del input
   useEffect(() => {
     state ? setValue(nombre, state) : setValue(nombre, false);
   }, [setValue, nombre]);
 
+  // Función que se ejecuta cuando se cambia el valor del input
   const handleChange = (e: any) => {
     setValue(nombre, e.target.checked);
     if (setHook) {
@@ -35,7 +45,7 @@ function InputCheckbox({ campo, nombre, setValue, type, setHook, state, id }: Pr
           onChange={handleChange}
           defaultChecked={state}
           id={id}
-          disabled={state}
+          disabled={disabled}
         />
       </div>
       <div>
@@ -43,7 +53,6 @@ function InputCheckbox({ campo, nombre, setValue, type, setHook, state, id }: Pr
           {campo}
         </label>
       </div>
-
     </div>
   );
 }
