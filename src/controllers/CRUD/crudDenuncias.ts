@@ -342,3 +342,14 @@ export const getDenunciasId = async (req, res) => {
         console.log(error)
     }
 }
+
+// Obtener en números, la cantidad de denuncias cargadas entre dos fechas específicas
+export const getCantidadDenuncias = async (req, res) => {
+    try {
+        const { desde, hasta } = req.params
+        const denuncias = await denuncia.find({ fecha: { $gte: desde, $lte: hasta } })
+        res.json(denuncias.length)
+    } catch (error) {
+        console.log(error)
+    }
+}

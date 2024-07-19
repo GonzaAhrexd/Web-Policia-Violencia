@@ -4,7 +4,7 @@ import { Router } from 'express';
 import { authRequired } from '../middlewares/validateToken';
 
 // DENUNCIAS
-import { getDenuncias,  getMisDenuncias, createDenuncia, deleteDenuncia, updateDenuncia, getDenunciasId } from '../controllers/CRUD/crudDenuncias'
+import { getDenuncias,  getMisDenuncias, createDenuncia, deleteDenuncia, updateDenuncia, getDenunciasId, getCantidadDenuncias } from '../controllers/CRUD/crudDenuncias'
 // EXPOSICIÓN
 import { createExposicion, buscarExposicion, deleteExposicion } from '../controllers/CRUD/crudExposicion'
  // DENUNCIAS SIN VERIFICAR
@@ -40,6 +40,8 @@ router.post('/crear-denuncia/', authRequired, createDenuncia)
 router.delete('/eliminar-denuncias/:id', authRequired,  deleteDenuncia)
 // Buscar denuncia por id
 router.get('/buscar-denuncias-id/:id', authRequired, getDenunciasId)
+// Cantidad de denuncias
+router.get('/cantidad-denuncias/:desde/:hasta', authRequired, getCantidadDenuncias)
 
 /*  -----------------------------------------------------------------------------------------------------------------
     DENUNCIAS SIN VERIFICAR

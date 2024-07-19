@@ -16,6 +16,7 @@ import CardProfile from '../../components/Cards/CardProfile';
 import CardDenunciasRecientes from '../../components/Cards/CardDenunciasRecientes';
 import CardDenunciasPendientesValidacion from '../../components/Cards/CardDenunciasPendientesValidacion';
 import CardMostrarSeccionAdmin from '../../components/Cards/CardMostrarSeccionAdmin';
+import CardDenunciasTotales from '../../components/Cards/CardDenunciasTotales';
 // Iconos
 import { ExclamationTriangleIcon, UserIcon, MagnifyingGlassIcon, ListBulletIcon, PencilSquareIcon, ClipboardDocumentCheckIcon, ChartPieIcon, DocumentTextIcon, DocumentArrowDownIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
 
@@ -108,6 +109,7 @@ function Home() {
               <CardProfile title="Mi cuenta" description="Mis datos" usuario={user} />
               <CardDenunciasRecientes title="Denuncias recientes" />
               <CardDenunciasPendientesValidacion />
+              <CardDenunciasTotales/>
             </div>
           </div>
         )}

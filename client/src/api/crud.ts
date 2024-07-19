@@ -59,7 +59,15 @@ export const eliminarDenuncia = async (id: string) => {
     } catch (error) {
         console.log(error)
     }
-
+}
+// Cantidad de denuncias
+export const cantidadDenuncias = async (values: any) => {
+    try {
+        const response = await axios.get(`/cantidad-denuncias/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
 }
 // DENUNCIAS SIN VERIFICAR
 export const crearDenunciaSinVerificar = (denuncia: any) => {
