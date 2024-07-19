@@ -20,13 +20,16 @@ interface CargarDenunciasRolCargaProps {
 }
 
 function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
-  const {watch, register, handleSubmit, setValue, getValues, formState: {
+  // Formulario
+  const { watch, register, handleSubmit, setValue, getValues, formState: {
     errors
   } } = useForm()
 
+  // Estados
   const [tipoDenuncia, setTipoDenuncia] = useState('')
-  const [comisariaPertenece, ] = useState('')
+  const [comisariaPertenece,] = useState('')
 
+  // Función para imprimir
   const handleImprimir = async () => {
     const datos = getValues()
     const blob = await pdf(<PDF tipoDenuncia={tipoDenuncia} datos={datos} user={user} />).toBlob();
@@ -52,33 +55,32 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               confirmButtonText: 'Sí, subir',
               cancelButtonText: 'Cancelar'
             }).then(async (result) => {
+              // Si el usuario confirma
               if (result.isConfirmed) {
-
-
-            if(values.tipo_denuncia == "mujer" || values.tipo_denuncia == "hombre"){
-              values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
-              crearDenunciaSinVerificar(values)
-            }else if(values.tipo_denuncia == "exposicion"){
-            crearExposicion(values)
-            }
-            Swal.fire({
-              title: `${values.tipo_denuncia == "exposicion" ? "Exposición" : "Denuncia"} cargada`,
-              icon: 'success',
-              confirmButtonText: 'Ok',
-              confirmButtonColor: '#0C4A6E',
-              allowOutsideClick: false
-            }).then((result) => {
-              if (result.isConfirmed) {
-                window.location.reload()
+                // Se fija si la denuncia es de tipo mujer o hombre o si es una exposición
+                if (values.tipo_denuncia == "mujer" || values.tipo_denuncia == "hombre") {
+                  values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
+                  crearDenunciaSinVerificar(values)
+                } else if (values.tipo_denuncia == "exposicion") {
+                  crearExposicion(values)
+                }
+                Swal.fire({
+                  title: `${values.tipo_denuncia == "exposicion" ? "Exposición" : "Denuncia"} cargada`,
+                  icon: 'success',
+                  confirmButtonText: 'Ok',
+                  confirmButtonColor: '#0C4A6E',
+                  allowOutsideClick: false
+                }).then((result) => {
+                  // Si el usuario confirma
+                  if (result.isConfirmed) {
+                    // Recarga la página
+                    window.location.reload()
+                  }
+                })
               }
             })
-          }
-            
-          })
-
           })}
-
-          >
+        >
           <h1 className='text-2xl my-5'>Tipo de denuncia</h1>
           <div className='flex justify-center'>
             <CargarTipoDeDenuncia setTipoDenuncia={setTipoDenuncia} register={register} setValue={setValue} errors={errors} />
@@ -88,7 +90,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
             <>
               <h1 className='text-2xl my-5'>Expediente</h1>
               <div className='flex justify-center'>
-              <InputExpediente cargaAgente={true} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
+                <InputExpediente cargaAgente={true} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
               </div>
               <h1 className='text-2xl my-5'>Denunciante</h1>
               <div className='flex justify-center'>
@@ -111,7 +113,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
           )}
           {tipoDenuncia == "exposicion" && (
             <>
-            <h1 className='text-2xl my-5'>Expositor</h1>
+              <h1 className='text-2xl my-5'>Expositor</h1>
               <div className='flex justify-center'>
                 <CargarVictimaAgente register={register} setValue={setValue} errors={errors} />
               </div>

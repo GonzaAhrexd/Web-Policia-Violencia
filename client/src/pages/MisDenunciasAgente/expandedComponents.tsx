@@ -14,8 +14,6 @@ interface expandedComponentsProps {
 }
 function expandedComponents({ data }: expandedComponentsProps) {
 
-
-
     // Mostrar datos de los hijos
     const victimaDatosMostrar = [
         { nombre: "Nombre de la víctima", valor: data.nombre_victima },
@@ -30,6 +28,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Con instrucción", valor: data.sabe_leer_y_escribir_victima },
     ]
 
+    // Mostrar preguntas
     const preguntas = [
         { nombre: "¿Desea ser asistida por la línea 137?", valor: data.preguntas.desea_ser_asistida },
         { nombre: "¿Desea ser examinada por un médico?", valor: data.preguntas.desea_ser_examinada_por_medico },
@@ -38,20 +37,18 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "¿Desea agregar, quitar o enmendar algo?", valor: data.preguntas.desea_agregar_quitar_o_enmendar },
     ]
 
+    // Mostrar datos del secretario
     const secretarioDatosMostrar = [
         { nombre: "Nombre del secretario", valor: data.secretario.nombre_completo_secretario },
         { nombre: "Jerarquía secretario", valor: data.secretario.jerarquia_secretario },
         { nombre: "Plaza secretario", valor: data.secretario.plaza_secretario },
     ]
 
+    // Mostrar datos del instructor
     const instructorDatosMostrar = [
         { nombre: "Nombre del instructor", valor: data.instructor.nombre_completo_instructor },
         { nombre: "Jerarquía instructor", valor: data.instructor.jerarquia_instructor },
     ]
-
-
-    // Controlar cuando se da a eliminar
-
 
     return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
         <>
