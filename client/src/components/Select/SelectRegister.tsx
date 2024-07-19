@@ -1,4 +1,9 @@
-import React from 'react'
+/* 
+    [SelectRegister]
+    Este componente se utiliza para renderizar un select con opciones que se pueden dividir en subunidades y subsubunidades.
+
+*/
+// Hooks
 import { useState } from 'react';
 
 interface Opcion {
@@ -24,7 +29,7 @@ interface Props {
 
 
 function SelectRegister({notComisaria, mid, setTipoDenuncia, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
-   
+    // Esetados
     const [requiredInput, ] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');

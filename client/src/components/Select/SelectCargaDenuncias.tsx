@@ -1,8 +1,17 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react';
+/*
+    [SelectCargaDenuncias]
+    Este componente es un select que se utiliza en el formulario de carga de denuncias. 
+*/
+// Hooks
+import { useEffect, useState } from 'react'
+
+// Componentes
 import InputDireccion from '../InputComponents/InputDireccion';
+
+// Iconos
 import { QuestionMarkCircleIcon, MapPinIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+
 interface Opcion {
     value?: string;
     nombre?: string;

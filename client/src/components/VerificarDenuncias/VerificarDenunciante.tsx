@@ -27,6 +27,7 @@ interface CargarVictimaProps {
 
 function VerificarDenunciante({ watch, datos, register, setValue, errors }: CargarVictimaProps) {
 
+  // Estados
   const [isHijos, setIsHijos] = useState(false)
   const [isHijosConAgresor, setIsHijosConAgresor] = useState(datos.hijos ? datos.hijos.hijos_con_el_agresor > 0 : false)
   const [isCondicionVulnerabilidad, setIsCondicionVulnerabilidad] = useState(false)
@@ -34,16 +35,15 @@ function VerificarDenunciante({ watch, datos, register, setValue, errors }: Carg
   const [isMenorEdad, setIsMenorEdad] = useState(false) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
 
 
+  // Opciones radio
   const opcionesCondicionDeVulnerabilidad = [
     { nombre: 'Sí', value: 'si', id: "si_asistida" },
     { nombre: 'No', value: 'no', id: "no_asistida" },
   ]
-
   const opcionesConvivencia = [
     { nombre: 'Sí', value: 'si', id: "si_convivencia" },
     { nombre: 'No', value: 'no', id: "no_convivencia" },
   ]
-
   const opcionesHijos = [
     { nombre: 'Sí', value: 'si', id: "si_hijos" },
     { nombre: 'No', value: 'no', id: "no_hijos" },

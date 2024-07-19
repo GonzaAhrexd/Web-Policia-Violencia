@@ -11,9 +11,11 @@ import NavBar from '../../components/NavBar'
 import CardDataUsuario from '../../components/Cards/CardDataUsuario';
 import CardUserDenunciasRecientes from '../../components/Cards/CardUserDenunciasRecientes';
 import CardEditDataUser from '../../components/Cards/CardEditDataUser';
-function index() {
 
+function index() {
+  // Autenticación
   const { user, isAuthenticated, isLoading } = useAuth();
+  // Estados
   const [isEditing, setIsEditing] = useState(false)
   // Validación si está logeado
   if (isLoading) return <h1>Cargando...</h1>

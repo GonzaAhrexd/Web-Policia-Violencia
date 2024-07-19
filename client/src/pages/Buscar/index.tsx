@@ -29,6 +29,7 @@ function Buscar() {
     const [mostrarTerceros, setMostrarTerceros] = useState(false)
     const [mostrarExposiciones, setMostrarExposiciones] = useState(false)
     const [buttonSelected, setButtonSelected] = useState('denuncias')
+    
     // Mostrar denuncias y ocultar los demás
     const handleMostrarDenuncias = () => {
         setMostrarDenuncias(true)

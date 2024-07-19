@@ -15,7 +15,6 @@ import NavBar from '../../components/NavBar';
 import DataTable from 'react-data-table-component';
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
-
 // Dependencias de la misma carpeta
 import { customStyles } from './dataTableStyles'
 import { columnsDataTableVerificar } from './columnsDataTableVerificar'
@@ -25,14 +24,14 @@ import expandedComponents from './expandedComponents'
 
 function VerificarDenuncias() {
 
+  // Autenticación
   const { user, isAuthenticated, isLoading } = useAuth();
-
+  // Estados
   const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
   useEffect(() => {
     const cargarDenuncias = async () => {
       try {
         const response = await mostrarDenunciasSinVerificar();
-        // @ts-ignore
         setDenunciasAMostrar(response);
       } catch (error) {
         console.error('Hubo un error al cargar las denuncias: ', error);
@@ -61,7 +60,6 @@ function VerificarDenuncias() {
         <div className="flex flex-col w-full">
           <h2 className='text-2xl my-5'>Denuncias</h2>
           <DataTable
-            // @ts-ignore
             columns={columnsDataTableVerificar}
             data={denunciasAMostrar}
             pagination

@@ -28,8 +28,7 @@ function modoImprimir({ modoImprimir, setModoImprimir, denunciasAMostrar, user, 
 
     useEffect(() => {
         denunciasAMostrar.forEach((denuncia: any) => {
-            // @ts-ignore
-            setOpcionesVictimarios((opcionesVictimarios) => {
+            setOpcionesVictimarios((opcionesVictimarios:any ) => {
                 // @ts-ignore
                 if (!opcionesVictimarios.some(opcion => opcion.nombre === denuncia.victima_nombre)) {
                     return [...opcionesVictimarios, { nombre: denuncia.victima_nombre, value: denuncia.victima_nombre }];

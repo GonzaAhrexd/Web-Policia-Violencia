@@ -1,5 +1,7 @@
+// Hooks
 import { useEffect } from 'react';
 
+// Interfaz de las props
 interface ModalProps {
   texto: any;
   onClose: any;
@@ -10,15 +12,17 @@ function Modal({ texto, onClose, titulo }: ModalProps) {
   useEffect(() => {
     // Al presionar esc del teclado se cierra el modal
     const cerrarModal = (e: any) => {
-        if (e.key === 'Escape') {
-          onClose()
-        }
+      if (e.key === 'Escape') {
+        onClose()
+      }
     };
+    // Agregar el evento al cargar el componente
     window.addEventListener('keydown', cerrarModal);
+    // Remover el evento al desmontar el componente
     return () => {
-        window.removeEventListener('keydown', cerrarModal);
+      window.removeEventListener('keydown', cerrarModal);
     };
-}, []);
+  }, []);
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -29,7 +33,6 @@ function Modal({ texto, onClose, titulo }: ModalProps) {
             <h2 className="text-lg leading-6 font-medium text-gray-900" id="modal-title"> {titulo} </h2>
             <div className="my-2">
               {texto.map((item: any, index: any) => (
-
                 <div key={index} className="my-3">
                   <h1 className="bold">{index + 1 + "."} {item.tipo}</h1>
                   <p className="text-sm text-gray-500">{item.text}</p>

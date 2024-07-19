@@ -165,7 +165,8 @@ function PDF({valores, datos, user, denunciasAMostrar }: PDFProps) {
                 </View>
                 <View style={styles.section}>
                     <View>
-                        <Text>CCAR NOVEDAD: Conforme lo ordenado por esa superioridad  hasta la fecha inclusive, se compulso en los registros del Sistema, antecedentes de denuncias realizadas por la víctima {datos.nombre + ' ' + datos.apellido} D.N.I N° {datos.DNI} encontrándose lo siguiente: </Text>
+                        <Text>COMUNICAR NOVEDAD: </Text>
+                        <Text>Conforme a lo ordenado por la superioridad hasta la fecha, se consultaron los registros del sistema para verificar los antecedentes de denuncias realizadas por la víctima {datos.nombre + ' ' + datos.apellido} D.N.I N° {datos.DNI}. Se encontró lo siguiente: </Text>
                     </View>
                 </View>
                 {denunciasAMostrar.map((denuncia: any, index: number) => {

@@ -9,11 +9,13 @@ import { ListBulletIcon, PencilSquareIcon, ChartPieIcon, DocumentTextIcon, Docum
 
 function NavBar({ user }: any) {
 
+  // Estados
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const isAdmin: boolean = user?.rol === 'admin';
   const isCarga: boolean = user?.rol === 'carga' || user?.rol === 'admin';
   const isAgente: boolean = user?.rol === 'agente' || user?.rol === 'admin' || user?.rol === 'carga';
 
+  // Menú de navegación
   const menuAdminItems = [
     "Denuncias internas",
     "Denuncias externas",
@@ -21,31 +23,35 @@ function NavBar({ user }: any) {
     "Registro de actividad",
     "Selectores de carga",
     "Resumen",
-    ]
-
+  ]
+  // Menú de carga
   const menuCargaItems = [
     "Mis denuncias",
     "Verificar denuncias",
     "Cargar denuncias",
     "Estadísticas",
-    ]
+  ]
 
+  // Menú de agente
   const menuAgenteItems = [
     "Búsqueda",
-    ]
+  ]
 
+  // Seccion de denuncias para agentes
   const seccionDenunciasAgentes = [
     { titulo: 'Mis denuncias', href: '/mis-denuncias', icon: <ListBulletIcon className='h-6 w-6' /> },
     { titulo: 'Cargar denuncias', href: '/cargar-denuncias', icon: <PencilSquareIcon className='h-6 w-6' /> },
-    ]
+  ]
 
+  // Seccion de denuncias para carga
   const SeccionDenunciasCarga = [
     { titulo: 'Mis denuncias', href: '/mis-denuncias', icon: <ListBulletIcon className='h-6 w-6' /> },
     { titulo: 'Cargar denuncias', href: '/cargar-denuncias', icon: <PencilSquareIcon className='h-6 w-6' /> },
     { titulo: 'Verificar denuncias', href: '/verificar-denuncias', icon: <ClipboardDocumentCheckIcon className='h-6 w-6' /> },
     { titulo: 'Estadísticas', href: '/estadísticas', icon: <ChartPieIcon className='h-6 w-6' /> },
-    ]
+  ]
 
+  // Seccion de admin
   const SeccionAdmin = [
     { titulo: 'Denuncias internas', href: '/denuncias-internas', icon: <DocumentTextIcon className='h-6 w-6' /> },
     { titulo: 'Denuncias externas', href: '/denuncias-externas', icon: <DocumentArrowDownIcon className='h-6 w-6' /> },
@@ -53,10 +59,9 @@ function NavBar({ user }: any) {
     { titulo: 'Registro de actividad', href: '/registro-de-actividad', icon: <PresentationChartBarIcon className='h-6 w-6' /> },
     { titulo: 'Selectores de carga', href: '/selectores-de-carga', icon: <ArrowUpTrayIcon className='h-6 w-6' /> },
     { titulo: 'Resumen', href: '/resumen', icon: <ClipboardDocumentIcon className='h-6 w-6' /> },
-    ]
+  ]
 
   return (
-    
     <div className='flex flex-row '>
       <Navbar
         className='bg-sky-900 text-white font-medium leading-tight h-1/10 flex flex-row align-middle justify-center'
@@ -70,13 +75,13 @@ function NavBar({ user }: any) {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <NavLink to='/' 
-          className="flex flex-row items-center space-x-2"
+          <NavLink to='/'
+            className="flex flex-row items-center space-x-2"
           >
             <figure className='w-full h-full  flex flex-row items-center justify-center'>
               <img className='w-10' src="Escudo_Policia_Chaco_Transparente.png" alt="" />
             </figure>
-            
+
           </NavLink>
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-4" justify="center">

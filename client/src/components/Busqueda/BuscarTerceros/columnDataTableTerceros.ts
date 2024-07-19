@@ -11,7 +11,7 @@ export const columnTercero = [
     {
         // Número de expediente de la denuncia
         name: 'Nombre',
-        selector: (row:Row) => row.nombre,
+        selector: (row: Row) => row.nombre,
         style: {
             fontSize: '14px',
             fontWeight: 500,
@@ -20,7 +20,7 @@ export const columnTercero = [
     },
     {
         name: 'Apellido',
-        selector: (row:Row) => row.apellido,
+        selector: (row: Row) => row.apellido,
         style: {
             fontSize: '14px',
             fontWeight: 500,
@@ -28,11 +28,11 @@ export const columnTercero = [
     },
     {
         name: 'DNI',
-        selector: (row:Row) => row.DNI,
+        selector: (row: Row) => row.DNI,
         style: {
             fontSize: '14px',
             fontWeight: 500,
         },
     },
-   
+
 ];

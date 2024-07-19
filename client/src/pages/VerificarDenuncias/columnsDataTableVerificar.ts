@@ -21,7 +21,7 @@ type Row = {
 
 
 
-export const columnsDataTableVerificar = [
+export const columnsDataTableVerificar:Array<Object> = [
     {
         // Número de expediente de la denuncia
         name: 'Número de Expediente',

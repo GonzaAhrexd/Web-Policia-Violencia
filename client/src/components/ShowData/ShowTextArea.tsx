@@ -3,6 +3,7 @@ interface ShowTextAreaProps {
   campo?: string;
   dato: string;
 }
+
 function ShowTextArea({ dato}:ShowTextAreaProps) {
   return (
     <div className={`flex flex-col w-8/10 md:w-full`}>
