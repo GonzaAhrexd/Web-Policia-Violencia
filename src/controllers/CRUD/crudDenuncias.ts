@@ -128,8 +128,11 @@ export const createDenuncia = async (req, res) => {
             findVictimario = await victimario.findOne({ DNI: dni_victimario })
         }
         // Busca al tercero por dni si este ya existe
-        const findTercero = await terceros.findOne({ DNI: dni_tercero })
-        let IdTercero = findTercero?._id ? findTercero._id : tercero_ID
+        let findTercero, IdTercero
+        if(denunciado_por_tercero){
+        findTercero = await terceros.findOne({ DNI: dni_tercero })
+        IdTercero = findTercero?._id ? findTercero._id : tercero_ID
+        }
         // Si el tercero no existe, se crea uno nuevo
         // Crear la denuncia
         const newDenuncia = new denuncia({
@@ -180,8 +183,8 @@ export const createDenuncia = async (req, res) => {
                 boton_antipanico: (boton_antipanico_dispuesta !== undefined) ? boton_antipanico_dispuesta : false,
                 notificacion: notificacion ? notificacion : false
             },
-            tercero_ID: IdTercero ? IdTercero : 'Sin tercero',
-            vinculo_con_la_victima_tercero: vinculo_con_la_victima ? vinculo_con_la_victima : 'Sin vínculo',
+            tercero_ID: (denunciado_por_tercero && IdTercero) ? IdTercero : 'Sin tercero',
+            vinculo_con_la_victima_tercero:(denunciado_por_tercero && vinculo_con_la_victima) ? vinculo_con_la_victima : 'Sin vínculo',
             denunciado_por_tercero: denunciado_por_tercero ? denunciado_por_tercero : false,
             observaciones,
             denunciada_cargada_por: user_id

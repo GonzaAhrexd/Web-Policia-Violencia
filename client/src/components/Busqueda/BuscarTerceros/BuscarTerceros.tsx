@@ -27,14 +27,14 @@ function BuscarTerceros() {
         fetchDenuncias();
     }
 
-    
+
     // Iconos para expandir
     const expandableIcon = {
         collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
 
-    
+
     return (
         <>
             <form className="w-full flex flex-col items-center"
@@ -45,36 +45,36 @@ function BuscarTerceros() {
                             setTercerosMostrar([])
                             setMostrarAlerta("Rellene al menos un campo");
                             return;
-                          }
-                          setMostrarAlerta("");
-                          handleBusqueda(values)
+                        }
+                        setMostrarAlerta("");
+                        handleBusqueda(values)
                     }
                     )}>
-                         {mostrarAlerta && <span className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-5" role="alert"> {mostrarAlerta}</span>}
-                    <InputRegister busqueda={true}  campo="ID" nombre="id_tercero" register={register} require={false} type="text" error={errors.id_tercero}/>
-                    <InputRegister busqueda={true}  campo="Nombre" nombre="nombre_tercero" register={register} require={false} type="text" error={errors.nombre}/>
-                    <InputRegister busqueda={true}  campo="Apellido" nombre="apellido_tercero" register={register} require={false} type="text" error={errors.apellido}/>
-                    <InputRegister busqueda={true}  campo="DNI" nombre="dni_tercero" register={register} require={false} type="text" error={errors.dni_victima}/>
-                    <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} require={false} type="text" error={errors.numero_de_expediente}/>
-                 <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>        
+                {mostrarAlerta && <span className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative my-5" role="alert"> {mostrarAlerta}</span>}
+                <InputRegister busqueda={true} campo="ID" nombre="id_tercero" register={register} require={false} type="text" error={errors.id_tercero} />
+                <InputRegister busqueda={true} campo="Nombre" nombre="nombre_tercero" register={register} require={false} type="text" error={errors.nombre} />
+                <InputRegister busqueda={true} campo="Apellido" nombre="apellido_tercero" register={register} require={false} type="text" error={errors.apellido} />
+                <InputRegister busqueda={true} campo="DNI" nombre="dni_tercero" register={register} require={false} type="text" error={errors.dni_victima} />
+                <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} require={false} type="text" error={errors.numero_de_expediente} />
+                <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
             </form>
             <div className="flex flex-col w-full">
-                    <h2 className='text-2xl my-5'>Tercero</h2>
-                    <DataTable
-                        columns={columnTercero}
-                        data={tercerosMostrar}
-                        pagination
-                        expandableRows
-                        customStyles={customStyles}
-                        expandableRowsComponent={expandedComponents}
-                        responsive={true}
-                        striped={true}
-                        highlightOnHover={true}
-                        noDataComponent="No hay denuncias para mostrar"
-                        defaultSortFieldId={"Fecha"}
-                        expandableIcon={expandableIcon}
-                    />
-                </div> 
+                <h2 className='text-2xl my-5'>Tercero</h2>
+                <DataTable
+                    columns={columnTercero}
+                    data={tercerosMostrar}
+                    pagination
+                    expandableRows
+                    customStyles={customStyles}
+                    expandableRowsComponent={expandedComponents}
+                    responsive={true}
+                    striped={true}
+                    highlightOnHover={true}
+                    noDataComponent="No hay denuncias para mostrar"
+                    defaultSortFieldId={"Fecha"}
+                    expandableIcon={expandableIcon}
+                />
+            </div>
         </>
     )
 }

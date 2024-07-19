@@ -6,21 +6,21 @@ const tercerosSchema = new mongoose.Schema({
     // Definición del nombre de la victima
     nombre: {
         type: String, // Tipo de dato String
-        required: true, // Campo requerido
+        required: false, // Campo requerido
         trim: true, // Trim para que no se guarden espacios en blanco
         uppercase: true //Uppercase para que se guarde en mayúsculas
     },
     // Definición del apellido de la victima
     apellido: {
         type: String, // Tipo de dato String
-        required: true, // Campo requerido
+        required: false, // Campo requerido
         trim: true, // Trim para que no se guarden espacios en blanco
         uppercase: true //Uppercase para que se guarde en mayúsculas
     },
     // Definición del DNI de la victima
     DNI: {
         type: String, // Tipo de dato String
-        required: true, // Campo requerido
+        required: false, // Campo requerido
         trim: true, // Trim para que no se guarden espacios en blanco
         set: function (value: string) { // Función para remplazar los puntos y espacios del DNI
             return value.replace(/\./g, '').replace(/\s/g, '');
@@ -32,10 +32,6 @@ const tercerosSchema = new mongoose.Schema({
         required: false, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
-    cantidad_de_denuncias: {
-        type: Number, // Tipo de dato Number
-        required: false, // Campo requerido
-    }
 },
     {
         timestamps: true // Timestamps para que guarde la fecha de creación y actualización

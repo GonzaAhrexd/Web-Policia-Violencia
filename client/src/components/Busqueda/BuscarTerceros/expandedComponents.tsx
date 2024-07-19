@@ -47,6 +47,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Nombre", valor: data.nombre },
         { nombre: "Apellido", valor: data.apellido },
         { nombre: "DNI", valor: data.DNI },
+        { nombre: "Denuncias realizadas", valor: data.denuncias_realizadas?.length },
     ]
 
     // Iconos para expandir

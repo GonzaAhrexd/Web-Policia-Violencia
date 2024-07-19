@@ -31,7 +31,6 @@ export const createVictimario = async (req, res) => {
                 antecedentes_penales: antecedentes_penales ? antecedentes_penales : false,
                 antecedentes_contravencionales: antecedentes_contravencionales ? antecedentes_contravencionales : false,
                 entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,
-                cantidad_de_denuncias_previas: 1
             })
             const victimarioSaved = await newVictimario.save()
             res.json({ message: 'Victimario creado con exito', id: victimarioSaved._id })
@@ -52,7 +51,6 @@ export const createVictimario = async (req, res) => {
                     antecedentes_penales: antecedentes_penales ? antecedentes_penales : false,
                     antecedentes_contravencionales: antecedentes_contravencionales ? antecedentes_contravencionales : false,
                     entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,
-                    $inc: { cantidad_de_denuncias_previas: 1 }
                 }, { new: true })
             }
         }
@@ -81,7 +79,7 @@ export const deleteVictimario = async (id, denunciaId) => {
         const victimarioABorrar = await victimario.findById(id)
         if (victimarioABorrar) {
             // Verificar la cantidad de denuncias previas
-            if (victimarioABorrar.cantidad_de_denuncias_previas == 1) {
+            if (victimarioABorrar.denuncias_en_contra.length == 0) {
                 // Si solo tiene una denuncia previa, eliminar la víctima
                 await victimario.findByIdAndDelete(id);
             } else {
@@ -92,7 +90,6 @@ export const deleteVictimario = async (id, denunciaId) => {
                     : [];
                 // Actualizar la cantidad de denuncias previas y el array de denuncias en contra
                 await victimario.findByIdAndUpdate(id, {
-                    $inc: { cantidad_de_denuncias_previas: -1 },
                     denuncias_en_contra: updateDenunciasEnContra
                 }, { new: true });
             }

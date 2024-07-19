@@ -63,12 +63,14 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
             }).then(async (result) => {
               // Si se confirma la carga de la denuncia, comienza la carga al backend
               if (result.isConfirmed) {
+                // Se crean las variables para los ids de víctima, victimario y tercero
+                let idVictima = null;
+                let idVictimario = null;
+                let idTercero = null;
+                // Si no se ingresó DNI, se asigna S/N
+                values.dni_victima = values.dni_victima ? values.dni_victima : 'S/N';
+                
                 // Crear la víctima y retornar el id
-               let idVictima = null;
-               let idVictimario = null; 
-
-               values.dni_victima = values.dni_victima ? values.dni_victima : 'S/N';
-
                if(!values.victima_ID){
                   idVictima = await agregarVictima(values).then((id) => {
                    return id;
@@ -78,18 +80,20 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
                 // Si no se ingresó DNI, se asigna S/N
                 values.dni_victimario = values.dni_victimario ? values.dni_victimario : 'S/N';
                 // Crear el victimario y retornar el id
-                if(!values.victimario_ID){
+                if(!values.victimario_ID ){
                 idVictimario = await agregarVictimario(values).then((id) => {
                   return id;
                 });
                 values.victimario_ID = idVictimario;
               }
                 // Crear el tercero y retornar el id
-                const idTercero = await crearTercero(values).then((id) => {
-                  return id;
-                });
+                if(values.denunciado_por_tercero){
+                   idTercero = await crearTercero(values).then((id) => {
+                    return id;
+                  })
+                  values.tercero_ID = idTercero;
+                }
                 // Asignar a la denuncia los ids de víctima, victimario y tercero
-                values.tercero_ID = idTercero;
                 // Si no se ingresó expediente, se asigna S/N
                 if (!values.Expediente) {
                   values.Expediente = 'S/N';

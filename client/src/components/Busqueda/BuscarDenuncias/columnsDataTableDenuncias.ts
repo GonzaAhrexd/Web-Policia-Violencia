@@ -94,17 +94,7 @@ export const columnsDenuncia = [
         style: {
             fontSize: '14px',
             fontWeight: 500,
-        },
-
-    },
-    {
-        // Dirección dónde sucedió el hecho
-        name: 'Dirección',
-        selector: (row:Row) => row.direccion,
-        sortable: true,
-        style: {
-            fontSize: '14px',
-            fontWeight: 500,
+            width: '40px',
         },
 
     },

@@ -19,7 +19,7 @@ export const deleteTercero = async (id, denunciaId) => {
         const terceroABorrar = await terceros.findById(id);
         if (terceroABorrar) {
             // Verificar la cantidad de denuncias previas
-            if (terceroABorrar.cantidad_de_denuncias == 1) {
+            if (terceroABorrar.denuncias_realizadas?.length == 0) {
                 // Si solo tiene una denuncia previa, eliminar la víctima
                 await terceros.findByIdAndDelete(id);
             } else {
@@ -30,7 +30,6 @@ export const deleteTercero = async (id, denunciaId) => {
                     : [];
 
                 await terceros.findByIdAndUpdate(id, {
-                    $inc: { cantidad_de_denuncias_previas: -1 },
                     denuncias_realizadas: updatedDenunciasRealizadas
                 }, { new: true });
             }
@@ -74,7 +73,6 @@ export const createTercero = async (req, res) => {
                 nombre: nombre_tercero,
                 apellido: apellido_tercero,
                 DNI: dni_tercero,
-                cantidad_de_denuncias: 1
             })
             const terceroSaved = await newTercero.save()
             res.json({ message: 'Tercero creado con exito', id: terceroSaved._id })
@@ -88,7 +86,7 @@ export const createTercero = async (req, res) => {
                 }
             }, { new: true })
             // Incrementa la cantidad de denuncias previas
-            await terceros.updateOne({ DNI: dni_tercero }, { $inc: { cantidad_de_denuncias: 1 } });
+            await terceros.updateOne({ DNI: dni_tercero  });
             res.send('Tercero ya existe')
         }
 

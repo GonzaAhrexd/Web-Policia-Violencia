@@ -37,7 +37,6 @@ export const createVictima = async (req, res) => {
                     tratamiento_psicologico: tratamiento_psicologico ? tratamiento_psicologico : false
                 },
                 convivencia: convivencia === "Sí" ? true : false,
-                cantidad_de_denuncias_previas: 1,
                 hijos: {
                     tiene_hijos: hijos === "Sí" ? true : false,
                     dependencia_economica: (hijos && dependencia_economica) ? dependencia_economica : false,
@@ -49,8 +48,8 @@ export const createVictima = async (req, res) => {
             const victimaSaved = await newVictima.save()
             res.json({ message: 'Victima creado con exito', id: victimaSaved._id })
         } else {
-
-            // Actualiza los datos con los nuevos ingresados en caso de que difiera y suma 1 denuncia 
+            console.log(req.body)
+            
             const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, {
                 $set: {
                     nombre: nombre_victima,
@@ -79,8 +78,8 @@ export const createVictima = async (req, res) => {
                     "hijos.menores_discapacitados": menores_discapacitados ? menores_discapacitados : false,
                 }
             }, { new: true })
-            // Incrementa la cantidad de denuncias previas
-            await victimas.updateOne({ DNI: dni_victima }, { $inc: { cantidad_de_denuncias_previas: 1 } });
+
+            await victimas.updateOne({ DNI: dni_victima } );
 
             res.send('Victima ya existe')
         }
@@ -108,7 +107,7 @@ export const deleteVictima = async (id, denunciaId) => {
         const victimaABorrar = await victimas.findById(id);
         if (victimaABorrar) {
             // Verificar la cantidad de denuncias previas
-            if (victimaABorrar.cantidad_de_denuncias_previas == 1) {
+            if (victimaABorrar.denuncias_realizadas?.length == 1) {
                 // Si solo tiene una denuncia previa, eliminar la víctima
                 await victimas.findByIdAndDelete(id);
             } else {
@@ -118,7 +117,6 @@ export const deleteVictima = async (id, denunciaId) => {
                     ? victimaABorrar.denuncias_realizadas.filter(denuncia => denuncia !== denunciaId)
                     : [];
                 await victimas.findByIdAndUpdate(id, {
-                    $inc: { cantidad_de_denuncias_previas: -1 },
                     denuncias_realizadas: updatedDenunciasRealizadas
                 }, { new: true });
             }

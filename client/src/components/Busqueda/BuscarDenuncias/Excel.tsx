@@ -216,7 +216,7 @@ function Excel({ denunciasAMostrar }: denuncia) {
       // BB1
       convivencia_victima: victima?.convivencia ? "Sí" : "No",
       // BC1
-      cantidad_de_denuncias_realizadas_por_la_victima: victima?.cantidad_de_denuncias_previas,
+      cantidad_de_denuncias_realizadas_por_la_victima: victima?.denuncias_realizadas?.length,
       // BD1
       tiene_hijos: victima?.hijos.tiene_hijos ? "Sí" : "No",
       // BE1
@@ -254,7 +254,7 @@ function Excel({ denunciasAMostrar }: denuncia) {
       // BU1
       notificacion_victimario: denuncia?.medida_dispuesta.notificacion,
       // BV1
-      cantidad_de_denuncias_realizadas_contra_el_victimario: victimario?.cantidad_de_denuncias_previas,
+      cantidad_de_denuncias_realizadas_contra_el_victimario: victimario?.denuncias_en_contra?.length,
       // BW1
       tercero_nombre: tercero?.nombre ? tercero?.nombre : 'No hay tercero',
       // BX1
