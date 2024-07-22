@@ -60,7 +60,7 @@ function CardDenunciasTotales() {
 
     const [denunciasTotales, setDenunciasTotales] = useState(0);
   return (
-    <div className="flex flex-col items-center justify-center bg-neutral-700 text-white rounded-lg shadow-lg p-4 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] ">
+    <div className="flex flex-col items-center justify-center bg-neutral-700 hover:bg-neutral-900 text-white rounded-lg shadow-lg p-4 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] ">
       <div className="flex space-x-2 mb-4">
         <button onClick={() => setPeriodo('hoy')} className={`btn ${periodo === 'hoy' ? 'border-b-2 border-white' : ''}`}>Hoy</button>
         <button onClick={() => setPeriodo('semana')} className={`btn ${periodo === 'semana' ? 'border-b-2 border-white' : ''}`}>Semana</button>
@@ -73,7 +73,7 @@ function CardDenunciasTotales() {
       <div className="text-2xl mt-4">
         Denuncias realizadas
       </div>
-      <NavLink to="/búsqueda" className='mt-2 flex justify-start p-1 bg-neutral-900 w-full rounded-lg'>
+      <NavLink to="/búsqueda" className='mt-2 flex justify-start p-1 bg-neutral-600 w-full rounded-lg'>
       <MagnifyingGlassIcon className='h-6 w-6'/> 
       <span className='ml-4'> Buscar </span> 
       </NavLink>
