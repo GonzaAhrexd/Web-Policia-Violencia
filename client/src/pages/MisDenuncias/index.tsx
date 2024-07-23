@@ -55,7 +55,8 @@ function MisDenuncias() {
     // Se obtiene el usuario y se verifica si está autenticado
     const { user, isAuthenticated, isLoading } = useAuth();
     if (isLoading) return <h1>Cargando...</h1>
-    if (!isLoading && !isAuthenticated && user.rol == "sin_definir") return <Navigate to="/login" replace />
+    if ((!isLoading) && (!isAuthenticated) ) return <Navigate to="/login" replace />
+    if(user?.rol === "sin_definir")  return <Navigate to="/login" replace />
     
     return (
         <div>

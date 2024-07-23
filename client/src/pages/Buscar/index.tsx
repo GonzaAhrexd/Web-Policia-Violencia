@@ -77,11 +77,10 @@ function Buscar() {
         
         setButtonSelected('exposicion')
     }
-
-
     
     if (isLoading) return <h1>Cargando...</h1>
-    if (!isLoading && !isAuthenticated && user?.rol == "sin_asignar") return <Navigate to="/login" replace />
+    if ((!isLoading) && (!isAuthenticated) ) return <Navigate to="/login" replace />
+    if(user?.rol === "sin_definir")  return <Navigate to="/login" replace />
     return (
         <div>
             <NavBar user={user} />

@@ -47,8 +47,7 @@ function CargarDenuncias() {
   if (isLoading) return <h1>Cargando...</h1>
   // Si no está autenticado, redirigir a la página de login
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
-
-
+  if(user?.rol === "sin_definir")  return <Navigate to="/login" replace />
   
   return (
     <>

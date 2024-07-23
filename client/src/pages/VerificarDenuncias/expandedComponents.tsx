@@ -83,8 +83,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         })
     }
 
-    return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
-        <h2 className='text-2xl my-5'>Datos de la denuncia</h2>
+    return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">    <h2 className='text-2xl my-5'>Datos de la denuncia</h2>
         <h1 className='text-3xl my-5 font-sans	'>Datos del denunciante</h1>
         <div className='flex flex-col'>
             <SimpleTableCheckorX campo="" datos={denuncianteDatos} />

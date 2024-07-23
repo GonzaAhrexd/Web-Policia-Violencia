@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { cantidadDenuncias } from '../../api/crud';
 import { NavLink } from 'react-router-dom';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
@@ -60,7 +60,7 @@ function CardDenunciasTotales() {
 
     const [denunciasTotales, setDenunciasTotales] = useState(0);
   return (
-    <div className="flex flex-col items-center justify-center bg-neutral-700 hover:bg-neutral-900 text-white rounded-lg shadow-lg p-4 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] ">
+    <div className="flex flex-col items-center justify-center bg-neutral-700 hover:bg-neutral-900 text-white rounded-lg p-4 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] ">
       <div className="flex space-x-2 mb-4">
         <button onClick={() => setPeriodo('hoy')} className={`btn ${periodo === 'hoy' ? 'border-b-2 border-white' : ''}`}>Hoy</button>
         <button onClick={() => setPeriodo('semana')} className={`btn ${periodo === 'semana' ? 'border-b-2 border-white' : ''}`}>Semana</button>
