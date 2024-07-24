@@ -6,7 +6,7 @@ import InputDateRange from '../../InputComponents/InputDateRange';
 // Backend APIs
 import { buscarDenuncias } from '../../../api/crud';
 // Hooks
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component';
 
@@ -44,6 +44,25 @@ function BuscarDenuncias() {
         collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
+
+    const [showExcel, setShowExcel] = useState(false);
+
+useEffect(() => {
+  // Si hay denuncias a mostrar, prepara para mostrar Excel después de un cooldown
+  if (denunciasAMostrar.length > 0) {
+    // Asegúrate de limpiar el timeout si el componente se desmonta o si denunciasAMostrar cambia
+    const timer = setTimeout(() => {
+      setShowExcel(true);
+    }, 3000); // Ajusta el cooldown a 3000 ms o 3 segundos
+
+    return () => clearTimeout(timer); // Limpieza en caso de desmonte o cambio en denunciasAMostrar
+  } else {
+    // Si no hay denuncias a mostrar, no muestres Excel
+    setShowExcel(false);
+  }
+}, [denunciasAMostrar]); // Dependencias: denunciasAMostrar
+
+
     return (
         <>
             <form className="w-full flex flex-col items-center"
@@ -71,9 +90,8 @@ function BuscarDenuncias() {
             <div className="flex flex-col w-full">
                 <h2 className='text-2xl my-5'>Denuncias</h2>
                 <div className="w-full flex flex-col items-center my-2">
-                    {denunciasAMostrar.length > 0 &&
-                        <Excel denunciasAMostrar={denunciasAMostrar}/>
-                    }
+                    {!showExcel && <p className="text-sm ">Generando Excel...</p>}
+                    {showExcel  && <Excel denunciasAMostrar={denunciasAMostrar}/> }
                 </div>
                 <DataTable
                     columns={columnsDenuncia}

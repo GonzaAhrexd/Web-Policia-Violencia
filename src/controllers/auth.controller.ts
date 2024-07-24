@@ -3,6 +3,10 @@ import { createAccessToken } from '../libs/jwt'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { TOKEN_SECRET } from '../config'
+import path from 'path'
+const formidable = require('formidable'); //Módulo para formularios
+const fs = require('fs') //Módulo para guardar imagenes
+
 
 //Registro de usuarios
 export const register = async (req, res) => {
@@ -22,7 +26,7 @@ export const register = async (req, res) => {
                 credencial,
                 unidad,
                 jerarquia,
-                plaza : plaza ? plaza : 'Sin definir',
+                plaza: plaza ? plaza : 'Sin definir',
                 zona,
             })
             // Guardar el usuario en la base de datos
@@ -164,6 +168,7 @@ export const verifyToken = async (req, res) => {
             plaza: userFound.plaza,
             zona: userFound.zona,
             rol: userFound.rol,
+            imagen: userFound.imagen ? userFound.imagen : 'sin_definir',
             createdAt: userFound.createdAt
         })
     })
@@ -171,32 +176,77 @@ export const verifyToken = async (req, res) => {
 
 export const editUser = async (req, res) => {
 
-        const { nombre, apellido, telefono, nombre_de_usuario, credencial, unidad, jerarquia, plaza, zona } = req.body
-        //Validación en mongodb si ya existe el usuario
+    const { nombre, apellido, telefono, nombre_de_usuario, credencial, unidad, jerarquia, plaza, zona } = req.body
+    //Validación en mongodb si ya existe el usuario
 
-        try {
-            const usuarioEncontrado = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario })
+    try {
+        const usuarioEncontrado = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario })
         if (usuarioEncontrado && usuarioEncontrado._id != req.params.id) {
-         return res.status(400).json({ message: 'Usuario ya existe' })
+            return res.status(400).json({ message: 'Usuario ya existe' })
         }
-            await usuarios.findByIdAndUpdate(req.params.id, {  //Editar campos del perfil
-                nombre: nombre,
-                apellido: apellido,
-                telefono: telefono,
-                nombre_de_usuario: nombre_de_usuario,
-                credencial: credencial,
-                unidad: unidad,
-                jerarquia: jerarquia,
-                plaza: plaza,
-                zona: zona
-            })
+        await usuarios.findByIdAndUpdate(req.params.id, {  //Editar campos del perfil
+            nombre: nombre,
+            apellido: apellido,
+            telefono: telefono,
+            nombre_de_usuario: nombre_de_usuario,
+            credencial: credencial,
+            unidad: unidad,
+            jerarquia: jerarquia,
+            plaza: plaza,
+            zona: zona
+        })
 
-            res.json({
-                mensaje: "Done!"
-            })
-        } catch (error) {
-            console.log(error)
-            res.status(500).json({ message: 'Hubo un error al actualizar el usuario' });
-        }
+        res.json({
+            mensaje: "Done!"
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: 'Hubo un error al actualizar el usuario' });
     }
-    
+}
+
+// Cargar imagen
+export const editUserImg = async (req, res) => {
+    const form = new formidable.IncomingForm()
+    form.parse(req, async (err, fields, files) => {
+        //Subir imagenes con el campo de files
+        try {
+            console.log("LLEGÓ")
+            if (err) {
+                console.error("Error parsing the form: ", err);
+                return res.status(500).send({ error: "Error procesando el formulario: " + err.message });
+            }
+
+            const file = files.image[0]
+
+
+            if (file.originalFilename === "") { //Validación si no se sube archivos
+                throw new Error("Agrega una imagen para continuar")
+            }
+            // if (!(file.mimetype === "image/jpeg" || file.mimetype === "image/png")) { //Formatos válidos
+            //     throw new Error("Formato no válido, prueba con .png o .jpg")
+            // }
+
+            if (file.size > 50 * 1024 * 1024) { //Tamaño máximo de 50mb
+                throw new Error("Ingrese un archivo de menos de 50mb")
+            }
+
+            let separado = file?.mimetype?.split("/");
+            let formato = separado[1];
+            let dirFile = path.join(__dirname, `../imagesFromDB/perfiles/${req.user.id}.${formato}`) //crear la  ruta para guardar la imagen
+
+            fs.copyFile(file.filepath, dirFile, function (err) {
+                if (err) throw err;
+            }); //Copiar archivo desde la ruta original al servidor
+
+            let nuevo = req.user.id + '.' + formato //Guardar nombre de la imagen para pasarlo a la base de datos
+            await usuarios.findByIdAndUpdate(req.user.id, { //Guardar producto en mongodb
+                imagen: nuevo,
+            });
+        }
+        catch (error: any) {
+            console.log("ERROR", error)
+        }
+       
+    })
+}

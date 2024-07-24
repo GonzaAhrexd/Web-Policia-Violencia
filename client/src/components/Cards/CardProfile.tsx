@@ -9,6 +9,7 @@ type Props = {
     description: string,
     usuario: any
 };
+const APIURL = import.meta.env.VITE_BASE_URL
 
 export default function CardProfile({ title, usuario }: Props): JSX.Element {
 
@@ -18,6 +19,7 @@ export default function CardProfile({ title, usuario }: Props): JSX.Element {
         
         return Math.ceil((hoy.getTime() - fecha.getTime()) / (1000 * 60 * 60 * 24));
     }
+
     return (
         <div
             className="block hover:bg-neutral-900 cursor-pointer rounded-lg  text-center shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] bg-neutral-700">
@@ -28,6 +30,14 @@ export default function CardProfile({ title, usuario }: Props): JSX.Element {
                 {title}
             </div>
             <div className="p-6">
+                { /* Pon una imagen en un círculo */}
+                <div className="bg-neutral-500 h-20 w-20 rounded-full flex items-center justify-center mx-auto">
+                    <img
+                        className="h-16 w-16 rounded-full"
+                        src={usuario.imagen != "sin_definir" ? `${APIURL}/users/${usuario.id}/image` : '/user.png'}
+                        alt="Foto de perfil"
+                    />
+                </div>
                 <h5
                     className="mb-2 text-xl font-medium leading-tight  text-neutral-50">
                     {usuario?.nombre + ' ' + usuario?.apellido}

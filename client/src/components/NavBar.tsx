@@ -14,7 +14,7 @@ function NavBar({ user }: any) {
   const isAdmin: boolean = user?.rol === 'admin';
   const isCarga: boolean = user?.rol === 'carga' || user?.rol === 'admin';
   const isAgente: boolean = user?.rol === 'agente' || user?.rol === 'admin' || user?.rol === 'carga';
-
+  const APIURL = import.meta.env.VITE_BASE_URL
   // Menú de navegación
   const menuAdminItems = [
     "Denuncias internas",
@@ -219,7 +219,7 @@ function NavBar({ user }: any) {
                 color="secondary"
                 name={user.nombre + " " + user.apellido}
                 size="sm"
-                src={user.imagen}
+                src={user.imagen != "sin_definir" ? `${APIURL}/users/${user.id}/image` : "/user.png"}
               />
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat" className='bg-white'>
