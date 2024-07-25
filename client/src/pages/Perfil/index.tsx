@@ -46,6 +46,7 @@ function index() {
     const fetchUserImage = async () => {
       if (user && user.id) {
         try {
+          // @ts-ignore
           const response = await getUserImage(user.id);
           // Obtener la misma ruta a la que se está consultando en getUserImage
           const imagePath = `${APIURL}/users/${user.id}/image`;

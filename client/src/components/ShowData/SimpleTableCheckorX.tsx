@@ -1,5 +1,4 @@
 import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid'
-import { UserIcon } from '@heroicons/react/24/outline';
 
 interface simpleTableCheckorXProps {
     campo: string;
