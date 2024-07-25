@@ -17,6 +17,7 @@ import Swal from 'sweetalert2' // Librería para mostrar popups
 // Iconos
 import { PencilSquareIcon, PrinterIcon } from '@heroicons/react/24/solid'
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import { UserIcon, QueueListIcon } from '@heroicons/react/24/outline'
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 import { columnsDenuncia } from '../BuscarDenuncias/columnsDataTableDenuncias'
@@ -93,12 +94,16 @@ function expandedComponents({ data }: expandedComponentsProps) {
     return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
         {!editGlobal &&
             <>
-                <h1 className='text-3xl my-5 font-sans	'>Datos del victimario</h1>
-                <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="" datos={victimarioDatosMostrar} />
-                    <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} />
+                <div className='flex items-center'>
+                <h1 className='text-3xl my-5 font-sans mr-4'>Datos del victimario</h1>
                 </div>
-                <h1 className='text-3xl my-5 font-sans'>Denuncias</h1>
+                <div className='flex flex-col'>
+                    <SimpleTableCheckorX campo="Datos" datos={victimarioDatosMostrar} icono={<UserIcon className='h-6 w-6'/>}/>
+                    <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} icono={<QueueListIcon className='h-6 w-6' />}/>
+                </div>
+                <div className='flex items-center'>
+                <h1 className='text-3xl my-5 font-sans mr-4'>Denuncias</h1>
+                </div>
                 <div className='flex flex-col'>
                     <DataTable
                         columns={columnsDenuncia}

@@ -1,14 +1,24 @@
 import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid'
+import { UserIcon } from '@heroicons/react/24/outline';
 
 interface simpleTableCheckorXProps {
     campo: string;
     datos: any;
+    icono?: any;
 }
-function SimpleTableCheckorX({ campo, datos }: simpleTableCheckorXProps) {
+function SimpleTableCheckorX({ campo, datos, icono }: simpleTableCheckorXProps) {
     return (
         <div className="table w-8/10 md:w-full m-4 border-2 border-sky-800">
             <div className='table-row'>
-                <div className="flex flex-col bg-sky-900 text-white font-medium h-10 justify-center p-3">{campo}</div>
+
+                <div className="flex flex-row bg-sky-900 text-white font-medium h-10 p-3">
+                    <div className='mr-2'>
+                        {campo ? campo : null}
+                    </div>
+                    <div>
+                        {icono}
+                    </div>
+                </div>
                 <div className="table-cell bg-sky-900 text-white font-medium h-10" > </div>
             </div>
             {datos.map((data: any, index: number) => (

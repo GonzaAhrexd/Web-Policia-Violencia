@@ -67,14 +67,13 @@ function Buscar() {
         
         setButtonSelected('terceros')
     }
-
+    // Mostrar exposiciones y ocultar los demás
     const handleMostrarExposiciones = () => {
         setMostrarDenuncias(false)
         setMostrarVictimarios(false)
         setMostrarVictimas(false)
         setMostrarTerceros(false)
         setMostrarExposiciones(true)
-        
         setButtonSelected('exposicion')
     }
     

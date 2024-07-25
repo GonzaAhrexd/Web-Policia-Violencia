@@ -15,6 +15,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' // Librer
 import Swal from 'sweetalert2' // Librería para mostrar popups
 // Iconos
 import { PencilSquareIcon, TrashIcon, MapPinIcon } from '@heroicons/react/24/solid'
+import { UsersIcon, UserIcon, ClipboardDocumentCheckIcon, ExclamationTriangleIcon, QueueListIcon, MapPinIcon as MapPinIconOutLine, ListBulletIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 import EditSection from '../../../components/EditMode/EditSection';
@@ -257,18 +258,26 @@ function expandedComponents({ data }: expandedComponentsProps) {
     return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
         {!editGlobal &&
             <>
-                <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
-                <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
-                    {victimaDatos?.condicion_de_vulnerabilidad && <SimpleTableCheckorX campo="Condición de vulnerabilidad" datos={condicion_de_vulnerabilidad} />}
-                    {victimaDatos?.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />}
+                <div className='flex items-center'>
+                    <h2 className='text-3xl my-5 font-sans mr-4'>Datos de la víctima</h2>
                 </div>
-                <h2 className='text-3xl my-5 font-sans	'>Datos del victimario</h2>
-                <SimpleTableCheckorX campo="" datos={victimarioDatosMostrar} />
-                <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} />
-                <h2 className='text-3xl my-5 font-sans	'>Hecho</h2>
-                <SimpleTableCheckorX campo="" datos={hechoDatosMostrar} />
-                <SimpleTableCheckorX campo="Datos geográficos" datos={hechoDatosGeográficos} />
+                <div className='flex flex-col'>
+                    <SimpleTableCheckorX campo="Datos" datos={victimaDatosMostrar} icono={<UserIcon className='h-6 w-6'/>} />
+                    {victimaDatos?.condicion_de_vulnerabilidad && <SimpleTableCheckorX campo="Condición de vulnerabilidad" datos={condicion_de_vulnerabilidad} icono={<ExclamationTriangleIcon className='h-6 w-6'/>} />}
+                    {victimaDatos?.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} icono={<UsersIcon className='h-6 w-6'/> } />}
+                </div>
+                <div className='flex items-center'>
+                    <h2 className='text-3xl my-5 font-sans mr-4'>Datos del victimario</h2>
+                </div>
+                <SimpleTableCheckorX campo="Datos" datos={victimarioDatosMostrar} icono={<UserIcon className='h-6 w-6'/>}/>
+                <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} icono={<QueueListIcon className='h-6 w-6' />}/>
+                <div>
+                    <div className='flex items-center'>
+                        <h2 className='text-3xl my-5 font-sans mr-4'>Hecho</h2>
+                    </div>
+                </div>
+                <SimpleTableCheckorX campo="Datos" datos={hechoDatosMostrar} icono={<ClipboardDocumentCheckIcon className='h-6 w-6' />}/>
+                <SimpleTableCheckorX campo="Datos geográficos" datos={hechoDatosGeográficos} icono={<MapPinIconOutLine className='h-6 w-6'/>} />
 
                 <div className='flex flex-col w-8/10 lg:w-7/10 h-4/10 items-center justify-center mx-4 md:mx-auto my-5'>
                     {hechoDatosGeográficos[4].valor ?
@@ -294,17 +303,23 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     }
 
                 </div>
-                <SimpleTableCheckorX campo="Tipo de Violencia" datos={tiposDeViolencia} />
-                <SimpleTableCheckorX campo="Medida solicitada por la víctima" datos={medidas} />
-                <SimpleTableCheckorX campo="Medida dispuesta por la autoridad judicial" datos={medidaDispuestaPorLaAutoridadJudicial} />
+                <SimpleTableCheckorX campo="Tipo de Violencia" datos={tiposDeViolencia} icono={<ListBulletIcon className='h-6 w-6' />}/>
+                <SimpleTableCheckorX campo="Medida solicitada por la víctima" datos={medidas} icono={<QuestionMarkCircleIcon className='h-6 w-6' />} />
+
+
+                <SimpleTableCheckorX campo="Medida dispuesta por la autoridad judicial" datos={medidaDispuestaPorLaAutoridadJudicial} icono={<img src="/Judge.svg" alt="Icono" className='h-6 w-6' />}/>
                 <div className='flex flex-col'>
                     {data.denunciado_por_tercero &&
                         <>
-                            <SimpleTableCheckorX campo="Tercero" datos={terceroDatos} />
+                            <SimpleTableCheckorX campo="Tercero" datos={terceroDatos}  icono={<QueueListIcon className='h-6 w-6' />}/>
                         </>
                     }
                 </div >
-                <h2 className='text-3xl my-5 font-sans'>Observaciones</h2>
+                <div>
+
+                </div>
+                <div className='flex items-center'>
+                    <h2 className='text-3xl my-5 font-sans mr-4'>Observaciones</h2>                </div>
                 <div className="flex flex-row">
                     <ShowTextArea campo="Observaciones" dato={data.observaciones} />
                 </div>

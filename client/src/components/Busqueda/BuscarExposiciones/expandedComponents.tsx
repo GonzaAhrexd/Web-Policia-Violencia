@@ -13,7 +13,9 @@ import { eliminarExposicion } from '../../../api/crud';
 // Librerías react
 import Swal from 'sweetalert2' // Librería para mostrar popups
 // Iconos
-import {  TrashIcon } from '@heroicons/react/24/solid'
+import { TrashIcon } from '@heroicons/react/24/solid'
+import { UserIcon } from '@heroicons/react/24/outline'
+
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 import ShowTextArea from '../../../components/ShowData/ShowTextArea';
@@ -23,7 +25,7 @@ interface expandedComponentsProps {
 function expandedComponents({ data }: expandedComponentsProps) {
 
     // Estado de editar global
-    const [editGlobal, ] = useState(false)
+    const [editGlobal,] = useState(false)
     // Datos del hecho
 
     const victimaDatosMostrar = [
@@ -93,19 +95,24 @@ function expandedComponents({ data }: expandedComponentsProps) {
     return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
         {!editGlobal &&
             <>
-                <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
-                <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
+                <div className='flex items-center'>
+                    <h1 className='text-3xl my-5 font-sans mr-4'>Datos de la víctima</h1>
                 </div>
-
-                <h2 className='text-3xl my-5 font-sans	'>Exposición</h2>
+                <div className='flex flex-col'>
+                    <SimpleTableCheckorX campo="Datos" datos={victimaDatosMostrar} icono={<UserIcon className='h-6 w-6' />}/>
+                </div>
+                <div className='flex items-center'>
+                <h2 className='text-3xl my-5 font-sans mr-4'>Exposición</h2>
+                </div>
                 <div className="flex flex-row">
                     <ShowTextArea campo="Observaciones" dato={data.observaciones} />
                 </div>
 
                 {data.preguntas.desea_agregar_quitar_o_enmendar &&
-                    <>
-                        <h2 className='text-3xl my-5 font-sans	'>Exposición</h2>
+                    <>  
+                    <div className='flex items-center'>
+                        <h2 className='text-3xl my-5 font-sans	'>Agrega</h2>
+                    </div>
                         <div className="flex flex-row">
                             <ShowTextArea campo="Observaciones" dato={data.agrega} />
                         </div>
@@ -113,14 +120,17 @@ function expandedComponents({ data }: expandedComponentsProps) {
                 }
             </>
         }
-        <h2 className='text-3xl my-5 font-sans'>Secretario</h2>
-        <div className='flex flex-row'>
-            <SimpleTableCheckorX campo="" datos={secretarioDatosMostrar} />
+        <div className='flex items-center'>
+            <h2 className='text-3xl my-5 font-sans'>Secretario</h2>
         </div>
-
-        <h2 className='text-3xl my-5 font-sans'>Instructor</h2>
         <div className='flex flex-row'>
-            <SimpleTableCheckorX campo="" datos={instructorDatosMostrar} />
+            <SimpleTableCheckorX campo="" datos={secretarioDatosMostrar} icono={<UserIcon className='h-6 w-6' />}/>
+        </div>
+        <div className='flex items-center'>
+            <h2 className='text-3xl my-5 font-sans'>Instructor</h2>
+        </div>
+        <div className='flex flex-row'>
+            <SimpleTableCheckorX campo="" datos={instructorDatosMostrar} icono={<UserIcon className='h-6 w-6' />}/>
         </div>
         <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
 

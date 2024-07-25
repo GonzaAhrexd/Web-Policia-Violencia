@@ -16,6 +16,7 @@ import Swal from 'sweetalert2' // Librería para mostrar popups
 // Iconos
 import { PencilSquareIcon, PrinterIcon } from '@heroicons/react/24/solid'
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import { UserIcon,UsersIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 import { columnsDenuncia } from '../BuscarDenuncias/columnsDataTableDenuncias'
@@ -46,7 +47,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     } } = useForm()
     // Datos de la víctima
     const victimaDatosMostrar = [
-        { nombre: "ID", valor: data._id},
+        { nombre: "ID", valor: data._id },
         { nombre: "Nombre", valor: data.nombre ? data.nombre : "No especificado" },
         { nombre: "Apellido", valor: data.apellido ? data.apellido : "No especificado" },
         { nombre: "Domicilio de la víctima", valor: data.direccion ? data.direccion : "No especificado" },
@@ -55,7 +56,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Estado Civil", valor: data.estado_civil ? data.estado_civil : "No especificado" },
         { nombre: "Ocupación", valor: data.ocupacion ? data.ocupacion : "No especificado" },
         // { nombre: "Vínculo con agresor", valor: data.vinculo_con_agresor ? data.vinculo_con_agresor : "No especificado"  },
-        { nombre: "Condición de vulnerabilidad", valor: data.condicion_de_vulnerabilidad ? data.condicion_de_vulnerabilidad : "No especificado"},
+        { nombre: "Condición de vulnerabilidad", valor: data.condicion_de_vulnerabilidad ? data.condicion_de_vulnerabilidad : "No especificado" },
         { nombre: "Denuncias previas", valor: data.denuncias_realizadas.length },
         { nombre: "Tiene hijos", valor: data?.hijos?.tiene_hijos ? "Sí" : "No" }
     ]
@@ -104,13 +105,17 @@ function expandedComponents({ data }: expandedComponentsProps) {
     return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
         {!editGlobal &&
             <>
-                <h1 className='text-3xl my-5 font-sans	'>Datos de la víctima</h1>
-                <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
-                    {data?.condicion_de_vulnerabilidad && <SimpleTableCheckorX campo="Condiciones de vulnerabilidad" datos={condicion_de_vulnerabilidad} />}
-                    {data?.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} />}
+                <div className='flex items-center'>
+                    <h1 className='text-3xl my-5 font-sans mr-4'>Datos de la víctima</h1> 
                 </div>
-                <h1 className='text-3xl my-5 font-sans	'>Denuncias realizadas</h1>
+                <div className='flex flex-col'>
+                    <SimpleTableCheckorX campo="Datos" datos={victimaDatosMostrar} icono={<UserIcon className='h-6 w-6' />}/>
+                    {data?.condicion_de_vulnerabilidad && <SimpleTableCheckorX campo="Condiciones de vulnerabilidad" datos={condicion_de_vulnerabilidad} icono={<ExclamationTriangleIcon className='h-6 w-6'/>}/>}
+                    {data?.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} icono={<UsersIcon className='h-6 w-6'/> } />}
+                </div>
+                <div className='flex items-center'>
+                    <h1 className='text-3xl my-5 font-sans mr-4'>Denuncias realizadas</h1>
+                </div>
                 <div className='flex flex-col'>
                     <DataTable
                         columns={columnsDenuncia}
