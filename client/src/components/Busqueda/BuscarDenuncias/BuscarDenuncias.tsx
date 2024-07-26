@@ -9,7 +9,6 @@ import { buscarDenuncias } from '../../../api/crud';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component';
-
 import { columnsDenuncia } from './columnsDataTableDenuncias'
 import expandedComponents from './expandedComponents'
 import { customStyles } from './dataTableStyles'
