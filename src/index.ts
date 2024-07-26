@@ -16,7 +16,8 @@ const app:express.Application = express()
 connectDB().catch(err => console.error(`No se pudo conectar a MongoDB ❌: ${err}`))
 
 // Puerto de la aplicación
-const port:number = 4000
+const port = process.env.PORT || 4000
+
 const corsOrigin:string | undefined = process.env.corsOrigin
 // Permite a la aplicación recibir datos en formato JSON
 app.use(cors({
