@@ -5,7 +5,7 @@ import NavBar from '../../components/NavBar'
 import CardDataUsuario from '../../components/Cards/CardDataUsuario';
 import CardUserDenunciasRecientes from '../../components/Cards/CardUserDenunciasRecientes';
 import CardEditDataUser from '../../components/Cards/CardEditDataUser';
-import { editUserImg, getUserImage } from '../../api/auth';
+import { editUserImg  } from '../../api/auth';
 import { PencilIcon } from '@heroicons/react/24/outline' // Asegúrate de tener instalado Heroicons
 
 const APIURL = import.meta.env.VITE_BASE_URL;
