@@ -89,7 +89,7 @@ export const login = async (req, res) => {
             domain: '.gonzaloebel.tech',
             secure: process.env.NODE_ENV === 'production',
             httpOnly: true,
-            sameSite: 'strict',
+            sameSite: 'none', // Permite el envío entre sitios
             maxAge: 24 * 60 * 60 * 1000       
           });
             //Envio al frontend de los datos del usuario registrado
