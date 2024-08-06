@@ -40,7 +40,7 @@ function VerificarDenuncias() {
     cargarDenuncias();
   }, []);
 
-
+  
 
   const expandableIcon = {
     collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
@@ -52,13 +52,11 @@ function VerificarDenuncias() {
 
   if((user.rol !== "carga") && (user.rol !== "admin")) return <Navigate to="/login" replace />
 
-
   return (
     <div>
       <NavBar user={user} />
       <div className='h-screen sm:h-full p-2 sm:p-10'>
         <h1 className='text-3xl my-5'>Denuncias sin verificar</h1>
-
         <div className="flex flex-col w-full">
           <h2 className='text-2xl my-5'>Denuncias</h2>
           <DataTable

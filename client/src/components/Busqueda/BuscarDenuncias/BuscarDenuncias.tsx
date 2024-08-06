@@ -45,6 +45,7 @@ function BuscarDenuncias() {
     }
 
     const [showExcel, setShowExcel] = useState(false);
+    const [hideExcelText, setHideExcelText] = useState(true);
 
 useEffect(() => {
   // Si hay denuncias a mostrar, prepara para mostrar Excel después de un cooldown
@@ -73,6 +74,8 @@ useEffect(() => {
                             values.municipio = values.unidad[1]
                             values.comisaria = values.unidad[2]
                         }
+                        setHideExcelText(false);
+
                         handleBusqueda(values)
                     }
                     )}>
@@ -89,7 +92,7 @@ useEffect(() => {
             <div className="flex flex-col w-full">
                 <h2 className='text-2xl my-5'>Denuncias</h2>
                 <div className="w-full flex flex-col items-center my-2">
-                    {!showExcel && <p className="text-sm ">Generando Excel...</p>}
+                    {((!showExcel ) && (!hideExcelText)) && <p className="text-sm ">Generando Excel...</p>}
                     {showExcel  && <Excel denunciasAMostrar={denunciasAMostrar}/> }
                 </div>
                 <DataTable

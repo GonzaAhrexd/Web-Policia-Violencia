@@ -63,7 +63,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
             marginBottom: 10,
         },
         text: {
-            margin: 10,
+            marginBottom: 10,
             fontSize: 12,
             textAlign: 'justify',
         },
@@ -147,7 +147,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
             fontWeight: 'bold',
             textDecoration: 'underline',
         }
-        
+
     });
 
     // Create Document Component
@@ -168,15 +168,15 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                     </View>
                     <View style={styles.section}>
                         <View style={styles.sectionRight}>
-                            <Text>Expediente Nº 130/        -        -E/2024</Text>
+                            <Text>Expediente {datos.PrefijoExpediente + datos.numero_de_expediente + datos.Expediente + datos.SufijoExpediente}</Text>
                         </View>
                         <Text style={styles.subheader}>- DENUNCIA -</Text>
                         <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ DENUNCIA:--------------------------------------------------------/</Text>
                         <Text style={styles.longText}>
-                            En la Division Violencia Familiar Y De Genero {userDivisionZona[0]}, con asiento en la ciudad de {userDivisionZona[1]}, {userDivisionZona[1] == "Resistencia" ? "capital de la" : ""} Provincia del
+                            En la División Violencia Familiar y de Género {userDivisionZona[0]}, con asiento en la ciudad de {userDivisionZona[1]}, {userDivisionZona[1] == "Resistencia" ? "capital de la" : ""} Provincia del
                             Chaco, a los {dia} del mes de {mes} del año {año}, siendo la hora {horaActual} comparece a despacho la persona de mención en el título,
-                            quien interrogado por sus datos personales de identidad DIJO: Llamarse como consta en el titulo, Ser de nacionalidad: {datos.nacionalidad},
-                            de {datos.edad} años de edad, Estado civil {datos.estado_civil_victima}, ocupación: {datos.ocupacion_victima}, {datos.SabeLeerYEscribir ? "con " : "sin "} instrucción, domiciliada {datos.direccion_victima} -, Teléfono Celular Nº {datos.telefono_victima},
+                            quien interrogado por sus datos personales de identidad DIJO: Llamarse como consta en el titulo, Ser de nacionalidad: {datos.nacionalidad_victima},
+                            de {datos.edad_victima} años de edad, Estado civil {datos.estado_civil_victima}, ocupación: {datos.ocupacion_victima}, {datos.SabeLeerYEscribir == "Sí" ? "con " : "sin "} instrucción, domiciliada {datos.direccion_victima} -, Teléfono Celular Nº {datos.telefono_victima},
                             Identidad que acredita con Juramento de Ley, aduciendo tener DNI Nº {datos.dni_victima} Quien es notificado del contenido del Artículo 245°
                             (FALSO DENUNCIANTE) del Código Penal de la Nación Argentina; el contenido del Art. 84º del Código Procesal Penal de la
                             Provincia del Chaco, donde en sus partes dice<Text style={styles.boldText}>  “...LA VICTIMA DEL DELITO TENDRA DERECHO A SER INFORMADA
@@ -186,10 +186,10 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                                 SU CONFIANZA, SIEMPRE QUE ELLO NO PERJUDIQUEN LA DEFENSA DEL IMPUTADO O LOS RESULTADOS
                                 DE LA INVESTIGACIÓN..."</Text>{tipoDenuncia == "mujer" && "y Ley Nacional Nº 26.485, (Ley de Protección Integral para prevenir sancionar y erradicar la violencia contra las mujeres en los ámbitos en que desarrolla sus relaciones interpersonales)"} y los términos de la Ley Provincial Nº
                             836-N (Ley de Violencia Familiar). Abierto el acto y cedida que le fuere la palabra y en uso de la misma <Text style={styles.boldText}>DENUNCIA:</Text> {datos.observaciones} {tipoDenuncia == "mujer" && "Seguidamente se le hace saber que existe la Línea 137, ubicado en Calle Mitre N° 171 -Resistencia-, donde se brinda asesoramiento legal y asistencia psicológica las 24 horas del dia de manera GRATUITA, y la Línea 102 ubicado en Avenida Sarmiento N° 1675-Resistencia-. "} {tipoDenuncia == "mujer" && (
-                                <Text style={styles.boldText}>PREGUNTANDO:</Text>)} {tipoDenuncia == "mujer" && "“…Si desea ser asistida por dicho organismo."} {tipoDenuncia == "mujer" && <Text style={styles.boldText}>RESPONDE:</Text>} {tipoDenuncia == "mujer" && `“${datos.AsistidaPorDichoOrganismo ? "SÍ" : "NO"} `}
-                            <Text style={styles.boldText}>PREGUNTANDO:</Text> Si desea ser examinad{tipoDenuncia == "mujer" ? "a" : "o"} por el medico policial en turno…”. <Text style={styles.boldText}>RESPONDE:</Text>{datos.ExaminadaMedicoPolicial ? "SÍ" : "NO"}. <Text style={styles.boldText}>PREGUNTANDO:</Text> “…Si desea
-                            accionar penalmente por el delito que diera lugar…”. <Text style={styles.boldText}>RESPONDE:</Text> {datos.AccionarPenalmente ? "SÍ" : "NO"}. <Text style={styles.boldText}>PREGUNTANDO:</Text> Si desea agregar, quitar o enmendar
-                            algo a lo expuesto precedentemente….” <Text style={styles.boldText}>RESPONDE:</Text> Que {datos.AgregarQuitarOEnmendarAlgo ? "SÍ" : "NO"} {datos.AgregarQuitarOEnmendarAlgo && datos.agrega}.  Se le hace entrega de una copia de esta denuncia {direccionDivision[0].direccion == "Metropolitana" && " y se le notifica que deberá presentarse ante el Juzgado del Menor y de La familia, sito en calle French Nº166- Rcia, al segundo día hábil, para los trámites pertinentes."} Con lo que no siendo para más, finaliza el acto, previa íntegra lectura efectuada por la compareciente y para constancia legal de su conformidad firma al pie ante Mí y secretaria.
+                                <Text style={styles.boldText}>PREGUNTANDO:</Text>)} {tipoDenuncia == "mujer" && "“…Si desea ser asistida por dicho organismo."} {tipoDenuncia == "mujer" && <Text style={styles.boldText}>RESPONDE:</Text>} {tipoDenuncia == "mujer" && `“${datos.AsistidaPorDichoOrganismo == "Sí" ? "SÍ" : "NO"} `}
+                            <Text style={styles.boldText}>PREGUNTANDO:</Text> Si desea ser examinad{tipoDenuncia == "mujer" ? "a" : "o"} por el medico policial en turno…”. <Text style={styles.boldText}>RESPONDE:</Text>{datos.ExaminadaMedicoPolicial == "Sí" ? "SÍ" : "NO"}. <Text style={styles.boldText}>PREGUNTANDO:</Text> “…Si desea
+                            accionar penalmente por el delito que diera lugar…”. <Text style={styles.boldText}>RESPONDE:</Text> {datos.AccionarPenalmente == "Sí" ? "SÍ" : "NO"}. <Text style={styles.boldText}>PREGUNTANDO:</Text> Si desea agregar, quitar o enmendar
+                            algo a lo expuesto precedentemente….” <Text style={styles.boldText}>RESPONDE:</Text> Que {datos.AgregarQuitarOEnmendarAlgo == "Sí" ? "SÍ" : "NO"} {datos.AgregarQuitarOEnmendarAlgo == "Sí" && datos.agrega}.  Se le hace entrega de una copia de esta denuncia {direccionDivision[0].direccion == "Metropolitana" && " y se le notifica que deberá presentarse ante el Juzgado del Menor y de La familia, sito en calle French Nº166- Rcia, al segundo día hábil, para los trámites pertinentes."} Con lo que no siendo para más, finaliza el acto, previa íntegra lectura efectuada por la compareciente y para constancia legal de su conformidad firma al pie ante Mí y secretaria.
                         </Text>
 
                     </View>
@@ -201,9 +201,9 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                     </View>
                     <View style={styles.sectionSignatureEndContainer}>
                         <View style={styles.sectionSignatureEndText}>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario}</Text>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
-                        <Text style={styles.boldText}>SECRETARIO</Text>
+                            <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario}</Text>
+                            <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
+                            <Text style={styles.boldText}>-SECRETARIO-</Text>
                         </View>
                         <View style={styles.sectionSignatureEndText}>
                             <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_instructor}</Text>
@@ -232,17 +232,17 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                     </View>
                     <View style={styles.section}>
                         <View style={styles.sectionRight}>
-                            <Text>Expediente Nº 130/        -        -E/2024</Text>
+                            <Text>Expediente {datos.PrefijoExpediente + datos.numero_de_expediente + datos.Expediente + datos.SufijoExpediente}</Text>
                         </View>
                         <Text style={styles.subheader}>- EXPOSICIÓN -</Text>
                         <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ EXPOSICIÓN:--------------------------------------------------------/</Text>
                         <Text style={styles.longText}>
                             En la Division Violencia Familiar Y De Genero {userDivisionZona[0]}, con asiento en la ciudad de {userDivisionZona[1]}, {userDivisionZona[1] == "Resistencia" ? "capital de la" : ""} Provincia del
                             Chaco, a los {dia} del mes de {mes} del año {año}, siendo la hora {horaActual} comparece a despacho la persona de mención en el título,
-                            quien interrogado por sus datos personales de identidad <Text style={styles.boldText}>  DIJO: </Text>Llamarse <Text style={styles.boldText}> {datos.nombre_victima} {datos.apellido_victima}, Ser de nacionalidad: {datos.nacionalidad},
-                            de {datos.edad} años de edad, Estado civil {datos.estado_civil_victima}, ocupación: {datos.ocupacion_victima}, {datos.SabeLeerYEscribir ? "con " : "sin "} instrucción, domiciliada {datos.direccion_victima} -, Teléfono Celular Nº {datos.telefono_victima},
-                            Identidad que acredita con Juramento de Ley, aduciendo tener DNI Nº {datos.dni_victima}.</Text> Abierto el acto y cedida que le fuere la palabra y en uso del a misma. EXPONE: {datos.observaciones} <Text style={styles.boldText}> PREGUNTANDO:</Text> Si desea agregar, quitar o enmendar
-                            algo a lo expuesto precedentemente….” <Text style={styles.boldText}>RESPONDE:</Text> Que {datos.AgregarQuitarOEnmendarAlgo ? "SÍ" : "NO"} {datos.AgregarQuitarOEnmendarAlgo && ", AGREGA " + datos.agrega}. Con lo que no siendo para más, se da por finalizado el acto, previa integra lectura efectuada por el compareciente y para constancia legal de su conformidad firma al pie ante Mí y secretaria que <Text style={styles.boldText}> CERTIFICA. </Text>
+                            quien interrogado por sus datos personales de identidad <Text style={styles.boldText}>DIJO LLAMARSE:</Text> <Text style={styles.boldText}>{datos.nombre_victima} {datos.apellido_victima}, ser de nacionalidad: {datos.nacionalidad_victima},
+                                de {datos.edad_victima} años de edad, Estado civil {datos.estado_civil_victima}, ocupación: {datos.ocupacion_victima}, {datos.SabeLeerYEscribir == "Sí" ? "con " : "sin "} instrucción, domiciliada {datos.direccion_victima} -, Teléfono Celular Nº {datos.telefono_victima},
+                                Identidad que acredita con Juramento de Ley, aduciendo tener DNI Nº {datos.dni_victima}.</Text> Abierto el acto y cedida que le fuere la palabra y en uso del a misma. EXPONE: {datos.observaciones} <Text style={styles.boldText}> PREGUNTANDO:</Text> Si desea agregar, quitar o enmendar
+                            algo a lo expuesto precedentemente….” <Text style={styles.boldText}>RESPONDE:</Text> Que {datos.AgregarQuitarOEnmendarAlgo == "Sí" ? "SÍ" : "NO"} {datos.AgregarQuitarOEnmendarAlgo == "Sí" && ", AGREGA " + datos.agrega}. Con lo que no siendo para más, se da por finalizado el acto, previa integra lectura efectuada por el compareciente y para constancia legal de su conformidad firma al pie ante Mí y secretaria que <Text style={styles.boldText}> CERTIFICA. </Text>
                         </Text>
 
                     </View>
@@ -256,7 +256,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                         <View style={styles.sectionSignatureEndText}>
                             <Text>{datos.nombre_completo_secretario}</Text>
                             <Text>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
-                            <Text>SECRETARIO</Text>
+                            <Text style={styles.boldText}>-SECRETARIO-</Text>
                         </View>
                         <View style={styles.sectionSignatureEndText}>
                             <Text>{datos.nombre_completo_instructor}</Text>

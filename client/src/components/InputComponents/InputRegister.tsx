@@ -38,7 +38,7 @@ function InputRegister({ busqueda, notMidMD, notMid, campo, nombre, register, ty
         } else if (notMid) {
             return "flex flex-col w-full md:w-full";
         } else if (notMidMD) {
-            return "flex flex-row md:w-full xl:w-1/2";
+            return "flex flex-col md:w-full xl:w-1/2";
         } else if (busqueda) {
             return "flex flex-col w-full xl:w-1/2";
         } else {

@@ -1,3 +1,13 @@
+/* 
+--------------------------------------------------------------------------------------------------------
+    CAMPOS
+    name: Nombre de la columna
+    selector: Campo que se mostrará en la columna, debe ir en el formato (row:Row) => row.nombre_campo
+    sortable: Si se puede ordenar la columna
+    style: Estilos de la columna
+----------------------------------------------------------------------------------------------------------
+*/
+
 // Datos que se mostrarán en la tabla de denuncias
 type Row = {
     numero_de_expediente: string;
@@ -12,16 +22,7 @@ type Row = {
     createdAt: string;
 }
 
-/* 
---------------------------------------------------------------------------------------------------------
-    CAMPOS
-    name: Nombre de la columna
-    selector: Campo que se mostrará en la columna, debe ir en el formato (row:Row) => row.nombre_campo
-    sortable: Si se puede ordenar la columna
-    style: Estilos de la columna
-----------------------------------------------------------------------------------------------------------
-*/
-
+// Columnas de la tabla de denuncias
 export const columns = [
     {
         // Número de expediente de la denuncia
@@ -31,7 +32,6 @@ export const columns = [
             fontSize: '14px',
             fontWeight: 500,
         },
-
     },
     {
         // Fecha en la que se realizó la denuncia

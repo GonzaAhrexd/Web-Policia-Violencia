@@ -43,10 +43,9 @@ function CargarPreguntas({watch, tipoDenuncia, register }: CargarVictimaProps) {
       <div className='w-full lg:w-6/10'>
         {tipoDenuncia == "mujer" &&
           <div className='flex flex-col my-2'>
-            <p> Se le hace
-              saber que existe la Línea 137, ubicado en Calle Mitre N° 171 -Resistencia-, donde se brinda asesoramiento legal y
-              asistencia psicológica las 24 horas del dia de manera GRATUITA, y la Línea 102 ubicado en Avenida Sarmiento
-              N° 1675-Resistencia-.</p>
+            <p> Se le hace saber que existe la Línea 137, ubicado en Calle Mitre N° 171 en la Ciudad de Resistencia, donde se brinda asesoramiento legal y
+              asistencia psicológica las 24 horas del día de manera GRATUITA, y la Línea 102 ubicado en Avenida Sarmiento
+              N° 1675, Ciudad de Resistencia.</p>
             <span className='ml-4 font-medium  my-2'> ¿Desea ser asistid{tipoDenuncia == "mujer" ? "a" : "o"} por dicho organismo? </span>
             <InputRadio campo="AsistidaPorDichoOrganismo" nombre="AsistidaPorDichoOrganismo" register={register}  type="radio" opciones={opcionesAsistidaPorDichoOrganismo} defaultValue={3} />
           </div>

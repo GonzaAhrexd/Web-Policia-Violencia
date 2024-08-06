@@ -74,7 +74,8 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
                   // Si el usuario confirma
                   if (result.isConfirmed) {
                     // Recarga la página
-                    window.location.reload()
+                    console.log(values)
+                    // window.location.reload()
                   }
                 })
               }
