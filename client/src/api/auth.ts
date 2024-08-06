@@ -1,7 +1,7 @@
 import axios from './axios'
 
 export const registerRequest = (user: any) => axios.post(`/register`, user)
-export const loginRequest = (user: any) => axios.post(`/login`, user, { withCredentials: true });
+export const loginRequest = (user: any) => axios.post(`/login`, user);
 export const logoutRequest = () => axios.post(`/logout`)
 // @ts-ignore
 export const verifyToken = (token: string) => axios.get(`/verify`)
