@@ -42,6 +42,7 @@ function MisDenuncias() {
         // Se ejecuta la función asíncrona
         fetchDenuncias();
     }
+    
 
     const { register, handleSubmit, setValue, formState: {
         errors

@@ -2,6 +2,8 @@ import { createContext, ReactNode, useState, useContext, useEffect } from 'react
 import { logoutRequest, loginRequest, verifyToken, editUser } from '../api/auth'
 import Cookies from 'js-cookie'
 
+
+
 type AuthContextType = {
     signUp: (user: any) => Promise<void>; 
     signIn: (user: any) => Promise<void>;
