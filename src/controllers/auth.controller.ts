@@ -85,7 +85,9 @@ export const login = async (req, res) => {
 
         //Token 
         const token = await createAccessToken({ id: usuarioEncontrado._id })
-        res.cookie('token', token)
+        res.cookie('token', token, {
+            sameSite: 'None', // Necesario para contextos cross-site
+        })
         //Envio al frontend de los datos del usuario registrado
         res.json({
             id: usuarioEncontrado._id,
