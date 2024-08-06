@@ -11,10 +11,6 @@ export function createAccessToken(payload) {
             payload, TOKEN_SECRET,
             {
                 // En cuanto expira el token
-                domain: '.gonzaloebel.tech',
-                secure: process.env.NODE_ENV === 'production',
-                httpOnly: true,
-                sameSite: 'none', // Permite el envío entre sitios
                 expiresIn: 60 * 60 * 24
             }, (err, token) => {
                 if (err) reject(err)
