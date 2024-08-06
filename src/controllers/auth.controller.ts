@@ -86,7 +86,7 @@ export const login = async (req, res) => {
         //Token 
         const token = await createAccessToken({ id: usuarioEncontrado._id })
         res.cookie('token', token, {    
-            domain: '.gonzaloebel.tech',
+            // domain: '.gonzaloebel.tech',
             secure: process.env.NODE_ENV === 'production',
             httpOnly: true,
             sameSite: 'none', // Permite el envío entre sitios
