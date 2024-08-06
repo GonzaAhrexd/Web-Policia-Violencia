@@ -11,8 +11,7 @@ export function createAccessToken (payload){
             payload, TOKEN_SECRET, 
             {
                 // En cuanto expira el token
-                expiresIn: 60 * 60 * 24,
-                sameSite: 'None', // Necesario para contextos cross-site
+                expiresIn: 60 * 60 * 24
             }, (err, token) => {
             if(err) reject(err)
             resolve(token)
