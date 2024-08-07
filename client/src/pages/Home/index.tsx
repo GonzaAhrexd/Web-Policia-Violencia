@@ -17,8 +17,10 @@ import CardDenunciasRecientes from '../../components/Cards/CardDenunciasReciente
 import CardDenunciasPendientesValidacion from '../../components/Cards/CardDenunciasPendientesValidacion';
 import CardMostrarSeccionAdmin from '../../components/Cards/CardMostrarSeccionAdmin';
 import CardDenunciasTotales from '../../components/Cards/CardDenunciasTotales';
+import DenunciasMes from '../../components/Graficos/DenunciasMes';
 // Iconos
 import { ExclamationTriangleIcon, UserIcon, MagnifyingGlassIcon, ListBulletIcon, PencilSquareIcon, ClipboardDocumentCheckIcon, ChartPieIcon, DocumentTextIcon, DocumentArrowDownIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
+import CardDenunciasGrafico from '../../components/Cards/CardDenunciasGrafico';
 
 function Home() {
   // Obtiene los datos del usuario y verifica si está autenticado desde el contexto
@@ -110,6 +112,7 @@ function Home() {
               <CardDenunciasRecientes title="Denuncias recientes" />
               <CardDenunciasPendientesValidacion />
               <CardDenunciasTotales/>
+              <CardDenunciasGrafico/>
             </div>
           </div>
         )}
