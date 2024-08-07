@@ -86,6 +86,7 @@ export const login = async (req, res) => {
         //Token 
         const token = await createAccessToken({ id: usuarioEncontrado._id })
         res.cookie('token', token, {    
+            /* Esto debe estar activado en producción */
             domain: '.gonzaloebel.tech',
             secure: process.env.NODE_ENV === 'production',
             httpOnly: true,

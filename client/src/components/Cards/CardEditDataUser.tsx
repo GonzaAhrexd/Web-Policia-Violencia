@@ -13,6 +13,8 @@ import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
 import InputNumber from '../InputComponents/InputNumber'
 
+// Librerías
+import Swal from 'sweetalert2'
 interface InputRegisterProps {
     user: any
     setIsEditing: any
@@ -35,19 +37,33 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
                         setMensajeError("El teléfono debe tener 10 dígitos");
                     } else {
                         try {
-                            // Edita el perfil
-                            const response = await editProfile(values);
-                            // Si esta da respuesta, recarga la página
-                            if (response) {
-                                setMensajeError('')
-                                window.location.reload()
-                            } else { // Sino, el devuelve como mensaje de error que el usuario ya existe, si se intenta cambiar el nombre de usuario
-                                setMensajeError("Usuario ya existe")
-                            }
-
+                            Swal.fire({
+                                title: '¿Estás seguro?',
+                                text: "Podrás volver a editar más adelante.",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#0C4A6E',
+                                cancelButtonColor: '#FF554C',
+                                confirmButtonText: 'Sí, editar',
+                                cancelButtonText: 'Cancelar'
+                              }).then(async (result: any) => {
+                                if(result.isConfirmed) {
+                                  // Edita el perfil
+                                  const response = await editProfile(values);
+                                  // Si esta da respuesta, recarga la página
+                                  if (response) {
+                                      setMensajeError('')
+                                      window.location.reload()
+                                    } else { // Sino, el devuelve como mensaje de error que el usuario ya existe, si se intenta cambiar el nombre de usuario
+                                        setMensajeError("Usuario ya existe")
+                                    }
+                                }
+                                })
+                            
                         } catch (error: any) { // Si ocurre un error, devuelve que ha ocurrido el error del usuario existente
                             setMensajeError("Usuario ya existente")
                         }
+                    
                     }
                 })}>
                 {/* ID oculta para luego pasarlo al submit */}
@@ -63,13 +79,13 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
 
                 <div className='flex flex-col md:flex-row'>
                     <InputRegister campo="N° de Credencial" nombre="credencial" register={register} setValue={setValue} type="text" error={errors.credencial} valor={user.credencial} />
-                    <SelectRegister isRequired={false} valor={user.jerarquia} campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text" error={errors.jerarquia} />
+                    <InputRegister campo="N° de Plaza" nombre="plaza" register={register} setValue={setValue} type="text" error={errors.plaza} valor={user.plaza} />
                 </div>
                 <div className='flex flex-col md:flex-row'>
-                    <InputRegister campo="N° de Plaza" nombre="plaza" register={register} setValue={setValue} type="text" error={errors.plaza} valor={user.plaza} />
-                    <SelectRegister isRequired={false} valor={user.zona} campo="Zona" nombre="zona" opciones={zonaCampos} register={register} setValue={setValue} type="text" error={errors.zona} />
+                    <SelectRegister mid isRequired={false} valor={user.jerarquia} campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text" error={errors.jerarquia} />
+                    <SelectRegister mid isRequired={false} valor={user.zona} campo="Zona" nombre="zona" opciones={zonaCampos} register={register} setValue={setValue} type="text" error={errors.zona} />
                 </div>
-                <SelectRegister isRequired={false} valor={user.unidad} campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
+                <SelectRegister notComisaria isRequired={false} valor={user.unidad} campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
                 <span className='text-red-400 pl-3'> {mensajeError} </span>
 
                 <div className="flex gap-2 px-2 py-2">
