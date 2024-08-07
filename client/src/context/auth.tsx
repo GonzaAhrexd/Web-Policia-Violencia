@@ -59,11 +59,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             // Se establece al usuario en el estado
             setUser(res.data);
             // Guarda el token en las cookies
-            Cookies.set('token', res.data.token, {
-                domain: '.gonzaloebel.tech',
-                secure: true, // Solo se debe usar en HTTPS
-                sameSite: 'None' // Permite el envío de cookies en solicitudes cross-site
-            });            // Se establece la autenticación en true
+            Cookies.set('token', res.data.token );            // Se establece la autenticación en true
             setIsAuthenticated(true);
         } catch (error: any) {
             console.log(error)
