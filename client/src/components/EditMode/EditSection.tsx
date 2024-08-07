@@ -104,7 +104,7 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                                 }).then((result) => {
                                     // Si se confirma el mensaje, recargamos la página
                                     if (result.isConfirmed) {
-                                            window.location.reload();
+                                        window.location.reload();
                                     }
                                 })
                             }
