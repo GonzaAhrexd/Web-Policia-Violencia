@@ -58,6 +58,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             const res = await loginRequest(user)
             // Se establece al usuario en el estado
             setUser(res.data);
+            // Guarda el token en las cookies
+            Cookies.set('token', res.data.token);
             // Se establece la autenticación en true
             setIsAuthenticated(true);
         } catch (error: any) {
