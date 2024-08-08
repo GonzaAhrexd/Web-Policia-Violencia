@@ -13,10 +13,9 @@ interface BuscarExistenteModalProps {
     variante: string
     setOpenModal: any
     setVictimaCargar: any
-    setUpdateVictima?: any
 
 }
-function BuscarExistenteModal({ setUpdateVictima, variante, setOpenModal, setVictimaCargar }: BuscarExistenteModalProps) {
+function BuscarExistenteModal({  variante, setOpenModal, setVictimaCargar }: BuscarExistenteModalProps) {
     const [victimasMostrar, setVictimasMostrar] = useState([]);
     const [mostrarAlerta, setMostrarAlerta] = useState("");
     // useForm para el formulario

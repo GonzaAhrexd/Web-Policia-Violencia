@@ -15,7 +15,6 @@ import { opcionesViolencia } from '../../GlobalConst/violenciaCampos'
 import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
 import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
 import { tiposDeViolenciaText, tiposModalidades } from '../../GlobalConst/modalTextos'
-import { opcionesNotificado } from '../../GlobalConst/opcionesNotificadoCampos'
 // Backend
 import { getCoords } from '../../api/coordinates'
 // Componentes
@@ -68,9 +67,7 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
   const [modificarDatosGeograficos, setModificarDatosGeograficos] = useState(false)
   const [barrio, setBarrio] = useState('')
 
-  // Index de la opción por defecto
-  const defaultIndex = opcionesNotificado.findIndex(opcion => opcion.nombre === datos.medida_dispuesta.notificacion);
-
+  
   // Función para consultar las coordenadas
   const consultarCoordenadas = async () => {
     // Dirección a buscar
