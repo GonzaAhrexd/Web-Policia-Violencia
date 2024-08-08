@@ -75,7 +75,7 @@ const denunciaSchema = new mongoose.Schema({
     // Definición del barrio de la denuncia
     barrio: {
         type: String, // Tipo de dato String
-        required: true, // Campo requerido
+        required: false, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
     // Definición de la unidad de carga

@@ -13,6 +13,8 @@ import { getVictima, getVictimario, eliminarDenuncia, getTercero } from '../../.
 // Librerías react
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' // Librería para mostrar mapas
 import Swal from 'sweetalert2' // Librería para mostrar popups
+import 'leaflet/dist/leaflet.css';
+import {Icon} from 'leaflet'
 // Iconos
 import { PencilSquareIcon, TrashIcon, MapPinIcon } from '@heroicons/react/24/solid'
 import { UsersIcon, UserIcon, ClipboardDocumentCheckIcon, ExclamationTriangleIcon, QueueListIcon, MapPinIcon as MapPinIconOutLine, ListBulletIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
@@ -26,6 +28,12 @@ interface expandedComponentsProps {
     data: any
 }
 function expandedComponents({ data }: expandedComponentsProps) {
+   
+    const markerIcon = new Icon({
+        iconUrl: '/pin-de-ubicacion.png',
+        iconSize: [30, 30],
+    });
+
     // Obtener datos del usuario
     const { user } = useAuth()
     // State para guardar los datos de la víctima
@@ -286,7 +294,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                                 <TileLayer
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                 />
-                                <Marker position={[lat, lon]}>
+                                <Marker position={[lat, lon]} icon={markerIcon} >
                                     <Popup>
                                         {data.direccion + "," + data.barrio}
                                     </Popup>
