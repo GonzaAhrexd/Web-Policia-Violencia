@@ -10,7 +10,6 @@ import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputDate from '../InputComponents/InputDate'
 import InputExpediente from '../InputComponents/InputExpediente'
 import EditExpediente from '../EditMode/EditExpediente';
-import InputRadio from '../InputComponents/InputRadio'
 import InputNumber from '../InputComponents/InputNumber'
 // Apis y BackEnd
 import { getCoords } from '../../api/coordinates'
@@ -24,7 +23,6 @@ import { opcionesViolencia } from '../../GlobalConst/violenciaCampos'
 import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
 import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
 import { tiposDeViolenciaText, tiposModalidades } from '../../GlobalConst/modalTextos'
-import { opcionesNotificado } from '../../GlobalConst/opcionesNotificadoCampos'
 // Iconos
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
@@ -174,13 +172,10 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
         <InputCheckbox campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento_dispuesta" register={register} setValue={setValue} type="checkbox" id="prohibicion_dispuesta" />
         <InputCheckbox campo="Botón Antipánico" nombre="boton_antipanico_dispuesta" register={register} setValue={setValue} type="checkbox" id="botonAntipanico_dispuesta" />
         <InputCheckbox campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
+        <InputCheckbox campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue} type="checkbox" id="solicitud_de_aprehension_dispuesta" />
+        <InputCheckbox campo="Expedientes c/cautelar" nombre="expedientes_con_cautelar_dispuesta" register={register} setValue={setValue} type="checkbox" id="expedientes_con_cautelar_dispuesta" />
       </div>
-      <>
-        <span className='ml-4 font-medium my-2'> Notificación </span>
-        <InputRadio campo="Notificación" nombre="notificacion" register={register} type="radio" opciones={opcionesNotificado} defaultValue={3} />
-      </>
-
-
+      
       <div className='flex flex-col '>
         <span className='ml-4 font-medium'> Denunciado por tercero</span>
         <div className='flex flex-col md:flex-row'>
@@ -197,7 +192,6 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
                 <InputRegister campo="Nombre" nombre="nombre_tercero" register={register} setValue={setValue} type="text" error={errors.nombre_tercero} />
                 <InputRegister campo="Apellido" nombre="apellido_tercero" register={register} setValue={setValue} type="text" error={errors.apellido_tercero} />
                 <InputNumber maxLenght={8} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.dni_tercero} />
-
               </div>
               :
               <div className='flex flex-col md:flex-row'>

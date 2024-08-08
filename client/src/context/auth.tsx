@@ -74,6 +74,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             // Se establece la autenticación en false
             setIsAuthenticated(false);
             // Se establece al usuario en null
+            Cookies.set('token', "" );            // Se establece la autenticación en true
             setUser(null);
         } catch (error) {
             console.log(error)

@@ -17,7 +17,7 @@ import 'leaflet/dist/leaflet.css';
 import {Icon} from 'leaflet'
 // Iconos
 import { PencilSquareIcon, TrashIcon, MapPinIcon } from '@heroicons/react/24/solid'
-import { UsersIcon, UserIcon, ClipboardDocumentCheckIcon, ExclamationTriangleIcon, QueueListIcon, MapPinIcon as MapPinIconOutLine, ListBulletIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
+import { UsersIcon, UserIcon, ClipboardDocumentCheckIcon, ExclamationTriangleIcon, QueueListIcon, MapPinIcon as MapPinIconOutLine, ListBulletIcon, QuestionMarkCircleIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 import EditSection from '../../../components/EditMode/EditSection';
@@ -217,7 +217,12 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Prohibición de acercamiento", valor: data.medida_dispuesta.prohibicion_de_acercamiento },
         { nombre: "Exclusión de Hogar", valor: data.medida_dispuesta.exclusion_de_hogar },
         { nombre: "Botón antipánico", valor: data.medida_dispuesta.boton_antipanico },
-        { nombre: "Notificación", valor: data.medida_dispuesta.notificacion }
+        { nombre: "Solicitud de Aprehensión", valor: data.medida_dispuesta.solicitud_de_aprehension },
+        { nombre: "Expediente con cautelar", valor: data.medida_dispuesta.expedientes_con_cautelar }
+    ]
+
+    const detallesObservaciones = [
+        { nombre: "Aprehensión", valor: data.aprehension },
     ]
 
 
@@ -290,7 +295,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                 <div className='flex flex-col w-8/10 lg:w-7/10 h-4/10 items-center justify-center mx-4 md:mx-auto my-5'>
                     {hechoDatosGeográficos[4].valor ?
                         <>
-                            <MapContainer center={[lat, lon]} zoom={20} style={{ height: "60vh", width: "100%" }}>
+                            <MapContainer  center={[lat, lon]} zoom={20} style={{ height: "60vh", width: "100%" }}>
                                 <TileLayer
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                 />
@@ -327,9 +332,10 @@ function expandedComponents({ data }: expandedComponentsProps) {
 
                 </div>
                 <div className='flex items-center'>
-                    <h2 className='text-3xl my-5 font-sans mr-4'>Observaciones</h2>                </div>
-                <div className="flex flex-row">
-                    <ShowTextArea campo="Observaciones" dato={data.observaciones} />
+                    <h2 className='text-3xl my-5 font-sans mr-4'>Observaciones</h2></div>
+                <div className="flex flex-col">
+                <SimpleTableCheckorX campo="Detalles" datos={detallesObservaciones} icono={<InformationCircleIcon className='h6 w-6'/>}/>
+                <ShowTextArea campo="Observaciones" dato={data.observaciones} />
                 </div>
                 <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>
                     <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>

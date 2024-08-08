@@ -13,9 +13,10 @@ interface BuscarExistenteModalProps {
     variante: string
     setOpenModal: any
     setVictimaCargar: any
+    setUpdateVictima?: any
 
 }
-function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: BuscarExistenteModalProps) {
+function BuscarExistenteModal({ setUpdateVictima, variante, setOpenModal, setVictimaCargar }: BuscarExistenteModalProps) {
     const [victimasMostrar, setVictimasMostrar] = useState([]);
     const [mostrarAlerta, setMostrarAlerta] = useState("");
     // useForm para el formulario
@@ -27,7 +28,8 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
             // Si se presiona la tecla escape
             if (e.key === 'Escape') {
                 // Cerrar el modal
-                setOpenModal(false);
+               setOpenModal(false);
+
             }
         };
         // Agregar el evento para cerrar el modal al presionar la tecla escape
@@ -47,6 +49,7 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
                 dni_victima: values.dni != "S/N" ? values.dni : null,
                 numero_de_expediente: values.numero_de_expediente
             }
+
             result = await buscarVictima(valoresFormateadosVictima);
         }else if(variante == "Victimario"){
             const valoresFormateadosVictimarios = {
@@ -65,6 +68,8 @@ function BuscarExistenteModal({ variante, setOpenModal, setVictimaCargar }: Busc
             }
             result = await buscarTercero(valoresFormateadosTercero);
         }
+        setVictimasMostrar([]);
+        
         setVictimasMostrar(result);
     };
     const handleBusqueda = (values: any) => {

@@ -6,7 +6,7 @@
 */
 
 // Hooks
-import { useState } from 'react'
+import {  useState } from 'react'
 //Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
@@ -32,17 +32,22 @@ interface CargarVictimaProps {
     variante?: any;
     editarConDenuncia?: any;
     cantidad_hijos_con_agresor?: string;
+    condicion_de_vulnerabilidad?: boolean,
     watch: any;
 }
 
 function EditVictima({ watch, editarConDenuncia, existente, hijos_con_agresor, cantidad_hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
     // Estados
+    console.log(datos)
     const [isHijos, setIsHijos] = useState(datos.hijos.tiene_hijos)
     const [isHijosConAgresor, setIsHijosConAgresor] = useState(hijos_con_agresor ? hijos_con_agresor > 0 : false)
     const [isCondicionVulnerabilidad, setIsCondicionVulnerabilidad] = useState(datos.condicion_de_vulnerabilidad) // Para mostrar o no el campo de condición de vulnerabilidad si es seleccionado el checkbox condición de vulnerabilidad
     const [isAdultoMayor, setIsAdultoMayor] = useState(datos.condiciones_de_vulnerabilidad.adulto_mayor) // Para mostrar o no el campo de adulto mayor si es seleccionado el checkbox adulto mayor
     const [isMenorEdad, setIsMenorEdad] = useState(datos.condiciones_de_vulnerabilidad.menor_de_edad) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
+    
   
+
+
     // Opciones condición de vulnerabilidad
     const opcionesCondicionDeVulnerabilidad = [
         { nombre: 'Sí', value: 'si', id: "si_asistida" },
@@ -81,7 +86,7 @@ function EditVictima({ watch, editarConDenuncia, existente, hijos_con_agresor, c
            
             <div className='flex flex-col my-2'>
                 <span className='ml-4 font-medium'>Condición de vulnerabilidad</span>
-                <InputRadio watch={watch} handleChange={setIsCondicionVulnerabilidad} campo="condicion_de_vulnerabilidad" nombre="condicion_de_vulnerabilidad" register={register} type="radio" opciones={opcionesCondicionDeVulnerabilidad} defaultValue={datos.condicion_de_vulnerabilidad ? 0 : 1} />
+                <InputRadio key={datos._id} watch={watch} handleChange={setIsCondicionVulnerabilidad} campo="condicion_de_vulnerabilidad" nombre="condicion_de_vulnerabilidad" register={register} type="radio" opciones={opcionesCondicionDeVulnerabilidad} defaultValue={datos.condicion_de_vulnerabilidad ? 0 : 1} />
                 {isCondicionVulnerabilidad &&
                     <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md`}>
                         <InputCheckbox campo="Embarazo" nombre="embarazo" register={register} setValue={setValue} type="checkbox" error={errors.dependencia_economica} id="dependencia_economica" state={datos.condiciones_de_vulnerabilidad.dependencia_economica}/>

@@ -17,6 +17,7 @@ import EditVictimario from './EditVictimario'
 import EditHecho from './EditHecho'
 import Modal from '../Modal'
 import InputTextArea from '../InputComponents/InputTextArea'
+import InputCheckbox from '../InputComponents/InputCheckbox'
 import Swal from 'sweetalert2'
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/solid'
 
@@ -116,6 +117,7 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                 <EditHecho datosTerceros={datosTerceros} datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} />
                 <>
                     <h1 className='text-2xl my-5'>Observaciones</h1>
+                    <InputCheckbox  state={datosHecho.aprehension} campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue} type="checkbox" id="aprehension" />
                     <InputTextArea variante={"edit"} valor={datosHecho.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" ></InputTextArea>
                 </>
                 <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>
@@ -128,7 +130,7 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                 </div>
             </form>
         </div>
-    )
+    ) 
 }
 
 export default EditSection

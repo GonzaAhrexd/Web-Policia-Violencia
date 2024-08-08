@@ -40,7 +40,8 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
   const [victimarioCargar, setVictimarioCargar] = useState(null);
   // Datos del tercero a cargar
   const [terceroCargar, setTerceroCargar] = useState(null);
-
+  // Actualizar víctima	
+  
   return (
     <div className='h-screen sm:h-full p-2 sm:p-10'>
       <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>
@@ -144,7 +145,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
             {!victimaCargar ? // Si no hay datos de la víctima a cargar, mostrar el formulario de carga
               <CargarVictima watch={watch} register={register} setValue={setValue} errors={errors} />
               : // Si hay datos de la víctima a cargar, mostrar el formulario de edición
-              <EditVictima watch={watch} existente={true} md={true} datos={victimaCargar} register={register} setValue={setValue} errors={errors} />
+              <EditVictima watch={watch} existente={true} md={true} datos={victimaCargar}register={register} setValue={setValue} errors={errors} />
             }
           </div>
           {/* Haz una linea gris que divida, pero que solo salga a la mitad como los demás inputs */}
@@ -165,7 +166,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
           </div>
           <h1 className='text-2xl my-5'>Observaciones</h1>
           <div className='flex justify-center h-80'>
-            <CargarObservaciones register={register} />
+            <CargarObservaciones setValue={setValue} register={register} />
           </div>
           <div className="flex justify-center my-3">
             <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10' type="submit">Enviar</button>

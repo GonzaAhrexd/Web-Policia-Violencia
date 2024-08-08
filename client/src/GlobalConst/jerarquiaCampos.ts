@@ -3,6 +3,7 @@ export const jerarquiaCampos = [
     { nombre: "Agente", value: "Agente" },
     { nombre: "Cabo", value: "Cabo Primero" },
     { nombre: "Sargento", value: "Sargento" },
+    { nombre: "Sargento Primero", value: "Sargento Primero" },
     { nombre: "Sargento Ayudante", value: "Sargento Ayudante" },
     { nombre: "Suboficial Principal", value: "Suboficial Principal" },
     { nombre: "Suboficial Mayor", value: "Suboficial Mayor" },

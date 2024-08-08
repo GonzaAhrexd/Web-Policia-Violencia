@@ -26,7 +26,6 @@ import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputDate from '../InputComponents/InputDate'
 import SimpleTableCheckorX from '../ShowData/SimpleTableCheckorX'
 import EditExpediente from '../EditMode/EditExpediente'
-import InputRadio from '../InputComponents/InputRadio'
 //Iconos
 import { PencilIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
@@ -203,11 +202,10 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
         <InputCheckbox state={datos.medida_dispuesta.prohibicion_de_acercamiento } campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento_dispuesta" register={register} setValue={setValue} type="checkbox" id="prohibicion_dispuesta" />
         <InputCheckbox state={datos.medida_dispuesta.boton_antipanico } campo="Botón Antipánico" nombre="boton_antipanico_dispuesta" register={register} setValue={setValue} type="checkbox" id="botonAntipanico_dispuesta" />
         <InputCheckbox state={datos.medida_dispuesta.exclusion_de_hogar} campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
+        <InputCheckbox state={datos.medida_dispuesta.solicitud_de_aprehension} campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue} type="checkbox" id="solicitud_de_aprehension_dispuesta" />
+        <InputCheckbox state={datos.medida_dispuesta.expedientes_con_cautelar} campo="Expedientes c/cautelar" nombre="expedientes_con_cautelar_dispuesta" register={register} setValue={setValue} type="checkbox" id="expedientes_con_cautelar_dispuesta" />
       </div>
-      <>
-        <span className='ml-4 font-medium  my-2'> Notificación </span>
-        <InputRadio campo="Notificación" nombre="notificacion" register={register} type="radio" opciones={opcionesNotificado} defaultValue={defaultIndex} />
-      </>
+     
       <div className='flex flex-col '>
         <span className='ml-4 font-medium '> Denunciado por tercero</span>
         <div className='flex flex-col md:flex-row'>

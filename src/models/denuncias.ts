@@ -257,8 +257,13 @@ const denunciaSchema = new mongoose.Schema({
             required: true, // Campo requerido
             trim: true // Trim para que no se guarden espacios en blanco
         },
-        notificacion: {
-            type: String, // Tipo de dato String
+        solicitud_de_aprehension: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
+        },
+        expedientes_con_cautelar: {
+            type: Boolean, // Tipo de dato Boolean
             required: true, // Campo requerido
             trim: true // Trim para que no se guarden espacios en blanco
         },
@@ -279,6 +284,11 @@ const denunciaSchema = new mongoose.Schema({
         type: String, // Tipo de dato String
         trim: true, // Trim para que no se guarden espacios en blanco
         require: false // Campo no requerido
+    },
+    aprehension: {
+        type: Boolean, // Tipo de dato Boolean
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
     },
     observaciones: {
         type: String, // Tipo de dato String
