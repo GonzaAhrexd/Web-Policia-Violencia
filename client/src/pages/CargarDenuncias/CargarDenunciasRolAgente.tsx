@@ -98,7 +98,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               </div>
               <h1 className='text-2xl my-5'>Denuncia</h1>
               <div className='flex justify-center'>
-                <CargarObservaciones register={register} />
+                <CargarObservaciones rolAgenteHidden setValue={setValue} register={register} />
               </div>
               <h1 className='text-2xl my-5'>Preguntas</h1>
               <div className='flex justify-center'>
@@ -119,7 +119,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               </div>
               <h1 className='text-2xl my-5'>Denuncia</h1>
               <div className='flex justify-center'>
-                <CargarObservaciones register={register} />
+                <CargarObservaciones rolAgenteHidden register={register} />
               </div>
               <h1 className='text-2xl my-5'>Preguntas</h1>
               <div className='flex justify-center'>

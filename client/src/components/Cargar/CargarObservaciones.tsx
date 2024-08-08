@@ -6,14 +6,17 @@ import InputCheckbox from '../InputComponents/InputCheckbox';
 interface observacionesProps {
   register: UseFormRegister<any>
   setValue?: any
+  rolAgenteHidden?: boolean
 }
 
-function CargarObservaciones({register, setValue}: observacionesProps) {
+function CargarObservaciones({rolAgenteHidden, register, setValue}: observacionesProps) {
   return (
     <div className='flex flex-col items-center w-full'>
+        {(rolAgenteHidden !== null) && (!rolAgenteHidden) &&
         <div className='w-full lg:w-6/10'>
         <InputCheckbox campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue} type="checkbox" id="aprehension" />
         </div>
+        }
     <div className='flex flex-col items-center w-full'>
         <InputTextArea campo="Observaciones" nombre="observaciones" register={register} type="text" />
         </div>
