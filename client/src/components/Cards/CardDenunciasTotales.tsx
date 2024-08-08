@@ -43,12 +43,12 @@ function CardDenunciasTotales() {
              });
        }
        else if(periodo === 'año'){
-        // Obtener hoy - 365 días
+        // Obtener del 1 de enero del año actual al 31 de diciembre del año actual
         const hoy = new Date();
-        const haceUnAño = new Date(hoy);
-        haceUnAño.setDate(hoy.getDate() - 365);
-        values.desde = haceUnAño.toISOString().split('T')[0];
-        values.hasta = hoy.toISOString().split('T')[0];
+        const desde = new Date(hoy.getFullYear(), 0, 1);
+        const hasta = new Date(hoy.getFullYear(), 11, 31);
+        values.desde = desde.toISOString().split('T')[0];
+        values.hasta = hasta.toISOString().split('T')[0];
         
         cantidadDenuncias(values).then((response: any) => {
             console.log(response);
@@ -63,8 +63,8 @@ function CardDenunciasTotales() {
     <div className="flex flex-col items-center justify-center bg-neutral-700 hover:bg-neutral-900 text-white rounded-lg p-4 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] ">
       <div className="flex space-x-2 mb-4">
         <button onClick={() => setPeriodo('hoy')} className={`btn ${periodo === 'hoy' ? 'border-b-2 border-white' : ''}`}>Hoy</button>
-        <button onClick={() => setPeriodo('semana')} className={`btn ${periodo === 'semana' ? 'border-b-2 border-white' : ''}`}>Semana</button>
-        <button onClick={() => setPeriodo('mes')} className={`btn ${periodo === 'mes' ? 'border-b-2 border-white' : ''}`}>Mes</button>
+        <button onClick={() => setPeriodo('semana')} className={`btn ${periodo === 'semana' ? 'border-b-2 border-white' : ''}`}>7 días</button>
+        <button onClick={() => setPeriodo('mes')} className={`btn ${periodo === 'mes' ? 'border-b-2 border-white' : ''}`}>30 días</button>
         <button onClick={() => setPeriodo('año')} className={`btn ${periodo === 'año' ? 'border-b-2 border-white' : ''}`}>Año</button>
       </div>
       <div className="text-9xl font-bold">

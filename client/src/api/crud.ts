@@ -30,7 +30,7 @@ export const buscarDenuncias = async (values: any) => {
         console.log(error)
     }
 }
-
+// Buscar denuncias por id
 export const buscarDenunciasPorId = async (id: string) => {
     try {
         const response = await axios.get(`/buscar-denuncias-id/${id}`)
@@ -51,7 +51,6 @@ export const editarDenuncia = async (denuncia: any) => {
 }
 
 // Eliminar denuncias
-
 export const eliminarDenuncia = async (id: string) => {
     try {
         const response = await axios.delete(`/eliminar-denuncias/${id}`)
@@ -60,6 +59,7 @@ export const eliminarDenuncia = async (id: string) => {
         console.log(error)
     }
 }
+
 // Cantidad de denuncias
 export const cantidadDenuncias = async (values: any) => {
     try {
@@ -69,6 +69,7 @@ export const cantidadDenuncias = async (values: any) => {
         console.log(error)
     }
 }
+
 // DENUNCIAS SIN VERIFICAR
 export const crearDenunciaSinVerificar = (denuncia: any) => {
     try {
@@ -100,7 +101,6 @@ export const eliminarDenunciaSinVerificar = async (id: string) => {
 }
 
 // Aprobar denuncia
-
 export const aprobarDenuncia = async (id: string) => {
     try {
         const response = await axios.put(`/validar-denuncia/${id}`)
@@ -129,6 +129,8 @@ export const crearExposicion = (denuncia: any) => {
         console.log(error)
     }
 }
+
+// Buscar exposición
 export const buscarExposicion = async (values: any) => {
     try {
         const response = await axios.get(`/buscar-exposicion/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.id_exposicion ? values.id_exposicion : "no_ingresado"}/${values.nombre_victima ? values.nombre_victima : "no_ingresado"}/${values.apellido_victima ? values.apellido_victima : "no_ingresado"}/${values.dni_victima ? values.dni_victima : "no_ingresado"}`)
@@ -137,6 +139,8 @@ export const buscarExposicion = async (values: any) => {
         console.log(error)
     }
 }
+
+// Eliminar exposición
 export const eliminarExposicion = async (id: string) => {
     try {
         const response = await axios.delete(`/eliminar-exposicion/${id}`)
