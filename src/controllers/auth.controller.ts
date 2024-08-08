@@ -120,6 +120,10 @@ export const login = async (req, res) => {
 //Logout 
 export const logout = async (req, res) => {
     res.cookie('token', "", {
+        domain: '.gonzaloebel.tech',
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        sameSite: 'none', // Permite el envío entre sitios
         expires: new Date(0)
     })
     return res.sendStatus(200)
