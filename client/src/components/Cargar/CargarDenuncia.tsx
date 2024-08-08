@@ -117,7 +117,6 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
       <div className='flex flex-col md:flex-row my-2'>
         <SelectRegister isRequired={true} campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
         <InputRegister require={false} campo="Número del organismo judicial" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero} />
-        <InputRegister campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} />
       </div>
       <div className='flex flex-col md:flex-row my-2' >
         <SelectCargaDenuncias campo="Violencia" nombre="violencia" opciones={opcionesViolencia} register={register} setValue={setValue} type="text" error={errors.violencia} />
@@ -175,6 +174,7 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
         <InputCheckbox campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue} type="checkbox" id="solicitud_de_aprehension_dispuesta" />
         <InputCheckbox campo="Expedientes c/cautelar" nombre="expedientes_con_cautelar_dispuesta" register={register} setValue={setValue} type="checkbox" id="expedientes_con_cautelar_dispuesta" />
       </div>
+          <InputRegister notMid campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} />
       
       <div className='flex flex-col '>
         <span className='ml-4 font-medium'> Denunciado por tercero</span>
