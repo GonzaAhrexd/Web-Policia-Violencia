@@ -78,6 +78,7 @@ function BuscarDenuncias() {
                         setHideExcelText(false);
 
                         handleBusqueda(values)
+
                     }
                     )}>
                 <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} />

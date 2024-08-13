@@ -5,6 +5,7 @@ interface simpleTableCheckorXProps {
     datos: any;
     icono?: any;
 }
+
 function SimpleTableCheckorX({ campo, datos, icono }: simpleTableCheckorXProps) {
     return (
         <div className="table w-8/10 md:w-full m-4 border-2 border-sky-800">

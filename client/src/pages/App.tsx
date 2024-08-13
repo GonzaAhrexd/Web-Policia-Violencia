@@ -21,6 +21,8 @@ import VerificarDenuncias from './VerificarDenuncias'
 import Buscar from './Buscar'
 // ADMIN
 import ReportarErrores from './ReportarErrores'
+// ESTADÍSTICAS
+import Estadisticas from './Estadisticas'
 // Contexto
 import { AuthProvider } from '../context/auth'
 // CSS
@@ -38,6 +40,8 @@ const AppRoutes = () => {
     { path: '/verificar-denuncias', element: <VerificarDenuncias />},
     // Búsqueda
     { path: '/búsqueda', element: <Buscar />},
+    // Estadísticas
+    { path: '/estadísticas', element: <Estadisticas />},
     // Admin
     {path: '/reportar-errores', element: <ReportarErrores />},
     // Autenticación (Global)

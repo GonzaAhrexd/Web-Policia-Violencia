@@ -6,7 +6,11 @@ import { Avatar, Navbar, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, NavbarBra
 // Iconos
 import { ListBulletIcon, PencilSquareIcon, ChartPieIcon, DocumentTextIcon, DocumentArrowDownIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentCheckIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
 
-function NavBar({ user }: any) {
+type NavBarProps = {
+  user: any
+}
+
+function NavBar({ user }: NavBarProps) {
 
   // Estados
   const [isMenuOpen, setIsMenuOpen] = useState(false)

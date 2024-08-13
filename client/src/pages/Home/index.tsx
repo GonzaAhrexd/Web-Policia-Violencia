@@ -40,7 +40,7 @@ function Home() {
 
   const seccionesCarga = [
     { mostrar: "Verificar denuncias", url: "/verificar-denuncias", svg: ClipboardDocumentCheckIcon },
-    { mostrar: "Estadísticas", url: "/estadisticas", svg: ChartPieIcon },
+    { mostrar: "Estadísticas", url: "/estadísticas", svg: ChartPieIcon },
   ]
   const seccionesAdmin = [
     { mostrar: "Denuncias internas", url: "/denuncias-internas", svg: DocumentTextIcon },
