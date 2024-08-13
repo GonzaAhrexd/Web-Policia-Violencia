@@ -115,6 +115,7 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
                 <EditVictima watch={watch} editarConDenuncia cantidad_hijos_con_agresor={datosHecho.hijos_victima_con_victimario} hijos_con_agresor={datosHecho.hijos_victima_con_victimario} vinculo_con_agresor={datosHecho.relacion_victima_victimario} datos={datosVictima} register={register} setValue={setValue} errors={errors} />
                 <EditVictimario datos={datosVictimario} register={register} setValue={setValue} errors={errors} />
                 <EditHecho datosTerceros={datosTerceros} datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} />
+                
                 <>
                     <h1 className='text-2xl my-5'>Observaciones</h1>
                     <InputCheckbox  state={datosHecho.aprehension} campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue} type="checkbox" id="aprehension" />

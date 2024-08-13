@@ -12,7 +12,6 @@ function CardDenunciasTotales() {
         values.desde = new Date().toISOString().split('T')[0];
         values.hasta = new Date().toISOString().split('T')[0];
       cantidadDenuncias(values).then((response: any) => {
-        console.log(response);
         setDenunciasTotales(response);
       });
     }

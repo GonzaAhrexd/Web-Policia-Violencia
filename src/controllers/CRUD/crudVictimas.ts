@@ -34,7 +34,7 @@ export const createVictima = async (req, res) => {
                     enfermedad_cronica: enfermedad_cronica ? enfermedad_cronica : false,
                     adulto_mayor: adulto_mayor ? adulto_mayor : false,
                     menor_de_edad: menor_de_edad ? menor_de_edad : false,
-                    tratamiento_psicologico: tratamiento_psicologico ? tratamiento_psicologico : false
+                    tratamiento_psicologico: tratamiento_psicologico ? tratamiento_psicologico : false,
                 },
                 convivencia: convivencia === "Sí" ? true : false,
                 hijos: {

@@ -18,6 +18,7 @@ import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
 import { vinculo } from '../../GlobalConst/vinculoCampos'
 
+import { useStore } from '../../pages/CargarDenuncias/store'
  
 // Props
 interface CargarVictimaProps {
@@ -36,15 +37,16 @@ interface CargarVictimaProps {
     watch: any;
 }
 
-function EditVictima({ watch, editarConDenuncia, existente, hijos_con_agresor, cantidad_hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
+function EditVictimaExistente({ watch, editarConDenuncia, existente, hijos_con_agresor, cantidad_hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
     
+    const { victimaCargar } = useStore()
     
     // Estados
-    const [isHijos, setIsHijos] = useState(datos.hijos?.tiene_hijos)
+    const [isHijos, setIsHijos] = useState(victimaCargar.tiene_hijos)
     const [isHijosConAgresor, setIsHijosConAgresor] = useState(hijos_con_agresor ? hijos_con_agresor > 0 : false)
-    const [isCondicionVulnerabilidad, setIsCondicionVulnerabilidad] = useState(datos.condicion_de_vulnerabilidad) // Para mostrar o no el campo de condición de vulnerabilidad si es seleccionado el checkbox condición de vulnerabilidad
-    const [isAdultoMayor, setIsAdultoMayor] = useState(datos.condiciones_de_vulnerabilidad.adulto_mayor) // Para mostrar o no el campo de adulto mayor si es seleccionado el checkbox adulto mayor
-    const [isMenorEdad, setIsMenorEdad] = useState(datos.condiciones_de_vulnerabilidad.menor_de_edad) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
+    const [isCondicionVulnerabilidad, setIsCondicionVulnerabilidad] = useState(victimaCargar.condicion_de_vulnerabilidad) // Para mostrar o no el campo de condición de vulnerabilidad si es seleccionado el checkbox condición de vulnerabilidad
+    const [isAdultoMayor, setIsAdultoMayor] = useState(victimaCargar.condiciones_de_vulnerabilidad.adulto_mayor) // Para mostrar o no el campo de adulto mayor si es seleccionado el checkbox adulto mayor
+    const [isMenorEdad, setIsMenorEdad] = useState(victimaCargar.condiciones_de_vulnerabilidad?.menor_de_edad) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
 
     // const [isHijos, setIsHijos] = useState(false)
     // const [isHijosConAgresor, setIsHijosConAgresor] = useState(false)
@@ -53,6 +55,13 @@ function EditVictima({ watch, editarConDenuncia, existente, hijos_con_agresor, c
     // const [isMenorEdad, setIsMenorEdad] = useState(false) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
     // Actualiza de los state con los datos usando un useEffect, pero que de un timeout para darle tiempo de actualizar los datos
     useEffect(() => {
+        //Console log de todos los estados
+        console.log(isHijos)
+        console.log(isHijosConAgresor)
+        console.log(isCondicionVulnerabilidad)
+        console.log(isAdultoMayor)
+        console.log(isMenorEdad)
+        
         setTimeout(() => {
             console.log(isHijos)
             setIsHijos(datos.hijos.tiene_hijos)
@@ -143,4 +152,4 @@ function EditVictima({ watch, editarConDenuncia, existente, hijos_con_agresor, c
     )
 }
 
-export default EditVictima
+export default EditVictimaExistente

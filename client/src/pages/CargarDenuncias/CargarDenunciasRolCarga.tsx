@@ -1,6 +1,5 @@
 // Hooks
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
 // Conexión con BackEnd
 import { crearDenuncia, agregarVictima, agregarVictimario, crearTercero } from '../../api/crud';
 
@@ -13,11 +12,14 @@ import CargarVictimario from '../../components/Cargar/CargarVictimario';
 import CargarDenuncia from '../../components/Cargar/CargarDenuncia';
 import CargarObservaciones from '../../components/Cargar/CargarObservaciones';
 import BuscarExistenteModal from '../../components/ModalBusqueda/BuscarExistenteModal';
-import EditVictima from '../../components/EditMode/EditVictima';
+import EditVictimaExistente from '../../components/EditMode/EditVictimaExistente';
 import EditVictimario from '../../components/EditMode/EditVictimario';
 
 // Iconos
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+
+// Zustand
+import { useStore } from './store'
 
 interface CargarDenunciasRolCargaProps {
   user: any;
@@ -28,20 +30,22 @@ interface CargarDenunciasRolCargaProps {
 function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDenunciasRolCargaProps) {
   const { register, watch, handleSubmit, setValue, formState: { errors } } = useForm();
 
-  // Modal de búsqueda de víctima
-  const [openModalVictima, setOpenModalVictima] = useState(false);
-  // Modal de búsqueda de victimario
-  const [openModalVictimario, setOpenModalVictimario] = useState(false);
-  // Modal de búsqueda de tercero
-  const [openModalTercero, setOpenModalTercero] = useState(false);
-  // Datos de la víctima a cargar
-  const [victimaCargar, setVictimaCargar] = useState(null);
-  // Datos del victimario a cargar
-  const [victimarioCargar, setVictimarioCargar] = useState(null);
-  // Datos del tercero a cargar
-  const [terceroCargar, setTerceroCargar] = useState(null);
-  // Actualizar víctima	
-  
+  const {
+    openModalVictima,
+    openModalVictimario,
+    openModalTercero,
+    victimaCargar,
+    victimarioCargar,
+    terceroCargar,
+    setOpenModalVictima,
+    setOpenModalVictimario,
+    setOpenModalTercero,
+    setVictimaCargar,
+    setVictimarioCargar,
+    setTerceroCargar,
+  } = useStore();
+
+
   return (
     <div className='h-screen sm:h-full p-2 sm:p-10'>
       <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>
@@ -145,7 +149,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
             {!victimaCargar ? // Si no hay datos de la víctima a cargar, mostrar el formulario de carga
               <CargarVictima watch={watch} register={register} setValue={setValue} errors={errors} />
               : // Si hay datos de la víctima a cargar, mostrar el formulario de edición
-              <EditVictima watch={watch} existente={true} md={true} datos={victimaCargar}register={register} setValue={setValue} errors={errors} />
+              <EditVictimaExistente watch={watch} existente={true} md={true} datos={victimaCargar} register={register} setValue={setValue} errors={errors} />
             }
           </div>
           {/* Haz una linea gris que divida, pero que solo salga a la mitad como los demás inputs */}
@@ -157,7 +161,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
             {!victimarioCargar ? // Si no hay datos del victimario a cargar, mostrar el formulario de carga
               <CargarVictimario watch={watch} register={register} setValue={setValue} errors={errors} />
               : // Si hay datos del victimario a cargar, mostrar el formulario de edición
-              <EditVictimario existente={true} md={true} datos={victimarioCargar} register={register} setValue={setValue} errors={errors} />
+              <EditVictimario  existente={true} md={true} datos={victimarioCargar} register={register} setValue={setValue} errors={errors} />
             }
           </div>
           <h1 className='text-2xl my-5'>Hecho</h1>

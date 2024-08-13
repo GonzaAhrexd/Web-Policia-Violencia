@@ -188,6 +188,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Lugar del hecho", valor: data.direccion },
         { nombre: "Barrio", valor: data.barrio },
         { nombre: "GIS", valor: data.GIS },
+        { nombre: "Tipo de lugar", valor: data.tipo_de_lugar ? data.tipo_de_lugar : "Sin especificar"},
         { nombre: "Jurisdicción Policial", valor: data.jurisdiccion_policial },
         { nombre: "Cuadrícula", valor: data.cuadricula },
         { nombre: "División Familiar y de Género", valor: data.isDivision },
@@ -218,7 +219,8 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Exclusión de Hogar", valor: data.medida_dispuesta.exclusion_de_hogar },
         { nombre: "Botón antipánico", valor: data.medida_dispuesta.boton_antipanico },
         { nombre: "Solicitud de Aprehensión", valor: data.medida_dispuesta.solicitud_de_aprehension },
-        { nombre: "Expediente con cautelar", valor: data.medida_dispuesta.expedientes_con_cautelar }
+        { nombre: "Expediente con cautelar", valor: data.medida_dispuesta.expedientes_con_cautelar },
+        { nombre: "Ninguna", valor: data.medida_dispuesta.ninguna }
     ]
 
     const detallesObservaciones = [

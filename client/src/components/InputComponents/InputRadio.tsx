@@ -21,12 +21,14 @@ function InputRadio({watch, register, nombre, type, defaultValue, handleChange, 
     // Si se recibe un watch, se asigna el valor a watchRadio
     watch ? watchRadio = watch(nombre) : watchRadio = null
     // UseEffect para asignar el valor al campo
+    
     useEffect(() => {
         if (watchRadio) {
+            console.log(watchRadio)
             handleChange(watchRadio == "Sí")
         }
     }, [watchRadio])
- 
+    
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {opciones.map((opcion: any, index: number) => (
@@ -37,7 +39,7 @@ function InputRadio({watch, register, nombre, type, defaultValue, handleChange, 
                             type={type}
                             id={opcion.id}
                             {...register(nombre)}
-                            value={opcion.nombre}
+                             value={opcion.nombre}
                             defaultChecked={index === defaultValue}
                         />
                     </div>

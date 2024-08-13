@@ -47,20 +47,20 @@ function BuscarDenuncias() {
     const [showExcel, setShowExcel] = useState(false);
     const [hideExcelText, setHideExcelText] = useState(true);
 
-useEffect(() => {
-  // Si hay denuncias a mostrar, prepara para mostrar Excel después de un cooldown
-  if (denunciasAMostrar.length > 0) {
-    // Asegúrate de limpiar el timeout si el componente se desmonta o si denunciasAMostrar cambia
-    const timer = setTimeout(() => {
-      setShowExcel(true);
-    }, 3000); // Ajusta el cooldown a 3000 ms o 3 segundos
+    useEffect(() => {
+        // Si hay denuncias a mostrar, prepara para mostrar Excel después de un cooldown
+        if (denunciasAMostrar?.length > 0) {
+            // Asegúrate de limpiar el timeout si el componente se desmonta o si denunciasAMostrar cambia
+            const timer = setTimeout(() => {
+                setShowExcel(true);
+            }, 3000); // Ajusta el cooldown a 3000 ms o 3 segundos
 
-    return () => clearTimeout(timer); // Limpieza en caso de desmonte o cambio en denunciasAMostrar
-  } else {
-    // Si no hay denuncias a mostrar, no muestres Excel
-    setShowExcel(false);
-  }
-}, [denunciasAMostrar]); // Dependencias: denunciasAMostrar
+            return () => clearTimeout(timer); // Limpieza en caso de desmonte o cambio en denunciasAMostrar
+        } else {
+            // Si no hay denuncias a mostrar, no muestres Excel
+            setShowExcel(false);
+        }
+    }, [denunciasAMostrar]); // Dependencias: denunciasAMostrar
 
 
     return (
@@ -68,6 +68,7 @@ useEffect(() => {
             <form className="w-full flex flex-col items-center"
                 onSubmit={
                     handleSubmit(async (values) => {
+                        console.log(values)
                         // Separa la unidad en division, municipio y comisaria siempre que tenga una , para separar, sino no
                         if (values.unidad) {
                             values.unidad = values.unidad.split(',')
@@ -80,9 +81,9 @@ useEffect(() => {
                     }
                     )}>
                 <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} />
-                <InputRegister busqueda={true}  campo="ID" nombre="id_denuncia" register={register} type="text" error={errors.id_denuncia} require={false}/>
+                <InputRegister busqueda={true} campo="ID" nombre="id_denuncia" register={register} type="text" error={errors.id_denuncia} require={false} />
                 <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
-               
+
                 <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
                     <SelectDivisionMunicipios isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />
                 </div>
@@ -92,8 +93,8 @@ useEffect(() => {
             <div className="flex flex-col w-full">
                 <h2 className='text-2xl my-5'>Denuncias</h2>
                 <div className="w-full flex flex-col items-center my-2">
-                    {((!showExcel ) && (!hideExcelText)) && <p className="text-sm ">Generando Excel...</p>}
-                    {showExcel  && <Excel denunciasAMostrar={denunciasAMostrar}/> }
+                    {((!showExcel) && (!hideExcelText)) && <p className="text-sm ">Generando Excel...</p>}
+                    {showExcel && <Excel denunciasAMostrar={denunciasAMostrar} />}
                 </div>
                 <DataTable
                     columns={columnsDenuncia}

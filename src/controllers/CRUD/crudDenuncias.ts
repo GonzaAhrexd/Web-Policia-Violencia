@@ -29,12 +29,14 @@ export const getDenuncias = async (req, res) => {
     if (desde !== 'no_ingresado') {
         query.fecha = { $gte: desde };
     }
-
+    
+    // Si se ingresó un valor, se agrega a la consulta
     if (hasta !== 'no_ingresado') {
         query.fecha = query.fecha || {};
         query.fecha.$lte = hasta;
     }
 
+    // Si se ingresó un valor, se agrega a la consulta
     if (id_denuncia !== 'no_ingresado') {
         query._id = id_denuncia;
     }
@@ -115,8 +117,8 @@ export const getMisDenuncias = async (req, res) => {
 export const createDenuncia = async (req, res) => {
     try {
         // Obtener los datos de la denuncia
-        const { user_id, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
-            derecho_de_comunicacion, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor } = req.body
+        const { user_id, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
+            derecho_de_comunicacion, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, ninguna} = req.body
         // Buscar si la victima y victimario ya existen        
         const findVictima = await victimas.findOne({ DNI: dni_victima })
         let findVictimario
@@ -147,6 +149,7 @@ export const createDenuncia = async (req, res) => {
             direccion,
             GIS: GIS ? GIS : "No específicado",
             barrio: barrio ? barrio : 'No específicado',
+            tipo_de_lugar: tipo_de_lugar,
             unidad_de_carga,
             municipio,
             jurisdiccion_policial: jurisdiccion_policial ? jurisdiccion_policial : 'No existe',
@@ -183,6 +186,7 @@ export const createDenuncia = async (req, res) => {
                 boton_antipanico: (boton_antipanico_dispuesta !== undefined) ? boton_antipanico_dispuesta : false,
                 solicitud_de_aprehension: (solicitud_de_aprehension_dispuesta !== undefined) ? solicitud_de_aprehension_dispuesta : false,
                 expedientes_con_cautelar: (expedientes_con_cautelar_dispuesta !== undefined) ? expedientes_con_cautelar_dispuesta : false,
+                ninguna: (ninguna !== undefined) ? ninguna : false
             },
             tercero_ID: (denunciado_por_tercero && IdTercero) ? IdTercero : 'Sin tercero',
             vinculo_con_la_victima_tercero:(denunciado_por_tercero && vinculo_con_la_victima) ? vinculo_con_la_victima : 'Sin vínculo',
@@ -245,7 +249,7 @@ export const updateDenuncia = async (req, res) => {
     try {
         //Edita los parametros de la denuncia salvo los id de la victima y victimario
         const { id } = req.params
-        const { nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor,  genero, fecha, direccion, GIS, barrio, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto, aprehension} = req.body
+        const { nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor,  genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto, aprehension, ninguna} = req.body
         // Buscar al tercero si se agregó
          
         let findTercero
@@ -253,7 +257,6 @@ export const updateDenuncia = async (req, res) => {
        /* if(denunciado_por_tercero && tercero_ID !== "Sin tercero"){
             findTercero = await terceros.findById(tercero_ID)
         }*/ 
-
         // Actualiza la denuncia        
         const denunciaUpdated = await denuncia.findByIdAndUpdate(id, {
             victima_nombre: nombre_victima + ' ' + apellido_victima,
@@ -265,6 +268,7 @@ export const updateDenuncia = async (req, res) => {
             direccion,
             GIS,
             barrio,
+            tipo_de_lugar,
             unidad_de_carga,
             municipio,
             jurisdiccion_policial: jurisdiccion_policial,
@@ -303,6 +307,7 @@ export const updateDenuncia = async (req, res) => {
                 boton_antipanico: (boton_antipanico_dispuesta !== undefined) ? boton_antipanico_dispuesta : false,
                 solicitud_de_aprehension: (solicitud_de_aprehension_dispuesta !== undefined) ? solicitud_de_aprehension_dispuesta : false,
                 expedientes_con_cautelar: (expedientes_con_cautelar_dispuesta !== undefined) ? expedientes_con_cautelar_dispuesta : false,
+                ninguna: (ninguna !== undefined) ? ninguna : false
             },
             denunciado_por_tercero: denunciado_por_tercero,
             tercero_ID: (denunciado_por_tercero)? tercero_ID  : ('Sin tercero'),
@@ -330,7 +335,6 @@ export const updateDenuncia = async (req, res) => {
         await terceros.findByIdAndUpdate(tercero_ID, { $push: { denuncias_realizadas: denunciaUpdated?._id } })
         }
         res.json(denunciaUpdated)
-
     } catch (error) {
         console.log(error)
     }

@@ -52,6 +52,13 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
   const [direccion, setDireccion] = useState('')
   const [barrio, setBarrio] = useState('')
 
+  const [isNinguna, setIsNinguna] = useState(false)
+  const [isProhibicion, setIsProhibicion] = useState(false)
+  const [isBoton, setIsBoton] = useState(false)
+  const [isExclusion, setIsExclusion] = useState(false)
+  const [isSolicitud, setIsSolicitud] = useState(false)
+  const [isExpedientes, setIsExpedientes] = useState(false)
+
 
   const consultarCoordenadas = async () => {
     let buscarDir = direccion + "," + barrio + "," + municipio;
@@ -168,14 +175,14 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
         <span className='ml-4 font-medium'> Medida dispuesta por la autoridad judicial</span>
       </div>
       <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-white rounded-md`}>
-        <InputCheckbox campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento_dispuesta" register={register} setValue={setValue} type="checkbox" id="prohibicion_dispuesta" />
-        <InputCheckbox campo="Botón Antipánico" nombre="boton_antipanico_dispuesta" register={register} setValue={setValue} type="checkbox" id="botonAntipanico_dispuesta" />
-        <InputCheckbox campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
-        <InputCheckbox campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue} type="checkbox" id="solicitud_de_aprehension_dispuesta" />
-        <InputCheckbox campo="Expedientes c/cautelar" nombre="expedientes_con_cautelar_dispuesta" register={register} setValue={setValue} type="checkbox" id="expedientes_con_cautelar_dispuesta" />
+        <InputCheckbox setHook={setIsProhibicion} disabled={isNinguna} campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento_dispuesta" register={register} setValue={setValue} type="checkbox" id="prohibicion_dispuesta" />
+        <InputCheckbox setHook={setIsBoton} disabled={isNinguna} campo="Botón Antipánico" nombre="boton_antipanico_dispuesta" register={register} setValue={setValue} type="checkbox" id="botonAntipanico_dispuesta" />
+        <InputCheckbox setHook={setIsExclusion} disabled={isNinguna} campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
+        <InputCheckbox setHook={setIsSolicitud } disabled={isNinguna} campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue} type="checkbox" id="solicitud_de_aprehension_dispuesta" />
+        <InputCheckbox setHook={setIsExpedientes} disabled={isNinguna} campo="Expedientes c/cautelar" nombre="expedientes_con_cautelar_dispuesta" register={register} setValue={setValue} type="checkbox" id="expedientes_con_cautelar_dispuesta" />
+        <InputCheckbox setHook={setIsNinguna} disabled={(isProhibicion || isBoton || isExclusion || isSolicitud || isExpedientes)} campo="Ninguna" nombre="ninguna" register={register} setValue={setValue} type="checkbox" id="ninguna" />
       </div>
           <InputRegister notMid campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} />
-      
       <div className='flex flex-col '>
         <span className='ml-4 font-medium'> Denunciado por tercero</span>
         <div className='flex flex-col md:flex-row'>

@@ -32,6 +32,7 @@ const victimarioSchema = new mongoose.Schema({
     // Definición del DNI del victimario
     DNI: {
         type: String, // Tipo de dato String
+        unique: true, // Campo único
         required: false, // Campo requerido
         trim: true, // Trim para que no se guarden espacios en blanco
         set: function(value: string) { // Función para remplazar los puntos y espacios del DNI

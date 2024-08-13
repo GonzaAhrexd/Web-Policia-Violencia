@@ -28,7 +28,6 @@ function BuscarExistenteModal({  variante, setOpenModal, setVictimaCargar }: Bus
             if (e.key === 'Escape') {
                 // Cerrar el modal
                setOpenModal(false);
-
             }
         };
         // Agregar el evento para cerrar el modal al presionar la tecla escape
@@ -68,7 +67,6 @@ function BuscarExistenteModal({  variante, setOpenModal, setVictimaCargar }: Bus
             result = await buscarTercero(valoresFormateadosTercero);
         }
         setVictimasMostrar([]);
-        
         setVictimasMostrar(result);
     };
     const handleBusqueda = (values: any) => {
@@ -96,9 +94,7 @@ function BuscarExistenteModal({  variante, setOpenModal, setVictimaCargar }: Bus
                 <div className="absolute inset-0 bg-black opacity-50"></div>
                 <div className="bg-white w-9/10 md:w-6/10 h-9/10 rounded p-5 relative overflow-auto">
                     <h2 className="text-2xl mb-4">Buscar {variante} Existente</h2>
-
                     <XCircleIcon onClick={() => setOpenModal(false)} className="cursor-pointer h-10 rounded absolute top-0 right-0 m-2 text-black" />
-
                     <form
                         className="w-full flex flex-col items-center"
                         onSubmit={handleSubmit(onSubmit)}
@@ -137,7 +133,6 @@ function BuscarExistenteModal({  variante, setOpenModal, setVictimaCargar }: Bus
                             ))}
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>

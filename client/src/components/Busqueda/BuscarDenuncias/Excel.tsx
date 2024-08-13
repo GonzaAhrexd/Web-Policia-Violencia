@@ -19,6 +19,7 @@ function Excel({ denunciasAMostrar }: denuncia) {
     año: string,
     GIS: string,
     barrio: string,
+    tipo_de_lugar: string,
     unidad_de_carga: string,
     municipio: string,
     jurisdiccion: string,
@@ -46,8 +47,11 @@ function Excel({ denunciasAMostrar }: denuncia) {
     derecho_comunicación: string,
     boton_antipanico: string,
     prohibicion_de_acercamiento_dispuesta: string,
-    exclusion_de_hogar_dispuesta: string,
     boton_antipanico_dispuesto: string,
+    exclusion_de_hogar_dispuesta: string,
+    solicitud_de_aprehension: string,
+    expedientes_con_cautelar: string,
+    ninguna: string,
     denunciado_por_terceros: string,
     observaciones: string,
     nombre_victima: string,
@@ -85,7 +89,6 @@ function Excel({ denunciasAMostrar }: denuncia) {
     antecedentes_penales_victimario: string,
     antecedentes_contravencionales_victimario: string,
     entrenamiento_en_combate_victimario: string,
-    notificacion_victimario: string,
     cantidad_de_denuncias_realizadas_contra_el_victimario: string,
     tercero_nombre: string,
     tercero_apellido: string,
@@ -122,146 +125,151 @@ function Excel({ denunciasAMostrar }: denuncia) {
       // G1
       barrio: denuncia?.barrio,
       // H1
-      unidad_de_carga: denuncia?.unidad_de_carga,
+      tipo_de_lugar: denuncia?.tipo_de_lugar,
       // I1
-      municipio: denuncia?.municipio,
+      unidad_de_carga: denuncia?.unidad_de_carga,
       // J1
-      jurisdiccion: denuncia?.jurisdiccion_policial,
+      municipio: denuncia?.municipio,
       // K1
-      cuadricula: denuncia?.cuadricula,
+      jurisdiccion: denuncia?.jurisdiccion_policial,
       // L1
-      isDivision: denuncia?.isDivision ? 'Sí' : 'No',
+      cuadricula: denuncia?.cuadricula,
       // M1
-      numero_de_expediente: denuncia?.numero_de_expediente,
+      isDivision: denuncia?.isDivision ? 'Sí' : 'No',
       // N1
-      is_expediente_completo: denuncia?.is_expediente_completo ? 'Sí' : 'No',
+      numero_de_expediente: denuncia?.numero_de_expediente,
       // O1
-      juzgado_interviniente: denuncia?.juzgado_interviniente + " " + denuncia?.juzgado_interviniente_numero,
+      is_expediente_completo: denuncia?.is_expediente_completo ? 'Sí' : 'No',
       // P1
-      dependencia_derivada: denuncia?.dependencia_derivada,
+      juzgado_interviniente: denuncia?.juzgado_interviniente + " " + denuncia?.juzgado_interviniente_numero,
       // Q1
-      violencia: denuncia?.violencia,
+      dependencia_derivada: denuncia?.dependencia_derivada,
       // R1
-      modalidades: denuncia?.modalidades,
+      violencia: denuncia?.violencia,
       // S1
-      violencia_fisica: denuncia?.tipo_de_violencia.Fisica ? "Sí" : "No",
+      modalidades: denuncia?.modalidades,
       // T1
-      violencia_psicologica: denuncia?.tipo_de_violencia.Psicologica ? "Sí" : "No",
+      violencia_fisica: denuncia?.tipo_de_violencia.Fisica ? "Sí" : "No",
       // U1
-      violencia_sexual: denuncia?.tipo_de_violencia.Sexual ? "Sí" : "No",
+      violencia_psicologica: denuncia?.tipo_de_violencia.Psicologica ? "Sí" : "No",
       // V1
-      violencia_economica_y_patrimonial: denuncia?.tipo_de_violencia.Economica_y_patrimonial ? "Sí" : "No",
+      violencia_sexual: denuncia?.tipo_de_violencia.Sexual ? "Sí" : "No",
       // W1
-      violencia_simbolica: denuncia?.tipo_de_violencia.Simbolica ? "Sí" : "No",
+      violencia_economica_y_patrimonial: denuncia?.tipo_de_violencia.Economica_y_patrimonial ? "Sí" : "No",
       // X1
-      violencia_politica: denuncia?.tipo_de_violencia.Politica ? "Sí" : "No",
+      violencia_simbolica: denuncia?.tipo_de_violencia.Simbolica ? "Sí" : "No",
       // Y1
-      empleo_de_armas: denuncia?.empleo_de_armas ? "Sí" : "No",
+      violencia_politica: denuncia?.tipo_de_violencia.Politica ? "Sí" : "No",
       // Z1
-      arma_empleada: denuncia?.arma_empleada,
+      empleo_de_armas: denuncia?.empleo_de_armas ? "Sí" : "No",
       // AA1
-      prohibicion_de_acercamiento: denuncia?.medida.prohibicion_de_acercamiento ? "Sí" : "No",
+      arma_empleada: denuncia?.arma_empleada,
       // AB1
-      restitución_de_menor: denuncia?.medida.restitucion_de_menor ? "Sí" : "No",
+      prohibicion_de_acercamiento: denuncia?.medida.prohibicion_de_acercamiento ? "Sí" : "No",
       // AC1
-      exclusión_hogar: denuncia?.medida.exclusion_de_hogar ? "Sí" : "No",
-      // AD1
-      alimento_provisorio: denuncia?.medida.alimento_provisorio ? "Sí" : "No",
-      // AE1
-      derecho_comunicación: denuncia?.medida.derecho_comunicacion ? "Sí" : "No",
-      // AF1
       boton_antipanico: denuncia?.medida.boton_antipanico ? "Sí" : "No",
+      // AD1
+      restitución_de_menor: denuncia?.medida.restitucion_de_menor ? "Sí" : "No",
+      // AE1
+      exclusión_hogar: denuncia?.medida.exclusion_de_hogar ? "Sí" : "No",
+      // AF1
+      alimento_provisorio: denuncia?.medida.alimento_provisorio ? "Sí" : "No",
       // AG1
-      prohibicion_de_acercamiento_dispuesta: denuncia?.medida_dispuesta.prohibicion_de_acercamiento ? "Sí" : "No",
+      derecho_comunicación: denuncia?.medida.derecho_comunicacion ? "Sí" : "No",
       // AH1
-      exclusion_de_hogar_dispuesta: denuncia?.medida_dispuesta.exclusion_de_hogar ? "Sí" : "No",
+      prohibicion_de_acercamiento_dispuesta: denuncia?.medida_dispuesta.prohibicion_de_acercamiento ? "Sí" : "No",
       // AI1
-      boton_antipanico_dispuesto: denuncia?.medida_dispuesta.boton_antipanico ? "Sí" : "No",
+      exclusion_de_hogar_dispuesta: denuncia?.medida_dispuesta.exclusion_de_hogar ? "Sí" : "No",
       // AJ1
-      denunciado_por_terceros: denuncia?.denunciado_por_tercero ? "Sí" : "No",
+      boton_antipanico_dispuesto: denuncia?.medida_dispuesta.boton_antipanico ? "Sí" : "No",
       // AK1
-      observaciones: denuncia?.observaciones,
+      solicitud_de_aprehension: denuncia?.solicitud_de_aprehension ? "Sí" : "No",
       // AL1
-      nombre_victima: victima?.nombre,
+      expedientes_con_cautelar: denuncia?.expedientes_con_cautelar ? "Sí" : "No",
       // AM1
-      apellido_victima: victima?.apellido,
+      ninguna: denuncia?.ninguna ? "Sí" : "No",
+      denunciado_por_terceros: denuncia?.denunciado_por_tercero ? "Sí" : "No",
       // AN1
-      edad_victima: victima?.edad,
+      observaciones: denuncia?.observaciones,
       // AO1
-      dni_victima: victima?.DNI,
+      nombre_victima: victima?.nombre,
       // AP1
-      estado_civil_victima: victima?.estado_civil,
+      apellido_victima: victima?.apellido,
       // AQ1
-      ocupacion_victima: victima?.ocupacion,
+      edad_victima: victima?.edad,
       // AR1
-      vinculo_con_agresor_victima: denuncia?.relacion_victima_victimario,
+      dni_victima: victima?.DNI,
       // AS1
-      condicion_de_vulnerabilidad_victima: victima?.condicion_de_vulnerabilidad ? "Sí" : "No",
+      estado_civil_victima: victima?.estado_civil,
       // AT1
-      embarazo_victima: victima?.condiciones_de_vulnerabilidad.embarazo ? "Sí" : "No",
+      ocupacion_victima: victima?.ocupacion,
       // AU1
-      periodo_post_parto_victima: victima?.condiciones_de_vulnerabilidad.post_parto ? "Sí" : "No",
+      vinculo_con_agresor_victima: denuncia?.relacion_victima_victimario,
       // AV1
-      periodo_de_lactancia_victima: victima?.condiciones_de_vulnerabilidad.lactancia ? "Sí" : "No",
+      condicion_de_vulnerabilidad_victima: victima?.condicion_de_vulnerabilidad ? "Sí" : "No",
       // AW1
-      discapacidad_victima: victima?.condiciones_de_vulnerabilidad.discapacidad ? "Sí" : "No",
+      embarazo_victima: victima?.condiciones_de_vulnerabilidad.embarazo ? "Sí" : "No",
       // AX1
-      enfermedad_cronica_victima: victima?.condiciones_de_vulnerabilidad.enfermedad_cronica ? "Sí" : "No",
+      periodo_post_parto_victima: victima?.condiciones_de_vulnerabilidad.post_parto ? "Sí" : "No",
       // AY1
-      adulto_mayor_victima: victima?.condiciones_de_vulnerabilidad.adulto_mayor ? "Sí" : "No",
+      periodo_de_lactancia_victima: victima?.condiciones_de_vulnerabilidad.lactancia ? "Sí" : "No",
       // AZ1
-      menor_de_edad_victima: victima?.condiciones_de_vulnerabilidad.menor_de_edad ? "Sí" : "No",
+      discapacidad_victima: victima?.condiciones_de_vulnerabilidad.discapacidad ? "Sí" : "No",
       // BA1
-      tratamiento_psicologico_victima: victima?.condiciones_de_vulnerabilidad.tratamiento_psicologico ? "Sí" : "No",
+      enfermedad_cronica_victima: victima?.condiciones_de_vulnerabilidad.enfermedad_cronica ? "Sí" : "No",
       // BB1
-      convivencia_victima: victima?.convivencia ? "Sí" : "No",
+      adulto_mayor_victima: victima?.condiciones_de_vulnerabilidad.adulto_mayor ? "Sí" : "No",
       // BC1
-      cantidad_de_denuncias_realizadas_por_la_victima: victima?.denuncias_realizadas?.length,
+      menor_de_edad_victima: victima?.condiciones_de_vulnerabilidad.menor_de_edad ? "Sí" : "No",
       // BD1
-      tiene_hijos: victima?.hijos.tiene_hijos ? "Sí" : "No",
+      tratamiento_psicologico_victima: victima?.condiciones_de_vulnerabilidad.tratamiento_psicologico ? "Sí" : "No",
       // BE1
-      dependencia_economica: victima?.hijos.dependencia_economica ? "Sí" : "No",
+      convivencia_victima: victima?.convivencia ? "Sí" : "No",
       // BF1
-      mayores_de_edad: victima?.hijos.mayores_de_edad ? "Sí" : "No",
+      cantidad_de_denuncias_realizadas_por_la_victima: victima?.denuncias_realizadas?.length,
       // BG1
-      menores_de_edad: victima?.hijos.menores_de_edad ? "Sí" : "No",
+      tiene_hijos: victima?.hijos.tiene_hijos ? "Sí" : "No",
       // BH1
-      menores_discapacitados: victima?.hijos.menores_discapacitados ? "Sí" : "No",
+      dependencia_economica: victima?.hijos.dependencia_economica ? "Sí" : "No",
       // BI1
-      hijos_con_el_agresor: denuncia?.hijos_victima_con_victimario,
+      mayores_de_edad: victima?.hijos.mayores_de_edad ? "Sí" : "No",
       // BJ1
-      nombre_victimario: victimario?.nombre,
+      menores_de_edad: victima?.hijos.menores_de_edad ? "Sí" : "No",
       // BK1
-      apellido_victimario: victimario?.apellido,
+      menores_discapacitados: victima?.hijos.menores_discapacitados ? "Sí" : "No",
       // BL1
-      edad_victimario: victimario?.edad,
+      hijos_con_el_agresor: denuncia?.hijos_victima_con_victimario,
       // BM1
-      dni_victimario: victimario?.DNI,
+      nombre_victimario: victimario?.nombre,
       // BN1
-      estado_civil_victimario: victimario?.estado_civil,
+      apellido_victimario: victimario?.apellido,
       // BO1
-      ocupacion_victimario: victimario?.ocupacion,
+      edad_victimario: victimario?.edad,
       // BP1
-      abuso_de_alcohol_victimario: victimario?.abuso_de_alcohol ? "Sí" : "No",
+      dni_victimario: victimario?.DNI,
       // BQ1
-      antecedentes_toxicologicos_victimario: victimario?.antecedentes_toxicologicos ? "Sí" : "No",
+      estado_civil_victimario: victimario?.estado_civil,
       // BR1
-      antecedentes_penales_victimario: victimario?.antecedentes_penales ? "Sí" : "No",
+      ocupacion_victimario: victimario?.ocupacion,
       // BS1
-      antecedentes_contravencionales_victimario: victimario?.antecedentes_contravencionales ? "Sí" : "No",
+      abuso_de_alcohol_victimario: victimario?.abuso_de_alcohol ? "Sí" : "No",
       // BT1
-      entrenamiento_en_combate_victimario: victimario?.entrenamiento_en_combate ? "Sí" : "No",
+      antecedentes_toxicologicos_victimario: victimario?.antecedentes_toxicologicos ? "Sí" : "No",
       // BU1
-      notificacion_victimario: denuncia?.medida_dispuesta.notificacion,
+      antecedentes_penales_victimario: victimario?.antecedentes_penales ? "Sí" : "No",
       // BV1
-      cantidad_de_denuncias_realizadas_contra_el_victimario: victimario?.denuncias_en_contra?.length,
+      antecedentes_contravencionales_victimario: victimario?.antecedentes_contravencionales ? "Sí" : "No",
       // BW1
-      tercero_nombre: tercero?.nombre ? tercero?.nombre : 'No hay tercero',
+      entrenamiento_en_combate_victimario: victimario?.entrenamiento_en_combate ? "Sí" : "No",
       // BX1
-      tercero_apellido: tercero?.apellido ? tercero?.apellido : 'No hay tercero',
+      cantidad_de_denuncias_realizadas_contra_el_victimario: victimario?.denuncias_en_contra?.length,
       // BY1
-      tercero_dni: tercero?.DNI ? tercero?.DNI : 'No hay tercero',
+      tercero_nombre: tercero?.nombre ? tercero?.nombre : 'No hay tercero',
       // BZ1
+      tercero_apellido: tercero?.apellido ? tercero?.apellido : 'No hay tercero',
+      // CA1
+      tercero_dni: tercero?.DNI ? tercero?.DNI : 'No hay tercero',
+      // CB1
       tercero_vinculo_con_victima: denuncia?.vinculo_con_la_victima_tercero ? denuncia?.vinculo_con_la_victima_tercero : 'No hay tercero',
     });
   });
@@ -358,6 +366,7 @@ function Excel({ denunciasAMostrar }: denuncia) {
     hoja['E1'] = { v: 'Dirección', t: 's' };
     hoja['F1'] = { v: 'GIS', t: 's' };
     hoja['G1'] = { v: 'Barrio', t: 's' };
+    hoja['H1'] = { v: 'Tipo de lugar', t: 's' };
     hoja['H1'] = { v: 'Unidad de carga', t: 's' };
     hoja['I1'] = { v: 'Municipio', t: 's' };
     hoja['J1'] = { v: 'Jurisdicción policial', t: 's' };
@@ -384,61 +393,59 @@ function Excel({ denunciasAMostrar }: denuncia) {
     hoja['AE1'] = { v: 'Derecho a la comunicación', t: 's' };
     hoja['AF1'] = { v: 'Botón antipánico', t: 's' };
     hoja['AG1'] = {v: 'Prohibición de acercamiento dispuesta', t: 's'};
-    hoja['AH1'] = {v: 'Exclusión del hogar dispuesta', t: 's'};
-    hoja['AI1'] = {v: 'Botón antipánico dispuesto', t: 's'};
-    hoja['AJ1'] = { v: 'Denunciado por terceros', t: 's' };
-    hoja['AK1'] = { v: 'Observaciones', t: 's' };
-    hoja['AL1'] = { v: 'Nombre de la víctima', t: 's' };
-    hoja['AM1'] = { v: 'Apellido de la víctima', t: 's' };
-    hoja['AN1'] = { v: 'Edad de la víctima', t: 's' };
-    hoja['AO1'] = { v: 'DNI de la víctima', t: 's' };
-    hoja['AP1'] = { v: 'Estado civil de la víctima', t: 's' };
-    hoja['AQ1'] = { v: 'Ocupación de la víctima', t: 's' };
-    hoja['AR1'] = { v: 'Vínculo con el agresor de la víctima', t: 's' };
-    hoja['AS1'] = { v: 'Condición de vulnerabilidad de la víctima', t: 's' };
-    hoja['AT1'] = { v: 'Embarazo', t: 's' };
-    hoja['AU1'] = { v: 'Post parto', t: 's' };
-    hoja['AV1'] = { v: 'Lactancia', t: 's' };
-    hoja['AW1'] = { v: 'Discapacidad', t: 's' };
-    hoja['AX1'] = { v: 'Enfermedad crónica', t: 's' };
-    hoja['AY1'] = { v: 'Adulto mayor', t: 's' };
-    hoja['AZ1'] = { v: 'Menor de edad', t: 's' };
-    hoja['BA1'] = { v: 'Tratamiento psicológico', t: 's' };
-    hoja['BB1'] = { v: 'Convivencia de la víctima', t: 's' };
-    hoja['BC1'] = { v: 'Cantidad de denuncias previas', t: 's' };
-    hoja['BD1'] = { v: 'Tiene hijos', t: 's' };
-    hoja['BE1'] = { v: 'Dependencia económica', t: 's' };
-    hoja['BF1'] = { v: 'Mayores de edad', t: 's' };
-    hoja['BG1'] = { v: 'Menores de edad', t: 's' };
-    hoja['BH1'] = { v: 'Menores discapacitados', t: 's' };
-    hoja['BI1'] = { v: 'Hijos con el agresor', t: 's' };
-    hoja['BJ1'] = { v: 'Nombre del victimario', t: 's' };
-    hoja['BK1'] = { v: 'Apellido del victimario', t: 's' };
-    hoja['BL1'] = { v: 'Edad del victimario', t: 's' };
-    hoja['BM1'] = { v: 'DNI del victimario', t: 's' };
-    hoja['BN1'] = { v: 'Estado civil del victimario', t: 's' };
-    hoja['BO1'] = { v: 'Ocupación del victimario', t: 's' };
-    hoja['BP1'] = { v: 'Abuso de alcohol del victimario', t: 's' };
-    hoja['BQ1'] = { v: 'Antecedentes toxicológicos del victimario', t: 's' };
-    hoja['BR1'] = { v: 'Antecedentes penales del victimario', t: 's' };
-    hoja['BS1'] = { v: 'Antecedentes contravencionales del victimario', t: 's' };
-    hoja['BT1'] = { v: 'Entrenamiento en combate del victimario', t: 's' };
-    hoja['BU1'] = { v: 'Notificación del victimario', t: 's' };
-    hoja['BV1'] = { v: 'Denuncias previas en contra', t: 's' };
-    hoja['BW1'] = { v: 'Nombre del tercero', t: 's' };
-    hoja['BX1'] = { v: 'Apellido del tercero', t: 's' };
-    hoja['BY1'] = { v: 'DNI del tercero', t: 's' };
-    hoja['BZ1'] = { v: 'Vínculo del tercero con la víctima', t: 's' };
+    hoja['AH1'] = {v: 'Botón antipánico dispuesto', t: 's'};
+    hoja['AI1'] = {v: 'Exclusión del hogar dispuesta', t: 's'};
+    hoja['AJ1'] = {v: 'Solicitud de Aprehensión', t: 's'};
+    hoja['AK1'] = {v: 'Expedientes c/cautelar', t: 's'};
+    hoja['AL1'] = { v: 'Ninguna', t: 's' };
+    hoja['AM1'] = { v: 'Denunciado por terceros', t: 's' };
+    hoja['AN1'] = { v: 'Observaciones', t: 's' };
+    hoja['AO1'] = { v: 'Nombre de la víctima', t: 's' };
+    hoja['AP1'] = { v: 'Apellido de la víctima', t: 's' };
+    hoja['AQ1'] = { v: 'Edad de la víctima', t: 's' };
+    hoja['AR1'] = { v: 'DNI de la víctima', t: 's' };
+    hoja['AS1'] = { v: 'Estado civil de la víctima', t: 's' };
+    hoja['AT1'] = { v: 'Ocupación de la víctima', t: 's' };
+    hoja['AU1'] = { v: 'Vínculo con el agresor de la víctima', t: 's' };
+    hoja['AV1'] = { v: 'Condición de vulnerabilidad de la víctima', t: 's' };
+    hoja['AW1'] = { v: 'Embarazo', t: 's' };
+    hoja['AX1'] = { v: 'Post parto', t: 's' };
+    hoja['AY1'] = { v: 'Lactancia', t: 's' };
+    hoja['AZ1'] = { v: 'Discapacidad', t: 's' };
+    hoja['BA1'] = { v: 'Enfermedad crónica', t: 's' };
+    hoja['BB1'] = { v: 'Adulto mayor', t: 's' };
+    hoja['BC1'] = { v: 'Menor de edad', t: 's' };
+    hoja['BD1'] = { v: 'Tratamiento psicológico', t: 's' };
+    hoja['BE1'] = { v: 'Convivencia de la víctima', t: 's' };
+    hoja['BF1'] = { v: 'Cantidad de denuncias previas', t: 's' };
+    hoja['BG1'] = { v: 'Tiene hijos', t: 's' };
+    hoja['BH1'] = { v: 'Dependencia económica', t: 's' };
+    hoja['BI1'] = { v: 'Mayores de edad', t: 's' };
+    hoja['BJ1'] = { v: 'Menores de edad', t: 's' };
+    hoja['BK1'] = { v: 'Menores discapacitados', t: 's' };
+    hoja['BL1'] = { v: 'Hijos con el agresor', t: 's' };
+    hoja['BM1'] = { v: 'Nombre del victimario', t: 's' };
+    hoja['BN1'] = { v: 'Apellido del victimario', t: 's' };
+    hoja['BO1'] = { v: 'Edad del victimario', t: 's' };
+    hoja['BP1'] = { v: 'DNI del victimario', t: 's' };
+    hoja['BQ1'] = { v: 'Estado civil del victimario', t: 's' };
+    hoja['BR1'] = { v: 'Ocupación del victimario', t: 's' };
+    hoja['BS1'] = { v: 'Abuso de alcohol del victimario', t: 's' };
+    hoja['BT1'] = { v: 'Antecedentes toxicológicos del victimario', t: 's' };
+    hoja['BU1'] = { v: 'Antecedentes penales del victimario', t: 's' };
+    hoja['BV1'] = { v: 'Antecedentes contravencionales del victimario', t: 's' };
+    hoja['BW1'] = { v: 'Entrenamiento en combate del victimario', t: 's' };
+    hoja['BX1'] = { v: 'Denuncias previas en contra', t: 's' };
+    hoja['BY1'] = { v: 'Nombre del tercero', t: 's' };
+    hoja['BZ1'] = { v: 'Apellido del tercero', t: 's' };
+    hoja['CA1'] = { v: 'DNI del tercero', t: 's' };
+    hoja['CB1'] = { v: 'Vínculo del tercero con la víctima', t: 's' };
     
     // Crear un libro de trabajo y agregar la hoja de cálculo
     const libro = utils.book_new();
     utils.book_append_sheet(libro, hoja, 'Denuncias');
-
     // Escribir el libro de trabajo a un archivo Excel
     writeFile(libro, 'denuncias.xlsx');
-
-
-    
   };
 
   return (

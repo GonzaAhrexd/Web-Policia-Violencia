@@ -66,7 +66,13 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
   const [direccion, setDireccion] = useState('')
   const [modificarDatosGeograficos, setModificarDatosGeograficos] = useState(false)
   const [barrio, setBarrio] = useState('')
-
+  const [isNinguna, setIsNinguna] = useState(datos.medida_dispuesta.ninguna)
+  const [isProhibicion, setIsProhibicion] = useState(datos.medida_dispuesta.prohibicion_de_acercamiento)
+  const [isBoton, setIsBoton] = useState(datos.medida_dispuesta.boton_antipanico)
+  const [isExclusion, setIsExclusion] = useState(datos.medida_dispuesta.exclusion_de_hogar)
+  const [isSolicitud, setIsSolicitud] = useState(datos.medida_dispuesta.solicitud_de_aprehension)
+  const [isExpedientes, setIsExpedientes] = useState(datos.medida_dispuesta.expedientes_con_cautelar)
+        
   
   // Función para consultar las coordenadas
   const consultarCoordenadas = async () => {
@@ -196,11 +202,12 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
         <span className='ml-4 font-medium'> Medida dispuesta por la autoridad judicial</span>
       </div>
       <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-white rounded-md`}>
-        <InputCheckbox state={datos.medida_dispuesta.prohibicion_de_acercamiento } campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento_dispuesta" register={register} setValue={setValue} type="checkbox" id="prohibicion_dispuesta" />
-        <InputCheckbox state={datos.medida_dispuesta.boton_antipanico } campo="Botón Antipánico" nombre="boton_antipanico_dispuesta" register={register} setValue={setValue} type="checkbox" id="botonAntipanico_dispuesta" />
-        <InputCheckbox state={datos.medida_dispuesta.exclusion_de_hogar} campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
-        <InputCheckbox state={datos.medida_dispuesta.solicitud_de_aprehension} campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue} type="checkbox" id="solicitud_de_aprehension_dispuesta" />
-        <InputCheckbox state={datos.medida_dispuesta.expedientes_con_cautelar} campo="Expedientes c/cautelar" nombre="expedientes_con_cautelar_dispuesta" register={register} setValue={setValue} type="checkbox" id="expedientes_con_cautelar_dispuesta" />
+        <InputCheckbox setHook={setIsProhibicion} disabled={isNinguna} state={datos.medida_dispuesta.prohibicion_de_acercamiento } campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento_dispuesta" register={register} setValue={setValue} type="checkbox" id="prohibicion_dispuesta" />
+        <InputCheckbox setHook={setIsBoton} disabled={isNinguna} state={datos.medida_dispuesta.boton_antipanico } campo="Botón Antipánico" nombre="boton_antipanico_dispuesta" register={register} setValue={setValue} type="checkbox" id="botonAntipanico_dispuesta" />
+        <InputCheckbox setHook={setIsExclusion} disabled={isNinguna} state={datos.medida_dispuesta.exclusion_de_hogar} campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
+        <InputCheckbox setHook={setIsSolicitud} disabled={isNinguna} state={datos.medida_dispuesta.solicitud_de_aprehension} campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue} type="checkbox" id="solicitud_de_aprehension_dispuesta" />
+        <InputCheckbox setHook={setIsExpedientes} disabled={isNinguna} state={datos.medida_dispuesta.expedientes_con_cautelar} campo="Expedientes c/cautelar" nombre="expedientes_con_cautelar_dispuesta" register={register} setValue={setValue} type="checkbox" id="expedientes_con_cautelar_dispuesta" />
+        <InputCheckbox setHook={setIsNinguna} disabled={(isProhibicion || isBoton || isExclusion || isSolicitud || isExpedientes)} state={datos.medida_dispuesta.ninguna} campo="Ninguna" nombre="ninguna" register={register} setValue={setValue} type="checkbox" id="ninguna" />
       </div>
      
       <div className='flex flex-col '>

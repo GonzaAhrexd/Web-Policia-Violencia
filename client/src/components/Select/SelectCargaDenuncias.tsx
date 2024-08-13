@@ -4,13 +4,13 @@
 */
 // Hooks
 import { useEffect, useState } from 'react'
-
 // Componentes
 import InputDireccion from '../InputComponents/InputDireccion';
-
 // Iconos
 import { QuestionMarkCircleIcon, MapPinIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+// Campos
+import { opcionesTipoDeLugar } from '../../GlobalConst/opcionesTipoDeLugar';
 
 interface Opcion {
     value?: string;
@@ -48,7 +48,7 @@ interface Props {
 
 
 function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, barrio, setBarrio, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, setComisariaPertenece, state, info, setTitulo }: Props) {
-    
+
     // Estados para guardar las opciones seleccionadas
     const [requiredInput,] = useState(isRequired != null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
@@ -167,6 +167,11 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
         setValue('cuadricula', `${value}`);
     };
 
+    const handleTipoDeLugar = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = event.target.value;
+        setValue('tipo_de_lugar', value);
+    }
+
 
     // Abre una nueva pestaña con las coordenadas en Google Maps
     const handleClick = (coordenadas: any) => {
@@ -234,23 +239,40 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
                 )}
 
                 {selectedSubunidad &&
-
-                    <div className='flex flex-col xl:flex-row'>
-                        <InputDireccion require={true} state={direccion} setState={setDireccion} campo="Lugar del hecho" nombre="direccion" register={register} setValue={setValue} type="text" error={errors.direccion} />
-                        <InputDireccion require={false} state={barrio} setState={setBarrio} campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
-                        <InputDireccion require={true} state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.GIS} />
-                        <div className='cursor-pointer flex flex-col items-center mt-5 md:flex-row'>
-                            <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/2 md:mr-1 flex items-center justify-center' onClick={() => consultarCoordenadas()}>
-                                <MagnifyingGlassIcon className="w-7 h-7" />
+                    <>
+                        <div className='flex flex-col xl:flex-row'>
+                            <InputDireccion require={true} state={direccion} setState={setDireccion} campo="Lugar del hecho" nombre="direccion" register={register} setValue={setValue} type="text" error={errors.direccion} />
+                            <InputDireccion require={false} state={barrio} setState={setBarrio} campo="Barrio" nombre="barrio" register={register} setValue={setValue} type="text" error={errors.barrio} />
+                            <InputDireccion require={true} state={coordenadas} setState={setCoordenadas} campo="GIS" nombre="GIS" register={register} setValue={setValue} type="text" error={errors.GIS} />
+                            <div className='cursor-pointer flex flex-col items-center mt-5 md:flex-row'>
+                                <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/2 md:mr-1 flex items-center justify-center' onClick={() => consultarCoordenadas()}>
+                                    <MagnifyingGlassIcon className="w-7 h-7" />
+                                </div>
+                                <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/2 flex items-center justify-center mt-2 md:mt-0' onClick={() => handleClick(coordenadas)}>
+                                    <MapPinIcon className="w-7 h-7" />
+                                </div>
                             </div>
-                            <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/2 flex items-center justify-center mt-2 md:mt-0' onClick={() => handleClick(coordenadas)}>
-                                <MapPinIcon className="w-7 h-7" />
-                            </div>
+                        </div>
+                        <div>
+                            <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
+                                <span className='ml-4 font-medium '> Tipo de lugar <span className='text-red-500'> </span> </span>
+                                <select
+                                    className=" border open-sans mt-0.5 border-gray-300 rounded-md w-full h-10 xl:h-8/10 mx-2 xl:w-full 2xl:h-10 2xl:w-full"
+                                    name="tipo_de_lugar"
+                                    required={true}
+                                    onChange={handleTipoDeLugar}>
 
+                                    <option value="">Seleccione el tipo de lugar</option>
+                                    {opcionesTipoDeLugar.map((unidad: Opcion) => (
+                                        <option key={unidad.value} value={unidad.value}>
+                                            {unidad.nombre}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
 
-                    </div>
-
+                    </>
                 }
                 {selectedSubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) =>
 
