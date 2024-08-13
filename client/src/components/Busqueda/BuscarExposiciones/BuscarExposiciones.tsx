@@ -28,11 +28,12 @@ function BuscarExposiciones() {
     }
 
     // Obtén el valor actual del número de expediente del formulario
-    const expedienteValue = watch('numero_de_expediente');
-    const idValue = watch("id_denuncia");
-
+    const idValue = watch("id_exposicion");
+    const nombreValue = watch("nombre_victima");
+    const apellidoValue = watch("apellido_victima");
+    const dniValue = watch("dni_victima")
     // Comprueba si el número de expediente está vacío o no
-    const isDateRangeRequired = !expedienteValue && !idValue;
+    const isDateRangeRequired = !idValue && !nombreValue && !apellidoValue && !dniValue;
 
 
     // Iconos para expandir
