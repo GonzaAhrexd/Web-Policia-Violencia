@@ -7,8 +7,7 @@ import { useState } from 'react';
 // Componentes
 import NavBar from '../../components/NavBar'
 import InputDateRange from '../../components/InputComponents/InputDateRange';
-import EstadisticasMunicipios from '../../components/TablasEstadisticas/EstadisticasMunicipios';
-import DenunciasMunicipios from '../../components/Graficos/DenunciasMunicipios';
+import EstadisticasMunicipiosSeccion from '../../components/EstadisticasSecciones/EstadisticasMunicipiosSeccion';
 // API
 import { buscarDenuncias } from '../../api/crud';
 
@@ -17,12 +16,11 @@ function index() {
 
     const { user, isAuthenticated, isLoading } = useAuth();
     const { register, setValue, handleSubmit, formState: {
-        
+
     } } = useForm()
 
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
-    // const [estadisticaMunicipios, setEstadisticaMunicipios] = useState({});
-    const [ estadisticaMunicipios, setEstadisticaMunicipios ] = useState<any>({});
+    const [estadisticaMunicipios, setEstadisticaMunicipios] = useState<any>({});
     const handleBusqueda = async (values: any) => {
         const fetchDenuncias = async () => {
             const result = await buscarDenuncias(values);
@@ -56,9 +54,6 @@ function index() {
         for (const unidad in estadisticas) {
             totales[unidad] = Object.values(estadisticas[unidad]).reduce((acc, curr) => acc + curr, 0);
         }
-
-        console.log('Totales por unidad de carga:', totales);
-        console.log('Estadísticas por municipio:', estadisticas);
         return { estadisticas, totales };
     };
 
@@ -73,41 +68,20 @@ function index() {
             <NavBar user={user} />
             <div className='h-screen sm:h-full p-2 sm:p-10'>
                 <h1 className='text-3xl my-5'>Estadísticas</h1>
-
                 <form className="w-full flex flex-col items-center"
                     onSubmit={
                         handleSubmit(async (values) => {
                             console.log(values.desde)
                             console.log(values.hasta)
-
-                            // setMostrarAlerta("");
                             handleBusqueda(values)
-
-                            // console.log(denunciasAMostrar)
                         }
                         )}>
                     <InputDateRange register={register} setValue={setValue} isRequired={true} />
                     <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
                 </form>
-                {denunciasAMostrar.length > 0 &&
-                    <div className='flex flex-row'>
 
-                        <div className='flex flex-col w-1/2'>
-                            {Object.entries(estadisticaMunicipios.estadisticas).map(([unidad, municipios]) => (
-                                <div key={unidad}>
-                                    <h3 className='text-xl'>{unidad} </h3>
-                                    <div>
-                                        <ul>
-                                            <EstadisticasMunicipios estadisticasTotal={estadisticaMunicipios.totales[unidad]} estadisticasUnidad={unidad} estadisticaMunicipios={municipios} />
-                                        </ul>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className='mt-10 w-5/10'>
-                            <DenunciasMunicipios data={estadisticaMunicipios} />
-                        </div>
-                    </div>
+                {denunciasAMostrar.length > 0 &&
+                    <EstadisticasMunicipiosSeccion denunciasAMostrar={denunciasAMostrar} estadisticaMunicipios={estadisticaMunicipios} />
                 }
 
             </div>

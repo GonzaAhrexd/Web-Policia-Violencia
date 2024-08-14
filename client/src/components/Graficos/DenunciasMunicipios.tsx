@@ -1,36 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar } from 'recharts';
-
+// import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar } from 'recharts';
+import {
+    ComposedChart,
+    Line,
+    Area,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+  } from 'recharts';
+// import { ComposedChart, Line, Area, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, }
 function DenunciasMunicipios({ data }: any) {
     const [chartData, setChartData] = useState<any[]>([]);
 
     useEffect(() => {
+        const { estadisticas } = data;
+
         const transformData = (data: any) => {
-            const result: any[] = [];
-        //     for (const region in data) {
-        //         for (const city in data[region]) {
-        //             result.push({ name: city, value: data[region][city] });
-        //         }
-        //     }
-        //     return result;
-        // };
+            const result = [];
+            for (const region in data) {
+                if (data.hasOwnProperty(region)) {
+                    for (const city in data[region]) {
+                        if (data[region].hasOwnProperty(city)) {
+                            result.push({ name: city, Cantidad: data[region][city] });
+                        }
+                    }
+                }
+            }
+            return result;
+        };
 
-        console.log(data)
+        setChartData(transformData(estadisticas));
+    }, [data]);
 
-        // setChartData(transformData(data));
-        }
-    }, []);
 
     return (
-        <ResponsiveContainer width="100%" aspect={1}>
-            <BarChart width={150} height={40} data={chartData}>
-                <CartesianGrid strokeDasharray="4 1 2" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" fill="#8884d8" />
-            </BarChart>
-        </ResponsiveContainer>
+        <ResponsiveContainer width="100%" height="100%">
+        <ComposedChart
+          layout="vertical"
+          width={500}
+          height={400}
+          data={chartData}
+          margin={{
+            left: 40,
+          }}
+          >
+          <CartesianGrid stroke="#f5f5f5" />
+          <XAxis type="number" />
+          <YAxis dataKey="name" type="category" scale="auto" />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="Cantidad" barSize={15} fill="#413ea0" />
+        </ComposedChart>
+      </ResponsiveContainer>
     );
 }
 
