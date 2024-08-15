@@ -191,7 +191,7 @@ export const createDenuncia = async (req, res) => {
             tercero_ID: (denunciado_por_tercero && IdTercero) ? IdTercero : 'Sin tercero',
             vinculo_con_la_victima_tercero:(denunciado_por_tercero && vinculo_con_la_victima) ? vinculo_con_la_victima : 'Sin vínculo',
             denunciado_por_tercero: denunciado_por_tercero ? denunciado_por_tercero : false,
-            aprehension: (aprehension !== null) ? aprehension : false,
+            aprehension: (aprehension !== null && solicitud_de_aprehension_dispuesta) ? aprehension : false,
             observaciones,
             denunciada_cargada_por: user_id
         })
@@ -312,7 +312,7 @@ export const updateDenuncia = async (req, res) => {
             denunciado_por_tercero: denunciado_por_tercero,
             tercero_ID: (denunciado_por_tercero)? tercero_ID  : ('Sin tercero'),
             vinculo_con_la_victima_tercero: (denunciado_por_tercero) ? vinculo_con_la_victima : 'Sin vínculo',
-            aprehension: aprehension,
+            aprehension: (aprehension !==undefined && solicitud_de_aprehension_dispuesta) ? aprehension : false,
             observaciones: observaciones,
         }, { new: true })
 

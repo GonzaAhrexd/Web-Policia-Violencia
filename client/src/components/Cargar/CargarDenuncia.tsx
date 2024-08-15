@@ -1,5 +1,5 @@
 // Hooks
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 
 // Componentes
@@ -28,6 +28,9 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 
 import Swal from 'sweetalert2'
+
+//Zustand
+import { useStore } from '../../pages/CargarDenuncias/store'
 
 // Props
 interface denunciaProps {
@@ -59,6 +62,14 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
   const [isSolicitud, setIsSolicitud] = useState(false)
   const [isExpedientes, setIsExpedientes] = useState(false)
 
+  const {
+    setSolicitudAprehension,
+  } = useStore();
+
+  useEffect(() => {
+    setSolicitudAprehension(isSolicitud)
+  },[isSolicitud])
+  
 
   const consultarCoordenadas = async () => {
     let buscarDir = direccion + "," + barrio + "," + municipio;

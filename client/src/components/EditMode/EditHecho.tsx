@@ -5,7 +5,7 @@ ______________________________________________________________________________
     de la sección de hecho.
 ______________________________________________________________________________ */
 // Hooks
-import {  useState } from 'react'
+import {  useEffect, useState } from 'react'
 // Campos
 import { generos } from '../../GlobalConst/generosCampos'
 import { unidadCampos } from '../../GlobalConst/unidadCampos'
@@ -39,9 +39,10 @@ interface denunciaProps {
   datos: any
   datosGeograficos: any
   datosTerceros: any
+  setIsSolicitudAprehension: any
 }
 
-function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOpenModal, register, setValue, errors }: denunciaProps) {
+function EditHecho({ setIsSolicitudAprehension, datosTerceros, datosGeograficos, datos, setTitulo, handleOpenModal, register, setValue, errors }: denunciaProps) {
   // Función para dividir el expediente
   const dividirExpediente = (expediente: string) => {
     let division = expediente.split("-")
@@ -73,7 +74,10 @@ function EditHecho({ datosTerceros, datosGeograficos, datos, setTitulo, handleOp
   const [isSolicitud, setIsSolicitud] = useState(datos.medida_dispuesta.solicitud_de_aprehension)
   const [isExpedientes, setIsExpedientes] = useState(datos.medida_dispuesta.expedientes_con_cautelar)
         
-  
+useEffect(() => {
+  setIsSolicitudAprehension(isSolicitud)
+}, [isSolicitud])
+
   // Función para consultar las coordenadas
   const consultarCoordenadas = async () => {
     // Dirección a buscar

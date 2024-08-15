@@ -11,6 +11,7 @@ import EstadisticasMunicipiosSeccion from '../../components/EstadisticasSeccione
 import EstadisticasDivisionesSeccion from '../../components/EstadisticasSecciones/EstadisticasDivisionesSeccion';
 // API
 import { buscarDenuncias } from '../../api/crud';
+import EstadisticasAprehensiones from '../../components/EstadisticasSecciones/EstadisticasAprehensiones';
 
 
 function index() {
@@ -25,12 +26,13 @@ function index() {
     // Estado de estadísticas
     const [ showLocalidadesStats, setShowLocalidadesStats ] = useState(false);
     const [ showDivionesStats, setShowDivionesStats ] = useState(false);
-
+    const [ showAprehensionesStats, setShowAprehensionesStats ] = useState(false);
     // STATS
     // RESET
     const handleReset = () => {
         setShowLocalidadesStats(false)
         setShowDivionesStats(false)
+        setShowAprehensionesStats(false)
     }
     
     const handleLocalidadesStats = () => { 
@@ -41,7 +43,11 @@ function index() {
         handleReset()
         setShowDivionesStats(true)
     }
-
+    
+    const handleAprehensiones = () => {
+        handleReset()
+        setShowAprehensionesStats(true)
+    }
     const handleBusqueda = async (values: any) => {
         const fetchDenuncias = async () => {
             const result = await buscarDenuncias(values);
@@ -52,6 +58,7 @@ function index() {
         console.log(denunciasAMostrar)
     }
 
+    
     if (isLoading) return <h1>Cargando...</h1>
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
     if (user?.rol === "sin_definir") return <Navigate to="/login" replace />
@@ -76,9 +83,12 @@ function index() {
                         <div className='mt-5 flex flex-col md:flex-row '>
                             <button className="m-2 bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10" onClick={()=> handleLocalidadesStats()}>Localidades</button>
                             <button className="m-2 bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10" onClick={()=> handleDivisionesStats()}>Divisiones</button>
+                            <button className="m-2 bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10" onClick={()=> handleAprehensiones()}>Aprehensiones</button>
+
                         </div>
                        { showLocalidadesStats && <EstadisticasMunicipiosSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} /> }
                        { showDivionesStats && <EstadisticasDivisionesSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} /> }
+                       { showAprehensionesStats && <EstadisticasAprehensiones denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}}/>}
                     </>
                 }
             </div>
