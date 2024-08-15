@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from 'react';
-// import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar } from 'recharts';
-import {
-    ComposedChart,
-    Line,
-    Area,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
-    ResponsiveContainer,
-  } from 'recharts';
-// import { ComposedChart, Line, Area, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, }
-function DenunciasMunicipios({ data }: any) {
+import { useState, useEffect } from 'react';
+import { ComposedChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LabelList, ResponsiveContainer } from 'recharts';
+
+type DenunciasMunicipiosProps = {
+    data: any;
+    total: number;
+};
+
+function DenunciasMunicipios({ data, total }: DenunciasMunicipiosProps) {
     const [chartData, setChartData] = useState<any[]>([]);
 
     useEffect(() => {
@@ -53,7 +46,13 @@ function DenunciasMunicipios({ data }: any) {
           <YAxis dataKey="name" type="category" scale="auto" />
           <Tooltip />
           <Legend />
-          <Bar dataKey="Cantidad" barSize={15} fill="#413ea0" />
+          <Bar dataKey="Cantidad" barSize={15} fill="#413ea0">
+          <LabelList
+          dataKey="Cantidad"
+          position="right"
+          formatter={(value: any) => `${((value / total) * 100).toFixed(2)}%`}
+        />
+          </Bar>
         </ComposedChart>
       </ResponsiveContainer>
     );

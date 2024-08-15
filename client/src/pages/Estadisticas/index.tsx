@@ -8,6 +8,7 @@ import { useState } from 'react';
 import NavBar from '../../components/NavBar'
 import InputDateRange from '../../components/InputComponents/InputDateRange';
 import EstadisticasMunicipiosSeccion from '../../components/EstadisticasSecciones/EstadisticasMunicipiosSeccion';
+import EstadisticasDivisionesSeccion from '../../components/EstadisticasSecciones/EstadisticasDivisionesSeccion';
 // API
 import { buscarDenuncias } from '../../api/crud';
 
@@ -20,45 +21,36 @@ function index() {
     } } = useForm()
 
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
-    const [estadisticaMunicipios, setEstadisticaMunicipios] = useState<any>({});
+
+    // Estado de estadísticas
+    const [ showLocalidadesStats, setShowLocalidadesStats ] = useState(false);
+    const [ showDivionesStats, setShowDivionesStats ] = useState(false);
+
+    // STATS
+    // RESET
+    const handleReset = () => {
+        setShowLocalidadesStats(false)
+        setShowDivionesStats(false)
+    }
+    
+    const handleLocalidadesStats = () => { 
+        handleReset()
+        setShowLocalidadesStats(true) 
+    }
+    const handleDivisionesStats = () => {
+        handleReset()
+        setShowDivionesStats(true)
+    }
+
     const handleBusqueda = async (values: any) => {
         const fetchDenuncias = async () => {
             const result = await buscarDenuncias(values);
             setDenunciasAMostrar(result)
-            const nuevasEstadisticas = calcularEstadisticasMunicipio(result);
-            setEstadisticaMunicipios(nuevasEstadisticas);
+            handleLocalidadesStats()
         }
         fetchDenuncias();
         console.log(denunciasAMostrar)
     }
-
-    const calcularEstadisticasMunicipio = (denuncias: any[]) => {
-        const estadisticas: { [unidad_de_carga: string]: { [municipio: string]: number } } = {};
-
-        denuncias.forEach(denuncia => {
-            const { unidad_de_carga, municipio } = denuncia;
-
-            if (!estadisticas[unidad_de_carga]) {
-                estadisticas[unidad_de_carga] = {};
-            }
-
-            if (estadisticas[unidad_de_carga][municipio]) {
-                estadisticas[unidad_de_carga][municipio]++;
-            } else {
-                estadisticas[unidad_de_carga][municipio] = 1;
-            }
-        });
-
-        const totales: { [unidad_de_carga: string]: number } = {};
-
-        for (const unidad in estadisticas) {
-            totales[unidad] = Object.values(estadisticas[unidad]).reduce((acc, curr) => acc + curr, 0);
-        }
-        return { estadisticas, totales };
-    };
-
-
-
 
     if (isLoading) return <h1>Cargando...</h1>
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
@@ -79,11 +71,16 @@ function index() {
                     <InputDateRange register={register} setValue={setValue} isRequired={true} />
                     <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
                 </form>
-
-                {denunciasAMostrar.length > 0 &&
-                    <EstadisticasMunicipiosSeccion denunciasAMostrar={denunciasAMostrar} estadisticaMunicipios={estadisticaMunicipios} />
+                {denunciasAMostrar?.length > 0 &&
+                    <>
+                        <div className='mt-5 flex flex-col md:flex-row '>
+                            <button className="m-2 bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10" onClick={()=> handleLocalidadesStats()}>Localidades</button>
+                            <button className="m-2 bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10" onClick={()=> handleDivisionesStats()}>Divisiones</button>
+                        </div>
+                       { showLocalidadesStats && <EstadisticasMunicipiosSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} /> }
+                       { showDivionesStats && <EstadisticasDivisionesSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} /> }
+                    </>
                 }
-
             </div>
 
 
