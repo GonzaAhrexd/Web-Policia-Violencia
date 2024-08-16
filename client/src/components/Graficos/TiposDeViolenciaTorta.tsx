@@ -15,23 +15,33 @@ function TiposDeViolencia({tipos_de_violencia}: DenunciasDivisionesComisariasTor
   useEffect(() => {
     const data = Object.entries(tipos_de_violencia)
     .filter(([key]) => key !== 'Total')
-    .map(([key, value]) => ({
+    .map(([key, value]) => (
+  
+      {
       name: key,
-      value: value,
+      value: ((value / tipos_de_violencia.Total) * 100) ,
     }));
     setChartData(data);
-
+    const baseHue = 200; // Hue for #0C4A6E
+    const baseSaturation = 85; // Saturation for #0C4A6E
+    const baseLightness = 22; // Lightness for #0C4A6E
     
-    // Generar colores dinámicos
-    const dynamicColors = data.map((_, index) => `hsl(${(index * 360) / data.length}, 70%, 50%)`);
+    const dynamicColors = data.map((_, index) => {
+      const hueVariation = (index * 10) % 360; // Adjust hue slightly for variation
+      const saturationVariation = baseSaturation + (index % 2 === 0 ? 5 : -5); // Slightly vary saturation
+      const lightnessVariation = baseLightness + (index % 2 === 0 ? 5 : -5); // Slightly vary lightness
+      return `hsl(${(baseHue + hueVariation) % 360}, ${saturationVariation}%, ${lightnessVariation}%)`;
+    });
     setColors(dynamicColors);
+    
+    
   }, [tipos_de_violencia]);
 
 
   
   
   return (
-    <ResponsiveContainer width="100%" height="100%" aspect={1} >
+    <ResponsiveContainer width="100%" height="100%" aspect={2} >
 
     <PieChart width={400} height={400}>
       <Pie
@@ -42,7 +52,7 @@ function TiposDeViolencia({tipos_de_violencia}: DenunciasDivisionesComisariasTor
         cy="50%"
         outerRadius={100}
         fill="#8884d8"
-        label
+        label = {({name, value}) => `${name} (${value.toFixed(2)}%)`}
       >
         {/* @ts-ignore */}
         {chartData.map((entry, index) => (

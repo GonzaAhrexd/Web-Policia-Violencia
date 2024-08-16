@@ -62,10 +62,8 @@ function CargarDenuncias() {
           <div className='flex items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-700 text-white font-bold p-2 mx-5 rounded w-full md:w-3/10' onClick={() => handleModoAvanzado()} >{modoAvanzado ? "Modo Avanzado" : "Modo Simple"}</div>
         </div>
       }
-
       {((user.rol === 'carga' || user.rol === 'admin') && modoAvanzado) && <CargarDenunciasRolCarga setTitulo={setTitulo} handleOpenModal={handleOpenModal} user={user} />}
       {(user.rol === "agente" || !modoAvanzado) && <CargarDenunciasRolAgente user={user} />}
-
     </>
   );
 }

@@ -27,15 +27,6 @@ function EstadisticasTiposDeViolencia({ tipos_de_violencia, format }: Estadistic
             )
 
             ))}
-
-                   <div className="flex flex-row items-between justify-between">
-                <div className="flex pl-4 text-base font-medium md:text-xl w-full  md:w-8/10">Total</div>
-                <div className="flex w-4/10 md:w-2/10 break-words break-all	">
-                {tipos_de_violencia.Total}
-                </div>
-                </div> 
-
-
     </div>
   )
 }

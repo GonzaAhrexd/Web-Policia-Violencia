@@ -10,6 +10,7 @@ import InputDateRange from '../../components/InputComponents/InputDateRange';
 import EstadisticasMunicipiosSeccion from '../../components/EstadisticasSecciones/EstadisticasMunicipiosSeccion';
 import EstadisticasDivisionesSeccion from '../../components/EstadisticasSecciones/EstadisticasDivisionesSeccion';
 import EstadisticasTiposDeViolencia from '../../components/EstadisticasSecciones/EstadisticasTiposDeViolencia';
+import Modal from '../../components/Modal';
 // API
 import { buscarDenuncias } from '../../api/crud';
 import EstadisticasAprehensiones from '../../components/EstadisticasSecciones/EstadisticasAprehensiones';
@@ -29,6 +30,9 @@ function index() {
     const [showDivionesStats, setShowDivionesStats] = useState(false);
     const [showAprehensionesStats, setShowAprehensionesStats] = useState(false);
     const [showTipoDeViolencia, setShowTipoDeViolencia] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [texto, setTexto] = useState(['']);
+    const [titulo, setTitulo] = useState('');
     // STATS
     // RESET
     const handleReset = () => {
@@ -68,12 +72,23 @@ function index() {
     }
 
 
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    }
+    
+    const handleOpenModal = (text: string[]) => {
+        setIsModalOpen(true);
+        setTexto(text);
+      };
+    
+
     if (isLoading) return <h1>Cargando...</h1>
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
     if (user?.rol === "sin_definir") return <Navigate to="/login" replace />
     return (
         <>
             <NavBar user={user} />
+            {isModalOpen && <Modal titulo={titulo} texto={texto} onClose={handleCloseModal} />}
             <div className='h-screen sm:h-full p-2 sm:p-10'>
                 <h1 className='text-3xl my-5'>Estadísticas</h1>
                 <form className="w-full flex flex-col items-center"
@@ -103,7 +118,7 @@ function index() {
                         {showLocalidadesStats && <EstadisticasMunicipiosSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                         {showDivionesStats && <EstadisticasDivisionesSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                         {showAprehensionesStats && <EstadisticasAprehensiones denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
-                        {showTipoDeViolencia && <EstadisticasTiposDeViolencia denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {showTipoDeViolencia && <EstadisticasTiposDeViolencia handleOpenModal={handleOpenModal} setTitulo={setTitulo} denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                     </>
                 }
             </div>
