@@ -80,7 +80,6 @@ function EstadisticasAprehensiones({ denunciasAMostrar }: EstadisticasDivisionPr
                 <div className='w-full md:w-5/10'>
                     <EstadisticasAprehensionPorDivision estadisticasAprehensionPorDivision={estadisticasAprehensiones.por_unidad} total={estadisticasAprehensiones.medida_dispuesta_solicitud_de_aprehension} />
                     <AprehensionesPorDivisionGrafico datos={estadisticasAprehensiones.por_unidad} total={estadisticasAprehensiones.medida_dispuesta_solicitud_de_aprehension}/>
-                    {/* <DenunciasDivisiones data={estadisticasAprehensiones} total={ denunciasAMostrar?.length }/> */}
                 </div>
             </div>
         </>

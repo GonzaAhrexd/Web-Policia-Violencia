@@ -44,6 +44,7 @@ function AprehensionesPorDivisionGrafico({datos, total}: AprehensionesPorDivisio
                 <Bar dataKey="Solicitud_de_aprehension" barSize={100} fill="#7773f0" >
                     <LabelList
                         dataKey="Solicitud_de_aprehension"
+                        
                         position="center"
                         fill="#ffffff"
                         formatter={(value: any) => `${((value / total) * 100).toFixed(2)}%`}

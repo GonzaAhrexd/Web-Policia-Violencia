@@ -30,7 +30,7 @@ function DenunciasDivisionesComisariasTorta({comisarias, division}: DenunciasDiv
       };
       
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height="100%" aspect={2} >
     <PieChart width={400} height={400}>
       <Pie
         data={data}
