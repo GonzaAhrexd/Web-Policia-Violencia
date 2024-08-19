@@ -44,7 +44,7 @@ function DenunciasMedidasCautelaresGrafico({estadistica}: DenunciasMedidasCautel
             .filter(key => key !== 'Total')
             .map(key => ({
                 name: formatKey(key),
-                total: estadistica[key]
+                Total: estadistica[key]
             }));
         setChartData(data);
     }, [estadistica]);
@@ -57,8 +57,8 @@ function DenunciasMedidasCautelaresGrafico({estadistica}: DenunciasMedidasCautel
                 <YAxis type="category" dataKey="name" />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="total" barSize={20} fill="#413ea0">
-                    <LabelList dataKey="total" position="right" />
+                <Bar dataKey="Total" barSize={20} fill="#413ea0">
+                    <LabelList dataKey="Total" position="right" />
                 </Bar>
             </BarChart>
         </ResponsiveContainer>

@@ -56,13 +56,12 @@ function EstadisticasModalidades({ handleOpenModal, setTitulo, denunciasAMostrar
 
             <div className='flex flex-col md:flex-row justify-between'>
                 <div className='flex flex-col w-9/10 md:w-4/10'>
-                    <EstadisticasTiposDeViolenciaTabla tipos_de_violencia={estadisticas} format={formatTipoViolencia} />
+                    <EstadisticasTiposDeViolenciaTabla texto="Tipos de violencia" tipos_de_violencia={estadisticas} format={formatTipoViolencia} />
                 </div>
                 <div className='flex flex-col w-9/10 md:w-4/10'>
                     <TiposDeViolenciaTorta tipos_de_violencia={estadisticas} />
                 </div>
             </div>
-
         </>
     )
 }
