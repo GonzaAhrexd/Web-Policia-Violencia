@@ -32,17 +32,11 @@ function TiposDeViolencia({tipos_de_violencia}: DenunciasDivisionesComisariasTor
       const lightnessVariation = baseLightness + (index % 2 === 0 ? 5 : -5); // Slightly vary lightness
       return `hsl(${(baseHue + hueVariation) % 360}, ${saturationVariation}%, ${lightnessVariation}%)`;
     });
-    setColors(dynamicColors);
-    
-    
+    setColors(dynamicColors);    
   }, [tipos_de_violencia]);
-
-
-  
   
   return (
     <ResponsiveContainer width="100%" height="100%" aspect={2} >
-
     <PieChart width={400} height={400}>
       <Pie
         data={chartData}

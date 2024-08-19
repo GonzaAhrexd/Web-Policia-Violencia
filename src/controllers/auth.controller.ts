@@ -87,10 +87,10 @@ export const login = async (req, res) => {
         const token = await createAccessToken({ id: usuarioEncontrado._id })
         res.cookie('token', token, {    
             /* Esto debe estar activado en producción */
-            // domain: '.gonzaloebel.tech',
-            // secure: process.env.NODE_ENV === 'production',
-            // httpOnly: true,
-            // sameSite: 'none', // Permite el envío entre sitios
+            domain: '.gonzaloebel.tech',
+            secure: process.env.NODE_ENV === 'production',
+            httpOnly: true,
+            sameSite: 'none', // Permite el envío entre sitios
             maxAge: 24 * 60 * 60 * 1000       
           });
             //Envio al frontend de los datos del usuario registrado
@@ -120,10 +120,10 @@ export const login = async (req, res) => {
 //Logout 
 export const logout = async (req, res) => {
     res.cookie('token', "", {
-        // domain: '.gonzaloebel.tech',
-        // secure: process.env.NODE_ENV === 'production',
-        // httpOnly: true,
-        // sameSite: 'none', // Permite el envío entre sitios
+        domain: '.gonzaloebel.tech',
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        sameSite: 'none', // Permite el envío entre sitios
         expires: new Date(0)
     })
     return res.sendStatus(200)

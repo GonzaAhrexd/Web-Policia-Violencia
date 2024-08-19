@@ -79,7 +79,6 @@ const EstadisticasTiposDeViolencia = ({ denunciasAMostrar, setTitulo, handleOpen
                 <div className='flex flex-col w-9/10 md:w-4/10'>
                     <TiposDeViolenciaTorta tipos_de_violencia={estadisticas} />
                 </div>
-
             </div>
 
         </>

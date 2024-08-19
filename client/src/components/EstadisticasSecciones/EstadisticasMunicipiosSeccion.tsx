@@ -57,7 +57,7 @@ function EstadisticasMunicipiosSeccion({ denunciasAMostrar }: EstadisticasMunici
   return (
     <>
 
-    <h1 className="text-2xl">Hechos registrados en las localidades de la Provincia del Chaco {"(Total " + denunciasAMostrar?.length + ")"}</h1>
+    <h1 className="text-2xl">Hechos registrados en las localidades de la Provincia del Chaco  {"(Total de " + denunciasAMostrar?.length + " casos)"}</h1>
     <div className='flex flex-col md:flex-row justify-between'>
       <div className='flex flex-col w-9/10 md:w-4/10'>
         {Object?.entries(estadisticaMunicipios?.estadisticas).map(([unidad, municipios]) => (

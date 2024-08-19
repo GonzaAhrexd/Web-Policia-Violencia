@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             // Se establece al usuario en el estado
             setUser(res.data);
             // Guarda el token en las cookies
-            // Cookies.set('token', res.data.token );            // Se establece la autenticación en true
+            Cookies.set('token', res.data.token );            // Se establece la autenticación en true
             setIsAuthenticated(true);
         } catch (error: any) {
             console.log(error)
@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             // Se establece la autenticación en false
             setIsAuthenticated(false);
             // Se establece al usuario en null
-            // Cookies.set('token', "" );            // Se establece la autenticación en true
+            Cookies.set('token', "" );            // Se establece la autenticación en true
             setUser(null);
         } catch (error) {
             console.log(error)
