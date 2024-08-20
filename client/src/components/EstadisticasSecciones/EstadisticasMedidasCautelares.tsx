@@ -83,7 +83,7 @@ function EstadisticasMedidasCautelares({ denunciasAMostrar }: EstadisticasMedida
       <h1 className="text-2xl">Medidas solicitadas en la Provincia del Chaco  {"(Total de " + denunciasAMostrar?.length + " casos)"}</h1>
       <div className='flex flex-col md:flex-row justify-between'>
         <div className='flex flex-col w-9/10 md:w-4/10'>
-          <EstadisticasMedidasCautelaresTabla tipos_de_violencia={estadisticas} format={formatTipoViolencia} />
+          <EstadisticasMedidasCautelaresTabla texto="Medidas solicitadas" tipos_de_violencia={estadisticas} format={formatTipoViolencia} />
         </div>
         <div className='flex flex-col w-9/10 md:w-4/10'>
           <DenunciasMedidasCautelaresGrafico  estadistica={estadisticas}/>
@@ -92,7 +92,7 @@ function EstadisticasMedidasCautelares({ denunciasAMostrar }: EstadisticasMedida
       <h1 className="text-2xl">Medidas dispuestas por autoridad judicial en la Provincia del Chaco  {"(Total de " + denunciasAMostrar?.length + " casos)"}</h1>
       <div className='flex flex-col md:flex-row justify-between'>
         <div className='flex flex-col w-9/10 md:w-4/10'>
-          <EstadisticasMedidasCautelaresTabla tipos_de_violencia={estadisticasMedidasDispuestas} format={formatTipoViolencia} />
+          <EstadisticasMedidasCautelaresTabla texto="Medidas dispuestas" tipos_de_violencia={estadisticasMedidasDispuestas} format={formatTipoViolencia} />
         </div>
         <div className='flex flex-col w-9/10 md:w-4/10'>
           <DenunciasMedidasCautelaresGrafico  estadistica={estadisticasMedidasDispuestas}/>
