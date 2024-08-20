@@ -113,6 +113,8 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "DNI", valor: (victimaDatos?.DNI && victimaDatos?.DNI != "S/N") ? victimaDatos?.DNI : "No especificado" },
         { nombre: "Estado Civil", valor: victimaDatos?.estado_civil ? victimaDatos.estado_civil : "No especificado" },
         { nombre: "Ocupación", valor: victimaDatos?.ocupacion ? victimaDatos.ocupacion : "No especificado" },
+        { nombre: "Convivencia", valor: data?.convivencia && data.convivencia  },
+        { nombre: "Dependencia económica", valor: data?.dependencia_economica && data.dependencia_economica  },
         { nombre: "Vínculo con agresor", valor: data?.relacion_victima_victimario ? data.relacion_victima_victimario : "No especificado" },
         { nombre: "Condición de vulnerabilidad", valor: victimaDatos?.condicion_de_vulnerabilidad ? victimaDatos.condicion_de_vulnerabilidad : "No especificado" },
         { nombre: "Denuncias previas", valor: victimaDatos?.denuncias_realizadas?.length },
@@ -131,7 +133,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
     ]
     // Mostrar datos de los hijos
     const hijosVictima = [
-        { nombre: "Dependencia económica", valor: victimaDatos?.hijos?.dependencia_economica },
         { nombre: "Mayores de edad", valor: victimaDatos?.hijos?.mayores_de_edad },
         { nombre: "Menores de edad", valor: victimaDatos?.hijos?.menores_de_edad },
         { nombre: "Menores discapacitados", valor: victimaDatos?.hijos?.menores_discapacitados },

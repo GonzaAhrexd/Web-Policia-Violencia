@@ -224,13 +224,13 @@ function Excel({ denunciasAMostrar }: denuncia) {
       // BD1
       tratamiento_psicologico_victima: victima?.condiciones_de_vulnerabilidad.tratamiento_psicologico ? "Sí" : "No",
       // BE1
-      convivencia_victima: victima?.convivencia ? "Sí" : "No",
+      convivencia_victima: denuncia?.convivencia ? "Sí" : "No",
       // BF1
-      cantidad_de_denuncias_realizadas_por_la_victima: victima?.denuncias_realizadas?.length,
+      dependencia_economica: denuncia?.dependencia_economica ? "Sí" : "No",
       // BG1
-      tiene_hijos: victima?.hijos.tiene_hijos ? "Sí" : "No",
+      cantidad_de_denuncias_realizadas_por_la_victima: victima?.denuncias_realizadas?.length,
       // BH1
-      dependencia_economica: victima?.hijos.dependencia_economica ? "Sí" : "No",
+      tiene_hijos: victima?.hijos.tiene_hijos ? "Sí" : "No",
       // BI1
       mayores_de_edad: victima?.hijos.mayores_de_edad ? "Sí" : "No",
       // BJ1
@@ -313,51 +313,53 @@ function Excel({ denunciasAMostrar }: denuncia) {
       { wch: 24 }, // Derecho a la comunicación AE1
       { wch: 16 }, // Botón antipánico AF1
       { wch: 34 }, // Prohibición de acercamiento dispuesta AG1
-      { wch: 26 }, // Exclusión del hogar dispuesta AH1
-      { wch: 26 }, // Botón antipánico dispuesto AI1
-      { wch: 20 }, // Denunciado por terceros AJ1
-      { wch: 40 }, // Observaciones AK1
-      { wch: 20 }, // Nombre de la víctima AL1
-      { wch: 20 }, // Apellido de la víctima AM1
-      { wch: 20 }, // Edad de la víctima AN1
-      { wch: 18 }, // DNI de la víctima AO1
-      { wch: 24 }, // Estado civil de la víctima AP1
-      { wch: 22 }, // Ocupación de la víctima AQ1
-      { wch: 32 }, // Vínculo con el agresor de la víctima AR1
-      { wch: 24 }, // Condición de vulnerabilidad de la víctima AS1
-      { wch: 16 }, // Embarazo de la víctima AT1
-      { wch: 24 }, // Post parto de la víctima AU1
-      { wch: 24 }, // Lactancia de la víctima AV1
-      { wch: 24 }, // Discapacidad de la víctima AW1
-      { wch: 24 }, // Enfermedad crónica de la víctima AX1
-      { wch: 20 }, // Adulto mayor de la víctima AY1
-      { wch: 20 }, // Menor de edad de la víctima AZ1
-      { wch: 30 }, // Tratamiento psicológico de la víctima BA1
-      { wch: 22 }, // Convivencia de la víctima BB1
-      { wch: 24 }, // Cantidad de denuncias previas BC1
-      { wch: 12 }, // Tiene hijos BD1
-      { wch: 20 }, // Dependencia económica BE1
-      { wch: 17 }, // Mayores de edad BF1
-      { wch: 20 }, // Menores de edad BG1
-      { wch: 20 }, // Menores discapacitados BH1 
-      { wch: 16 }, // Hijos con el agresor BI1
-      { wch: 18 }, // Nombre del victimario BJ1
-      { wch: 22 }, // Apellido del victimario BK1
-      { wch: 20 }, // Edad del victimario BL1
-      { wch: 28 }, // DNI del victimario BM1
-      { wch: 30 }, // Estado civil del victimario BN1
-      { wch: 28 }, // Ocupación del victimario BO1
-      { wch: 36 }, // Abuso de alcohol del victimario BP1
-      { wch: 36 }, // Antecedentes toxicológicos del victimario BQ1
-      { wch: 26 }, // Antecedentes penales del victimario BR1
-      { wch: 30 }, // Antecedentes contravencionales del victimario BS1
-      { wch: 26 }, // Entrenamiento en combate del victimario BT1
-      { wch: 24 }, // Notificación del victimario BU1
-      { wch: 16 }, // Denuncias previas en contra BV1 
-      { wch: 24 }, // Nombre del tercero BW1
-      { wch: 24 }, // Apellido del tercero BX1
-      { wch: 24 }, // DNI del tercero BY1
-      { wch: 30 }, // Vínculo con la víctima del tercero BZ1
+      { wch: 26 }, // Botón antipánico dispuesto AH1
+      { wch: 26 }, // Exclusión del hogar dispuesta AI1
+      { wch: 26 }, // Solicitud de Aprehensión AJ1
+      { wch: 26 }, // Expedientes c/cautelar AK1
+      { wch: 26 }, // Ninguna AL1
+      { wch: 20 }, // Denunciado por terceros AM1
+      { wch: 40 }, // Observaciones AN1
+      { wch: 20 }, // Nombre de la víctima AO1
+      { wch: 20 }, // Apellido de la víctima AP1
+      { wch: 20 }, // Edad de la víctima AQ1
+      { wch: 18 }, // DNI de la víctima AR1
+      { wch: 24 }, // Estado civil de la víctima AS1
+      { wch: 22 }, // Ocupación de la víctima AT1
+      { wch: 32 }, // Vínculo con el agresor de la víctima AU1
+      { wch: 24 }, // Condición de vulnerabilidad de la víctima AV1
+      { wch: 16 }, // Embarazo de la víctima AW1
+      { wch: 24 }, // Post parto de la víctima AX1
+      { wch: 24 }, // Lactancia de la víctima AY1
+      { wch: 24 }, // Discapacidad de la víctima AZ1
+      { wch: 24 }, // Enfermedad crónica de la víctima BA1
+      { wch: 20 }, // Adulto mayor de la víctima BB1
+      { wch: 20 }, // Menor de edad de la víctima BC1
+      { wch: 30 }, // Tratamiento psicológico de la víctima BD1
+      { wch: 22 }, // Convivencia de la víctima BE1
+      { wch: 20 }, // Dependencia económica BF1
+      { wch: 24 }, // Cantidad de denuncias previas BG1
+      { wch: 12 }, // Tiene hijos BH1
+      { wch: 17 }, // Mayores de edad BI1
+      { wch: 20 }, // Menores de edad BJ1
+      { wch: 20 }, // Menores discapacitados BK1 
+      { wch: 16 }, // Hijos con el agresor BL1
+      { wch: 18 }, // Nombre del victimario BM1
+      { wch: 22 }, // Apellido del victimario BN1
+      { wch: 20 }, // Edad del victimario BO1
+      { wch: 28 }, // DNI del victimario BP1
+      { wch: 30 }, // Estado civil del victimario BQ1
+      { wch: 28 }, // Ocupación del victimario BR1
+      { wch: 36 }, // Abuso de alcohol del victimario BS1
+      { wch: 36 }, // Antecedentes toxicológicos del victimario BT1
+      { wch: 26 }, // Antecedentes penales del victimario BU1
+      { wch: 30 }, // Antecedentes contravencionales del victimario BV1
+      { wch: 26 }, // Entrenamiento en combate del victimario BW1
+      { wch: 16 }, // Denuncias previas en contra BX1 
+      { wch: 24 }, // Nombre del tercero BY1
+      { wch: 24 }, // Apellido del tercero BZ1
+      { wch: 24 }, // DNI del tercero CA1
+      { wch: 30 }, // Vínculo con la víctima del tercero CB1
     ];
     hoja['A1'] = { v: 'ID', t: 's' };
     hoja['B1'] = { v: 'Fecha', t: 's' };
@@ -416,10 +418,10 @@ function Excel({ denunciasAMostrar }: denuncia) {
     hoja['BB1'] = { v: 'Adulto mayor', t: 's' };
     hoja['BC1'] = { v: 'Menor de edad', t: 's' };
     hoja['BD1'] = { v: 'Tratamiento psicológico', t: 's' };
-    hoja['BE1'] = { v: 'Convivencia de la víctima', t: 's' };
-    hoja['BF1'] = { v: 'Cantidad de denuncias previas', t: 's' };
-    hoja['BG1'] = { v: 'Tiene hijos', t: 's' };
-    hoja['BH1'] = { v: 'Dependencia económica', t: 's' };
+    hoja['BE1'] = { v: 'Convivencia', t: 's' };
+    hoja['BF1'] = { v: 'Dependencia económica', t: 's' };
+    hoja['BG1'] = { v: 'Cantidad de denuncias previas', t: 's' };
+    hoja['BH1'] = { v: 'Tiene hijos', t: 's' };
     hoja['BI1'] = { v: 'Mayores de edad', t: 's' };
     hoja['BJ1'] = { v: 'Menores de edad', t: 's' };
     hoja['BK1'] = { v: 'Menores discapacitados', t: 's' };

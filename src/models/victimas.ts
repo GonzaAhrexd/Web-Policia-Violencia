@@ -107,24 +107,13 @@ const victimasSchema = new mongoose.Schema({
             default: false // Valor por defecto
         },
     },
-    // Definición de la convivencia con el agresor
-    convivencia: {
-        type: Boolean, // Tipo de dato Boolean
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
+   
     // Definición de parametros relacionados a hijos
     hijos: {
         tiene_hijos: { // Definición de si la victima tiene hijos
             type: Boolean, // Tipo de dato Boolean
             required: true, // Campo requerido
             trim: true, // Trim para que no se guarden espacios en blanco
-        },
-        dependencia_economica: {
-            type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
-            trim: true, // Trim para que no se guarden espacios en blanco
-            default: false // Valor por defecto
         },
         mayores_de_edad: {
             type: Boolean, // Tipo de dato Boolean

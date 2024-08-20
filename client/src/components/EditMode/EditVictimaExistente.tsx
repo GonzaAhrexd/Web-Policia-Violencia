@@ -19,7 +19,7 @@ import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
 import { vinculo } from '../../GlobalConst/vinculoCampos'
 
 import { useStore } from '../../pages/CargarDenuncias/store'
- 
+
 // Props
 interface CargarVictimaProps {
     datos: any;
@@ -38,9 +38,9 @@ interface CargarVictimaProps {
 }
 
 function EditVictimaExistente({ watch, editarConDenuncia, existente, hijos_con_agresor, cantidad_hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
-    
+
     const { victimaCargar } = useStore()
-    
+
     // Estados
     const [isHijos, setIsHijos] = useState(victimaCargar.tiene_hijos)
     const [isHijosConAgresor, setIsHijosConAgresor] = useState(hijos_con_agresor ? hijos_con_agresor > 0 : false)
@@ -61,7 +61,7 @@ function EditVictimaExistente({ watch, editarConDenuncia, existente, hijos_con_a
         console.log(isCondicionVulnerabilidad)
         console.log(isAdultoMayor)
         console.log(isMenorEdad)
-        
+
         setTimeout(() => {
             console.log(isHijos)
             setIsHijos(datos.hijos.tiene_hijos)
@@ -88,6 +88,10 @@ function EditVictimaExistente({ watch, editarConDenuncia, existente, hijos_con_a
         { nombre: 'No', value: 'no', id: "no_hijos" },
     ]
 
+    const opcionesDependenciaEconomica = [
+        { nombre: 'Sí', value: 'si', id: "si_dependencia_economica" },
+        { nombre: 'No', value: 'no', id: "no_dependencia_economica" },
+    ]
     return (
         <div key={datos._id} className={`w-full ${md && "lg:w-6/10"}`}>
             {!existente && <h1 className='text-2xl my-5'>Víctima</h1>}
@@ -125,8 +129,12 @@ function EditVictimaExistente({ watch, editarConDenuncia, existente, hijos_con_a
                 }
             </div>
             <div className='flex flex-col my-2'>
-                <span className='ml-4 font-medium'>Convivencia</span>
-                <InputRadio key={datos._id} campo="convivencia" nombre="convivencia" register={register} type="radio" opciones={opcionesConvivencia} defaultValue={datos.convivencia ? 0 : 1} />
+                <span className='ml-4 font-medium'>¿Comparten vivienda?</span>
+                <InputRadio campo="convivencia" nombre="convivencia" register={register} type="radio" opciones={opcionesConvivencia} defaultValue={1} />
+            </div>
+            <div className='flex flex-col my-2'>
+                <span className='ml-4 font-medium'>¿Hay Dependencia económica?</span>
+                <InputRadio campo="dependencia_economica" nombre="dependencia_economica" register={register} type="radio" opciones={opcionesDependenciaEconomica} defaultValue={1} />
             </div>
             <div className='flex flex-col my-2'>
                 <span className='ml-4 font-medium'>Hijos</span>

@@ -50,6 +50,10 @@ function CargarVictima({watch, register, setValue, errors }: CargarVictimaProps)
     { nombre: 'No', value: 'no', id: "no_hijos" },
   ]
 
+  const opcionesDependenciaEconomica = [
+    { nombre: 'Sí', value: 'si', id: "si_dependencia_economica" },
+    { nombre: 'No', value: 'no', id: "no_dependencia_economica" },
+  ]
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col md:flex-row my-2'>
@@ -74,7 +78,7 @@ function CargarVictima({watch, register, setValue, errors }: CargarVictimaProps)
         <InputRadio watch={watch} handleChange={setIsCondicionVulnerabilidad} campo="condicion_de_vulnerabilidad" nombre="condicion_de_vulnerabilidad" register={register} type="radio" opciones={opcionesCondicionDeVulnerabilidad} defaultValue={1} />
         {isCondicionVulnerabilidad && 
         <div className={`grid grid-cols-1 md:grid-cols-3 my-2 bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md`}>
-        <InputCheckbox campo="Embarazo" nombre="embarazo" register={register} setValue={setValue} type="checkbox" error={errors.dependencia_economica} id="dependencia_economica" />
+        <InputCheckbox campo="Embarazo" nombre="embarazo" register={register} setValue={setValue} type="checkbox" error={errors.embarazo} id="dependencia_economica" />
         <InputCheckbox campo="Periodo Post-parto" nombre="periodo_post_parto" register={register} setValue={setValue} type="checkbox" error={errors.periodo_post_parto} id="periodo_post_parto" />
         <InputCheckbox campo="Periodo de lactancia" nombre="periodo_de_lactancia" register={register} setValue={setValue} type="checkbox" error={errors.periodo_de_lactancia} id="periodo_de_lactancia" />
         <InputCheckbox campo="Discapacidad" nombre="discapacidad" register={register} setValue={setValue} type="checkbox" error={errors.discapacidad} id="discapacidad" />
@@ -84,13 +88,15 @@ function CargarVictima({watch, register, setValue, errors }: CargarVictimaProps)
         <InputCheckbox campo="Tratamiento psicológico" nombre="tratamiento_psicologico" register={register} setValue={setValue} type="checkbox" error={errors.tratamiento_psicologico} id="tratamiento_psicologico" />
         </div>
         }
-
       </div>
       <div className='flex flex-col my-2'>
-        <span className='ml-4 font-medium'>Convivencia</span>      
+        <span className='ml-4 font-medium'>¿Comparten vivienda?</span>      
         <InputRadio campo="convivencia" nombre="convivencia" register={register} type="radio" opciones={opcionesConvivencia} defaultValue={1} />
       </div>
-      
+      <div className='flex flex-col my-2'>
+        <span className='ml-4 font-medium'>¿Hay Dependencia económica?</span>      
+        <InputRadio campo="dependencia_economica" nombre="dependencia_economica" register={register} type="radio" opciones={opcionesDependenciaEconomica} defaultValue={1} />
+      </div>
       <div className='flex flex-col my-2'>
         <span className='ml-4 font-medium'>Hijos</span>
         <InputRadio watch={watch} handleChange={setIsHijos} campo="hijos" nombre="hijos" register={register} type="radio" opciones={opcionesHijos} defaultValue={1} />
@@ -98,7 +104,6 @@ function CargarVictima({watch, register, setValue, errors }: CargarVictimaProps)
       {isHijos &&
         <div className='bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md'>
           <div className={`grid grid-cols-1 md:grid-cols-3 my-2`}>
-            <InputCheckbox campo="Dependencia económica" nombre="dependencia_economica" register={register} setValue={setValue} type="checkbox" error={errors.dependencia_economica} id="dependenciaEconomica" />
             <InputCheckbox campo="Mayores de 18" nombre="mayor_de_18" register={register} setValue={setValue} type="checkbox" error={errors.mayor_de_18} id="mayores18" />
             <InputCheckbox campo="Menores de 18" nombre="menor_de_18" register={register} setValue={setValue} type="checkbox" error={errors.menor_de_18} id="menores18" />
             <InputCheckbox campo="Menores discapacitados" nombre="menores_discapacitados" register={register} setValue={setValue} type="checkbox" error={errors.menores_discapacitados} id="menoresDiscapacitados" />

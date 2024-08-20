@@ -31,15 +31,11 @@ function BuscarVictimas() {
         }
         fetchVictimas();
     }
-
-
     // Iconos para expandir
     const expandableIcon = {
         collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
-
-
     return (
         <>
             <form className="w-full flex flex-col items-center"
@@ -61,7 +57,6 @@ function BuscarVictimas() {
                 <InputRegister busqueda={true} campo="Apellido" nombre="apellido_victima" register={register} require={false} type="text" error={errors.apellido} />
                 <InputRegister busqueda={true} campo="DNI" nombre="dni_victima" register={register} require={false} type="text" error={errors.dni_victima} />
                 <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
-
                 <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
             </form>
 
@@ -82,8 +77,6 @@ function BuscarVictimas() {
                     expandableIcon={expandableIcon}
                 />
             </div>
-
-
         </>
     )
 }

@@ -185,7 +185,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                                 }
                             })
                         })}>
-                    <EditVictima watch={watch} datos={data} register={register} setValue={setValue} errors={errors} />
+                    <EditVictima onlyVictima watch={watch} datos={data} register={register} setValue={setValue} errors={errors} />
                     <div className='flex flex-col md:flex-row items-center justify-center w-full my-2'>
                         <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setEditGlobal(!editGlobal)}>
                             <XMarkIcon className="w-7" />

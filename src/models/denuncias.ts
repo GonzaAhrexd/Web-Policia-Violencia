@@ -37,6 +37,18 @@ const denunciaSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+     // Definición de la convivencia con el agresor
+     convivencia: {
+        type: Boolean, // Tipo de dato Boolean
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    dependencia_economica: {
+        type: Boolean, // Tipo de dato Boolean
+        required: true, // Campo requerido
+        trim: true, // Trim para que no se guarden espacios en blanco
+        default: false // Valor por defecto
+    },
     hijos_victima_con_victimario: {
         type: Number, // Tipo de dato Boolean
         required: true, // Campo requerido

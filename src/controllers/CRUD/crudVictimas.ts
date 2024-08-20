@@ -36,7 +36,6 @@ export const createVictima = async (req, res) => {
                     menor_de_edad: menor_de_edad ? menor_de_edad : false,
                     tratamiento_psicologico: tratamiento_psicologico ? tratamiento_psicologico : false,
                 },
-                convivencia: convivencia === "Sí" ? true : false,
                 hijos: {
                     tiene_hijos: hijos === "Sí" ? true : false,
                     dependencia_economica: (hijos && dependencia_economica) ? dependencia_economica : false,
@@ -70,9 +69,7 @@ export const createVictima = async (req, res) => {
                         menor_de_edad: menor_de_edad ? menor_de_edad : false,
                         tratamiento_psicologico: tratamiento_psicologico ? tratamiento_psicologico : false
                     },
-                    convivencia: convivencia === "Sí" ? true : false,
                     "hijos.tiene_hijos": hijos === "Sí" ? true : false,
-                    "hijos.dependencia_economica": dependencia_economica ? dependencia_economica : false,
                     "hijos.mayores_de_edad": mayor_de_18 ? mayor_de_18 : false,
                     "hijos.menores_de_edad": menor_de_18 ? menor_de_18 : false,
                     "hijos.menores_discapacitados": menores_discapacitados ? menores_discapacitados : false,
@@ -156,10 +153,8 @@ export const updateVictima = async (req, res) => {
                 menor_de_edad: (menor_de_edad && condicion_de_vulnerabilidad == "Sí") ? menor_de_edad : false,
                 tratamiento_psicologico: (tratamiento_psicologico && condicion_de_vulnerabilidad == "Sí") ? tratamiento_psicologico : false
             },
-            convivencia: convivencia === "Sí" ? true : false,
             hijos: {
                 tiene_hijos: hijos === "Sí" ? true : false,
-                dependencia_economica: dependencia_economica ? dependencia_economica : false,
                 mayores_de_edad: mayor_de_18 ? mayor_de_18 : false,
                 menores_de_edad: menor_de_18 ? menor_de_18 : false,
                 menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,

@@ -18,7 +18,7 @@ import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
 import { vinculo } from '../../GlobalConst/vinculoCampos'
 
- 
+
 // Props
 interface CargarVictimaProps {
     datos: any;
@@ -27,18 +27,21 @@ interface CargarVictimaProps {
     errors: any;
     md?: any;
     vinculo_con_agresor?: any;
+    convivencia?: any;
+    dependencia_economica?: any;
     hijos_con_agresor?: any;
     existente?: any;
     variante?: any;
     editarConDenuncia?: any;
     cantidad_hijos_con_agresor?: string;
     condicion_de_vulnerabilidad?: boolean,
+    onlyVictima?: boolean;
     watch: any;
 }
 
-function EditVictima({ watch, editarConDenuncia, existente, hijos_con_agresor, cantidad_hijos_con_agresor, vinculo_con_agresor, datos, register, setValue, errors, md }: CargarVictimaProps) {
-    
-    
+function EditVictima({onlyVictima, watch, editarConDenuncia, existente, hijos_con_agresor, cantidad_hijos_con_agresor, vinculo_con_agresor, convivencia, dependencia_economica, datos, register, setValue, errors, md }: CargarVictimaProps) {
+
+
     // Estados
     const [isHijos, setIsHijos] = useState(datos.hijos?.tiene_hijos)
     const [isHijosConAgresor, setIsHijosConAgresor] = useState(hijos_con_agresor ? hijos_con_agresor > 0 : false)
@@ -46,11 +49,6 @@ function EditVictima({ watch, editarConDenuncia, existente, hijos_con_agresor, c
     const [isAdultoMayor, setIsAdultoMayor] = useState(datos.condiciones_de_vulnerabilidad.adulto_mayor) // Para mostrar o no el campo de adulto mayor si es seleccionado el checkbox adulto mayor
     const [isMenorEdad, setIsMenorEdad] = useState(datos.condiciones_de_vulnerabilidad.menor_de_edad) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
 
-    // const [isHijos, setIsHijos] = useState(false)
-    // const [isHijosConAgresor, setIsHijosConAgresor] = useState(false)
-    // const [isCondicionVulnerabilidad, setIsCondicionVulnerabilidad] = useState(false) // Para mostrar o no el campo de condición de vulnerabilidad si es seleccionado el checkbox condición de vulnerabilidad
-    // const [isAdultoMayor, setIsAdultoMayor] = useState(false) // Para mostrar o no el campo de adulto mayor si es seleccionado el checkbox adulto mayor
-    // const [isMenorEdad, setIsMenorEdad] = useState(false) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
     // Actualiza de los state con los datos usando un useEffect, pero que de un timeout para darle tiempo de actualizar los datos
     useEffect(() => {
         setTimeout(() => {
@@ -77,6 +75,11 @@ function EditVictima({ watch, editarConDenuncia, existente, hijos_con_agresor, c
     const opcionesHijos = [
         { nombre: 'Sí', value: 'si', id: "si_hijos" },
         { nombre: 'No', value: 'no', id: "no_hijos" },
+    ]
+
+    const opcionesDependenciaEconomica = [
+        { nombre: 'Sí', value: 'si', id: "si_dependencia_economica" },
+        { nombre: 'No', value: 'no', id: "no_dependencia_economica" },
     ]
 
     return (
@@ -115,10 +118,20 @@ function EditVictima({ watch, editarConDenuncia, existente, hijos_con_agresor, c
                     </div>
                 }
             </div>
+            {!onlyVictima && 
+            <>
             <div className='flex flex-col my-2'>
-                <span className='ml-4 font-medium'>Convivencia</span>
-                <InputRadio key={datos._id} campo="convivencia" nombre="convivencia" register={register} type="radio" opciones={opcionesConvivencia} defaultValue={datos.convivencia ? 0 : 1} />
+                <span className='ml-4 font-medium'>¿Comparten vivienda?</span>
+                {existente && <InputRadio campo="convivencia" nombre="convivencia" register={register} type="radio" opciones={opcionesConvivencia} defaultValue={1} />}
+                {editarConDenuncia && <InputRadio campo="convivencia" nombre="convivencia" register={register} type="radio" opciones={opcionesConvivencia} defaultValue={convivencia ? 0 : 1} />}
             </div>
+            <div className='flex flex-col my-2'>
+                <span className='ml-4 font-medium'>¿Hay Dependencia económica?</span>
+              { existente && <InputRadio campo="dependencia_economica" nombre="dependencia_economica" register={register} type="radio" opciones={opcionesDependenciaEconomica} defaultValue={1} /> }
+              { editarConDenuncia && <InputRadio campo="dependencia_economica" nombre="dependencia_economica" register={register} type="radio" opciones={opcionesDependenciaEconomica} defaultValue={dependencia_economica ? 0 : 1} /> }
+            </div>
+            </>
+            }
             <div className='flex flex-col my-2'>
                 <span className='ml-4 font-medium'>Hijos</span>
                 <InputRadio key={datos._id} watch={watch} handleChange={setIsHijos} campo="hijos" nombre="hijos" register={register} type="radio" opciones={opcionesHijos} defaultValue={datos.hijos.tiene_hijos ? 0 : 1} />
@@ -126,7 +139,6 @@ function EditVictima({ watch, editarConDenuncia, existente, hijos_con_agresor, c
             {isHijos &&
                 <div className='bg-slate-100 border-2 md:border-0  border-slate-500 md:bg-white rounded-md'>
                     <div className={`grid grid-cols-1 md:grid-cols-3 my-2`}>
-                        <InputCheckbox campo="Dependencia económica" nombre="dependencia_economica" register={register} setValue={setValue} type="checkbox" error={errors.dependencia_economica} id="dependenciaEconomica" state={datos.hijos.dependencia_economica} />
                         <InputCheckbox campo="Mayores de 18" nombre="mayor_de_18" register={register} setValue={setValue} type="checkbox" error={errors.mayor_de_18} id="mayores18" state={datos.hijos.mayores_de_edad} />
                         <InputCheckbox campo="Menores de 18" nombre="menor_de_18" register={register} setValue={setValue} type="checkbox" error={errors.menor_de_18} id="menores18" state={datos.hijos.menores_de_edad} />
                         <InputCheckbox campo="Menores discapacitados" nombre="menores_discapacitados" register={register} setValue={setValue} type="checkbox" error={errors.menores_discapacitados} id="menoresDiscapacitados" state={datos.hijos.menores_discapacitados} />
