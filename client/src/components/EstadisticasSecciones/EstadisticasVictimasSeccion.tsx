@@ -5,6 +5,7 @@ import { getVictima } from '../../api/crud'
 import SeccionOcupacion from './EstadisticasVictima/SeccionOcupacion'
 import SeccionCondicion from './EstadisticasVictima/SeccionCondicion'
 import SeccionVinculoConAgresor from './EstadisticasVictima/SeccionVinculoConAgresor'
+import SeccionCompartenViviendaYDependenciaEconomica from './EstadisticasVictima/SeccionCompartenViviendaYDependenciaEconomica'
 
 type EstadisticasVictimasSeccionProps = {
     denunciasAMostrar: any
@@ -39,18 +40,15 @@ function EstadisticasVictimasSeccion({denunciasAMostrar}: EstadisticasVictimasSe
         console.log(victimas)
     }, [])
     
-    
-    
-
     if (loading) {
         return <div>Cargando...</div>;
     }
-
     return (
     <>
         <SeccionOcupacion victimas={victimas} />
         <SeccionCondicion victimas={victimas} />
         <SeccionVinculoConAgresor denunciasAMostrar={denunciasAMostrar}/>
+        <SeccionCompartenViviendaYDependenciaEconomica denunciasAMostrar={denunciasAMostrar}/>
     </>
 
 
