@@ -3,10 +3,11 @@ import EstadisticasTiposDeViolencia from '../../TablasEstadisticas/EstadisticasT
 import OcupacionGrafico from '../../Graficos/OcupacionGrafico'
 
 type SeccionOcupacionProps = {
-    victimas: any
+    persona: any
+    tipo: string
 }
 
-function SeccionOcupacion({victimas}: SeccionOcupacionProps) {
+function SeccionOcupacion({persona, tipo}: SeccionOcupacionProps) {
 
     const [estadisticaOcupacion, setEstadisticaOcupacion] = useState<any>({})
     useEffect(() => {
@@ -15,12 +16,12 @@ function SeccionOcupacion({victimas}: SeccionOcupacionProps) {
             setEstadisticaOcupacion(ocupaciones)
         }
         fetchOcupaciones()
-    }, [victimas])
+    }, [persona])
 
     const obtenerOcupaciones = () => {
         // Necesito que me vaya contando cada una de las ocupaciones que tienen las víctimas, es decir, algo como { "empleada": 5, "estudiante": 3, "desempleada": 2 }
         const ocupaciones: { [ocupacion: string]: number } = {}
-        victimas.forEach((victima: any) => {
+        persona.forEach((victima: any) => {
             if (!ocupaciones[victima.ocupacion]) {
                 ocupaciones[victima.ocupacion] = 0
             }
@@ -36,13 +37,13 @@ function SeccionOcupacion({victimas}: SeccionOcupacionProps) {
     return (
 
         <>
-        <h1 className="text-2xl">Ocupaciones de víctimas registrados en la Provincia del Chaco en el periodo seleccionado {"(Total de " + victimas?.length + " víctimas)"}</h1>
+        <h1 className="text-2xl">{tipo} registrados en la Provincia del Chaco en el periodo seleccionado {"(Total de " + persona?.length + " víctimas)"}</h1>
         <div className='flex flex-col md:flex-row justify-between'>
             <div className='flex flex-col w-9/10 md:w-4/10'>
                 <EstadisticasTiposDeViolencia texto="Ocupación" tipos_de_violencia={estadisticaOcupacion} format={format} />      
             </div>
             <div className='w-full md:w-5/10'>
-              <OcupacionGrafico ocupaciones={estadisticaOcupacion} total={victimas.length}/>
+              <OcupacionGrafico ocupaciones={estadisticaOcupacion} total={persona.length}/>
             </div>
         </div>
     </>

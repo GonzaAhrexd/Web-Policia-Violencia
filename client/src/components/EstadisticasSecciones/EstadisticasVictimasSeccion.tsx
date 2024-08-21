@@ -43,15 +43,14 @@ function EstadisticasVictimasSeccion({denunciasAMostrar}: EstadisticasVictimasSe
     if (loading) {
         return <div>Cargando...</div>;
     }
+
     return (
     <>
-        <SeccionOcupacion victimas={victimas} />
+        <SeccionOcupacion persona={victimas} tipo="víctima"/>
         <SeccionCondicion victimas={victimas} />
         <SeccionVinculoConAgresor denunciasAMostrar={denunciasAMostrar}/>
         <SeccionCompartenViviendaYDependenciaEconomica denunciasAMostrar={denunciasAMostrar}/>
     </>
-
-
 )
 }
 

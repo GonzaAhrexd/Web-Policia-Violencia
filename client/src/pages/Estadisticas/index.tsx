@@ -13,6 +13,7 @@ import EstadisticasTiposDeViolencia from '../../components/EstadisticasSecciones
 import EstadisticasModalidades from '../../components/EstadisticasSecciones/EstadisticasModalidades';
 import EstadisticasMedidasCautelares from '../../components/EstadisticasSecciones/EstadisticasMedidasCautelares';
 import EstadisticasVictimasSeccion from '../../components/EstadisticasSecciones/EstadisticasVictimasSeccion';
+import EstadisticasVictimarioSeccion from '../../components/EstadisticasSecciones/EstadisticasVictimarioSeccion';
 import Modal from '../../components/Modal';
 // API
 import { buscarDenuncias } from '../../api/crud';
@@ -38,6 +39,7 @@ function index() {
     const [showModalidades, setShowModalidades] = useState(false);
     const [showMedidasCautelares, setShowMedidasCautelares] = useState(false);
     const [showVictimas, setShowVictimas] = useState(false);
+    const [showVictimarios, setShowVictimarios] = useState(false);
     const [showAll, setShowAll] = useState(false);
     // Modal
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,9 +55,11 @@ function index() {
         setShowModalidades(false)
         setShowMedidasCautelares(false)
         setShowVictimas(false)
+        setShowVictimarios(false)
     }
     // Localidades
     const handleLocalidadesStats = () => {
+        if(showAll && showLocalidadesStats) return setShowAll(false)
         if(showLocalidadesStats) return setShowAll(true)
         handleReset()
         setShowLocalidadesStats(true)
@@ -63,6 +67,7 @@ function index() {
     }
     // Divisiones
     const handleDivisionesStats = () => {
+        if(showAll && showDivionesStats) return setShowAll(false)
         if(showDivionesStats) return setShowAll(true)
         handleReset()
         setShowDivionesStats(true)
@@ -70,6 +75,7 @@ function index() {
     }
     // Aprehensiones
     const handleAprehensiones = () => {
+        if(showAll && showAprehensionesStats) return setShowAll(false)
         if(showAprehensionesStats) return setShowAll(true)
         handleReset()
         setShowAprehensionesStats(true)
@@ -77,6 +83,7 @@ function index() {
     }
     // Tipo de violencia
     const handleTipoDeViolencia = () => {
+        if(showAll && showTipoDeViolencia) return setShowAll(false)
         if(showTipoDeViolencia) return setShowAll(true)
         handleReset()
         setShowTipoDeViolencia(true)
@@ -85,6 +92,7 @@ function index() {
 
     // Modalidades
     const handleModalidades = () => {
+        if(showAll && showModalidades) return setShowAll(false)
         if(showModalidades) return setShowAll(true)
         handleReset()
         setShowModalidades(true)
@@ -92,18 +100,26 @@ function index() {
     }
 
     const handleMedidasCautelares = () => {
+        if(showAll && showMedidasCautelares) return setShowAll(false)
         if(showMedidasCautelares) return setShowAll(true)
         handleReset()
         setShowMedidasCautelares(true)
         setShowAll(false)
     }
     const handleVictimas = () => {
+        if(showAll && showVictimas) return setShowAll(false)
         if(showVictimas) return setShowAll(true)
         handleReset()
         setShowVictimas(true)
         setShowAll(false)
     }
-
+    const handleVictimarios = () => {
+        if(showAll && showVictimarios) return setShowAll(false)
+        if(showVictimarios) return setShowAll(true)
+        handleReset()
+        setShowVictimarios(true)
+        setShowAll(false)
+    }
 
     // Búsqueda
     const handleBusqueda = async (values: any) => {
@@ -143,8 +159,6 @@ function index() {
                 <form className="w-full flex flex-col items-center"
                     onSubmit={
                         handleSubmit(async (values) => {
-                            console.log(values.desde)
-                            console.log(values.hasta)
                             handleBusqueda(values)
                         }
                         )}>
@@ -154,7 +168,7 @@ function index() {
                 {denunciasAMostrar?.length > 0 &&
                     <>
                         <div className='mt-5 flex flex-col items-center justify-center '>
-                            <div className={`flex flex-col  ${showAll && 'border-blue-800 border-2 rounded-lg bg-blue-50 '} p-5 w-full items-center justify-center  max-w-xs`}>
+                            <div className={`flex flex-col  ${showAll && 'border-blue-800 border-2 rounded-lg bg-blue-50 '} p-5 w-full items-center justify-center md:w-3/10`}>
                                 <div className={`w-full flex flex-col ${!showAll && 'md:flex-row'} justify-center items-center`}>
                                    {(showAll || showLocalidadesStats) && <button className={`my-2 ${showLocalidadesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleLocalidadesStats()}>Localidades</button> }
                                    {(showAll || showDivionesStats) && <button className={`my-2 ${showDivionesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleDivisionesStats()}>Divisiones</button> }
@@ -163,6 +177,8 @@ function index() {
                                    {(showAll || showModalidades) && <button className={`my-2 ${showModalidades ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleModalidades()}>Modalidades</button> }
                                    {(showAll || showMedidasCautelares) && <button className={`my-2 ${showMedidasCautelares ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleMedidasCautelares()}>Medidas Cautelares</button> }
                                    {(showAll || showVictimas) && <button className={`my-2 ${showVictimas ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleVictimas()}>Victimas</button> }
+                                   {(showAll || showVictimarios) && <button className={`my-2 ${showVictimarios ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleVictimarios()}>Victimarios</button> }
+
                                    {!showAll && <Cog6ToothIcon className='w-10 h-10 cursor-pointer' onClick={() => setShowAll(true)}/> }
                                 </div>
                             </div>
@@ -174,6 +190,7 @@ function index() {
                         {showModalidades && <EstadisticasModalidades handleOpenModal={handleOpenModal} setTitulo={setTitulo} denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                         {showMedidasCautelares && <EstadisticasMedidasCautelares denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                         {showVictimas && <EstadisticasVictimasSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {showVictimarios && <EstadisticasVictimarioSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                     </>
                 }
             </div>
