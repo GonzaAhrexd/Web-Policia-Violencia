@@ -7,6 +7,7 @@ import path from 'path'
 const formidable = require('formidable'); //Módulo para formularios
 const fs = require('fs') //Módulo para guardar imagenes
 
+const produccion = process.env.produccion
 
 //Registro de usuarios
 export const register = async (req, res) => {
@@ -85,15 +86,28 @@ export const login = async (req, res) => {
 
         //Token 
         const token = await createAccessToken({ id: usuarioEncontrado._id })
-        res.cookie('token', token, {    
-            /* Esto debe estar activado en producción */
-            // domain: '.gonzaloebel.tech',
-            // secure: process.env.NODE_ENV === 'production',
-            // httpOnly: true,
-            // sameSite: 'none', // Permite el envío entre sitios
-            maxAge: 24 * 60 * 60 * 1000       
-          });
-            //Envio al frontend de los datos del usuario registrado
+
+        let configs: {} = {
+            maxAge: 24 * 60 * 60 * 1000
+        }
+        /* Esto debe estar activado en producción */
+        if (produccion == "true") {
+            configs = {
+                domain: '.gonzaloebel.tech',
+                secure: process.env.NODE_ENV === 'production',
+                httpOnly: true,
+                sameSite: 'none', // Permite el envío entre sitios
+
+            }
+        }
+        
+        console.log(produccion)
+        console.log(configs)
+        res.cookie('token', token, {
+            configs
+        });
+
+        //Envio al frontend de los datos del usuario registrado
         res.json({
             id: usuarioEncontrado._id,
             username: usuarioEncontrado.nombre_de_usuario,
@@ -119,12 +133,21 @@ export const login = async (req, res) => {
 //Logout 
 //Logout 
 export const logout = async (req, res) => {
-    res.cookie('token', "", {
-        // domain: '.gonzaloebel.tech',
-        // secure: process.env.NODE_ENV === 'production',
-        // httpOnly: true,
-        // sameSite: 'none', // Permite el envío entre sitios
+    let configs: {} = {
         expires: new Date(0)
+    }
+    console.log(produccion)
+    if (produccion == "true") {
+        configs = {
+            domain: '.gonzaloebel.tech',
+            secure: process.env.NODE_ENV === 'production',
+            httpOnly: true,
+            sameSite: 'none', // Permite el envío entre sitios
+            expires: new Date(0)
+        }
+    }
+    res.cookie('token', "", {
+        configs
     })
     return res.sendStatus(200)
 }
@@ -258,6 +281,6 @@ export const editUserImg = async (req, res) => {
         catch (error: any) {
             console.log("ERROR", error)
         }
-       
+
     })
 }

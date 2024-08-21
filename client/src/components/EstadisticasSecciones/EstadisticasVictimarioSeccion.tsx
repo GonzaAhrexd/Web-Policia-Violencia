@@ -45,7 +45,7 @@ function EstadisticasVictimarioSeccion({denunciasAMostrar}: EstadisticasVictimar
 
   return (
     <>
-        <SeccionOcupacion persona={victimarios} tipo={"victimarios"} />
+        <SeccionOcupacion persona={victimarios} tipo={"Ocupación de victimarios"} />
         <SeccionFuerzaDeSeguridad victimarios={victimarios} denuncias={denunciasAMostrar} />
         <SeccionCondicionesVictimario victimarios={victimarios} denunciasAMostrar={denunciasAMostrar} />
     </>
