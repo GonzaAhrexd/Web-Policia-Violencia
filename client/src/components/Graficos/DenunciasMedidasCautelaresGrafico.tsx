@@ -3,9 +3,10 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LabelList,
 
 type DenunciasMedidasCautelaresGraficoProps = {
     estadistica: any
+    aspect?: number
 }
 
-function DenunciasMedidasCautelaresGrafico({estadistica}: DenunciasMedidasCautelaresGraficoProps) {
+function DenunciasMedidasCautelaresGrafico({estadistica, aspect}: DenunciasMedidasCautelaresGraficoProps) {
 
     const [chartData, setChartData] = useState<any[]>([]);
 
@@ -50,7 +51,7 @@ function DenunciasMedidasCautelaresGrafico({estadistica}: DenunciasMedidasCautel
     }, [estadistica]);
 
     return (
-        <ResponsiveContainer width="100%" aspect={2} >
+        <ResponsiveContainer width="100%" aspect={aspect || 1} >
             <BarChart layout="vertical" data={chartData}>
                 <CartesianGrid stroke="#f5f5f5" />
                 <XAxis type="number" />

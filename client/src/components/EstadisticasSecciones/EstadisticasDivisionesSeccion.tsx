@@ -73,8 +73,14 @@ function EstadisticasMunicipiosSeccion({ denunciasAMostrar }: EstadisticasMunici
                         {/* @ts-ignore */}
                         De un total de {denunciasAMostrar?.length} denuncias, {Object.values(estadisticasDivisiones).reduce((acc, curr) => acc + curr.isDivision, 0)} fueron recepcionadas en las distintas divisiones de la provincia.
                     </div>
+                    <div className=" hidden md:block">
                     {/* @ts-ignore */}
-                    <DenunciasDivisionesComisariasTorta comisarias={(denunciasAMostrar?.length) - Object.values(estadisticasDivisiones).reduce((acc, curr) => acc + curr.isDivision, 0)} division={Object.values(estadisticasDivisiones).reduce((acc, curr) => acc + curr.isDivision, 0)} />
+                    <DenunciasDivisionesComisariasTorta aspect={2} comisarias={(denunciasAMostrar?.length) - Object.values(estadisticasDivisiones).reduce((acc, curr) => acc + curr.isDivision, 0)} division={Object.values(estadisticasDivisiones).reduce((acc, curr) => acc + curr.isDivision, 0)} />
+                    </div>
+                    <div className=" block md:hidden ">
+                    {/* @ts-ignore */}
+                    <DenunciasDivisionesComisariasTorta aspect={1} comisarias={(denunciasAMostrar?.length) - Object.values(estadisticasDivisiones).reduce((acc, curr) => acc + curr.isDivision, 0)} division={Object.values(estadisticasDivisiones).reduce((acc, curr) => acc + curr.isDivision, 0)} />
+                    </div>
                 </div>
                 <div className='mt-10 w-full md:w-5/10'>
                     <DenunciasDivisiones data={estadisticasDivisiones} total={denunciasAMostrar?.length} />

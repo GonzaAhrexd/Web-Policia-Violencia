@@ -4,9 +4,10 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 type DenunciasDivisionesComisariasTortaProps = {
     comisarias: number;
     division: number;
+    aspect?: number;
 }
 
-function DenunciasDivisionesComisariasTorta({comisarias, division}: DenunciasDivisionesComisariasTortaProps) {
+function DenunciasDivisionesComisariasTorta({aspect, comisarias, division}: DenunciasDivisionesComisariasTortaProps) {
 
     const data = [
         { name: 'Comisarías', value: comisarias },
@@ -30,7 +31,7 @@ function DenunciasDivisionesComisariasTorta({comisarias, division}: DenunciasDiv
       };
       
   return (
-    <ResponsiveContainer width="100%" height="100%" aspect={2} >
+    <ResponsiveContainer width="100%" aspect={aspect || 1} >
     <PieChart width={400} height={400}>
       <Pie
         data={data}
@@ -50,8 +51,6 @@ function DenunciasDivisionesComisariasTorta({comisarias, division}: DenunciasDiv
       <Legend />
     </PieChart>
   </ResponsiveContainer>
-
-
 )
 }
 

@@ -5,9 +5,10 @@ import { Tooltip, PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recha
 
 type DenunciasDivisionesComisariasTortaProps = {
   tipos_de_violencia: { [tipo: string]: number }
+  aspect?: number
 }
 
-function TiposDeViolencia({tipos_de_violencia}: DenunciasDivisionesComisariasTortaProps) {
+function TiposDeViolencia({tipos_de_violencia, aspect}: DenunciasDivisionesComisariasTortaProps) {
   
   const [chartData, setChartData] = useState<any[]>([]);
   const [colors, setColors] = useState<string[]>([]);
@@ -54,7 +55,7 @@ function TiposDeViolencia({tipos_de_violencia}: DenunciasDivisionesComisariasTor
   }, [tipos_de_violencia]);
   
   return (
-    <ResponsiveContainer width="100%" aspect={1} >
+    <ResponsiveContainer width="100%" aspect={aspect || 1} >
     <PieChart width={400} height={400}>
       <Pie
         data={chartData}

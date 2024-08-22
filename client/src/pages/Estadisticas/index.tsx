@@ -20,7 +20,7 @@ import { buscarDenuncias } from '../../api/crud';
 import EstadisticasAprehensiones from '../../components/EstadisticasSecciones/EstadisticasAprehensiones';
 
 // Iconos
-import { Cog6ToothIcon } from '@heroicons/react/24/outline';
+import { PlusCircleIcon } from '@heroicons/react/24/outline';
 
 function index() {
     // Autenticación
@@ -181,7 +181,7 @@ function index() {
                                     {(showAll || showMedidasCautelares) && <button className={`my-2 ${showMedidasCautelares ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleMedidasCautelares()}>Medidas Cautelares</button>}
                                     {(showAll || showVictimas) && <button className={`my-2 ${showVictimas ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleVictimas()}>Victimas</button>}
                                     {(showAll || showVictimarios) && <button className={`my-2 ${showVictimarios ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleVictimarios()}>Victimarios</button>}
-                                    {!showAll && <Cog6ToothIcon className='w-10 h-10 cursor-pointer' onClick={() => setShowAll(true)} />}
+                                    {!showAll && <PlusCircleIcon className='w-8 h-8 cursor-pointer' onClick={() => setShowAll(true)} />}
                                 </div>
                             </div>
                         </div>

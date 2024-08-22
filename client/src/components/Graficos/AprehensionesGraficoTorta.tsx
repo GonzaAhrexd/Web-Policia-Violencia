@@ -4,9 +4,10 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 type AprehensionesGraficoTortaProps = {
     solicitudes: number;
     aprehensiones: number;
+    aspect?: number;
 }
 
-function AprehensionesGraficoTorta({solicitudes, aprehensiones}: AprehensionesGraficoTortaProps) {
+function AprehensionesGraficoTorta({solicitudes, aprehensiones, aspect}: AprehensionesGraficoTortaProps) {
     const data = [
         { name: 'Solicitudes', value: solicitudes },
         { name: 'Aprehensiones', value: aprehensiones },
@@ -32,7 +33,7 @@ function AprehensionesGraficoTorta({solicitudes, aprehensiones}: AprehensionesGr
     
     return (
 
-        <ResponsiveContainer width="100%" height="100%" aspect={2}>
+        <ResponsiveContainer width="100%"  aspect={aspect || 1}>
         <PieChart width={500} height={500}>
           <Pie
             data={data}
