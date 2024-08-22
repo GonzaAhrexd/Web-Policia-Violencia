@@ -1,3 +1,4 @@
+// Hooks
 import { useState, useEffect } from 'react';
 
 // Texto modal
@@ -7,8 +8,9 @@ import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 // Componentes
 import EstadisticasTiposDeViolenciaTabla from '../TablasEstadisticas/EstadisticasTiposDeViolenciaTabla';
 import TiposDeViolenciaTorta from '../Graficos/TiposDeViolenciaTorta'; 
+
+// Props
 type EstadisticasModalidadesProps = {
-    // TODO
     handleOpenModal: any,
     setTitulo: any,
     denunciasAMostrar: any,
@@ -16,15 +18,20 @@ type EstadisticasModalidadesProps = {
 
 
 function EstadisticasModalidades({ handleOpenModal, setTitulo, denunciasAMostrar }: EstadisticasModalidadesProps) {
+    // Estado
     const [estadisticas, setEstadisticas] = useState<{ [tipo: string]: number }>({});
 
+    // UseEffect
     useEffect(() => {
+        // Función para calcular las modalidades de violencia
         const calcularModalidadesDeViolencia = (denuncias: any[]) => {
+            // Objeto para guardar las estadísticas
             const estadisticas: { [modalidad: string]: number } = { Total: 0 };
-          
+            // Recorrer las denuncias
             denuncias.forEach((denuncia) => {
+            // Obtener la modalidad de la denuncia
               const modalidad = denuncia.modalidades;
-              
+            // Si la modalidad existe, sumar 1 al contador de esa modalidad 
               if (modalidad) {
                 if (!estadisticas[modalidad]) {
                   estadisticas[modalidad] = 0;
@@ -36,10 +43,11 @@ function EstadisticasModalidades({ handleOpenModal, setTitulo, denunciasAMostrar
           
             return estadisticas;
           };
+          // Calcular las modalidades de violencia
         setEstadisticas(calcularModalidadesDeViolencia(denunciasAMostrar));
-        console.log(estadisticas)
     }, [denunciasAMostrar]);
 
+    // Formatear el tipo de violencia
     const formatTipoViolencia = (tipo: string) => {
         return tipo;
     }

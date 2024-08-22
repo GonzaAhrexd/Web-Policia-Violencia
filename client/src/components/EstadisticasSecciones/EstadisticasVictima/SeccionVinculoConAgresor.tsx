@@ -35,11 +35,11 @@ function SeccionVinculoConAgresor({ denunciasAMostrar }: SeccionVinculoConAgreso
   return (
     <>
       <h1 className="text-2xl">Vínculo entre víctimas y victimarios registrados en la Provincia del Chaco {"(Total de " + denunciasAMostrar?.length + " casos)"}</h1>
-     <div className="w-full flex justify-between">
-      <div className='w-full md:w-4/10'>
+     <div className="w-full flex flex-col md:flex-row justify-between">
+      <div className='w-9/10 md:w-4/10 '>
         <EstadisticasTiposDeViolencia texto="Vínculo con el agresor" tipos_de_violencia={vinculoConAgresor} format={format} />
       </div>
-      <div className='w-full md:w-5/10'>
+      <div className='w-9/10 md:w-5/10'>
       <DenunciasMedidasCautelaresGrafico  estadistica={vinculoConAgresor}/>
       </div>
      </div>

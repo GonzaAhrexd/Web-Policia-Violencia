@@ -8,8 +8,11 @@ type EstadisticasMedidasCautelaresProps = {
 
 function EstadisticasMedidasCautelares({ denunciasAMostrar }: EstadisticasMedidasCautelaresProps) {
 
+  // Estado
   const [estadisticas, setEstadisticas] = useState<{ [tipo: string]: number }>({});
   const [estadisticasMedidasDispuestas, setEstadisticasMedidasDispuestas] = useState<{ [tipo: string]: number }>({});
+  
+  // Mapping de los tipos de violencia
   const tipoViolenciaMapping: { [key: string]: string } = {
     prohibicion_de_acercamiento: 'Prohibición de Acercamiento',
     exclusion_de_hogar: 'Exclusión de Hogar',
@@ -22,6 +25,7 @@ function EstadisticasMedidasCautelares({ denunciasAMostrar }: EstadisticasMedida
     expedientes_con_cautelar: 'Expedientes con Cautelar',
     ninguna: 'Ninguna',
   };
+  // UseEffect
   useEffect(() => {
     const calcularTiposDeViolencia = (denuncias: any[]) => {
         const estadisticas: { [tipo: string]: number } = { Total: 0 };
@@ -85,7 +89,7 @@ function EstadisticasMedidasCautelares({ denunciasAMostrar }: EstadisticasMedida
         <div className='flex flex-col w-9/10 md:w-4/10'>
           <EstadisticasMedidasCautelaresTabla texto="Medidas solicitadas" tipos_de_violencia={estadisticas} format={formatTipoViolencia} />
         </div>
-        <div className='flex flex-col w-9/10 md:w-4/10'>
+        <div className='flex flex-col w-9/10 md:w-5/10'>
           <DenunciasMedidasCautelaresGrafico  estadistica={estadisticas}/>
         </div>
       </div>
@@ -94,7 +98,7 @@ function EstadisticasMedidasCautelares({ denunciasAMostrar }: EstadisticasMedida
         <div className='flex flex-col w-9/10 md:w-4/10'>
           <EstadisticasMedidasCautelaresTabla texto="Medidas dispuestas" tipos_de_violencia={estadisticasMedidasDispuestas} format={formatTipoViolencia} />
         </div>
-        <div className='flex flex-col w-9/10 md:w-4/10'>
+        <div className='flex flex-col w-9/10 md:w-5/10'>
           <DenunciasMedidasCautelaresGrafico  estadistica={estadisticasMedidasDispuestas}/>
         </div>
       </div>

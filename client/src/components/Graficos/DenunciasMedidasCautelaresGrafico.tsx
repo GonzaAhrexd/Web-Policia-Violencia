@@ -50,11 +50,11 @@ function DenunciasMedidasCautelaresGrafico({estadistica}: DenunciasMedidasCautel
     }, [estadistica]);
 
     return (
-        <ResponsiveContainer width="100%" height={400} >
+        <ResponsiveContainer width="100%" aspect={2} >
             <BarChart layout="vertical" data={chartData}>
                 <CartesianGrid stroke="#f5f5f5" />
                 <XAxis type="number" />
-                <YAxis type="category" dataKey="name" />
+                <YAxis type="category" dataKey="name" width={150}/>
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="Total" barSize={20} fill="#413ea0">

@@ -68,7 +68,7 @@ function EstadisticasAprehensiones({ denunciasAMostrar }: EstadisticasDivisionPr
         <>
             <h1 className="text-2xl">Hechos registrados en direcciones y divisiones del Chaco {"(Total de " + denunciasAMostrar?.length + " casos)"}</h1>
             <div className='flex flex-col md:flex-row justify-between'>
-                <div className='flex flex-col w-9/10 md:w-4/10'>
+                <div className='flex flex-col  w-9/10 md:w-4/10'>
                 <div>
                     <EstadisticasAprehension estadisticasAprehensiones={estadisticasAprehensiones} />
                   </div>
@@ -77,7 +77,7 @@ function EstadisticasAprehensiones({ denunciasAMostrar }: EstadisticasDivisionPr
                   </div>
                   <AprehensionesGraficoTorta solicitudes={estadisticasAprehensiones.medida_dispuesta_solicitud_de_aprehension - estadisticasAprehensiones.aprehension} aprehensiones={estadisticasAprehensiones.aprehension} />
                 </div>
-                <div className='w-full md:w-5/10'>
+                <div className='flex flex-col items-center w-9/10 md:w-5/10'>
                     <EstadisticasAprehensionPorDivision estadisticasAprehensionPorDivision={estadisticasAprehensiones.por_unidad} total={estadisticasAprehensiones.medida_dispuesta_solicitud_de_aprehension} />
                     <AprehensionesPorDivisionGrafico datos={estadisticasAprehensiones.por_unidad} total={estadisticasAprehensiones.medida_dispuesta_solicitud_de_aprehension}/>
                 </div>

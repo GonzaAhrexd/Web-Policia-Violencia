@@ -13,14 +13,17 @@ type EstadisticasVictimasSeccionProps = {
 
 function EstadisticasVictimasSeccion({denunciasAMostrar}: EstadisticasVictimasSeccionProps) {
 
+    // Estado
     const [victimas, setVictimas] = useState(new Set())
     const [loading, setLoading] = useState(true)
-    // Con un useEffect tiene que llenar todas las víctimas que se encuentren en las denuncias, pero sin repetir, en las denuncias sale como victima_ID, esta tiene que ser buscada y guardada en un array y seteado al estado victimas
-
-    useEffect(() => {
-        const fetchVictimas = async () => {
-            const victimasSet = new Set()
     
+    // UseEffect
+    useEffect(() => {
+        // Función para obtener las víctimas de las denuncias
+        const fetchVictimas = async () => {
+            // Set para guardar las víctimas
+            const victimasSet = new Set()
+            // Promesas para obtener las víctimas
             const victimaPromises = denunciasAMostrar.map(async (denuncia: any) => {
                 const victima = await getVictima(denuncia.victima_ID)
                 if (victima != null) {
@@ -35,11 +38,11 @@ function EstadisticasVictimasSeccion({denunciasAMostrar}: EstadisticasVictimasSe
             setVictimas(victimasArray)
             setLoading(false)
         }
-    
+        // Llamamos a la función para obtener las víctimas
         fetchVictimas()
-        console.log(victimas)
     }, [])
     
+    // Si está cargando, mostrar "Cargando..."
     if (loading) {
         return <div>Cargando...</div>;
     }

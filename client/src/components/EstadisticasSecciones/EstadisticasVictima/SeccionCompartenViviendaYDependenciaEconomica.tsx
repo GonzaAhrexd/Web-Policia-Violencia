@@ -51,11 +51,11 @@ function SeccionCompartenViviendaYDependenciaEconomica({ denunciasAMostrar }: Se
         <>
             <h1 className="text-2xl"> Convivencia y Dependencia Económica en la Provincia del Chaco {"(Total de " + denunciasAMostrar?.length + " casos)"}</h1>
             <div className="flex flex-col md:flex-row w-full justify-between">
-                <div className='w-4/10'>
+                <div className='w-9/10 md:w-4/10'>
                     <EstadisticasTiposDeViolencia texto="Comparten vivienda" tipos_de_violencia={compartenVivienda} format={format} />
                     <SiNoTorta estadistica={compartenVivienda} />
                 </div>
-                <div className='w-4/10'>
+                <div className='w-9/10 md:w-4/10'>
                         <EstadisticasTiposDeViolencia texto="Dependencia Económica" tipos_de_violencia={dependenciaEconomica} format={format} />
                         <SiNoTorta estadistica={dependenciaEconomica} />
                 </div>

@@ -13,13 +13,17 @@ type EstadisticasVictimarioSeccionProps = {
 
 
 function EstadisticasVictimarioSeccion({denunciasAMostrar}: EstadisticasVictimarioSeccionProps) {
+    // Estado
     const [victimarios, setVictimarios] = useState(new Set())
     const [loading, setLoading] = useState(true)
     
+    // UseEffect
     useEffect(() => {
+        // Función para obtener los victimarios de las denuncias
         const fetchVictimas = async () => {
+            // Set para guardar los victimarios
             const victimarioSet = new Set()
-    
+            // Promesas para obtener los victimarios
             const victimaPromises = denunciasAMostrar.map(async (denuncia: any) => {
                 const victima = await getVictimario(denuncia.victimario_ID)
                 if (victima != null) {
@@ -36,9 +40,9 @@ function EstadisticasVictimarioSeccion({denunciasAMostrar}: EstadisticasVictimar
         }
     
         fetchVictimas()
-        console.log(victimarios)
     }, [])
     
+    // Si está cargando, mostrar "Cargando..."
     if (loading) {
         return <div>Cargando...</div>;
     }

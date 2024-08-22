@@ -30,7 +30,7 @@ function DenunciasMunicipios({ data, total }: DenunciasMunicipiosProps) {
 
 
     return (
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" aspect={1} >
             <ComposedChart
                 layout="vertical"
                 width={500}

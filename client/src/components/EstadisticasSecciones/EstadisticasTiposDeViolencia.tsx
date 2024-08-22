@@ -67,7 +67,6 @@ const EstadisticasTiposDeViolencia = ({ denunciasAMostrar, setTitulo, handleOpen
         <>
             <h1 className="text-2xl">Tipos de violencia registrados en la Provincia del Chaco {"(Total de " + denunciasAMostrar?.length + " casos)"}</h1>
             <h2 className='flex flex-row text-xl'>Ley 26.485
-                
             <QuestionMarkCircleIcon className="w-6 cursor-pointer" onClick={() => (
                 setTitulo("Tipos de Violencia"),
                 handleOpenModal(tiposDeViolenciaText)

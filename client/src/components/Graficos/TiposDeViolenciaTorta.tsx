@@ -11,14 +11,32 @@ function TiposDeViolencia({tipos_de_violencia}: DenunciasDivisionesComisariasTor
   
   const [chartData, setChartData] = useState<any[]>([]);
   const [colors, setColors] = useState<string[]>([]);
-  
+
+  const format = (tipo: string) => {
+    // Elimina los - y remplazalos por espacios y pon en mayúscula la primer palabra
+    switch (tipo) {
+      case 'Economica_y_patrimonial':
+        return 'Económica y Patrimonial';
+      case 'Politica':
+        return 'Política';  
+      case 'Psicologica':
+        return 'Psicológica';
+      case 'Fisica':
+        return 'Física';
+      case 'Simbolica':
+        return 'Simbólica';
+      default:
+        return tipo.split('_').map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1)).join(' ');
+    }
+    }
+
   useEffect(() => {
     const data = Object.entries(tipos_de_violencia)
     .filter(([key]) => key !== 'Total')
     .map(([key, value]) => (
   
       {
-      name: key,
+      name: format(key),
       value: ((value / tipos_de_violencia.Total) * 100) ,
     }));
     setChartData(data);
@@ -36,7 +54,7 @@ function TiposDeViolencia({tipos_de_violencia}: DenunciasDivisionesComisariasTor
   }, [tipos_de_violencia]);
   
   return (
-    <ResponsiveContainer width="100%" height="100%" aspect={2} >
+    <ResponsiveContainer width="100%" aspect={1} >
     <PieChart width={400} height={400}>
       <Pie
         data={chartData}
