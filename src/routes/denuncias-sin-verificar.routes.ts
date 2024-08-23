@@ -1,18 +1,3 @@
-// Importamos Router desde express
-import { Router } from 'express';
-// Importamos los middlewares que vamos a utilizar
-import { authRequired } from '../middlewares/validateToken';
-
-// EXPOSICIÓN
-import { createExposicion, buscarExposicion, deleteExposicion } from '../controllers/CRUD/crudExposicion'
- // DENUNCIAS SIN VERIFICAR
-import { createDenunciaSinVerificar, validarDenuncia, getDenunciasSinVerificar,  deleteDenunciaSinVerificar, listarMisDenunciasSinVerificar  } from '../controllers/CRUD/crudDenunciasSinVerificar' 
-
-// REPORTE ERRORES
-import { createReporteErrores } from '../controllers/CRUD/crudReportesErrores'
-
-// Llamamos a router para definir las rutas del api
-const router:Router = Router();
 
 /*  -----------------------------------------------------------------------------------------------------------------
     DENUNCIAS SIN VERIFICAR
@@ -21,6 +6,16 @@ const router:Router = Router();
     lo rechace 
     -----------------------------------------------------------------------------------------------------------------    
 */
+// Importamos Router desde express
+import { Router } from 'express';
+// Importamos los middlewares que vamos a utilizar
+import { authRequired } from '../middlewares/validateToken';
+// Importamos los controladores que vamos a utilizar
+import { createDenunciaSinVerificar, validarDenuncia, getDenunciasSinVerificar,  deleteDenunciaSinVerificar, listarMisDenunciasSinVerificar  } from '../controllers/CRUD/crudDenunciasSinVerificar' 
+
+// Llamamos a router para definir las rutas del api
+const router:Router = Router();
+
 // Crear denuncia sin verificar
 router.post('/crear-denuncia-sin-verificar/', authRequired, createDenunciaSinVerificar)
 // Buscar denuncias sin verificar
@@ -32,7 +27,4 @@ router.put('/validar-denuncia/:id', authRequired,validarDenuncia )
 // Buscar denuncias sin verificar por el id del usuario
 router.get('/mis-denuncias-sin-verificar/:desde/:hasta/:numero_de_expediente/', authRequired, listarMisDenunciasSinVerificar)
 
-
-// Reporte de erores
-router.post('/reporte-errores/', authRequired, createReporteErrores)
 export default router
