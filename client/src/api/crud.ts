@@ -295,3 +295,14 @@ export const reportarErrores = async (values: any) => {
         console.log(error)
     }
 }
+
+//  USUARIOS
+// Buscar usuario
+export const buscarUsuario = async (values: any) => {
+    try {
+        const response = await axios.get(`/buscar-usuario/${values.nomnbre_de_usuario ? values.nomnbre_de_usuario : "no_ingresado"}/${values.apellido_usuario ? values.apellido_usuario : "no_ingresado"}/${values.rol ? values.rol : "no_ingresado"}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

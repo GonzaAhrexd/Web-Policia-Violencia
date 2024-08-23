@@ -10,6 +10,8 @@ import NavBar from '../../components/NavBar'
 import InputRegister from '../../components/InputComponents/InputRegister';
 import SelectRegister from '../../components/Select/SelectRegister';
 
+// Backend
+import { buscarUsuario } from '../../api/crud';
 function index() {
     const { user, isAuthenticated, isLoading } = useAuth();
     // Formulario
@@ -40,8 +42,8 @@ function index() {
                 <form className="w-full flex flex-col items-center"
                     onSubmit={
                         handleSubmit(async (values) => {
-                            console.log(values)
-
+                            const usuarios = await buscarUsuario(values)
+                            setListaDeUsuarios(usuarios)
                         }
                         )}>
 
@@ -51,6 +53,7 @@ function index() {
                     <SelectRegister nombre="rol" campo="Rol" error={errors.rol} register={register} setValue={setValue} opciones={opcionesRoles} type="text" />
                     <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
                 </form>
+                        {listaDeUsuarios.length > 0 && <div className="w-full md:w-3/4 mx-auto mt-5">Encontrado</div>}
             </div>
 
         </>
