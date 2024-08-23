@@ -23,6 +23,8 @@ import Buscar from './Buscar'
 import ReportarErrores from './ReportarErrores'
 // ESTADÍSTICAS
 import Estadisticas from './Estadisticas'
+// ADMIN
+import AdministrarUsuarios from './AdministrarUsuarios'
 // Contexto
 import { AuthProvider } from '../context/auth'
 // CSS
@@ -48,6 +50,8 @@ const AppRoutes = () => {
     { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
     { path: '/logout', element: <Logout /> },
+    // Admin
+    { path: '/administrar-usuarios', element: <AdministrarUsuarios /> },
     // 404
     { path: '*', element: <NotFound /> },
   ])

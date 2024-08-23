@@ -114,7 +114,6 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
                 values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente;
                 try {
                   // Crear la denuncia
-                  // console.log(values)
                   await crearDenuncia(values);
                   Swal.fire({
                     title: '¡Denuncia enviada!',

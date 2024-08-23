@@ -112,11 +112,11 @@ function SeccionCondicionesVictimario({ victimarios, denunciasAMostrar }: Seccio
             <div className='flex flex-col md:flex-row justify-between'>
                 <div className='flex flex-col w-9/10 md:w-4/10'>
                     <EstadisticasTiposDeViolenciaTabla texto="Condiciones de Riesgo" tipos_de_violencia={condicionesRiesgo} format={format} />      
-                    <DenunciasMedidasCautelaresGrafico estadistica={condicionesRiesgo}/>
+                    <DenunciasMedidasCautelaresGrafico estadistica={condicionesRiesgo} aspect={2}/>
                 </div>
                 <div className='w-full md:w-5/10'>
                 <EstadisticasTiposDeViolenciaTabla texto="Condiciones de Riesgo" tipos_de_violencia={antecedentesVictimarios} format={formatAntecedentes} />      
-                <DenunciasMedidasCautelaresGrafico estadistica={antecedentesVictimarios} />
+                <DenunciasMedidasCautelaresGrafico estadistica={antecedentesVictimarios} aspect={2}/>
                 </div>
             </div>
         </>

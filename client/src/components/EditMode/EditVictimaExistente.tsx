@@ -55,15 +55,7 @@ function EditVictimaExistente({ watch, editarConDenuncia, existente, hijos_con_a
     // const [isMenorEdad, setIsMenorEdad] = useState(false) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
     // Actualiza de los state con los datos usando un useEffect, pero que de un timeout para darle tiempo de actualizar los datos
     useEffect(() => {
-        //Console log de todos los estados
-        console.log(isHijos)
-        console.log(isHijosConAgresor)
-        console.log(isCondicionVulnerabilidad)
-        console.log(isAdultoMayor)
-        console.log(isMenorEdad)
-
         setTimeout(() => {
-            console.log(isHijos)
             setIsHijos(datos.hijos.tiene_hijos)
             setIsHijosConAgresor(hijos_con_agresor ? hijos_con_agresor > 0 : false)
             setIsCondicionVulnerabilidad(datos.condicion_de_vulnerabilidad)

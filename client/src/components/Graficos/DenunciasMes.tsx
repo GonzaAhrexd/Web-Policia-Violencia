@@ -2,7 +2,10 @@ import { cantidadDenuncias } from '../../api/crud';
 import { BarChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
 import { useEffect, useState } from 'react';
 
-function DenunciasMes() {
+type DenunciasMesProps = {
+    aspect?: number
+}
+function DenunciasMes({aspect}: DenunciasMesProps) {
     const [denuncias, setDenuncias] = useState(Array(12).fill(0)); // Array de 12 meses inicializados en 0
     const currentYear = new Date().getFullYear(); // Obtener el año actual
 
@@ -56,7 +59,7 @@ function DenunciasMes() {
     ];
 
     return (
-        <ResponsiveContainer width="100%" aspect={1}>
+        <ResponsiveContainer width="100%" aspect={aspect || 1}>
             <BarChart width={150} height={40} data={data}>
                 <CartesianGrid strokeDasharray="4 1 2" />
                 <XAxis dataKey="name" />

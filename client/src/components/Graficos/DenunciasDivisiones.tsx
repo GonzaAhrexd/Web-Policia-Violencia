@@ -10,7 +10,6 @@ function DenunciasMunicipios({ data, total }: DenunciasMunicipiosProps) {
     const [chartData, setChartData] = useState<any[]>([]);
 
     useEffect(() => {
-        console.log(data);
 
         const transformData = (data: any) => {
             const result = [];

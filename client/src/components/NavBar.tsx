@@ -65,9 +65,9 @@ function NavBar({ user }: NavBarProps) {
   ]
 
   return (
-    <div className='flex flex-row '>
+    <div className='flex flex-row'>
       <Navbar
-        className='bg-sky-900 text-white font-medium leading-tight h-1/10 flex flex-row align-middle justify-center'
+        className='bg-sky-900 text-white font-medium leading-tight h-1/10 flex flex-row align-middle'
         isBordered
         as="div"
         isMenuOpen={isMenuOpen}
@@ -81,10 +81,9 @@ function NavBar({ user }: NavBarProps) {
           <NavLink to='/'
             className="flex flex-row items-center space-x-2"
           >
-            <figure className='w-full h-full  flex flex-row items-center justify-center'>
+            <figure className='w-full h-full flex flex-row items-center justify-center'>
               <img className='w-10' src="Escudo_Policia_Chaco_Transparente.png" alt="" />
             </figure>
-
           </NavLink>
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
@@ -225,7 +224,7 @@ function NavBar({ user }: NavBarProps) {
                 src={user.imagen != "sin_definir" ? `${APIURL}/users/${user.id}/image` : "/user.png"}
               />
             </DropdownTrigger>
-            <DropdownMenu aria-label="Profile Actions" variant="flat" className='bg-white'>
+            <DropdownMenu aria-label="Profilef Actions" variant="flat" className='bg-white'>
               <DropdownItem key="user" className="h-14 gap-2 ">
                 <p className="font-semibold">Sesión iniciada como</p>
                 <p className="font-semibold">{user.nombre + " " + user.apellido} </p>

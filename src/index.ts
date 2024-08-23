@@ -10,6 +10,11 @@ dotenv.config()
 import { connectDB } from './db' // Configuraciones de MongoDB para conectar a la base de datos
 import authRoutes from './routes/auth.routes' // Rutas de autenticación
 import crudRoutes from './routes/crud.routes' // Rutas del CRUD
+import usuariosRoutes from './routes/usuarios.routes' // Rutas de usuarios
+import victimasRoutes from './routes/victimas.routes' // Rutas de víctimas
+import victimariosRoutes from './routes/victimarios.routes' // Rutas de victimarios
+import denunciasRoutes from './routes/denuncias.routes' // Rutas de denuncias
+import exposicionRoutes from './routes/exposicion.routes' // Rutas de exposiciones
 // Crear aplicación de express
 const app:express.Application = express()
 // Conectar a la base de datos
@@ -32,6 +37,12 @@ app.use(cookieParser())
 // Rutas de la aplicación
 app.use('/api',authRoutes) // Rutas de autenticación
 app.use('/api',crudRoutes) // Rutas del CRUD
+app.use('/api', usuariosRoutes) // Rutas de usuarios
+app.use('/api', victimasRoutes) // Rutas de víctimas
+app.use('/api', victimariosRoutes) // Rutas de victimarios
+app.use('/api', denunciasRoutes) // Rutas de denuncias
+app.use('/api', exposicionRoutes) // Rutas de exposiciones
+
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor funcionando en puerto ${port} ✅`)

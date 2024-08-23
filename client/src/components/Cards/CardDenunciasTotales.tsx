@@ -24,7 +24,6 @@ function CardDenunciasTotales() {
         values.hasta = hoy.toISOString().split('T')[0];
         
         cantidadDenuncias(values).then((response: any) => {
-            console.log(response);
             setDenunciasTotales(response);
             });
       }
@@ -37,7 +36,6 @@ function CardDenunciasTotales() {
          values.hasta = hoy.toISOString().split('T')[0];
          
          cantidadDenuncias(values).then((response: any) => {
-             console.log(response);
              setDenunciasTotales(response);
              });
        }
@@ -50,7 +48,6 @@ function CardDenunciasTotales() {
         values.hasta = hasta.toISOString().split('T')[0];
         
         cantidadDenuncias(values).then((response: any) => {
-            console.log(response);
             setDenunciasTotales(response);
             });
         }

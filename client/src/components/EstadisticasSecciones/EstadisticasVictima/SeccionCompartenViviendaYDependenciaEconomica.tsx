@@ -34,12 +34,8 @@ function SeccionCompartenViviendaYDependenciaEconomica({ denunciasAMostrar }: Se
                 contadorDependenciaEconomica[dependencia] = 1;
             }
         });
-    
         setCompartenVivienda(contadorCompartenVivienda);
         setDependenciaEconomica(contadorDependenciaEconomica);
-    
-        console.log(compartenVivienda);
-        console.log(dependenciaEconomica);
     }, [denunciasAMostrar]);
     
 
@@ -53,11 +49,11 @@ function SeccionCompartenViviendaYDependenciaEconomica({ denunciasAMostrar }: Se
             <div className="flex flex-col md:flex-row w-full justify-between">
                 <div className='w-9/10 md:w-4/10'>
                     <EstadisticasTiposDeViolencia texto="Comparten vivienda" tipos_de_violencia={compartenVivienda} format={format} />
-                    <SiNoTorta estadistica={compartenVivienda} />
+                    <SiNoTorta estadistica={compartenVivienda} aspect={2}/>
                 </div>
                 <div className='w-9/10 md:w-4/10'>
                         <EstadisticasTiposDeViolencia texto="Dependencia Económica" tipos_de_violencia={dependenciaEconomica} format={format} />
-                        <SiNoTorta estadistica={dependenciaEconomica} />
+                        <SiNoTorta estadistica={dependenciaEconomica} aspect={2}/>
                 </div>
             </div>
         </>

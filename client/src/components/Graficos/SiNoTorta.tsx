@@ -1,10 +1,12 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 
 type SiNoTortaProps = {
-    estadistica: { [key: string]: number }
+    estadistica: { [key: string]: number,
+    }
+    aspect: number
 }
 
-function SiNoTorta({ estadistica }: SiNoTortaProps) {
+function SiNoTorta({ estadistica, aspect }: SiNoTortaProps) {
     const data = [
         { name: 'Sí', value: estadistica.Sí },
         { name: 'No', value: estadistica.No },
@@ -28,7 +30,7 @@ function SiNoTorta({ estadistica }: SiNoTortaProps) {
 
     return (
 
-        <ResponsiveContainer width="100%" aspect={1}>
+        <ResponsiveContainer width="100%" aspect={aspect || 1}>
         <PieChart width={500} height={500}>
           <Pie
             data={data}

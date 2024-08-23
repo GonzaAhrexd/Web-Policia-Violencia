@@ -75,7 +75,6 @@ function EstadisticasMedidasCautelares({ denunciasAMostrar }: EstadisticasMedida
     const { estadisticas, estadisticasMedidasDispuestas } = calcularTiposDeViolencia(denunciasAMostrar);
     setEstadisticas(estadisticas);
     setEstadisticasMedidasDispuestas(estadisticasMedidasDispuestas);
-    console.log(estadisticas, estadisticasMedidasDispuestas);
 }, [denunciasAMostrar]);
 
   const formatTipoViolencia = (tipo: string) => {

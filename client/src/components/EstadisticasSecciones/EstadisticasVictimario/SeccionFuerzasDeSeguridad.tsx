@@ -63,7 +63,6 @@ function SeccionOcupacion({ victimarios, denuncias }: SeccionOcupacionProps) {
     for (const unidad in estadisticas) {
       totales[unidad] = Object.values(estadisticas[unidad]).reduce((acc, curr) => acc + curr, 0);
     }
-    console.log(estadisticas)
     return { estadisticas, totales };
   };
 

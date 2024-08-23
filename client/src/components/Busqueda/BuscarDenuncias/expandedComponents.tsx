@@ -232,7 +232,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
     // Controlar cuando se da a eliminar
     const handleDelete = async (data: any) => {
         // Popup de confirmación
-        console.log(victimaDatos)
         Swal.fire({
             title: '¿Estás seguro?',
             text: "¡No podrás revertir esto!",

@@ -52,7 +52,6 @@ function EditVictima({onlyVictima, watch, editarConDenuncia, existente, hijos_co
     // Actualiza de los state con los datos usando un useEffect, pero que de un timeout para darle tiempo de actualizar los datos
     useEffect(() => {
         setTimeout(() => {
-            console.log(isHijos)
             setIsHijos(datos.hijos.tiene_hijos)
             setIsHijosConAgresor(hijos_con_agresor ? hijos_con_agresor > 0 : false)
             setIsCondicionVulnerabilidad(datos.condicion_de_vulnerabilidad)

@@ -14,6 +14,7 @@ import EstadisticasModalidades from '../../components/EstadisticasSecciones/Esta
 import EstadisticasMedidasCautelares from '../../components/EstadisticasSecciones/EstadisticasMedidasCautelares';
 import EstadisticasVictimasSeccion from '../../components/EstadisticasSecciones/EstadisticasVictimasSeccion';
 import EstadisticasVictimarioSeccion from '../../components/EstadisticasSecciones/EstadisticasVictimarioSeccion';
+import DenunciasMes from '../../components/Graficos/DenunciasMes';
 import Modal from '../../components/Modal';
 // API
 import { buscarDenuncias } from '../../api/crud';
@@ -41,7 +42,7 @@ function index() {
     const [showVictimarios, setShowVictimarios] = useState(false);
     const [showAll, setShowAll] = useState(false);
     const [sinResultados, setSinResultados] = useState(false);
-
+    const [mostrarTodo, setMostrarTodo] = useState(false);
     // Modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [texto, setTexto] = useState(['']);
@@ -57,6 +58,7 @@ function index() {
         setShowMedidasCautelares(false)
         setShowVictimas(false)
         setShowVictimarios(false)
+        setMostrarTodo(false)
     }
     // Localidades
     const handleLocalidadesStats = () => {
@@ -124,6 +126,14 @@ function index() {
         setShowAll(false)
     }
 
+    const handleTodo = () => {
+        if (showAll && mostrarTodo) return setShowAll(false)
+        if (mostrarTodo) return setShowAll(true)
+        handleReset()
+        setMostrarTodo(true)
+        setShowAll(false)
+    }
+
     // Búsqueda
     const handleBusqueda = async (values: any) => {
         const fetchDenuncias = async () => {
@@ -145,6 +155,7 @@ function index() {
         setTexto(text);
     }
 
+
     // Si esta cargando, muestra un mensaje de carga
     if (isLoading) return <h1>Cargando...</h1>
     // Si no esta autenticado, redirige a login
@@ -157,6 +168,18 @@ function index() {
             <NavBar user={user} />
             <div className='h-screen sm:h-full p-2 sm:p-10'>
                 <h1 className='text-3xl my-5'>Estadísticas</h1>
+                {denunciasAMostrar?.length == 0 &&
+                    <>
+                        <div className='hidden md:flex flex-col justify-center items-center w-full ' >
+                            <DenunciasMes aspect={5} />
+                        </div>
+                        <div className='flex md:hidden flex-col justify-center items-center w-full ' >
+                            <DenunciasMes aspect={2} />
+                        </div>
+
+
+                    </>
+                }
                 <form className="w-full flex flex-col items-center"
                     onSubmit={
                         handleSubmit(async (values) => {
@@ -172,7 +195,7 @@ function index() {
                     <>
                         <div className='mt-5 flex flex-col items-center justify-center '>
                             <div className={`flex flex-col  ${showAll && 'border-blue-800 border-2 rounded-lg bg-blue-50 '} p-5 w-full items-center justify-center md:w-3/10`}>
-                                <div className={`w-full flex flex-col ${!showAll && 'md:flex-row'} justify-center items-center`}>
+                                <div className={`w-full flex  ${!showAll ? 'flex-row' : "flex-col"} justify-center items-center`}>
                                     {(showAll || showLocalidadesStats) && <button className={`my-2 ${showLocalidadesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleLocalidadesStats()}>Localidades</button>}
                                     {(showAll || showDivionesStats) && <button className={`my-2 ${showDivionesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleDivisionesStats()}>Divisiones</button>}
                                     {(showAll || showAprehensionesStats) && <button className={`my-2 ${showAprehensionesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleAprehensiones()}>Aprehensiones</button>}
@@ -181,18 +204,20 @@ function index() {
                                     {(showAll || showMedidasCautelares) && <button className={`my-2 ${showMedidasCautelares ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleMedidasCautelares()}>Medidas Cautelares</button>}
                                     {(showAll || showVictimas) && <button className={`my-2 ${showVictimas ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleVictimas()}>Victimas</button>}
                                     {(showAll || showVictimarios) && <button className={`my-2 ${showVictimarios ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleVictimarios()}>Victimarios</button>}
+                                    {(showAll || mostrarTodo) && <button className={`my-2 ${mostrarTodo ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleTodo()}>Mostrar todo</button>}
+
                                     {!showAll && <PlusCircleIcon className='w-8 h-8 cursor-pointer' onClick={() => setShowAll(true)} />}
-                                </div>
+                                </div>                            
                             </div>
                         </div>
-                        {showLocalidadesStats && <EstadisticasMunicipiosSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
-                        {showDivionesStats && <EstadisticasDivisionesSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
-                        {showAprehensionesStats && <EstadisticasAprehensiones denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
-                        {showTipoDeViolencia && <EstadisticasTiposDeViolencia handleOpenModal={handleOpenModal} setTitulo={setTitulo} denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
-                        {showModalidades && <EstadisticasModalidades handleOpenModal={handleOpenModal} setTitulo={setTitulo} denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
-                        {showMedidasCautelares && <EstadisticasMedidasCautelares denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
-                        {showVictimas && <EstadisticasVictimasSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
-                        {showVictimarios && <EstadisticasVictimarioSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {(showLocalidadesStats || mostrarTodo) && <EstadisticasMunicipiosSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {(showDivionesStats || mostrarTodo) && <EstadisticasDivisionesSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {(showAprehensionesStats || mostrarTodo) && <EstadisticasAprehensiones denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {(showTipoDeViolencia  || mostrarTodo) && <EstadisticasTiposDeViolencia handleOpenModal={handleOpenModal} setTitulo={setTitulo} denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {(showModalidades  || mostrarTodo) && <EstadisticasModalidades handleOpenModal={handleOpenModal} setTitulo={setTitulo} denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {(showMedidasCautelares || mostrarTodo)  && <EstadisticasMedidasCautelares denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {(showVictimas  || mostrarTodo) && <EstadisticasVictimasSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {(showVictimarios || mostrarTodo)  && <EstadisticasVictimarioSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                     </>
                 }
             </div>
