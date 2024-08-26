@@ -29,7 +29,7 @@ interface Props {
 
 
 function SelectRegister({notComisaria, mid, setTipoDenuncia, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
-    // Esetados
+    // Estados
     const [requiredInput, ] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
@@ -66,6 +66,7 @@ function SelectRegister({notComisaria, mid, setTipoDenuncia, campo, opciones, no
         nombre == "denuncias_de" && setValue('denuncias_de', value)
         nombre == "apartado" && setValue('apartado', value)
         nombre == "juzgado_interviniente" && setValue('juzgado_interviniente', value)
+        nombre == "rol" && setValue('rol', value)
     };
       
     const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

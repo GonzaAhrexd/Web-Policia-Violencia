@@ -2,6 +2,7 @@ import usuarios from '../../models/usuarios';
 
 export const getUsuarios = async (req, res) => {
     try {
+        console.log("LLEGÓ")
         const { nombre_de_usuario, nombre, apellido, rol} = req.params
         interface Query {
             nombre_de_usuario?: RegExp;
@@ -76,6 +77,19 @@ export const getUsuarios = async (req, res) => {
 
 
         // res.json(usuario)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const changeUserRole = async (req, res) => {
+    console.log("HOLA")
+    const { _id, rol } = req.body
+
+
+    try {
+        const usuario = await usuarios.findByIdAndUpdate(_id, { rol: rol })
+        res.json(usuario)
     } catch (error) {
         console.log(error)
     }
