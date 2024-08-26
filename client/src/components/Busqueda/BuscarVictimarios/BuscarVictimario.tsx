@@ -1,7 +1,7 @@
 // Componentes
 import InputRegister from '../../InputComponents/InputRegister';
 // Backend APIs
-import { buscarVictimario } from '../../../api/crud';
+import { buscarVictimario } from '../../../api/CRUD/victimario.crud';
 // Hooks
 import { useState } from 'react';
 import { useForm } from 'react-hook-form'
@@ -9,7 +9,7 @@ import DataTable from 'react-data-table-component';
 // Dependencias de esta carpeta
 import { columnVictimario } from './columnsDataTableVictimario'
 import expandedComponents from './expandedComponents'
-import { customStyles } from './dataTableStyles'
+import { customStyles } from '../../../GlobalConst/customStyles'
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 // Campos

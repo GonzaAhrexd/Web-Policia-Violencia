@@ -9,7 +9,10 @@ ________________________________________________________________________________
 // Hooks
 import { useState, useEffect } from 'react';
 // APIs del BackEnd
-import { getVictima, getVictimario, eliminarDenuncia, getTercero } from '../../../api/crud';
+import {   getTercero } from '../../../api/CRUD/terceros.crud';
+import { eliminarDenuncia } from '../../../api/CRUD/denuncias.crud';
+import { getVictima } from '../../../api/CRUD/victimas.crud';
+import { getVictimario } from '../../../api/CRUD/victimario.crud';
 // Librerías react
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' // Librería para mostrar mapas
 import Swal from 'sweetalert2' // Librería para mostrar popups

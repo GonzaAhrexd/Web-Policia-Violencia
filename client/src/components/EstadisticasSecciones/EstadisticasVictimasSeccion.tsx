@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 // BackEnd
-import { getVictima } from '../../api/crud'
+import { getVictima } from '../../api/CRUD/victimas.crud'
 // Componentes
 import SeccionOcupacion from './EstadisticasVictima/SeccionOcupacion'
 import SeccionCondicion from './EstadisticasVictima/SeccionCondicion'

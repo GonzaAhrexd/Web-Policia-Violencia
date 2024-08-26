@@ -5,7 +5,7 @@ import SeccionCondicionesVictimario from './EstadisticasVictimario/SeccionCondic
 // Hooks
 import { useState, useEffect } from 'react'
 // Backend
-import { getVictimario } from '../../api/crud'
+import { getVictimario } from '../../api/CRUD/victimario.crud'
 
 type EstadisticasVictimarioSeccionProps = {
     denunciasAMostrar: any

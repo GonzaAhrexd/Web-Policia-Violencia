@@ -1,16 +1,17 @@
 // Hooks
 import { useState, useEffect } from 'react';
 // BACKEND 
-import { misDenuncias, misDenunciasSinVerificar } from '../../api/crud';
-
+import {  misDenunciasSinVerificar } from '../../api/CRUD/denunciasSinVerificar.crud';
+import { misDenuncias } from '../../api/CRUD/denuncias.crud';
+// Dependencias
 import { NavLink } from 'react-router-dom';
 
+// Props
 interface CardUserDenunciasRecientesProps {
     user: any;
 }
 
 function CardUserDenunciasRecientes({ user }: CardUserDenunciasRecientesProps) {
-
 
     const [lastFiveDenuncias, setLastFiveDenuncias] = useState([]);
     useEffect(() => {

@@ -10,7 +10,7 @@ ________________________________________________________________________________
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form'
 // APIs del BackEnd
-import { buscarDenunciasPorId } from '../../../api/crud';
+import { buscarDenunciasPorId } from '../../../api/CRUD/denuncias.crud';
 // Librerías react
 import DataTable from 'react-data-table-component';
 import Swal from 'sweetalert2' // Librería para mostrar popups
@@ -21,10 +21,10 @@ import { UserIcon } from '@heroicons/react/24/outline'
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 import { columnsDenuncia } from '../BuscarDenuncias/columnsDataTableDenuncias'
-import { customStyles } from '../BuscarDenuncias/dataTableStyles'
+import { customStyles } from '../../../GlobalConst/customStyles'
 import EditTercero from '../../../components/EditMode/EditTercero';
 // Importa expandedComponents con otro nombre
-import { editarTercero } from '../../../api/crud';
+import { editarTercero } from '../../../api/CRUD/terceros.crud';
 import expandedDenuncia from '../BuscarDenuncias/expandedComponents'
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 

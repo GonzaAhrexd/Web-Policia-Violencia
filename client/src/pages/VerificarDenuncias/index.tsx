@@ -8,15 +8,15 @@ import { useAuth } from '../../context/auth';
 import { Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 // APIs del BackEnd
-import { mostrarDenunciasSinVerificar } from '../../api/crud';
+import { mostrarDenunciasSinVerificar } from '../../api/CRUD/denunciasSinVerificar.crud';
 // Componentes
 import NavBar from '../../components/NavBar';
 // Librerías React
 import DataTable from 'react-data-table-component';
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
-// Dependencias de la misma carpeta
-import { customStyles } from './dataTableStyles'
+// Dependencias
+import { customStyles } from '../../GlobalConst/customStyles'
 import { columnsDataTableVerificar } from './columnsDataTableVerificar'
 import expandedComponents from './expandedComponents'
 

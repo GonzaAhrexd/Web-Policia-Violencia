@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 import { useForm } from 'react-hook-form';
 import SelectRegister from '../../components/Select/SelectRegister';
 
-import { reportarErrores } from '../../api/crud';
+import { reportarErrores } from '../../api/CRUD/errores.crud';
 
 function CargarDenuncias() {
 

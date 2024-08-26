@@ -1,6 +1,11 @@
-import { cantidadDenuncias } from '../../api/crud';
+// Rechart
 import { BarChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
+
+// Hooks
 import { useEffect, useState } from 'react';
+
+// Backend
+import { cantidadDenuncias } from '../../api/CRUD/denuncias.crud';
 
 type DenunciasMesProps = {
     aspect?: number

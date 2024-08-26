@@ -1,8 +1,10 @@
 // Hooks
 import { useForm } from 'react-hook-form';
 // Conexión con BackEnd
-import { crearDenuncia, agregarVictima, agregarVictimario, crearTercero } from '../../api/crud';
-
+import { crearTercero } from '../../api/CRUD/terceros.crud';
+import { agregarVictima } from '../../api/CRUD/victimas.crud';
+import { crearDenuncia } from '../../api/CRUD/denuncias.crud';
+import { agregarVictimario } from '../../api/CRUD/victimario.crud';
 // Librerías React
 import Swal from 'sweetalert2';
 

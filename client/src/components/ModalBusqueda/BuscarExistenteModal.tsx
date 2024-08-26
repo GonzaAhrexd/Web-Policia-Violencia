@@ -2,7 +2,9 @@
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 // Backend APIs
-import { buscarVictima, buscarVictimario, buscarTercero } from '../../api/crud';
+import {   buscarTercero } from '../../api/CRUD/terceros.crud';
+import { buscarVictima } from '../../api/CRUD/victimas.crud';
+import { buscarVictimario } from '../../api/CRUD/victimario.crud';
 // Componentes
 import InputRegister from '../InputComponents/InputRegister';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';

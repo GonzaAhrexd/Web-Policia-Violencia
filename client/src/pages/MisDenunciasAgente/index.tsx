@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
 // APIs del BackEnd
-import { misDenunciasSinVerificar } from '../../api/crud';
+import { misDenunciasSinVerificar } from '../../api/CRUD/denunciasSinVerificar.crud';
 // Librerías react
 import DataTable from 'react-data-table-component';
 // Iconos
@@ -22,7 +22,7 @@ import InputDateRange from '../../components/InputComponents/InputDateRange';
 // Dependencias de la misma carpeta
 import { columns } from './columnsDataTable'
 import expandedComponents from './expandedComponents'
-import { customStyles } from './dataTableStyles'
+import { customStyles } from '../../GlobalConst/customStyles'
 
 function MisDenunciasAgente() {
     // Estados

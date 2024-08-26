@@ -9,7 +9,7 @@ ________________________________________________________________________________
 // Hooks
 import { useState } from 'react';
 // APIs del BackEnd
-import { eliminarExposicion } from '../../../api/crud';
+import { eliminarExposicion } from '../../../api/CRUD/exposicion.crud';
 // Librerías react
 import Swal from 'sweetalert2' // Librería para mostrar popups
 // Iconos

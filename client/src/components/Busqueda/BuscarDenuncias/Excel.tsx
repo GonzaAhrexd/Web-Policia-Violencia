@@ -3,7 +3,9 @@ import { utils, writeFile } from 'xlsx';
 import XLSX from 'xlsx';
 
 // Obtenemos la víctima, victimario y tercero desde el Backend
-import { getVictima, getVictimario, getTercero } from '../../../api/crud';
+import {  getTercero } from '../../../api/CRUD/terceros.crud';
+import { getVictima } from '../../../api/CRUD/victimas.crud';
+import { getVictimario } from '../../../api/CRUD/victimario.crud';
 // Icono de tabla
 import { TableCellsIcon } from '@heroicons/react/24/outline'
 interface denuncia {

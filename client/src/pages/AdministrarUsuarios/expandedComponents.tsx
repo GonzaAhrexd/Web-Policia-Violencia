@@ -13,7 +13,7 @@ import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle';
 import { useForm } from 'react-hook-form'
 
 // Backend
-import { cambiarRol } from '../../api/crud'
+import { cambiarRol } from '../../api/CRUD/usuarios.crud'
 
 // Swal
 import Swal from 'sweetalert2'

@@ -1,6 +1,10 @@
+// Hooks
 import  { useEffect, useState } from 'react';
-import { cantidadDenuncias } from '../../api/crud';
+// Backend
+import { cantidadDenuncias } from '../../api/CRUD/denuncias.crud';
+// Dependencias
 import { NavLink } from 'react-router-dom';
+// Iconos
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 function CardDenunciasTotales() {

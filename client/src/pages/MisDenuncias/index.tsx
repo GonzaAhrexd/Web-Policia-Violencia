@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form'
 // APIs del BackEnd
-import { misDenuncias } from '../../api/crud';
+import { misDenuncias } from '../../api/CRUD/denuncias.crud';
 // Librerías react
 import DataTable from 'react-data-table-component';
 // Iconos
@@ -24,7 +24,7 @@ import InputDateRange from '../../components/InputComponents/InputDateRange';
 // Dependencias de la misma carpeta
 import { columnsDenuncia } from '../../components/Busqueda/BuscarDenuncias/columnsDataTableDenuncias'
 import expandedComponents from '../../components/Busqueda/BuscarDenuncias/expandedComponents' // Busca de otro lado para mantener consistencia
-import { customStyles } from '../../components/Busqueda/BuscarDenuncias/dataTableStyles'
+import { customStyles } from '../../GlobalConst/customStyles'
 // Página alternativa para el rol agente
 import MisDenunciasAgente from '../MisDenunciasAgente'
 

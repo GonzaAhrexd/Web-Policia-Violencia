@@ -10,7 +10,10 @@ ________________________________________________________________________________
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 // APIs y BackEnd
-import { crearDenuncia, agregarVictima, agregarVictimario, aprobarDenuncia } from '../../api/crud'
+import { agregarVictimario } from '../../api/CRUD/victimario.crud' 
+import { agregarVictima } from '../../api/CRUD/victimas.crud'
+import { aprobarDenuncia } from '../../api/CRUD/denunciasSinVerificar.crud'
+import { crearDenuncia } from '../../api/CRUD/denuncias.crud'
 // Componentes
 import VerificarDenunciante from '../VerificarDenuncias/VerificarDenunciante'
 import CargarVictimario from '../Cargar/CargarVictimario'

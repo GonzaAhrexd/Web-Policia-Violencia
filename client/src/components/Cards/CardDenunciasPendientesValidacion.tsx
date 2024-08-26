@@ -6,7 +6,7 @@
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 // APIs del BackEnd
-import { mostrarDenunciasSinVerificar } from '../../api/crud';
+import { mostrarDenunciasSinVerificar } from '../../api/CRUD/denunciasSinVerificar.crud';
 
 function CardDenunciasPendientesValidacion() {
   const [cantidadDenunciasPendientes, setCantidadDenunciasPendientes] = useState(0);

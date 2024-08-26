@@ -9,7 +9,7 @@ ________________________________________________________________________________
 // Hooks
 import { useState } from 'react';
 // APIs del BackEnd
-import { eliminarDenunciaSinVerificar } from '../../api/crud';
+import { eliminarDenunciaSinVerificar } from '../../api/CRUD/denunciasSinVerificar.crud';
 // Librerías react
 import Swal from 'sweetalert2' // Librería para mostrar popups
 // Iconos

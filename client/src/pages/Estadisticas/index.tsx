@@ -17,7 +17,7 @@ import EstadisticasVictimarioSeccion from '../../components/EstadisticasSeccione
 import DenunciasMes from '../../components/Graficos/DenunciasMes';
 import Modal from '../../components/Modal';
 // API
-import { buscarDenuncias } from '../../api/crud';
+import { buscarDenuncias } from '../../api/CRUD/denuncias.crud';
 import EstadisticasAprehensiones from '../../components/EstadisticasSecciones/EstadisticasAprehensiones';
 
 // Iconos

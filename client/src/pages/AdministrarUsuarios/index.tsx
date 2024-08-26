@@ -12,7 +12,7 @@ import InputRegister from '../../components/InputComponents/InputRegister';
 import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle';
 
 // Backend
-import { buscarUsuario } from '../../api/crud';
+import { buscarUsuario } from '../../api/CRUD/usuarios.crud';
 
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
@@ -65,11 +65,11 @@ function index() {
                         }
                         )}>
 
-                    <InputRegister require={false} nombre="nombre_de_usuario" type="text" campo="Nombre de usuario" error={errors.nombre_de_usuario} register={register} setValue={setValue} />
-                    <InputRegister require={false} nombre="nombre" type="text" campo="Nombre" error={errors.nombre} register={register} setValue={setValue} />
-                    <InputRegister require={false} nombre="apellido" type="text" campo="Apellido" error={errors.apellido} register={register} setValue={setValue} />
+                    <InputRegister busqueda require={false} nombre="nombre_de_usuario" type="text" campo="Nombre de usuario" error={errors.nombre_de_usuario} register={register} setValue={setValue} />
+                    <InputRegister busqueda require={false} nombre="nombre" type="text" campo="Nombre" error={errors.nombre} register={register} setValue={setValue} />
+                    <InputRegister busqueda require={false} nombre="apellido" type="text" campo="Apellido" error={errors.apellido} register={register} setValue={setValue} />
                     {/* <SelectRegister isRequired={false} nombre="rol" campo="Rol" error={errors.rol} register={register} setValue={setValue} opciones={opcionesRoles} type="text" /> */}
-                    <SelectRegisterSingle nombre="rol" campo="Rol" opciones={opcionesRoles} setValue={setValue} error={errors.rol} />
+                    <SelectRegisterSingle isRequired={false} nombre="rol" campo="Rol" opciones={opcionesRoles} setValue={setValue} error={errors.rol} />
                     <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
                 </form>
                 {listaDeUsuarios?.length > 0 &&

@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 // APIs del BackEnd
-import { misDenuncias } from '../../api/crud';
+import { misDenuncias } from '../../api/CRUD/denuncias.crud';
 
 type Props = {
     title: string,

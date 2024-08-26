@@ -2,7 +2,8 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 // Conexión con BackEnd
-import { crearDenunciaSinVerificar, crearExposicion } from '../../api/crud';
+import { crearDenunciaSinVerificar } from '../../api/CRUD/denunciasSinVerificar.crud'; 
+import { crearExposicion } from '../../api/CRUD/exposicion.crud';
 // Librerías React
 import Swal from 'sweetalert2'
 import { pdf } from '@react-pdf/renderer';

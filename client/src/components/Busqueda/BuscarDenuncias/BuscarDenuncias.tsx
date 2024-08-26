@@ -4,14 +4,14 @@ import InputCheckbox from '../../InputComponents/InputCheckbox';
 import SelectDivisionMunicipios from '../../Select/SelectDivisionMunicipios';
 import InputDateRange from '../../InputComponents/InputDateRange';
 // Backend APIs
-import { buscarDenuncias } from '../../../api/crud';
+import { buscarDenuncias } from '../../../api/CRUD/denuncias.crud';
 // Hooks
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component';
 import { columnsDenuncia } from './columnsDataTableDenuncias'
 import expandedComponents from './expandedComponents'
-import { customStyles } from './dataTableStyles'
+import { customStyles } from '../../../GlobalConst/customStyles'
 
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
