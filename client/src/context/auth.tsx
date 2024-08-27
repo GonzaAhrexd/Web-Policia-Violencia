@@ -4,8 +4,6 @@ import Cookies from 'js-cookie'
 
 const PRODUCCION = import.meta.env.VITE_PRODUCCION
 
-
-
 type AuthContextType = {
     signUp: (user: any) => Promise<void>; 
     signIn: (user: any) => Promise<void>;

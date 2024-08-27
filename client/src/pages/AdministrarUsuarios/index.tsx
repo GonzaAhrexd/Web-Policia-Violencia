@@ -22,7 +22,6 @@ import { columns } from './columnsDataTable'
 import expandedComponents from './expandedComponents'
 import { customStyles } from '../../GlobalConst/customStyles'
 
-
 function index() {
     const { user, isAuthenticated, isLoading } = useAuth();
     // Formulario

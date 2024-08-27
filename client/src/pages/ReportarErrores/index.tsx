@@ -20,18 +20,23 @@ function CargarDenuncias() {
         errors
     } } = useForm()
 
+    // Obtener datos del usuario
+    const { user, isAuthenticated, isLoading } = useAuth();
+
+
+    // Apartados de la página
     const apartado = [
         { nombre: "Register", valor: "Register" },
         { nombre: "Login", valor: "Login" },
         { nombre: "Home", valor: "Home" },
+        { nombre: "Estadísticas", valor: "Estadísticas" },
+        { nombre: "Administrar Usuarios", valor: "Administrar usuarios" },
         { nombre: "Buscar", valor: "Buscar" },
         { nombre: "Cargar Denuncias", valor: "Cargar Denuncias" },
         { nombre: "Verificar Denuncias", valor: "Verificar Denuncias" },
         { nombre: "Perfil", valor: "Perfil" },
         { nombre: "Mis denuncias", valor: "Mis denuncias"}
     ]
-   // Obtener datos del usuario
-  const { user, isAuthenticated, isLoading } = useAuth();
   // Si está cargando, mostrar "Cargando..."
   if (isLoading) return <h1>Cargando...</h1>
   // Si no está autenticado, redirigir a la página de login

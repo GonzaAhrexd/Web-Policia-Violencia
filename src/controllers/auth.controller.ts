@@ -13,7 +13,7 @@ const produccion = process.env.produccion
 export const register = async (req, res) => {
     // Obtención de los datos del formulario de registro
     try {
-        const { nombre, apellido, telefono, pass, nombre_de_usuario, credencial, unidad, jerarquia, plaza, zona, rol } = req.body
+        const { nombre, apellido, telefono, pass, nombre_de_usuario, credencial, unidad, jerarquia, plaza, zona } = req.body
         //Validación en mongodb si ya existe el usuario
         let userExistente = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario })
         // Creación de un nuevo usuario como objeto
@@ -27,6 +27,7 @@ export const register = async (req, res) => {
                 credencial,
                 unidad,
                 jerarquia,
+                imagen: 'sin_definir',
                 plaza: plaza ? plaza : 'Sin definir',
                 zona,
             })
@@ -80,10 +81,7 @@ export const login = async (req, res) => {
 
         if (!isPassMatched) return res.status(400).json({ message: 'Contraseña incorrecta' })
 
-
         // Guardar el usuario en la base de datos
-
-
         //Token 
         const token = await createAccessToken({ id: usuarioEncontrado._id })
 
