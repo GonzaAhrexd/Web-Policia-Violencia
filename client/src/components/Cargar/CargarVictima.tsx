@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react'
 import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
-import SelectRegister from '../Select/SelectRegister'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputNumber from '../InputComponents/InputNumber'
 import InputRadio from '../InputComponents/InputRadio'
+import SelectRegisterSingle from '../Select/SelectRegisterSingle'
 // Campos 
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
@@ -67,9 +67,9 @@ function CargarVictima({watch, register, setValue, errors }: CargarVictimaProps)
         <InputRegister campo="Domicilio" nombre="direccion_victima" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victima} />
       </div>
       <div className='flex flex-col xl:flex-row my-2'>
-        <SelectRegister campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victima} />
-        <SelectRegister campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupacion_victima} />
-        <SelectRegister campo="Vínculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor_victima} />
+        <SelectRegisterSingle campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil} setValue={setValue} error={errors.estado_civil_victima} />
+        <SelectRegisterSingle campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} setValue={setValue} error={errors.ocupacion_victima} />
+        <SelectRegisterSingle campo="Vínculo con el Agresor" nombre="vinculo_con_agresor_victima" opciones={vinculo} setValue={setValue} error={errors.vinculo_con_agresor_victima} />
       </div>
       <div className='flex flex-col xl:flex-row my-2'>
       </div>

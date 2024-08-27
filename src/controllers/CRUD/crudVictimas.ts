@@ -1,6 +1,7 @@
 import victimas from '../../models/victimas'
 import denuncias from '../../models/denuncias'
-import unorm from 'unorm'
+import { agregarActividadReciente } from './crudActividadReciente'
+ 
 // Crear víctima
 export const createVictima = async (req, res) => {
     //Victima nueva
@@ -45,6 +46,7 @@ export const createVictima = async (req, res) => {
                 },
             })
             const victimaSaved = await newVictima.save()
+            agregarActividadReciente(`Se ha creado nueva víctima ${nombre_victima + apellido_victima} `, "Víctima", victimaSaved._id, req.cookies)
             res.json({ message: 'Victima creado con exito', id: victimaSaved._id })
         } else {
             console.log(req.body)
@@ -77,7 +79,7 @@ export const createVictima = async (req, res) => {
             }, { new: true })
 
             await victimas.updateOne({ DNI: dni_victima } );
-
+            victimaUpdated ? agregarActividadReciente(`Se ha agregado una denuncia a la víctima ${nombre_victima + apellido_victima}`, "Víctima", victimaUpdated._id, req.cookies) : null
             res.send('Victima ya existe')
         }
 
@@ -107,6 +109,7 @@ export const deleteVictima = async (id, denunciaId) => {
             if (victimaABorrar.denuncias_realizadas?.length == 1) {
                 // Si solo tiene una denuncia previa, eliminar la víctima
                 await victimas.findByIdAndDelete(id);
+                agregarActividadReciente("Eliminación de víctima", "Víctima", id, {});
             } else {
                 // Si tiene más de una denuncia, restar una a la cantidad de denuncias previas
                 // y eliminar el ID de la denuncia del array denuncias_realizadas
@@ -116,6 +119,7 @@ export const deleteVictima = async (id, denunciaId) => {
                 await victimas.findByIdAndUpdate(id, {
                     denuncias_realizadas: updatedDenunciasRealizadas
                 }, { new: true });
+                agregarActividadReciente("Eliminación de denuncia de víctima", "Víctima", id, {});
             }
         } else {
             console.log("Victima no encontrada");
@@ -162,12 +166,12 @@ export const updateVictima = async (req, res) => {
         }, { new: true })
         res.json(victimaUpdated)
         // Actualizar victima_nombre de las denuncias que tenga la víctima en caso de que se haya modificado
+        await agregarActividadReciente("Edición de víctima", "Víctima", id, req.cookies )
         await denuncias.updateMany({
             victima_ID: id
         }, {
             victima_nombre: `${nombre_victima} ${apellido_victima}`
         });
-
     } catch (error) {
         console.log(error)
     }

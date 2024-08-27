@@ -1,5 +1,5 @@
 import exposicion from '../../models/exposicion'
-
+import { agregarActividadReciente } from './crudActividadReciente'
 
 // EXPOSICIÓN
 export const createExposicion = async (req, res) => {
@@ -33,6 +33,9 @@ export const createExposicion = async (req, res) => {
         })
 
         const expoSave = await newExposicion.save()
+        
+        await agregarActividadReciente("Carga de exposición", "Exposición", expoSave._id, req.cookies)
+        
         res.send('Exposición creada con exito')
 
     } catch (error) {
@@ -134,6 +137,7 @@ export const deleteExposicion = async (req, res) => {
     try {
         const { id } = req.params
         await exposicion.findByIdAndDelete(id)
+        await agregarActividadReciente("Eliminación de exposición", "Exposición", id, req.cookies)
         res.send('Exposición eliminada con éxito')
     } catch (error) {
         console.log(error)

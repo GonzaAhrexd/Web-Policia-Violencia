@@ -31,7 +31,6 @@ const victimasSchema = new mongoose.Schema({
     },
     // Definición del DNI de la victima
     DNI: {
-        unique: true, // Campo único
         type: String, // Tipo de dato String
         required: true, // Campo requerido
         trim: true, // Trim para que no se guarden espacios en blanco

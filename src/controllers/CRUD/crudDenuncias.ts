@@ -6,6 +6,8 @@ import terceros from '../../models/terceros'
 import { deleteVictimario } from './crudVictimarios'
 import { deleteVictima } from './crudVictimas'
 import { deleteTercero } from './crudTerceros'
+import { agregarActividadReciente } from './crudActividadReciente'
+
 // DENUNCIAS
 export const getDenuncias = async (req, res) => {
     interface Query {
@@ -219,6 +221,7 @@ export const createDenuncia = async (req, res) => {
             victimario_nombre: `${nombre_victimario} ${apellido_victimario}`
         });
         
+        await agregarActividadReciente(`Carga de denuncia`, "Denuncia", denunciaSaved._id, req.cookies )
         res.send('Denuncia creada con exito')
     } catch (error) {
         console.log(error)
@@ -230,7 +233,9 @@ export const createDenuncia = async (req, res) => {
 export const deleteDenuncia = async (req, res) => {
     try {
         const { id } = req.params
-
+        // Cómo obtengo el id si este está guardado en las cookies?
+        const user_id = req.cookies.token.id
+        console.log(req.cookies)
         // Buscar la victima y victimario y restarle 1 denuncia para desvincular
         const denunciaABorrar = await denuncia.findById(id)
 
@@ -239,6 +244,9 @@ export const deleteDenuncia = async (req, res) => {
         denunciaABorrar?.tercero_ID != "Sin tercero" && deleteTercero(denunciaABorrar?.tercero_ID, id)
 
         const denunciaDeleted = await denuncia.findByIdAndDelete(id)
+
+        await agregarActividadReciente(`Eliminación de denuncia`, "Denuncia", id, req.cookies)
+
         res.json(denunciaDeleted)
     } catch (error) {
         console.log(error)
@@ -338,6 +346,9 @@ export const updateDenuncia = async (req, res) => {
         if(denunciado_por_tercero){
         await terceros.findByIdAndUpdate(tercero_ID, { $push: { denuncias_realizadas: denunciaUpdated?._id } })
         }
+
+        await agregarActividadReciente(`Edición de denuncia`, "Denuncia", id, req.cookies)
+        
         res.json(denunciaUpdated)
     } catch (error) {
         console.log(error)

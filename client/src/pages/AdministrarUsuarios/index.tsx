@@ -87,7 +87,6 @@ function index() {
                             noDataComponent="No hay denuncias para mostrar"
                             defaultSortFieldId={"Fecha"}
                             expandableIcon={expandableIcon}
-
                         />
                     </div>}
             </div>

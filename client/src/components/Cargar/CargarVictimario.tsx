@@ -2,7 +2,7 @@
 import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
-import SelectRegister from '../Select/SelectRegister'
+import SelectRegisterSingle from '../Select/SelectRegisterSingle'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputNumber from '../InputComponents/InputNumber'
 import InputCheckboxExternalCondition from '../InputComponents/InputCheckboxExternalCondition';
@@ -48,8 +48,8 @@ function CargarVictimario({watch, register, setValue, errors }: CargarVictimario
         <InputRegister campo="Domicilio" nombre="direccion_victimario" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victimario} />
       </div>
       <div className='flex flex-col xl:flex-row my-2'>
-        <SelectRegister campo="Estado Civil" nombre="estado_civil_victimario" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victimario} />
-        <SelectRegister campo="Ocupación" nombre="ocupacion_victimario" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupaciones_victimario} />
+        <SelectRegisterSingle campo="Estado Civil" nombre="estado_civil_victimario" opciones={estadoCivil}  setValue={setValue} error={errors.estado_civil_victimario} />
+        <SelectRegisterSingle campo="Ocupación" nombre="ocupacion_victimario" opciones={ocupaciones} setValue={setValue}  error={errors.ocupaciones_victimario} />
       </div>
       <>
         <span className='ml-4 font-medium'>Detalles</span>

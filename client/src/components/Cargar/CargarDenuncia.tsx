@@ -6,6 +6,7 @@ import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 import InputRegister from '../InputComponents/InputRegister'
 import SelectCargaDenuncias from '../Select/SelectCargaDenuncias'
 import SelectRegister from '../Select/SelectRegister'
+import SelectRegisterSingle from '../Select/SelectRegisterSingle'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputDate from '../InputComponents/InputDate'
 import InputExpediente from '../InputComponents/InputExpediente'
@@ -119,7 +120,7 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col xl:flex-row'>
-        <SelectRegister campo="Género" nombre="genero" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} />
+        <SelectRegisterSingle campo="Género" nombre="genero" opciones={generos} setValue={setValue} error={errors.genero} />
         <InputDate campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
       </div>
       <div className='flex flex-col my-2'>
@@ -133,21 +134,16 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>
-        <SelectRegister isRequired={true} campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
+        <SelectRegisterSingle isRequired={true} campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} setValue={setValue} error={errors.juzgado_interviniente} />
         <InputRegister require={false} campo="Número del organismo judicial" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero} />
       </div>
       <div className='flex flex-col md:flex-row my-2' >
-        <SelectCargaDenuncias campo="Violencia" nombre="violencia" opciones={opcionesViolencia} register={register} setValue={setValue} type="text" error={errors.violencia} />
+        <SelectRegisterSingle campo="Violencia" nombre="violencia" opciones={opcionesViolencia} setValue={setValue} error={errors.violencia} />
         <SelectCargaDenuncias setTitulo={setTitulo} info={tiposModalidades} campo="Modalidades" nombre="modalidades" opciones={opcionesModalidades} register={register} setValue={setValue} type="text" error={errors.modalidades} handleOpenModal={handleOpenModal} />
       </div>
       <>
         <span className='ml-4 font-medium flex flex-row my-2'> Tipo de Violencia
-          
-          <QuestionMarkCircleIcon className="w-6 cursor-pointer" onClick={() => (
-            setTitulo("Tipos de Violencia"),
-            handleOpenModal(tiposDeViolenciaText)
-          )}/>
-         
+          <QuestionMarkCircleIcon className="w-6 cursor-pointer" onClick={() => (setTitulo("Tipos de Violencia"),handleOpenModal(tiposDeViolenciaText) )}/>
         </span>
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2`}>
           <InputCheckbox campo="Física" nombre="fisica" register={register} setValue={setValue} type="checkbox" id="fisica" />
@@ -156,16 +152,15 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
           <InputCheckbox campo="Económica y Patrimonial" nombre="economica_y_patrimonial" register={register} setValue={setValue} type="checkbox" id="economica_patrimonial" />
           <InputCheckbox campo="Simbólica" nombre="simbolica" register={register} setValue={setValue} type="checkbox" id="simbolica" />
           <InputCheckbox campo="Política" nombre="politica" register={register} setValue={setValue} type="checkbox" id="politica" />
-
         </div>
       </>
       <div className='flex flex-col my-2'>
         <span className='ml-4 font-medium'> Empleo de armas </span>
         <div className='flex flex-col md:flex-row my-2'>
-          <InputCheckbox campo="Empleo de Armas" nombre="empleo_de_armas" register={register} setValue={setValue} type="checkbox" error={errors.hijos} setHook={setIsArmas} state={isArmas} id="empleo_de_armas" />
+          <InputCheckbox campo="Empleo de Armas" nombre="empleo_de_armas" register={register} setValue={setValue} type="checkbox" error={errors.empleo_de_armas} setHook={setIsArmas} state={isArmas} id="empleo_de_armas" />
           {isArmas &&
             <>
-              <SelectCargaDenuncias campo="Arma empleada" nombre="tipo_de_arma" opciones={opcionesTiposDeArma} register={register} setValue={setValue} type="text" error={errors.modalidad} />
+              <SelectRegisterSingle campo="Arma empleada" nombre="tipo_de_arma" opciones={opcionesTiposDeArma} setValue={setValue} error={errors.tipo_de_arma} />
             </>
           }
         </div>

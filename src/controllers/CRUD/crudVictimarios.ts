@@ -1,6 +1,6 @@
 import victimario from '../../models/victimario'
 import denuncias from '../../models/denuncias'
-
+import { agregarActividadReciente } from './crudActividadReciente'
 // VICTIMARIO
 // Crear victimario
 export const createVictimario = async (req, res) => {
@@ -33,7 +33,9 @@ export const createVictimario = async (req, res) => {
                 entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,
             })
             const victimarioSaved = await newVictimario.save()
+            await agregarActividadReciente(`Se ha creado un nuevo victimario: ${nombre_victimario} ${apellido_victimario}`, 'Victimario', victimarioSaved._id, req.cookies)
             res.json({ message: 'Victimario creado con exito', id: victimarioSaved._id })
+
         } else {
             res.send('Victimario ya existe')
             //Actualiza al victimario existente y agrega a cantida de denuncias previas una más
@@ -52,6 +54,7 @@ export const createVictimario = async (req, res) => {
                     antecedentes_contravencionales: antecedentes_contravencionales ? antecedentes_contravencionales : false,
                     entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,
                 }, { new: true })
+                victimarioUpdated && await agregarActividadReciente(`Se ha agregado una denuncia al victimario: ${nombre_victimario} ${apellido_victimario}`, 'Victimario', victimarioUpdated._id, req.cookies)
             }
         }
     } catch (error) {

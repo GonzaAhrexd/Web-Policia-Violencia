@@ -1,7 +1,6 @@
 // Importamos mongoose para poder crear el modelo de la base de datos
 import mongoose from 'mongoose'
-import { promiseHooks } from 'v8';
-import { object } from 'zod';
+
 
 // Creamos el esquema de denuncia en la base de datos
 const denunciaSchema = new mongoose.Schema({
