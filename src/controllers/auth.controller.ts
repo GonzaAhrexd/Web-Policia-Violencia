@@ -1,12 +1,20 @@
+// Modelos
 import usuarios from '../models/usuarios'
+
+// Token y autenticación
 import { createAccessToken } from '../libs/jwt'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { TOKEN_SECRET } from '../config'
+// Path
 import path from 'path'
+// Formidable
 const formidable = require('formidable'); //Módulo para formularios
 const fs = require('fs') //Módulo para guardar imagenes
+// Otras dependencias
+import { agregarActividadReciente } from './CRUD/crudActividadReciente'
 
+// Variables de entorno
 const produccion = process.env.produccion
 
 //Registro de usuarios
@@ -37,6 +45,9 @@ export const register = async (req, res) => {
             //Token 
             const token = await createAccessToken({ id: userSaved._id })
             res.cookie('token', token)
+            
+            await agregarActividadReciente("Registro de usuario", "Registros", userSaved._id, nombre_de_usuario)
+            
             //Envio al frontend de los datos del usuario registrado
             res.json({
                 id: userSaved._id,
@@ -54,6 +65,7 @@ export const register = async (req, res) => {
                 createdAt: userSaved.createdAt
 
             })
+
         } else {
             // Error si el usuario ya existe  o no se ingresaron datos
             throw new Error('Usuario ya existe o no se ingresaron datos.')
@@ -106,6 +118,8 @@ export const login = async (req, res) => {
         });
 
         //Envio al frontend de los datos del usuario registrado
+        await agregarActividadReciente("Inicio de sesión", "Inicios", usuarioEncontrado._id, usuarioEncontrado.nombre_de_usuario)
+        
         res.json({
             id: usuarioEncontrado._id,
             username: usuarioEncontrado.nombre_de_usuario,
@@ -121,6 +135,8 @@ export const login = async (req, res) => {
             createdAt: usuarioEncontrado.createdAt
 
         })
+
+
     } catch (error) {
         // Respuesta de error
         console.log(error)

@@ -32,7 +32,7 @@ function Index() {
     const fetchUserImage = async () => {
       if (user && user.id) {
         try {
-          const imagePath = `${APIURL}/users/${user.id}/image`;
+          const imagePath = `${APIURL}/users/${user.id}/image`
           setUserImage(imagePath);
         } catch (error) {
           console.error("Error al cargar la imagen del usuario", error);
@@ -57,7 +57,7 @@ function Index() {
             >
               <img
                 className="h-32 w-32 rounded-full object-cover"
-                src={userImage}
+                src={user.imagen != "sin_definir" ? userImage : "/user.png"}
                 alt="Imagen de perfil"
               />
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">

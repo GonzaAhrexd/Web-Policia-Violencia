@@ -21,6 +21,7 @@ import VerificarDenuncias from './VerificarDenuncias'
 import Buscar from './Buscar'
 // ADMIN
 import ReportarErrores from './ReportarErrores'
+import RegistroDeActividad from './RegistroDeActividad'
 // ESTADÍSTICAS
 import Estadisticas from './Estadisticas'
 // ADMIN
@@ -52,6 +53,7 @@ const AppRoutes = () => {
     { path: '/logout', element: <Logout /> },
     // Admin
     { path: '/administrar-usuarios', element: <AdministrarUsuarios /> },
+    { path: '/registro-de-actividad', element: <RegistroDeActividad /> },
     // 404
     { path: '*', element: <NotFound /> },
   ])

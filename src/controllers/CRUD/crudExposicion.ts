@@ -4,7 +4,9 @@ import { agregarActividadReciente } from './crudActividadReciente'
 // EXPOSICIÓN
 export const createExposicion = async (req, res) => {
     try {
+        // Obtener los datos del cuerpo de la solicitud
         const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
+        // Crear un nuevo objeto con los datos a insertar
         const newExposicion = new exposicion({
             nombre_victima: nombre_victima,
             apellido_victima: apellido_victima,
@@ -32,10 +34,13 @@ export const createExposicion = async (req, res) => {
             }
         })
 
+        // Guardar el nuevo objeto en la base de datos
         const expoSave = await newExposicion.save()
         
+        // Agregar actividad reciente
         await agregarActividadReciente("Carga de exposición", "Exposición", expoSave._id, req.cookies)
         
+        // Respuesta del servidor
         res.send('Exposición creada con exito')
 
     } catch (error) {

@@ -23,7 +23,7 @@ export const getDenuncias = async (req, res) => {
         jurisdiccion_policial?: string
     }
     // Obtener los parámetros de la URL
-    const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria } = req.params;
+    const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, manual } = req.params;
     // Crear el objeto de consulta
     const query: Query = { };
 
@@ -62,6 +62,10 @@ export const getDenuncias = async (req, res) => {
     // Obtener las denuncias
     try {
         const denuncias = await denuncia.find(query);
+        if(manual){
+            // Agrega a la actividad reciente
+            await agregarActividadReciente(`Búsqueda de denuncias`, "Denuncia", `-`, req.cookies)
+        }
         res.json(denuncias);
     } catch (error) {
         // Error al obtener las denuncias
@@ -199,29 +203,36 @@ export const createDenuncia = async (req, res) => {
             observaciones,
             denunciada_cargada_por: user_id
         })
+       
         // Guardar la denuncia
         const denunciaSaved = await newDenuncia.save()
+       
         // Agrega el ID de la denuncia nueva al array que tiene la victima con sus denuncias cargadas
         await victimas.findByIdAndUpdate(findVictima?._id ? findVictima._id : victima_ID, { $push: { denuncias_realizadas: denunciaSaved._id } })
-       // Agrega el ID de la denuncia nueva al array que tiene el victimario con sus denuncias cargadas
+       
+        // Agrega el ID de la denuncia nueva al array que tiene el victimario con sus denuncias cargadas
         await victimario.findByIdAndUpdate(findVictimario?._id ? findVictimario._id : victimario_ID, { $push: { denuncias_en_contra: denunciaSaved._id } })        
+        
         // Agrega esta denuncia al tercero
         await terceros.findByIdAndUpdate(findTercero?._id, { $push: { denuncias_realizadas: denunciaSaved._id } })
         
+        // Actualiza el nombre de la victima en todas las denuncias que tengan el mismo ID
         await denuncia.updateMany({
             victima_ID: findVictima?._id ? findVictima._id : victima_ID
         }, {
             victima_nombre: `${nombre_victima} ${apellido_victima}`
         });
 
-        
+        // Actualiza el nombre del victimario en todas las denuncias que tengan el mismo ID
         await denuncia.updateMany({
             victimario_ID: findVictimario?._id ? findVictimario._id : victima_ID
         }, {
             victimario_nombre: `${nombre_victimario} ${apellido_victimario}`
         });
-        
+        // Agrega a la actividad reciente
         await agregarActividadReciente(`Carga de denuncia`, "Denuncia", denunciaSaved._id, req.cookies )
+      
+        // Respuesta de la API
         res.send('Denuncia creada con exito')
     } catch (error) {
         console.log(error)
@@ -238,13 +249,18 @@ export const deleteDenuncia = async (req, res) => {
         console.log(req.cookies)
         // Buscar la victima y victimario y restarle 1 denuncia para desvincular
         const denunciaABorrar = await denuncia.findById(id)
-
+        // Elimina la denuncia de la victima y victimario
         deleteVictima(denunciaABorrar?.victima_ID, id)
+        // Elimina la denuncia del victimario
         deleteVictimario(denunciaABorrar?.victimario_ID, id)
+
+        // Si la denuncia fue realizada por un tercero, se elimina
         denunciaABorrar?.tercero_ID != "Sin tercero" && deleteTercero(denunciaABorrar?.tercero_ID, id)
 
+        // Elimina la denuncia
         const denunciaDeleted = await denuncia.findByIdAndDelete(id)
 
+        // Agrega a la actividad reciente
         await agregarActividadReciente(`Eliminación de denuncia`, "Denuncia", id, req.cookies)
 
         res.json(denunciaDeleted)
@@ -346,9 +362,11 @@ export const updateDenuncia = async (req, res) => {
         if(denunciado_por_tercero){
         await terceros.findByIdAndUpdate(tercero_ID, { $push: { denuncias_realizadas: denunciaUpdated?._id } })
         }
-
-        await agregarActividadReciente(`Edición de denuncia`, "Denuncia", id, req.cookies)
         
+        console.log(req.cookies)
+        // Agrega a la actividad reciente
+        await agregarActividadReciente(`Edición de denuncia`, "Denuncia", id, req.cookies)
+
         res.json(denunciaUpdated)
     } catch (error) {
         console.log(error)
@@ -358,8 +376,11 @@ export const updateDenuncia = async (req, res) => {
 // Obtener denuncias por ID
 export const getDenunciasId = async (req, res) => {
     try {
+        // Obtiene la denuncia por ID
         const { id } = req.params
+        // Busca la denuncia por ID
         const denunciaByID = await denuncia.findById(id)
+        // Respuesta de la API
         res.json(denunciaByID)
     } catch (error) {
         console.log(error)
@@ -375,4 +396,5 @@ export const getCantidadDenuncias = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+    
 }

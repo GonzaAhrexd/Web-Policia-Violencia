@@ -28,7 +28,7 @@ function BuscarDenuncias() {
     } } = useForm()
     const handleBusqueda = async (values: any) => {
         const fetchDenuncias = async () => {
-            const result = await buscarDenuncias(values);
+            const result = await buscarDenuncias(values, true);
             setDenunciasAMostrar(result)
         }
         fetchDenuncias();

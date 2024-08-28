@@ -137,7 +137,7 @@ function index() {
     // Búsqueda
     const handleBusqueda = async (values: any) => {
         const fetchDenuncias = async () => {
-            const result = await buscarDenuncias(values);
+            const result = await buscarDenuncias(values, false);
             setDenunciasAMostrar(result)
             handleLocalidadesStats()
         }
