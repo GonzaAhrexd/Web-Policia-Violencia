@@ -43,10 +43,10 @@ function Home() {
     { mostrar: "Estadísticas", url: "/estadísticas", svg: ChartPieIcon },
   ]
   const seccionesAdmin = [
-    { mostrar: "Denuncias internas", url: "/denuncias-internas", svg: DocumentTextIcon },
-    { mostrar: "Denuncias externas", url: "/denuncias-externas", svg: DocumentArrowDownIcon },
     { mostrar: "Administrar usuarios", url: "/administrar-usuarios", svg: UserPlusIcon },
     { mostrar: "Registro de Actividad", url: "/registro-de-actividad", svg: PresentationChartBarIcon },
+    { mostrar: "Denuncias internas", url: "/denuncias-internas", svg: DocumentTextIcon },
+    { mostrar: "Denuncias externas", url: "/denuncias-externas", svg: DocumentArrowDownIcon },
     { mostrar: "Selectores de carga", url: "/selectores-de-carga", svg: ArrowUpTrayIcon },
     { mostrar: "Resumen", url: "/resumen", svg: ClipboardDocumentIcon },
   ]
@@ -71,50 +71,53 @@ function Home() {
 
   return (
     <>
-      <NavBar user={user} />  
-      <div className='h-screen p-10'>
-        <h1 className='text-4xl sm:text-7xl'>¡{saludosDependiendoLaHora()}, {user?.nombre}!</h1>
-        {user?.rol === 'sin_definir' && (
-          <div className='flex mt-10 text-xl'>
-            <p>Aún se te está asignando el rol, regresa pronto.</p>
-          </div>
-        )}
-        <div>
-          <h2 className='text-3xl my-5'>Accesos directos</h2>
-          <div className='grid gap-1 grid-cols-1 sm:gap-5 md:grid-cols-4 lg:grid-cols-5 w-full '>
-            <CardActions mostrar={"Mi perfil"} url={"/mi-perfil"} SVGIcon={UserIcon}/>
-            <CardActions mostrar={"Sugerencia o error"} url={"/reportar-errores"} SVGIcon={ExclamationTriangleIcon} />
-           
-            {isAgente && seccionesAgente.map((seccion, index) => (
-              <CardActions key={index} mostrar={seccion.mostrar} url={seccion.url} SVGIcon={seccion.svg} />
-            ))}
-            {isCarga && seccionesCarga.map((seccion, index) => (
-              <CardActions key={index} mostrar={seccion.mostrar} url={seccion.url} SVGIcon={seccion.svg} />
-            ))}
+      <NavBar user={user} />
+      <div className='h-screen '>
+        <div className='p-10'>
 
-        
-            {isAdmin && 
-              <CardMostrarSeccionAdmin mostrar="Mostrar sección admin" showAdminSection={showAdminSection} setShowAdminSection={setShowAdminSection} url={""} />
-            }
-            
-            {(isAdmin && showAdminSection) && seccionesAdmin.map((seccion, index) => (
-              <CardActions key={index} mostrar={seccion.mostrar} url={seccion.url} SVGIcon={seccion.svg} />
-            ))}
-          </div>
-        </div>
-
-        {(user?.rol === 'admin' || user?.rol === 'carga') && (
+          <h1 className='text-4xl sm:text-7xl'>¡{saludosDependiendoLaHora()}, {user?.nombre}!</h1>
+          {user?.rol === 'sin_definir' && (
+            <div className='flex mt-10 text-xl'>
+              <p>Aún se te está asignando el rol, regresa pronto.</p>
+            </div>
+          )}
           <div>
-            <h2 className='text-3xl my-5 '>Resumen</h2>
-            <div className='grid gap-1 grid-cols-1 sm:grid-cols-1 sm:gap-5 md:grid-cols-3 xl:grid-cols-5 w-full p-2'>
-              <CardProfile title="Mi cuenta" description="Mis datos" usuario={user} />
-              <CardDenunciasRecientes title="Denuncias recientes" />
-              <CardDenunciasPendientesValidacion />
-              <CardDenunciasTotales/>
-              <CardDenunciasGrafico/>
+            <h2 className='text-3xl my-5'>Accesos directos</h2>
+            <div className='grid gap-1 grid-cols-1 sm:gap-5 md:grid-cols-4 lg:grid-cols-5 w-full '>
+              <CardActions mostrar={"Mi perfil"} url={"/mi-perfil"} SVGIcon={UserIcon} />
+              <CardActions mostrar={"Sugerencia o error"} url={"/reportar-errores"} SVGIcon={ExclamationTriangleIcon} />
+
+              {isAgente && seccionesAgente.map((seccion, index) => (
+                <CardActions key={index} mostrar={seccion.mostrar} url={seccion.url} SVGIcon={seccion.svg} />
+              ))}
+              {isCarga && seccionesCarga.map((seccion, index) => (
+                <CardActions key={index} mostrar={seccion.mostrar} url={seccion.url} SVGIcon={seccion.svg} />
+              ))}
+
+
+              {isAdmin &&
+                <CardMostrarSeccionAdmin mostrar="Mostrar sección admin" showAdminSection={showAdminSection} setShowAdminSection={setShowAdminSection} url={""} />
+              }
+
+              {(isAdmin && showAdminSection) && seccionesAdmin.map((seccion, index) => (
+                <CardActions key={index} mostrar={seccion.mostrar} url={seccion.url} SVGIcon={seccion.svg} />
+              ))}
             </div>
           </div>
-        )}
+
+          {(user?.rol === 'admin' || user?.rol === 'carga') && (
+            <div>
+              <h2 className='text-3xl my-5 '>Resumen</h2>
+              <div className='grid gap-1 grid-cols-1 sm:grid-cols-1 sm:gap-5 md:grid-cols-3 xl:grid-cols-5 w-full p-2'>
+                <CardProfile title="Mi cuenta" description="Mis datos" usuario={user} />
+                <CardDenunciasRecientes title="Denuncias recientes" />
+                <CardDenunciasPendientesValidacion />
+                <CardDenunciasTotales />
+                <CardDenunciasGrafico />
+              </div>
+            </div>
+            )}
+        </div>
       </div>
 
     </>

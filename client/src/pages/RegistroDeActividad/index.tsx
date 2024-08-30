@@ -59,7 +59,7 @@ function index() {
                         )}>
                     <InputDateRange  register={register} setValue={setValue} isRequired={true} />
                     <SelectRegister isRequired={false}  campo={"Sección"} nombre={"seccion"} opciones={listaDeSecciones} setValue={setValue} error={errors.seccion} />
-                    <InputRegister register={register} require={false} campo={"Usuario"} nombre={"usuario"} type="text" error={errors.usuario} /> 
+                    <InputRegister busqueda register={register} require={false} campo={"Usuario"} nombre={"usuario"} type="text" error={errors.usuario} /> 
                     <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
                 </form>
                 {listaDeActividad?.length > 0 &&

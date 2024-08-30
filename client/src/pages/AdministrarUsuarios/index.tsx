@@ -10,7 +10,6 @@ import DataTable from 'react-data-table-component';
 import NavBar from '../../components/NavBar'
 import InputRegister from '../../components/InputComponents/InputRegister';
 import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle';
-
 // Backend
 import { buscarUsuario } from '../../api/CRUD/usuarios.crud';
 
@@ -53,7 +52,8 @@ function index() {
     return (
         <>
             <NavBar user={user} />
-            <div className='h-screen sm:h-full p-2 sm:p-10'>
+            <div className='h-screen'>
+                <div className='p-2 sm:p-10'>
                 <h1 className='text-3xl my-5'>Administrar usuarios</h1>
                 <form className="w-full flex flex-col items-center"
                     onSubmit={
@@ -76,7 +76,7 @@ function index() {
                         <h2 className='text-2xl my-5'>Usuarios</h2>
                         <DataTable
                             columns={columns}
-                            data={ listaDeUsuarios }
+                            data={listaDeUsuarios}
                             pagination
                             expandableRows
                             expandableRowsComponent={expandedComponents}
@@ -90,7 +90,7 @@ function index() {
                         />
                     </div>}
             </div>
-
+            </div>
         </>
 
     )

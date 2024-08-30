@@ -52,7 +52,7 @@ function Index() {
       }
     };
     const fetchActividad = async () => {
-      const actividades = await obtenerMiActividad(user.id);
+      const actividades = await obtenerMiActividad(user?.id);
       setListaActividad(actividades);
     }
     fetchActividad();

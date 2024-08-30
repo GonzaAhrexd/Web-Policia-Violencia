@@ -274,7 +274,7 @@ function NavBar({ user }: NavBarProps) {
                   index === 2 ? "primary" : index === menuAdminItems.length - 1 ? "danger" : "foreground"
                 }
                 className="w-full text-2xl text-white"
-                href={`/${item.toLowerCase().replace(" ", "-")}`}
+                href={`/${item.toLowerCase().replace(/ /g, "-")}`}
                 size="lg"
               >
                 {item}

@@ -194,7 +194,7 @@ function index() {
                 {denunciasAMostrar?.length > 0 &&
                     <>
                         <div className='mt-5 flex flex-col items-center justify-center '>
-                            <div className={`flex flex-col  ${showAll && 'border-blue-800 border-2 rounded-lg bg-blue-50 '} p-5 w-full items-center justify-center md:w-3/10`}>
+                            <div className={`flex flex-col  ${showAll && 'border-blue-800 border-2 rounded-lg bg-blue-50 '} p-5 w-full items-center justify-center md:w-3/10 `}>
                                 <div className={`w-full flex  ${!showAll ? 'flex-row' : "flex-col"} justify-center items-center`}>
                                     {(showAll || showLocalidadesStats) && <button className={`my-2 ${showLocalidadesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleLocalidadesStats()}>Localidades</button>}
                                     {(showAll || showDivionesStats) && <button className={`my-2 ${showDivionesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleDivisionesStats()}>Divisiones</button>}

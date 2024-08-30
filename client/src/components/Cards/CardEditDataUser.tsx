@@ -29,7 +29,6 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
 
     return (
         <div className="bg-white shadow-lg rounded-lg md:w-8/10 p-4">
-
             <form className='flex flex-col w-95/100'
                 onSubmit={handleSubmit(async (values: any) => {
                     // Evalúa la longitud del teléfono
@@ -46,28 +45,28 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
                                 cancelButtonColor: '#FF554C',
                                 confirmButtonText: 'Sí, editar',
                                 cancelButtonText: 'Cancelar'
-                              }).then(async (result: any) => {
-                                if(result.isConfirmed) {
-                                  // Edita el perfil
-                                  const response = await editProfile(values);
-                                  // Si esta da respuesta, recarga la página
-                                  if (response) {
-                                      setMensajeError('')
-                                      window.location.reload()
+                            }).then(async (result: any) => {
+                                if (result.isConfirmed) {
+                                    values.id = user.id
+                                    // Edita el perfil
+                                    const response = await editProfile(values);
+                                    // Si esta da respuesta, recarga la página
+                                    if (response) {
+                                        setMensajeError('')
+                                        window.location.reload()
                                     } else { // Sino, el devuelve como mensaje de error que el usuario ya existe, si se intenta cambiar el nombre de usuario
                                         setMensajeError("Usuario ya existe")
                                     }
                                 }
-                                })
-                            
+                            })
+
                         } catch (error: any) { // Si ocurre un error, devuelve que ha ocurrido el error del usuario existente
                             setMensajeError("Usuario ya existente")
                         }
-                    
+
                     }
                 })}>
                 {/* ID oculta para luego pasarlo al submit */}
-                <InputRegister campo="id" nombre="id" register={register} setValue={setValue} type="hidden" error={errors.nombre} valor={user.id} />
                 <div className='flex flex-col md:flex-row'>
                     <InputRegister campo="Nombre" nombre="nombre" register={register} setValue={setValue} type="text" error={errors.nombre} valor={user.nombre} />
                     <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} valor={user.apellido} />

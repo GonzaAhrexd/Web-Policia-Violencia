@@ -14,12 +14,14 @@ export default function CardMostrarSeccionAdmin({
   setShowAdminSection,
 }: Props): JSX.Element {
   return (
-    <div className={`flex flex-row justify-between cursor-pointer rounded-lg p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:bg-sky-950 ${showAdminSection? "bg-sky-950" : "bg-sky-900"}`} onClick={() => setShowAdminSection?.(!showAdminSection)}>
-          <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-50">
-            {showAdminSection ? 'Ocultar sección admin' : 'Mostrar sección admin'}
-          </h5>
-            <WrenchScrewdriverIcon className='text-white w-6'/>
-           
-        </div>
+    <div
+    className={`flex flex-row justify-between cursor-pointer rounded-lg p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:bg-sky-950 ${showAdminSection ? "bg-sky-950" : "bg-sky-900"} transform transition-transform duration-300 ease-in-out hover:scale-105`}
+    onClick={() => setShowAdminSection?.(!showAdminSection)}
+  >
+    <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-50">
+      {showAdminSection ? 'Ocultar sección admin' : 'Mostrar sección admin'}
+    </h5>
+    <WrenchScrewdriverIcon className="text-white w-6" />
+  </div>
       )
 }
