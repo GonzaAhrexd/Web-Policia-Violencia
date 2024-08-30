@@ -18,3 +18,12 @@ export const cambiarRol = async (values: any) => {
         console.log(error)  
     }
 }
+// Modificar datos usuario
+export const editUser = async (values: any) => {
+    try {
+        const response = await axios.put(`/editar-usuario/${values.id}`, values)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

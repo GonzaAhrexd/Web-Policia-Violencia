@@ -10,12 +10,13 @@ import DataTable from 'react-data-table-component';
 import NavBar from '../../components/NavBar'
 import SelectRegister from '../../components/Select/SelectRegisterSingle';
 import InputDateRange from '../../components/InputComponents/InputDateRange';
+import InputRegister from '../../components/InputComponents/InputRegister';
 // Backend
 import { listarActividadesRecientes } from '../../api/CRUD/actividadReciente.crud';
 
 // Dependencias de la misma carpeta
 import { customStyles } from '../../GlobalConst/customStyles'
-import { columns } from './columnsDataTable'
+import columnsRecent  from './columnsRecentActivity'
 
 function index() {
     const { user, isAuthenticated, isLoading } = useAuth();
@@ -58,13 +59,14 @@ function index() {
                         )}>
                     <InputDateRange  register={register} setValue={setValue} isRequired={true} />
                     <SelectRegister isRequired={false}  campo={"Sección"} nombre={"seccion"} opciones={listaDeSecciones} setValue={setValue} error={errors.seccion} />
+                    <InputRegister register={register} require={false} campo={"Usuario"} nombre={"usuario"} type="text" error={errors.usuario} /> 
                     <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
                 </form>
                 {listaDeActividad?.length > 0 &&
                     <div className="flex flex-col w-full">
                         <h2 className='text-2xl my-5'>Registro de Actividad</h2>
                         <DataTable
-                            columns={columns}
+                            columns={columnsRecent}
                             data={ listaDeActividad }
                             pagination
                             customStyles={customStyles}

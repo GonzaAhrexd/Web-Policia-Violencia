@@ -64,7 +64,7 @@ export const getDenuncias = async (req, res) => {
         const denuncias = await denuncia.find(query);
         if(manual){
             // Agrega a la actividad reciente
-            await agregarActividadReciente(`Búsqueda de denuncias`, "Denuncia", `-`, req.cookies)
+            await agregarActividadReciente(`Búsqueda de denuncias`, "Denuncia", `Varias`, req.cookies)
         }
         res.json(denuncias);
     } catch (error) {
@@ -250,9 +250,9 @@ export const deleteDenuncia = async (req, res) => {
         // Buscar la victima y victimario y restarle 1 denuncia para desvincular
         const denunciaABorrar = await denuncia.findById(id)
         // Elimina la denuncia de la victima y victimario
-        deleteVictima(denunciaABorrar?.victima_ID, id)
+        deleteVictima(denunciaABorrar?.victima_ID, id, req)
         // Elimina la denuncia del victimario
-        deleteVictimario(denunciaABorrar?.victimario_ID, id)
+        deleteVictimario(denunciaABorrar?.victimario_ID, id, req)
 
         // Si la denuncia fue realizada por un tercero, se elimina
         denunciaABorrar?.tercero_ID != "Sin tercero" && deleteTercero(denunciaABorrar?.tercero_ID, id)

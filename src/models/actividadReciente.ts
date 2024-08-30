@@ -29,6 +29,11 @@ const actividadRecienteSchema = new mongoose.Schema({
         type: String, // Tipo de dato ObjectId
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
+    },
+    id_usuario: {
+        type: String, // Tipo de dato ObjectId
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
     }
 })
 

@@ -76,7 +76,7 @@ export const getVictimario = async (req, res) => {
 }
 
 // Eliminar victimario, solo accesible desde este archivo
-export const deleteVictimario = async (id, denunciaId) => {
+export const deleteVictimario = async (id, denunciaId, req) => {
     try {
         // Buscar la víctima por ID
         const victimarioABorrar = await victimario.findById(id)
@@ -85,6 +85,7 @@ export const deleteVictimario = async (id, denunciaId) => {
             if (victimarioABorrar.denuncias_en_contra.length == 0) {
                 // Si solo tiene una denuncia previa, eliminar la víctima
                 await victimario.findByIdAndDelete(id);
+                await agregarActividadReciente("Eliminación de denuncia del victimario", "Victimario", id, req.cookies);
             } else {
                 // Si tiene más de una denuncia, restar una a la cantidad de denuncias previas
                 // y eliminar el ID de la denuncia del array denuncias_realizadas
@@ -95,6 +96,8 @@ export const deleteVictimario = async (id, denunciaId) => {
                 await victimario.findByIdAndUpdate(id, {
                     denuncias_en_contra: updateDenunciasEnContra
                 }, { new: true });
+                await agregarActividadReciente("Eliminación de denuncia del victimario", "Victimario", id, req.cookies);
+
             }
         } else {
             console.log("Victimario no encontrado");
@@ -132,6 +135,7 @@ export const updateVictimario = async (req, res) => {
             victimario_nombre: `${nombre_victimario} ${apellido_victimario}`
         });
 
+        await agregarActividadReciente("Edición de victimario", "Victimario", id, req.cookies )
         res.json(victimarioUpdated)
 
     } catch (error) {
@@ -214,6 +218,7 @@ export const buscarVictimario = async (req, res) => {
         // Obtener las denuncias
         try {
             const victimariosFind = await victimario.find(query);
+            await agregarActividadReciente("Búsqueda de victimario", "Victimario", "Varias", req.cookies)
             res.json(victimariosFind);
         } catch (error) {
             // Error al obtener las denuncias

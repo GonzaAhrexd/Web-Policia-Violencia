@@ -7,14 +7,15 @@ import usuario from '../../models/usuarios'
 export async function agregarActividadReciente(descripcion: String, modelo_modificado: String, id_del_modelo: Object, cookies: any) {
     const { token } = cookies
 
-    console.log(cookies)
     if(cookies && !token){
+        const usuarioEncontrado = await usuario.findOne({nombre_de_usuario: cookies})
         const actividad = new actividadReciente({
             fecha: new Date(),
             modelo_modificado: modelo_modificado,
             id_del_modelo: id_del_modelo,
             descripcion: descripcion,
-            usuario: cookies
+            usuario: usuarioEncontrado?.nombre_de_usuario,
+            id_usuario: usuarioEncontrado?._id
         })
         // Se guarda la actividad reciente en la base de datos
         await actividad.save()
@@ -32,7 +33,8 @@ export async function agregarActividadReciente(descripcion: String, modelo_modif
             modelo_modificado: modelo_modificado,
             id_del_modelo: id_del_modelo,
             descripcion: descripcion,
-            usuario: usuarioEncontrado?.nombre_de_usuario
+            usuario: usuarioEncontrado?.nombre_de_usuario,
+            id_usuario: usuarioEncontrado?._id
         })
         // Se guarda la actividad reciente en la base de datos
         await actividad.save()
@@ -44,15 +46,16 @@ export async function agregarActividadReciente(descripcion: String, modelo_modif
 export const buscarActividadReciente = async (req, res) => {
     try {
 
-        const { desde, hasta, seccion } = req.params
-        // Se busca la actividad reciente
+        const { desde, hasta, seccion, usuario } = req.params
 
+        // Se busca la actividad reciente
         interface Query {
             fecha?: {
                 $gte?: string;
                 $lte?: string;
             };
             modelo_modificado?: string;
+            usuario?: string;
         }
 
         const query: Query = {};
@@ -73,13 +76,24 @@ export const buscarActividadReciente = async (req, res) => {
             query.modelo_modificado = seccion;
         }
 
-        console.log(query)
-
+        // Si se ingresó un valor, se agrega a la consulta
+        if (usuario !== "no_ingresado") {
+            query.usuario = usuario;
+        }
 
         const actividad = await actividadReciente.find(query)
         // Se retorna la actividad reciente
+        res.json(actividad)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-        console.log(actividad)
+export const buscasActividadPorIdUsuario = async (req, res) => {
+    try {
+        const { id } = req.params
+        const actividad = await actividadReciente.find({ id_usuario: id })
+        // Se retorna la actividad reciente
         res.json(actividad)
     } catch (error) {
         console.log(error)

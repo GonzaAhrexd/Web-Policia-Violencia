@@ -100,7 +100,7 @@ export const getVictima = async (req, res) => {
 }
 
 // Eliminar víctima, solo accesible desde este archivo
-export const deleteVictima = async (id, denunciaId) => {
+export const deleteVictima = async (id, denunciaId, req) => {
     try {
         // Buscar la víctima por ID
         const victimaABorrar = await victimas.findById(id);
@@ -109,7 +109,7 @@ export const deleteVictima = async (id, denunciaId) => {
             if (victimaABorrar.denuncias_realizadas?.length == 1) {
                 // Si solo tiene una denuncia previa, eliminar la víctima
                 await victimas.findByIdAndDelete(id);
-                agregarActividadReciente("Eliminación de víctima", "Víctima", id, {});
+                await agregarActividadReciente("Eliminación de víctima", "Víctima", id, {});
             } else {
                 // Si tiene más de una denuncia, restar una a la cantidad de denuncias previas
                 // y eliminar el ID de la denuncia del array denuncias_realizadas
@@ -119,7 +119,7 @@ export const deleteVictima = async (id, denunciaId) => {
                 await victimas.findByIdAndUpdate(id, {
                     denuncias_realizadas: updatedDenunciasRealizadas
                 }, { new: true });
-                agregarActividadReciente("Eliminación de denuncia de víctima", "Víctima", id, {});
+                await agregarActividadReciente("Eliminación de denuncia de víctima", "Víctima", id, req.cookies);
             }
         } else {
             console.log("Victima no encontrada");
@@ -248,9 +248,10 @@ export const buscarVictima = async (req, res) => {
             query._id = denuncia.victima_ID;
         }
     }
-    // Obtener las denuncias
+    // Obtener las víctimas
     try {
         const victimasBuscar = await victimas.find(query);
+        await agregarActividadReciente("Búsqueda de víctima", "Víctima", "Varias", req.cookies)
         res.json(victimasBuscar);
     } catch (error) {
         // Error al obtener las denuncias

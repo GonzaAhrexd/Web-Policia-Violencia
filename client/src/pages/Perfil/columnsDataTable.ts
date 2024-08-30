@@ -25,21 +25,13 @@ export const columns = [
         sortable: true,
         // Haz que muestre la fecha con la hora en formato dd/mm/yyyy hh:mm:ss con GMT-3
         selector: (row:Row) => new Date(row.fecha).toLocaleString('es-AR', {timeZone: 'America/Argentina/Buenos_Aires'}),
+        id: "fecha",
         style: {
             fontSize: '14px',
             fontWeight: 500,
         },
 
         
-    },
-    {
-        // Usuario
-        name: 'Usuario',
-        selector: (row:Row) => row.usuario,
-        style: {
-            fontSize: '14px',
-            fontWeight: 500,
-        },
     },
     {
         // Descripción

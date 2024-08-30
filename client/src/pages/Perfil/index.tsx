@@ -1,12 +1,23 @@
+// Hooks
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '../../context/auth';
 import { Navigate } from 'react-router-dom';
+// Componentes
 import NavBar from '../../components/NavBar'
 import CardDataUsuario from '../../components/Cards/CardDataUsuario';
 import CardUserDenunciasRecientes from '../../components/Cards/CardUserDenunciasRecientes';
 import CardEditDataUser from '../../components/Cards/CardEditDataUser';
-import { editUserImg  } from '../../api/auth';
+// Datatable
+import DataTable from 'react-data-table-component';
+// Iconos
 import { PencilIcon } from '@heroicons/react/24/outline' // Asegúrate de tener instalado Heroicons
+// Backend
+import { editUserImg } from '../../api/auth';
+// Configuraciones
+import { customStyles } from '../../GlobalConst/customStyles'
+import { columns } from './columnsDataTable'
+// Backend 
+import { obtenerMiActividad } from '../../api/CRUD/actividadReciente.crud';
 
 const APIURL = import.meta.env.VITE_BASE_URL;
 
@@ -15,6 +26,7 @@ function Index() {
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef(null);
   const [userImage, setUserImage] = useState('/user.png');
+  const [listaActividad, setListaActividad] = useState([]);
 
   const handleImageClick = () => {
     // @ts-ignore
@@ -39,6 +51,11 @@ function Index() {
         }
       }
     };
+    const fetchActividad = async () => {
+      const actividades = await obtenerMiActividad(user.id);
+      setListaActividad(actividades);
+    }
+    fetchActividad();
     fetchUserImage();
   }, [user]);
 
@@ -48,7 +65,7 @@ function Index() {
   return (
     <>
       <NavBar user={user} />
-      <div className="max-w-full h-full xl:h-screen mx-auto bg-gray-100 shadow-md rounded-lg overflow-hidden">
+      <div className="max-w-full h-full mx-auto bg-gray-100 shadow-md rounded-lg overflow-hidden">
         <div className="flex justify-center mt-10">
           <form encType="multipart/form-data">
             <div
@@ -92,6 +109,26 @@ function Index() {
             <CardEditDataUser user={user} setIsEditing={setIsEditing} />
           }
         </div>
+        <div className='w-full'>
+          <div className='h-screen sm:h-full p-2 sm:p-10'>
+            <h2 className='text-2xl my-5'>Mi Actividad reciente</h2>
+            {listaActividad?.length > 0 &&
+              <DataTable
+                columns={columns}
+                data={listaActividad}
+                pagination
+                customStyles={customStyles}
+                responsive={true}
+                striped={true}
+                highlightOnHover={true}
+                noDataComponent="No hay denuncias para mostrar"
+                defaultSortFieldId={"fecha"}
+                defaultSortAsc={false}
+              />
+            }
+          </div>
+        </div>
+
       </div>
     </>
   );

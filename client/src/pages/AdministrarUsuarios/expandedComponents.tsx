@@ -9,18 +9,23 @@ ________________________________________________________________________________
 // Componentes
 import SimpleTableCheckorX from '../../components/ShowData/SimpleTableCheckorX';
 import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle';
-// React hook form
+import EditUser from '../../components/EditUser/EditUser';
+// Hooks
 import { useForm } from 'react-hook-form'
-
+import { useEffect, useState } from 'react'
 // Backend
 import { cambiarRol } from '../../api/CRUD/usuarios.crud'
-
+import { obtenerMiActividad } from '../../api/CRUD/actividadReciente.crud'
 // Swal
 import Swal from 'sweetalert2'
 
 // Autenticación
 import { useAuth } from '../../context/auth'
 
+// DataTable
+import DataTable from 'react-data-table-component';
+import { customStyles } from '../../GlobalConst/customStyles';
+import { columns } from '../Perfil/columnsDataTable';
 
 interface expandedComponentsProps {
     data: any
@@ -28,11 +33,20 @@ interface expandedComponentsProps {
 function expandedComponents({ data }: expandedComponentsProps) {
 
     const { user } = useAuth();
-
-
     const { setValue, handleSubmit, formState: {
         errors
     } } = useForm()
+    const APIURL = import.meta.env.VITE_BASE_URL
+
+    const [listaActividad, setListaActividad] = useState([])
+    const [isEditing, setIsEditing] = useState(false);
+    useEffect(() => {
+        const fetchActividad = async () => {
+            const actividades = await obtenerMiActividad(data._id);
+            setListaActividad(actividades);
+        }
+        fetchActividad();
+    }, [data]);
 
     // Mostrar datos de los hijos
     const usuarioDatosMostrar = [
@@ -56,11 +70,22 @@ function expandedComponents({ data }: expandedComponentsProps) {
     ]
 
     return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl">
-        <h1 className='text-5xl my-5 font-sans'> Usuario {data.nombre_de_usuario} </h1>
-        <h1 className='text-3xl my-5 font-sans'>Datos del usuario</h1>
-        <div className='flex flex-col'>
-            <SimpleTableCheckorX campo="" datos={usuarioDatosMostrar} />
+        <div className='flex flex-col items-center justify-around'>
+            <img className="h-32 w-32 rounded-full object-cover" src={user.imagen != "sin_definir" ? `${APIURL}/users/${data?._id}/image` : "/user.png"} alt="" />
+            <h1 className='text-5xl my-5 font-sans'> Usuario {data.nombre_de_usuario} </h1>
         </div>
+        <h1 className='text-3xl my-5 font-sans'>Datos del usuario</h1>
+        <div className='flex flex-col items-center justify-center'>
+            {!isEditing ?
+                <>
+                    <SimpleTableCheckorX campo="" datos={usuarioDatosMostrar} />
+                    <button className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full md:w-3/10 flex items-center justify-center mt-2 md:mt-0' onClick={() => setIsEditing(true)}>Modificar</button>
+                </>
+                :
+                <EditUser datos={data} setIsEditing={setIsEditing} />
+            }
+        </div>
+
         <h1 className='text-3xl my-5 font-sans'>Asignar rol</h1>
         {user.id === data._id ? <h1 className='text-2xl my-5 font-sans'>No puedes cambiar tu propio rol</h1> :
             <>
@@ -112,6 +137,25 @@ function expandedComponents({ data }: expandedComponentsProps) {
             </>
 
         }
+        <div className='w-full'>
+            <div className='h-screen sm:h-full p-2 sm:p-10'>
+                <h2 className='text-2xl my-5'>Actividad reciente</h2>
+                {listaActividad?.length > 0 &&
+                    <DataTable
+                        columns={columns}
+                        data={listaActividad}
+                        pagination
+                        customStyles={customStyles}
+                        responsive={true}
+                        striped={true}
+                        highlightOnHover={true}
+                        noDataComponent="No hay denuncias para mostrar"
+                        defaultSortFieldId={"fecha"}
+                        defaultSortAsc={false}
+                    />
+                }
+            </div>
+        </div>
     </div >
 
 }

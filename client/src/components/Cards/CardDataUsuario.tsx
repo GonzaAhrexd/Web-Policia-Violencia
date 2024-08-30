@@ -17,6 +17,7 @@ function CardDataUsuario({datosUsuario, setIsEditing}: CardDataUsuarioProps) {
         <p className="mt-2 text-xl"><b>Plaza:</b> {datosUsuario.plaza}</p>
         <p className="mt-2 text-xl"><b>Zona:</b> {datosUsuario.zona}</p>
         <p className="mt-2 text-xl"><b>Unidad:</b> {datosUsuario.unidad}</p>
+        <p className="mt-2 text-xl"><b>Rol:</b> {datosUsuario.rol}</p>
 
         <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full flex items-center justify-center mt-2 md:mt-0' onClick={() => setIsEditing(true)}>
                 Editar datos

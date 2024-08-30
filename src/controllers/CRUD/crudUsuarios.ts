@@ -83,10 +83,7 @@ export const getUsuarios = async (req, res) => {
 }
 
 export const changeUserRole = async (req, res) => {
-    console.log("HOLA")
     const { _id, rol } = req.body
-
-
     try {
         const usuario = await usuarios.findByIdAndUpdate(_id, { rol: rol })
         res.json(usuario)
