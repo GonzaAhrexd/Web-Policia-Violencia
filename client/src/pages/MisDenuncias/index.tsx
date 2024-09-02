@@ -80,6 +80,7 @@ function MisDenuncias() {
                         <div className="flex flex-col w-full">
                             <h2 className='text-2xl my-5'>Denuncias</h2>
                             <DataTable
+                                className='scale-up-ver-top'
                                 columns={columnsDenuncia}
                                 data={denunciasAMostrar}
                                 pagination

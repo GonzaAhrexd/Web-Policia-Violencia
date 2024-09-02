@@ -62,6 +62,7 @@ function VerificarDenuncias() {
           <DataTable
             columns={columnsDataTableVerificar}
             data={denunciasAMostrar}
+            className='scale-up-ver-top'
             pagination
             expandableRows
             expandableRowsComponent={expandedComponents}

@@ -91,7 +91,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     // Hook para obtener el usuario
     const { user } = useAuth();
 
-    return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
+    return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full scale-up-ver-top">
         {!editGlobal &&
             <>
                 <div className='flex items-center'>

@@ -8,7 +8,7 @@ interface CardDataUsuarioProps {
 }
 function CardDataUsuario({datosUsuario, setIsEditing}: CardDataUsuarioProps) {
   return (
-    <div className="bg-white shadow-lg rounded-lg md:w-6/10 p-4">
+    <div className="bg-white shadow-lg rounded-lg md:w-6/10 p-4 scale-up-center">
         <h2 className="text-3xl font-medium">Datos</h2>
         <p className="mt-2 text-xl"><b>Jerarquía: </b> {datosUsuario.jerarquia}</p>
         <p className="mt-2 text-xl"><b>Nombre de usuario:</b> {datosUsuario.username}</p>

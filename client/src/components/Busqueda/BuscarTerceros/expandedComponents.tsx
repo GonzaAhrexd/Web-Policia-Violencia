@@ -77,7 +77,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     const { signUp, user, isAuthenticated, isLoading } = useAuth();
 
 
-    return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
+    return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full scale-up-ver-top">
         {!editGlobal &&
             <>
                 <div className='flex items-center'>

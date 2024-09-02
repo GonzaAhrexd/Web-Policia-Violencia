@@ -31,8 +31,7 @@ function CardUserDenunciasRecientes({ user }: CardUserDenunciasRecientesProps) {
     }, []);
 
     return (
-        <div className="flex flex-col justify-between bg-white shadow-lg rounded-lg md:w-3/10 p-4">
-
+        <div className="flex flex-col justify-between bg-white shadow-lg rounded-lg md:w-3/10 p-4 scale-up-center">
             <h2 className="text-3xl font-medium">Denuncias Recientes</h2>
             <div>
                 {lastFiveDenuncias.length === 0 ? (
@@ -54,7 +53,6 @@ function CardUserDenunciasRecientes({ user }: CardUserDenunciasRecientesProps) {
                 </div>
             </NavLink>
         </div>
-
     )
 }
 

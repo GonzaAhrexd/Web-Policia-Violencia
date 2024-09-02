@@ -28,7 +28,7 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
     const { editProfile } = useAuth()
 
     return (
-        <div className="bg-white shadow-lg rounded-lg md:w-8/10 p-4">
+        <div className="bg-white shadow-lg rounded-lg md:w-8/10 p-4 scale-up-center">
             <form className='flex flex-col w-95/100'
                 onSubmit={handleSubmit(async (values: any) => {
                     // Evalúa la longitud del teléfono
