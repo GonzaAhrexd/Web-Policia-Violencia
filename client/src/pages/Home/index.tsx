@@ -18,7 +18,7 @@ import CardDenunciasPendientesValidacion from '../../components/Cards/CardDenunc
 import CardMostrarSeccionAdmin from '../../components/Cards/CardMostrarSeccionAdmin';
 import CardDenunciasTotales from '../../components/Cards/CardDenunciasTotales';
 // Iconos
-import { ExclamationTriangleIcon, UserIcon, MagnifyingGlassIcon, ListBulletIcon, PencilSquareIcon, ClipboardDocumentCheckIcon, ChartPieIcon, DocumentTextIcon, DocumentArrowDownIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
+import { ExclamationTriangleIcon, UserIcon, MagnifyingGlassIcon, ListBulletIcon, PencilSquareIcon, ClipboardDocumentCheckIcon, ChartPieIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon } from '@heroicons/react/24/outline'
 import CardDenunciasGrafico from '../../components/Cards/CardDenunciasGrafico';
 
 function Home() {
@@ -42,13 +42,12 @@ function Home() {
     { mostrar: "Verificar denuncias", url: "/verificar-denuncias", svg: ClipboardDocumentCheckIcon },
     { mostrar: "Estadísticas", url: "/estadísticas", svg: ChartPieIcon },
   ]
+
+  
   const seccionesAdmin = [
     { mostrar: "Administrar usuarios", url: "/administrar-usuarios", svg: UserPlusIcon },
     { mostrar: "Registro de Actividad", url: "/registro-de-actividad", svg: PresentationChartBarIcon },
-    { mostrar: "Denuncias internas", url: "/denuncias-internas", svg: DocumentTextIcon },
-    { mostrar: "Denuncias externas", url: "/denuncias-externas", svg: DocumentArrowDownIcon },
     { mostrar: "Selectores de carga", url: "/selectores-de-carga", svg: ArrowUpTrayIcon },
-    { mostrar: "Resumen", url: "/resumen", svg: ClipboardDocumentIcon },
   ]
 
   const isAdmin: boolean = user?.rol === 'admin';

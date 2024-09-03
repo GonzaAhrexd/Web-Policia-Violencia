@@ -14,6 +14,7 @@ import EstadisticasModalidades from '../../components/EstadisticasSecciones/Esta
 import EstadisticasMedidasCautelares from '../../components/EstadisticasSecciones/EstadisticasMedidasCautelares';
 import EstadisticasVictimasSeccion from '../../components/EstadisticasSecciones/EstadisticasVictimasSeccion';
 import EstadisticasVictimarioSeccion from '../../components/EstadisticasSecciones/EstadisticasVictimarioSeccion';
+import EstadisticaGenerarInformeSeccion from '../../components/EstadisticasSecciones/EstadisticasInforme/EstadisticasGenerarInformeSeccion';
 import DenunciasMes from '../../components/Graficos/DenunciasMes';
 import Modal from '../../components/Modal';
 // API
@@ -30,6 +31,7 @@ function index() {
     const { register, setValue, handleSubmit, formState: {
     } } = useForm()
 
+    const [fecha, setFecha] = useState({ desde: '', hasta: '' });
     // Estado para mostrar las  estadísticas
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     const [showLocalidadesStats, setShowLocalidadesStats] = useState(false);
@@ -40,6 +42,7 @@ function index() {
     const [showMedidasCautelares, setShowMedidasCautelares] = useState(false);
     const [showVictimas, setShowVictimas] = useState(false);
     const [showVictimarios, setShowVictimarios] = useState(false);
+    const [showGenerarInforme, setShowGenerarInforme] = useState(false);
     const [showAll, setShowAll] = useState(false);
     const [sinResultados, setSinResultados] = useState(false);
     const [mostrarTodo, setMostrarTodo] = useState(false);
@@ -58,6 +61,7 @@ function index() {
         setShowMedidasCautelares(false)
         setShowVictimas(false)
         setShowVictimarios(false)
+        setShowGenerarInforme(false)
         setMostrarTodo(false)
     }
     // Localidades
@@ -126,6 +130,15 @@ function index() {
         setShowAll(false)
     }
 
+    const handleGenerarInforme = () => {
+        if (showAll && showGenerarInforme) return setShowAll(false)
+        if (showGenerarInforme) return setShowAll(true)
+        handleReset()
+        setShowGenerarInforme(true)
+        setShowAll(false)
+        
+    }
+
     const handleTodo = () => {
         if (showAll && mostrarTodo) return setShowAll(false)
         if (mostrarTodo) return setShowAll(true)
@@ -140,6 +153,7 @@ function index() {
             const result = await buscarDenuncias(values, false);
             setDenunciasAMostrar(result)
             handleLocalidadesStats()
+            setFecha(values)
         }
         fetchDenuncias();
     }
@@ -195,7 +209,7 @@ function index() {
                     <>
                         <div className='mt-5 flex flex-col items-center justify-center '>
                             <div className={`flex flex-col  ${showAll && 'border-blue-800 border-2 rounded-lg bg-blue-50 '} p-5 w-full items-center justify-center md:w-3/10 `}>
-                                <div className={`w-full flex  ${!showAll ? 'flex-row' : "flex-col"} justify-center items-center`}>
+                                <div className={`w-full flex  ${!showAll ? 'flex-row' : "flex-col"} justify-center items-center `}>
                                     {(showAll || showLocalidadesStats) && <button className={`my-2 ${showLocalidadesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleLocalidadesStats()}>Localidades</button>}
                                     {(showAll || showDivionesStats) && <button className={`my-2 ${showDivionesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleDivisionesStats()}>Divisiones</button>}
                                     {(showAll || showAprehensionesStats) && <button className={`my-2 ${showAprehensionesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleAprehensiones()}>Aprehensiones</button>}
@@ -204,6 +218,7 @@ function index() {
                                     {(showAll || showMedidasCautelares) && <button className={`my-2 ${showMedidasCautelares ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleMedidasCautelares()}>Medidas Cautelares</button>}
                                     {(showAll || showVictimas) && <button className={`my-2 ${showVictimas ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleVictimas()}>Victimas</button>}
                                     {(showAll || showVictimarios) && <button className={`my-2 ${showVictimarios ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleVictimarios()}>Victimarios</button>}
+                                    {(showAll || showGenerarInforme) && <button className={`my-2 ${showGenerarInforme ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleGenerarInforme()}>Generar informe</button>}
                                     {(showAll || mostrarTodo) && <button className={`my-2 ${mostrarTodo ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleTodo()}>Mostrar todo</button>}
 
                                     {!showAll && <PlusCircleIcon className='w-8 h-8 cursor-pointer' onClick={() => setShowAll(true)} />}
@@ -218,6 +233,7 @@ function index() {
                         {(showMedidasCautelares || mostrarTodo)  && <EstadisticasMedidasCautelares denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                         {(showVictimas  || mostrarTodo) && <EstadisticasVictimasSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                         {(showVictimarios || mostrarTodo)  && <EstadisticasVictimarioSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {(showGenerarInforme || mostrarTodo) && <EstadisticaGenerarInformeSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} fecha={fecha} />}
                     </>
                 }
             </div>

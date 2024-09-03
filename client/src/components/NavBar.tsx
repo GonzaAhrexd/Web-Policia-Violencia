@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 // NEXT UI 
 import { Avatar, Navbar, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, NavbarBrand, NavbarContent, NavbarItem, Link, Button, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu } from "@nextui-org/react";
 // Iconos
-import { ListBulletIcon, PencilSquareIcon, ChartPieIcon, DocumentTextIcon, DocumentArrowDownIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentCheckIcon, ClipboardDocumentIcon } from '@heroicons/react/24/outline'
+import { ListBulletIcon, PencilSquareIcon, ChartPieIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline'
 
 type NavBarProps = {
   user: any
@@ -20,12 +20,9 @@ function NavBar({ user }: NavBarProps) {
   const APIURL = import.meta.env.VITE_BASE_URL
   // Menú de navegación
   const menuAdminItems = [
-    "Denuncias internas",
-    "Denuncias externas",
     "Administrar usuarios",
     "Registro de actividad",
     "Selectores de carga",
-    "Resumen",
   ]
   // Menú de carga
   const menuCargaItems = [
@@ -56,12 +53,9 @@ function NavBar({ user }: NavBarProps) {
 
   // Seccion de admin
   const SeccionAdmin = [
-    { titulo: 'Denuncias internas', href: '/denuncias-internas', icon: <DocumentTextIcon className='h-6 w-6' /> },
-    { titulo: 'Denuncias externas', href: '/denuncias-externas', icon: <DocumentArrowDownIcon className='h-6 w-6' /> },
     { titulo: 'Administrar usuarios', href: '/administrar-usuarios', icon: <UserPlusIcon className='h-6 w-6' /> },
     { titulo: 'Registro de actividad', href: '/registro-de-actividad', icon: <PresentationChartBarIcon className='h-6 w-6' /> },
     { titulo: 'Selectores de carga', href: '/selectores-de-carga', icon: <ArrowUpTrayIcon className='h-6 w-6' /> },
-    { titulo: 'Resumen', href: '/resumen', icon: <ClipboardDocumentIcon className='h-6 w-6' /> },
   ]
 
   return (
