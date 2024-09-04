@@ -17,6 +17,7 @@ import denunciasRoutes from './routes/denuncias.routes' // Rutas de denuncias
 import exposicionRoutes from './routes/exposicion.routes' // Rutas de exposiciones
 import denunciasSinVerificarRoutes from './routes/denuncias-sin-verificar.routes' // Rutas de denuncias sin verificar
 import actividadRecienteRoutes from './routes/actividadReciente.routes' // Rutas de actividad reciente
+import camposRoutes from './routes/campos.routes' // Rutas de campos
 // Crear aplicación de express
 const app:express.Application = express()
 // Conectar a la base de datos
@@ -47,7 +48,7 @@ app.use('/api', denunciasRoutes) // Rutas de denuncias
 app.use('/api', exposicionRoutes) // Rutas de exposiciones
 app.use('/api', denunciasSinVerificarRoutes) // Rutas de denuncias sin verificar
 app.use('/api', actividadRecienteRoutes) // Rutas de actividad reciente
-
+app.use('/api', camposRoutes)
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor funcionando en puerto ${port} ✅`)

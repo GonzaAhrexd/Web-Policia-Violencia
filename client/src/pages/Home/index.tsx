@@ -47,7 +47,7 @@ function Home() {
   const seccionesAdmin = [
     { mostrar: "Administrar usuarios", url: "/administrar-usuarios", svg: UserPlusIcon },
     { mostrar: "Registro de Actividad", url: "/registro-de-actividad", svg: PresentationChartBarIcon },
-    { mostrar: "Selectores de carga", url: "/selectores-de-carga", svg: ArrowUpTrayIcon },
+    { mostrar: "Editar campos", url: "/editar-campos", svg: ArrowUpTrayIcon },
   ]
 
   const isAdmin: boolean = user?.rol === 'admin';

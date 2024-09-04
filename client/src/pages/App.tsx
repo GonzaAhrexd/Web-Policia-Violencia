@@ -22,12 +22,15 @@ import Buscar from './Buscar'
 // ADMIN
 import ReportarErrores from './ReportarErrores'
 import RegistroDeActividad from './RegistroDeActividad'
+import EditarCampos from './EditarCampos'
 // ESTADÍSTICAS
 import Estadisticas from './Estadisticas'
 // ADMIN
 import AdministrarUsuarios from './AdministrarUsuarios'
 // Contexto
 import { AuthProvider } from '../context/auth'
+import { CamposProvider } from '../context/campos'
+
 // CSS
 import '../App.css'
 
@@ -54,6 +57,7 @@ const AppRoutes = () => {
     // Admin
     { path: '/administrar-usuarios', element: <AdministrarUsuarios /> },
     { path: '/registro-de-actividad', element: <RegistroDeActividad /> },
+    { path: '/editar-campos', element: <EditarCampos /> },
     // 404
     { path: '*', element: <NotFound /> },
   ])
@@ -66,7 +70,9 @@ const App = () => {
   return (
     <AuthProvider>
       <BrowserRouter>
+      <CamposProvider>
         <AppRoutes />
+      </CamposProvider>
       </BrowserRouter>
     </AuthProvider>
 

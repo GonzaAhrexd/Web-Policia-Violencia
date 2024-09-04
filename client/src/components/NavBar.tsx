@@ -22,7 +22,7 @@ function NavBar({ user }: NavBarProps) {
   const menuAdminItems = [
     "Administrar usuarios",
     "Registro de actividad",
-    "Selectores de carga",
+    "Editar campos",
   ]
   // Menú de carga
   const menuCargaItems = [
@@ -55,7 +55,7 @@ function NavBar({ user }: NavBarProps) {
   const SeccionAdmin = [
     { titulo: 'Administrar usuarios', href: '/administrar-usuarios', icon: <UserPlusIcon className='h-6 w-6' /> },
     { titulo: 'Registro de actividad', href: '/registro-de-actividad', icon: <PresentationChartBarIcon className='h-6 w-6' /> },
-    { titulo: 'Selectores de carga', href: '/selectores-de-carga', icon: <ArrowUpTrayIcon className='h-6 w-6' /> },
+    { titulo: 'Editar camops', href: '/editar-campos', icon: <ArrowUpTrayIcon className='h-6 w-6' /> },
   ]
 
   return (
