@@ -9,8 +9,10 @@ import InputRadio from '../InputComponents/InputRadio'
 import SelectRegisterSingle from '../Select/SelectRegisterSingle'
 // Campos 
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
-import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
-import { vinculo } from '../../GlobalConst/vinculoCampos'
+// import { vinculo } from '../../GlobalConst/vinculoCampos'
+
+// Context
+import {useCampos } from '../../context/campos'
 
 // Props
 interface CargarVictimaProps {
@@ -28,6 +30,8 @@ function CargarVictima({watch, register, setValue, errors }: CargarVictimaProps)
   const [isAdultoMayor, setIsAdultoMayor] = useState(false) // Para mostrar o no el campo de adulto mayor si es seleccionado el checkbox adulto mayor
   const [isMenorEdad, setIsMenorEdad] = useState(false) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
 
+
+  const { ocupaciones, vinculo } = useCampos();
   // Si se desmarca el checkbox hijos, se desmarca el checkbox hijos con el agresor
   useEffect(() => {
     if (!isHijos) {

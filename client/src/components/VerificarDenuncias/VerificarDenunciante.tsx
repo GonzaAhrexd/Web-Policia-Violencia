@@ -13,9 +13,9 @@ import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputRadio from '../InputComponents/InputRadio'
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
-import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
-import { vinculo } from '../../GlobalConst/vinculoCampos'
 import InputNumber from '../InputComponents/InputNumber'
+
+import { useCampos } from '../../context/campos'
 
 interface CargarVictimaProps {
   datos: any;
@@ -34,6 +34,7 @@ function VerificarDenunciante({ watch, datos, register, setValue, errors }: Carg
   const [isAdultoMayor, setIsAdultoMayor] = useState(false) // Para mostrar o no el campo de adulto mayor si es seleccionado el checkbox adulto mayor
   const [isMenorEdad, setIsMenorEdad] = useState(false) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
 
+  const { ocupaciones, vinculo } = useCampos();
 
   // Opciones radio
   const opcionesCondicionDeVulnerabilidad = [

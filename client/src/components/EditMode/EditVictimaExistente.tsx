@@ -15,10 +15,11 @@ import InputRadio from '../InputComponents/InputRadio'
 
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
-import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
-import { vinculo } from '../../GlobalConst/vinculoCampos'
 
 import { useStore } from '../../pages/CargarDenuncias/store'
+
+// Contexto
+import { useCampos } from '../../context/campos'
 
 // Props
 interface CargarVictimaProps {
@@ -47,6 +48,10 @@ function EditVictimaExistente({ watch, editarConDenuncia, existente, hijos_con_a
     const [isCondicionVulnerabilidad, setIsCondicionVulnerabilidad] = useState(victimaCargar.condicion_de_vulnerabilidad) // Para mostrar o no el campo de condición de vulnerabilidad si es seleccionado el checkbox condición de vulnerabilidad
     const [isAdultoMayor, setIsAdultoMayor] = useState(victimaCargar.condiciones_de_vulnerabilidad.adulto_mayor) // Para mostrar o no el campo de adulto mayor si es seleccionado el checkbox adulto mayor
     const [isMenorEdad, setIsMenorEdad] = useState(victimaCargar.condiciones_de_vulnerabilidad?.menor_de_edad) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
+
+
+    const { ocupaciones, vinculo } = useCampos();
+    
 
     // const [isHijos, setIsHijos] = useState(false)
     // const [isHijosConAgresor, setIsHijosConAgresor] = useState(false)

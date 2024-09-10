@@ -44,6 +44,8 @@ function BuscarDenuncias() {
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
 
+    
+
     const [showExcel, setShowExcel] = useState(false);
     const [hideExcelText, setHideExcelText] = useState(true);
 

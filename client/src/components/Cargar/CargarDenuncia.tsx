@@ -18,8 +18,7 @@ import { getCoords } from '../../api/coordinates'
 // Campos
 import { generos } from '../../GlobalConst/generosCampos'
 import { unidadCampos } from '../../GlobalConst/unidadCampos'
-import { vinculo } from '../../GlobalConst/vinculoCampos'
-import { juzgadoIntervinente } from '../../GlobalConst/juzgadoIntervinenteCampos'
+// import { vinculo } from '../../GlobalConst/vinculoCampos'
 import { opcionesViolencia } from '../../GlobalConst/violenciaCampos'
 import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
 import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
@@ -27,11 +26,14 @@ import { tiposDeViolenciaText, tiposModalidades } from '../../GlobalConst/modalT
 // Iconos
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
-
+// Librerías
 import Swal from 'sweetalert2'
 
 //Zustand
 import { useStore } from '../../pages/CargarDenuncias/store'
+
+// Contexto
+import { useCampos } from '../../context/campos'
 
 // Props
 interface denunciaProps {
@@ -62,6 +64,8 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
   const [isExclusion, setIsExclusion] = useState(false)
   const [isSolicitud, setIsSolicitud] = useState(false)
   const [isExpedientes, setIsExpedientes] = useState(false)
+  
+  const { juzgadoIntervinente, vinculo } = useCampos()
 
   const {
     setSolicitudAprehension,

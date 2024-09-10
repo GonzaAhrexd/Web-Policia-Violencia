@@ -8,9 +8,10 @@ import InputNumber from '../InputComponents/InputNumber'
 import InputCheckboxExternalCondition from '../InputComponents/InputCheckboxExternalCondition';
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
-import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
+// Hooks
 import { useEffect, useState } from 'react';
-
+// Contexto
+import { useCampos } from '../../context/campos'
 // Props
 interface CargarVictimarioProps {
   register: UseFormRegister<any>;
@@ -25,6 +26,9 @@ function CargarVictimario({watch, register, setValue, errors }: CargarVictimario
   const [entrenamiento_en_combate, setEntrenamiento_en_combate] = useState(false)
 
   const ocupacionVictimario = watch('ocupacion_victimario');
+  const { ocupaciones } = useCampos();
+
+
   useEffect(() => {
     if ((ocupacionVictimario === "Policía Provincial") || (ocupacionVictimario === "Policía Federal Argentina") || (ocupacionVictimario == "Servicio Penitenciario Provincial") || (ocupacionVictimario == "Servicio Penitenciario Federal") || (ocupacionVictimario === "Policía de Seguridad Aeroportuaria") || (ocupacionVictimario == "Gendarmería Nacional Argentina") || (ocupacionVictimario == "Ejército Argentino") || (ocupacionVictimario == "Prefectura Naval Argentina") ) {
       setEntrenamiento_en_combate(true);

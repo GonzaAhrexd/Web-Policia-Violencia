@@ -9,7 +9,9 @@ import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister';
 import InputNumber from '../InputComponents/InputNumber';
 // Campos
-import { vinculo } from '../../GlobalConst/vinculoCampos'
+
+import { useCampos } from '../../context/campos'
+
 interface CargarVictimaProps {
     datos: any;
     register: any;
@@ -17,6 +19,8 @@ interface CargarVictimaProps {
     errors: any;
 }
 function EditTercero({ datos, register, setValue, errors }: CargarVictimaProps) {
+    const { vinculo } = useCampos();
+    
     return (
         <div className='w-full'>
             <h1 className='text-2xl my-5'>Tercero</h1>

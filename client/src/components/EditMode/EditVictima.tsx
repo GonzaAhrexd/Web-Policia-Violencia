@@ -15,9 +15,9 @@ import InputRadio from '../InputComponents/InputRadio'
 
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
-import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
-import { vinculo } from '../../GlobalConst/vinculoCampos'
 
+// Contexto
+import { useCampos } from '../../context/campos'
 
 // Props
 interface CargarVictimaProps {
@@ -48,6 +48,9 @@ function EditVictima({onlyVictima, watch, editarConDenuncia, existente, hijos_co
     const [isCondicionVulnerabilidad, setIsCondicionVulnerabilidad] = useState(datos.condicion_de_vulnerabilidad) // Para mostrar o no el campo de condición de vulnerabilidad si es seleccionado el checkbox condición de vulnerabilidad
     const [isAdultoMayor, setIsAdultoMayor] = useState(datos.condiciones_de_vulnerabilidad.adulto_mayor) // Para mostrar o no el campo de adulto mayor si es seleccionado el checkbox adulto mayor
     const [isMenorEdad, setIsMenorEdad] = useState(datos.condiciones_de_vulnerabilidad.menor_de_edad) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
+
+
+    const { ocupaciones, vinculo } = useCampos();
 
     // Actualiza de los state con los datos usando un useEffect, pero que de un timeout para darle tiempo de actualizar los datos
     useEffect(() => {

@@ -5,7 +5,9 @@ import SelectRegister from '../Select/SelectRegister'
 import InputNumber from '../InputComponents/InputNumber'
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
-import { ocupaciones } from '../../GlobalConst/ocupacionesCampos'
+
+// Contexto
+import { useCampos } from '../../context/campos'
 
 interface CargarVictimarioProps {
   datos: any;
@@ -18,6 +20,7 @@ interface CargarVictimarioProps {
 
 function EditVictimario({ existente, md, datos, register, setValue, errors }: CargarVictimarioProps) {
 
+  const { ocupaciones } = useCampos();
   return (
     <div className={`w-full ${md && "lg:w-6/10"}`}>
       {!existente && <h1 className='text-2xl my-5'>Victimario</h1>}

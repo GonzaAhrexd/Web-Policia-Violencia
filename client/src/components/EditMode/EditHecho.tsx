@@ -9,8 +9,6 @@ import {  useEffect, useState } from 'react'
 // Campos
 import { generos } from '../../GlobalConst/generosCampos'
 import { unidadCampos } from '../../GlobalConst/unidadCampos'
-import { vinculo } from '../../GlobalConst/vinculoCampos'
-import { juzgadoIntervinente } from '../../GlobalConst/juzgadoIntervinenteCampos'
 import { opcionesViolencia } from '../../GlobalConst/violenciaCampos'
 import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
 import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
@@ -28,6 +26,9 @@ import EditExpediente from '../EditMode/EditExpediente'
 //Iconos
 import { PencilIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline'
+
+// Contexto
+import { useCampos } from '../../context/campos'
 
 // Props
 interface denunciaProps {
@@ -73,6 +74,8 @@ function EditHecho({ setIsSolicitudAprehension, datosTerceros, datosGeograficos,
   const [isExclusion, setIsExclusion] = useState(datos.medida_dispuesta.exclusion_de_hogar)
   const [isSolicitud, setIsSolicitud] = useState(datos.medida_dispuesta.solicitud_de_aprehension)
   const [isExpedientes, setIsExpedientes] = useState(datos.medida_dispuesta.expedientes_con_cautelar)
+
+  const { juzgadoIntervinente, vinculo } = useCampos()
         
 useEffect(() => {
   setIsSolicitudAprehension(isSolicitud)

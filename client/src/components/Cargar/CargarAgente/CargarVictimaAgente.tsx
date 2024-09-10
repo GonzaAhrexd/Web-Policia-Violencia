@@ -7,7 +7,9 @@ import InputRadio from '../../InputComponents/InputRadio'
 import InputNumber from '../../InputComponents/InputNumber'
 // Campos 
 import { estadoCivil } from '../../../GlobalConst/estadoCivilCampos'
-import { ocupaciones } from '../../../GlobalConst/ocupacionesCampos'
+
+// Contexto
+import { useCampos } from '../../../context/campos'
 
 // Props
 interface CargarVictimaProps {
@@ -17,6 +19,10 @@ interface CargarVictimaProps {
 }
 
 function CargarVictimaAgente({ register, setValue, errors }: CargarVictimaProps) {
+
+
+  const { ocupaciones } = useCampos();
+
 
   const opcionesSabeLeerYEscribir = [
     { nombre: 'Sí', value: 'si', id: "si_leer_escribir" },
