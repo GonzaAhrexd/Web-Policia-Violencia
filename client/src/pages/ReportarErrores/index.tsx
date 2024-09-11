@@ -10,7 +10,7 @@ import InputTextArea from '../../components/InputComponents/InputTextArea';
 import Swal from 'sweetalert2';
 
 import { useForm } from 'react-hook-form';
-import SelectRegister from '../../components/Select/SelectRegister';
+import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle';
 
 import { reportarErrores } from '../../api/CRUD/errores.crud';
 
@@ -35,15 +35,16 @@ function CargarDenuncias() {
         { nombre: "Cargar Denuncias", valor: "Cargar Denuncias" },
         { nombre: "Verificar Denuncias", valor: "Verificar Denuncias" },
         { nombre: "Perfil", valor: "Perfil" },
-        { nombre: "Mis denuncias", valor: "Mis denuncias"}
+        { nombre: "Mis denuncias", valor: "Mis denuncias"},
+        { nombre: "Administrar usuarios", valor: "Administrar usuarios"},
+        { nombre: "Registro de actividad", valor: "Registro de actividad"},
+        { nombre: "Editar campos", valor: "Editar campos"},
     ]
   // Si está cargando, mostrar "Cargando..."
   if (isLoading) return <h1>Cargando...</h1>
   // Si no está autenticado, redirigir a la página de login
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
 
-
-  
   return (
     <>
       <NavBar user={user} />
@@ -104,7 +105,7 @@ function CargarDenuncias() {
             });
           })
         }>
-            <SelectRegister campo="Apartado" nombre="apartado" opciones={apartado} register={register} setValue={setValue} type="text" error={errors.apartado}/>
+            <SelectRegisterSingle campo="Apartado" nombre="apartado" opciones={apartado}  setValue={setValue} error={errors.apartado}/>
             <InputTextArea variante="edit" register={register} campo="Descripción" nombre="descripcion" type="textarea"/>
             <div className="flex justify-center my-3">
             <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10' type="submit">Enviar</button>

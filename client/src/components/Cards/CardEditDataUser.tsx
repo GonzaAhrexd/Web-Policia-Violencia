@@ -4,14 +4,13 @@ import { useForm } from 'react-hook-form'
 
 // Campos y variables globales
 import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos';
-// import { unidadCampos } from '../../GlobalConst/unidadCampos';
 import { zonaCampos } from '../../GlobalConst/zonaCampos';
 
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
 import InputNumber from '../InputComponents/InputNumber'
-
+import SelectRegisterSingle from '../Select/SelectRegisterSingle'
 // Contexto
 import { useAuth } from '../../context/auth';
 import { useCampos } from '../../context/campos';
@@ -84,8 +83,8 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
                     <InputRegister campo="N° de Plaza" nombre="plaza" register={register} setValue={setValue} type="text" error={errors.plaza} valor={user.plaza} />
                 </div>
                 <div className='flex flex-col md:flex-row'>
-                    <SelectRegister mid isRequired={false} valor={user.jerarquia} campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text" error={errors.jerarquia} />
-                    <SelectRegister mid isRequired={false} valor={user.zona} campo="Zona" nombre="zona" opciones={zonaCampos} register={register} setValue={setValue} type="text" error={errors.zona} />
+                    <SelectRegisterSingle mid isRequired={false} valor={user.jerarquia} campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} setValue={setValue} error={errors.jerarquia} />
+                    <SelectRegisterSingle mid isRequired={false} valor={user.zona} campo="Zona" nombre="zona" opciones={zonaCampos}  setValue={setValue}  error={errors.zona} />
                 </div>
                 <SelectRegister notComisaria isRequired={false} valor={user.unidad} campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
                 <span className='text-red-400 pl-3'> {mensajeError} </span>

@@ -2,7 +2,7 @@
 import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 // Componentes
 import InputRegister from '../../InputComponents/InputRegister'
-import SelectRegister from '../../Select/SelectRegister'
+import SelectRegisterSingle from '../../Select/SelectRegisterSingle'
 import InputRadio from '../../InputComponents/InputRadio'
 import InputNumber from '../../InputComponents/InputNumber'
 // Campos 
@@ -43,8 +43,8 @@ function CargarVictimaAgente({ register, setValue, errors }: CargarVictimaProps)
       </div>
 
       <div className='flex flex-col xl:flex-row my-2'>
-        <SelectRegister campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victima} />
-        <SelectRegister campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} register={register} setValue={setValue} type="text" error={errors.ocupacion_victima} />
+        <SelectRegisterSingle campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil}  setValue={setValue} error={errors.estado_civil_victima} />
+        <SelectRegisterSingle campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} setValue={setValue} error={errors.ocupacion_victima} />
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>

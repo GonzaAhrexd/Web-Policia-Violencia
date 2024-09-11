@@ -9,10 +9,11 @@ dotenv.config()
 // Archivos locales a importar
 import { connectDB } from './db' // Configuraciones de MongoDB para conectar a la base de datos
 import authRoutes from './routes/auth.routes' // Rutas de autenticación
-import  erroresRoutes from './routes/errores.routes' // Rutas del CRUD
+import erroresRoutes from './routes/errores.routes' // Rutas del CRUD
 import usuariosRoutes from './routes/usuarios.routes' // Rutas de usuarios
 import victimasRoutes from './routes/victimas.routes' // Rutas de víctimas
 import victimariosRoutes from './routes/victimarios.routes' // Rutas de victimarios
+import tercerosRoutes from './routes/terceros.routes' // Rutas de terceros
 import denunciasRoutes from './routes/denuncias.routes' // Rutas de denuncias
 import exposicionRoutes from './routes/exposicion.routes' // Rutas de exposiciones
 import denunciasSinVerificarRoutes from './routes/denuncias-sin-verificar.routes' // Rutas de denuncias sin verificar
@@ -51,7 +52,7 @@ app.use('/api', denunciasSinVerificarRoutes) // Rutas de denuncias sin verificar
 app.use('/api', actividadRecienteRoutes) // Rutas de actividad reciente
 app.use('/api', camposRoutes) // Rutas de campos
 app.use('/api', unidadesRoutes) // Rutas de unidades
-
+app.use('/api', tercerosRoutes) // Rutas de terceros
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor funcionando en puerto ${port} ✅`)

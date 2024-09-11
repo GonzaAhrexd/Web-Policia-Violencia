@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import InputRegister from '../../InputComponents/InputRegister'
 import { PrinterIcon, XMarkIcon } from '@heroicons/react/24/solid'
-import SelectRegister from '../../Select/SelectRegister'
+import SelectRegisterSingle from '../../Select/SelectRegisterSingle'
 import InputCheckbox from '../../InputComponents/InputCheckbox'
 
 import { pdf } from '@react-pdf/renderer';
@@ -58,7 +58,7 @@ function modoImprimir({ modoImprimir, setModoImprimir, denunciasAMostrar, user, 
                 <div>
                     <InputRegister busqueda={true} notMid={true} campo="Firma atentamente" nombre="atte" register={register} type="text" error={errors.atte} />
                     {!isListarTodo &&
-                        <SelectRegister mid={true} campo="Listar denuncias de" nombre="denuncias_de" setValue={setValue} register={register} error={errors} type="text" opciones={opcionesVictimarios} />
+                        <SelectRegisterSingle mid campo="Listar denuncias de" nombre="denuncias_de" setValue={setValue} error={errors} opciones={opcionesVictimarios} />
                     }
                     <InputCheckbox setHook={setIsListarTodo} state={isListarTodo} campo="Listar todo" nombre="listar_todo" register={register} error={errors.listarTodo} id="listarTodo" type="checkbox" setValue={setValue} />
                 </div>

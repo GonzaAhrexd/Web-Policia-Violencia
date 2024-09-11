@@ -56,7 +56,7 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
     const [selectedCuadricula, setSelectedCuadricula] = useState('');
 
-    const {tiposDeLugar : opcionesTipoDeLugar} = useCampos()
+    const { tiposDeLugar: opcionesTipoDeLugar } = useCampos()
 
     const handleBuscarPrefijo = (comisaria: String) => {
         //Busca el prefijo de la comisaria entre las opciones, tiene que coincidir con el valor de la comisaria
@@ -133,10 +133,7 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
         setSelectedCuadricula('');
         // Actualiza el valor en react-hook-form       
         campo == "Unidad de carga" && setValue('unidad_de_carga', value)
-        nombre == "juzgado_interviniente" && setValue('juzgado_interviniente', value)
-        nombre == "violencia" && setValue('violencia', value)
-        nombre == "modalidades" && setValue('modalidades', value)
-        nombre == "tipo_de_arma" && setValue('arma_empleada', value)
+        campo == "Modalidades de la denuncia" && setValue('modalidades', value)
 
     };
 
@@ -276,9 +273,12 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
 
                     </>
                 }
-                {selectedSubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) =>
+                {selectedSubunidad &&
+                // @ts-ignore
+                    opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) =>
+                        subunidad.value === selectedSubunidad
+                    )?.subdivisiones?.length > 0 && (
 
-                    subunidad.value === selectedSubunidad)?.subdivisiones && (
                         <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
                             <span className='ml-4 font-medium '> Jurisdicción policial <span className='text-red-500'> </span> </span>
                             <select
@@ -298,8 +298,9 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
                         </div>
                     )}
                 {selectedSubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) =>
-
                     subunidad.value === selectedSubunidad)?.cuadriculas && (
+
+
                         <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
 
                             <span className='ml-4 font-medium '> Cuadricula <span className='text-red-500'> </span> </span>

@@ -5,7 +5,6 @@ import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import SelectCargaDenuncias from '../Select/SelectCargaDenuncias'
-import SelectRegister from '../Select/SelectRegister'
 import SelectRegisterSingle from '../Select/SelectRegisterSingle'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputDate from '../InputComponents/InputDate'
@@ -218,7 +217,7 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
               </div>
             }
             <div className='flex flex-col'>
-              <SelectRegister campo="Vínculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
+              <SelectRegisterSingle campo="Vínculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} setValue={setValue}  error={errors.vinculo_con_agresor} />
             </div>
           </>
         }

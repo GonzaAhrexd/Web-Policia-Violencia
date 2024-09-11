@@ -18,7 +18,7 @@ import { getCoords } from '../../api/coordinates'
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import SelectCargaDenuncias from '../Select/SelectCargaDenuncias'
-import SelectRegister from '../Select/SelectRegister'
+import SelectRegisterSingle from '../Select/SelectRegisterSingle'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputDate from '../InputComponents/InputDate'
 import SimpleTableCheckorX from '../ShowData/SimpleTableCheckorX'
@@ -134,7 +134,7 @@ useEffect(() => {
       <InputRegister campo="" nombre="tercero_ID" register={register} setValue={setValue} type="hidden" error={errors.tercero_ID} valor={datos.tercero_ID ? datos.tercero_ID : "No hay tercero"} />
       <h1 className='text-2xl my-5'>Hecho</h1>
       <div className='flex flex-col xl:flex-row'>
-        <SelectRegister isRequired={false} campo="Género" nombre="genero" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} valor={datos.genero} />
+        <SelectRegisterSingle isRequired={false} campo="Género" nombre="genero" opciones={generos} setValue={setValue} error={errors.genero} valor={datos.genero} />
         <InputDate valor={new Date(datos.fecha).toISOString().slice(0, 10)} campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
       </div>
 
@@ -229,7 +229,7 @@ useEffect(() => {
               <InputRegister valor={datosTerceros[2].valor} campo="DNI" nombre="dni_tercero" register={register} setValue={setValue} type="text" error={errors.DNI} />
             </div>
             <div className='flex flex-col'>
-              <SelectRegister isRequired={false} valor={datosTerceros[3].valor} campo="Vínculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} register={register} setValue={setValue} type="text" error={errors.vinculo_con_agresor} />
+              <SelectRegisterSingle isRequired={false} valor={datosTerceros[3].valor} campo="Vínculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} setValue={setValue} error={errors.vinculo_con_agresor} />
             </div>
           </>
         }

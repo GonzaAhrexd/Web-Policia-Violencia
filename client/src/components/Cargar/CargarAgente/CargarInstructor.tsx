@@ -2,7 +2,7 @@
 import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 // Componentes
 import InputRegister from '../../InputComponents/InputRegister'
-import SelectRegister from '../../Select/SelectRegister'
+import SelectRegisterSingle from '../../Select/SelectRegisterSingle'
 
 // Campos 
 
@@ -23,7 +23,7 @@ function CargarInstructorYSecretario({ register, setValue, errors }: CargarVicti
         <div className='w-full lg:w-6/10'>
           <div className='flex flex-col lg:flex-row my-2'>
             <InputRegister notMidMD campo="Nombre y apellido" nombre="nombre_completo_instructor" register={register} setValue={setValue} type="text" error={errors.nombre_completo_instructor} />
-            <SelectRegister campo='Jerarquía' nombre="jerarquia_instructor" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text" error={errors.jerarquia_instructor} />
+            <SelectRegisterSingle campo='Jerarquía' nombre="jerarquia_instructor" opciones={jerarquiaCampos} setValue={setValue}  error={errors.jerarquia_instructor} />
           </div>
         </div>
       </div>
@@ -32,7 +32,7 @@ function CargarInstructorYSecretario({ register, setValue, errors }: CargarVicti
         <div className='w-full lg:w-6/10'>
           <div className='flex flex-col lg:flex-row my-2'>
             <InputRegister notMidMD campo="Nombre y apellido" nombre="nombre_completo_secretario" register={register} setValue={setValue} type="text" error={errors.nombre_completo_instructor} />
-            <SelectRegister campo='Jerarquía' nombre="jerarquia_secretario" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text" error={errors.jerarquia_instructor} />
+            <SelectRegisterSingle campo='Jerarquía' nombre="jerarquia_secretario" opciones={jerarquiaCampos} setValue={setValue}  error={errors.jerarquia_instructor} />
             <InputRegister notMidMD campo="Plaza" nombre="plaza_secretario" register={register} setValue={setValue} type="text" error={errors.plaza} />
           </div>
         </div>

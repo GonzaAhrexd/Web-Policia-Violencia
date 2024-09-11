@@ -14,12 +14,12 @@ import { useForm } from 'react-hook-form'
 // Componentes
 import InputRegister from '../../components/InputComponents/InputRegister'
 import SelectRegister from '../../components/Select/SelectRegister'
+import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle'
 import InputNumber from '../../components/InputComponents/InputNumber'
+
 // Campos
-// import { unidadCampos } from '../../GlobalConst/unidadCampos'
 import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos'
 import { zonaCampos } from '../../GlobalConst/zonaCampos'
-
 import { useCampos } from '../../context/campos'
 
 function Register() {
@@ -35,7 +35,7 @@ function Register() {
   const [mensajeError, setMensajeError] = useState("")
   // Estado para controlar que se presionó el botón
   const [buttonClicked, setButtonClicked] = useState(false)
-  
+  // Campos desde el contexto
   const { unidades: unidadCampos } = useCampos();
 
   // Validación si ya está identificado, si es así redirige a login
@@ -93,11 +93,11 @@ function Register() {
             </div>
             <div className='flex flex-col md:flex-row'>
               <InputRegister campo="N° de Credencial" nombre="credencial" register={register} setValue={setValue} type="text" error={errors.credencial} />
-              <SelectRegister campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} register={register} setValue={setValue} type="text" error={errors.jerarquia} />
+              <SelectRegisterSingle campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} setValue={setValue} error={errors.jerarquia} />
             </div>
             <div className='flex flex-col md:flex-row'>
               <InputRegister require={false} campo="N° de Plaza" nombre="plaza" register={register} setValue={setValue} type="text" error={errors.plaza} />
-              <SelectRegister campo="Zona" nombre="zona" opciones={zonaCampos} register={register} setValue={setValue} type="text" error={errors.zona} />
+              <SelectRegisterSingle campo="Zona" nombre="zona" opciones={zonaCampos} setValue={setValue} error={errors.zona} />
             </div>
             <SelectRegister notComisaria campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
             <div className='flex flex-col m-4'>

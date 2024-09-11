@@ -105,6 +105,9 @@ export const buscarTercero = async (req, res) => {
     }
     // Obtener los parámetros de la URL
     const { nombre_tercero, apellido_tercero, dni_tercero, numero_de_expediente, id_tercero } = req.params;
+
+    console.log(req.params)
+    
     // Crear el objeto de consulta    
     const query: Query = {};
 

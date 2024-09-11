@@ -17,3 +17,5 @@ router.post('/crear-tercero/', authRequired, createTercero)
 router.put('/editar-tercero/:id', authRequired, updateTercero)
 // Buscar tercero
 router.get('/buscar-tercero/:id_tercero/:nombre_tercero/:apellido_tercero/:dni_tercero/:numero_de_expediente', authRequired, buscarTercero)
+
+export default router
