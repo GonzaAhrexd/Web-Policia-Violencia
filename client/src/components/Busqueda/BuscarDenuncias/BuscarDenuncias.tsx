@@ -17,8 +17,8 @@ import { customStyles } from '../../../GlobalConst/customStyles'
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 
 // Campos
-import { unidadCampos } from '../../../GlobalConst/unidadCampos';
-
+// import { unidadCampos } from '../../../GlobalConst/unidadCampos';
+import {useCampos } from '../../../context/campos';
 import Excel from './Excel';
 
 function BuscarDenuncias() {
@@ -48,6 +48,9 @@ function BuscarDenuncias() {
 
     const [showExcel, setShowExcel] = useState(false);
     const [hideExcelText, setHideExcelText] = useState(true);
+
+    const { unidades: unidadCampos } = useCampos();
+
 
     useEffect(() => {
         // Si hay denuncias a mostrar, prepara para mostrar Excel después de un cooldown

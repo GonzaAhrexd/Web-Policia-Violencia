@@ -1,5 +1,5 @@
 // Importamos mongoose para poder crear el modelo de la base de datos
-import mongoose, { Model, Mongoose } from 'mongoose'
+import mongoose from 'mongoose'
 
 // Creamos el esquema de Victimas en la base de datos
 const tercerosSchema = new mongoose.Schema({

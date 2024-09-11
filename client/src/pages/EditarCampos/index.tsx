@@ -1,8 +1,12 @@
-
-import { Navigate } from 'react-router-dom';
-import NavBar from '../../components/NavBar';
+// Hooks
 import { useState, useContext } from 'react';
-import TablaCampos from '../../components/Table/TablaCampos';
+// Dependencias
+import { Navigate } from 'react-router-dom';
+// Componentes
+import NavBar from '../../components/NavBar';
+import TablaCampos from '../../components/Table/TablaCampos';4
+import TablaUnidades from '../../components/Table/TablaUnidades';
+// Contexto
 import { useAuth } from '../../context/auth';
 import { CamposContext } from '../../context/campos';
 
@@ -11,13 +15,20 @@ function EditarCampos() {
     const [showJuzgadoIntervinente, setShowJuzgadoIntervinentes] = useState<boolean>(false);
     const [showOcupaciones, setShowOcupaciones] = useState<boolean>(false);
     const [showVinculos, setShowVinculos] = useState<boolean>(false);
+    const [showTiposDeArmas, setShowTiposDeArmas] = useState<boolean>(false);
+    const [showTiposDeLugar, setShowTiposDeLugar] = useState<boolean>(false);
+    const [showUnidades, setShowUnidades] = useState<boolean>(false);
+
     // @ts-ignore
-    const { juzgadoIntervinente, ocupaciones, vinculo, isLoading: isCamposLoading } = useContext(CamposContext);
+    const { juzgadoIntervinente, ocupaciones, vinculo, tiposDeArmas, tiposDeLugar, isLoading: isCamposLoading } = useContext(CamposContext);
 
     const handleReset = () => {
         setShowJuzgadoIntervinentes(false);
         setShowOcupaciones(false);   
         setShowVinculos(false); 
+        setShowTiposDeArmas(false);
+        setShowTiposDeLugar(false);
+        setShowUnidades(false);
     }
 
     const handleShowJuzgadoIntervinentes = () => {
@@ -35,7 +46,22 @@ function EditarCampos() {
         setShowVinculos(true);
     }
 
+    const handleShowTiposDeArmas = () => {
+        handleReset();
+        setShowTiposDeArmas(true);
+    }
 
+    const handleShowTiposDeLugar = () => {
+        handleReset();
+        setShowTiposDeLugar(true);
+    }
+
+    const handleShowUnidades = () => {
+        handleReset();
+        setShowUnidades(true);
+    }
+    
+    
     // Si está cargando la autenticación o los campos, muestra "Cargando..."
     if (isAuthLoading || isCamposLoading) return <h1>Cargando...</h1>;
 
@@ -56,11 +82,17 @@ function EditarCampos() {
                             <button className={`my-2 ${showJuzgadoIntervinente ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full mr-2`} onClick={handleShowJuzgadoIntervinentes}>Juzgado Intervinentes</button>
                             <button className={`my-2 ${showOcupaciones ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full mr-2`} onClick={handleShowOcupaciones}>Ocupaciones</button>
                             <button className={`my-2 ${showVinculos ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full`} onClick={handleShowVinculos}>Vínculos</button>
+                            <button className={`my-2 ${showTiposDeArmas ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full`} onClick={handleShowTiposDeArmas}>Tipos de Armas</button>
+                            <button className={`my-2 ${showTiposDeLugar ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full`} onClick={handleShowTiposDeLugar}>Tipos de Lugar</button>
+                            <button className={`my-2 ${showUnidades ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full`} onClick={handleShowUnidades}>Unidades</button>
                         </div>
                     </div>
                     {showJuzgadoIntervinente && <TablaCampos campos={juzgadoIntervinente} tipo="juzgadosIntervinientes" />}
                     {showOcupaciones && <TablaCampos campos={ocupaciones} tipo="ocupaciones" />}
                     {showVinculos && <TablaCampos campos={vinculo} tipo="vinculos"/>}
+                    {showTiposDeArmas && <TablaCampos campos={tiposDeArmas} tipo="tiposDeArmas"/>}
+                    {showTiposDeLugar && <TablaCampos campos={tiposDeLugar} tipo="tipoDeLugar"/>}
+                    {showUnidades && <TablaUnidades/>}
                 </div>
             </div>
         </>

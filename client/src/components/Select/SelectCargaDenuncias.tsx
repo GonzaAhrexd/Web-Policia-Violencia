@@ -10,8 +10,8 @@ import InputDireccion from '../InputComponents/InputDireccion';
 import { QuestionMarkCircleIcon, MapPinIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 // Campos
-import { opcionesTipoDeLugar } from '../../GlobalConst/opcionesTipoDeLugar';
-
+// import { opcionesTipoDeLugar } from '../../GlobalConst/opcionesTipoDeLugar';
+import { useCampos } from '../../context/campos';
 interface Opcion {
     value?: string;
     nombre?: string;
@@ -55,6 +55,8 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
     const [selectedCuadricula, setSelectedCuadricula] = useState('');
+
+    const {tiposDeLugar : opcionesTipoDeLugar} = useCampos()
 
     const handleBuscarPrefijo = (comisaria: String) => {
         //Busca el prefijo de la comisaria entre las opciones, tiene que coincidir con el valor de la comisaria

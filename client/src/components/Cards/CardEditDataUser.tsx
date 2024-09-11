@@ -4,14 +4,17 @@ import { useForm } from 'react-hook-form'
 
 // Campos y variables globales
 import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos';
-import { unidadCampos } from '../../GlobalConst/unidadCampos';
+// import { unidadCampos } from '../../GlobalConst/unidadCampos';
 import { zonaCampos } from '../../GlobalConst/zonaCampos';
-import { useAuth } from '../../context/auth';
 
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
 import InputNumber from '../InputComponents/InputNumber'
+
+// Contexto
+import { useAuth } from '../../context/auth';
+import { useCampos } from '../../context/campos';
 
 // Librerías
 import Swal from 'sweetalert2'
@@ -26,7 +29,7 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
     const [mensajeError, setMensajeError] = useState('')
 
     const { editProfile } = useAuth()
-
+    const { unidades: unidadCampos } = useCampos();
     return (
         <div className="bg-white shadow-lg rounded-lg md:w-8/10 p-4 scale-up-center">
             <form className='flex flex-col w-95/100'

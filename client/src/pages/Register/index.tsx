@@ -16,9 +16,11 @@ import InputRegister from '../../components/InputComponents/InputRegister'
 import SelectRegister from '../../components/Select/SelectRegister'
 import InputNumber from '../../components/InputComponents/InputNumber'
 // Campos
-import { unidadCampos } from '../../GlobalConst/unidadCampos'
+// import { unidadCampos } from '../../GlobalConst/unidadCampos'
 import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos'
 import { zonaCampos } from '../../GlobalConst/zonaCampos'
+
+import { useCampos } from '../../context/campos'
 
 function Register() {
   // Extraer funciones de useForm
@@ -33,6 +35,8 @@ function Register() {
   const [mensajeError, setMensajeError] = useState("")
   // Estado para controlar que se presionó el botón
   const [buttonClicked, setButtonClicked] = useState(false)
+  
+  const { unidades: unidadCampos } = useCampos();
 
   // Validación si ya está identificado, si es así redirige a login
   useEffect(() => {

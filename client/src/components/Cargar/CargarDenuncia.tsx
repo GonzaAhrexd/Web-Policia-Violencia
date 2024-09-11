@@ -17,11 +17,11 @@ import { getCoords } from '../../api/coordinates'
 
 // Campos
 import { generos } from '../../GlobalConst/generosCampos'
-import { unidadCampos } from '../../GlobalConst/unidadCampos'
+// import { unidadCampos } from '../../GlobalConst/unidadCampos'
 // import { vinculo } from '../../GlobalConst/vinculoCampos'
 import { opcionesViolencia } from '../../GlobalConst/violenciaCampos'
 import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
-import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
+// import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
 import { tiposDeViolenciaText, tiposModalidades } from '../../GlobalConst/modalTextos'
 // Iconos
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
@@ -65,7 +65,7 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
   const [isSolicitud, setIsSolicitud] = useState(false)
   const [isExpedientes, setIsExpedientes] = useState(false)
   
-  const { juzgadoIntervinente, vinculo } = useCampos()
+  const { juzgadoIntervinente, vinculo, tiposDeArmas: opcionesTiposDeArma, unidades: unidadCampos } = useCampos()
 
   const {
     setSolicitudAprehension,

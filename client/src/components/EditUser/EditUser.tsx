@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 
 // Campos y variables globales
 import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos';
-import { unidadCampos } from '../../GlobalConst/unidadCampos';
+//import { unidadCampos } from '../../GlobalConst/unidadCampos';
 import { zonaCampos } from '../../GlobalConst/zonaCampos';
 // Componentes
 import InputRegister from '../InputComponents/InputRegister'
@@ -13,7 +13,7 @@ import InputNumber from '../InputComponents/InputNumber'
 
 // Backend
 import { editUser } from '../../api/CRUD/usuarios.crud'
-
+import { useCampos } from '../../context/campos'
 // Librerías
 import Swal from 'sweetalert2'
 interface InputRegisterProps {
@@ -26,6 +26,7 @@ function CardEditDatadatos({ datos, setIsEditing }: InputRegisterProps) {
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const [mensajeError, setMensajeError] = useState('')
 
+    const { unidades: unidadCampos } = useCampos();
     return (
         <div className="bg-white shadow-lg rounded-lg md:w-8/10 p-4">
             <form className='flex flex-col w-95/100'

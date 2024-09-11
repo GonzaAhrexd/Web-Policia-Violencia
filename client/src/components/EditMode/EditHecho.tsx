@@ -8,10 +8,10 @@ ______________________________________________________________________________ *
 import {  useEffect, useState } from 'react'
 // Campos
 import { generos } from '../../GlobalConst/generosCampos'
-import { unidadCampos } from '../../GlobalConst/unidadCampos'
+// import { unidadCampos } from '../../GlobalConst/unidadCampos'
 import { opcionesViolencia } from '../../GlobalConst/violenciaCampos'
 import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
-import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
+// import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
 import { tiposDeViolenciaText, tiposModalidades } from '../../GlobalConst/modalTextos'
 // Backend
 import { getCoords } from '../../api/coordinates'
@@ -75,8 +75,7 @@ function EditHecho({ setIsSolicitudAprehension, datosTerceros, datosGeograficos,
   const [isSolicitud, setIsSolicitud] = useState(datos.medida_dispuesta.solicitud_de_aprehension)
   const [isExpedientes, setIsExpedientes] = useState(datos.medida_dispuesta.expedientes_con_cautelar)
 
-  const { juzgadoIntervinente, vinculo } = useCampos()
-        
+  const { juzgadoIntervinente, vinculo, tiposDeArmas: opcionesTiposDeArma, unidades: unidadCampos } = useCampos()
 useEffect(() => {
   setIsSolicitudAprehension(isSolicitud)
 }, [isSolicitud])
