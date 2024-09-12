@@ -22,14 +22,13 @@ function BuscarExistenteModal({  variante, setOpenModal, setVictimaCargar }: Bus
     const [mostrarAlerta, setMostrarAlerta] = useState("");
     // useForm para el formulario
     const { register, handleSubmit, formState: { errors } } = useForm();
-
     useEffect(() => {
         // Al presionar esc del teclado se cierra el modal
         const cerrarModal = (e: any) => {
             // Si se presiona la tecla escape
             if (e.key === 'Escape') {
                 // Cerrar el modal
-               setOpenModal(false);
+            setOpenModal(false);
             }
         };
         // Agregar el evento para cerrar el modal al presionar la tecla escape
@@ -39,6 +38,7 @@ function BuscarExistenteModal({  variante, setOpenModal, setVictimaCargar }: Bus
             window.removeEventListener('keydown', cerrarModal);
         };
     }, []);
+
     // Función para buscar víctimas, victimarios o terceros
     const fetchPersonas = async (values: any) => {
         let result

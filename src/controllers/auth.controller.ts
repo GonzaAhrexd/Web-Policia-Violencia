@@ -145,7 +145,6 @@ export const login = async (req, res) => {
 }
 
 //Logout 
-//Logout 
 export const logout = async (req, res) => {
     let configs: {} = {
         expires: new Date(0)
