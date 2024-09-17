@@ -1,10 +1,3 @@
-// Datos que se mostrarán en la tabla de denuncias
-type Row = {
-    _id: string;
-    nombre: string;
-    value: string;
-
-}
 /* 
 --------------------------------------------------------------------------------------------------------
     CAMPOS
@@ -15,19 +8,19 @@ type Row = {
 ----------------------------------------------------------------------------------------------------------
 */
 
-export const columnsUnidades = [
-    {
-        // Número de expediente de la denuncia
-        name: 'ID',
-        selector: (row:Row) => row._id,
-        style: {
-            fontSize: '14px',
-            fontWeight: 500,
-        },
+// Datos que se mostrarán en la tabla de denuncias
+type Row = {
+    _id: string;
+    nombre: string;
+    value: string;
 
-    },
+}
+
+
+
+ const columnsUnidades: any = [
+  
     {
-        // Número de expediente de la denuncia
         name: 'Nombre',
         selector: (row:Row) => row.nombre,
         style: {
@@ -37,7 +30,6 @@ export const columnsUnidades = [
 
     },
     {
-        // Fecha en la que se realizó la denuncia
         name: 'Valor',
         selector: (row:Row) => row.value,
         sortable: true,
@@ -46,4 +38,7 @@ export const columnsUnidades = [
             fontWeight: 500,
         },
     },
+
 ];
+
+export default columnsUnidades;

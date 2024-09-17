@@ -28,7 +28,14 @@ export const getUnidades = async (req, res) => {
 export const updateUnidad = async (req, res) => {
     try {
         const { id } = req.params
-        const unidad = await unidades.findByIdAndUpdate
+        const { nombre_unidad, valor_unidad} = req.body
+        const unidad = await unidades.findByIdAndUpdate(id,{
+            nombre: nombre_unidad,
+            value: valor_unidad
+        }
+        )
+
+        res.json(unidad)
 
     } catch (error) {
         console.log(error)

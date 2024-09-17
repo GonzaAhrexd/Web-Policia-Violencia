@@ -3,7 +3,7 @@
 import { useCampos } from '../../context/campos';
 import DataTable from 'react-data-table-component';
 import { customStyles } from '../../GlobalConst/customStyles';
-import { columnsUnidades } from './columnsTablaUnidades';
+import columnsUnidades  from './columnsTablaUnidades';
 import expandedComponentsUnidades from './expandedComponentsUnidades'
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'

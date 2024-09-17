@@ -5,7 +5,6 @@ const unidadesCamposSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        uppercase: true
     },
     value: {
         type: String,
@@ -13,23 +12,34 @@ const unidadesCamposSchema = new mongoose.Schema({
         trim: true
     },
     subdivisiones: [
-        {
+        {   
+            _id: { type: mongoose.Schema.Types.ObjectId, default: mongoose.Types.ObjectId },
             nombre: {
                 type: String,
                 required: true,
                 trim: true,
-                uppercase: true
             },
             value: {
                 type: String,
                 required: true,
                 trim: true
             },
-            cuadricula: {
-                type: String,
-                required: true,
-                trim: true
-            },
+            cuadriculas: [
+                {
+                    _id: { type: mongoose.Schema.Types.ObjectId, default: mongoose.Types.ObjectId },
+                    nombre: {
+                        type: String,
+                        required: false,
+                        trim: true,
+                    },
+                    value: {
+                        type: String,
+                        required: false,
+                        trim: true
+                    },
+                }
+
+            ],
             prefijo: {
                 type: String,
                 required: true,
@@ -37,11 +47,11 @@ const unidadesCamposSchema = new mongoose.Schema({
             },
             subdivisiones: [
                 {
+                    _id: { type: mongoose.Schema.Types.ObjectId, default: mongoose.Types.ObjectId },
                     nombre: {
                         type: String,
                         required: false,
                         trim: true,
-                        uppercase: true
                     },
                     value: {
                         type: String,
@@ -55,11 +65,11 @@ const unidadesCamposSchema = new mongoose.Schema({
                     },
                     cuadriculas: [
                         {
+                            _id: { type: mongoose.Schema.Types.ObjectId, default: mongoose.Types.ObjectId },
                             nombre: {
                                 type: String,
                                 required: false,
                                 trim: true,
-                                uppercase: true
                             },
                             value: {
                                 type: String,

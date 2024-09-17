@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { authRequired } from '../middlewares/validateToken';
 
-import { createUnidad, getUnidades, updateUnidad, deleteUnidad } from '../controllers/CRUD/crud.unidades'
+import { createUnidad, getUnidades, updateUnidad, deleteUnidad } from '../controllers/CRUD/crudUnidades'
 
 const router:Router = Router();
 
