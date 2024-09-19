@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 // Contexto
 import { useAuth } from '../../context/auth';
+import { useCampos } from '../../context/campos';
 // Librerías React
 import { Navigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
@@ -28,6 +29,9 @@ function index() {
         errors
     } } = useForm()
 
+    const { isLoading : loadingCampos } = useCampos()
+
+
     const [listaDeUsuarios, setListaDeUsuarios] = useState([])
 
     const opcionesRoles = [
@@ -43,7 +47,7 @@ function index() {
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
 
-    if (isLoading) return <h1>Cargando...</h1>
+    if (isLoading && loadingCampos) return <h1>Cargando...</h1>
     // Si no esta autenticado, redirige a login
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
     // Si el usuario no tiene rol, redirige a login

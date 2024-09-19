@@ -13,7 +13,6 @@ const unidadesCamposSchema = new mongoose.Schema({
     },
     subdivisiones: [
         {   
-            _id: { type: mongoose.Schema.Types.ObjectId, default: mongoose.Types.ObjectId },
             nombre: {
                 type: String,
                 required: true,
@@ -26,7 +25,6 @@ const unidadesCamposSchema = new mongoose.Schema({
             },
             cuadriculas: [
                 {
-                    _id: { type: mongoose.Schema.Types.ObjectId, default: mongoose.Types.ObjectId },
                     nombre: {
                         type: String,
                         required: false,
@@ -42,12 +40,11 @@ const unidadesCamposSchema = new mongoose.Schema({
             ],
             prefijo: {
                 type: String,
-                required: true,
+                required: false,
                 trim: true
             },
             subdivisiones: [
                 {
-                    _id: { type: mongoose.Schema.Types.ObjectId, default: mongoose.Types.ObjectId },
                     nombre: {
                         type: String,
                         required: false,
@@ -65,7 +62,6 @@ const unidadesCamposSchema = new mongoose.Schema({
                     },
                     cuadriculas: [
                         {
-                            _id: { type: mongoose.Schema.Types.ObjectId, default: mongoose.Types.ObjectId },
                             nombre: {
                                 type: String,
                                 required: false,

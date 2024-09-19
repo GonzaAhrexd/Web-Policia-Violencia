@@ -14,8 +14,8 @@ import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 
 // Backend 
-import { editarUnidad } from '../../api/CRUD/unidades.crud';
-
+import { editarUnidad, agregarMunicipio } from '../../api/CRUD/unidades.crud';
+import { useState } from 'react';
 
 type expandedComponentsUnidadesProps = {
     data: any;
@@ -30,16 +30,21 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
+    const [showAddMunicipio, setShowAddMunicipio] = useState(false)
+
     useEffect(() => {
         console.log(data)
     }, [data])
 
     if (data.subdivisiones.length > 0) {
         return (
-            <div className='p-4'>
+            <div className='p-4 border-solid border-4 border-gray-600'>
                 <h1 className='text-4xl'>Unidad</h1>
+                { !showAddMunicipio && 
+                <>
                 <h2 className='text-2xl'>Editar datos de la unidad</h2>
-                <form  className='w-full flex flex-col items-start md:items-center justify-start md:justify-center m-4'
+                
+                <form  className='w-full flex flex-col items-start md:items-center justify-start md:justify-center'
                     onSubmit={handleSubmit((values) => {
                         console.log(values)
                         Swal.fire({
@@ -77,22 +82,57 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
                         Editar Unidad
                     </button>
                 </form>
-
+                </>
+                }
                 <h1 className='text-4xl'>Municipios</h1>
                 <h2 className='text-2xl'>Agregar un nuevo municipio</h2>
+                <div className='flex flex-col items-center justify-center'>
+                <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2' onClick={() => setShowAddMunicipio(!showAddMunicipio)}>
+                        {!showAddMunicipio ? "Agregar Municipio" : "Cancelar"}
+                    </button>
+                </div>
+                    {showAddMunicipio &&
+                <form className='w-full flex flex-col items-start md:items-center justify-start md:justify-center'
+                onSubmit={handleSubmit((values) => {
+                    Swal.fire({
+                        title: '¿Estás seguro de agregar el municipio?',
+                        icon: 'warning',
+                        confirmButtonColor: '#0C4A6E',
+                        cancelButtonColor: '#FF554C',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, agregar',
+                        cancelButtonText: 'Cancelar'
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            values.id = data._id
+                            await agregarMunicipio(values)
+                            Swal.fire({
+                                title: '¡Agregado!',
+                                text: 'El municipio ha sido agregado correctamente',
+                                icon: 'success',
+                                confirmButtonColor: '#0C4A6E',
+                                cancelButtonColor: '#FF554C',
+                            }
+                            ).then(() => {
+                                window.location.reload()
+                            })
+                        }
+                    })
 
-                {/* <form className='w-full flex flex-col items-start md:items-center justify-start md:justify-center m-4'
-                    onSubmit={handleSubmit((data) => {
-                        console.log(data)
-                    }
+
+
+
+                }
                     )}
                 >
-                    <InputRegister campo="Nombre" nombre="nombre_municipio" register={register} type="text" error={errors.nombre} />
-                    <InputRegister campo="Valor" nombre="valor_municipio" register={register} type="text" error={errors.valor} />
+                    <InputRegister campo="Nombre" nombre="nombre_municipio" register={register} type="text" error={errors.nombre_municipio} />
+                    <InputRegister campo="Valor" nombre="valor_municipio" register={register} type="text" error={errors.valor_municipio} />
+                    <InputRegister campo="Prefijo" nombre="prefijo_municipio" register={register} type="text" error={errors.prefijo_municipio} require={false} />
                     <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2'>
                         Agregar Municipio
                     </button>
-                </form> */}
+                </form>
+            }
                 <h2 className='text-2xl'>Lista de municipios</h2>
                 <DataTable
                     columns={columnsUnidades}

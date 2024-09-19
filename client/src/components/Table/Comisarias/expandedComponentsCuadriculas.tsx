@@ -1,65 +1,65 @@
 
-// Dependencias
-import DataTable from 'react-data-table-component';
-import { customStyles } from '../../../GlobalConst/customStyles';
-// Componentes
-import  columnsUnidades  from '../columnsTablaUnidades';
-// Iconos
-import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
-import expandedComponentsCuadriculas from './expandedComponentsCuadriculas';
+//  Componentes
 import { useForm } from 'react-hook-form';
 import InputRegister from '../../InputComponents/InputRegister';
 
+// Backend
+import { editarCuadriculaDesdeComisaria } from '../../../api/CRUD/unidades.crud';
 
 type expandedComponentsUnidadesProps = {
     data: any
+    municipio: string
+    comisaria: string
 }
+import Swal from 'sweetalert2';
 
-function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
+function expandedComponentsUnidades({ data, municipio, comisaria }: expandedComponentsUnidadesProps) {
 
-    const expandableIcon = {
-        collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
-        expanded: <ArrowUpCircleIcon className='h-6 w-6' />
-    }
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
-    if (data.cuadriculas) {
         return (
             <div className='p-4'>
                 <h1 className='text-4xl'>Cuadriculas</h1>
-                <h2 className='text-2xl'>Agregar cuadrículas</h2>
+                <form  className='w-full flex flex-col items-center justify-center m-4'
+                    onSubmit={handleSubmit((values) => {
+                        Swal.fire({
+                            title: '¿Estás seguro de editar la cuadrícula?',
+                            icon: 'warning',
+                            confirmButtonColor: '#0C4A6E',
+                            cancelButtonColor: '#FF554C',
+                            showCancelButton: true,
+                            confirmButtonText: 'Sí, editar',
+                            cancelButtonText: 'Cancelar'
+                        }).then(async (result) => {
+                            if (result.isConfirmed) {
+                                values.nombre_comisaria = comisaria
+                                values.nombre_municipio = municipio
+                                values.nombre_original = data.nombre
+                                editarCuadriculaDesdeComisaria(values)
+                                Swal.fire({
+                                    title: '¡Cuadrícula editada!',
+                                    icon: 'success',
+                                    confirmButtonColor: '#0C4A6E',
+                                    confirmButtonText: 'Ok'
+                                }).then(() => {
+                                    window.location.reload()
+                                })
+                            }
+                        })
 
-                <form action="" className='w-full flex flex-col items-center justify-center m-4'
-                    onSubmit={handleSubmit((data) => {
-                        console.log(data)
                     }
                     )}
                 >
-                    <InputRegister campo="Nombre" nombre="nombre" register={register} type="text" error={errors.nombre} />
-                    <InputRegister campo="Valor" nombre="valor" register={register} type="text" error={errors.valor} />
-                    <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10 mr-2'>
-                        Agregar cuadrícula
+                    <InputRegister campo="Nombre" nombre="nombre_cuadricula" register={register} type="text" error={errors.nombre_cuadricula} valor={data.nombre} setValue={setValue} />
+                    <InputRegister campo="Valor" nombre="valor_cuadricula" register={register} type="text" error={errors.nombre_valor} valor={data.value} setValue={setValue} />
+                    <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2'>
+                        Editar cuadrícula
                     </button>
+                
                 </form>
-                <h2 className='text-2xl'>Lista de cuadrículas</h2>
-                    <DataTable
-                        columns={columnsUnidades}
-                        data={data.cuadriculas}
-                        pagination
-                        expandableRows
-                        expandableRowsComponent={expandedComponentsCuadriculas}
-                        customStyles={customStyles}
-                        responsive={true}
-                        striped={true}
-                        highlightOnHover={true}
-                        noDataComponent="No hay denuncias para mostrar"
-                        defaultSortFieldId={"Fecha"}
-                        expandableIcon={expandableIcon}
-                    />                   
-            </div>
+                </div>
         )
-    }
 }
 
 export default expandedComponentsUnidades

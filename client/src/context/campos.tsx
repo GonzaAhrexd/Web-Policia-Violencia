@@ -34,81 +34,44 @@ export const CamposProvider = ({ children }: CamposProviderProps) => {
     const [unidades, setUnidades] = useState<any>([]); // Initialize with an empty array or appropriate type
     const [isLoading, setIsLoading] = useState<boolean>(true);
     
-
-    const obtenerJuzgados = async () => {
+    const obtenerDatos = async () => {
+        setIsLoading(true);  // Activa el estado de carga al iniciar las llamadas.
         try {
-            const res = await obtenerCampo("juzgadosIntervinientes");
-            setJuzgadoIntervinente(res);
+            // Ejecuta todas las llamadas al mismo tiempo
+            const [
+                juzgadosRes,
+                ocupacionesRes,
+                vinculosRes,
+                tiposDeArmasRes,
+                tiposDeLugarRes,
+                unidadesRes
+            ] = await Promise.all([
+                obtenerCampo("juzgadosIntervinientes"),
+                obtenerCampo("ocupaciones"),
+                obtenerCampo("vinculos"),
+                obtenerCampo("tiposDeArmas"),
+                obtenerCampo("tipoDeLugar"),
+                obtenerUnidades()
+            ]);
+    
+            // Asigna los resultados a sus respectivos estados
+            setJuzgadoIntervinente(juzgadosRes);
+            setOcupaciones(ocupacionesRes);
+            setVinculo(vinculosRes);
+            setTiposDeArmas(tiposDeArmasRes);
+            setTiposDeLugar(tiposDeLugarRes);
+            setUnidades(unidadesRes);
         } catch (error: any) {
             console.log(error);
         } finally {
-            setIsLoading(false);  // Esto asegura que isLoading siempre se actualiza, incluso si hay un error.
+            setIsLoading(false);  // Asegura que isLoading se actualice incluso si ocurre un error.
         }
     };
-
-    const obtenerOcupaciones = async () => {
-        try {
-            const res = await obtenerCampo("ocupaciones");
-            setOcupaciones(res);
-        } catch (error: any) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);  // Esto asegura que isLoading siempre se actualiza, incluso si hay un error.
-        }
-    }
-
-    const obtenerVinculos = async () => {
-        try {
-            const res = await obtenerCampo("vinculos");
-            setVinculo(res);
-        } catch (error: any) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);  // Esto asegura que isLoading siempre se actualiza, incluso si hay un error.
-        }
-    }
-
-    const obtenerTiposDeArmas = async () => {
-        try {
-            const res = await obtenerCampo("tiposDeArmas");
-            setTiposDeArmas(res);
-        } catch (error: any) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);  // Esto asegura que isLoading siempre se actualiza, incluso si hay un error.
-        }
-    }
-
-    const obtenerTiposDeLugar = async () => {
-        try {
-            const res = await obtenerCampo("tipoDeLugar");
-            setTiposDeLugar(res);
-        } catch (error: any) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);  // Esto asegura que isLoading siempre se actualiza, incluso si hay un error.
-        }
-    }
-
-    const obtenerUnidadesPoliciales = async () => {
-        try {
-            const res = await obtenerUnidades();
-            setUnidades(res);
-        } catch (error: any) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);  // Esto asegura que isLoading siempre se actualiza, incluso si hay un error.
-        }
-    }
-
+    
     useEffect(() => {
-        obtenerJuzgados();
-        obtenerOcupaciones();
-        obtenerVinculos();
-        obtenerTiposDeArmas();
-        obtenerTiposDeLugar();
-        obtenerUnidadesPoliciales();
+        obtenerDatos();  // Ejecuta todas las llamadas cuando se monta el componente
     }, []);
+    
 
     return (
         <CamposContext.Provider value={{ 
