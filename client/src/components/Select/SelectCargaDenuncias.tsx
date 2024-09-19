@@ -297,8 +297,9 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
                             </select>
                         </div>
                     )}
+                {/* @ts-ignore */}
                 {selectedSubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) =>
-                    subunidad.value === selectedSubunidad)?.cuadriculas && (
+                    subunidad.value === selectedSubunidad)?.cuadriculas?.length > 0 && (
 
 
                         <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>

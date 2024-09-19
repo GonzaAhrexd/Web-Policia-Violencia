@@ -63,9 +63,9 @@ export const editarComisaria = async (comisaria: any) => {
     }
 }
 
-export const eliminarCuadricula = async (cuadricula: any) => {
+export const eliminarCuadriculaDesdeComisaria = async (cuadricula: string, comisaria: string, municipio: string ) => {
     try {
-        const response = await axios.put(`/eliminar-cuadricula/`, cuadricula)
+        const response = await axios.put(`/eliminar-cuadricula/${cuadricula}/${comisaria}/${municipio}`,)
         return response.data
     } catch (error) {
         console.log(error)

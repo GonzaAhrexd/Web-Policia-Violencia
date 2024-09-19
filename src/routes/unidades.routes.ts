@@ -37,5 +37,5 @@ router.put('/agregar-cuadricula/', authRequired, addCuadriculaFromComisaria)
 // Editar cuadriculas
 router.put('/editar-cuadricula-desde-comisaria/', authRequired, updateCuadriculaFromComisaria)
 // Eliminar cuadriculas
-router.put('/eliminar-cuadriculas/:nombre/:municipio/:comisaria', authRequired, deleteCuadriculaFromComisaria)
+router.put('/eliminar-cuadricula/:cuadricula/:comisaria/:municipio', authRequired, deleteCuadriculaFromComisaria)
 export default router

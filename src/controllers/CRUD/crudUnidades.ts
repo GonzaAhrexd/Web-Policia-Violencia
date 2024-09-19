@@ -251,11 +251,13 @@ export const updateCuadriculaFromComisaria = async (req, res) => {
 
 export const deleteCuadriculaFromComisaria = async (req, res) => {
     try {
-        const { nombre, comisaria, municipio } = req.params;
+        const { cuadricula, comisaria, municipio } = req.params;
 
+        console.log(req.params)
+        
         await unidades.updateMany(
             { "subdivisiones.nombre": municipio, "subdivisiones.subdivisiones.nombre": comisaria },
-            { $pull: { "subdivisiones.$.subdivisiones.$[comisaria].cuadriculas": { nombre: nombre } } },
+            { $pull: { "subdivisiones.$.subdivisiones.$[comisaria].cuadriculas": { nombre: cuadricula } } },
             { arrayFilters: [{ "comisaria.nombre": comisaria }] }
         );
 

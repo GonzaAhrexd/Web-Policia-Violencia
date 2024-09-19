@@ -29,7 +29,7 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const [showAddComisaria, setShowAddComisaria] = useState(false)
-    console.log(data.subdivisiones)
+    const [showAddCuadricula, setShowAddCuadricula] = useState(false)
 
     const ExpandedRowComponent = ({data : row}: any) => (
         // @ts-ignore
@@ -120,16 +120,23 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
                 </form>
                 </>
                 }
-                <h1 className='text-4xl'>Comisarías</h1>
-                <h2 className='text-2xl'>Agregar una nueva comisaría</h2>
-                <div className='flex flex-col items-center justify-center'>
-                <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 rounded w-full md:w-3/10'
-                    onClick={() => setShowAddComisaria(!showAddComisaria)}
-                    >
+                <h1 className='text-2xl'>Agregar subdivisiones</h1>
+                <div className='flex flex-col justify-center items-center'>
+                    { !showAddCuadricula &&
+                        <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 rounded w-full md:w-3/10' onClick={() => setShowAddComisaria(!showAddComisaria)}>
                     {!showAddComisaria ? "Agregar Comisaría" : "Cancelar"}
                 </button>
+                    }
+                { !showAddComisaria && 
+                <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 rounded w-full md:w-3/10 mt-2' onClick={() => { setShowAddCuadricula(!showAddCuadricula) }}>
+                        {!showAddCuadricula ? "Agregar cuadrícula " : "Cancelar"}
+                </button>
+                }
                     </div>
                 {showAddComisaria && 
+                <>
+                <h1 className='text-4xl'>Comisarías</h1>
+                <h2 className='text-2xl'>Agregar una nueva comisaría</h2>
                 <form className='w-full flex flex-col items-center justify-center m-4'
                     onSubmit={handleSubmit((values) => {
                         Swal.fire({
@@ -151,25 +158,35 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
                                     confirmButtonColor: '#0C4A6E',
                                     cancelButtonColor: '#FF554C',
                                 }
-                                ).then(() => {
-                                    window.location.reload()
-                                })
-                            }
-                        })
-                    }
-                    )}
-                >
+                            ).then(() => {
+                                window.location.reload()
+                            })
+                        }
+                    })
+                }
+            )}
+            >
                     <InputRegister campo="Nombre" nombre="nombre_comisaria" register={register} type="text" error={errors.nombre_comisaria} />
                     <InputRegister campo="Valor" nombre="valor_comisaria" register={register} type="text" error={errors.valor_comisaria} />
                     <InputRegister campo="Prefijo" nombre="prefijo_comisaria" register={register} type="text" error={errors.prefijo_comisaria} />
-
                     <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 rounded w-full md:w-3/10'>
                         Agregar Comisaría
                     </button>
                 </form>
-    }
+                    </>
+                }
+                {showAddCuadricula &&
+                <>
+                <h1 className='text-4xl'>Cuadrículas</h1>
+                <h2 className='text-2xl'>Agregar una nueva cuadrícula</h2>
+                <form className='w-full flex flex-col items-center justify-center m-4'/>
+                </>
+                }
+
+                
+                {data.subdivisiones.length != 0 && 
+                <>
                 <h2 className='text-2xl'>Lista de comisarías</h2>
-                {data.subdivisiones.length != 0 ?
                     <DataTable
                         columns={columnsUnidades}
                         data={data.subdivisiones}
@@ -184,22 +201,28 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
                         defaultSortFieldId={"Fecha"}
                         expandableIcon={expandableIcon}
                     />
-                    :
-                    <DataTable
-                        columns={columnsUnidades}
-                        data={data.cuadriculas}
-                        pagination
-                        expandableRows
-                        expandableRowsComponent={ExpandedRowComponent}
-                        customStyles={customStyles}
-                        responsive={true}
-                        striped={true}
-                        highlightOnHover={true}
-                        noDataComponent="No hay denuncias para mostrar"
-                        defaultSortFieldId={"Fecha"}
-                        expandableIcon={expandableIcon}
-                    />
+                </>
                 }
+                {data.cuadriculas.length != 0 && 
+                <>
+                <h2 className='text-2xl'>Lista de Cuadrículas</h2>
+                    <DataTable
+                    columns={columnsUnidades}
+                    data={data.cuadriculas}
+                    pagination
+                    expandableRows
+                    expandableRowsComponent={ExpandedRowComponent}
+                    customStyles={customStyles}
+                    responsive={true}
+                    striped={true}
+                    highlightOnHover={true}
+                    noDataComponent="No hay denuncias para mostrar"
+                    defaultSortFieldId={"Fecha"}
+                    expandableIcon={expandableIcon}
+                        />
+                    </>
+                    }
+                
             </div>
         )
                 }
