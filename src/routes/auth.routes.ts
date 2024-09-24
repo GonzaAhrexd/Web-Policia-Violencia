@@ -23,7 +23,6 @@ router.get('/users/:userId/image', (req, res) => {
     // Aquí iría tu lógica para encontrar la imagen basada en userId
     // Por ejemplo, buscar en una base de datos el nombre de archivo de la imagen del usuario
     const imagePath = path.resolve(__dirname, `../imagesFromDB/perfiles/${userId}.png`); // Asume que el nombre de la imagen es el ID del usuario
-        console.log(imagePath)
         res.sendFile(imagePath, (err) => {
             if (err) {
               res.status(404).send('Imagen no encontrada');

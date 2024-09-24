@@ -31,7 +31,8 @@ interface expandedComponentsProps {
     data: any
 }
 function expandedComponents({ data }: expandedComponentsProps) {
-   
+    const APIURL = import.meta.env.VITE_BASE_URL
+
     const markerIcon = new Icon({
         iconUrl: '/pin-de-ubicacion.png',
         iconSize: [30, 30],
@@ -340,6 +341,14 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     <h2 className='text-3xl my-5 font-sans mr-4'>Observaciones</h2></div>
                 <div className="flex flex-col">
                 <SimpleTableCheckorX campo="Detalles" datos={detallesObservaciones} icono={<InformationCircleIcon className='h6 w-6'/>}/>
+               {data.imagen && 
+               <>
+                <figure className='w-full h-5/10 flex flex-row items-center justify-center'>
+              <img className='w-5/10' src={`${APIURL}/Denuncias/${data._id}/image`} alt="" />
+            </figure>
+               </>
+                }
+                
                 <ShowTextArea campo="Observaciones" dato={data.observaciones} />
                 </div>
                 <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>

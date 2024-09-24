@@ -11,9 +11,10 @@ interface InputRegisterProps {
     valor?: any;
     placeholder?: string;
     setValue?: any;
+    required?: boolean;
 }
 
-function InputTextArea({ campo, nombre, register, type, variante, valor, placeholder, setValue }: InputRegisterProps) {
+function InputTextArea({ campo, nombre, register, type, variante, valor, placeholder, setValue, required }: InputRegisterProps) {
     // Si no se recibe un placeholder, se setea como string vacío
     placeholder ? placeholder : ''
     // Si se recibe un valor, se setea en el formulario directamente con setValue
@@ -24,9 +25,10 @@ function InputTextArea({ campo, nombre, register, type, variante, valor, placeho
     }
     return (
         <div className={`flex flex-col ${variante!="edit" ? 'w-full md:w-6/10' : "w-full h-56"} `}>
-            <span className={`font-medium ml-4 `}> {campo} </span>
+            {required && <span className="text-red-500">Requerido</span>}
+            <span className={`font-medium ml-4 `}> {campo}   </span>
             <textarea className="border open-sans pl-4 py-5 resize-none text-lg border-gray-300 rounded-md w-full h-56 "type={type}
-                {...register(nombre, { required: true })} placeholder={placeholder} />
+                {...register(nombre, { required: required === false ? false : true})} placeholder={placeholder} />
         </div>
     )
 }

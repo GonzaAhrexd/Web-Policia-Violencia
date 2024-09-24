@@ -6,6 +6,8 @@ import InputCheckbox from '../InputComponents/InputCheckbox';
 // Zustand
 import { useStore } from '../../pages/CargarDenuncias/store'
 
+import { useState } from 'react';
+
 // Interface
 interface observacionesProps {
   register: UseFormRegister<any>
@@ -16,7 +18,7 @@ interface observacionesProps {
 
 function CargarObservaciones({fileInputRef, rolAgenteHidden, register, setValue}: observacionesProps) {
   const { isSolicitudAprehension } = useStore();
-
+  const [observacionRequired, setObservacionRequired] = useState(true);
   return (
     <div className='flex flex-col items-center w-full'>
         {(rolAgenteHidden !== null) && (!rolAgenteHidden) &&
@@ -24,13 +26,13 @@ function CargarObservaciones({fileInputRef, rolAgenteHidden, register, setValue}
           
         <InputCheckbox disabled={!isSolicitudAprehension} campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue} type="checkbox" id="aprehension" />
         <h1 className='font-medium ml-4'>Subir foto de la denuncia (opcional)</h1>
-          <input ref={fileInputRef} type="file" accept="image/*" className='mb-2' required={false} />
+          <input ref={fileInputRef} type="file" accept="image/*" className='mb-2' required={false} onChange={() => setObservacionRequired(false)} />
         
         </div>
-        
         }
+
     <div className='flex flex-col items-center w-full'>
-        <InputTextArea campo="Observaciones" nombre="observaciones" register={register} type="text" />
+        <InputTextArea campo="Observaciones" nombre="observaciones" register={register} type="text" required={observacionRequired} />
         </div>
     </div>
   )

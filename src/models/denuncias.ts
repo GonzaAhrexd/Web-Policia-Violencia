@@ -314,7 +314,7 @@ const denunciaSchema = new mongoose.Schema({
     observaciones: {
         type: String, // Tipo de dato String
         trim: true, // Trim para que no se guarden espacios en blanco
-        required: true // Campo requerido
+        required: false // Campo requerido
     },
     imagen: {
         type: String, // Tipo de dato String
