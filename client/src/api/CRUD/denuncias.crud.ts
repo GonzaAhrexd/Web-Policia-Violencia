@@ -4,8 +4,18 @@ import axios from '../axios'
 // DENUNCIAS
 // Crear denuncias
 export const crearDenuncia = (denuncia: any) => {
+    const formData = new FormData();
+    // Pasa todos los datos de la denuncia a un FormData
+    Object.keys(denuncia).forEach((key) => {
+        formData.append(key, denuncia[key]);
+    });
+    
     try {
-        axios.post(`/crear-denuncia/`, denuncia)
+        axios.post(`/crear-denuncia/`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+    })
     } catch (error) {
         console.log(error)
     }

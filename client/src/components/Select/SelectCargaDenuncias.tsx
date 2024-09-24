@@ -133,8 +133,8 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
         setSelectedCuadricula('');
         // Actualiza el valor en react-hook-form       
         campo == "Unidad de carga" && setValue('unidad_de_carga', value)
-        campo == "Modalidades de la denuncia" && setValue('modalidades', value)
-
+        nombre=="modalidades" && setValue('modalidades', value)
+        
     };
 
     const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

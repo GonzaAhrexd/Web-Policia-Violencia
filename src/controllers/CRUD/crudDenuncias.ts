@@ -7,6 +7,11 @@ import { deleteVictimario } from './crudVictimarios'
 import { deleteVictima } from './crudVictimas'
 import { deleteTercero } from './crudTerceros'
 import { agregarActividadReciente } from './crudActividadReciente'
+import path from 'path'
+
+const formidable = require('formidable'); //Módulo para formularios
+const fs = require('fs') //Módulo para guardar imagenes
+
 
 // DENUNCIAS
 export const getDenuncias = async (req, res) => {
@@ -121,11 +126,16 @@ export const getMisDenuncias = async (req, res) => {
 
 // Crear denuncias
 export const createDenuncia = async (req, res) => {
+    const form = new formidable.IncomingForm()
+
     try {
+        form.parse(req, async (err, fields, files) => {
+
         // Obtener los datos de la denuncia
         const { user_id, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, convivencia, dependencia_economica, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
-            derecho_de_comunicacion, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, ninguna} = req.body
-        // Buscar si la victima y victimario ya existen        
+            derecho_de_comunicacion, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, ninguna} = fields
+        console.log(fields)
+            // Buscar si la victima y victimario ya existen        
         const findVictima = await victimas.findOne({ DNI: dni_victima })
         let findVictimario
 
@@ -144,69 +154,109 @@ export const createDenuncia = async (req, res) => {
         // Si el tercero no existe, se crea uno nuevo
         // Crear la denuncia
         const newDenuncia = new denuncia({
-            victima_ID: findVictima?._id ? findVictima._id : victima_ID,
-            victimario_ID: findVictimario?._id ? findVictimario._id : victimario_ID,
-            victima_nombre: findVictima ? findVictima.nombre + ' ' + findVictima.apellido : nombre_victima + ' ' + apellido_victima,
-            victimario_nombre: findVictimario ? (findVictimario.nombre + ' ' + findVictimario.apellido) : (nombre_victimario + ' ' + apellido_victimario),
-            relacion_victima_victimario: vinculo_con_agresor_victima,
-            hijos_victima_con_victimario: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
+            victima_ID: findVictima?._id ? findVictima._id : victima_ID[0],
+            victimario_ID: findVictimario?._id ? findVictimario._id : victimario_ID[0],
+            victima_nombre: findVictima ? (findVictima.nombre[0] + ' ' + findVictima.apellido[0]) : (nombre_victima[0] + ' ' + apellido_victima[0]),
+            victimario_nombre: findVictimario ? (findVictimario.nombre[0] + ' ' + findVictimario.apellido[0]) : (nombre_victimario[0] + ' ' + apellido_victimario[0]),
+            relacion_victima_victimario: vinculo_con_agresor_victima[0],
+            hijos_victima_con_victimario: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor[0] : 0,
             convivencia: convivencia === "Sí" ? true : false,
             dependencia_economica: dependencia_economica === "Sí" ? true : false,
-            genero,
-            fecha,
-            direccion,
-            GIS: GIS ? GIS : "No específicado",
-            barrio: barrio ? barrio : 'No específicado',
-            tipo_de_lugar: tipo_de_lugar,
-            unidad_de_carga,
-            municipio,
-            jurisdiccion_policial: jurisdiccion_policial ? jurisdiccion_policial : 'No existe',
-            cuadricula: cuadricula ? cuadricula : 'No existe',
-            isDivision,
-            numero_de_expediente,
-            is_expediente_completo,
-            juzgado_interviniente,
-            juzgado_interviniente_numero,
-            dependencia_derivada,
-            violencia,
-            modalidades,
+            genero: genero[0],
+            fecha: fecha[0],
+            direccion: direccion[0],
+            GIS: GIS ? GIS[0] : "No específicado",
+            barrio: barrio ? barrio[0] : 'No específicado',
+            tipo_de_lugar: tipo_de_lugar[0],
+            unidad_de_carga: unidad_de_carga[0],
+            municipio: municipio[0],
+            jurisdiccion_policial: jurisdiccion_policial ? jurisdiccion_policial[0] : 'No existe',
+            cuadricula: cuadricula ? cuadricula[0] : 'No existe',
+            isDivision: isDivision[0],
+            numero_de_expediente: numero_de_expediente[0],
+            is_expediente_completo: is_expediente_completo[0],
+            juzgado_interviniente: juzgado_interviniente[0],
+            juzgado_interviniente_numero: juzgado_interviniente_numero[0],
+            dependencia_derivada: dependencia_derivada[0],
+            violencia: violencia[0],
+            modalidades: modalidades[0],
             tipo_de_violencia: {
-                Fisica: fisica,
-                Psicologica: psicologica,
-                Sexual: sexual,
-                Economica_y_patrimonial: economica_y_patrimonial,
-                Simbolica: simbolica,
-                Politica: politica,
+                Fisica: fisica[0],
+                Psicologica: psicologica[0],
+                Sexual: sexual[0],
+                Economica_y_patrimonial: economica_y_patrimonial[0],
+                Simbolica: simbolica[0],
+                Politica: politica[0],
             },
-            empleo_de_armas: empleo_de_armas ? empleo_de_armas : false,
-            arma_empleada: (arma_empleada && empleo_de_armas) ? arma_empleada : 'Sin armas',
+            empleo_de_armas: empleo_de_armas ? empleo_de_armas[0] : false,
+            arma_empleada: (arma_empleada && empleo_de_armas) ? arma_empleada[0] : 'Sin armas',
             medida: {
-                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined ) ? prohibicion_de_acercamiento : false,
-                restitucion_de_menor: (restitucion_de_menor !== undefined ) ? restitucion_de_menor : false,
-                exclusion_de_hogar: (exclusion_de_hogar !== undefined ) ? exclusion_de_hogar : false,
-                alimento_provisorio: (alimento_provisorio !== undefined ) ? alimento_provisorio : false,
-                derecho_de_comunicacion: (derecho_de_comunicacion !== undefined ) ? derecho_de_comunicacion : false,
-                boton_antipanico: (boton_antipanico !== undefined) ? boton_antipanico : false,
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined ) ? prohibicion_de_acercamiento[0] : false,
+                restitucion_de_menor: (restitucion_de_menor !== undefined ) ? restitucion_de_menor[0] : false,
+                exclusion_de_hogar: (exclusion_de_hogar !== undefined ) ? exclusion_de_hogar[0] : false,
+                alimento_provisorio: (alimento_provisorio !== undefined ) ? alimento_provisorio[0] : false,
+                derecho_de_comunicacion: (derecho_de_comunicacion !== undefined ) ? derecho_de_comunicacion[0] : false,
+                boton_antipanico: (boton_antipanico !== undefined) ? boton_antipanico[0] : false,
             },
             medida_dispuesta: {
-                prohibicion_de_acercamiento: (prohibicion_de_acercamiento_dispuesta !== undefined ) ? prohibicion_de_acercamiento_dispuesta : false,
-                exclusion_de_hogar: (exclusion_de_hogar_dispuesta !== undefined) ? exclusion_de_hogar_dispuesta : false,
-                boton_antipanico: (boton_antipanico_dispuesta !== undefined) ? boton_antipanico_dispuesta : false,
-                solicitud_de_aprehension: (solicitud_de_aprehension_dispuesta !== undefined) ? solicitud_de_aprehension_dispuesta : false,
-                expedientes_con_cautelar: (expedientes_con_cautelar_dispuesta !== undefined) ? expedientes_con_cautelar_dispuesta : false,
-                ninguna: (ninguna !== undefined) ? ninguna : false
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento_dispuesta !== undefined ) ? prohibicion_de_acercamiento_dispuesta[0] : false,
+                exclusion_de_hogar: (exclusion_de_hogar_dispuesta !== undefined) ? exclusion_de_hogar_dispuesta[0] : false,
+                boton_antipanico: (boton_antipanico_dispuesta !== undefined) ? boton_antipanico_dispuesta[0] : false,
+                solicitud_de_aprehension: (solicitud_de_aprehension_dispuesta !== undefined) ? solicitud_de_aprehension_dispuesta[0] : false,
+                expedientes_con_cautelar: (expedientes_con_cautelar_dispuesta !== undefined) ? expedientes_con_cautelar_dispuesta[0] : false,
+                ninguna: (ninguna !== undefined) ? ninguna[0] : false
             },
-            tercero_ID: (denunciado_por_tercero && IdTercero) ? IdTercero : 'Sin tercero',
-            vinculo_con_la_victima_tercero:(denunciado_por_tercero && vinculo_con_la_victima) ? vinculo_con_la_victima : 'Sin vínculo',
-            denunciado_por_tercero: denunciado_por_tercero ? denunciado_por_tercero : false,
-            aprehension: (aprehension !== null && solicitud_de_aprehension_dispuesta) ? aprehension : false,
-            observaciones,
-            denunciada_cargada_por: user_id
+            tercero_ID: (denunciado_por_tercero && IdTercero) ? IdTercero[0] : 'Sin tercero',
+            vinculo_con_la_victima_tercero: (denunciado_por_tercero && vinculo_con_la_victima) ? vinculo_con_la_victima[0] : 'Sin vínculo',
+            denunciado_por_tercero: denunciado_por_tercero ? denunciado_por_tercero[0] : false,
+            aprehension: (aprehension !== null && solicitud_de_aprehension_dispuesta) ? aprehension[0] : false,
+            observaciones: observaciones[0],
+            denunciada_cargada_por: user_id[0]
+            
+            
         })
        
         // Guardar la denuncia
         const denunciaSaved = await newDenuncia.save()
-       
+
+        if (err) {
+            console.error("Error parsing the form: ", err);
+            return res.status(500).send({ error: "Error procesando el formulario: " + err.message });
+        }
+        if(files.imagen){
+        const file = files?.imagen[0]
+
+        if (file.originalFilename === "") { //Validación si no se sube archivos
+            throw new Error("Agrega una imagen para continuar")
+        }
+        // if (!(file.mimetype === "image/jpeg" || file.mimetype === "image/png")) { //Formatos válidos
+        //     throw new Error("Formato no válido, prueba con .png o .jpg")
+        // }
+
+        if (file.size > 50 * 1024 * 1024) { //Tamaño máximo de 50mb
+            throw new Error("Ingrese un archivo de menos de 50mb")
+        }
+
+        let separado = file?.mimetype?.split("/");
+        let formato = separado[1];
+
+        let dirFile = path.join(__dirname, `../../imagesFromDB/Denuncias/${denunciaSaved._id}.${formato}`) //crear la  ruta para guardar la imagen    
+        // Crear la carpeta si no existe
+        const dirPath = path.dirname(dirFile);
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+        fs.copyFile(file.filepath, dirFile, function (err) {
+            if (err) throw err;
+        }); //Copiar archivo desde la ruta original al servidor
+
+        let nuevo = denunciaSaved._id + '.' + formato //Guardar nombre de la imagen para pasarlo a la base de datos
+
+        denunciaSaved.imagen = nuevo //Guardar el nombre de la imagen en la base de datos
+
+        await denunciaSaved.save()
+    }
+
         // Agrega el ID de la denuncia nueva al array que tiene la victima con sus denuncias cargadas
         await victimas.findByIdAndUpdate(findVictima?._id ? findVictima._id : victima_ID, { $push: { denuncias_realizadas: denunciaSaved._id } })
        
@@ -234,6 +284,7 @@ export const createDenuncia = async (req, res) => {
       
         // Respuesta de la API
         res.send('Denuncia creada con exito')
+        })
     } catch (error) {
         console.log(error)
         res.send('No se ingresaron datos')

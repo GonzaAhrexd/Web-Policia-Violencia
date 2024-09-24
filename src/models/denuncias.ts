@@ -316,6 +316,11 @@ const denunciaSchema = new mongoose.Schema({
         trim: true, // Trim para que no se guarden espacios en blanco
         required: true // Campo requerido
     },
+    imagen: {
+        type: String, // Tipo de dato String
+        trim: true, // Trim para que no se guarden espacios en blanco
+        required: false // Campo no requerido
+    },
     denunciada_cargada_por: {
         type: String, // Tipo de dato String
         required: true, // Campo requerido

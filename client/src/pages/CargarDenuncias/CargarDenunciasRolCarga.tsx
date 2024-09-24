@@ -22,6 +22,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 // Zustand
 import { useStore } from './store'
+import { useRef } from 'react';
 
 interface CargarDenunciasRolCargaProps {
   user: any;
@@ -32,6 +33,8 @@ interface CargarDenunciasRolCargaProps {
 function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDenunciasRolCargaProps) {
   const { register, watch, handleSubmit, setValue, formState: { errors } } = useForm();
 
+  const fileInputRef = useRef(null);
+ 
   const {
     openModalVictima,
     openModalVictimario,
@@ -55,7 +58,10 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
         {openModalVictima && <BuscarExistenteModal variante={"Víctima"} setOpenModal={setOpenModalVictima} setVictimaCargar={setVictimaCargar} />}
         {openModalVictimario && <BuscarExistenteModal variante={"Victimario"} setOpenModal={setOpenModalVictimario} setVictimaCargar={setVictimarioCargar} />}
         {openModalTercero && <BuscarExistenteModal variante={"Tercero"} setOpenModal={setOpenModalTercero} setVictimaCargar={setTerceroCargar} />}
-        <form onSubmit={
+        <form 
+        encType="multipart/form-data"
+        method='post'
+        onSubmit={
           handleSubmit(async (values) => {
             // Mostrar una alerta de confirmación antes de cargar la denuncia
             Swal.fire({
@@ -70,6 +76,9 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
             }).then(async (result) => {
               // Si se confirma la carga de la denuncia, comienza la carga al backend
               if (result.isConfirmed) {
+
+              // @ts-ignore
+                const file = fileInputRef?.current?.files[0];
                 // Se crean las variables para los ids de víctima, victimario y tercero
                 let idVictima = null;
                 let idVictimario = null;
@@ -116,7 +125,12 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
                 values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente;
                 try {
                   // Crear la denuncia
-                  await crearDenuncia(values);
+                  const denuncia = {
+                    ...values,
+                    imagen: file,
+                  };
+                  console.log(denuncia)
+                  await crearDenuncia(denuncia);
                   Swal.fire({
                     title: '¡Denuncia enviada!',
                     text: 'La denuncia ha sido cargada con éxito',
@@ -126,7 +140,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
                   }).then((result) => {
                     if (result.isConfirmed) {
                       // Si se confirma, recargar la página
-                      window.location.reload();
+                      // window.location.reload();
                     }
                   });
                 } catch (error) {
@@ -171,7 +185,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
           </div>
           <h1 className='text-2xl my-5'>Observaciones</h1>
           <div className='flex justify-center h-80'>
-            <CargarObservaciones setValue={setValue} register={register} />
+            <CargarObservaciones fileInputRef={fileInputRef} setValue={setValue} register={register} />
           </div>
           <div className="flex justify-center my-3">
             <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10' type="submit">Enviar</button>
