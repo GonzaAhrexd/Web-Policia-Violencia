@@ -268,3 +268,68 @@ export const deleteCuadriculaFromComisaria = async (req, res) => {
     }
 }
 
+export const addCuadriculaFromMunicipio = async (req, res) => {
+    try {
+        const { nombre_municipio, nombre_cuadricula, valor_cuadricula } = req.body;
+
+        await unidades.updateMany(
+            { "subdivisiones.nombre": nombre_municipio },
+            { $push: { "subdivisiones.$.cuadriculas": { nombre: nombre_cuadricula, value: valor_cuadricula } } }
+        );
+
+        res.json({ message: "Cuadrícula agregada" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error al agregar la cuadrícula" });
+    }
+}
+
+export const updateCuadriculaFromMunicipio = async (req, res) => {
+    try{
+        const { nombre_municipio, nombre_cuadricula, nombre_original, valor_cuadricula } = req.body;
+
+        const municipio = await unidades.findOne({ "subdivisiones.nombre": nombre_municipio });
+        if (!municipio) {
+            return res.status(404).json({ message: "Municipio no encontrado" });
+        }
+
+        const municipioIndex = municipio.subdivisiones.findIndex(sub => sub.nombre === nombre_municipio);
+        if (municipioIndex === -1) {
+            return res.status(404).json({ message: "Municipio no encontrado" });
+        }
+
+        const cuadriculaIndex = municipio.subdivisiones[municipioIndex].cuadriculas.findIndex(sub => sub.nombre === nombre_original);
+        if (cuadriculaIndex === -1) {
+            return res.status(404).json({ message: "Cuadrícula no encontrada" });
+        }
+
+        const updatePathNombre = `subdivisiones.${municipioIndex}.cuadriculas.${cuadriculaIndex}.nombre`;
+        const updatePathValue = `subdivisiones.${municipioIndex}.cuadriculas.${cuadriculaIndex}.value`;
+
+        await unidades.updateMany(
+            { "subdivisiones.nombre": nombre_municipio, "subdivisiones.cuadriculas.nombre": nombre_original },
+            { $set: { [updatePathNombre]: nombre_cuadricula, [updatePathValue]: valor_cuadricula } }
+        );
+
+        res.json({ message: "Cuadrícula actualizada" });
+    }catch( error){
+        console.log(error)
+        res.status(500).json({ message: "Error al actualizar la cuadrícula" });
+    }
+}
+
+export const deleteCuadriculaFromMunicipio = async (req, res) => {
+    try {
+        const { cuadricula, municipio } = req.params;
+        console.log(req.params)
+        await unidades.updateMany(
+            { "subdivisiones.nombre": municipio },
+            { $pull: { "subdivisiones.$.cuadriculas": { nombre: cuadricula } } }
+        );
+
+        res.json({ message: "Cuadrícula eliminada" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Error al eliminar la cuadrícula" });
+    }
+}

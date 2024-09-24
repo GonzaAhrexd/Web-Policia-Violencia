@@ -7,14 +7,14 @@ import { customStyles } from '../../../GlobalConst/customStyles';
 // Componentes
 import  columnsUnidades  from '../columnsTablaUnidades';
 import ExpandedComponentsComisarias from './expandedComponentComisarias';
-// import expandedComponentsCuadriculas from './expandedComponentsCuadriculas';
+import ExpandedComponentsCuadriculas from './expandedComponentsCuadriculas';
 import InputRegister from '../../InputComponents/InputRegister';
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 // Dependencias
 import Swal from 'sweetalert2';
 
-import { editarMunicipio, agregarComisaria, eliminarMunicipio } from '../../../api/CRUD/unidades.crud';
+import { editarMunicipio, agregarComisaria, eliminarMunicipio, agregarCuadriculaDesdeMunicipio } from '../../../api/CRUD/unidades.crud';
 
 type expandedComponentsUnidadesProps = {
     data: any
@@ -38,6 +38,16 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
             data={row} 
         />
     );  
+
+    const ExpandedRowCuadricula = ({data : row}: any) => (
+        // @ts-ignore
+        <ExpandedComponentsCuadriculas
+            municipio={data.nombre}
+            data={row} 
+            comisaria="comisaria"
+            tipo="municipio"
+        />
+    );
 
     const handleDelete = (nombre: string) => {
         Swal.fire({
@@ -70,7 +80,7 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
         return (
             <div className='p-4 border-solid border-4 border-gray-600'>
                   <h1 className='text-4xl'>Municipio</h1>
-                { !showAddComisaria && 
+                { (!showAddComisaria && !showAddCuadricula) && 
                 <>
                 <h2 className='text-2xl'>Editar datos del municipio</h2>
                 
@@ -179,7 +189,44 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
                 <>
                 <h1 className='text-4xl'>Cuadrículas</h1>
                 <h2 className='text-2xl'>Agregar una nueva cuadrícula</h2>
-                <form className='w-full flex flex-col items-center justify-center m-4'/>
+                <form className='w-full flex flex-col items-center justify-center m-4' onSubmit={handleSubmit((values) => { 
+                    Swal.fire({
+                        title: '¿Estás seguro de agregar la cuadrícula?',
+                        icon: 'warning',
+                        confirmButtonColor: '#0C4A6E',
+                        cancelButtonColor: '#FF554C',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sí, agregar',
+                        cancelButtonText: 'Cancelar'
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            values.nombre_municipio = data.nombre
+                            await agregarCuadriculaDesdeMunicipio(values)
+                            Swal.fire({
+                                title: '¡Agregada!',
+                                text: 'La cuadrícula ha sido agregada correctamente',
+                                icon: 'success',
+                                confirmButtonColor: '#0C4A6E',
+                                cancelButtonColor: '#FF554C',
+                            }
+                            ).then(() => {
+                                window.location.reload()
+                            })
+                        }
+                    })
+
+         
+                    
+                 
+                })}
+                >
+                    <InputRegister campo="Nombre" nombre="nombre_cuadricula" register={register} type="text" error={errors.nombre_cuadricula} />
+                    <InputRegister campo="Valor" nombre="valor_cuadricula" register={register} type="text" error={errors.valor_cuadricula} />
+                    <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 rounded w-full md:w-3/10'>
+                        Agregar Cuadrícula
+                    </button>
+                </form>
+
                 </>
                 }
 
@@ -211,7 +258,7 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
                     data={data.cuadriculas}
                     pagination
                     expandableRows
-                    expandableRowsComponent={ExpandedRowComponent}
+                    expandableRowsComponent={ExpandedRowCuadricula}
                     customStyles={customStyles}
                     responsive={true}
                     striped={true}

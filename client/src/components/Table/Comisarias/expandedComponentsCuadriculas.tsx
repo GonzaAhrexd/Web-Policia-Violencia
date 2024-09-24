@@ -4,21 +4,22 @@ import { useForm } from 'react-hook-form';
 import InputRegister from '../../InputComponents/InputRegister';
 
 // Backend
-import { editarCuadriculaDesdeComisaria, eliminarCuadriculaDesdeComisaria } from '../../../api/CRUD/unidades.crud';
+import { editarCuadriculaDesdeComisaria, eliminarCuadriculaDesdeComisaria, eliminarCuadriculaDesdeMunicipio, editarCuadriculaDesdeMunicipio } from '../../../api/CRUD/unidades.crud';
 
 type expandedComponentsUnidadesProps = {
     data: any
     municipio: string
-    comisaria: string
+    comisaria?: string
+    tipo: string
 }
 import Swal from 'sweetalert2';
 
-function expandedComponentsUnidades({ data, municipio, comisaria }: expandedComponentsUnidadesProps) {
+function expandedComponentsUnidades({ data, municipio, comisaria, tipo }: expandedComponentsUnidadesProps) {
 
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
-    const handleDeleteCuadricula = (cuadricula: string, comisaria: string, municipio: string) => {
+    const handleDeleteCuadricula = (cuadricula: string, comisaria: string | any, municipio: string) => {
         try{
             Swal.fire({
                 title: '¿Estás seguro de eliminar la cuadrícula?',
@@ -31,7 +32,12 @@ function expandedComponentsUnidades({ data, municipio, comisaria }: expandedComp
                 cancelButtonText: 'Cancelar'
             }).then(async (result) => {
                 if (result.isConfirmed) {
+                    if (tipo === 'comisaría') {
                     await eliminarCuadriculaDesdeComisaria(cuadricula, comisaria, municipio)
+                    } else {
+                        await eliminarCuadriculaDesdeMunicipio(cuadricula, municipio)
+                    }
+                     
                     Swal.fire({
                         title: '¡Eliminado!',
                         text: 'La cuadrícula ha sido eliminada correctamente',
@@ -64,10 +70,14 @@ function expandedComponentsUnidades({ data, municipio, comisaria }: expandedComp
                             cancelButtonText: 'Cancelar'
                         }).then(async (result) => {
                             if (result.isConfirmed) {
-                                values.nombre_comisaria = comisaria
                                 values.nombre_municipio = municipio
                                 values.nombre_original = data.nombre
-                                editarCuadriculaDesdeComisaria(values)
+                                if(tipo === 'comisaria') {
+                                    values.nombre_comisaria = comisaria
+                                    await editarCuadriculaDesdeComisaria(values)
+                                }else{
+                                    await editarCuadriculaDesdeMunicipio(values)
+                                }
                                 Swal.fire({
                                     title: '¡Cuadrícula editada!',
                                     icon: 'success',
@@ -88,7 +98,7 @@ function expandedComponentsUnidades({ data, municipio, comisaria }: expandedComp
                     <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2'>
                         Editar cuadrícula
                     </button>
-                    <div className='flex flex-col items-center justify-center bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2 cursor-pointer' onClick={() => handleDeleteCuadricula(data.nombre, comisaria, municipio)}>
+                    <div className='flex flex-col items-center justify-center bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2 cursor-pointer' onClick={() =>  handleDeleteCuadricula(data.nombre, comisaria, municipio)}>
                         Eliminar cuadrícula
                     </div>
                     </div>

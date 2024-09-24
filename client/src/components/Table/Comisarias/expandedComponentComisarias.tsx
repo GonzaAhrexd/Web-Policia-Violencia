@@ -35,6 +35,7 @@ function expandedComponentsUnidades({ municipio, data }: expandedComponentsUnida
             municipio={municipio}
             comisaria={data.nombre}
             data={row} // Pasa los datos de la fila expandida
+            tipo="comisaría"
         />
     );
 

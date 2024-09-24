@@ -109,3 +109,30 @@ export const eliminarComisaria = async (nombre: any, municipio: any) => {
         console.log(error)
     }
 }
+
+export const agregarCuadriculaDesdeMunicipio = async (cuadricula: any) => {
+    try {
+        const response = await axios.put(`/agregar-cuadricula-desde-municipio/`, cuadricula)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const editarCuadriculaDesdeMunicipio = async (cuadricula: any) => {
+    try {
+        const response = await axios.put(`/editar-cuadricula-desde-municipio/`, cuadricula)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const eliminarCuadriculaDesdeMunicipio = async (cuadricula: string, municipio: string ) => {
+    try{
+        const response = await axios.put(`/eliminar-cuadricula-desde-municipio/${cuadricula}/${municipio}`,)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
