@@ -6,7 +6,7 @@ import { createUnidad, getUnidades, updateUnidad, deleteUnidad, addMunicipio, up
 const router:Router = Router();
 
 // Mostrar todas las unidades
-router.get('/mostrar-unidades/', authAdmin, getUnidades)
+router.get('/mostrar-unidades/', getUnidades)
 
 // Agregar una unidad
 router.post('/agregar-unidad/', authAdmin, createUnidad)

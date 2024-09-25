@@ -20,7 +20,7 @@ import Swal from 'sweetalert2' // Librería para mostrar popups
 import 'leaflet/dist/leaflet.css';
 import { Icon } from 'leaflet'
 // Iconos
-import { PencilSquareIcon, TrashIcon, MapPinIcon } from '@heroicons/react/24/solid'
+import { PencilSquareIcon, TrashIcon, MapPinIcon, PrinterIcon } from '@heroicons/react/24/solid'
 import { UsersIcon, UserIcon, ClipboardDocumentCheckIcon, ExclamationTriangleIcon, QueueListIcon, MapPinIcon as MapPinIconOutLine, ListBulletIcon, QuestionMarkCircleIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
@@ -28,6 +28,11 @@ import EditSection from '../../../components/EditMode/EditSection';
 import ShowTextArea from '../../../components/ShowData/ShowTextArea';
 // Estados globales
 import { useAuth } from '../../../context/auth';
+
+
+import { pdf } from '@react-pdf/renderer';
+import PDF from './PDF';
+
 interface expandedComponentsProps {
     data: any
 }
@@ -236,6 +241,20 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Aprehensión", valor: data.aprehension },
     ]
 
+    const handlePrint = async (data: any) => {
+        try{
+
+            const blob = await pdf(<PDF datos={data} user={user} />).toBlob();
+            // Crea una URL de objeto a partir del blob
+            const url = URL.createObjectURL(blob);
+            // Abre la URL en una nueva pestaña
+            window.open(url);
+
+        }catch(error){
+            console.log(error)
+        }
+
+    }
 
     // Controlar cuando se da a eliminar
     const handleDelete = async (data: any) => {
@@ -396,6 +415,9 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     <ShowTextArea campo="Observaciones" dato={data.observaciones} />
                 </div>
                 <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>
+                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handlePrint(data)} >
+                        <PrinterIcon className='w-7'/>
+                    </div>
                     <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
                         <PencilSquareIcon className="w-7" />
                     </div>

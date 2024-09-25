@@ -6,7 +6,7 @@ const router:Router = Router();
 
 // Crear campo
 router.post('/agregar-campo/', authAdmin, createCampo)
-router.get('/obtener-campo/:tipo', authAdmin, obtenerCampo)
+router.get('/obtener-campo/:tipo', obtenerCampo)
 router.put('/editar-campo/:id', authAdmin, editarCampo)    
 router.delete('/eliminar-campo/:id', authAdmin, eliminarCampo)
 
