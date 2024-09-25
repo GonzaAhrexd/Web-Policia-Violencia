@@ -7,17 +7,18 @@ Uso del componente:
 _____________________________________________________________________________________________
 */
 // Hooks
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 // APIs del BackEnd
-import {   getTercero } from '../../../api/CRUD/terceros.crud';
-import { eliminarDenuncia } from '../../../api/CRUD/denuncias.crud';
+import { getTercero } from '../../../api/CRUD/terceros.crud';
+import { eliminarDenuncia, editarImagenDenuncia } from '../../../api/CRUD/denuncias.crud';
 import { getVictima } from '../../../api/CRUD/victimas.crud';
 import { getVictimario } from '../../../api/CRUD/victimario.crud';
 // Librerías react
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' // Librería para mostrar mapas
 import Swal from 'sweetalert2' // Librería para mostrar popups
 import 'leaflet/dist/leaflet.css';
-import {Icon} from 'leaflet'
+import { Icon } from 'leaflet'
 // Iconos
 import { PencilSquareIcon, TrashIcon, MapPinIcon } from '@heroicons/react/24/solid'
 import { UsersIcon, UserIcon, ClipboardDocumentCheckIcon, ExclamationTriangleIcon, QueueListIcon, MapPinIcon as MapPinIconOutLine, ListBulletIcon, QuestionMarkCircleIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
@@ -37,6 +38,9 @@ function expandedComponents({ data }: expandedComponentsProps) {
         iconUrl: '/pin-de-ubicacion.png',
         iconSize: [30, 30],
     });
+
+    const fileInputRef = useRef(null)
+    const { handleSubmit } = useForm();
 
     // Obtener datos del usuario
     const { user } = useAuth()
@@ -117,8 +121,8 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "DNI", valor: (victimaDatos?.DNI && victimaDatos?.DNI != "S/N") ? victimaDatos?.DNI : "No especificado" },
         { nombre: "Estado Civil", valor: victimaDatos?.estado_civil ? victimaDatos.estado_civil : "No especificado" },
         { nombre: "Ocupación", valor: victimaDatos?.ocupacion ? victimaDatos.ocupacion : "No especificado" },
-        { nombre: "Convivencia", valor: data?.convivencia && data.convivencia  },
-        { nombre: "Dependencia económica", valor: data?.dependencia_economica && data.dependencia_economica  },
+        { nombre: "Convivencia", valor: data?.convivencia && data.convivencia },
+        { nombre: "Dependencia económica", valor: data?.dependencia_economica && data.dependencia_economica },
         { nombre: "Vínculo con agresor", valor: data?.relacion_victima_victimario ? data.relacion_victima_victimario : "No especificado" },
         { nombre: "Condición de vulnerabilidad", valor: victimaDatos?.condicion_de_vulnerabilidad ? victimaDatos.condicion_de_vulnerabilidad : "No especificado" },
         { nombre: "Denuncias previas", valor: victimaDatos?.denuncias_realizadas?.length },
@@ -193,7 +197,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Lugar del hecho", valor: data.direccion },
         { nombre: "Barrio", valor: data.barrio },
         { nombre: "GIS", valor: data.GIS },
-        { nombre: "Tipo de lugar", valor: data.tipo_de_lugar ? data.tipo_de_lugar : "Sin especificar"},
+        { nombre: "Tipo de lugar", valor: data.tipo_de_lugar ? data.tipo_de_lugar : "Sin especificar" },
         { nombre: "Jurisdicción Policial", valor: data.jurisdiccion_policial },
         { nombre: "Cuadrícula", valor: data.cuadricula },
         { nombre: "División Familiar y de Género", valor: data.isDivision },
@@ -281,27 +285,27 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     <h2 className='text-3xl my-5 font-sans mr-4'>Datos de la víctima</h2>
                 </div>
                 <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="Datos" datos={victimaDatosMostrar} icono={<UserIcon className='h-6 w-6'/>} />
-                    {victimaDatos?.condicion_de_vulnerabilidad && <SimpleTableCheckorX campo="Condición de vulnerabilidad" datos={condicion_de_vulnerabilidad} icono={<ExclamationTriangleIcon className='h-6 w-6'/>} />}
-                    {victimaDatos?.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} icono={<UsersIcon className='h-6 w-6'/> } />}
+                    <SimpleTableCheckorX campo="Datos" datos={victimaDatosMostrar} icono={<UserIcon className='h-6 w-6' />} />
+                    {victimaDatos?.condicion_de_vulnerabilidad && <SimpleTableCheckorX campo="Condición de vulnerabilidad" datos={condicion_de_vulnerabilidad} icono={<ExclamationTriangleIcon className='h-6 w-6' />} />}
+                    {victimaDatos?.hijos?.tiene_hijos && <SimpleTableCheckorX campo="Datos de sus hijos" datos={hijosVictima} icono={<UsersIcon className='h-6 w-6' />} />}
                 </div>
                 <div className='flex items-center'>
                     <h2 className='text-3xl my-5 font-sans mr-4'>Datos del victimario</h2>
                 </div>
-                <SimpleTableCheckorX campo="Datos" datos={victimarioDatosMostrar} icono={<UserIcon className='h-6 w-6'/>}/>
-                <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} icono={<QueueListIcon className='h-6 w-6' />}/>
+                <SimpleTableCheckorX campo="Datos" datos={victimarioDatosMostrar} icono={<UserIcon className='h-6 w-6' />} />
+                <SimpleTableCheckorX campo="Detalles" datos={detallesVictimario} icono={<QueueListIcon className='h-6 w-6' />} />
                 <div>
                     <div className='flex items-center'>
                         <h2 className='text-3xl my-5 font-sans mr-4'>Hecho</h2>
                     </div>
                 </div>
-                <SimpleTableCheckorX campo="Datos" datos={hechoDatosMostrar} icono={<ClipboardDocumentCheckIcon className='h-6 w-6' />}/>
-                <SimpleTableCheckorX campo="Datos geográficos" datos={hechoDatosGeográficos} icono={<MapPinIconOutLine className='h-6 w-6'/>} />
+                <SimpleTableCheckorX campo="Datos" datos={hechoDatosMostrar} icono={<ClipboardDocumentCheckIcon className='h-6 w-6' />} />
+                <SimpleTableCheckorX campo="Datos geográficos" datos={hechoDatosGeográficos} icono={<MapPinIconOutLine className='h-6 w-6' />} />
 
                 <div className='flex flex-col w-8/10 lg:w-7/10 h-4/10 items-center justify-center mx-4 md:mx-auto my-5'>
                     {hechoDatosGeográficos[4].valor ?
                         <>
-                            <MapContainer  center={[lat, lon]} zoom={20} style={{ height: "60vh", width: "100%" }}>
+                            <MapContainer center={[lat, lon]} zoom={20} style={{ height: "60vh", width: "100%" }}>
                                 <TileLayer
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                 />
@@ -322,15 +326,15 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     }
 
                 </div>
-                <SimpleTableCheckorX campo="Tipo de Violencia" datos={tiposDeViolencia} icono={<ListBulletIcon className='h-6 w-6' />}/>
+                <SimpleTableCheckorX campo="Tipo de Violencia" datos={tiposDeViolencia} icono={<ListBulletIcon className='h-6 w-6' />} />
                 <SimpleTableCheckorX campo="Medida solicitada por la víctima" datos={medidas} icono={<QuestionMarkCircleIcon className='h-6 w-6' />} />
 
 
-                <SimpleTableCheckorX campo="Medida dispuesta por la autoridad judicial" datos={medidaDispuestaPorLaAutoridadJudicial} icono={<img src="/Judge.svg" alt="Icono" className='h-6 w-6' />}/>
+                <SimpleTableCheckorX campo="Medida dispuesta por la autoridad judicial" datos={medidaDispuestaPorLaAutoridadJudicial} icono={<img src="/Judge.svg" alt="Icono" className='h-6 w-6' />} />
                 <div className='flex flex-col'>
                     {data.denunciado_por_tercero &&
                         <>
-                            <SimpleTableCheckorX campo="Tercero" datos={terceroDatos}  icono={<QueueListIcon className='h-6 w-6' />}/>
+                            <SimpleTableCheckorX campo="Tercero" datos={terceroDatos} icono={<QueueListIcon className='h-6 w-6' />} />
                         </>
                     }
                 </div >
@@ -340,16 +344,56 @@ function expandedComponents({ data }: expandedComponentsProps) {
                 <div className='flex items-center'>
                     <h2 className='text-3xl my-5 font-sans mr-4'>Observaciones</h2></div>
                 <div className="flex flex-col">
-                <SimpleTableCheckorX campo="Detalles" datos={detallesObservaciones} icono={<InformationCircleIcon className='h6 w-6'/>}/>
-               {data.imagen && 
-               <>
-                <figure className='w-full h-5/10 flex flex-row items-center justify-center'>
-              <img className='w-5/10' src={`${APIURL}/Denuncias/${data._id}/image`} alt="" />
-            </figure>
-               </>
-                }
-                
-                <ShowTextArea campo="Observaciones" dato={data.observaciones} />
+                    <SimpleTableCheckorX campo="Detalles" datos={detallesObservaciones} icono={<InformationCircleIcon className='h6 w-6' />} />
+                    {data.imagen &&
+                        <div className='flex flex-col'>
+                            <figure className='w-full h-5/10 flex flex-row items-center justify-center'>
+                                <img className='w-4/10' src={`${APIURL}/Denuncias/${data._id}/image`} alt="" />
+
+                            </figure>
+                            <form action="" className='w-full flex items-center justify-center'
+                                method='post'
+                                onSubmit={
+                                    handleSubmit(async () => {
+                                        Swal.fire({
+                                            title: '¿Estás seguro?',
+                                            text: "¡La imagen anterior se perderá!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#0C4A6E',
+                                            cancelButtonColor: '#FF554C',
+                                            confirmButtonText: 'Sí, cambiar',
+                                            cancelButtonText: 'Cancelar'
+                                        }).then(async (result) => {
+                                            if (result.isConfirmed) {
+                                                try {
+                                                    // @ts-ignore
+                                                    const file = fileInputRef?.current?.files[0];
+                                                    const denuncia = {
+                                                        id: data._id,
+                                                        imagen: file,
+                                                    };
+                                                    await editarImagenDenuncia(denuncia);
+                                                } catch (error) {
+                                                    console.log(error)
+                                                }
+                                            }
+                                        })
+
+                                    })
+                                }
+
+                            >
+                                <input ref={fileInputRef} type="file" accept="image/*" className='mb-2' required={false} />
+
+                                <button className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' >
+                                    Cambiar
+                                </button>
+                            </form>
+                        </div>
+                    }
+
+                    <ShowTextArea campo="Observaciones" dato={data.observaciones} />
                 </div>
                 <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>
                     <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
@@ -359,7 +403,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                         <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
                             <TrashIcon className="w-7" />
                         </div>
-                    }   
+                    }
                 </div>
             </>
         }

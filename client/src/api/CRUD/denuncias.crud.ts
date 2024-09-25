@@ -70,6 +70,23 @@ export const eliminarDenuncia = async (id: string) => {
     }
 }
 
+export const editarImagenDenuncia = async (imagenDenuncia : any) => {
+    const formData = new FormData();
+    // Pasa todos los datos de la denuncia a un FormData
+    Object.keys(imagenDenuncia).forEach((key) => {
+        formData.append(key, imagenDenuncia[key]);
+    });
+    try {
+        axios.put(`/editar-imagen-denuncia`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 // Cantidad de denuncias
 export const cantidadDenuncias = async (values: any) => {
     try {

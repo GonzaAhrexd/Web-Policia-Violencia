@@ -449,3 +449,37 @@ export const getCantidadDenuncias = async (req, res) => {
     }
     
 }
+
+export const editarImagenDenuncia = async (req, res) => {
+    try{
+        const form = new formidable.IncomingForm()
+        form.twparse(req, async (err, fields, files) => {
+            const { id } = fields
+            const file = files?.imagen[0]
+            if (file.originalFilename === "") { //Validación si no se sube archivos
+                throw new Error("Agrega una imagen para continuar")
+            }
+            if (file.size > 50 * 1024 * 1024) { //Tamaño máximo de 50mb
+                throw new Error("Ingrese un archivo de menos de 50mb")
+            }
+            let separado = file?.mimetype?.split("/");
+            let formato = separado[1];
+            let dirFile = path.join(__dirname, `../../imagesFromDB/Denuncias/${id[0]}.${formato}`) //crear la  ruta para guardar la imagen    
+            // Crear la carpeta si no existe
+            const dirPath = path.dirname(dirFile);
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath, { recursive: true });
+            }
+            fs.copyFile(file.filepath, dirFile, function (err) {
+                if (err) throw err;
+            }); //Copiar archivo desde la ruta original al servidor
+            let nuevo = id + '.' + formato //Guardar nombre de la imagen para pasarlo a la base de datos
+            await denuncia.findByIdAndUpdate(id, { imagen: nuevo })
+            res.send('Imagen actualizada')
+        })
+    }catch(error){
+
+    }
+
+
+}
