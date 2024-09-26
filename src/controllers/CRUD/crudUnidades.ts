@@ -113,11 +113,11 @@ export const addComisaria = async (req, res) => {
     try{
         console.log(req.body)
 
-        const { nombre_municipio, nombre_comisaria, valor_comisaria } = req.body
+        const { nombre_municipio, nombre_comisaria, valor_comisaria, prefijo_comisaria } = req.body
        // Actualiza todos los municipios que tengan el nombre del municipio
         await unidades.updateMany(
             { "subdivisiones.nombre": nombre_municipio },
-            { $push: { "subdivisiones.$.subdivisiones": { nombre: nombre_comisaria, value: valor_comisaria } } }
+            { $push: { "subdivisiones.$.subdivisiones": { nombre: nombre_comisaria, value: valor_comisaria, prefijo: prefijo_comisaria } } }
         )
         res.json({ message: "Comisaria agregada" })
         

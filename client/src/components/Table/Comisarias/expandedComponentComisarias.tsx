@@ -76,7 +76,7 @@ function expandedComponentsUnidades({ municipio, data }: expandedComponentsUnida
             {!showAddCuadricula &&
                 <>
                     <h2 className='text-2xl'>Editar datos de la comisaría</h2>
-                    <form className='w-full flex flex-col items-start md:items-center justify-start md:justify-center'
+                    <form className='w-full flex flex-col items-center justify-center'
                         onSubmit={handleSubmit((values) => {
                             Swal.fire({
                                 title: '¿Estás seguro de editar el municipio?',
@@ -108,9 +108,9 @@ function expandedComponentsUnidades({ municipio, data }: expandedComponentsUnida
                         }
                         )}
                     >
-                        <InputRegister campo="Nombre" nombre="nombre_comisaria" register={register} type="text" error={errors.nombre_comisaria} valor={data.nombre} setValue={setValue} />
-                        <InputRegister campo="Valor" nombre="valor_comisaria" register={register} type="text" error={errors.valor_comisaria} valor={data.value} setValue={setValue} />
-                        <InputRegister campo="Prefijo" nombre="prefijo_comisaria" register={register} type="text" error={errors.prefijo_comisaria} valor={data.prefijo} setValue={setValue} />
+                        <InputRegister busqueda campo="Nombre" nombre="nombre_comisaria" register={register} type="text" error={errors.nombre_comisaria} valor={data.nombre} setValue={setValue} />
+                        <InputRegister busqueda campo="Valor" nombre="valor_comisaria" register={register} type="text" error={errors.valor_comisaria} valor={data.value} setValue={setValue} />
+                        <InputRegister busqueda campo="Prefijo" nombre="prefijo_comisaria" register={register} type="text" error={errors.prefijo_comisaria} valor={data.prefijo} setValue={setValue} />
                         <div className='flex items-center justify-center w-1/2'>
                             <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2'>
                                 Editar Comisaría
@@ -125,11 +125,13 @@ function expandedComponentsUnidades({ municipio, data }: expandedComponentsUnida
             <h1 className='text-4xl'>Cuadrículas</h1>
             <h2 className='text-2xl'>Agregar una cuadrícula</h2>
             <div className='flex flex-col items-center justify-center'>
-                <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 rounded w-full md:w-3/10'
-                    onClick={() => setShowAddCuadricula(!showAddCuadricula)}
+                {!showAddCuadricula && 
+                <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 rounded w-full xl:w-3/10'
+                onClick={() => setShowAddCuadricula(true)}
                 >
                     Agregar Cuadricula
                 </button>
+                }
             </div>
             {showAddCuadricula &&
                 <form className='w-full flex flex-col items-center justify-center m-4'
@@ -164,9 +166,14 @@ function expandedComponentsUnidades({ municipio, data }: expandedComponentsUnida
                 >
                     <InputRegister campo="Nombre" nombre="nombre_cuadricula" register={register} type="text" error={errors.nombre_comisaria} />
                     <InputRegister campo="Valor" nombre="valor_cuadricula" register={register} type="text" error={errors.valor_comisaria} />
-                    <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 rounded w-full md:w-3/10'>
-                        Agregar cuadrícula
+                    <div className='flex flex-row items-center w-full justify-center'>
+                    <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 xl:w-3/10 mr-2'>
+                    Agregar Cuadrícula
                     </button>
+                    <div className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 xl:w-3/10 mr-2 flex items-center justify-center cursor-pointer' onClick={() => setShowAddCuadricula(false)}>
+                        Cancelar
+                    </div>
+                    </div>
                 </form>
             }
             <h2 className='text-2xl'>Lista de cuadrículas</h2>

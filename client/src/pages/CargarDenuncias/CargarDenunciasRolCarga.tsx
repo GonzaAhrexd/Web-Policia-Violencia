@@ -129,8 +129,9 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
                     ...values,
                     imagen: file,
                   };
-                  console.log(denuncia)
+                  // Enviar la denuncia al backend
                   await crearDenuncia(denuncia);
+                  // Mostrar una alerta de éxito
                   Swal.fire({
                     title: '¡Denuncia enviada!',
                     text: 'La denuncia ha sido cargada con éxito',

@@ -81,7 +81,7 @@ function Buscar() {
     if ((!isLoading) && (!isAuthenticated) ) return <Navigate to="/login" replace />
     if (user?.rol === "sin_definir")  return <Navigate to="/login" replace />
     return (
-        <div>
+        <div className='h-full flex flex-grow flex-col'>
             <NavBar user={user} />
                 <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
                     <button className={`${buttonSelected == "victima" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700   text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarVictimas()}> Víctima </button>
@@ -98,8 +98,10 @@ function Buscar() {
                 {mostrarDenuncias && <BuscarDenuncias />}
                 {mostrarExposiciones && <BuscarExposiciones/>}
             </div>
+
         </div>
     )
 }
 
 export default Buscar
+        

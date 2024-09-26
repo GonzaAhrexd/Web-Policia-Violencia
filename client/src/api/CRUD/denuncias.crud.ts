@@ -77,7 +77,7 @@ export const editarImagenDenuncia = async (imagenDenuncia : any) => {
         formData.append(key, imagenDenuncia[key]);
     });
     try {
-        axios.put(`/editar-imagen-denuncia`, formData, {
+        axios.put(`/editar-imagen-denuncia/`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

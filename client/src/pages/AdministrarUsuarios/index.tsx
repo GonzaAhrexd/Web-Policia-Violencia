@@ -56,22 +56,21 @@ function index() {
     return (
         <>
             <NavBar user={user} />
-            <div className='h-screen'>
+            <div className='h-screen flex flex-col flex-grow'>
                 <div className='p-2 sm:p-10'>
                 <h1 className='text-3xl my-5'>Administrar usuarios</h1>
                 <form className="w-full flex flex-col items-center"
                     onSubmit={
                         handleSubmit(async (values) => {
-                            console.log(values)
+                            // Busca los usuarios
                             const usuarios = await buscarUsuario(values)
+                            // Setea los usuarios en el estado
                             setListaDeUsuarios(usuarios)
                         }
                         )}>
-
                     <InputRegister busqueda require={false} nombre="nombre_de_usuario" type="text" campo="Nombre de usuario" error={errors.nombre_de_usuario} register={register} setValue={setValue} />
                     <InputRegister busqueda require={false} nombre="nombre" type="text" campo="Nombre" error={errors.nombre} register={register} setValue={setValue} />
                     <InputRegister busqueda require={false} nombre="apellido" type="text" campo="Apellido" error={errors.apellido} register={register} setValue={setValue} />
-                    {/* <SelectRegister isRequired={false} nombre="rol" campo="Rol" error={errors.rol} register={register} setValue={setValue} opciones={opcionesRoles} type="text" /> */}
                     <SelectRegisterSingle isRequired={false} nombre="rol" campo="Rol" opciones={opcionesRoles} setValue={setValue} error={errors.rol} />
                     <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
                 </form>

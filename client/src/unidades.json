@@ -1657,14 +1657,20 @@
     "value": "Villa Ángela",
     "subdivisiones": [
       {
-        "nombre": "Comisaría Primera",
-        "value": "Comisaría Primera Villa Ángela",
-        "prefijo": "68"
-      },
-      {
-        "nombre": "Comisaría Segunda",
-        "value": "Comisaría Segunda Villa Ángela",
-        "prefijo": "100"
+        "nombre": "Villa Ángela",
+        "value": "Villa Ángela",
+        "subdivisiones": [
+          {
+            "nombre": "Comisaría Primera", 
+            "value":  "Comisaría Primera",
+            "prefijo":  "68"
+          },
+          {
+            "nombre": "Comisaría Segunda", 
+            "value":  "Comisaría Segunda",
+            "prefijo":  "100"
+          }
+        ]
       },
       {
         "nombre": "Comisaría La Clotilde",

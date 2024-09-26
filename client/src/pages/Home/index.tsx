@@ -43,7 +43,7 @@ function Home() {
     { mostrar: "Estadísticas", url: "/estadísticas", svg: ChartPieIcon },
   ]
 
-  
+
   const seccionesAdmin = [
     { mostrar: "Administrar usuarios", url: "/administrar-usuarios", svg: UserPlusIcon },
     { mostrar: "Registro de Actividad", url: "/registro-de-actividad", svg: PresentationChartBarIcon },
@@ -71,7 +71,7 @@ function Home() {
   return (
     <>
       <NavBar user={user} />
-      <div className='h-screen '>
+      <div className='h-screen flex flex-grow flex-col'>
         <div className='p-10'>
 
           <h1 className='text-4xl sm:text-7xl'>¡{saludosDependiendoLaHora()}, {user?.nombre}!</h1>
@@ -115,7 +115,7 @@ function Home() {
                 <CardDenunciasGrafico />
               </div>
             </div>
-            )}
+          )}
         </div>
       </div>
 

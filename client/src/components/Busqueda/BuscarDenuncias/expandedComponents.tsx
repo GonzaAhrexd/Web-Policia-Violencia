@@ -370,6 +370,8 @@ function expandedComponents({ data }: expandedComponentsProps) {
                                 <img className='w-4/10' src={`${APIURL}/Denuncias/${data._id}/image`} alt="" />
 
                             </figure>
+                        </div>
+                    }
                             <form action="" className='w-full flex items-center justify-center'
                                 method='post'
                                 onSubmit={
@@ -393,6 +395,14 @@ function expandedComponents({ data }: expandedComponentsProps) {
                                                         imagen: file,
                                                     };
                                                     await editarImagenDenuncia(denuncia);
+                                                    Swal.fire({
+                                                        title: 'Imagen cambiada',
+                                                        text: 'La imagen ha sido cambiada con éxito',
+                                                        icon: 'success',
+                                                        confirmButtonColor: '#0C4A6E',
+                                                    }).then(() => {
+                                                        window.location.reload()
+                                                    })
                                                 } catch (error) {
                                                     console.log(error)
                                                 }
@@ -409,8 +419,6 @@ function expandedComponents({ data }: expandedComponentsProps) {
                                     Cambiar
                                 </button>
                             </form>
-                        </div>
-                    }
 
                     <ShowTextArea campo="Observaciones" dato={data.observaciones} />
                 </div>
@@ -418,13 +426,15 @@ function expandedComponents({ data }: expandedComponentsProps) {
                     <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handlePrint(data)} >
                         <PrinterIcon className='w-7'/>
                     </div>
+                    {(user.rol == "carga" || user.rol == "admin") &&
+                    <>
                     <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
                         <PencilSquareIcon className="w-7" />
                     </div>
-                    {(user.rol == "carga" || user.rol == "admin") &&
                         <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
                             <TrashIcon className="w-7" />
                         </div>
+                    </>
                     }
                 </div>
             </>

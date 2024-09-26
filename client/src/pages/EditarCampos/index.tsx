@@ -77,14 +77,15 @@ function EditarCampos() {
             <div className='h-screen sm:h-full p-2 sm:p-10'>
                 <h1 className='text-3xl my-5'>Editar campos</h1>
                 <div className='mt-5 flex flex-col items-center justify-center '>
-                    <div className={`flex flex-col p-5 w-full items-center justify-center md:w-3/10 `}>
-                        <div className={`w-full flex flex-col justify-center items-center `}>
-                            <button className={`my-2 ${showJuzgadoIntervinente ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full mr-2`} onClick={handleShowJuzgadoIntervinentes}>Juzgado Intervinentes</button>
-                            <button className={`my-2 ${showOcupaciones ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full mr-2`} onClick={handleShowOcupaciones}>Ocupaciones</button>
-                            <button className={`my-2 ${showVinculos ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full`} onClick={handleShowVinculos}>Vínculos</button>
-                            <button className={`my-2 ${showTiposDeArmas ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full`} onClick={handleShowTiposDeArmas}>Tipos de Armas</button>
-                            <button className={`my-2 ${showTiposDeLugar ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full`} onClick={handleShowTiposDeLugar}>Tipos de Lugar</button>
-                            <button className={`my-2 ${showUnidades ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full`} onClick={handleShowUnidades}>Unidades</button>
+                    <div className={`flex flex-col p-5 w-full items-center justify-center xl:w-3/10 `}>
+                        {/* <div className={`w-full flex flex-col justify-center items-center  `}> */}
+                            <div className='w-full grid grid-cols-1 md:grid-cols-3 md:gap-2 '>
+                            <button className={`my-2 md:my-0 ${showJuzgadoIntervinente ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full mr-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={handleShowJuzgadoIntervinentes}>Juzgado Intervinentes</button>
+                            <button className={`my-2 md:my-0 ${showOcupaciones ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full mr-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={handleShowOcupaciones}>Ocupaciones</button>
+                            <button className={`my-2 md:my-0 ${showVinculos ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={handleShowVinculos}>Vínculos</button>
+                            <button className={`my-2 md:my-0 ${showTiposDeArmas ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={handleShowTiposDeArmas}>Tipos de Armas</button>
+                            <button className={`my-2 md:my-0 ${showTiposDeLugar ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={handleShowTiposDeLugar}>Tipos de Lugar</button>
+                            <button className={`my-2 md:my-0 ${showUnidades ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={handleShowUnidades}>Unidades</button>
                         </div>
                     </div>
                     {showJuzgadoIntervinente && <TablaCampos campos={juzgadoIntervinente} tipo="juzgadosIntervinientes" />}

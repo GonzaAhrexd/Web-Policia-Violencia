@@ -4,6 +4,7 @@ import { useAuth } from '../../context/auth';
 import { Navigate } from 'react-router-dom';
 // Componentes
 import NavBar from '../../components/NavBar'
+import Footer from '../../components/Footer/Footer';
 import CardDataUsuario from '../../components/Cards/CardDataUsuario';
 import CardUserDenunciasRecientes from '../../components/Cards/CardUserDenunciasRecientes';
 import CardEditDataUser from '../../components/Cards/CardEditDataUser';
@@ -129,6 +130,7 @@ function Index() {
           </div>
         </div>
 
+      <Footer/>
       </div>
     </>
   );

@@ -19,6 +19,10 @@ import { UserIcon } from '@heroicons/react/24/outline'
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 import ShowTextArea from '../../../components/ShowData/ShowTextArea';
+
+
+import { useAuth } from '../../../context/auth';
+
 interface expandedComponentsProps {
     data: any
 }
@@ -27,6 +31,8 @@ function expandedComponents({ data }: expandedComponentsProps) {
     // Estado de editar global
     const [editGlobal,] = useState(false)
     // Datos del hecho
+
+    const { user } = useAuth()
 
     const victimaDatosMostrar = [
         { nombre: "Nombre de la víctima", valor: data.nombre_victima },
@@ -133,10 +139,11 @@ function expandedComponents({ data }: expandedComponentsProps) {
             <SimpleTableCheckorX campo="" datos={instructorDatosMostrar} icono={<UserIcon className='h-6 w-6' />}/>
         </div>
         <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
-
+            {(user.rol === 'admin' || user.rol === 'carga') && 
             <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
                 <TrashIcon className="w-7" />
             </div>
+            }
         </div>
 
 

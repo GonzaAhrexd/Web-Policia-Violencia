@@ -13,6 +13,7 @@ type Row = {
     _id: string;
     nombre: string;
     value: string;
+    prefijo: string;
 
 }
 
@@ -38,6 +39,14 @@ type Row = {
             fontWeight: 500,
         },
     },
+    {
+        name: 'Prefijo',
+        selector: (row:Row) => row.prefijo ? row.prefijo : 'Sin prefijo',
+        style: {
+            fontSize: '14px',
+            fontWeight: 500,
+        },
+    }
 
 ];
 

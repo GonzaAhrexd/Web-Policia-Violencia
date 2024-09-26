@@ -23,6 +23,7 @@ const columns = [
         // Fecha
         name: 'Fecha',
         sortable: true,
+        id: 'Fecha',
         // Haz que muestre la fecha con la hora en formato dd/mm/yyyy hh:mm:ss con GMT-3
         selector: (row:Row) => new Date(row.fecha).toLocaleString('es-AR', {timeZone: 'America/Argentina/Buenos_Aires'}),
         style: {

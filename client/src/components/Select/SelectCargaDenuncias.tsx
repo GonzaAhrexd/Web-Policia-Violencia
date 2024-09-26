@@ -321,7 +321,8 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
                             </select>
                         </div>
                     )}
-                {selectedSubsubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones?.find((subsubunidad: Opcion) => subsubunidad.value === selectedSubsubunidad)?.cuadriculas && (
+                    {/* @ts-ignore */}
+                {selectedSubsubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones?.find((subsubunidad: Opcion) => subsubunidad.value === selectedSubsubunidad)?.cuadriculas?.length > 0 && (
                     <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
                         <span className='ml-4 font-medium '> Cuadricula </span>
                         <select

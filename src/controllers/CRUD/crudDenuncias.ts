@@ -453,9 +453,11 @@ export const getCantidadDenuncias = async (req, res) => {
 export const editarImagenDenuncia = async (req, res) => {
     try{
         const form = new formidable.IncomingForm()
-        form.twparse(req, async (err, fields, files) => {
+
+        form.parse(req, async (err, fields, files) => {
             const { id } = fields
             const file = files?.imagen[0]
+        
             if (file.originalFilename === "") { //Validación si no se sube archivos
                 throw new Error("Agrega una imagen para continuar")
             }
@@ -478,7 +480,7 @@ export const editarImagenDenuncia = async (req, res) => {
             res.send('Imagen actualizada')
         })
     }catch(error){
-
+        console.log(error)
     }
 
 
