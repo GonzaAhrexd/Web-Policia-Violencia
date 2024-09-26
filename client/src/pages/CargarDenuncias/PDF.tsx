@@ -66,7 +66,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
             marginBottom: 10,
             fontSize: 12,
             textAlign: 'justify',
-        },
+        }, 
         signature: {
             marginTop: 40,
             display: 'flex',
@@ -125,7 +125,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
             display: 'flex',
             fontSize: 12,
             flexDirection: 'row',
-            justifyContent: 'space-evenly',
+            justifyContent: 'space-between',
             marginTop: 20,
         },
         sectionSignatureEndText: {
@@ -135,6 +135,16 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
             justifyContent: 'center',
             alignItems: 'center',
             marginTop: 20,
+            marginRight: 20
+        },
+        sectionSignatureEndSecretario: {
+            display: 'flex',
+            fontSize: 12,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 100,
+            marginLeft: 30
         },
         signaturesNameAndJerarquia: {
             fontFamily: 'Times-Bold',
@@ -200,7 +210,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                         <Text>DNI</Text>
                     </View>
                     <View style={styles.sectionSignatureEndContainer}>
-                        <View style={styles.sectionSignatureEndText}>
+                        <View style={styles.sectionSignatureEndSecretario}>
                             <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario}</Text>
                             <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
                             <Text style={styles.boldText}>-SECRETARIO-</Text>
@@ -253,14 +263,14 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                         <Text>DNI</Text>
                     </View>
                     <View style={styles.sectionSignatureEndContainer}>
-                        <View style={styles.sectionSignatureEndText}>
-                            <Text>{datos.nombre_completo_secretario}</Text>
-                            <Text>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
+                        <View style={styles.sectionSignatureEndSecretario}>
+                            <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario}</Text>
+                            <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
                             <Text style={styles.boldText}>-SECRETARIO-</Text>
                         </View>
                         <View style={styles.sectionSignatureEndText}>
-                            <Text>{datos.nombre_completo_instructor}</Text>
-                            <Text>{datos.jerarquia_instructor} </Text>
+                            <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_instructor}</Text>
+                            <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_instructor} </Text>
                             <Text style={styles.boldText}>-INSTRUCTOR-</Text>
                         </View>
                     </View>
