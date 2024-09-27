@@ -20,14 +20,16 @@ import CargarVictimario from '../Cargar/CargarVictimario'
 import CargarDenuncia from '../Cargar/CargarDenuncia'
 import EditVictimario from './EditVictimario'
 import Modal from '../Modal'
-import CargarObservaciones from '../Cargar/CargarObservaciones'
 import Swal from 'sweetalert2'
 import { useAuth } from '../../context/auth';
 import BuscarExistenteModal from '../ModalBusqueda/BuscarExistenteModal'
+import InputCheckbox from '../InputComponents/InputCheckbox'
+import InputTextArea from '../InputComponents/InputTextArea'
 // Iconos
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/solid'
-
+// Dependencias
+import { useStore } from '../../pages/CargarDenuncias/store'
 // Props
 interface EditSectionProps {
   datos: any
@@ -91,6 +93,11 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
     return divisionCompleta
   }
   const [expedienteDividido] = useState(dividirExpediente(datos.numero_de_expediente))
+
+  const {
+    isSolicitudAprehension
+  } = useStore();
+
 
   return (
     <div>
@@ -193,9 +200,14 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
           <CargarDenuncia setOpenModalTercero={setOpenModalTercero} setTercero={terceroCargar} expediente={expedienteDividido} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
         </div>
         <h1 className='text-2xl my-5'>Observaciones</h1>
-          <div className='flex justify-center h-80'>
-            <CargarObservaciones setValue={setValue} register={register} />
-          </div>
+        <div className='flex flex-col justify-center items-center h-80 w-full'>
+                    <div className='flex flex-col items-start justify-start'>
+                    <InputCheckbox disabled={!isSolicitudAprehension} campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue} type="checkbox" id="aprehension" />
+                    </div>
+                    <div className='flex flex-col items-center w-6/10'>
+                    <InputTextArea variante={"edit"} valor={datos.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" />
+</div>
+                </div>
         <div className='flex flex-col md:flex-row items-center justify-center w-full my-2'>
           <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setEditSection(!editSection)}>
             <XMarkIcon className="w-7" />
