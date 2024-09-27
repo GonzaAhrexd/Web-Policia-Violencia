@@ -17,6 +17,8 @@ import CardDenunciasRecientes from '../../components/Cards/CardDenunciasReciente
 import CardDenunciasPendientesValidacion from '../../components/Cards/CardDenunciasPendientesValidacion';
 import CardMostrarSeccionAdmin from '../../components/Cards/CardMostrarSeccionAdmin';
 import CardDenunciasTotales from '../../components/Cards/CardDenunciasTotales';
+import Footer from '../../components/Footer/Footer';
+import LoadingScreen from '../../components/LoadingScreen';
 // Iconos
 import { ExclamationTriangleIcon, UserIcon, MagnifyingGlassIcon, ListBulletIcon, PencilSquareIcon, ClipboardDocumentCheckIcon, ChartPieIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon } from '@heroicons/react/24/outline'
 import CardDenunciasGrafico from '../../components/Cards/CardDenunciasGrafico';
@@ -28,7 +30,8 @@ function Home() {
   const [showAdminSection, setShowAdminSection] = useState<boolean>(false);
 
   // Validación de cargando y si está logeado
-  if (isLoading) return <h1>Cargando...</h1>
+  if (isLoading) return <LoadingScreen/>
+  
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
 
 
@@ -73,7 +76,6 @@ function Home() {
       <NavBar user={user} />
       <div className='h-screen flex flex-grow flex-col'>
         <div className='p-10'>
-
           <h1 className='text-4xl sm:text-7xl'>¡{saludosDependiendoLaHora()}, {user?.nombre}!</h1>
           {user?.rol === 'sin_definir' && (
             <div className='flex mt-10 text-xl'>
@@ -117,6 +119,7 @@ function Home() {
             </div>
           )}
         </div>
+        <Footer />
       </div>
 
     </>

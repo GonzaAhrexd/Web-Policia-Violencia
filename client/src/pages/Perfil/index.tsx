@@ -8,6 +8,7 @@ import Footer from '../../components/Footer/Footer';
 import CardDataUsuario from '../../components/Cards/CardDataUsuario';
 import CardUserDenunciasRecientes from '../../components/Cards/CardUserDenunciasRecientes';
 import CardEditDataUser from '../../components/Cards/CardEditDataUser';
+import LoadingScreen from '../../components/LoadingScreen';
 // Datatable
 import DataTable from 'react-data-table-component';
 // Iconos
@@ -60,7 +61,7 @@ function Index() {
     fetchUserImage();
   }, [user]);
 
-  if (isLoading) return <h1>Cargando...</h1>;
+  if (isLoading) return <LoadingScreen/>
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />;
 
   return (

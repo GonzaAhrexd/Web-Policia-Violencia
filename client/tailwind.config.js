@@ -39,6 +39,9 @@ export default {
         "8/10": '80%',
         "9/10": '90%',
         "95/100": '95%',
+      },
+      screens: {
+        '3xl': '2040px',
       }
     },
     darkMode: "class",

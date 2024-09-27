@@ -17,6 +17,8 @@ import EstadisticasVictimarioSeccion from '../../components/EstadisticasSeccione
 import EstadisticaGenerarInformeSeccion from '../../components/EstadisticasSecciones/EstadisticasInforme/EstadisticasGenerarInformeSeccion';
 import DenunciasMes from '../../components/Graficos/DenunciasMes';
 import Modal from '../../components/Modal';
+import Footer from '../../components/Footer/Footer';
+import LoadingScreen from '../../components/LoadingScreen';
 // API
 import { buscarDenuncias } from '../../api/CRUD/denuncias.crud';
 import EstadisticasAprehensiones from '../../components/EstadisticasSecciones/EstadisticasAprehensiones';
@@ -171,16 +173,16 @@ function index() {
 
 
     // Si esta cargando, muestra un mensaje de carga
-    if (isLoading) return <h1>Cargando...</h1>
+    if (isLoading) return <LoadingScreen/>
     // Si no esta autenticado, redirige a login
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
     // Si el usuario no tiene rol, redirige a login
     if (user?.rol === "sin_definir") return <Navigate to="/login" replace />
     return (
-        <>
+        <div className='h-full flex flex-grow flex-col'>
             {isModalOpen && <Modal titulo={titulo} texto={texto} onClose={handleCloseModal} />}
             <NavBar user={user} />
-            <div className='h-screen sm:h-full p-2 sm:p-10'>
+            <div className='min-h-screen sm:h-full p-2 sm:p-10'>
                 <h1 className='text-3xl my-5'>Estadísticas</h1>
                 {denunciasAMostrar?.length == 0 &&
                     <>
@@ -237,7 +239,8 @@ function index() {
                     </>
                 }
             </div>
-        </>
+            <Footer/>
+        </div>
     )
 }
 

@@ -9,11 +9,12 @@ import { Navigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 // Componentes
 import NavBar from '../../components/NavBar'
+import Footer from '../../components/Footer/Footer';
+import LoadingScreen from '../../components/LoadingScreen';
 import InputRegister from '../../components/InputComponents/InputRegister';
 import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle';
 // Backend
 import { buscarUsuario } from '../../api/CRUD/usuarios.crud';
-
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
 
@@ -29,7 +30,7 @@ function index() {
         errors
     } } = useForm()
 
-    const { isLoading : loadingCampos } = useCampos()
+    const { isLoading: loadingCampos } = useCampos()
 
 
     const [listaDeUsuarios, setListaDeUsuarios] = useState([])
@@ -47,54 +48,55 @@ function index() {
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
 
-    if (isLoading && loadingCampos) return <h1>Cargando...</h1>
+    if (isLoading && loadingCampos) return <LoadingScreen/>
     // Si no esta autenticado, redirige a login
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
     // Si el usuario no tiene rol, redirige a login
     if (user?.rol !== "admin") return <Navigate to="/login" replace />
 
     return (
-        <>
+        <div className='h-full flex flex-grow flex-col'>
             <NavBar user={user} />
-            <div className='h-screen flex flex-col flex-grow'>
+            <div className='min-h-screen flex flex-grow flex-col'>
                 <div className='p-2 sm:p-10'>
-                <h1 className='text-3xl my-5'>Administrar usuarios</h1>
-                <form className="w-full flex flex-col items-center"
-                    onSubmit={
-                        handleSubmit(async (values) => {
-                            // Busca los usuarios
-                            const usuarios = await buscarUsuario(values)
-                            // Setea los usuarios en el estado
-                            setListaDeUsuarios(usuarios)
-                        }
-                        )}>
-                    <InputRegister busqueda require={false} nombre="nombre_de_usuario" type="text" campo="Nombre de usuario" error={errors.nombre_de_usuario} register={register} setValue={setValue} />
-                    <InputRegister busqueda require={false} nombre="nombre" type="text" campo="Nombre" error={errors.nombre} register={register} setValue={setValue} />
-                    <InputRegister busqueda require={false} nombre="apellido" type="text" campo="Apellido" error={errors.apellido} register={register} setValue={setValue} />
-                    <SelectRegisterSingle isRequired={false} nombre="rol" campo="Rol" opciones={opcionesRoles} setValue={setValue} error={errors.rol} />
-                    <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
-                </form>
-                {listaDeUsuarios?.length > 0 &&
-                    <div className="flex flex-col w-full">
-                        <h2 className='text-2xl my-5'>Usuarios</h2>
-                        <DataTable
-                            columns={columns}
-                            data={listaDeUsuarios}
-                            pagination
-                            expandableRows
-                            expandableRowsComponent={expandedComponents}
-                            customStyles={customStyles}
-                            responsive={true}
-                            striped={true}
-                            highlightOnHover={true}
-                            noDataComponent="No hay denuncias para mostrar"
-                            defaultSortFieldId={"Fecha"}
-                            expandableIcon={expandableIcon}
-                        />
-                    </div>}
+                    <h1 className='text-3xl my-5'>Administrar usuarios</h1>
+                    <form className="w-full flex flex-col items-center"
+                        onSubmit={
+                            handleSubmit(async (values) => {
+                                // Busca los usuarios
+                                const usuarios = await buscarUsuario(values)
+                                // Setea los usuarios en el estado
+                                setListaDeUsuarios(usuarios)
+                            }
+                            )}>
+                        <InputRegister busqueda require={false} nombre="nombre_de_usuario" type="text" campo="Nombre de usuario" error={errors.nombre_de_usuario} register={register} setValue={setValue} />
+                        <InputRegister busqueda require={false} nombre="nombre" type="text" campo="Nombre" error={errors.nombre} register={register} setValue={setValue} />
+                        <InputRegister busqueda require={false} nombre="apellido" type="text" campo="Apellido" error={errors.apellido} register={register} setValue={setValue} />
+                        <SelectRegisterSingle isRequired={false} nombre="rol" campo="Rol" opciones={opcionesRoles} setValue={setValue} error={errors.rol} />
+                        <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
+                    </form>
+                    {listaDeUsuarios?.length > 0 &&
+                        <div className="flex flex-col w-full">
+                            <h2 className='text-2xl my-5'>Usuarios</h2>
+                            <DataTable
+                                columns={columns}
+                                data={listaDeUsuarios}
+                                pagination
+                                expandableRows
+                                expandableRowsComponent={expandedComponents}
+                                customStyles={customStyles}
+                                responsive={true}
+                                striped={true}
+                                highlightOnHover={true}
+                                noDataComponent="No hay denuncias para mostrar"
+                                defaultSortFieldId={"Fecha"}
+                                expandableIcon={expandableIcon}
+                            />
+                        </div>}
+                </div>
             </div>
-            </div>
-        </>
+            <Footer />
+        </div>
 
     )
 }

@@ -19,6 +19,7 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 import InputCheckbox from '../../components/InputComponents/InputCheckbox';
 import InputRegister from '../../components/InputComponents/InputRegister';
 import InputDateRange from '../../components/InputComponents/InputDateRange';
+import LoadingScreen from '../../components/LoadingScreen';
 // Dependencias de la misma carpeta
 import { columns } from './columnsDataTable'
 import expandedComponents from './expandedComponents'
@@ -50,7 +51,7 @@ function MisDenunciasAgente() {
     }
     // Se obtiene el usuario y se verifica si está autenticado
     const { user, isAuthenticated, isLoading } = useAuth();
-    if (isLoading) return <h1>Cargando...</h1>
+    if (isLoading) return <LoadingScreen/>
     if (!isLoading && !isAuthenticated && user.rol == "sin_definir") return <Navigate to="/login" replace />
 
     return (

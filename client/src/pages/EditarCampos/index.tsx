@@ -4,12 +4,13 @@ import { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 // Componentes
 import NavBar from '../../components/NavBar';
-import TablaCampos from '../../components/Table/TablaCampos';4
+import TablaCampos from '../../components/Table/TablaCampos'; 4
 import TablaUnidades from '../../components/Table/TablaUnidades';
+import Footer from '../../components/Footer/Footer';
+import LoadingScreen from '../../components/LoadingScreen';
 // Contexto
 import { useAuth } from '../../context/auth';
 import { CamposContext } from '../../context/campos';
-
 function EditarCampos() {
     const { user, isAuthenticated, isLoading: isAuthLoading } = useAuth();
     const [showJuzgadoIntervinente, setShowJuzgadoIntervinentes] = useState<boolean>(false);
@@ -24,8 +25,8 @@ function EditarCampos() {
 
     const handleReset = () => {
         setShowJuzgadoIntervinentes(false);
-        setShowOcupaciones(false);   
-        setShowVinculos(false); 
+        setShowOcupaciones(false);
+        setShowVinculos(false);
         setShowTiposDeArmas(false);
         setShowTiposDeLugar(false);
         setShowUnidades(false);
@@ -60,10 +61,10 @@ function EditarCampos() {
         handleReset();
         setShowUnidades(true);
     }
-    
-    
+
+
     // Si está cargando la autenticación o los campos, muestra "Cargando..."
-    if (isAuthLoading || isCamposLoading) return <h1>Cargando...</h1>;
+    if (isAuthLoading || isCamposLoading) return <LoadingScreen/>
 
     // Si la autenticación no está cargando pero no está autenticado, redirige a /login
     if (!isAuthLoading && !isAuthenticated) return <Navigate to="/login" replace />;
@@ -72,14 +73,14 @@ function EditarCampos() {
     if (user?.rol !== 'admin') return <Navigate to="/" replace />;
 
     return (
-        <>
+        <div className='h-full flex flex-grow flex-col'>
             <NavBar user={user} />
-            <div className='h-screen sm:h-full p-2 sm:p-10'>
+            <div className='min-h-screen flex flex-grow flex-col p-4'>
                 <h1 className='text-3xl my-5'>Editar campos</h1>
                 <div className='mt-5 flex flex-col items-center justify-center '>
                     <div className={`flex flex-col p-5 w-full items-center justify-center xl:w-3/10 `}>
                         {/* <div className={`w-full flex flex-col justify-center items-center  `}> */}
-                            <div className='w-full grid grid-cols-1 md:grid-cols-3 md:gap-2 '>
+                        <div className='w-full grid grid-cols-1 md:grid-cols-3 md:gap-2 '>
                             <button className={`my-2 md:my-0 ${showJuzgadoIntervinente ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full mr-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={handleShowJuzgadoIntervinentes}>Juzgado Intervinentes</button>
                             <button className={`my-2 md:my-0 ${showOcupaciones ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full mr-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={handleShowOcupaciones}>Ocupaciones</button>
                             <button className={`my-2 md:my-0 ${showVinculos ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={handleShowVinculos}>Vínculos</button>
@@ -90,13 +91,14 @@ function EditarCampos() {
                     </div>
                     {showJuzgadoIntervinente && <TablaCampos campos={juzgadoIntervinente} tipo="juzgadosIntervinientes" />}
                     {showOcupaciones && <TablaCampos campos={ocupaciones} tipo="ocupaciones" />}
-                    {showVinculos && <TablaCampos campos={vinculo} tipo="vinculos"/>}
-                    {showTiposDeArmas && <TablaCampos campos={tiposDeArmas} tipo="tiposDeArmas"/>}
-                    {showTiposDeLugar && <TablaCampos campos={tiposDeLugar} tipo="tipoDeLugar"/>}
-                    {showUnidades && <TablaUnidades/>}
+                    {showVinculos && <TablaCampos campos={vinculo} tipo="vinculos" />}
+                    {showTiposDeArmas && <TablaCampos campos={tiposDeArmas} tipo="tiposDeArmas" />}
+                    {showTiposDeLugar && <TablaCampos campos={tiposDeLugar} tipo="tipoDeLugar" />}
+                    {showUnidades && <TablaUnidades />}
                 </div>
             </div>
-        </>
+            <Footer />
+        </div>
     );
 }
 

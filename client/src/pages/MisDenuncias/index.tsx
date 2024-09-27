@@ -21,6 +21,7 @@ import NavBar from '../../components/NavBar';
 import InputCheckbox from '../../components/InputComponents/InputCheckbox';
 import InputRegister from '../../components/InputComponents/InputRegister';
 import InputDateRange from '../../components/InputComponents/InputDateRange';
+import LoadingScreen from '../../components/LoadingScreen';
 // Dependencias de la misma carpeta
 import { columnsDenuncia } from '../../components/Busqueda/BuscarDenuncias/columnsDataTableDenuncias'
 import expandedComponents from '../../components/Busqueda/BuscarDenuncias/expandedComponents' // Busca de otro lado para mantener consistencia
@@ -55,7 +56,7 @@ function MisDenuncias() {
     }
     // Se obtiene el usuario y se verifica si está autenticado
     const { user, isAuthenticated, isLoading } = useAuth();
-    if (isLoading) return <h1>Cargando...</h1>
+    if (isLoading) return <LoadingScreen/>
     if ((!isLoading) && (!isAuthenticated) ) return <Navigate to="/login" replace />
     if(user?.rol === "sin_definir")  return <Navigate to="/login" replace />
     

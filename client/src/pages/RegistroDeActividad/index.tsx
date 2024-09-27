@@ -11,6 +11,7 @@ import NavBar from '../../components/NavBar'
 import SelectRegister from '../../components/Select/SelectRegisterSingle';
 import InputDateRange from '../../components/InputComponents/InputDateRange';
 import InputRegister from '../../components/InputComponents/InputRegister';
+import LoadingScreen from '../../components/LoadingScreen';
 // Backend
 import { listarActividadesRecientes } from '../../api/CRUD/actividadReciente.crud';
 
@@ -38,7 +39,7 @@ function index() {
 
 
 
-    if (isLoading) return <h1>Cargando...</h1>
+    if (isLoading) return <LoadingScreen/>
     // Si no esta autenticado, redirige a login
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
     // Si el usuario no tiene rol, redirige a login

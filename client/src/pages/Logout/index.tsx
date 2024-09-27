@@ -18,9 +18,12 @@ function index() {
             }, 2000)
         }
       }, [isAuthenticated])
-    return (
-    <div>Cerrando sesión...</div>
-  )
-}
+      return (
+        <div className="logout-container">
+          <div className="spinner"></div>
+          <p>Cerrando sesión...</p>
+        </div>
+      );
+    }
 
 export default index

@@ -20,6 +20,7 @@ import { customStyles } from '../../GlobalConst/customStyles'
 import { columnsDataTableVerificar } from './columnsDataTableVerificar'
 import expandedComponents from './expandedComponents'
 
+import LoadingScreen from '../../components/LoadingScreen';
 
 
 function VerificarDenuncias() {
@@ -47,7 +48,7 @@ function VerificarDenuncias() {
     expanded: <ArrowUpCircleIcon className='h-6 w-6' />
   }
 
-  if (isLoading) return <h1>Cargando...</h1>
+  if (isLoading) return <LoadingScreen/>
   if (!isLoading && !isAuthenticated ) return <Navigate to="/login" replace />
 
   if((user.rol !== "carga") && (user.rol !== "admin")) return <Navigate to="/login" replace />

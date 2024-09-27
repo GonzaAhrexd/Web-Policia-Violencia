@@ -8,6 +8,7 @@ import { Navigate } from 'react-router-dom';
 import NavBar from '../../components/NavBar';
 import InputTextArea from '../../components/InputComponents/InputTextArea';
 import Swal from 'sweetalert2';
+import LoadingScreen from '../../components/LoadingScreen';
 
 import { useForm } from 'react-hook-form';
 import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle';
@@ -41,7 +42,7 @@ function CargarDenuncias() {
         { nombre: "Editar campos", valor: "Editar campos"},
     ]
   // Si está cargando, mostrar "Cargando..."
-  if (isLoading) return <h1>Cargando...</h1>
+  if (isLoading) return <LoadingScreen/>
   // Si no está autenticado, redirigir a la página de login
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
 
