@@ -101,8 +101,8 @@ function Buscar() {
                     {mostrarDenuncias && <BuscarDenuncias />}
                     {mostrarExposiciones && <BuscarExposiciones />}
                 </div>
-                <Footer />
             </div>
+                <Footer />
         </div>
     )
 }

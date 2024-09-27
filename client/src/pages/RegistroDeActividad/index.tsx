@@ -17,7 +17,8 @@ import { listarActividadesRecientes } from '../../api/CRUD/actividadReciente.cru
 
 // Dependencias de la misma carpeta
 import { customStyles } from '../../GlobalConst/customStyles'
-import columnsRecent  from './columnsRecentActivity'
+import columnsRecent from './columnsRecentActivity'
+import Footer from '../../components/Footer/Footer';
 
 function index() {
     const { user, isAuthenticated, isLoading } = useAuth();
@@ -33,22 +34,21 @@ function index() {
         { nombre: "Víctimas", value: "Víctima" },
         { nombre: "Victimario", value: "Victimario" },
         { nombre: "Exposiciones", value: "Exposición" },
-        { nombre: "Inicio de sesión", value: "Inicios"},
+        { nombre: "Inicio de sesión", value: "Inicios" },
         { nombre: "Registro de usuarios", value: "Registros" },
-    ]   
+    ]
 
 
-
-    if (isLoading) return <LoadingScreen/>
+    if (isLoading) return <LoadingScreen />
     // Si no esta autenticado, redirige a login
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
     // Si el usuario no tiene rol, redirige a login
     if (user?.rol !== "admin") return <Navigate to="/login" replace />
 
     return (
-        <>
+        <div className='h-full flex flex-grow flex-col'>
             <NavBar user={user} />
-            <div className='h-screen sm:h-full p-2 sm:p-10'>
+            <div className='min-h-screen sm:h-full p-2 sm:p-10'>
                 <h1 className='text-3xl my-5'>Registro de actividad</h1>
                 <form className="w-full flex flex-col items-center"
                     onSubmit={
@@ -58,9 +58,9 @@ function index() {
                             setListaDeActividad(usuarios)
                         }
                         )}>
-                    <InputDateRange  register={register} setValue={setValue} isRequired={true} />
-                    <SelectRegister isRequired={false}  campo={"Sección"} nombre={"seccion"} opciones={listaDeSecciones} setValue={setValue} error={errors.seccion} />
-                    <InputRegister busqueda register={register} require={false} campo={"Usuario"} nombre={"usuario"} type="text" error={errors.usuario} /> 
+                    <InputDateRange register={register} setValue={setValue} isRequired={true} />
+                    <SelectRegister isRequired={false} campo={"Sección"} nombre={"seccion"} opciones={listaDeSecciones} setValue={setValue} error={errors.seccion} />
+                    <InputRegister busqueda register={register} require={false} campo={"Usuario"} nombre={"usuario"} type="text" error={errors.usuario} />
                     <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
                 </form>
                 {listaDeActividad?.length > 0 &&
@@ -68,7 +68,7 @@ function index() {
                         <h2 className='text-2xl my-5'>Registro de Actividad</h2>
                         <DataTable
                             columns={columnsRecent}
-                            data={ listaDeActividad }
+                            data={listaDeActividad}
                             pagination
                             customStyles={customStyles}
                             responsive={true}
@@ -76,13 +76,13 @@ function index() {
                             highlightOnHover={true}
                             noDataComponent="No hay denuncias para mostrar"
                             defaultSortFieldId={"Fecha"}
-                            defaultSortAsc={false} 
+                            defaultSortAsc={false}
                         />
                     </div>
-                    }
+                }
             </div>
-
-        </>
+            <Footer />
+        </div>
 
     )
 }

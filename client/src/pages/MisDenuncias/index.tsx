@@ -28,6 +28,7 @@ import expandedComponents from '../../components/Busqueda/BuscarDenuncias/expand
 import { customStyles } from '../../GlobalConst/customStyles'
 // Página alternativa para el rol agente
 import MisDenunciasAgente from '../MisDenunciasAgente'
+import Footer from '../../components/Footer/Footer';
 
 function MisDenuncias() {
     // Estados
@@ -63,7 +64,7 @@ function MisDenuncias() {
     return (
         <div>
             <NavBar user={user} />
-            <div className='h-screen sm:h-full p-2 sm:p-10'>
+            <div className='min-h-screen sm:h-full p-2 sm:p-10'>
                 <h1 className='text-3xl my-5'>Mis denuncias</h1>
                 <h2 className='text-2xl my-5'>Buscar</h2>
                 {user.rol === 'agente' ? <MisDenunciasAgente /> :
@@ -99,6 +100,7 @@ function MisDenuncias() {
                     </>
                 }
             </div>
+            <Footer/>
         </div>
     )
 }

@@ -21,6 +21,7 @@ import { columnsDataTableVerificar } from './columnsDataTableVerificar'
 import expandedComponents from './expandedComponents'
 
 import LoadingScreen from '../../components/LoadingScreen';
+import Footer from '../../components/Footer/Footer';
 
 
 function VerificarDenuncias() {
@@ -41,22 +42,22 @@ function VerificarDenuncias() {
     cargarDenuncias();
   }, []);
 
-  
+
 
   const expandableIcon = {
     collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
     expanded: <ArrowUpCircleIcon className='h-6 w-6' />
   }
 
-  if (isLoading) return <LoadingScreen/>
-  if (!isLoading && !isAuthenticated ) return <Navigate to="/login" replace />
+  if (isLoading) return <LoadingScreen />
+  if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
 
-  if((user.rol !== "carga") && (user.rol !== "admin")) return <Navigate to="/login" replace />
+  if ((user.rol !== "carga") && (user.rol !== "admin")) return <Navigate to="/login" replace />
 
   return (
-    <div>
+    <div className='h-full flex flex-grow flex-col'>
       <NavBar user={user} />
-      <div className='h-screen sm:h-full p-2 sm:p-10'>
+      <div className='min-h-screen sm:h-full p-2 sm:p-10'>
         <h1 className='text-3xl my-5'>Denuncias sin verificar</h1>
         <div className="flex flex-col w-full">
           <h2 className='text-2xl my-5'>Denuncias</h2>
@@ -78,6 +79,7 @@ function VerificarDenuncias() {
         </div>
       </div>
 
+      <Footer />
 
     </div>
   )
