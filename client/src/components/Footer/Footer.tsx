@@ -5,7 +5,7 @@ function Footer() {
           <img className='w-72' src="GobiernoDelChaco.png" alt="" />
         </figure>
       <div className="w-full md:w-2/10 flex flex-col justify-center items-center m-4 sm:m-0 text-sm 3xl:text-xl">
-        <p>Desarrollado por <a href="https://github.com/GonzaAhrexd"> Gonzalo Nicolás Ebel </a></p>
+        <p>Desarrollado por <a href="https://www.linkedin.com/in/gonzalo-ebel-788452251/"> Gonzalo Nicolás Ebel </a></p>
         <p>División de Capacitación y Estadísticas</p>
         <p>© 2024 - Todos los derechos reservados</p>
       </div>
