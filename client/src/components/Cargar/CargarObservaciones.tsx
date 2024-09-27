@@ -25,9 +25,13 @@ function CargarObservaciones({fileInputRef, rolAgenteHidden, register, setValue}
         <div className='w-full lg:w-6/10'>
           
         <InputCheckbox disabled={!isSolicitudAprehension} campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue} type="checkbox" id="aprehension" />
+        {fileInputRef && 
+        <>
         <h1 className='font-medium ml-4'>Subir foto de la denuncia (opcional)</h1>
           <input ref={fileInputRef} type="file" accept="image/*" className='mb-2' required={false} onChange={() => setObservacionRequired(false)} />
+        </>
         
+        }
         </div>
         }
 

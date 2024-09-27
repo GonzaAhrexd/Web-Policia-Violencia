@@ -20,7 +20,7 @@ import CargarVictimario from '../Cargar/CargarVictimario'
 import CargarDenuncia from '../Cargar/CargarDenuncia'
 import EditVictimario from './EditVictimario'
 import Modal from '../Modal'
-import InputTextArea from '../InputComponents/InputTextArea'
+import CargarObservaciones from '../Cargar/CargarObservaciones'
 import Swal from 'sweetalert2'
 import { useAuth } from '../../context/auth';
 import BuscarExistenteModal from '../ModalBusqueda/BuscarExistenteModal'
@@ -138,9 +138,17 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
 
             values.user_id = user.id
             values.numero_de_expediente = values.PrefijoExpediente + values.numero_expediente + values.Expediente + values.SufijoExpediente
+            
+
+           
             try {
-              crearDenuncia(values) 
-              aprobarDenuncia(datos._id)
+
+              const denuncia = {
+                ...values,
+              };
+
+              await crearDenuncia(denuncia) 
+              await aprobarDenuncia(datos._id)
 
               Swal.fire({
                 title: '¡Denuncia enviada!',
@@ -184,10 +192,10 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
         <div className='flex justify-center'>
           <CargarDenuncia setOpenModalTercero={setOpenModalTercero} setTercero={terceroCargar} expediente={expedienteDividido} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
         </div>
-        <>
-          <h1 className='text-2xl my-5'>Observaciones</h1>
-          <InputTextArea variante="edit" valor={datos.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" />
-        </>
+        <h1 className='text-2xl my-5'>Observaciones</h1>
+          <div className='flex justify-center h-80'>
+            <CargarObservaciones setValue={setValue} register={register} />
+          </div>
         <div className='flex flex-col md:flex-row items-center justify-center w-full my-2'>
           <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mt-2 md:mt-0 mx-2' onClick={() => setEditSection(!editSection)}>
             <XMarkIcon className="w-7" />
