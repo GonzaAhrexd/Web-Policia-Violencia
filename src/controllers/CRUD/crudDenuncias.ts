@@ -136,20 +136,20 @@ export const createDenuncia = async (req, res) => {
             derecho_de_comunicacion, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, ninguna} = fields
         console.log(fields)
             // Buscar si la victima y victimario ya existen        
-        const findVictima = await victimas.findOne({ DNI: dni_victima })
+        const findVictima = await victimas.findOne({ DNI: dni_victima[0] })
         let findVictimario
 
         // Si el DNI del victimario es S/N, se asigna el ID del victimario
         if (dni_victimario == "S/N") {
-            findVictimario = await victimario.findById(victimario_ID)
+            findVictimario = await victimario.findById(victimario_ID[0])
         } else {
-            findVictimario = await victimario.findOne({ DNI: dni_victimario })
+            findVictimario = await victimario.findOne({ DNI: dni_victimario[0] })
         }
         // Busca al tercero por dni si este ya existe
         let findTercero, IdTercero
         if(denunciado_por_tercero){
-        findTercero = await terceros.findOne({ DNI: dni_tercero })
-        IdTercero = findTercero?._id ? findTercero._id : tercero_ID
+        findTercero = await terceros.findOne({ DNI: dni_tercero[0] })
+        IdTercero = findTercero?._id ? findTercero._id : tercero_ID[0]
         }
         // Si el tercero no existe, se crea uno nuevo
         // Crear la denuncia
@@ -160,8 +160,8 @@ export const createDenuncia = async (req, res) => {
             victimario_nombre: findVictimario ? (findVictimario.nombre[0] + ' ' + findVictimario.apellido[0]) : (nombre_victimario[0] + ' ' + apellido_victimario[0]),
             relacion_victima_victimario: vinculo_con_agresor_victima[0],
             hijos_victima_con_victimario: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor[0] : 0,
-            convivencia: convivencia === "Sí" ? true : false,
-            dependencia_economica: dependencia_economica === "Sí" ? true : false,
+            convivencia: convivencia[0] === "Sí" ? true : false,
+            dependencia_economica: dependencia_economica[0] === "Sí" ? true : false,
             genero: genero[0],
             fecha: fecha[0],
             direccion: direccion[0],

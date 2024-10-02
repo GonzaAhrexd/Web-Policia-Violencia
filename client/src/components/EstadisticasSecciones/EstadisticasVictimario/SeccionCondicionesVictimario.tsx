@@ -23,7 +23,7 @@ function SeccionCondicionesVictimario({ victimarios, denunciasAMostrar }: Seccio
                 if (victimario.abuso_de_alcohol) {
                     contador.abuso_de_alcohol++;
                 }
-                if (victimario.denuncias_en_contra.length >= 2) {
+                if (victimario.denuncias_en_contra?.length >= 2) {
                     contador.reincidente++;
                 }
             });

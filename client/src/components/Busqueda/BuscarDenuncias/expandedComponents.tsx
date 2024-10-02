@@ -90,11 +90,14 @@ function expandedComponents({ data }: expandedComponentsProps) {
             console.log(error)
         }
     }
-
+    let lat: number = 0
+    let lon: number = 0
     // Separar las coordenadas
-    const latLng: Array<number> = data.GIS.split(" ");
-    const lat: number = latLng[0]
-    const lon: number = latLng[1]
+    if(data.GIS.length > 6){
+        const latLng: Array<number> = data.GIS.split(" ");
+        lat = latLng[0]
+        lon = latLng[1]
+    }
 
     // useEffect para obtener los datos de la víctima y el victimario
     useEffect(() => {

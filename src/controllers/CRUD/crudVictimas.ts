@@ -77,8 +77,7 @@ export const createVictima = async (req, res) => {
                     "hijos.menores_discapacitados": menores_discapacitados ? menores_discapacitados : false,
                 }
             }, { new: true })
-
-            await victimas.updateOne({ DNI: dni_victima } );
+            
             victimaUpdated ? agregarActividadReciente(`Se ha agregado una denuncia a la víctima ${nombre_victima + apellido_victima}`, "Víctima", victimaUpdated._id, req.cookies) : null
             res.send('Victima ya existe')
         }
@@ -92,8 +91,12 @@ export const createVictima = async (req, res) => {
 export const getVictima = async (req, res) => {
     try {
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
-        const victima = await victimas.findOne({ _id: req.params.id })
-        res.json(victima)
+        if(req.params.id != "Sin victima"){
+            const victima = await victimas.findOne({ _id: req.params.id })
+            res.json(victima)
+        }else{
+            res.json("Sin resultados")
+        }
     } catch (error) {
         console.log(error)
     }

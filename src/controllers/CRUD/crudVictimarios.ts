@@ -67,9 +67,13 @@ export const createVictimario = async (req, res) => {
 export const getVictimario = async (req, res) => {
     try {
         // Obtener el víctimario por Id
-        const victimarioABuscar = await victimario.findById(req.params.id)
-        // Devolver el víctimario que se está buscando
-        res.json(victimarioABuscar)
+        if(req.params.id != "Sin victimario"){
+            const victimarioABuscar = await victimario.findById(req.params.id)
+            // Devolver el víctimario que se está buscando
+            res.json(victimarioABuscar)
+        }else{
+            res.json("Sin victimario")
+        }
     } catch (error) {
         console.log(error)
     }

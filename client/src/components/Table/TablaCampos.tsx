@@ -65,11 +65,11 @@ function TablaCampos({ campos, tipo }: TablaCamposProps) {
                             cancelButtonColor: '#FF554C',
                             confirmButtonText: 'Sí, editar',
                             cancelButtonText: 'Cancelar'
-                        }).then((result) => {
+                        }).then(async (result) => {
                             if (result.isConfirmed) {
                                 data._id = toEdit?._id
                                 data.tipo = tipo
-                                editarCampo(data)
+                                await editarCampo(data)
                                 window.location.reload()
                                 setShowEdit(false)
                             }
