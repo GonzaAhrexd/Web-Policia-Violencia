@@ -6,7 +6,7 @@ import InputDateRange from '../../InputComponents/InputDateRange';
 // Backend APIs
 import { buscarDenuncias } from '../../../api/CRUD/denuncias.crud';
 // Hooks
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import DataTable from 'react-data-table-component';
 import { columnsDenuncia } from './columnsDataTableDenuncias'

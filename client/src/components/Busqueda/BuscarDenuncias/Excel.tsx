@@ -15,6 +15,7 @@ interface denuncia {
 
 function Excel({ denunciasAMostrar }: denuncia) {
 
+  // @ts-ignore
   const [isLoading, setIsLoading] = useState(false);
 
   type DenunciasExcel = {
