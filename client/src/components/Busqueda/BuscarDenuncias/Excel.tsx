@@ -1,9 +1,10 @@
 // Importamos de la librería xlsx
 import { utils, writeFile } from 'xlsx';
 import XLSX from 'xlsx';
+import { useEffect, useState } from 'react';
 
 // Obtenemos la víctima, victimario y tercero desde el Backend
-import {  getTercero } from '../../../api/CRUD/terceros.crud';
+import { getTercero } from '../../../api/CRUD/terceros.crud';
 import { getVictima } from '../../../api/CRUD/victimas.crud';
 import { getVictimario } from '../../../api/CRUD/victimario.crud';
 // Icono de tabla
@@ -13,6 +14,8 @@ interface denuncia {
 }
 
 function Excel({ denunciasAMostrar }: denuncia) {
+
+  const [isLoading, setIsLoading] = useState(false);
 
   type DenunciasExcel = {
     id: string,
@@ -108,10 +111,10 @@ function Excel({ denunciasAMostrar }: denuncia) {
     // Obten victimas y victimarios con las llamadas al api, guardalos en una variable victima y victimario los datos
     const victima = await getVictima(denuncia.victima_ID);
     const victimario = await getVictimario(denuncia.victimario_ID);
-    let tercero; 
-    if(denuncia.denunciado_por_tercero){
+    let tercero;
+    if (denuncia.denunciado_por_tercero) {
       tercero = await getTercero(denuncia.tercero_ID);
-      }
+    }
     // Pasarle los datos al array de denuncias para que luego pueda ser mostrado en el Excel
     denuncias.push({
       // A1
@@ -333,7 +336,7 @@ function Excel({ denunciasAMostrar }: denuncia) {
       { wch: 20 }, // Apellido de la víctima AP1
       { wch: 20 }, // Edad de la víctima AQ1
       { wch: 18 }, // DNI de la víctima AR1
-      { wch: 24},  // Domicilio de la víctima AS1
+      { wch: 24 },  // Domicilio de la víctima AS1
       { wch: 24 }, // Estado civil de la víctima AT1
       { wch: 22 }, // Ocupación de la víctima AU1
       { wch: 32 }, // Vínculo con el agresor de la víctima AV1
@@ -405,11 +408,11 @@ function Excel({ denunciasAMostrar }: denuncia) {
     hoja['AE1'] = { v: 'Alimento provisorio', t: 's' };
     hoja['AF1'] = { v: 'Derecho a la comunicación', t: 's' };
     hoja['AG1'] = { v: 'Botón antipánico', t: 's' };
-    hoja['AH1'] = {v: 'Prohibición de acercamiento dispuesta', t: 's'};
-    hoja['AI1'] = {v: 'Botón antipánico dispuesto', t: 's'};
-    hoja['AJ1'] = {v: 'Exclusión del hogar dispuesta', t: 's'};
-    hoja['AK1'] = {v: 'Solicitud de Aprehensión', t: 's'};
-    hoja['AL1'] = {v: 'Expedientes c/cautelar', t: 's'};
+    hoja['AH1'] = { v: 'Prohibición de acercamiento dispuesta', t: 's' };
+    hoja['AI1'] = { v: 'Botón antipánico dispuesto', t: 's' };
+    hoja['AJ1'] = { v: 'Exclusión del hogar dispuesta', t: 's' };
+    hoja['AK1'] = { v: 'Solicitud de Aprehensión', t: 's' };
+    hoja['AL1'] = { v: 'Expedientes c/cautelar', t: 's' };
     hoja['AM1'] = { v: 'Ninguna', t: 's' };
     hoja['AN1'] = { v: 'Denunciado por terceros', t: 's' };
     hoja['AO1'] = { v: 'Observaciones', t: 's' };
@@ -455,16 +458,47 @@ function Excel({ denunciasAMostrar }: denuncia) {
     hoja['CC1'] = { v: 'Apellido del tercero', t: 's' };
     hoja['CD1'] = { v: 'DNI del tercero', t: 's' };
     hoja['CE1'] = { v: 'Vínculo del tercero con la víctima', t: 's' };
-    
+
     // Crear un libro de trabajo y agregar la hoja de cálculo
     const libro = utils.book_new();
     utils.book_append_sheet(libro, hoja, 'Denuncias');
     // Escribir el libro de trabajo a un archivo Excel
     writeFile(libro, 'denuncias.xlsx');
+
   };
 
+
+  const [showExcel, setShowExcel] = useState(false);
+
+  useEffect(() => {
+    if (denunciasAMostrar?.length > 0) {
+      // Asegúrate de limpiar el timeout si el componente se desmonta o si denunciasAMostrar cambia
+      const timer = setTimeout(() => {
+          setShowExcel(true);
+      }, 15000); // Ajusta el cooldown a 3000 ms o 3 segundos
+
+      return () => clearTimeout(timer); // Limpieza en caso de desmonte o cambio en denunciasAMostrar
+  } else {
+      // Si no hay denuncias a mostrar, no muestres Excel
+      setShowExcel(false);
+  }
+  }, [])
+
+  if(!showExcel) return (
+    <div className="spinner m-6"></div>
+  ) 
+    
+    
   return (
-    <button className="flex flex-row items-center justify-center bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10 scale-up-center" onClick={exportarDenuncias}><TableCellsIcon className='h-6 w-6' /> Generar Excel</button>
+    <button
+      className={`flex flex-row items-center justify-center bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10 scale-up-center ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+      onClick={exportarDenuncias}
+      disabled={isLoading}
+    >
+      <TableCellsIcon className='h-6 w-6' />
+      {isLoading ? 'Generando...' : 'Generar Excel'}
+    </button>
+
   );
 }
 

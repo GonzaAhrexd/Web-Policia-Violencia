@@ -18,7 +18,7 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 
 // Campos
 // import { unidadCampos } from '../../../GlobalConst/unidadCampos';
-import {useCampos } from '../../../context/campos';
+import { useCampos } from '../../../context/campos';
 import Excel from './Excel';
 
 function BuscarDenuncias() {
@@ -44,7 +44,7 @@ function BuscarDenuncias() {
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
 
-    
+
 
     const [showExcel, setShowExcel] = useState(false);
     const [hideExcelText, setHideExcelText] = useState(true);
@@ -52,21 +52,10 @@ function BuscarDenuncias() {
     const { unidades: unidadCampos } = useCampos();
 
 
-    useEffect(() => {
+    const generarExcel = () => {
         // Si hay denuncias a mostrar, prepara para mostrar Excel después de un cooldown
-        if (denunciasAMostrar?.length > 0) {
-            // Asegúrate de limpiar el timeout si el componente se desmonta o si denunciasAMostrar cambia
-            const timer = setTimeout(() => {
-                setShowExcel(true);
-            }, 3000); // Ajusta el cooldown a 3000 ms o 3 segundos
-
-            return () => clearTimeout(timer); // Limpieza en caso de desmonte o cambio en denunciasAMostrar
-        } else {
-            // Si no hay denuncias a mostrar, no muestres Excel
-            setShowExcel(false);
-        }
-    }, [denunciasAMostrar]); // Dependencias: denunciasAMostrar
-
+        setShowExcel(true);
+    }
 
     return (
         <>
@@ -96,8 +85,10 @@ function BuscarDenuncias() {
             <div className="flex flex-col w-full">
                 <h2 className='text-2xl my-5'>Denuncias</h2>
                 <div className="w-full flex flex-col items-center my-2">
-                    {((!showExcel) && (!hideExcelText)) && <p className="text-sm ">Generando Excel...</p>}
-                    {showExcel && <Excel denunciasAMostrar={denunciasAMostrar} />}
+                    {(!hideExcelText && !showExcel) && <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10" onClick={() => generarExcel()}>Generar Excel</button> }
+                    {showExcel && 
+                    <Excel denunciasAMostrar={denunciasAMostrar} />
+                    }
                 </div>
                 <DataTable
                     columns={columnsDenuncia}

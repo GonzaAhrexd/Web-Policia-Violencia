@@ -8,4 +8,7 @@ const router:Router = Router()
 // Buscar actividad reciente
 router.get('/buscar-actividad-reciente/:desde/:hasta/:seccion/:usuario', authAdmin, buscarActividadReciente)
 router.get('/mi-actividad/:id', authRequired, buscasActividadPorIdUsuario )
+router.get('/ping', (req,res) => {
+    res.json({message: 'pong'})
+})
 export default router

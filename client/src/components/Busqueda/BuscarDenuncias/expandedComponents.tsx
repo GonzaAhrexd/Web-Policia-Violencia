@@ -57,6 +57,8 @@ function expandedComponents({ data }: expandedComponentsProps) {
     const [editGlobal, setEditGlobal] = useState(false)
     // Guardar terceros
     const [terceroDatosObtener, setTerceroDatosObtener]: any = useState([])
+    // Estado de carga
+    
     // Función para obtener los datos de la víctima
     const victimaObtener = async (id: string) => {
         try {
@@ -107,8 +109,11 @@ function expandedComponents({ data }: expandedComponentsProps) {
             terceroObtener(data.tercero_ID)
         }
 
-    }, [data.victima_ID, data.victimario_ID]); // Se ejecuta cuando el componente se monta y cada vez que 'id' cambia
+    }, [data]); // Se ejecuta cuando el componente se monta y cada vez que 'id' cambia
 
+
+
+        
     // Función para abrir Google Maps con el mapa de y las coordenadas
     const handleClick = (GIS: string) => {
         // Separar las coordenadas
@@ -299,6 +304,9 @@ function expandedComponents({ data }: expandedComponentsProps) {
             }
         })
     }
+
+
+
 
     return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full scale-up-ver-top">
         {!editGlobal &&
