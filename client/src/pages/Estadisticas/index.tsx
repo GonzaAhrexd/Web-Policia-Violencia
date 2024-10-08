@@ -192,8 +192,6 @@ function index() {
                         <div className='flex md:hidden flex-col justify-center items-center w-full ' >
                             <DenunciasMes aspect={2} />
                         </div>
-
-
                     </>
                 }
                 <form className="w-full flex flex-col items-center"

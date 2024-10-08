@@ -19,13 +19,13 @@ function EstadisticasAprehension({ estadisticasAprehensiones }: EstadisticasApre
                 </div>
             </div>
             <div className="flex flex-row items-between justify-between">
-                <div className="flex pl-4 text-base font-medium md:text-xl w-full  md:w-8/10">Solicitud de Aprehensión</div>
+                <div className="flex pl-4 text-base font-medium md:text-xl w-full  md:w-8/10">Solicitudes sin efecto</div>
                 <div className="flex w-4/10 md:w-2/10 break-words break-all	">
                     {estadisticasAprehensiones.medida_dispuesta_solicitud_de_aprehension - estadisticasAprehensiones.aprehension}
                 </div>
             </div>
             <div className="flex flex-row items-between justify-between">
-                <div className="flex pl-4 text-base font-medium md:text-xl w-full  md:w-8/10">Total</div>
+                <div className="flex pl-4 text-base font-medium md:text-xl w-full  md:w-8/10">Total Solicitudes de Aprehensión</div>
                 <div className="flex w-4/10 md:w-2/10 break-words break-all	">
                     {estadisticasAprehensiones.medida_dispuesta_solicitud_de_aprehension}
                 </div>

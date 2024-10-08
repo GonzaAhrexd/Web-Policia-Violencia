@@ -48,7 +48,7 @@ function EstadisticasAprehensiones({ denunciasAMostrar }: EstadisticasDivisionPr
 
 
             // Recorro las denuncias y cuento cuantas solicitudes de aprehensión y cuantas aprehensiones hubo
-            denuncias.forEach((denuncia) => {
+                for (const denuncia of denuncias) {
                 // Obtengo la unidad de carga
                 const unidad = denuncia.unidad_de_carga;
                 // Si no existe la unidad la creo
@@ -65,7 +65,7 @@ function EstadisticasAprehensiones({ denunciasAMostrar }: EstadisticasDivisionPr
                     estadisticas.aprehension += 1;
                     estadisticas.por_unidad[unidad].aprehension += 1;
                 }
-            });
+            }
         // Devuelvo las estadísticas
         return estadisticas;
     }

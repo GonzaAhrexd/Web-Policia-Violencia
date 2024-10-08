@@ -20,7 +20,7 @@ function DenunciasMes({aspect, inicio}: DenunciasMesProps) {
             const promises = [];
             const meses = [
                 { mes: 'Enero', desde: `${currentYear}-01-01`, hasta: `${currentYear}-01-31` },
-                { mes: 'Febrero', desde: `${currentYear}-02-01`, hasta: `${currentYear}-02-28` },
+                { mes: 'Febrero', desde: `${currentYear}-02-01`, hasta: `${currentYear}-02-29` },
                 { mes: 'Marzo', desde: `${currentYear}-03-01`, hasta: `${currentYear}-03-31` },
                 { mes: 'Abril', desde: `${currentYear}-04-01`, hasta: `${currentYear}-04-30` },
                 { mes: 'Mayo', desde: `${currentYear}-05-01`, hasta: `${currentYear}-05-31` },
