@@ -32,6 +32,8 @@ function BuscarDenuncias() {
             setDenunciasAMostrar(result)
         }
         fetchDenuncias();
+        setShowExcel(true);
+
     }
     // Obtén el valor actual del número de expediente del formulario
     const expedienteValue = watch('numero_de_expediente');
@@ -44,18 +46,8 @@ function BuscarDenuncias() {
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
 
-
-
     const [showExcel, setShowExcel] = useState(false);
-    const [hideExcelText, setHideExcelText] = useState(true);
-
     const { unidades: unidadCampos } = useCampos();
-
-
-    const generarExcel = () => {
-        // Si hay denuncias a mostrar, prepara para mostrar Excel después de un cooldown
-        setShowExcel(true);
-    }
 
     return (
         <>
@@ -68,7 +60,6 @@ function BuscarDenuncias() {
                             values.municipio = values.unidad[1]
                             values.comisaria = values.unidad[2]
                         }
-                        setHideExcelText(false);
                         handleBusqueda(values)
                     }
                     )}>
@@ -85,7 +76,6 @@ function BuscarDenuncias() {
             <div className="flex flex-col w-full">
                 <h2 className='text-2xl my-5'>Denuncias</h2>
                 <div className="w-full flex flex-col items-center my-2">
-                    {(!hideExcelText && !showExcel) && <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10" onClick={() => generarExcel()}>Generar Excel</button> }
                     {showExcel && 
                     <Excel denunciasAMostrar={denunciasAMostrar} />
                     }

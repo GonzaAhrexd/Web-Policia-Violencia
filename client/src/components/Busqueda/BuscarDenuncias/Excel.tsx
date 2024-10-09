@@ -1,7 +1,7 @@
 // Importamos de la librería xlsx
 import { utils, writeFile } from 'xlsx';
 import XLSX from 'xlsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 // Obtenemos la víctima, victimario y tercero desde el Backend
 import { getTercero } from '../../../api/CRUD/terceros.crud';
@@ -108,7 +108,9 @@ function Excel({ denunciasAMostrar }: denuncia) {
   const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
   // Haz un map que llene un arreglo con los datos de las denuncias
-  denunciasAMostrar.map(async (denuncia: DenunciasExcel | any) => {
+  const rellenarDenuncias = async () => { 
+
+  for (const denuncia of denunciasAMostrar) {
     // Obten victimas y victimarios con las llamadas al api, guardalos en una variable victima y victimario los datos
     const victima = await getVictima(denuncia.victima_ID);
     const victimario = await getVictimario(denuncia.victimario_ID);
@@ -283,10 +285,15 @@ function Excel({ denunciasAMostrar }: denuncia) {
       tercero_dni: tercero?.DNI ? tercero?.DNI : 'No hay tercero',
       // CE1
       tercero_vinculo_con_victima: denuncia?.vinculo_con_la_victima_tercero ? denuncia?.vinculo_con_la_victima_tercero : 'No hay tercero',
-    });
-  });
+    })
+  }
+}
 
-  const exportarDenuncias = () => {
+  const exportarDenuncias = async () => {
+    setIsLoading(true);
+    // Rellenar las denuncias
+    await rellenarDenuncias();
+
     // Crear una hoja de cálculo a partir de los datos de las denuncias
     const hoja = XLSX.utils.json_to_sheet(denuncias);
 
@@ -464,28 +471,15 @@ function Excel({ denunciasAMostrar }: denuncia) {
     const libro = utils.book_new();
     utils.book_append_sheet(libro, hoja, 'Denuncias');
     // Escribir el libro de trabajo a un archivo Excel
+    setIsLoading(false);
+
     writeFile(libro, 'denuncias.xlsx');
 
   };
 
 
-  const [showExcel, setShowExcel] = useState(false);
 
-  useEffect(() => {
-    if (denunciasAMostrar?.length > 0) {
-      // Asegúrate de limpiar el timeout si el componente se desmonta o si denunciasAMostrar cambia
-      const timer = setTimeout(() => {
-          setShowExcel(true);
-      }, 15000); // Ajusta el cooldown a 3000 ms o 3 segundos
-
-      return () => clearTimeout(timer); // Limpieza en caso de desmonte o cambio en denunciasAMostrar
-  } else {
-      // Si no hay denuncias a mostrar, no muestres Excel
-      setShowExcel(false);
-  }
-  }, [])
-
-  if(!showExcel) return (
+  if(isLoading) return (
     <div className="spinner m-6"></div>
   ) 
     
@@ -497,7 +491,7 @@ function Excel({ denunciasAMostrar }: denuncia) {
       disabled={isLoading}
     >
       <TableCellsIcon className='h-6 w-6' />
-      {isLoading ? 'Generando...' : 'Generar Excel'}
+       Generar Excel
     </button>
 
   );
