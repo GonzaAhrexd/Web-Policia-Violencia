@@ -148,8 +148,8 @@ export const createDenuncia = async (req, res) => {
         // Busca al tercero por dni si este ya existe
         let findTercero, IdTercero
         if(denunciado_por_tercero){
-        findTercero = await terceros.findOne({ DNI: dni_tercero[0] })
-        IdTercero = findTercero?._id ? findTercero._id : tercero_ID[0]
+        findTercero = await terceros.findOne({ DNI: dni_tercero })
+        IdTercero = findTercero?._id ? findTercero._id : tercero_ID
         }
         // Si el tercero no existe, se crea uno nuevo
         // Crear la denuncia
@@ -223,7 +223,7 @@ export const createDenuncia = async (req, res) => {
             console.error("Error parsing the form: ", err);
             return res.status(500).send({ error: "Error procesando el formulario: " + err.message });
         }
-        if(files.imagen){
+        if(files.imagen != undefined){
         const file = files?.imagen[0]
 
         if (file.originalFilename === "") { //Validación si no se sube archivos

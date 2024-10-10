@@ -132,11 +132,13 @@ function PDF({ datos, fecha }: PDFProps) {
         // Convertir a fecha y luego a string con formato dd/mm/yyyy
         const fecha = new Date(date);
 
-        return fecha.toLocaleDateString('es-ES', {
+        return fecha.toLocaleDateString('es-AR', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
         });
+
+        return date.toString()
     };
 
     return (
@@ -168,7 +170,7 @@ function PDF({ datos, fecha }: PDFProps) {
                             {/* @ts-ignore */}
                             <Text style={styles.datos}>Aprehensiones: {stats.aprehensiones}</Text>
                             {/* @ts-ignore */}
-                            <Text style={styles.datos}>Sol. Aprehensiones: {stats.solicitudesAprehension}</Text>
+                            <Text style={styles.datos}>Solicitudes de Aprehensión: {stats.solicitudesAprehension}</Text>
                         </View>
                     ))}
 
