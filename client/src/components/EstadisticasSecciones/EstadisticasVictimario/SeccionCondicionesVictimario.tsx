@@ -35,7 +35,7 @@ function SeccionCondicionesVictimario({ victimarios, denunciasAMostrar }: Seccio
                 antecedentes_toxicologicos: 0,
                 antecedentes_psicologicos: 0,
                 antecedentes_penales: 0,
-                antecedents_contravencionales: 0,
+                antecedentes_contravencionales: 0,
                 entrenamiento_en_combate: 0,
                 empleo_de_armas: 0,
             };
@@ -51,8 +51,8 @@ function SeccionCondicionesVictimario({ victimarios, denunciasAMostrar }: Seccio
                 if (victimario.antecedentes_penales) {
                     contador.antecedentes_penales++;
                 }
-                if (victimario.antecedents_contravencionales) {
-                    contador.antecedents_contravencionales++;
+                if (victimario.antecedentes_contravencionales) {
+                    contador.antecedentes_contravencionales++;
                 }
                 if (victimario.entrenamiento_en_combate) {
                     contador.entrenamiento_en_combate++;

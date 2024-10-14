@@ -65,7 +65,7 @@ function SeccionCondicion({ victimas }: SeccionOcupacionProps) {
           <EstadisticasTiposDeViolencia texto="Condición" tipos_de_violencia={estadisticasCondicion} format={format} />
         </div>
         <div className='w-full md:w-5/10'>
-          <DenunciasMedidasCautelaresGrafico estadistica={estadisticasCondicion} />
+          <DenunciasMedidasCautelaresGrafico estadistica={estadisticasCondicion} aspect={2} />
         </div>
       </div>
     </>

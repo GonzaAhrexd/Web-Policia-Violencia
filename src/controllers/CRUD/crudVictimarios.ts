@@ -6,7 +6,7 @@ import { agregarActividadReciente } from './crudActividadReciente'
 export const createVictimario = async (req, res) => {
     try {
         // Extraemos los datos del body
-        const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate } = req.body
+        const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, antecedentes_psicologicos, entrenamiento_en_combate } = req.body
         // Buscar si ya existe un víctimario con el DNI ingresado
         let victimarioExistente
 
@@ -28,6 +28,7 @@ export const createVictimario = async (req, res) => {
                 ocupacion: ocupacion_victimario,
                 abuso_de_alcohol: abuso_de_alcohol ? abuso_de_alcohol : false,
                 antecedentes_toxicologicos: antecedentes_toxicologicos ? antecedentes_toxicologicos : false,
+                antecedentes_psicologicos: antecedentes_psicologicos ? antecedentes_psicologicos : false,
                 antecedentes_penales: antecedentes_penales ? antecedentes_penales : false,
                 antecedentes_contravencionales: antecedentes_contravencionales ? antecedentes_contravencionales : false,
                 entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,
@@ -50,6 +51,7 @@ export const createVictimario = async (req, res) => {
                     ocupacion: ocupacion_victimario,
                     abuso_de_alcohol: abuso_de_alcohol ? abuso_de_alcohol : false,
                     antecedentes_toxicologicos: antecedentes_toxicologicos ? antecedentes_toxicologicos : false,
+                    antecedentes_psicologicos: antecedentes_psicologicos ? antecedentes_psicologicos : false,
                     antecedentes_penales: antecedentes_penales ? antecedentes_penales : false,
                     antecedentes_contravencionales: antecedentes_contravencionales ? antecedentes_contravencionales : false,
                     entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,

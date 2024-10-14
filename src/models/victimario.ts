@@ -75,6 +75,11 @@ const victimarioSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    antecedentes_psicologicos: {
+        type: Boolean, // Tipo de dato Boolean
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     // Definición de si tiene entrenamiento en combate
     entrenamiento_en_combate: {
         type: Boolean, // Tipo de dato Boolean

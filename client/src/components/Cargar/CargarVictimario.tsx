@@ -60,6 +60,7 @@ function CargarVictimario({watch, register, setValue, errors }: CargarVictimario
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-2`}>
           <InputCheckbox campo="Abuso de Alcohol" nombre="abuso_de_alcohol" register={register} setValue={setValue} type="checkbox" id="abusoAlcohol" />
           <InputCheckbox campo="Antecedentes toxicológicos" nombre="antecedentes_toxicologicos" register={register} setValue={setValue} type="checkbox" id="antecedentesToxicologicos" />
+          <InputCheckbox campo="Antecedentes psicológicos" nombre="antecedentes_psicologicos" register={register} setValue={setValue} type="checkbox" id="antecedentesPsicologicos" />
           <InputCheckbox campo="Antecedentes penales" nombre="antecedentes_penales" register={register} setValue={setValue} type="checkbox" id="antecedentesPenales" />
           <InputCheckbox campo="Antecedentes contravencionales" nombre="antecedentes_contravencionales" register={register} setValue={setValue} type="checkbox" id="antecedentesConvencionales" />
           <InputCheckboxExternalCondition campo="Entrenamiento en combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" state={entrenamiento_en_combate}/>

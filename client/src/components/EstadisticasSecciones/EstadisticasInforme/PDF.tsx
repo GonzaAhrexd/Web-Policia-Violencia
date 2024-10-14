@@ -129,17 +129,18 @@ function PDF({ datos, fecha }: PDFProps) {
 
 
     const formatFecha = (date: Date) => {
-        // Convertir a fecha y luego a string con formato dd/mm/yyyy
+        // Convertir la fecha a una cadena ISO sin modificar la zona horaria
         const fecha = new Date(date);
 
-        return fecha.toLocaleDateString('es-AR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-        });
-
-        return date.toString()
+        const fechaISO = fecha.toISOString().substring(0, 10); // Formato: yyyy-mm-dd
+        
+        // Separar la fecha en componentes (día, mes, año)
+        const [year, month, day] = fechaISO.split('-');
+        
+        // Retornar la fecha en formato dd/mm/yyyy
+        return `${day}/${month}/${year}`;
     };
+    
 
     return (
         <Document>
