@@ -217,8 +217,10 @@ export const buscarVictimario = async (req, res) => {
         }
         if (numero_de_expediente !== 'no_ingresado') {
             const denuncia = await denuncias.findOne({ numero_de_expediente: numero_de_expediente });
-            if (denuncia) {
+            if (denuncia != null) {
                 query._id = denuncia.victimario_ID;
+            }else {
+                query._id = "Sin victima";
             }
         }
         // Obtener las denuncias

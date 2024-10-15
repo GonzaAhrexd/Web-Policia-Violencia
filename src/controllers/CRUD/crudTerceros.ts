@@ -168,9 +168,11 @@ export const buscarTercero = async (req, res) => {
     }
     if (numero_de_expediente !== 'no_ingresado') {
         const denuncia = await denuncias.findOne({ numero_de_expediente: numero_de_expediente });
-        if (denuncia) {
+        if (denuncia != null) {
             // @ts-ignore
             query._id = denuncia.tercero_ID;
+        }else{
+            query._id = "Sin tercero";
         }
     }
     // Obtener las denuncias
