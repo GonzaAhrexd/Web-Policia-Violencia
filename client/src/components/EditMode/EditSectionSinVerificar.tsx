@@ -108,6 +108,8 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
 
 
       <form
+        encType="multipart/form-data"
+        method='post'
         onSubmit={
           handleSubmit(async (values) => {
 

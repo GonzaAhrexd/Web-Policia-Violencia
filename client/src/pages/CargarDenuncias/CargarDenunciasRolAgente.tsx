@@ -41,7 +41,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
   }
 
   return (
-    <div className='h-screen sm:h-full p-2 sm:p-10'>
+    <div className='min-h-screen sm:h-full p-2 sm:p-10'>
       <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>
       <div>
         <form onSubmit={

@@ -23,7 +23,7 @@ import InputRegister from '../../components/InputComponents/InputRegister';
 import InputDateRange from '../../components/InputComponents/InputDateRange';
 import LoadingScreen from '../../components/LoadingScreen';
 // Dependencias de la misma carpeta
-import { columnsDenuncia } from '../../components/Busqueda/BuscarDenuncias/columnsDataTableDenuncias'
+import { columnsDenuncia } from './columnsDataTable'
 import expandedComponents from '../../components/Busqueda/BuscarDenuncias/expandedComponents' // Busca de otro lado para mantener consistencia
 import { customStyles } from '../../GlobalConst/customStyles'
 // Página alternativa para el rol agente
@@ -94,6 +94,7 @@ function MisDenuncias() {
                                 highlightOnHover={true}
                                 noDataComponent="No hay denuncias para mostrar"
                                 defaultSortFieldId={"Fecha"}
+                                defaultSortAsc={false}
                                 expandableIcon={expandableIcon}
                             />
                         </div>

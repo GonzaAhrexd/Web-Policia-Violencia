@@ -414,7 +414,6 @@ export const updateDenuncia = async (req, res) => {
         await terceros.findByIdAndUpdate(tercero_ID, { $push: { denuncias_realizadas: denunciaUpdated?._id } })
         }
         
-        console.log(req.cookies)
         // Agrega a la actividad reciente
         await agregarActividadReciente(`Edición de denuncia`, "Denuncia", id, req.cookies)
 

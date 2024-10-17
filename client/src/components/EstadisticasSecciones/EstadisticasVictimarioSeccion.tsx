@@ -20,31 +20,41 @@ function EstadisticasVictimarioSeccion({denunciasAMostrar}: EstadisticasVictimar
     // UseEffect
     useEffect(() => {
         // Función para obtener los victimarios de las denuncias
-        const fetchVictimas = async () => {
+        const fetchVictimarios = async () => {
             // Set para guardar los victimarios
-            const victimarioSet = new Set()
-            // Promesas para obtener los victimarios
-            const victimaPromises = denunciasAMostrar.map(async (denuncia: any) => {
-                const victima = await getVictimario(denuncia.victimario_ID)
-                if (victima != null) {
-                    victimarioSet.add(JSON.stringify(victima))
+            const victimarioSet = new Set();
+        
+            // Usamos un bucle for...of para iterar sobre las denuncias
+            for (const denuncia of denunciasAMostrar) {
+                try {
+                    const victima = await getVictimario(denuncia.victimario_ID);
+                    if (victima != null) {
+                        victimarioSet.add(JSON.stringify(victima));
+                    }
+                } catch (error) {
+                    console.error("Error al obtener el victimario:", error);
                 }
-            })
-    
-            await Promise.all(victimaPromises)
-    
+            }
+        
             // Convertimos el Set a un arreglo de objetos
-            const victimarioArray:any = Array.from(victimarioSet).map((victimarioString:any) => JSON.parse(victimarioString))
-            setVictimarios(victimarioArray)
-            setLoading(false)
-        }
-    
-        fetchVictimas()
+            const victimarioArray: any = Array.from(victimarioSet).map((victimarioString: any) => JSON.parse(victimarioString));
+            setVictimarios(victimarioArray);
+            setLoading(false);
+        };
+        
+        // Llamamos a la función para obtener los victimarios
+        fetchVictimarios();
+        
     }, [])
     
     // Si está cargando, mostrar "Cargando..."
     if (loading) {
-        return <div>Cargando...</div>;
+        return (
+            <div className='flex flex-col items-center justify-center w-full h-full'>
+                <div className="spinner"></div>
+            </div>
+        )
+
     }
 
   return (

@@ -49,6 +49,7 @@ export const columnsDenuncia = [
         name: 'Fecha denuncia',
         selector: (row:Row) => row.fecha,
         sortable: true,
+        id: 'Fecha',
         format: (row:Row) => `${new Date(row.fecha).getUTCDate().toString().padStart(2, '0')}/${(new Date(row.fecha).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(row.fecha).getUTCFullYear()}`,
         style: {
             fontSize: '14px',

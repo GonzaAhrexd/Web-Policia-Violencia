@@ -23,7 +23,7 @@ type Row = {
 }
 
 // Columnas de la tabla de denuncias
-export const columns = [
+export const columnsDenuncia = [
     {
         // Número de expediente de la denuncia
         name: 'Número de Expediente',
@@ -47,9 +47,10 @@ export const columns = [
     {
         // Fecha en la que se cargó la denuncia, puede diferir de la fecha de la denuncia
         name: 'Fecha carga',
-        selector: (row:Row) => row.createdAt,
+        selector: (row:Row) => new Date(row.createdAt).toLocaleString('es-AR', {timeZone: 'America/Argentina/Buenos_Aires'}),
         sortable: true,
-        format: (row:Row) => `${new Date(row.createdAt).getUTCDate().toString().padStart(2, '0')}/${(new Date(row.createdAt).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(row.createdAt).getUTCFullYear()}`,
+        id: "Fecha",
+        // format: (row:Row) => `${new Date(row.createdAt).getUTCDate().toString().padStart(2, '0')}/${(new Date(row.createdAt).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(row.createdAt).getUTCFullYear()}`,
         style: {
             fontSize: '14px',
             fontWeight: 500,

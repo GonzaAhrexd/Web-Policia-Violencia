@@ -81,7 +81,8 @@ function MisDenunciasAgente() {
                     striped={true}
                     highlightOnHover={true}
                     noDataComponent="No hay denuncias para mostrar"
-                    defaultSortFieldId={"Fecha"}
+                    defaultSortFieldId={"fecha"}
+                    defaultSortAsc={true}
                     expandableIcon={expandableIcon}
                 />}
             </div>

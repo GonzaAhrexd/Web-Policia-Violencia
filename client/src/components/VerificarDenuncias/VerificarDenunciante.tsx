@@ -49,7 +49,10 @@ function VerificarDenunciante({ watch, datos, register, setValue, errors }: Carg
     { nombre: 'Sí', value: 'si', id: "si_hijos" },
     { nombre: 'No', value: 'no', id: "no_hijos" },
   ]
-
+  const opcionesDependenciaEconomica = [
+    { nombre: 'Sí', value: 'si', id: "si_dependencia_economica" },
+    { nombre: 'No', value: 'no', id: "no_dependencia_economica" },
+  ]
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col md:flex-row my-2'>
@@ -87,6 +90,10 @@ function VerificarDenunciante({ watch, datos, register, setValue, errors }: Carg
       <div className='flex flex-col my-2'>
         <span className='ml-4 font-medium'>Convivencia</span>
         <InputRadio campo="convivencia" nombre="convivencia" register={register} type="radio" opciones={opcionesConvivencia} defaultValue={1} />
+      </div>
+      <div className='flex flex-col my-2'>
+        <span className='ml-4 font-medium'>¿Hay Dependencia económica?</span>      
+        <InputRadio campo="dependencia_economica" nombre="dependencia_economica" register={register} type="radio" opciones={opcionesDependenciaEconomica} defaultValue={1} />
       </div>
       <div className='flex flex-col my-2'>
         <span className='ml-4 font-medium'>Hijos</span>

@@ -21,12 +21,13 @@ function SeccionOcupacion({persona, tipo}: SeccionOcupacionProps) {
     const obtenerOcupaciones = () => {
         // Necesito que me vaya contando cada una de las ocupaciones que tienen las víctimas, es decir, algo como { "empleada": 5, "estudiante": 3, "desempleada": 2 }
         const ocupaciones: { [ocupacion: string]: number } = {}
-        persona.forEach((victima: any) => {
+
+        for(const victima of persona) {
             if (!ocupaciones[victima.ocupacion]) {
                 ocupaciones[victima.ocupacion] = 0
             }
             ocupaciones[victima.ocupacion] += 1
-        })
+    }
         return ocupaciones
     }
 
