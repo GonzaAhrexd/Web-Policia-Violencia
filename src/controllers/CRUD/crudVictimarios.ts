@@ -1,7 +1,7 @@
 import victimario from '../../models/victimario'
 import denuncias from '../../models/denuncias'
 import { agregarActividadReciente } from './crudActividadReciente'
-// VICTIMARIO
+
 // Crear victimario
 export const createVictimario = async (req, res) => {
     try {
@@ -150,6 +150,7 @@ export const updateVictimario = async (req, res) => {
 
 }
 
+// Buscar victimario
 export const buscarVictimario = async (req, res) => {
     try {
         interface Query {
@@ -163,6 +164,7 @@ export const buscarVictimario = async (req, res) => {
         const { nombre_victimario, apellido_victimario, dni_victimario, numero_de_expediente, victimario_id } = req.params;
         // Crear el objeto de consulta
         const query: Query = {};
+        // Función para normalizar las letras -> Permite buscar con o sin tildes y con letras similares donde pueden ocurrir errores de tipeo
         function normalizarLetras(caracter:string) {
             if (caracter === 's' || caracter === 'z') return '[sz]';
             if (caracter === 'i' || caracter === 'y') return '[iy]';

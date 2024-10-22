@@ -6,8 +6,11 @@ const router:Router = Router();
 
 // Crear campo
 router.post('/agregar-campo/', authAdmin, createCampo)
+// Obtener campos
 router.get('/obtener-campo/:tipo', obtenerCampo)
+// Editar campo
 router.put('/editar-campo/:id', authAdmin, editarCampo)    
+// Eliminar campo
 router.delete('/eliminar-campo/:id', authAdmin, eliminarCampo)
 
 export default router;

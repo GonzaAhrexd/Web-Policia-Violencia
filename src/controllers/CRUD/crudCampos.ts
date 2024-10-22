@@ -1,5 +1,6 @@
 import campos from '../../models/campos';
 
+// Función para crear un campo
 export const createCampo = async (req, res) => {
     try{
         const {campo, value, tipo} = req.body;
@@ -11,6 +12,7 @@ export const createCampo = async (req, res) => {
     }
 }
 
+// Función para obtener todos los campos
 export const obtenerCampo = async (req, res) => {
     try{
         const { tipo } = req.params
@@ -22,6 +24,7 @@ export const obtenerCampo = async (req, res) => {
 
 }
 
+// Función para editar un campo
 export const editarCampo = async (req, res) => {
     try{
         const { _id, campo, value } = req.body
@@ -31,6 +34,8 @@ export const editarCampo = async (req, res) => {
         console.log(error)
     }
 }
+
+// Función para eliminar un campo
 export const eliminarCampo = async (req, res) => {
     try{
         const { id } = req.params

@@ -11,13 +11,22 @@ import path from 'path';
 // Uso de Router de express
 const router:Router = Router()
 // Rutas para autenticación de usuario
-router.post('/register', validateSchema(registerSchema), register) // Registro de usuario
-router.post('/login', validateSchema(loginSchema), login) // Inicio de sesión
-router.post('/logout', logout) // Cierre de sesión
-router.get('/profile', authRequired, authAdmin , profile) // Perfil de usuario
-router.get('/verify', verifyToken) // Verificación de token
-router.put('/editar-usuario/:id', authRequired, editUser) // Editar usuario
-router.post('/editar-imagen-usuario/:id', authRequired, editUserImg) // Editar imagen de usuario
+
+// Registro de usuario
+router.post('/register', validateSchema(registerSchema), register) 
+// Inicio de sesión
+router.post('/login', validateSchema(loginSchema), login) 
+// Cierre de sesión
+router.post('/logout', logout) 
+// Perfil de usuario
+router.get('/profile', authRequired, authAdmin , profile) 
+// Verificación de token
+router.get('/verify', verifyToken)
+// Editar usuario
+router.put('/editar-usuario/:id', authRequired, editUser) 
+// Editar imagen de usuario
+router.post('/editar-imagen-usuario/:id', authRequired, editUserImg) 
+
 router.get('/users/:userId/image', (req, res) => {
     const userId = req.params.userId;
     // Aquí iría tu lógica para encontrar la imagen basada en userId

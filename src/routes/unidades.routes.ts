@@ -7,7 +7,6 @@ const router:Router = Router();
 
 // Mostrar todas las unidades
 router.get('/mostrar-unidades/', getUnidades)
-
 // Agregar una unidad
 router.post('/agregar-unidad/', authAdmin, createUnidad)
 // Eliminar una unidad
@@ -32,6 +31,7 @@ router.put('/editar-comisaria/', authAdmin, updateComisaria)
 router.put('/eliminar-comisaria/:nombre/:municipio', authAdmin, deleteComisaria)
 
 // CUADRICULAS
+// Cuadriculas comisaría
 // Agregar cuadriculas
 router.put('/agregar-cuadricula/', authAdmin, addCuadriculaFromComisaria)
 // Editar cuadriculas
@@ -39,9 +39,11 @@ router.put('/editar-cuadricula-desde-comisaria/', authAdmin, updateCuadriculaFro
 // Eliminar cuadriculas
 router.put('/eliminar-cuadricula/:cuadricula/:comisaria/:municipio', authAdmin, deleteCuadriculaFromComisaria)
 
-
-// Cuadriculas comisaría
+// Cuadriculas municipio
+// Agregar cuadriculas
 router.put('/agregar-cuadricula-desde-municipio', authAdmin, addCuadriculaFromMunicipio)
+// Editar cuadriculas
 router.put('/editar-cuadricula-desde-municipio', authAdmin, updateCuadriculaFromMunicipio)
+// Eliminar cuadriculas
 router.put('/eliminar-cuadricula-desde-municipio/:cuadricula/:municipio', authAdmin, deleteCuadriculaFromMunicipio)
 export default router

@@ -5,10 +5,13 @@ import usuario from '../../models/usuarios'
 
 // Función para agregar una actividad reciente
 export async function agregarActividadReciente(descripcion: String, modelo_modificado: String, id_del_modelo: Object, cookies: any) {
+    // Obtiene el token de los cookies
     const { token } = cookies
-
+    // Si no hay token, se busca el usuario por el nombre de usuario
     if(cookies && !token){
+        // Se busca el usuario por el nombre de usuario
         const usuarioEncontrado = await usuario.findOne({nombre_de_usuario: cookies})
+        // Se crea la actividad reciente
         const actividad = new actividadReciente({
             fecha: new Date(),
             modelo_modificado: modelo_modificado,
@@ -22,10 +25,13 @@ export async function agregarActividadReciente(descripcion: String, modelo_modif
         // Se retorna la actividad reciente
         return actividad
     }
+    // Si no hay token, se devuelve un mensaje
     if (!token) {
         return "No token provided"
     }
+    // Se verifica el token
     jwt.verify(token, TOKEN_SECRET, async (err, user) => {
+        // Se busca el usuario por el id
         const usuarioEncontrado = await usuario.findById(user.id)
         // Se crea la actividad reciente
         var actividad = new actividadReciente({
@@ -43,6 +49,7 @@ export async function agregarActividadReciente(descripcion: String, modelo_modif
     })
 }
 
+// Función para buscar una actividad reciente
 export const buscarActividadReciente = async (req, res) => {
     try {
 
@@ -89,6 +96,7 @@ export const buscarActividadReciente = async (req, res) => {
     }
 }
 
+// Función para buscar una actividad reciente por el id del usuario
 export const buscasActividadPorIdUsuario = async (req, res) => {
     try {
         const { id } = req.params

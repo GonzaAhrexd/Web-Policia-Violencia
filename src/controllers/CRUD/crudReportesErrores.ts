@@ -1,5 +1,6 @@
 import reporteErrores from "../../models/reporteErrores";
 import { agregarActividadReciente } from "./crudActividadReciente";
+// Crear reporte de errores
 export const createReporteErrores = async (req, res) => {
     try {
         const { apartado, descripcion } = req.body

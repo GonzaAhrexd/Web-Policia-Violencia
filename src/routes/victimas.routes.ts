@@ -11,7 +11,6 @@ import { authRequired } from '../middlewares/validateToken';
 // VICTIMAS
 import { getVictima, createVictima, updateVictima, buscarVictima } from '../controllers/CRUD/crudVictimas'
 
-
 const router:Router = Router();
 
 // Crear víctima

@@ -19,7 +19,6 @@ router.get('/buscar-denuncias/:desde/:hasta/:id_denuncia/:numero_de_expediente/:
 // Editar denuncia por id
 router.put('/editar-denuncias/:id', authRequired, updateDenuncia)
 // Crear denuncia
-router.put('/editar-imagen-denuncia/', authRequired, editarImagenDenuncia)
 router.post('/crear-denuncia/', authRequired, createDenuncia)
 // Eliminar denuncia por id
 router.delete('/eliminar-denuncias/:id', authRequired, deleteDenuncia)
@@ -38,8 +37,10 @@ router.get('/denuncias/:denunciaId/image', (req, res) => {
             res.status(404).send('Imagen no encontrada');
         }
     });
-
+    
 })
+// Editar imagen de denuncia
+router.put('/editar-imagen-denuncia/', authRequired, editarImagenDenuncia)
 
 
 export default router

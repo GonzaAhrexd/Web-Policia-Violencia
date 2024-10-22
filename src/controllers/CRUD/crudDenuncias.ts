@@ -13,7 +13,7 @@ const formidable = require('formidable'); //Módulo para formularios
 const fs = require('fs') //Módulo para guardar imagenes
 
 
-// DENUNCIAS
+// Obtener denuncias
 export const getDenuncias = async (req, res) => {
     interface Query {
         fecha?: {
@@ -320,7 +320,6 @@ export const deleteDenuncia = async (req, res) => {
     }
 }
 
-
 // Actualizar denuncias
 export const updateDenuncia = async (req, res) => {
     try {
@@ -449,6 +448,7 @@ export const getCantidadDenuncias = async (req, res) => {
     
 }
 
+// Editar imagen de la denuncia
 export const editarImagenDenuncia = async (req, res) => {
     try{
         const form = new formidable.IncomingForm()

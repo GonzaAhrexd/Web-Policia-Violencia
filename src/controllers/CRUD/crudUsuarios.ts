@@ -1,5 +1,6 @@
 import usuarios from '../../models/usuarios';
 
+// Obtener usuario
 export const getUsuarios = async (req, res) => {
     try {
         console.log("LLEGÓ")
@@ -82,6 +83,7 @@ export const getUsuarios = async (req, res) => {
     }
 }
 
+// Cambiar rol de usuario
 export const changeUserRole = async (req, res) => {
     const { _id, rol } = req.body
     try {
