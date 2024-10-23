@@ -1,24 +1,27 @@
 // Hooks
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+
 // Contexto
 import { useAuth } from '../../context/auth';
+
 // Librerías React
 import { Navigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
+
 // Componentes
 import NavBar from '../../components/NavBar'
 import SelectRegister from '../../components/Select/SelectRegisterSingle';
 import InputDateRange from '../../components/InputComponents/InputDateRange';
 import InputRegister from '../../components/InputComponents/InputRegister';
 import LoadingScreen from '../../components/LoadingScreen';
+import Footer from '../../components/Footer/Footer';
 // Backend
 import { listarActividadesRecientes } from '../../api/CRUD/actividadReciente.crud';
 
-// Dependencias de la misma carpeta
+// DataTable
 import { customStyles } from '../../GlobalConst/customStyles'
 import columnsRecent from './columnsRecentActivity'
-import Footer from '../../components/Footer/Footer';
 
 function index() {
     const { user, isAuthenticated, isLoading } = useAuth();

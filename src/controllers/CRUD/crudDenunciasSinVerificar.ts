@@ -90,7 +90,6 @@ export const deleteDenunciaSinVerificar = async (req, res) => {
 // Listar mis denuncias sin verificar
 export const listarMisDenunciasSinVerificar = async (req, res) => {
     try {
-        console.log(req.user.id)
         const misDenunciasSinVerificar = await denunciaSinVerificar.find({ cargado_por: req.user.id })
         res.json(misDenunciasSinVerificar)
     } catch (error) {

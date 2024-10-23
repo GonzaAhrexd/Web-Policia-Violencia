@@ -1,6 +1,7 @@
 /*
-  [/verificar-denuncias]
-  Descripción: Página para verificar denuncias.
+  [Rutas]
+  Descripción: En este archivo se  utiliza React router para crear las distintas rutas de nuestra aplicación .
+  También, se importa el contexto de autenticación y campos para que estén disponibles en toda la aplicación.
 */
 // Enrutamiento
 import { useRoutes, BrowserRouter } from 'react-router-dom'

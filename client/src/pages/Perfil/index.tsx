@@ -24,44 +24,62 @@ import { obtenerMiActividad } from '../../api/CRUD/actividadReciente.crud';
 const APIURL = import.meta.env.VITE_BASE_URL;
 
 function Index() {
+  // Autenticación
   const { user, isAuthenticated, isLoading } = useAuth();
+  // Carga de imagen
+  const fileInputRef: any  = useRef(null);
+  // Estados
   const [isEditing, setIsEditing] = useState(false);
-  const fileInputRef = useRef(null);
   const [userImage, setUserImage] = useState('/user.png');
   const [listaActividad, setListaActividad] = useState([]);
 
+  // Controla el cambio de imagen
   const handleImageClick = () => {
-    // @ts-ignore
     fileInputRef.current.click();
   };
 
-  const handleImageChange = (e: any) => {
+  // Cambia la imagen del usuario
+  const handleImageChange = async (e: any)  => {
     const file = e.target.files[0];
+    // Si no hay archivo, no hace nada
     if (!file) return;
-    editUserImg(user.id, file);
+
+    // Edita la imagen del usuario
+    await editUserImg(user.id, file);
+    // Recarga la página para mostrar la nueva imagen
     window.location.reload();
   };
 
   useEffect(() => {
+    // Carga la imagen del usuario
     const fetchUserImage = async () => {
+      // Si el usuario existe y tiene un id
       if (user && user.id) {
+        // Intenta cargar la imagen del usuario
         try {
+          // Ruta de la imagen
           const imagePath = `${APIURL}/users/${user.id}/image`
+          // Establece la imagen del usuario
           setUserImage(imagePath);
         } catch (error) {
           console.error("Error al cargar la imagen del usuario", error);
         }
       }
     };
+    // Carga la actividad del usuario
     const fetchActividad = async () => {
       const actividades = await obtenerMiActividad(user?.id);
       setListaActividad(actividades);
     }
+    // Llama a las funciones fetchUserImage y fetchActividad
     fetchActividad();
     fetchUserImage();
   }, [user]);
 
+  // Si está cargando, mostrar una pantalla de carga
   if (isLoading) return <LoadingScreen/>
+
+  // Si no está autenticado, redirigir a la página de login
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />;
 
   return (
@@ -72,20 +90,20 @@ function Index() {
           <form encType="multipart/form-data">
             <div
               className="relative w-32 h-32 bg-gray-300 rounded-full overflow-hidden cursor-pointer group"
-              onClick={handleImageClick}
+              onClick={handleImageClick} // Al hacer click en la imagen, se abre el input de carga de imagen
             >
               <img
                 className="h-32 w-32 rounded-full object-cover"
-                src={user.imagen != "sin_definir" ? userImage : "/user.png"}
-                alt="Imagen de perfil"
+                src={user.imagen != "sin_definir" ? userImage : "/user.png"} 
+                alt="Imagen de perfil" 
               />
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <PencilIcon className="h-10 w-10 text-white" />
               </div>
               <input
-                type="file"
+                type="file" 
                 ref={fileInputRef}
-                onChange={handleImageChange}
+                onChange={handleImageChange} 
                 style={{ display: 'none' }}
                 accept="image/*"
               />
@@ -116,16 +134,16 @@ function Index() {
             <h2 className='text-2xl my-5'>Mi Actividad reciente</h2>
             {listaActividad?.length > 0 &&
               <DataTable
-                columns={columns}
-                data={listaActividad}
-                pagination
-                customStyles={customStyles}
-                responsive={true}
-                striped={true}
-                highlightOnHover={true}
-                noDataComponent="No hay denuncias para mostrar"
-                defaultSortFieldId={"fecha"}
-                defaultSortAsc={false}
+                columns={columns} // Columnas de la tabla
+                data={listaActividad} // Datos de la tabla
+                pagination // Paginación
+                customStyles={customStyles} // Estilos personalizados
+                responsive={true} // Diseño responsivo
+                striped={true} // Filas alternadas
+                highlightOnHover={true} // Resaltar al pasar el mouse
+                noDataComponent="No se encontró actividad reciente" // Mensaje si no hay datos
+                defaultSortFieldId={"fecha"} // Campo por defecto para ordenar
+                defaultSortAsc={false} // Orden ascendente
               />
             }
           </div>

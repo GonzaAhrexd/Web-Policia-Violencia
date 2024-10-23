@@ -1,5 +1,4 @@
 /*
-
    [ /mis-denuncias ] 
    Descripción: Página de mis denuncias para que el usuario pueda ver las denuncias que ha realizado
 */
@@ -22,13 +21,13 @@ import InputCheckbox from '../../components/InputComponents/InputCheckbox';
 import InputRegister from '../../components/InputComponents/InputRegister';
 import InputDateRange from '../../components/InputComponents/InputDateRange';
 import LoadingScreen from '../../components/LoadingScreen';
-// Dependencias de la misma carpeta
+import Footer from '../../components/Footer/Footer';
+// DataTable
 import { columnsDenuncia } from './columnsDataTable'
 import expandedComponents from '../../components/Busqueda/BuscarDenuncias/expandedComponents' // Busca de otro lado para mantener consistencia
 import { customStyles } from '../../GlobalConst/customStyles'
 // Página alternativa para el rol agente
 import MisDenunciasAgente from '../MisDenunciasAgente'
-import Footer from '../../components/Footer/Footer';
 
 function MisDenuncias() {
     // Estados
@@ -82,20 +81,20 @@ function MisDenuncias() {
                         <div className="flex flex-col w-full">
                             <h2 className='text-2xl my-5'>Denuncias</h2>
                             <DataTable
-                                className='scale-up-ver-top'
-                                columns={columnsDenuncia}
-                                data={denunciasAMostrar}
-                                pagination
-                                expandableRows
-                                expandableRowsComponent={expandedComponents}
-                                customStyles={customStyles}
-                                responsive={true}
-                                striped={true}
-                                highlightOnHover={true}
-                                noDataComponent="No hay denuncias para mostrar"
-                                defaultSortFieldId={"Fecha"}
-                                defaultSortAsc={false}
-                                expandableIcon={expandableIcon}
+                                className='scale-up-ver-top' // Animación de entrada
+                                columns={columnsDenuncia} // Columnas de la tabla
+                                data={denunciasAMostrar} // Datos de la tabla
+                                pagination // Paginación
+                                expandableRows // Filas expandibles
+                                expandableRowsComponent={expandedComponents}  // Componente de filas expandibles
+                                customStyles={customStyles} // Estilos personalizados
+                                responsive={true} // Diseño responsivo
+                                striped={true} // Filas alternadas
+                                highlightOnHover={true} // Resaltar al pasar el mouse
+                                noDataComponent="No hay denuncias para mostrar" // Mensaje si no hay datos
+                                defaultSortFieldId={"Fecha"} // Campo por defecto para ordenar
+                                defaultSortAsc={false} // Orden ascendente
+                                expandableIcon={expandableIcon} // Iconos de expandir y colapsar
                             />
                         </div>
                     </>

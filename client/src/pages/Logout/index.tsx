@@ -8,8 +8,11 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function index() {
+    // Autenticación
     const { logOut, isAuthenticated } = useAuth()
+    // Navegación
     const navigate = useNavigate();
+    // Cerrar sesión
     useEffect(() => {
         if(isAuthenticated){
             logOut()
@@ -18,6 +21,8 @@ function index() {
             }, 2000)
         }
       }, [isAuthenticated])
+
+      // Si está autenticado muestra el mensaje de cerrando sesión con un menú de carga
       return (
         <div className="logout-container">
           <div className="spinner"></div>

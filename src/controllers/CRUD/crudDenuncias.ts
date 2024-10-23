@@ -134,7 +134,6 @@ export const createDenuncia = async (req, res) => {
         // Obtener los datos de la denuncia
         const { user_id, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, convivencia, dependencia_economica, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
             derecho_de_comunicacion, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, ninguna} = fields
-        console.log(fields)
             // Buscar si la victima y victimario ya existen        
         const findVictima = await victimas.findOne({ DNI: dni_victima[0] })
         let findVictimario
@@ -297,7 +296,6 @@ export const deleteDenuncia = async (req, res) => {
         const { id } = req.params
         // Cómo obtengo el id si este está guardado en las cookies?
         const user_id = req.cookies.token.id
-        console.log(req.cookies)
         // Buscar la victima y victimario y restarle 1 denuncia para desvincular
         const denunciaABorrar = await denuncia.findById(id)
         // Elimina la denuncia de la victima y victimario

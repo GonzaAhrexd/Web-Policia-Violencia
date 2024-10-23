@@ -1,30 +1,30 @@
 /*
- Exclusivo para toda la fase de pruebas
+  [/reportar-errores]
+  Descripción: En esta página se permite a los usuarios reportar errores o dar recomendaciones sobre la página.
 */
+
 // Hooks
 import { useAuth } from '../../context/auth';
 import { Navigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 // Componentes
 import NavBar from '../../components/NavBar';
 import InputTextArea from '../../components/InputComponents/InputTextArea';
 import Swal from 'sweetalert2';
 import LoadingScreen from '../../components/LoadingScreen';
-
-import { useForm } from 'react-hook-form';
 import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle';
-
-import { reportarErrores } from '../../api/CRUD/errores.crud';
 import Footer from '../../components/Footer/Footer';
+// API
+import { reportarErrores } from '../../api/CRUD/errores.crud';
 
 function CargarDenuncias() {
-
+  // Formulario 
   const { register, handleSubmit, setValue, formState: {
     errors
   } } = useForm()
 
   // Obtener datos del usuario
   const { user, isAuthenticated, isLoading } = useAuth();
-
 
   // Apartados de la página
   const apartado = [
@@ -42,7 +42,8 @@ function CargarDenuncias() {
     { nombre: "Registro de actividad", valor: "Registro de actividad" },
     { nombre: "Editar campos", valor: "Editar campos" },
   ]
-  // Si está cargando, mostrar "Cargando..."
+ 
+  // Si está cargando, mostrar una pantalla de carga
   if (isLoading) return <LoadingScreen />
   // Si no está autenticado, redirigir a la página de login
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />

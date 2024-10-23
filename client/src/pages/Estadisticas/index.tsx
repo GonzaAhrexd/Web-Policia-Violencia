@@ -1,9 +1,11 @@
 // Autenticación
 import { useAuth } from '../../context/auth';
+
 // Hooks
 import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+
 // Componentes
 import NavBar from '../../components/NavBar'
 import InputDateRange from '../../components/InputComponents/InputDateRange';
@@ -19,9 +21,10 @@ import DenunciasMes from '../../components/Graficos/DenunciasMes';
 import Modal from '../../components/Modal';
 import Footer from '../../components/Footer/Footer';
 import LoadingScreen from '../../components/LoadingScreen';
+import EstadisticasAprehensiones from '../../components/EstadisticasSecciones/EstadisticasAprehensiones';
+
 // API
 import { buscarDenuncias } from '../../api/CRUD/denuncias.crud';
-import EstadisticasAprehensiones from '../../components/EstadisticasSecciones/EstadisticasAprehensiones';
 
 // Iconos
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
@@ -48,6 +51,7 @@ function index() {
     const [showAll, setShowAll] = useState(false);
     const [sinResultados, setSinResultados] = useState(false);
     const [mostrarTodo, setMostrarTodo] = useState(false);
+
     // Modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [texto, setTexto] = useState(['']);
@@ -66,6 +70,7 @@ function index() {
         setShowGenerarInforme(false)
         setMostrarTodo(false)
     }
+
     // Localidades
     const handleLocalidadesStats = () => {
         if (showAll && showLocalidadesStats) return setShowAll(false)
@@ -74,6 +79,7 @@ function index() {
         setShowLocalidadesStats(true)
         setShowAll(false)
     }
+
     // Divisiones
     const handleDivisionesStats = () => {
         if (showAll && showDivionesStats) return setShowAll(false)
@@ -82,6 +88,7 @@ function index() {
         setShowDivionesStats(true)
         setShowAll(false)
     }
+
     // Aprehensiones
     const handleAprehensiones = () => {
         if (showAll && showAprehensionesStats) return setShowAll(false)
@@ -90,6 +97,7 @@ function index() {
         setShowAprehensionesStats(true)
         setShowAll(false)
     }
+
     // Tipo de violencia
     const handleTipoDeViolencia = () => {
         if (showAll && showTipoDeViolencia) return setShowAll(false)
@@ -107,6 +115,7 @@ function index() {
         setShowModalidades(true)
         setShowAll(false)
     }
+
     // Medidas Cautelares
     const handleMedidasCautelares = () => {
         if (showAll && showMedidasCautelares) return setShowAll(false)
@@ -115,6 +124,7 @@ function index() {
         setShowMedidasCautelares(true)
         setShowAll(false)
     }
+
     // Victimas
     const handleVictimas = () => {
         if (showAll && showVictimas) return setShowAll(false)
@@ -123,6 +133,7 @@ function index() {
         setShowVictimas(true)
         setShowAll(false)
     }
+
     // Victimarios
     const handleVictimarios = () => {
         if (showAll && showVictimarios) return setShowAll(false)
@@ -132,6 +143,7 @@ function index() {
         setShowAll(false)
     }
 
+    // Generar Informe
     const handleGenerarInforme = () => {
         if (showAll && showGenerarInforme) return setShowAll(false)
         if (showGenerarInforme) return setShowAll(true)
@@ -141,6 +153,7 @@ function index() {
         
     }
 
+    // Mostrar todo
     const handleTodo = () => {
         if (showAll && mostrarTodo) return setShowAll(false)
         if (mostrarTodo) return setShowAll(true)

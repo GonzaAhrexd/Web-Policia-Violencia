@@ -6,6 +6,7 @@ Uso del componente:
     Y desde aquí es posible verificar la denuncia o rechazarla.
 _____________________________________________________________________________________________
 */
+
 // Hooks
 import { useState } from 'react';
 // APIs del BackEnd
@@ -19,13 +20,16 @@ import SimpleTableCheckorX from '../../components/ShowData/SimpleTableCheckorX';
 import EditSectionSinVerificar from '../../components/EditMode/EditSectionSinVerificar';
 import ShowTextArea from '../../components/ShowData/ShowTextArea';
 
-interface expandedComponentsProps {
+// Props
+type expandedComponentsProps = {
     data: any
 }
 
 function expandedComponents({ data }: expandedComponentsProps) {
+    // Estado para controlar si se está editando
     const [editGlobal, setEditGlobal] = useState(false)
     // Datos para mostrar en la tabla
+    // Datos del denunciante
     const denuncianteDatos = [
         { nombre: "Nombre", valor: data.nombre_victima },
         { nombre: "Apellido", valor: data.apellido_victima },
@@ -43,7 +47,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Desea agregar quitar o enmendar algo?", valor: data.preguntas.desea_agregar_quitar_o_enmendar },
     ]
 
-    // Controlar cuando se da a eliminar
+    // Función para borrar la denuncia
     const handleDelete = async (data: any) => {
         // Popup de confirmación
         Swal.fire({
@@ -66,6 +70,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                         icon: 'success',
                         confirmButtonColor: '#0C4A6E',
                     }).then(() => {
+                        // Recarga la página
                         window.location.reload()
                     })
 

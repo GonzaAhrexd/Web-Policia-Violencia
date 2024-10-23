@@ -3,7 +3,6 @@ import usuarios from '../../models/usuarios';
 // Obtener usuario
 export const getUsuarios = async (req, res) => {
     try {
-        console.log("LLEGÓ")
         const { nombre_de_usuario, nombre, apellido, rol} = req.params
         interface Query {
             nombre_de_usuario?: RegExp;
@@ -42,7 +41,6 @@ export const getUsuarios = async (req, res) => {
                 const regexCombinaciones = partes
                     .map(part => `(?=.*${part.split('').map(normalizarLetras).join('')})`)
                     .join('');
-                console.log("Expresión regular de combinaciones:", regexCombinaciones);
                 // Devolver la expresión regular
                 return new RegExp(regexCombinaciones, 'i');
             } else {

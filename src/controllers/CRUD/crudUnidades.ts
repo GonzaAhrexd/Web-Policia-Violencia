@@ -96,7 +96,6 @@ export const updateMunicipio = async (req, res) => {
 export const deleteMunicipio = async (req, res) => {
     try{
         const { nombre } = req.params
-        console.log(req.params)
         await unidades.updateMany(
             { "subdivisiones.nombre": nombre},
             { $pull: { subdivisiones: { nombre: nombre} } }
@@ -111,7 +110,6 @@ export const deleteMunicipio = async (req, res) => {
 // Agregar comisaría
 export const addComisaria = async (req, res) => {
     try{
-        console.log(req.body)
 
         const { nombre_municipio, nombre_comisaria, valor_comisaria, prefijo_comisaria } = req.body
        // Actualiza todos los municipios que tengan el nombre del municipio
@@ -168,7 +166,6 @@ export const updateComisaria = async (req, res) => {
 export const deleteComisaria = async (req, res) => {
     try {
         const { nombre, municipio } = req.params;
-        console.log(req.params)
 
         // Eliminar la comisaría en donde coincida el municipio
         await unidades.updateMany(
@@ -206,36 +203,30 @@ export const updateCuadriculaFromComisaria = async (req, res) => {
     try {
         const { nombre_municipio, nombre_comisaria, nombre_cuadricula, nombre_original, valor_cuadricula } = req.body;
 
-        console.log(req.body);
         const municipio = await unidades.findOne({ "subdivisiones.nombre": nombre_municipio });
         if (!municipio) {
-            console.log("No")
             return res.status(404).json({ message: "Municipio no encontrado" });
         }
 
         const municipioIndex = municipio.subdivisiones.findIndex(sub => sub.nombre === nombre_municipio);
         if (municipioIndex === -1) {
-            console.log("No 2")
             return res.status(404).json({ message: "Municipio no encontrado" });
         }
 
         // Encuentra el índice de la comisaría dentro del municipio
         const comisariaIndex = municipio.subdivisiones[municipioIndex].subdivisiones.findIndex(sub => sub.nombre === nombre_comisaria);
         if (comisariaIndex === -1) {
-            console.log("no 3")
             return res.status(404).json({ message: "Comisaría no encontrada" });
         }
 
         const cuadriculaIndex = municipio.subdivisiones[municipioIndex].subdivisiones[comisariaIndex].cuadriculas.findIndex(sub => sub.nombre === nombre_original);
         if (cuadriculaIndex === -1) {
-            console.log("No 4")
             return res.status(404).json({ message: "Cuadrícula no encontrada" });
         }
 
         const updatePathNombre = `subdivisiones.${municipioIndex}.subdivisiones.${comisariaIndex}.cuadriculas.${cuadriculaIndex}.nombre`;
         const updatePathValue = `subdivisiones.${municipioIndex}.subdivisiones.${comisariaIndex}.cuadriculas.${cuadriculaIndex}.value`;
 
-        console.log(updatePathNombre);
 
         await unidades.updateMany(
             { "subdivisiones.nombre": nombre_municipio, "subdivisiones.subdivisiones.nombre": nombre_comisaria, "subdivisiones.subdivisiones.cuadriculas.nombre": nombre_original },
@@ -253,8 +244,6 @@ export const deleteCuadriculaFromComisaria = async (req, res) => {
     try {
         const { cuadricula, comisaria, municipio } = req.params;
 
-        console.log(req.params)
-        
         await unidades.updateMany(
             { "subdivisiones.nombre": municipio, "subdivisiones.subdivisiones.nombre": comisaria },
             { $pull: { "subdivisiones.$.subdivisiones.$[comisaria].cuadriculas": { nombre: cuadricula } } },
@@ -321,7 +310,6 @@ export const updateCuadriculaFromMunicipio = async (req, res) => {
 export const deleteCuadriculaFromMunicipio = async (req, res) => {
     try {
         const { cuadricula, municipio } = req.params;
-        console.log(req.params)
         await unidades.updateMany(
             { "subdivisiones.nombre": municipio },
             { $pull: { "subdivisiones.$.cuadriculas": { nombre: cuadricula } } }

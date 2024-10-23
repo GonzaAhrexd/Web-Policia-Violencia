@@ -12,7 +12,9 @@ import LoadingScreen from '../../components/LoadingScreen';
 import { useAuth } from '../../context/auth';
 import { CamposContext } from '../../context/campos';
 function EditarCampos() {
+    // Autenticación 
     const { user, isAuthenticated, isLoading: isAuthLoading } = useAuth();
+    // Estados
     const [showJuzgadoIntervinente, setShowJuzgadoIntervinentes] = useState<boolean>(false);
     const [showOcupaciones, setShowOcupaciones] = useState<boolean>(false);
     const [showVinculos, setShowVinculos] = useState<boolean>(false);
@@ -21,8 +23,10 @@ function EditarCampos() {
     const [showUnidades, setShowUnidades] = useState<boolean>(false);
 
     // @ts-ignore
-    const { juzgadoIntervinente, ocupaciones, vinculo, tiposDeArmas, tiposDeLugar, isLoading: isCamposLoading } = useContext(CamposContext);
+    const { juzgadoIntervinente, ocupaciones, vinculo, tiposDeArmas, tiposDeLugar, isLoading: isCamposLoading } = useContext(CamposContext) ;
 
+
+    // Reinicia los estados de los campos
     const handleReset = () => {
         setShowJuzgadoIntervinentes(false);
         setShowOcupaciones(false);
@@ -32,31 +36,37 @@ function EditarCampos() {
         setShowUnidades(false);
     }
 
+    // Muestra los Juzgados Intervinientes
     const handleShowJuzgadoIntervinentes = () => {
         handleReset();
         setShowJuzgadoIntervinentes(true);
     }
 
+    // Muestra las Ocupaciones
     const handleShowOcupaciones = () => {
         handleReset();
         setShowOcupaciones(true);
     }
 
+    // Muestra los Vínculos
     const handleShowVinculos = () => {
         handleReset();
         setShowVinculos(true);
     }
 
+    // Muestra los Tipos de Armas
     const handleShowTiposDeArmas = () => {
         handleReset();
         setShowTiposDeArmas(true);
     }
 
+    // Muestra los Tipos de Lugar
     const handleShowTiposDeLugar = () => {
         handleReset();
         setShowTiposDeLugar(true);
     }
 
+    // Muestra las Unidades
     const handleShowUnidades = () => {
         handleReset();
         setShowUnidades(true);

@@ -51,7 +51,9 @@ function MisDenunciasAgente() {
     }
     // Se obtiene el usuario y se verifica si está autenticado
     const { user, isAuthenticated, isLoading } = useAuth();
+    // Si está cargando, mostrar una pantalla de carga
     if (isLoading) return <LoadingScreen/>
+    // Si no está autenticado, redirigir a la página de login
     if (!isLoading && !isAuthenticated && user.rol == "sin_definir") return <Navigate to="/login" replace />
 
     return (
@@ -71,19 +73,19 @@ function MisDenunciasAgente() {
             <div className="flex flex-col w-full">
                 <h2 className='text-2xl my-5'>Denuncias</h2>
                 {<DataTable
-                    columns={columns}
-                    data={denunciasAMostrar}
-                    pagination
-                    expandableRows
-                    expandableRowsComponent={expandedComponents}
-                    customStyles={customStyles}
-                    responsive={true}
-                    striped={true}
-                    highlightOnHover={true}
-                    noDataComponent="No hay denuncias para mostrar"
-                    defaultSortFieldId={"fecha"}
-                    defaultSortAsc={true}
-                    expandableIcon={expandableIcon}
+                    columns={columns} // Columnas de la tabla
+                    data={denunciasAMostrar} // Datos de la tabla
+                    pagination // Paginación
+                    expandableRows // Filas expandibles
+                    expandableRowsComponent={expandedComponents} // Componente de filas expandibles
+                    customStyles={customStyles} // Estilos personalizados
+                    responsive={true} // Diseño responsivo
+                    striped={true} // Filas alternadas
+                    highlightOnHover={true} // Resaltar al pasar el mouse
+                    noDataComponent="No hay denuncias para mostrar" // Mensaje si no hay datos
+                    defaultSortFieldId={"fecha"} // Campo por defecto para ordenar
+                    defaultSortAsc={true} // Orden ascendente
+                    expandableIcon={expandableIcon} // Iconos de expandir y colapsar
                 />}
             </div>
         </div>

@@ -111,8 +111,6 @@ export const login = async (req, res) => {
             }
         }
         
-        console.log(produccion)
-        console.log(configs)
         res.cookie('token', token, {
             configs
         });
@@ -149,7 +147,6 @@ export const logout = async (req, res) => {
     let configs: {} = {
         expires: new Date(0)
     }
-    console.log(produccion)
     if (produccion == "true") {
         configs = {
             domain: '.gonzaloebel.tech',
@@ -258,7 +255,6 @@ export const editUserImg = async (req, res) => {
     form.parse(req, async (err, fields, files) => {
         //Subir imagenes con el campo de files
         try {
-            console.log("LLEGÓ")
             if (err) {
                 console.error("Error parsing the form: ", err);
                 return res.status(500).send({ error: "Error procesando el formulario: " + err.message });

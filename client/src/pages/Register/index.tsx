@@ -3,7 +3,6 @@
    Descripción: Página de registro de usuario donde se solicitan los datos del usuario para registrarse 
    en el sistema
 */
-
 // Hooks
 import { useEffect, useState } from 'react'
 import { registerRequest } from '../../api/auth'

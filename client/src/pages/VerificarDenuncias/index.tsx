@@ -11,17 +11,16 @@ import { useEffect, useState } from 'react';
 import { mostrarDenunciasSinVerificar } from '../../api/CRUD/denunciasSinVerificar.crud';
 // Componentes
 import NavBar from '../../components/NavBar';
+import LoadingScreen from '../../components/LoadingScreen';
+import Footer from '../../components/Footer/Footer';
 // Librerías React
 import DataTable from 'react-data-table-component';
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
-// Dependencias
+// DataTable
 import { customStyles } from '../../GlobalConst/customStyles'
 import { columnsDataTableVerificar } from './columnsDataTableVerificar'
 import expandedComponents from './expandedComponents'
-
-import LoadingScreen from '../../components/LoadingScreen';
-import Footer from '../../components/Footer/Footer';
 
 
 function VerificarDenuncias() {
@@ -30,28 +29,34 @@ function VerificarDenuncias() {
   const { user, isAuthenticated, isLoading } = useAuth();
   // Estados
   const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
+  // Cargar denuncias sin verificar
   useEffect(() => {
     const cargarDenuncias = async () => {
       try {
         const response = await mostrarDenunciasSinVerificar();
+        // Setea las denuncias a mostrar con las denuncias sin verificar obtenidas de la API
         setDenunciasAMostrar(response);
       } catch (error) {
         console.error('Hubo un error al cargar las denuncias: ', error);
       }
     };
+    // Llama a la función cargarDenuncias
     cargarDenuncias();
   }, []);
 
-
-
+  // Iconos de expandir y colapsar
   const expandableIcon = {
     collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
     expanded: <ArrowUpCircleIcon className='h-6 w-6' />
   }
 
+  // Si está cargando muestra la pantalla de carga
   if (isLoading) return <LoadingScreen />
+
+  // Si no está autenticado redirige a la página de login
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
 
+  // Si el usuario no es carga o admin redirige a la página de login
   if ((user.rol !== "carga") && (user.rol !== "admin")) return <Navigate to="/login" replace />
 
   return (
@@ -62,25 +67,23 @@ function VerificarDenuncias() {
         <div className="flex flex-col w-full">
           <h2 className='text-2xl my-5'>Denuncias</h2>
           <DataTable
-            columns={columnsDataTableVerificar}
-            data={denunciasAMostrar}
-            className='scale-up-ver-top'
-            pagination
-            expandableRows
-            expandableRowsComponent={expandedComponents}
-            customStyles={customStyles}
-            responsive={true}
-            striped={true}
-            highlightOnHover={true}
-            noDataComponent="No hay denuncias para mostrar"
-            defaultSortFieldId={"Fecha"}
-            expandableIcon={expandableIcon}
+            columns={columnsDataTableVerificar} // Columnas de la tabla
+            data={denunciasAMostrar} // Datos de la tabla
+            className='scale-up-ver-top' // Animación de entrada
+            pagination // Paginación
+            expandableRows // Filas expandibles
+            expandableRowsComponent={expandedComponents} // Componente de filas expandibles
+            customStyles={customStyles} // Estilos personalizados
+            responsive={true} // Diseño responsivo
+            striped={true} // Filas alternadas
+            highlightOnHover={true} // Resaltar al pasar el mouse
+            noDataComponent="No hay denuncias para verificar" // Mensaje si no hay datos
+            defaultSortFieldId={"Fecha"} // Campo por defecto para ordenar
+            expandableIcon={expandableIcon} // Iconos de expandir y colapsar
           />
         </div>
       </div>
-
       <Footer />
-
     </div>
   )
 }

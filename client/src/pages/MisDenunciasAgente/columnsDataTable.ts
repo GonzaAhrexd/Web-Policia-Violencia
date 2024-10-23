@@ -1,3 +1,13 @@
+/* 
+--------------------------------------------------------------------------------------------------------
+    CAMPOS
+    name: Nombre de la columna
+    selector: Campo que se mostrará en la columna, debe ir en el formato (row:Row) => row.nombre_campo
+    sortable: Si se puede ordenar la columna
+    style: Estilos de la columna
+----------------------------------------------------------------------------------------------------------
+*/
+
 // Datos que se mostrarán en la tabla de denuncias
 type Row = {
     numero_de_expediente: string;
@@ -10,16 +20,6 @@ type Row = {
     telefono_victima: string;
     ocupacion_victima: string;
 }
-
-/* 
---------------------------------------------------------------------------------------------------------
-    CAMPOS
-    name: Nombre de la columna
-    selector: Campo que se mostrará en la columna, debe ir en el formato (row:Row) => row.nombre_campo
-    sortable: Si se puede ordenar la columna
-    style: Estilos de la columna
-----------------------------------------------------------------------------------------------------------
-*/
 
 export const columns = [
     {

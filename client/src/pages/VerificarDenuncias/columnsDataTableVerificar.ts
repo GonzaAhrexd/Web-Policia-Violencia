@@ -1,14 +1,3 @@
-// Datos que se mostrarán en la tabla de denuncias
-type Row = {
-    numero_de_expediente: string;
-    fecha: string;
-    nombre_victima: string;
-    apellido_victima: string;
-    DNI_victima: string;
-    division: string;
-    createdAt: string;
-}
-
 /* 
 --------------------------------------------------------------------------------------------------------
     CAMPOS
@@ -20,6 +9,16 @@ type Row = {
 */
 
 
+// Datos que se mostrarán en la tabla de denuncias
+type Row = {
+    numero_de_expediente: string;
+    fecha: string;
+    nombre_victima: string;
+    apellido_victima: string;
+    DNI_victima: string;
+    division: string;
+    createdAt: string;
+}
 
 export const columnsDataTableVerificar:Array<Object> = [
     {
@@ -67,7 +66,6 @@ export const columnsDataTableVerificar:Array<Object> = [
     },
     {
         // Dirección dónde sucedió el hecho
-        
         name: 'Unidad que lo emitió',
         selector: (row:Row) => row.division?.split(',')[row.division?.split(',').length - 1],
         sortable: true,
@@ -76,8 +74,5 @@ export const columnsDataTableVerificar:Array<Object> = [
             fontWeight: 500,
             wrap: true,
         },
-
     },
-    
-
 ];

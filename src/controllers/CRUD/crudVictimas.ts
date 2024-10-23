@@ -49,8 +49,6 @@ export const createVictima = async (req, res) => {
             agregarActividadReciente(`Se ha creado nueva víctima ${nombre_victima + apellido_victima} `, "Víctima", victimaSaved._id, req.cookies)
             res.json({ message: 'Victima creado con exito', id: victimaSaved._id })
         } else {
-            console.log(req.body)
-            
             const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, {
                 $set: {
                     nombre: nombre_victima,
@@ -222,7 +220,6 @@ export const buscarVictima = async (req, res) => {
             const regexCombinaciones = partes
                 .map(part => `(?=.*${part.split('').map(normalizarLetras).join('')})`)
                 .join('');
-            console.log("Expresión regular de combinaciones:", regexCombinaciones);
             // Devolver la expresión regular
             return new RegExp(regexCombinaciones, 'i');
         } else {
