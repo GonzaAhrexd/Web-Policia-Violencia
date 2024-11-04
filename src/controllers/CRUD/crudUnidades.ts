@@ -321,3 +321,4 @@ export const deleteCuadriculaFromMunicipio = async (req, res) => {
         res.status(500).json({ message: "Error al eliminar la cuadrícula" });
     }
 }
+
