@@ -3,8 +3,10 @@ import InputRegister from '../../InputComponents/InputRegister';
 import InputCheckbox from '../../InputComponents/InputCheckbox';
 import SelectDivisionMunicipios from '../../Select/SelectDivisionMunicipios';
 import InputDateRange from '../../InputComponents/InputDateRange';
+
 // Backend APIs
 import { buscarDenuncias } from '../../../api/CRUD/denuncias.crud';
+
 // Hooks
 import { useState } from 'react';
 import { useForm } from 'react-hook-form'
