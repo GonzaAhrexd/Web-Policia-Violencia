@@ -25,10 +25,11 @@ interface Props {
     mid?: boolean
     setTipoDenuncia?: any
     notComisaria?: boolean
+    notMunicipio?: boolean
 }
 
 
-function SelectRegister({notComisaria, mid, setTipoDenuncia, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
+function SelectRegister({notMunicipio, notComisaria, mid, setTipoDenuncia, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
     // Estados
     const [requiredInput, ] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
@@ -84,13 +85,13 @@ function SelectRegister({notComisaria, mid, setTipoDenuncia, campo, opciones, no
         setValue('unidad', `${selectedUnidad}, ${selectedSubunidad}, ${value}`);
     };
     return (
-        <div className={`flex flex-row ${((campo=="Unidad") || (nombre=="vinculo_con_la_victima") || mid ) ? "w-full" : "xl:w-1/2"}`}>
-            <div className='flex flex-col w-full'>
-                <span className='ml-4 font-medium '> {campo} </span> 
-                <div className={`flex flex-col 2xl:flex-col  ${campo=="Unidad"? "xl:w-full 2xl:w-full 2xl:h-10 xl:h-12 xl:mb-5" : "xl:w-full"}`}>
-                <select
-                    className= {campo=="Unidad"? "border open-sans mt-0.5 border-gray-300 rounded-md w-95/100 h-10 xl:h-8/10 mx-3 xl:w-full 2xl:h-10 2xl:w-full " : "border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 w-95/10" }
-                    name={nombre}
+        <div className={`flex flex-row w-full ${!mid ? "xl:w-1/2" : "w-full"}`}>
+             <div className='flex flex-col w-full'>
+            <span className='ml-4 font-medium '> {campo} </span> 
+            <div className={`flex flex-col 2xl:flex-col  xl:w-full`}>
+            <select
+                className= {"border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 w-95/10" }
+                  name={nombre}
                     value={selectedUnidad}
                     onChange={handleUnidadChange}
                     required={requiredInput}
@@ -103,7 +104,7 @@ function SelectRegister({notComisaria, mid, setTipoDenuncia, campo, opciones, no
                     ))}
                 </select>
 
-                {selectedUnidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones && (
+                {(selectedSubunidad && !notMunicipio) && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones && (
                 <div className='flex flex-row xl:h-full 2xl:h-full xl:w-full'>
                         
                         <select

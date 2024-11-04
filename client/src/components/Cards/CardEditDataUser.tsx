@@ -29,6 +29,7 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
 
     const { editProfile } = useAuth()
     const { unidades: unidadCampos } = useCampos();
+    
     return (
         <div className="bg-white shadow-lg rounded-lg md:w-8/10 p-4 scale-up-center">
             <form className='flex flex-col w-95/100'
@@ -70,23 +71,18 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
                 })}>
                 {/* ID oculta para luego pasarlo al submit */}
                 <div className='flex flex-col md:flex-row'>
-                    <InputRegister campo="Nombre" nombre="nombre" register={register} setValue={setValue} type="text" error={errors.nombre} valor={user.nombre} />
-                    <InputRegister campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} valor={user.apellido} />
+                    <InputRegister disabled campo="Nombre" nombre="nombre" register={register} setValue={setValue} type="text" error={errors.nombre} valor={user.nombre} />
+                    <InputRegister disabled campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} valor={user.apellido} />
                 </div>
                 <div className='flex flex-col md:flex-row'>
-                    <InputNumber campo="Teléfono" nombre="telefono" placeholder={user.telefono} register={register} setValue={setValue} type="text" error={errors.telefono} valor={user.telefono} maxLenght={14} />
-                    <InputRegister campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" error={errors.nombre_de_usuario} valor={user.username} />
-                </div>
-
-                <div className='flex flex-col md:flex-row'>
-                    <InputRegister campo="N° de Credencial" nombre="credencial" register={register} setValue={setValue} type="text" error={errors.credencial} valor={user.credencial} />
-                    <InputRegister campo="N° de Plaza" nombre="plaza" register={register} setValue={setValue} type="text" error={errors.plaza} valor={user.plaza} />
+                    <InputNumber  disabled campo="Teléfono" nombre="telefono" placeholder={user.telefono} register={register} setValue={setValue} type="text" error={errors.telefono} valor={user.telefono} maxLenght={14} />
+                    <InputRegister disabled campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" error={errors.nombre_de_usuario} valor={user.username} />
                 </div>
                 <div className='flex flex-col md:flex-row'>
                     <SelectRegisterSingle mid isRequired={false} valor={user.jerarquia} campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} setValue={setValue} error={errors.jerarquia} />
                     <SelectRegisterSingle mid isRequired={false} valor={user.zona} campo="Zona" nombre="zona" opciones={zonaCampos}  setValue={setValue}  error={errors.zona} />
                 </div>
-                <SelectRegister notComisaria isRequired={false} valor={user.unidad} campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
+                <SelectRegister notMunicipio notComisaria isRequired={false} valor={user.unidad} campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
                 <span className='text-red-400 pl-3'> {mensajeError} </span>
 
                 <div className="flex gap-2 px-2 py-2">

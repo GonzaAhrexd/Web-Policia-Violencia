@@ -13,10 +13,11 @@ import Footer from '../../components/Footer/Footer';
 import LoadingScreen from '../../components/LoadingScreen';
 import InputRegister from '../../components/InputComponents/InputRegister';
 import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle';
+import ModalAddUser from '../../components/Modal/ModalAddUser';
 // Backend
 import { buscarUsuario } from '../../api/CRUD/usuarios.crud';
 // Iconos
-import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
+import { ArrowDownCircleIcon, ArrowUpCircleIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
 
 // Dependencias de la misma carpeta
 import { columns } from './columnsDataTable'
@@ -29,6 +30,7 @@ function index() {
     const { register, setValue, handleSubmit, formState: {
         errors
     } } = useForm()
+    const [modalShow, setModalShow] = useState(false)
 
     const { isLoading: loadingCampos } = useCampos()
 
@@ -41,6 +43,10 @@ function index() {
         { value: "carga", nombre: "Carga" },
         { value: "sin_definir", nombre: "Sin definir" }
     ]
+
+    const handleAddUser = () => {
+        setModalShow(true)
+    }
 
     // Iconos para expandir
     const expandableIcon = {
@@ -57,9 +63,15 @@ function index() {
     return (
         <div className='h-full flex flex-grow flex-col'>
             <NavBar user={user} />
+            { modalShow && 
+                 <ModalAddUser setOpenModal={setModalShow}/>
+            
+            }
             <div className='min-h-screen flex flex-grow flex-col'>
                 <div className='p-2 sm:p-10'>
-                    <h1 className='text-3xl my-5'>Administrar usuarios</h1>
+                    <div className='flex flex-row items-center'>
+                    <h1 className='text-3xl my-5'>Administrar usuarios</h1> <PlusCircleIcon className='h-6 w-6 ml-2 cursor-pointer' onClick={() => handleAddUser()}/>
+                    </div>
                     <form className="w-full flex flex-col items-center"
                         onSubmit={
                             handleSubmit(async (values) => {

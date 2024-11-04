@@ -18,9 +18,10 @@ interface InputRegisterProps {
   notMidMD?: boolean;
   busqueda?: boolean;
   maxLenght: number;
+  disabled? : boolean;
 }
 
-function InputNumber({maxLenght, busqueda, notMidMD, notMid, campo, nombre, register, error, require, valor, placeholder, setValue }: InputRegisterProps) {
+function InputNumber({disabled, maxLenght, busqueda, notMidMD, notMid, campo, nombre, register, error, require, valor, placeholder, setValue }: InputRegisterProps) {
   // Estados
   const [avisoRequerido, setAvisoRequerido] = useState(false)
   // Si el placeholder no tiene valor, se asigna un string vacío
@@ -58,6 +59,7 @@ function InputNumber({maxLenght, busqueda, notMidMD, notMid, campo, nombre, regi
     <div className={getClassName( notMid, notMidMD)}>
       <span className={`flex font-medium ml-4`}> {nombre === "id" ? "" : campo} {error && <ExclamationCircleIcon className='w-6 text-red-600 cursor-pointer' onMouseEnter={() => setAvisoRequerido(true)} onMouseLeave={() => setAvisoRequerido(false)} />} {avisoRequerido && <span className="text-red-600">Requerido</span>} </span>
       <input
+        disabled = {disabled ? disabled : false}
         className={`border open-sans border-gray-300 rounded-md h-10 xl:h-8 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 pl-2`}
         type="text"
         {...register(nombre, {

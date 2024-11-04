@@ -13,8 +13,6 @@ function CardDataUsuario({datosUsuario, setIsEditing}: CardDataUsuarioProps) {
         <p className="mt-2 text-xl"><b>Jerarquía: </b> {datosUsuario.jerarquia}</p>
         <p className="mt-2 text-xl"><b>Nombre de usuario:</b> {datosUsuario.username}</p>
         <p className="mt-2 text-xl"><b>Teléfono:</b> {datosUsuario.telefono}</p>
-        <p className="mt-2 text-xl"><b>Credencial:</b> {datosUsuario.credencial}</p>
-        <p className="mt-2 text-xl"><b>Plaza:</b> {datosUsuario.plaza}</p>
         <p className="mt-2 text-xl"><b>Zona:</b> {datosUsuario.zona}</p>
         <p className="mt-2 text-xl"><b>Unidad:</b> {datosUsuario.unidad}</p>
         <p className="mt-2 text-xl"><b>Rol:</b> {datosUsuario.rol}</p>

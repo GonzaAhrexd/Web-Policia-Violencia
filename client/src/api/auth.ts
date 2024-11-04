@@ -2,6 +2,16 @@
 import axios from './axios'
 // Función para registrar un usuario
 export const registerRequest = (user: any) => axios.post(`/register`, user)
+// Función para dar de alta un usuario
+export const altaUsuario = async (data: any) => {
+  try {
+    const response = await axios.post(`/alta-usuario`, data)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 // Función para iniciar sesión
 export const loginRequest = (user: any) => axios.post(`/login`, user, { withCredentials: true });
 // Función para cerrar sesión

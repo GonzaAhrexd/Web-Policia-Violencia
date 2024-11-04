@@ -1,0 +1,131 @@
+type ModalAddUserProps = {
+  setOpenModal: any
+}
+
+// Hooks
+import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+
+// Componentes
+import SelectRegister from '../Select/SelectRegister'
+import InputNumber from '../InputComponents/InputNumber'
+import SelectRegisterSingle from '../Select/SelectRegisterSingle'
+// Dependencias
+import Swal from 'sweetalert2'
+
+// APIs
+import { altaUsuario } from '../../api/auth'
+// import InputRegister from '../InputComponents/InputRegister'
+// Campos
+
+import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos'
+import { zonaCampos } from '../../GlobalConst/zonaCampos'
+import { useCampos } from '../../context/campos'
+
+function ModalAddUser({ setOpenModal }: ModalAddUserProps) {
+  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  useEffect(() => {
+    // Al presionar esc del teclado se cierra el modal
+    const cerrarModal = (e: any) => {
+      if (e.key === 'Escape') {
+        setOpenModal(false);
+      }
+    };
+
+    // Agregar el evento al cargar el componente
+    window.addEventListener('keydown', cerrarModal);
+    // Remover el evento al desmontar el componente
+    return () => {
+      window.removeEventListener('keydown', cerrarModal);
+    };
+  }, []);
+
+  const rolesCampos = [
+    { nombre: 'Admin', valor: 'admin' },
+    { nombre: "Agente", valor: 'agente' },
+    { nombre: "Carga", valor: 'carga' },
+    { nombre: "Pendiente", valor: 'sin_definir' }
+  ]
+  const { unidades: unidadCampos } = useCampos();
+
+
+  return (
+    <div>
+      <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="bg-white w-9/10 md:w-6/10 h-9/10 rounded p-5 relative overflow-auto scale-up-center">
+          <form className='flex flex-col items-center justify-center w-full' onSubmit={
+            handleSubmit(async (values) => {
+              Swal.fire({
+                title: '¿Estás seguro de que deseas agregar este usuario?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0C4A6E',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, agregar',
+                cancelButtonText: 'Cancelar'
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  try {
+                    // Agregar usuario
+                    const usuarioResponse = await altaUsuario(values);
+                    
+                    if(usuarioResponse.mensaje == "No se encontró el usuario"){
+                      Swal.fire({
+                        title: 'DNI no encontrado',
+                        text: 'Comprueba si está escrito correctamente.',
+                        icon: 'error',
+                        confirmButtonColor: '#0C4A6E',
+                        confirmButtonText: 'Aceptar'
+                      })
+                    }else if(usuarioResponse.mensaje == "Ya está dado de alta"){
+                      Swal.fire({
+                        title: 'Usuario ya dado de alta',
+                        text: 'El usuario ingresado ya está dado de alta.',
+                        icon: 'error',
+                        confirmButtonColor: '#0C4A6E',
+                        confirmButtonText: 'Aceptar'
+                      })
+                    }else if(usuarioResponse.mensaje == "Usuario creado con éxito"){
+                    Swal.fire({
+                      title: 'Usuario agregado',
+                      icon: 'success',
+                      confirmButtonColor: '#0C4A6E',
+                      confirmButtonText: 'Aceptar'
+                    });
+                  }
+                  } catch (error) {
+                    Swal.fire({
+                      title: 'Error',
+                      text: 'No se pudo agregar el usuario',
+                      icon: 'error',
+                      confirmButtonColor: '#0C4A6E',
+                      confirmButtonText: 'Aceptar'
+                    });
+                  }
+                }
+              });
+            })
+          }>
+            <h1 className='text-4xl'>Alta de nuevo usuario</h1>
+            <div className='w-5/10'>
+            <p>Desde este apartado, se puede dar de alta a un usuario con cuenta en Policía Digital. Si el usuario no tiene cuenta, deberá solicitarla <a className='text-sky-800' href="https://policiadigital.chaco.gob.ar/" >aquí</a> </p>
+            </div>
+            <InputNumber busqueda campo="DNI" nombre="dni" register={register} maxLenght={8} type="text" error={errors.dni} />
+            <SelectRegisterSingle campo="Rol" nombre="rol" setValue={setValue} error={errors.rol} opciones={rolesCampos} />
+            <SelectRegisterSingle campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} setValue={setValue} error={errors.jerarquia} />
+            <SelectRegisterSingle campo="Zona" nombre="zona" opciones={zonaCampos} setValue={setValue} error={errors.zona} />
+            <SelectRegister notComisaria campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
+
+            <button type='submit' className='bg-sky-900 hover:bg-sky-700 text-white w-4/10 h-10 rounded-md my-2'>Agregar</button>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  )
+
+}
+
+export default ModalAddUser

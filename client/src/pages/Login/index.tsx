@@ -6,7 +6,7 @@
 import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { NavLink } from 'react-router-dom'
+// import { NavLink } from 'react-router-dom'
 // Contexto
 import { useAuth } from '../../context/auth'
 // Componentes
@@ -42,7 +42,9 @@ function Login() {
             <InputLogin campo={"pass"} placeholder={"Contraseña"} register={register} type="password" error={errors.pass}></InputLogin>
              {/* <span>¿Has olvidado la contraseña? </span> <a href='/recover' className='text-sky-900'>Recuperar</a> */}
             <button className='bg-sky-900 hover:bg-sky-700 text-white w-full h-10 rounded-md my-2'>Iniciar Sesión</button>
-            <span className='text-sm'> ¿No tienes cuenta? <NavLink to='/register' className='text-sky-900'>Regístrate</NavLink> </span>
+           
+            <span className='text-sm'>¿No tienes cuenta u olvidaste tu contraseña?<a href="https://policiadigital.chaco.gob.ar/" className='text-sky-900'>Ingresa aquí</a></span>           
+           { /* <span className='text-sm'> ¿No tienes cuenta? <NavLink to='/register' className='text-sky-900'>Regístrate</NavLink> </span> */}
           </form> 
         </div>
       </div>
