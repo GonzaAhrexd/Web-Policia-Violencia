@@ -13,9 +13,11 @@ const formidable = require('formidable'); //Módulo para formularios
 const fs = require('fs') //Módulo para guardar imagenes
 // Otras dependencias
 import { agregarActividadReciente } from './CRUD/crudActividadReciente'
-
+import { FieldAlreadyExistsError } from 'pdf-lib'
+import axios from 'axios'
 // Variables de entorno
 const produccion = process.env.produccion
+const urlPoliciaDigital = process.env.URL_POLICIA_DIGITAL
 
 //Registro de usuarios
 export const register = async (req, res) => {
@@ -23,8 +25,10 @@ export const register = async (req, res) => {
     try {
         const { nombre, apellido, telefono, pass, nombre_de_usuario, credencial, unidad, jerarquia, plaza, zona } = req.body
         //Validación en mongodb si ya existe el usuario
+        console.log(nombre_de_usuario)
         let userExistente = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario })
         // Creación de un nuevo usuario como objeto
+        
         if (req.body.nombre_de_usuario && !userExistente) {
             const newUser = new usuarios({
                 nombre,
@@ -55,10 +59,8 @@ export const register = async (req, res) => {
                 nombre: userSaved.nombre,
                 apellido: userSaved.apellido,
                 telefono: userSaved.telefono,
-                credencial: userSaved.credencial,
                 unidad: userSaved.unidad,
                 jerarquia: userSaved.jerarquia,
-                plaza: userSaved.plaza,
                 zona: userSaved.zona,
                 rol: userSaved.rol,
                 imagen: userSaved.imagen ? userSaved.imagen : 'sin_definir',
@@ -76,6 +78,91 @@ export const register = async (req, res) => {
         // Respuesta de error
         console.log(error)
         res.send('Usuario ya existe o no se ingresaron datos')
+    }
+}
+
+export const loginRepoV1 = async (req, res) => {
+    try{
+
+        const { usuario, clave } = req.body
+
+        const loginDevuelve = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/loginSistemas`,  { usuario,  clave})
+        
+        // console.log( loginDevuelve.data )
+
+        const usuarioExiste = await usuarios.findOne({usuario_repo: loginDevuelve.data.data})
+
+        console.log(usuarioExiste)
+
+        return usuarioExiste
+
+    }   catch(error) {
+        console.log(error)
+        res.send('error')
+    }
+}
+
+export const registroDNIV1 = async (req, res) => {
+    try{
+        const { dni } = req.body
+
+        const guardar = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/usuarioSistema/${dni}`)
+
+        // console.log(guardar.data)
+
+        console.log(guardar.data.data.id)
+
+        const usuarioGuardado = await usuarios.findOneAndUpdate({"nombre_de_usuario": "gonzaahre"}, {  //Editar campos del perfil
+            usuario_repo: guardar.data.data.id,
+        })
+
+        console.log(usuarioGuardado)
+
+
+        return usuarioGuardado;
+
+        // return guardar.data
+        
+    }catch(error){
+        console.log(error)
+        res.send('error')
+    }
+}
+export const altaUsuario = async (req, res) => {
+    try{
+        const { dni, rol, jerarquia, zona, unidad } = req.body
+        const guardar = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/usuarioSistema/${dni}`)
+
+        if(guardar.data.msg === "sin contenido"){
+            return res.json({mensaje: "No se encontró el usuario"})
+            
+        }
+
+        const crearUsuarioConDatos = await new usuarios({
+            nombre: guardar.data.data.persona.nombre,
+            apellido: guardar.data.data.persona.apellido,
+            nombre_de_usuario: guardar.data.data.usuario,
+            dni: guardar.data.data.persona.norDni,
+            rol: rol,
+            jerarquia: jerarquia,
+            imagen: 'sin_definir',
+            zona: zona,
+            unidad: unidad,
+            pass: "123456",
+            usuario_repo: guardar.data.data.id
+        })
+
+        const usuarioExistente = await usuarios.findOne({nombre_de_usuario: guardar.data.data.usuario})
+        if(usuarioExistente){
+            return res.json({mensaje: "Ya está dado de alta"})
+        }
+
+        const usuarioGuardado = await crearUsuarioConDatos.save()
+
+        return res.json({mensaje: "Usuario creado con éxito"})
+
+    }catch(error){
+        console.log(error)
     }
 }
 
@@ -117,17 +204,21 @@ export const login = async (req, res) => {
 
         //Envio al frontend de los datos del usuario registrado
         await agregarActividadReciente("Inicio de sesión", "Inicios", usuarioEncontrado._id, usuarioEncontrado.nombre_de_usuario)
+
+         const {usuario_repo }  = usuarioEncontrado
         
+        const loginRepo = await axios.post(`https://policiadigital.chaco.gob.ar:9090/api_registroUsuario/usuario/find/loginSistemas`, )
+
+
         res.json({
             id: usuarioEncontrado._id,
             username: usuarioEncontrado.nombre_de_usuario,
             nombre: usuarioEncontrado.nombre,
             apellido: usuarioEncontrado.apellido,
             telefono: usuarioEncontrado.telefono,
-            credencial: usuarioEncontrado.credencial,
             unidad: usuarioEncontrado.unidad,
             jerarquia: usuarioEncontrado.jerarquia,
-            plaza: usuarioEncontrado.plaza,
+          
             zona: usuarioEncontrado.zona,
             rol: usuarioEncontrado.rol,
             createdAt: usuarioEncontrado.createdAt
@@ -174,10 +265,8 @@ export const profile = async (req, res) => {
         nombre: usuarioEncontrado.nombre,
         apellido: usuarioEncontrado.apellido,
         telefono: usuarioEncontrado.telefono,
-        credencial: usuarioEncontrado.credencial,
         unidad: usuarioEncontrado.unidad,
         jerarquia: usuarioEncontrado.jerarquia,
-        plaza: usuarioEncontrado.plaza,
         zona: usuarioEncontrado.zona,
         rol: usuarioEncontrado.rol,
         createdAt: usuarioEncontrado.createdAt
@@ -206,10 +295,8 @@ export const verifyToken = async (req, res) => {
             nombre: userFound.nombre,
             apellido: userFound.apellido,
             telefono: userFound.telefono,
-            credencial: userFound.credencial,
             unidad: userFound.unidad,
             jerarquia: userFound.jerarquia,
-            plaza: userFound.plaza,
             zona: userFound.zona,
             rol: userFound.rol,
             imagen: userFound.imagen ? userFound.imagen : 'sin_definir',

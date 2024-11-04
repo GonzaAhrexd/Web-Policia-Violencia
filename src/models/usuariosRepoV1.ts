@@ -19,16 +19,11 @@ const UsuarioSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    usuario_repo: {
-        type:  String,
-        required: false,
-        trim: true
-    },
     // Definición del telefono del usuario
     telefono: {
         type:  Number,
         length: 10,
-        required: false,
+        required: true,
         trim: true
     },
     // Definición de la contraseña del usuario
@@ -50,6 +45,11 @@ const UsuarioSchema = new mongoose.Schema({
         trim: true
     },
     // Definición de credencial
+    credencial: {
+        type:  String,
+        required: true,
+        trim: true
+    },
     // Definición de la unidad
     unidad: {
         type:  String,
@@ -60,6 +60,12 @@ const UsuarioSchema = new mongoose.Schema({
     jerarquia: {
         type:  String,
         required: true,
+        trim: true
+    },
+    // Definición de la plaza
+    plaza: {
+        type:  String,
+        required: false,
         trim: true
     },
     // Definición de la zona

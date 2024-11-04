@@ -1,6 +1,6 @@
 import { Router } from 'express'
 // Controladores para la autenticación de usuario
-import {login, register, logout, profile, verifyToken, editUser, editUserImg} from '../controllers/auth.controller'
+import {login, register, logout, profile, verifyToken, editUser, editUserImg, loginRepoV1, registroDNIV1, altaUsuario} from '../controllers/auth.controller'
 // Middlewares para validar token
 import { authRequired, authAdmin } from '../middlewares/validateToken'
 // Middleware para validar esquemas
@@ -38,4 +38,8 @@ router.get('/users/:userId/image', (req, res) => {
             }
           });
   });
+router.post('/login-repo', loginRepoV1)
+router.post('/buscar-dni', registroDNIV1)
+router.post('/alta-usuario', authAdmin, altaUsuario)
+
 export default router
