@@ -55,7 +55,7 @@ function EstadisticasGenerarInformeSeccion({ denunciasAMostrar, fecha }: Estadis
             <button className={` bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleImprimir()}> Imprimir </button>
             </div>
             {Object.entries(estadisticas).map(([unidad, stats]) => (
-                <div key={unidad}>
+                <div key={unidad} className='w-full'>
                     <EstadisticasTiposDeViolencia texto={unidad} format={format} tipos_de_violencia={stats} />
                 </div>
             ))}

@@ -66,7 +66,10 @@ function EstadisticasModalidades({ handleOpenModal, setTitulo, denunciasAMostrar
                 <div className='flex flex-col w-9/10 md:w-4/10'>
                     <EstadisticasTiposDeViolenciaTabla texto="Tipos de violencia" tipos_de_violencia={estadisticas} format={formatTipoViolencia} />
                 </div>
-                <div className='flex flex-col w-9/10 md:w-4/10 h-full'>
+                <div className='flex md:hidden flex-col w-full md:w-4/10 h-full'>
+                    <TiposDeViolenciaTorta tipos_de_violencia={estadisticas} aspect={1} />
+                </div>
+                <div className='hidden md:flex flex-col w-full md:w-4/10 h-full'>
                     <TiposDeViolenciaTorta tipos_de_violencia={estadisticas} aspect={2} />
                 </div>
             </div>

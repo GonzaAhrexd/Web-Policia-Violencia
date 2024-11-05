@@ -117,7 +117,7 @@ function TablaCampos({ campos, tipo }: TablaCamposProps) {
                     </div>
                     {campos?.map((campo: any, index: number) => (
                         <div key={index} className='table-row'>
-                            <div className="flex items-center justify-between h-10 m-1">
+                            <div className="flex items-center justify-between word-wrap md:h-10 m-1 ">
                                 <div className="w-4/10 ml-4">{campo.nombre}</div>
                                 <div className="w-4/10">{campo.value}</div>
                                 <div className="w-5/10 sm:w-3/10">
@@ -169,9 +169,14 @@ function TablaCampos({ campos, tipo }: TablaCamposProps) {
                                         error={errors.value}
                                     />
                                 </div>
-                                <button className="bg-sky-900 hover:bg-sky-700 text-white font-bold py-2 px-4 m-1 rounded w-full md:w-3/4">
+                                <div className="w-7/10 flex flex-row">
+                                <button className="bg-sky-900 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/4">
                                     Guardar
                                 </button>
+                                <div className="ml-2 flex flex-col items-center justify-center bg-sky-900 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/4" onClick={() => handleAdd()}>
+                                    Cancelar
+                                </div>
+                                </div>
                             </form>
 
                         )}

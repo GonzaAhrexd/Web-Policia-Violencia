@@ -40,7 +40,7 @@ function SeccionOcupacion({persona, tipo}: SeccionOcupacionProps) {
         <>
         <h1 className="text-2xl">{tipo} registrados en la Provincia del Chaco en el periodo seleccionado {"(Total de " + persona?.length + " víctimas)"}</h1>
         <div className='flex flex-col md:flex-row justify-between'>
-            <div className='flex flex-col w-9/10 md:w-4/10'>
+            <div className='flex flex-col items-center justify-center w-full md:w-4/10'>
                 <EstadisticasTiposDeViolencia texto="Ocupación" tipos_de_violencia={estadisticaOcupacion} format={format} />      
             </div>
             <div className='w-full md:w-5/10'>

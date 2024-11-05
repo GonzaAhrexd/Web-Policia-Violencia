@@ -83,9 +83,9 @@ function Index() {
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />;
 
   return (
-    <>
+    <div className='h-full flex flex-grow flex-col'>
       <NavBar user={user} />
-      <div className="max-w-full h-full mx-auto bg-gray-100 shadow-md rounded-lg overflow-hidden">
+      <div className='min-h-screen flex flex-grow flex-col'>
         <div className="flex justify-center mt-10">
           <form encType="multipart/form-data">
             <div
@@ -129,10 +129,11 @@ function Index() {
             <CardEditDataUser user={user} setIsEditing={setIsEditing} />
           }
         </div>
-        <div className='w-full'>
-          <div className='h-screen sm:h-full p-2 sm:p-10'>
+        
+          <div className='h-full p-4 sm:p-10'>
             <h2 className='text-2xl my-5'>Mi Actividad reciente</h2>
             {listaActividad?.length > 0 &&
+            <div className='w-full break-words'>
               <DataTable
                 columns={columns} // Columnas de la tabla
                 data={listaActividad} // Datos de la tabla
@@ -144,14 +145,14 @@ function Index() {
                 noDataComponent="No se encontró actividad reciente" // Mensaje si no hay datos
                 defaultSortFieldId={"fecha"} // Campo por defecto para ordenar
                 defaultSortAsc={false} // Orden ascendente
-              />
+                />
+                </div>
             }
           </div>
-        </div>
-
+        
       <Footer/>
       </div>
-    </>
+      </div>
   );
 }
 

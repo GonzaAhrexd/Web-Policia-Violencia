@@ -9,7 +9,7 @@ type EstadisticasTiposDeViolenciaProps = {
 function EstadisticasTiposDeViolencia({ texto, tipos_de_violencia, format }: EstadisticasTiposDeViolenciaProps) {
 
   return (
-    <div className="table w-full m-4 border-2 border-sky-800">
+    <div className="table w-full my-4 md:mx-4 border-2 border-sky-800">
       <div className='table-row'>
         <div className="flex items-center justify-between bg-sky-900 text-white font-medium h-10" >
           <div className="w-8/10 ml-4">{texto || ""}</div>
