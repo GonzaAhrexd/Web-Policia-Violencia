@@ -75,7 +75,7 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
                     <InputRegister disabled campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} valor={user.apellido} />
                 </div>
                 <div className='flex flex-col md:flex-row'>
-                    <InputNumber  disabled campo="Teléfono" nombre="telefono" placeholder={user.telefono} register={register} setValue={setValue} type="text" error={errors.telefono} valor={user.telefono} maxLenght={14} />
+                    <InputNumber  campo="Teléfono" nombre="telefono" placeholder={user.telefono} register={register} setValue={setValue} type="text" error={errors.telefono} valor={user.telefono} maxLenght={14} />
                     <InputRegister disabled campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" error={errors.nombre_de_usuario} valor={user.username} />
                 </div>
                 <div className='flex flex-col md:flex-row'>

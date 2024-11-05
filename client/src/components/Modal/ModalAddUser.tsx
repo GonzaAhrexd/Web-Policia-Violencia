@@ -21,7 +21,7 @@ import { altaUsuario } from '../../api/auth'
 import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos'
 import { zonaCampos } from '../../GlobalConst/zonaCampos'
 import { useCampos } from '../../context/campos'
-
+import { XCircleIcon } from '@heroicons/react/24/outline'
 function ModalAddUser({ setOpenModal }: ModalAddUserProps) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   useEffect(() => {
@@ -54,6 +54,7 @@ function ModalAddUser({ setOpenModal }: ModalAddUserProps) {
       <div className="fixed inset-0 flex items-center justify-center z-50">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="bg-white w-9/10 md:w-6/10 h-9/10 rounded p-5 relative overflow-auto scale-up-center">
+          <XCircleIcon className='h-6 w-6 absolute top-2 right-2 text-black cursor-pointer' onClick={() => setOpenModal(false)} />
           <form className='flex flex-col items-center justify-center w-full' onSubmit={
             handleSubmit(async (values) => {
               Swal.fire({
