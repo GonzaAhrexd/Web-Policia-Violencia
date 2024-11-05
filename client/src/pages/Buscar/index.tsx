@@ -19,11 +19,12 @@ import BuscarTerceros from '../../components/Busqueda/BuscarTerceros/BuscarTerce
 import BuscarExposiciones from '../../components/Busqueda/BuscarExposiciones/BuscarExposiciones';
 import Footer from '../../components/Footer/Footer';
 import LoadingScreen from '../../components/LoadingScreen';
-
+import { useStore } from '../MisDenuncias/store';
+import Modal from '../../components/Modal';
 function Buscar() {
     // Autenticación
     const { user, isAuthenticated, isLoading } = useAuth();
-
+    const { setOpenModal, openModal, title, text } = useStore()
     // Estados
     const [mostrarVictimas, setMostrarVictimas] = useState(false)
     const [mostrarVictimarios, setMostrarVictimarios] = useState(false)
@@ -78,13 +79,16 @@ function Buscar() {
         setMostrarExposiciones(true)
         setButtonSelected('exposicion')
     }
-
+    
     if (isLoading) return <LoadingScreen/>
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
     if (user?.rol === "sin_definir") return <Navigate to="/login" replace />
     return (
         <div className='h-full flex flex-grow flex-col'>
             <NavBar user={user} />
+            <div>
+                {openModal && <Modal titulo={title} texto={text} onClose={() => setOpenModal(false)} />}
+            </div>
             <div className='min-h-screen flex flex-grow flex-col'>
                 <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
                     <button className={`${buttonSelected == "victima" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700   text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarVictimas()}> Víctima </button>

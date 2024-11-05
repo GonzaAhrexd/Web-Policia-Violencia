@@ -18,12 +18,11 @@ import { editarDenuncia } from '../../api/CRUD/denuncias.crud'
 import EditVictima from './EditVictima'
 import EditVictimario from './EditVictimario'
 import EditHecho from './EditHecho'
-import Modal from '../Modal'
 import InputTextArea from '../InputComponents/InputTextArea'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import Swal from 'sweetalert2'
 import { XMarkIcon, CheckIcon } from '@heroicons/react/24/solid'
-
+import { useStore } from '../../pages/MisDenuncias/store'
 
 // Props
 interface EditSectionProps {
@@ -34,34 +33,31 @@ interface EditSectionProps {
     editSection: boolean
     datosGeograficos: any
     datosTerceros: any
+    // handleOpenModal: any
 }
 
-function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVictimario, datosHecho, setEditSection, editSection }: EditSectionProps) {
+function EditSection({  datosTerceros, datosGeograficos, datosVictima, datosVictimario, datosHecho, setEditSection, editSection }: EditSectionProps) {
     // Utilizamos useForm para manejar los datos del formulario
     const { register, watch, handleSubmit, setValue, formState: {
         errors
     } } = useForm()
 
+    const { setOpenModal, setTitle, setText } = useStore()
+
     // Estados
-    const [titulo, setTitulo] = useState('')
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [texto, setTexto] = useState([''])
+
     // Función para abrir el modal
     const handleOpenModal = (text: string[]) => {
-        setIsModalOpen(true);
-        setTexto(text);
+        setOpenModal(true);
+        setText(text);
     }
 
-    // Función para cerrar el modal
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    }
 
     const [isSolicitudAprehension, setIsSolicitudAprehension] = useState(false)
 
     return (
         <div className='w-8/10 md:w-full'>
-            {isModalOpen && <Modal titulo={titulo} texto={texto} onClose={handleCloseModal} />}
+            {/* {isModalOpen && <Modal titulo={titulo} texto={texto} onClose={handleCloseModal} />} */}
             <form
                 onSubmit={
                     handleSubmit(async (values) => {
@@ -120,7 +116,7 @@ function EditSection({ datosTerceros, datosGeograficos, datosVictima, datosVicti
 
                 <EditVictima watch={watch} editarConDenuncia cantidad_hijos_con_agresor={datosHecho.hijos_victima_con_victimario} hijos_con_agresor={datosHecho.hijos_victima_con_victimario} convivencia={datosHecho.convivencia} dependencia_economica={datosHecho.dependencia_economica} vinculo_con_agresor={datosHecho.relacion_victima_victimario} datos={datosVictima} register={register} setValue={setValue} errors={errors} />
                 <EditVictimario datos={datosVictimario} register={register} setValue={setValue} errors={errors} />
-                <EditHecho setIsSolicitudAprehension={setIsSolicitudAprehension} datosTerceros={datosTerceros} datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} />
+                <EditHecho setIsSolicitudAprehension={setIsSolicitudAprehension} datosTerceros={datosTerceros} datosGeograficos={datosGeograficos} datos={datosHecho} handleOpenModal={handleOpenModal} setTitulo={setTitle} register={register} setValue={setValue} errors={errors} />
                 
                 <>
                     <h1 className='text-2xl my-5'>Observaciones</h1>

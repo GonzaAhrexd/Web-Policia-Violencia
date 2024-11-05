@@ -380,9 +380,9 @@
 
 }
 
-/* .date-range-picker-overlay {
-  
-} */
+.modal-display{
+  z-index: 1000;
+}
 
 
 

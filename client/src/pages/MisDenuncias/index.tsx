@@ -28,6 +28,11 @@ import expandedComponents from '../../components/Busqueda/BuscarDenuncias/expand
 import { customStyles } from '../../GlobalConst/customStyles'
 // Página alternativa para el rol agente
 import MisDenunciasAgente from '../MisDenunciasAgente'
+import Modal from '../../components/Modal';
+// ZUD
+import { useStore } from './store'
+// import expandedComponents from '../MisDenunciasAgente/expandedComponents';
+
 
 function MisDenuncias() {
     // Estados
@@ -43,7 +48,9 @@ function MisDenuncias() {
         // Se ejecuta la función asíncrona
         fetchDenuncias();
     }
-    
+
+    const { openModal, setOpenModal, title, text } = useStore()
+
 
     const { register, handleSubmit, setValue, formState: {
         errors
@@ -54,15 +61,31 @@ function MisDenuncias() {
         collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
+    // const [ isModalOpen, setIsModalOpen ] = useState(false);
+    // const [texto, setTexto] = useState(['']);
+    
+    // const handleOpenModal = (text: string[]) => {
+    //     setIsModalOpen(true);
+    //     setTexto(text);
+    //   };
+    
+      // Cerrar el modal
+      const handleCloseModal = () => {
+        setOpenModal(false);
+      }
     // Se obtiene el usuario y se verifica si está autenticado
     const { user, isAuthenticated, isLoading } = useAuth();
-    if (isLoading) return <LoadingScreen/>
-    if ((!isLoading) && (!isAuthenticated) ) return <Navigate to="/login" replace />
-    if(user?.rol === "sin_definir")  return <Navigate to="/login" replace />
+    if (isLoading) return <LoadingScreen />
+    if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
+    if (user?.rol === "sin_definir") return <Navigate to="/login" replace />
+
     
     return (
         <div>
             <NavBar user={user} />
+            <div>
+                {openModal && <Modal titulo={title} texto={text} onClose={handleCloseModal} />}
+            </div>
             <div className='min-h-screen sm:h-full p-2 sm:p-10'>
                 <h1 className='text-3xl my-5'>Mis denuncias</h1>
                 <h2 className='text-2xl my-5'>Buscar</h2>
@@ -78,7 +101,7 @@ function MisDenuncias() {
                             <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
                             <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>
                         </form>
-                        <div className="flex flex-col w-full">
+                        <div className="flex flex-col w-full ">
                             <h2 className='text-2xl my-5'>Denuncias</h2>
                             <DataTable
                                 className='scale-up-ver-top' // Animación de entrada
@@ -100,7 +123,7 @@ function MisDenuncias() {
                     </>
                 }
             </div>
-            <Footer/>
+            <Footer />
         </div>
     )
 }
