@@ -48,7 +48,7 @@ function CargarVictimaAgente({ register, setValue, errors }: CargarVictimaProps)
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>
-        <InputRegister campo="Teléfono celular" nombre="telefono_victima" register={register} setValue={setValue} type="text" error={errors.nacionalidad_victima} />
+        <InputNumber campo="Teléfono celular" nombre="telefono_victima" register={register} setValue={setValue} type="text" maxLenght={10} error={errors.nacionalidad_victima} />
         <InputNumber campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="text" error={errors.dni_victima} maxLenght={8} />
         <InputRegister campo="Domicilio" nombre="direccion_victima" register={register} setValue={setValue} type="text" error={errors.nacionalidad_victima} />
       </div>

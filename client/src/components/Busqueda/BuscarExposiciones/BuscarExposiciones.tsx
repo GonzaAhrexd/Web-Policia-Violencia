@@ -63,8 +63,8 @@ function BuscarExposiciones() {
                 <InputRegister busqueda campo="DNI víctima" nombre="dni_victima" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                 <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
             </form>
-            <div className="flex flex-col w-full h-screen flex-grow">
-                <h2 className='text-2xl my-5'>Denuncias</h2>
+            <div className="flex flex-col w-full">
+                <h2 className='text-2xl my-5'>Exposiciones</h2>
                 <DataTable
                     columns={columnsDenuncia}
                     data={denunciasAMostrar}

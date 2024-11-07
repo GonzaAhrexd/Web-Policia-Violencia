@@ -148,3 +148,27 @@ export const deleteExposicion = async (req, res) => {
         console.log(error)
     }
 }
+
+export const editExposicion = async (req, res) => {
+    try{
+        const { id } = req.params
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones} = req.body
+        await exposicion.findByIdAndUpdate(id, {
+            nombre_victima: nombre_victima,
+            apellido_victima: apellido_victima,
+            edad_victima: edad_victima,
+            DNI_victima: dni_victima,
+            estado_civil_victima: estado_civil_victima,
+            ocupacion_victima: ocupacion_victima,
+            nacionalidad_victima: nacionalidad_victima,
+            direccion_victima: direccion_victima,
+            telefono_victima: telefono_victima,
+            sabe_leer_y_escribir_victima: SabeLeerYEscribir == "Sí" ? true : false,
+            observaciones: observaciones
+        })
+        await agregarActividadReciente("Edición de exposición", "Exposición", id, req.cookies)
+        res.send('Exposición editada con éxito')
+    }catch(error){
+        console.log(error)
+    }
+}

@@ -19,6 +19,7 @@ interface observacionesProps {
 function CargarObservaciones({fileInputRef, rolAgenteHidden, register, setValue}: observacionesProps) {
   const { isSolicitudAprehension } = useStore();
   const [observacionRequired, setObservacionRequired] = useState(true);
+
   return (
     <div className='flex flex-col items-center w-full'>
         {(rolAgenteHidden !== null) && (!rolAgenteHidden) &&

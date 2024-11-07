@@ -14,12 +14,12 @@ import { eliminarExposicion } from '../../../api/CRUD/exposicion.crud';
 import Swal from 'sweetalert2' // Librería para mostrar popups
 // Iconos
 import { TrashIcon } from '@heroicons/react/24/solid'
-import { UserIcon } from '@heroicons/react/24/outline'
+import { PencilSquareIcon, UserIcon } from '@heroicons/react/24/outline'
 
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 import ShowTextArea from '../../../components/ShowData/ShowTextArea';
-
+import EditExposicion from '../../EditMode/EditExposicion';
 
 import { useAuth } from '../../../context/auth';
 
@@ -29,7 +29,7 @@ interface expandedComponentsProps {
 function expandedComponents({ data }: expandedComponentsProps) {
 
     // Estado de editar global
-    const [editGlobal,] = useState(false)
+    const [editGlobal, setEditGlobal] = useState(false)
     // Datos del hecho
 
     const { user } = useAuth()
@@ -98,53 +98,63 @@ function expandedComponents({ data }: expandedComponentsProps) {
         })
     }
 
-    return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full scale-up-ver-top">
-        {!editGlobal &&
+    return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full scale-up-ver-top">
+        {!editGlobal ?
             <>
                 <div className='flex items-center'>
                     <h1 className='text-3xl my-5 font-sans mr-4'>Datos de la víctima</h1>
                 </div>
                 <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="Datos" datos={victimaDatosMostrar} icono={<UserIcon className='h-6 w-6' />}/>
+                    <SimpleTableCheckorX campo="Datos" datos={victimaDatosMostrar} icono={<UserIcon className='h-6 w-6' />} />
                 </div>
                 <div className='flex items-center'>
-                <h2 className='text-3xl my-5 font-sans mr-4'>Exposición</h2>
+                    <h2 className='text-3xl my-5 font-sans mr-4'>Exposición</h2>
                 </div>
                 <div className="flex flex-row">
                     <ShowTextArea campo="Observaciones" dato={data.observaciones} />
                 </div>
 
                 {data.preguntas.desea_agregar_quitar_o_enmendar &&
-                    <>  
-                    <div className='flex items-center'>
-                        <h2 className='text-3xl my-5 font-sans	'>Agrega</h2>
-                    </div>
+                    <>
+                        <div className='flex items-center'>
+                            <h2 className='text-3xl my-5 font-sans	'>Agrega</h2>
+                        </div>
                         <div className="flex flex-row">
                             <ShowTextArea campo="Observaciones" dato={data.agrega} />
                         </div>
                     </>
                 }
-            </>
-        }
         <div className='flex items-center'>
             <h2 className='text-3xl my-5 font-sans'>Secretario</h2>
         </div>
         <div className='flex flex-row'>
-            <SimpleTableCheckorX campo="" datos={secretarioDatosMostrar} icono={<UserIcon className='h-6 w-6' />}/>
+            <SimpleTableCheckorX campo="" datos={secretarioDatosMostrar} icono={<UserIcon className='h-6 w-6' />} />
         </div>
         <div className='flex items-center'>
             <h2 className='text-3xl my-5 font-sans'>Instructor</h2>
         </div>
         <div className='flex flex-row'>
-            <SimpleTableCheckorX campo="" datos={instructorDatosMostrar} icono={<UserIcon className='h-6 w-6' />}/>
+            <SimpleTableCheckorX campo="" datos={instructorDatosMostrar} icono={<UserIcon className='h-6 w-6' />} />
         </div>
-        <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
-            {(user.rol === 'admin' || user.rol === 'carga') && 
-            <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
-                <TrashIcon className="w-7" />
-            </div>
+        <div className='my-5 flex flex-col md:flex-row md:items-center md:justify-center w-full '>
+            {(user.rol === 'admin' || user.rol === 'carga') &&
+                   <>
+                   <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
+                   <PencilSquareIcon className="w-7" />
+               </div>
+              <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
+                    <TrashIcon className="w-7" />
+                </div>
+                   </>
             }
         </div>
+            </>
+            :
+            <>
+                <EditExposicion  datos={data} setEditMode={setEditGlobal}/>
+            </>
+        }
+
 
 
     </div>

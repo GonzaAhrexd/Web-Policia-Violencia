@@ -118,13 +118,16 @@ function TablaCampos({ campos, tipo }: TablaCamposProps) {
                     {campos?.map((campo: any, index: number) => (
                         <div key={index} className='table-row'>
                             <div className="flex items-center justify-between word-wrap md:h-10 m-1 ">
-                                <div className="w-4/10 ml-4">{campo.nombre}</div>
-                                <div className="w-4/10">{campo.value}</div>
+                                <div className="w-4/10 ml-4 text-lg">{campo.nombre}</div>
+                                <div className="w-4/10 ">{campo.value}</div>
                                 <div className="w-5/10 sm:w-3/10">
-                                    <button className="bg-sky-900 hover:bg-sky-700 text-white font-bold py-2 px-4 m-1 rounded" onClick={() => handleEdit(campo)}><PencilSquareIcon className="w-6 h-6" /></button>
+                                    <button className="bg-sky-900 hover:bg-sky-700 text-white font-bold py-2 px-4 m-1  rounded" onClick={() => handleEdit(campo)}><PencilSquareIcon className="w-6 h-6" /></button>
                                     <button className="bg-sky-900 hover:bg-sky-700 text-white font-bold py-2 px-4 m-1 rounded" onClick={() => handleDelete(campo)}><TrashIcon className="w-6 h-6" /></button>
                                 </div>
+                                {/* Linea gris */}
                             </div>
+                                <div className="w-full h-0.5 bg-sky-800">
+                                    </div>
                         </div>
                     ))}
                     <div className="h-full">

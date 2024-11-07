@@ -82,6 +82,7 @@ function BuscarDenuncias() {
                     <Excel denunciasAMostrar={denunciasAMostrar} />
                     }
                 </div>
+                <div className="overflow-x-auto">
                 <DataTable
                     columns={columnsDenuncia}
                     data={denunciasAMostrar}
@@ -95,7 +96,8 @@ function BuscarDenuncias() {
                     noDataComponent="No hay denuncias para mostrar"
                     defaultSortFieldId={"Fecha"}
                     expandableIcon={expandableIcon}
-                />
+                    />
+                    </div>
             </div>
         </>
     )

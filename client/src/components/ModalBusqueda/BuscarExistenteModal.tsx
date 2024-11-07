@@ -113,7 +113,7 @@ function BuscarExistenteModal({  variante, setOpenModal, setVictimaCargar }: Bus
                         <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-3/10">Buscar</button>
                     </form>
 
-                    <table className="table-auto w-full">
+                    <table className="table-auto w-full flex flex-col items-center justify-center">
                         <thead>
                             <tr>
                                 <th className="px-4 py-2">Nombre</th>
@@ -122,9 +122,9 @@ function BuscarExistenteModal({  variante, setOpenModal, setVictimaCargar }: Bus
                                 <th className="px-4 py-2">Seleccionar</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className='flex flex-col items-center justify-center md:block'>
                             {victimasMostrar.map((victima: any, index: number) => (
-                                <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : ''}>
+                                <tr key={index} className={` ${index % 2 === 0 ? 'bg-gray-200' : ''}`}>
                                     <td className="border px-4 py-2">{victima.nombre}</td>
                                     <td className="border px-4 py-2">{victima.apellido}</td>
                                     <td className="border px-4 py-2">{victima.DNI}</td>

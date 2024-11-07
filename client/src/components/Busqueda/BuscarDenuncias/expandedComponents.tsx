@@ -58,7 +58,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     // Guardar terceros
     const [terceroDatosObtener, setTerceroDatosObtener]: any = useState([])
     // Estado de carga
-    
+
     // Función para obtener los datos de la víctima
     const victimaObtener = async (id: string) => {
         try {
@@ -95,7 +95,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     let lat: number = 0
     let lon: number = 0
     // Separar las coordenadas
-    if(data.GIS.length > 6){
+    if (data.GIS.length > 6) {
         const latLng: Array<number> = data.GIS.split(" ");
         lat = latLng[0]
         lon = latLng[1]
@@ -113,7 +113,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
 
 
 
-        
+
     // Función para abrir Google Maps con el mapa de y las coordenadas
     const handleClick = (GIS: string) => {
         // Separar las coordenadas
@@ -250,7 +250,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     ]
 
     const handlePrint = async (data: any) => {
-        try{
+        try {
 
             const blob = await pdf(<PDF datos={data} user={user} />).toBlob();
             // Crea una URL de objeto a partir del blob
@@ -258,7 +258,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
             // Abre la URL en una nueva pestaña
             window.open(url);
 
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
 
@@ -308,11 +308,11 @@ function expandedComponents({ data }: expandedComponentsProps) {
 
 
 
-    return <div className="flex flex-col p-1 sm:p-10 max-w-md sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full scale-up-ver-top">
+    return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full scale-up-ver-top">
         {!editGlobal &&
             <>
                 <div className='flex items-center'>
-                    <h2 className='text-3xl my-5 font-sans mr-4'>Datos de la víctima 
+                    <h2 className='text-3xl my-5 font-sans mr-4'>Datos de la víctima
                     </h2>
                 </div>
                 <div className='flex flex-col'>
@@ -384,76 +384,76 @@ function expandedComponents({ data }: expandedComponentsProps) {
                             </figure>
                         </div>
                     }
-                            <form action="" className='w-full flex items-center justify-center'
-                                method='post'
-                                onSubmit={
-                                    handleSubmit(async () => {
-                                        Swal.fire({
-                                            title: '¿Estás seguro?',
-                                            text: "¡La imagen anterior se perderá!",
-                                            icon: 'warning',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#0C4A6E',
-                                            cancelButtonColor: '#FF554C',
-                                            confirmButtonText: 'Sí, cambiar',
-                                            cancelButtonText: 'Cancelar'
-                                        }).then(async (result) => {
-                                            if (result.isConfirmed) {
-                                                try {
-                                                    // @ts-ignore
-                                                    const file = fileInputRef?.current?.files[0];
-                                                    const denuncia = {
-                                                        id: data._id,
-                                                        imagen: file,
-                                                    };
-                                                    await editarImagenDenuncia(denuncia);
-                                                    Swal.fire({
-                                                        title: 'Imagen cambiada',
-                                                        text: 'La imagen ha sido cambiada con éxito',
-                                                        icon: 'success',
-                                                        confirmButtonColor: '#0C4A6E',
-                                                    }).then(() => {
-                                                        window.location.reload()
-                                                    })
-                                                } catch (error) {
-                                                    console.log(error)
-                                                }
-                                            }
-                                        })
+                    <form action="" className='w-8/10 md:w-full flex flex-col md:flex-row items-center justify-center'
+                        method='post'
+                        onSubmit={
+                            handleSubmit(async () => {
+                                Swal.fire({
+                                    title: '¿Estás seguro?',
+                                    text: "¡La imagen anterior se perderá!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#0C4A6E',
+                                    cancelButtonColor: '#FF554C',
+                                    confirmButtonText: 'Sí, cambiar',
+                                    cancelButtonText: 'Cancelar'
+                                }).then(async (result) => {
+                                    if (result.isConfirmed) {
+                                        try {
+                                            // @ts-ignore
+                                            const file = fileInputRef?.current?.files[0];
+                                            const denuncia = {
+                                                id: data._id,
+                                                imagen: file,
+                                            };
+                                            await editarImagenDenuncia(denuncia);
+                                            Swal.fire({
+                                                title: 'Imagen cambiada',
+                                                text: 'La imagen ha sido cambiada con éxito',
+                                                icon: 'success',
+                                                confirmButtonColor: '#0C4A6E',
+                                            }).then(() => {
+                                                window.location.reload()
+                                            })
+                                        } catch (error) {
+                                            console.log(error)
+                                        }
+                                    }
+                                })
 
-                                    })
-                                }
+                            })
+                        }
 
-                            >
-                                <input ref={fileInputRef} type="file" accept="image/*" className='mb-2' required={false} />
+                    >
+                        <input ref={fileInputRef} type="file" accept="image/*" className='mb-2' required={false} />
 
-                                <button className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' >
-                                    Cambiar
-                                </button>
-                            </form>
+                        <button className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' >
+                            Cambiar
+                        </button>
+                    </form>
 
                     <ShowTextArea campo="Observaciones" dato={data.observaciones} />
                 </div>
                 <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>
                     <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handlePrint(data)} >
-                        <PrinterIcon className='w-7'/>
+                        <PrinterIcon className='w-7' />
                     </div>
                     {(user.rol == "carga" || user.rol == "admin") &&
-                    <>
-                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
-                        <PencilSquareIcon className="w-7" />
-                    </div>
-                        <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
-                            <TrashIcon className="w-7" />
-                        </div>
-                    </>
+                        <>
+                            <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
+                                <PencilSquareIcon className="w-7" />
+                            </div>
+                            <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
+                                <TrashIcon className="w-7" />
+                            </div>
+                        </>
                     }
                 </div>
             </>
         }
         {editGlobal &&
             <>
-                <EditSection  datosTerceros={terceroDatos} datosGeograficos={hechoDatosGeográficos} datosHecho={data} datosVictima={victimaDatos} datosVictimario={victimarioDatos} setEditSection={setEditGlobal} editSection={editGlobal} />
+                <EditSection datosTerceros={terceroDatos} datosGeograficos={hechoDatosGeográficos} datosHecho={data} datosVictima={victimaDatos} datosVictimario={victimarioDatos} setEditSection={setEditGlobal} editSection={editGlobal} />
             </>
         }
     </div>

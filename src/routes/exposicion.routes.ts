@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { authRequired } from '../middlewares/validateToken'
-import { createExposicion, buscarExposicion, deleteExposicion } from '../controllers/CRUD/crudExposicion'
+import { createExposicion, buscarExposicion, deleteExposicion, editExposicion } from '../controllers/CRUD/crudExposicion'
 
 /*  -----------------------------------------------------------------------------------------------------------------
     EXPOSICIÓN
@@ -16,5 +16,6 @@ router.post('/crear-exposicion/', authRequired, createExposicion)
 router.get('/buscar-exposicion/:desde/:hasta/:id_exposicion/:nombre_victima/:apellido_victima/:dni_victima/', authRequired, buscarExposicion)
 // Eliminar exposición por id
 router.delete('/eliminar-exposicion/:id', authRequired,  deleteExposicion)
-
+// Editar exposición por id
+router.put('/editar-exposicion/:id', authRequired,  editExposicion)
 export default router

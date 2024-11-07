@@ -1,5 +1,6 @@
 // Hooks
 import { useForm } from 'react-hook-form';
+
 // Conexión con BackEnd
 import { crearTercero } from '../../api/CRUD/terceros.crud';
 import { agregarVictima } from '../../api/CRUD/victimas.crud';
@@ -32,7 +33,6 @@ interface CargarDenunciasRolCargaProps {
 
 function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDenunciasRolCargaProps) {
   const { register, watch, handleSubmit, setValue, formState: { errors } } = useForm();
-
   const fileInputRef = useRef(null);
  
   const {
@@ -186,7 +186,7 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
           </div>
           <h1 className='text-2xl my-5'>Observaciones</h1>
           <div className='flex justify-center h-80'>
-            <CargarObservaciones fileInputRef={fileInputRef} setValue={setValue} register={register} />
+            <CargarObservaciones fileInputRef={fileInputRef} setValue={setValue} register={register}/>
           </div>
           <div className="flex justify-center my-3">
             <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-6/10' type="submit">Enviar</button>

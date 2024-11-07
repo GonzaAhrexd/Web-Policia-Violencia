@@ -30,3 +30,13 @@ export const eliminarExposicion = async (id: string) => {
     }
 
 }
+
+// Editar exposición
+export const editarExposicion = async (data: any) => {
+    try {
+        const response = await axios.put(`/editar-exposicion/${data._id}`, data)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

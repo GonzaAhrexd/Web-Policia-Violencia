@@ -73,11 +73,10 @@ function expandedComponents({ data }: expandedComponentsProps) {
     }, [])
 
 
-    //@ts-ignore
-    const { signUp, user, isAuthenticated, isLoading } = useAuth();
+    const {  user } = useAuth();
 
 
-    return <div className="flex flex-col p-2 sm:p-10 max-w-prose sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full scale-up-ver-top">
+    return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full scale-up-ver-top">
         {!editGlobal &&
             <>
                 <div className='flex items-center'>
@@ -104,13 +103,13 @@ function expandedComponents({ data }: expandedComponentsProps) {
                         expandableRowsComponent={expandedDenuncia}
                     />
                 </div>
-                <div className='my-5 flex flex-col md:flex-row items-center justify-center w-full '>
+                <div className='my-5 flex flex-col md:flex-row items-center justify-center w-8/10 md:w-full sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full '>
                     {user.rol == "agente" || user.rol == "admin" &&
                     <>
-                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setModoImprimir(!modoImprimir)}>
+                    <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setModoImprimir(!modoImprimir)}>
                         <PrinterIcon className="w-7" />
                     </div>
-                        <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
+                        <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
                             <PencilSquareIcon className="w-7" />
                         </div>
                     </>
