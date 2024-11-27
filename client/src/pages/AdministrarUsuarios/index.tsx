@@ -27,9 +27,7 @@ import { customStyles } from '../../GlobalConst/customStyles'
 function index() {
     const { user, isAuthenticated, isLoading } = useAuth();
     // Formulario
-    const { register, setValue, handleSubmit, formState: {
-        errors
-    } } = useForm()
+     
     const [modalShow, setModalShow] = useState(false)
 
     const { isLoading: loadingCampos } = useCampos()

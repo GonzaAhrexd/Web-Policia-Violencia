@@ -109,7 +109,7 @@ function ModalAddUser({ setOpenModal }: ModalAddUserProps) {
             })
           }>
             <h1 className='text-4xl'>Alta de nuevo usuario</h1>
-            <div className='w-5/10'>
+            <div className='w-9/10 md:w-5/10'>
             <p>Desde este apartado, se puede dar de alta a un usuario con cuenta en Policía Digital. Si el usuario no tiene cuenta, deberá solicitarla <a className='text-sky-800' href="https://policiadigital.chaco.gob.ar/" >aquí</a> </p>
             </div>
             <InputNumber busqueda campo="DNI" nombre="dni" register={register} maxLenght={8} type="text" error={errors.dni} />
