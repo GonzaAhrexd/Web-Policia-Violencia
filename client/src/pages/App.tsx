@@ -4,7 +4,7 @@
   También, se importa el contexto de autenticación y campos para que estén disponibles en toda la aplicación.
 */
 // Enrutamiento
-import { useRoutes, BrowserRouter } from 'react-router-dom'
+import { useRoutes, HashRouter  } from 'react-router-dom'
 // Páginas
 // LOGIN E INICIO
 import Home from './Home'
@@ -70,11 +70,11 @@ const App = () => {
   // BrowserRouter utiliza las rutas y por dentro se encierra con AppRoutes que es la función que tenemos arriba
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <HashRouter>
       <CamposProvider>
         <AppRoutes />
       </CamposProvider>
-      </BrowserRouter>
+      </HashRouter>
     </AuthProvider>
 
   )

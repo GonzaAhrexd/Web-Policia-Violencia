@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 // NEXT UI 
-import { Avatar, Navbar, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, NavbarBrand, NavbarContent, NavbarItem, Link, Button, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu } from "@nextui-org/react";
+import { Avatar, Navbar, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, NavbarBrand, NavbarContent, NavbarItem, Button, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu } from "@nextui-org/react";
 // Iconos
 import { ListBulletIcon, PencilSquareIcon, ChartPieIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline'
 
@@ -110,10 +110,10 @@ function NavBar({ user }: NavBarProps) {
                     startContent={
                       item.icon
                     }
-                    href={item.href}
-                  >
+                    >
                     {item.titulo}
                   </DropdownItem>
+                    
                 ))
                 }
               </DropdownMenu>
@@ -151,9 +151,10 @@ function NavBar({ user }: NavBarProps) {
                     startContent={
                       item.icon
                     }
-                    href={item.href}
                   >
+              <NavLink to={item.href} aria-current="page">
                     {item.titulo}
+              </NavLink>
                   </DropdownItem>
                 ))
                 }
@@ -162,9 +163,10 @@ function NavBar({ user }: NavBarProps) {
           )}
           {isAgente && (
             <NavbarItem>
-              <Link href="/búsqueda" aria-current="page">
+              <NavLink to="/búsqueda" aria-current="page">
                 Búsqueda
-              </Link>
+              
+              </NavLink>
             </NavbarItem>
           )}
           {isAdmin && (
@@ -196,8 +198,10 @@ function NavBar({ user }: NavBarProps) {
                     startContent={
                       item.icon
                     }
-                    href={item.href}>
+                    >
+                      <NavLink to={item.href} aria-current="page">
                     {item.titulo}
+                    </NavLink>
                   </DropdownItem>
                 ))
                 }
@@ -223,11 +227,15 @@ function NavBar({ user }: NavBarProps) {
                 <p className="font-semibold">Sesión iniciada como</p>
                 <p className="font-semibold">{user.nombre + " " + user.apellido} </p>
               </DropdownItem>
-              <DropdownItem key="profile" color="danger" href="/mi-perfil">
+              <DropdownItem key="profile" color="danger">
+              <NavLink to="/mi-perfil" aria-current="page">
                 Mi Perfil
+                </NavLink>
               </DropdownItem>
-              <DropdownItem key="logout" color="danger" href="/logout">
+              <DropdownItem key="logout" color="danger">
+              <NavLink to="/logout"> 
                 Cerrar sesión
+              </NavLink>
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -235,44 +243,41 @@ function NavBar({ user }: NavBarProps) {
         <NavbarMenu className='flex flex-col items-center bg-sky-900'>
           {isCarga && menuCargaItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
+              <NavLink
                 color={
                   index === 2 ? "primary" : index === menuAdminItems.length - 1 ? "danger" : "foreground"
                 }
                 className="w-full text-2xl text-white"
-                href={`/${item.toLowerCase().replace(" ", "-")}`}
-                size="lg"
+                to={`/${item.toLowerCase().replace(" ", "-")}`}
               >
                 {item}
-              </Link>
+              </NavLink>
             </NavbarMenuItem>
           ))}
           {isAgente && menuAgenteItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
+              <NavLink
                 color={
                   index === 2 ? "primary" : index === menuAdminItems.length - 1 ? "danger" : "foreground"
                 }
                 className="w-full text-2xl text-white"
-                href={`/${item.toLowerCase().replace(" ", "-")}`}
-                size="lg"
+                to={`/${item.toLowerCase().replace(" ", "-")}`}
               >
                 {item}
-              </Link>
+              </NavLink>
             </NavbarMenuItem>
           ))}
           {isAdmin && menuAdminItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
+              <NavLink
                 color={
                   index === 2 ? "primary" : index === menuAdminItems.length - 1 ? "danger" : "foreground"
                 }
                 className="w-full text-2xl text-white"
-                href={`/${item.toLowerCase().replace(/ /g, "-")}`}
-                size="lg"
+                to={`/${item.toLowerCase().replace(/ /g, "-")}`}
               >
                 {item}
-              </Link>
+              </NavLink>
             </NavbarMenuItem>
           ))}
         </NavbarMenu>

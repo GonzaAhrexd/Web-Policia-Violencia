@@ -32,7 +32,9 @@ function index() {
 
     const { isLoading: loadingCampos } = useCampos()
 
-
+    const { register, handleSubmit, setValue, formState: {
+        errors
+    } } = useForm()
     const [listaDeUsuarios, setListaDeUsuarios] = useState([])
 
     const opcionesRoles = [
