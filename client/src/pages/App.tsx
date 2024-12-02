@@ -9,7 +9,7 @@ import { useRoutes, HashRouter  } from 'react-router-dom'
 // LOGIN E INICIO
 import Home from './Home'
 import Login from './Login'
-import Register from './Register'
+// import Register from './Register'
 import Logout from './Logout'
 import Perfil from './Perfil'
 // 404
@@ -52,7 +52,7 @@ const AppRoutes = () => {
     // Admin
     {path: '/reportar-errores', element: <ReportarErrores />},
     // Autenticación (Global)
-    { path: '/register', element: <Register /> },
+    // { path: '/register', element: <Register /> },
     { path: '/login', element: <Login /> },
     { path: '/logout', element: <Logout /> },
     // Admin

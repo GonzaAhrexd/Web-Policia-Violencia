@@ -170,16 +170,18 @@ export const registroDNIV1 = async (req, res) => {
 
         // console.log(guardar.data)
 
-        console.log(guardar.data.data.id)
+        console.log("ID" + guardar.data.data.id)
+        console.log(guardar.data.data)
+        return guardar.data.data
 
-        const usuarioGuardado = await usuarios.findOneAndUpdate({ "nombre_de_usuario": "gonzaahre" }, {  //Editar campos del perfil
-            usuario_repo: guardar.data.data.id,
-        })
+        // const usuarioGuardado = await usuarios.findOneAndUpdate({ "nombre_de_usuario": "gonzaahre" }, {  //Editar campos del perfil
+        //     usuario_repo: guardar.data.data.id,
+        // })
 
-        console.log(usuarioGuardado)
+        // console.log(usuarioGuardado)
 
 
-        return usuarioGuardado;
+        // return usuarioGuardado;
 
         // return guardar.data
 
@@ -199,10 +201,10 @@ export const altaUsuario = async (req, res) => {
         }
 
         const crearUsuarioConDatos = await new usuarios({
-            nombre: guardar.data.data.persona.nombre,
-            apellido: guardar.data.data.persona.apellido,
+            nombre: jerarquia != "Civil" ? guardar.data.data.persona.nombre : guardar.data.data.civil.nombre,
+            apellido: jerarquia != "Civil" ? guardar.data.data.persona.apellido : guardar.data.data.civil.apellido,
             nombre_de_usuario: guardar.data.data.usuario,
-            dni: guardar.data.data.persona.norDni,
+            dni: jerarquia != "Civil" ? guardar.data.data.persona.norDni : guardar.data.data.civil.norDni,
             rol: rol,
             jerarquia: jerarquia,
             imagen: 'sin_definir',
