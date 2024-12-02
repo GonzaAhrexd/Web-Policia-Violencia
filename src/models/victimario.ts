@@ -90,6 +90,16 @@ const victimarioSchema = new mongoose.Schema({
         type: [String], // Tipo de dato Array
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
+    },
+    esta_aprehendido: {
+        type: Boolean,
+        required: false,
+        trim: true
+    },
+    fue_liberado: {
+        type: Boolean,
+        required: false,
+        trim: true
     }
     },
 

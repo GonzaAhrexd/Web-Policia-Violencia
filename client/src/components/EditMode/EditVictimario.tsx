@@ -3,11 +3,15 @@ import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
 import InputNumber from '../InputComponents/InputNumber'
+
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 
 // Contexto
 import { useCampos } from '../../context/campos'
+
+// Hooks
+import { useState } from 'react'
 
 interface CargarVictimarioProps {
   datos: any;
@@ -21,6 +25,11 @@ interface CargarVictimarioProps {
 function EditVictimario({ existente, md, datos, register, setValue, errors }: CargarVictimarioProps) {
 
   const { ocupaciones } = useCampos();
+
+  const [isAprehendido, setIsAprehendido] = useState(datos.esta_aprehendido)
+  const [isLiberado, setIsLiberado] = useState(datos.fue_liberado)
+
+
   return (
     <div className={`w-full ${md && "lg:w-6/10"}`}>
       {!existente && <h1 className='text-2xl my-5'>Victimario</h1>}
@@ -48,6 +57,13 @@ function EditVictimario({ existente, md, datos, register, setValue, errors }: Ca
           <InputCheckbox campo="Antecedentes contravencionales" nombre="antecedentes_contravencionales" register={register} setValue={setValue} type="checkbox" id="antecedentesConvencionales" state={datos.antecedentes_contravencionales} />
           <InputCheckbox campo="Entrenamiento en  combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" state={datos.entrenamiento_en_combate} />
         </div>
+        <span 
+        className='ml-4 font-medium '>Detalles de aprehensión</span>
+      {/* Haz que sean dos inputs de tipo radio que sean excluyentes, uno con aprehension y otro con en libertad */}
+          <div>
+            <InputCheckbox setHook={setIsAprehendido} disabled={isLiberado} campo="Aprehensión" nombre="esta_aprehendido" register={register} setValue={setValue} type="checkbox" id="aprehendido" state={datos.esta_aprehendido} />
+            <InputCheckbox setHook={setIsLiberado} disabled={isAprehendido} campo="En libertad" nombre="fue_liberado" register={register} setValue={setValue} type="checkbox" id="liberado" state={datos.fue_liberado} />
+          </div>
       </>
 
     </div>

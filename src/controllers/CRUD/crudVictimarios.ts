@@ -6,9 +6,12 @@ import { agregarActividadReciente } from './crudActividadReciente'
 export const createVictimario = async (req, res) => {
     try {
         // Extraemos los datos del body
-        const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, antecedentes_psicologicos, entrenamiento_en_combate } = req.body
+        const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, antecedentes_psicologicos, entrenamiento_en_combate, aprehension, solicitud_de_aprehension_dispuesta  } = req.body
         // Buscar si ya existe un víctimario con el DNI ingresado
         let victimarioExistente
+
+        console.log("Aprehensión: " + aprehension)
+        console.log("Solicitud de aprehensión: " + solicitud_de_aprehension_dispuesta)
 
         console.log(req.body)
         if (dni_victimario != "S/N") {
@@ -32,6 +35,7 @@ export const createVictimario = async (req, res) => {
                 antecedentes_penales: antecedentes_penales ? antecedentes_penales : false,
                 antecedentes_contravencionales: antecedentes_contravencionales ? antecedentes_contravencionales : false,
                 entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,
+                esta_aprehendido: (aprehension !== null && solicitud_de_aprehension_dispuesta) ? aprehension : false,
             })
             const victimarioSaved = await newVictimario.save()
             await agregarActividadReciente(`Se ha creado un nuevo victimario: ${nombre_victimario} ${apellido_victimario}`, 'Victimario', victimarioSaved._id, req.cookies)
@@ -55,6 +59,7 @@ export const createVictimario = async (req, res) => {
                     antecedentes_penales: antecedentes_penales ? antecedentes_penales : false,
                     antecedentes_contravencionales: antecedentes_contravencionales ? antecedentes_contravencionales : false,
                     entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,
+                    esta_aprehendido: (aprehension !== null && solicitud_de_aprehension_dispuesta) ? aprehension : false,    
                 }, { new: true })
                 victimarioUpdated && await agregarActividadReciente(`Se ha agregado una denuncia al victimario: ${nombre_victimario} ${apellido_victimario}`, 'Victimario', victimarioUpdated._id, req.cookies)
             }
@@ -116,7 +121,7 @@ export const deleteVictimario = async (id, denunciaId, req) => {
 // Editar victimario
 export const updateVictimario = async (req, res) => {
     const { id } = req.params
-    const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate } = req.body
+    const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, esta_aprehendido, fue_liberado } = req.body
 
     try {
         const victimarioUpdated = await victimario.findByIdAndUpdate(req.params.id, {
@@ -132,6 +137,8 @@ export const updateVictimario = async (req, res) => {
             antecedentes_penales,
             antecedentes_contravencionales,
             entrenamiento_en_combate,
+            esta_aprehendido: esta_aprehendido ? esta_aprehendido : false, 
+            fue_liberado: fue_liberado ? fue_liberado : false
         }, { new: true })
 
         // Actualizar victima_nombre de las denuncias que tenga la víctima en caso de que se haya modificado

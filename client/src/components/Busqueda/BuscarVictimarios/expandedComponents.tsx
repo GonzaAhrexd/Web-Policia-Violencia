@@ -62,7 +62,10 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Antecedentes Penales", valor: data.antecedentes_penales },
         { nombre: "Antecedentes Contravencionales", valor: data.antecedentes_contravencionales },
         { nombre: "Entrenamiento en combate", valor: data.entrenamiento_en_combate },
+        { nombre: "Aprehensión", valor: data.esta_aprehendido ? data.esta_aprehendido : false },
+        { nombre: "En libertad", valor: data.fue_liberado ? data.fue_liberado : false },
     ]
+
     // Iconos para expandir
     const expandableIcon = {
         collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,
