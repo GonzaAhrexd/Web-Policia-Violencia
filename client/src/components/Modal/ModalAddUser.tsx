@@ -41,10 +41,10 @@ function ModalAddUser({ setOpenModal }: ModalAddUserProps) {
   }, []);
 
   const rolesCampos = [
-    { nombre: 'Admin', valor: 'admin' },
-    { nombre: "Agente", valor: 'agente' },
-    { nombre: "Carga", valor: 'carga' },
-    { nombre: "Pendiente", valor: 'sin_definir' }
+    { nombre: 'Admin', value: 'admin' },
+    { nombre: "Agente", value: 'agente' },
+    { nombre: "Carga", value: 'carga' },
+    { nombre: "Pendiente", value: 'sin_definir' }
   ]
   const { unidades: unidadCampos } = useCampos();
 
@@ -70,7 +70,7 @@ function ModalAddUser({ setOpenModal }: ModalAddUserProps) {
                   try {
                     // Agregar usuario
                     const usuarioResponse = await altaUsuario(values);
-                    
+                    console.log(values)
                     if(usuarioResponse.mensaje == "No se encontró el usuario"){
                       Swal.fire({
                         title: 'DNI no encontrado',

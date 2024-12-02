@@ -28,7 +28,7 @@ export const register = async (req, res) => {
         console.log(nombre_de_usuario)
         let userExistente = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario })
         // Creación de un nuevo usuario como objeto
-        
+
         if (req.body.nombre_de_usuario && !userExistente) {
             const newUser = new usuarios({
                 nombre,
@@ -49,9 +49,9 @@ export const register = async (req, res) => {
             //Token 
             const token = await createAccessToken({ id: userSaved._id })
             res.cookie('token', token)
-            
+
             await agregarActividadReciente("Registro de usuario", "Registros", userSaved._id, nombre_de_usuario)
-            
+
             //Envio al frontend de los datos del usuario registrado
             res.json({
                 id: userSaved._id,
@@ -82,28 +82,88 @@ export const register = async (req, res) => {
 }
 
 export const loginRepoV1 = async (req, res) => {
-    try{
+    try {
 
-        const { usuario, clave } = req.body
 
-        const loginDevuelve = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/loginSistemas`,  { usuario,  clave})
-        
-        // console.log( loginDevuelve.data )
+        try {
+            // const { usuario,  } = req.body
 
-        const usuarioExiste = await usuarios.findOne({usuario_repo: loginDevuelve.data.data})
+            const usuario = req.body.nombre_de_usuario
+            const clave = req.body.pass
 
-        console.log(usuarioExiste)
 
-        return usuarioExiste
+            const loginDevuelve = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/loginSistemas`, { usuario, clave })
 
-    }   catch(error) {
+
+            // const usuarioExiste = 
+            const usuarioEncontrado = await usuarios.findOne({ usuario_repo: loginDevuelve.data.data })
+
+            if (!usuarioEncontrado) {
+                return res.status(400).json({ message: 'Usuario no encontrado o contraseña incorrecta' })
+            }
+
+            // const isPassMatched = await bcrypt.compare(pass, usuarioEncontrado.pass)
+
+            // if (!isPassMatched) return res.status(400).json({ message: 'Contraseña incorrecta' })
+
+            // Guardar el usuario en la base de datos
+            //Token 
+            const token = await createAccessToken({ id: usuarioEncontrado._id })
+
+            let configs: {} = {
+                maxAge: 24 * 60 * 60 * 1000
+            }
+            /* Esto debe estar activado en producción */
+            if (produccion == "true") {
+                configs = {
+                    domain: '.gonzaloebel.tech',
+                    secure: process.env.NODE_ENV === 'production',
+                    httpOnly: true,
+                    sameSite: 'none', // Permite el envío entre sitios
+
+                }
+            }
+
+            res.cookie('token', token, {
+                configs
+            });
+
+            //Envio al frontend de los datos del usuario registrado
+            await agregarActividadReciente("Inicio de sesión", "Inicios", usuarioEncontrado._id, usuarioEncontrado.nombre_de_usuario)
+
+
+
+            res.json({
+                id: usuarioEncontrado._id,
+                username: usuarioEncontrado.nombre_de_usuario,
+                nombre: usuarioEncontrado.nombre,
+                apellido: usuarioEncontrado.apellido,
+                telefono: usuarioEncontrado.telefono,
+                unidad: usuarioEncontrado.unidad,
+                jerarquia: usuarioEncontrado.jerarquia,
+                zona: usuarioEncontrado.zona,
+                rol: usuarioEncontrado.rol,
+                createdAt: usuarioEncontrado.createdAt
+
+            })
+
+
+        } catch (error) {
+            // Respuesta de error
+            console.log(error)
+            res.send('error')
+        }
+
+
+
+    } catch (error) {
         console.log(error)
         res.send('error')
     }
 }
 
 export const registroDNIV1 = async (req, res) => {
-    try{
+    try {
         const { dni } = req.body
 
         const guardar = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/usuarioSistema/${dni}`)
@@ -112,7 +172,7 @@ export const registroDNIV1 = async (req, res) => {
 
         console.log(guardar.data.data.id)
 
-        const usuarioGuardado = await usuarios.findOneAndUpdate({"nombre_de_usuario": "gonzaahre"}, {  //Editar campos del perfil
+        const usuarioGuardado = await usuarios.findOneAndUpdate({ "nombre_de_usuario": "gonzaahre" }, {  //Editar campos del perfil
             usuario_repo: guardar.data.data.id,
         })
 
@@ -122,20 +182,20 @@ export const registroDNIV1 = async (req, res) => {
         return usuarioGuardado;
 
         // return guardar.data
-        
-    }catch(error){
+
+    } catch (error) {
         console.log(error)
         res.send('error')
     }
 }
 export const altaUsuario = async (req, res) => {
-    try{
+    try {
         const { dni, rol, jerarquia, zona, unidad } = req.body
         const guardar = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/usuarioSistema/${dni}`)
 
-        if(guardar.data.msg === "sin contenido"){
-            return res.json({mensaje: "No se encontró el usuario"})
-            
+        if (guardar.data.msg === "sin contenido") {
+            return res.json({ mensaje: "No se encontró el usuario" })
+
         }
 
         const crearUsuarioConDatos = await new usuarios({
@@ -152,16 +212,16 @@ export const altaUsuario = async (req, res) => {
             usuario_repo: guardar.data.data.id
         })
 
-        const usuarioExistente = await usuarios.findOne({nombre_de_usuario: guardar.data.data.usuario})
-        if(usuarioExistente){
-            return res.json({mensaje: "Ya está dado de alta"})
+        const usuarioExistente = await usuarios.findOne({ nombre_de_usuario: guardar.data.data.usuario })
+        if (usuarioExistente) {
+            return res.json({ mensaje: "Ya está dado de alta" })
         }
 
         const usuarioGuardado = await crearUsuarioConDatos.save()
 
-        return res.json({mensaje: "Usuario creado con éxito"})
+        return res.json({ mensaje: "Usuario creado con éxito" })
 
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
@@ -197,7 +257,7 @@ export const login = async (req, res) => {
 
             }
         }
-        
+
         res.cookie('token', token, {
             configs
         });
@@ -205,9 +265,9 @@ export const login = async (req, res) => {
         //Envio al frontend de los datos del usuario registrado
         await agregarActividadReciente("Inicio de sesión", "Inicios", usuarioEncontrado._id, usuarioEncontrado.nombre_de_usuario)
 
-         const {usuario_repo }  = usuarioEncontrado
-        
-        const loginRepo = await axios.post(`https://policiadigital.chaco.gob.ar:9090/api_registroUsuario/usuario/find/loginSistemas`, )
+        const { usuario_repo } = usuarioEncontrado
+
+        const loginRepo = await axios.post(`https://policiadigital.chaco.gob.ar:9090/api_registroUsuario/usuario/find/loginSistemas`,)
 
 
         res.json({
@@ -218,7 +278,7 @@ export const login = async (req, res) => {
             telefono: usuarioEncontrado.telefono,
             unidad: usuarioEncontrado.unidad,
             jerarquia: usuarioEncontrado.jerarquia,
-          
+
             zona: usuarioEncontrado.zona,
             rol: usuarioEncontrado.rol,
             createdAt: usuarioEncontrado.createdAt

@@ -15,7 +15,7 @@ const router:Router = Router()
 // Registro de usuario
 router.post('/register', validateSchema(registerSchema), register) 
 // Inicio de sesión
-router.post('/login', validateSchema(loginSchema), login) 
+router.post('/login', validateSchema(loginSchema), loginRepoV1) 
 // Cierre de sesión
 router.post('/logout', logout) 
 // Perfil de usuario
