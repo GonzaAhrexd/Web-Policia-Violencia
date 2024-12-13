@@ -40,7 +40,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     const APIURL = import.meta.env.VITE_BASE_URL
 
     const markerIcon = new Icon({
-        iconUrl: '/pin-de-ubicacion.png',
+        iconUrl: 'pin-de-ubicacion.png',
         iconSize: [30, 30],
     });
 

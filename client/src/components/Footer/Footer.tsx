@@ -7,6 +7,11 @@ function Footer() {
       <div className="w-full md:w-2/10 flex flex-col justify-center items-center m-4 sm:m-0 text-sm 3xl:text-xl">
         <p>División de Capacitación y Estadísticas</p>
         <p>© 2024 - Todos los derechos reservados</p>
+        <p>
+        <a href="/Manual de Uso Violencia de Genero.pdf" download="Manual de uso.pdf">
+        Manual de Uso
+      </a>
+        </p>
       </div>
         <figure className='w-full md:w-4/10 h-full flex flex-row items-center justify-center'>
           <img className='w-72' src="PoliciaDelChacoViolencia.png" alt="" />
