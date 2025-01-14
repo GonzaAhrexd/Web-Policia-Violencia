@@ -18,7 +18,7 @@ import { getVictimario } from '../../../api/CRUD/victimario.crud';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet' // Librería para mostrar mapas
 import Swal from 'sweetalert2' // Librería para mostrar popups
 import 'leaflet/dist/leaflet.css';
-import { Icon } from 'leaflet'
+// import { Icon } from 'leaflet'
 // Iconos
 import { PencilSquareIcon, TrashIcon, MapPinIcon, PrinterIcon } from '@heroicons/react/24/solid'
 import { UsersIcon, UserIcon, ClipboardDocumentCheckIcon, ExclamationTriangleIcon, QueueListIcon, MapPinIcon as MapPinIconOutLine, ListBulletIcon, QuestionMarkCircleIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
@@ -39,10 +39,10 @@ interface expandedComponentsProps {
 function expandedComponents({ data }: expandedComponentsProps) {
     const APIURL = import.meta.env.VITE_BASE_URL
 
-    const markerIcon = new Icon({
-        iconUrl: 'pin-de-ubicacion.png',
-        iconSize: [30, 30],
-    });
+    // const markerIcon = new Icon({
+    //     iconUrl: '/pin-de-ubicacion.png',
+    //     iconSize: [30, 30],
+    // });
 
     const fileInputRef = useRef(null)
     const { handleSubmit } = useForm();
@@ -95,11 +95,32 @@ function expandedComponents({ data }: expandedComponentsProps) {
     let lat: number = 0
     let lon: number = 0
     // Separar las coordenadas
-    if (data.GIS.length > 6) {
-        const latLng: Array<number> = data.GIS.split(" ");
-        lat = latLng[0]
-        lon = latLng[1]
+    if (data.GIS.length > 6 && data.GIS.includes(" ")) {
+        const latLng: Array<string> = data.GIS.split(" ")
+         lat = parseFloat(latLng[0]);
+         lon = parseFloat(latLng[1]);
+
+         console.log(latLng)
+
+        }else{
+
+        const latLng: Array<string> = data.GIS.split("-").slice(1)
+
+        console.log(latLng)
+
+        if(latLng[1] < latLng[0]){
+
+        lat = parseFloat('-' + latLng[1]);
+        lon = parseFloat('-' + latLng[0]);
+        }else{
+        lat = parseFloat(latLng[0]);
+        lon = parseFloat(latLng[1]);
+        }
+        
+
     }
+
+    
 
     // useEffect para obtener los datos de la víctima y el victimario
     useEffect(() => {
@@ -340,7 +361,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
                                 <TileLayer
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                 />
-                                <Marker position={[lat, lon]} icon={markerIcon} >
+                                <Marker position={[lat, lon]} >
                                     <Popup>
                                         {data.direccion + "," + data.barrio}
                                     </Popup>

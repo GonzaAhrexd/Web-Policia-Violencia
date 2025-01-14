@@ -245,3 +245,43 @@ export const buscarVictimario = async (req, res) => {
         console.log(error)
     }
 }
+
+
+export const buscarVictimarioPorDni = async (req, res) => {
+    try 
+    {
+        const { dni_victimario } = req.params
+        console.log(dni_victimario)
+        let respuesta = await victimario.findOne({ DNI: dni_victimario })
+
+        // Agrega a la respuesta para cada elemento en denuncias_en_contra el objeto que devuelve con su id en denuncias
+
+        if (respuesta) {
+            let denuncias_detalles = []
+
+            for (const denuncia of respuesta.denuncias_en_contra) {
+                let denuncia_encontrada = await denuncias.findById(denuncia) 
+                
+                if( denuncia_encontrada != null){
+                    // @ts-ignore
+                    denuncias_detalles.push(denuncia_encontrada)
+                }
+            }
+
+            res.json({
+                     // @ts-ignore
+                     ...respuesta._doc,
+                     denuncias_detalles
+            })
+
+        } else {
+            res.json("No se encontró al victimario")
+        }
+ 
+    } catch (error) {
+        console.log(error)
+
+    }
+}
+
+

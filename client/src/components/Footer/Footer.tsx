@@ -8,7 +8,7 @@ function Footer() {
         <p>División de Capacitación y Estadísticas</p>
         <p>© 2024 - Todos los derechos reservados</p>
         <p>
-        <a href="/Manual de Uso Violencia de Genero.pdf" download="Manual de uso.pdf">
+        <a href="https://policiasistemas.chaco.gob.ar/violencia.capyesta/Manual_de_Uso_Violencia_de_Genero.pdf" download="Manual de uso.pdf">
         Manual de Uso
       </a>
         </p>

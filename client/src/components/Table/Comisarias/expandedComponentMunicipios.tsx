@@ -122,6 +122,10 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
                    
                     <div className='flex items-center justify-center w-1/2'>
                     <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2'>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+</svg>
+
                         Editar Municipio
                     </button>
                     <div className='flex items-center justify-center bg-sky-950 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2' 

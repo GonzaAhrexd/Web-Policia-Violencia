@@ -22,4 +22,6 @@ router.put('/editar-victima/:id', authRequired, updateVictima)
 // Buscar víctima
 router.get('/buscar-victima/:id_victima/:nombre_victima/:apellido_victima/:dni_victima/:numero_de_expediente', authRequired, buscarVictima)
 
+
+
 export default router;

@@ -13,6 +13,7 @@ if(process.env.BD_mode == "cloud"){
      uri = `mongodb+srv://${user}:${pass}@cluster0.uijihcv.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 }else {
      uri = 'mongodb://localhost:27017/PoliciaViolenciaGeneroCRUD'
+    //  uri = 'mongodb://10.125.31.9:27017/PoliciaViolenciaGeneroCRUD'
 }
 
 //Función que realiza la conexión  a la base de datos de MongoDB

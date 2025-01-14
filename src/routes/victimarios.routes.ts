@@ -5,7 +5,7 @@
 */    
 import { Router } from 'express';
 import { authRequired } from '../middlewares/validateToken';
-import { getVictimario, createVictimario, updateVictimario, buscarVictimario } from '../controllers/CRUD/crudVictimarios'
+import { getVictimario, createVictimario, updateVictimario, buscarVictimario, buscarVictimarioPorDni  } from '../controllers/CRUD/crudVictimarios'
 
 const router:Router = Router();
 
@@ -17,5 +17,6 @@ router.post('/crear-victimario/', authRequired, createVictimario)
 router.put('/editar-victimario/:id', authRequired, updateVictimario)
 // Buscar victimario
 router.get('/buscar-victimario/:victimario_id/:nombre_victimario/:apellido_victimario/:dni_victimario/:numero_de_expediente', authRequired, buscarVictimario)
-
+// Victimario DNI
+router.get('/victimario-dni/:dni_victimario', buscarVictimarioPorDni)
 export default router;

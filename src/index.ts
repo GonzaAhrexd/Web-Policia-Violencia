@@ -29,13 +29,25 @@ connectDB().catch(err => console.error(`No se pudo conectar a MongoDB ❌: ${err
 
 // Puerto de la aplicación
 const port = process.env.PORT || 4000
+const allowedOrigins = [
+  process.env.corsOrigin, // Origen desde la variable de entorno
+  'http://localhost:4200', // Origen adicional
+];
 
-const corsOrigin:string | undefined = process.env.corsOrigin
-// Permite a la aplicación recibir datos en formato JSON
-app.use(cors({
-    origin: corsOrigin,
-    credentials: true
-}))
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        // Si el origen está en la lista o es una solicitud sin origen (como en Postman)
+        callback(null, true);
+      } else {
+        callback(new Error('Origen no permitido por CORS')); // Bloquear el acceso
+      }
+    },
+    credentials: true, // Permitir cookies y encabezados relacionados con credenciales
+  })
+);
+
 // Middleware para ver las peticiones HTTP en la consola
 app.use(morgan('dev'))
 // Middleware para manejar cookies
