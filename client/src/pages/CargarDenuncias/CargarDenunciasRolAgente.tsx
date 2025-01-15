@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 // Conexión con BackEnd
-import { crearDenunciaSinVerificar } from '../../api/CRUD/denunciasSinVerificar.crud'; 
+import { crearDenunciaSinVerificar } from '../../api/CRUD/denunciasSinVerificar.crud';
 import { crearExposicion } from '../../api/CRUD/exposicion.crud';
 // Librerías React
 import Swal from 'sweetalert2'
@@ -15,6 +15,7 @@ import CargarInstructorYSecretario from '../../components/Cargar/CargarAgente/Ca
 import CargarTipoDeDenuncia from '../../components/Cargar/CargarAgente/CargarTipoDeDenuncia';
 import PDF from './PDF';
 import InputExpediente from '../../components/InputComponents/InputExpediente';
+import InputRegister from '../../components/InputComponents/InputRegister';
 
 interface CargarDenunciasRolCargaProps {
   user: any;
@@ -29,6 +30,8 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
   // Estados
   const [tipoDenuncia, setTipoDenuncia] = useState('')
   const [comisariaPertenece,] = useState('')
+  const userDivisionZona = user.unidad.split(",")
+  const [isDivision,] = useState(!(userDivisionZona.length > 1));
 
   // Función para imprimir
   const handleImprimir = async () => {
@@ -86,13 +89,20 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
           <div className='flex justify-center'>
             <CargarTipoDeDenuncia setTipoDenuncia={setTipoDenuncia} register={register} setValue={setValue} errors={errors} />
           </div>
-
           {(tipoDenuncia == "mujer" || tipoDenuncia == "hombre") && (
             <>
               <h1 className='text-2xl my-5'>Expediente</h1>
               <div className='flex justify-center'>
                 <InputExpediente cargaAgente={true} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
               </div>
+              {!isDivision && 
+              <div className='flex flex-row w-full justify-center'>
+                <div className='flex flex-row w-full lg:w-6/10'>
+                  <InputRegister campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
+                  <InputRegister campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
+                </div>
+              </div>
+              }
               <h1 className='text-2xl my-5'>Denunciante</h1>
               <div className='flex justify-center'>
                 <CargarVictimaAgente register={register} setValue={setValue} errors={errors} />
@@ -114,10 +124,19 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
           )}
           {tipoDenuncia == "exposicion" && (
             <>
+              {!isDivision && 
+              <div className='flex flex-row w-full justify-center'>
+                <div className='flex flex-row w-full lg:w-6/10'>
+                  <InputRegister campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
+                  <InputRegister campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
+                </div>
+              </div>
+              }
               <h1 className='text-2xl my-5'>Expositor</h1>
               <div className='flex justify-center'>
                 <CargarVictimaAgente register={register} setValue={setValue} errors={errors} />
               </div>
+
               <h1 className='text-2xl my-5'>Denuncia</h1>
               <div className='flex justify-center'>
                 <CargarObservaciones rolAgenteHidden register={register} />

@@ -5,6 +5,7 @@
 */
 // Hooks
 import { useState } from 'react';
+import InputRadio from '../InputComponents/InputRadio';
 
 interface Opcion {
     value?: string;
@@ -29,7 +30,14 @@ interface Props {
 }
 
 
-function SelectRegister({notMunicipio, notComisaria, mid, setTipoDenuncia, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
+function SelectRegisterUser({notMunicipio, notComisaria, mid, setTipoDenuncia, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
+
+    const opcionesRadio = [
+        { value: "si", nombre: "Sí" },
+        { value: "no", nombre: "No" },
+    ]
+
+
     // Estados
     const [requiredInput, ] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
@@ -49,25 +57,7 @@ function SelectRegister({notMunicipio, notComisaria, mid, setTipoDenuncia, campo
         setSelectedSubsubunidad('');
         // Actualiza el valor en react-hook-form
         setTipoDenuncia && setTipoDenuncia(value)
-        campo == "Género" && setValue('genero', value)
-        campo == "Unidad" && setValue('unidad', value) 
-        campo == "Zona" && setValue('zona', value)
-        nombre == "jerarquia" && setValue('jerarquia', value)
-        nombre == "estado_civil_victima" && setValue('estado_civil_victima', value)
-        nombre == "ocupacion_victima" && setValue('ocupacion_victima', value)
-        nombre == "vinculo_con_agresor_victima"  && setValue('vinculo_con_agresor_victima', value)
-        nombre == "condicion_de_vulnerabilidad_victima"  && setValue('condicion_de_vulnerabilidad_victima', value)
-        nombre == "estado_civil_victimario" && setValue('estado_civil_victimario', value)
-        nombre == "ocupacion_victimario" && setValue('ocupacion_victimario', value)
-        nombre == "vinculo_con_la_victima" && setValue('vinculo_con_la_victima', value)
-        nombre == "jerarquia_secretario" && setValue('jerarquia_secretario', value)
-        nombre == "jerarquia_instructor" && setValue('jerarquia_instructor', value)
-        nombre == "tipo_denuncia" && setValue('tipo_denuncia', value)
-        nombre == "division" && setValue('division', value)
-        nombre == "denuncias_de" && setValue('denuncias_de', value)
-        nombre == "apartado" && setValue('apartado', value)
-        nombre == "juzgado_interviniente" && setValue('juzgado_interviniente', value)
-        nombre == "rol" && setValue('rol', value)
+      
     };
       
     const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -103,6 +93,7 @@ function SelectRegister({notMunicipio, notComisaria, mid, setTipoDenuncia, campo
                         </option>
                     ))}
                 </select>
+                    
 
                 {(selectedUnidad && !notMunicipio) && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones && (
                 <div className='flex flex-row xl:h-full 2xl:h-full xl:w-full'>
@@ -143,4 +134,4 @@ function SelectRegister({notMunicipio, notComisaria, mid, setTipoDenuncia, campo
     )
 }
 
-export default SelectRegister
+export default SelectRegisterUser

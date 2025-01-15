@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { useEffect, useState } from 'react';
 
 interface PDFProps {
     datos: any;
@@ -9,6 +10,13 @@ interface PDFProps {
 function PDF({ tipoDenuncia, datos, user }: PDFProps) {
 
     const userDivisionZona = user.unidad.split(",")
+
+    const [isDivision,] = useState(!(userDivisionZona.length > 1));
+
+    useEffect(() => {
+        console.log(userDivisionZona.length)
+        console.log(isDivision)
+    }, [])
     const fecha: Date = new Date()
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
     // Obtener día, mes y año por separado
@@ -66,7 +74,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
             marginBottom: 10,
             fontSize: 12,
             textAlign: 'justify',
-        }, 
+        },
         signature: {
             marginTop: 40,
             display: 'flex',
@@ -160,22 +168,73 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
 
     });
 
+    const Header = () => {
+
+        return (
+            <View style={styles.header}>
+                <Image src="EscudoProvinciaDelChaco.png" style={styles.images} />
+                <View style={styles.sectionCenter}>
+                    <Text style={styles.textBold}>POLICIA DE LA PROVINCIA DEL</Text>
+                    <Text style={styles.textBold}>CHACO</Text>
+                    {isDivision ?
+                        <>
+                            <Text>DIVISION VIOLENCIA FAMILIAR Y DE GENERO</Text>
+                            <Text>{direccionDivision[0].division.toUpperCase()}</Text>
+                            <Text>{direccionDivision[0].direccion} - {direccionDivision[0].division == "Metropolitana" ? "Resistencia" : direccionDivision[0].division} - Chaco; Tel. {direccionDivision[0].telefono}</Text>
+                        </>
+                        :
+                        userDivisionZona[2] ?
+                            <>
+                                <Text>{userDivisionZona[2].toUpperCase()}</Text>
+                                <Text>{datos.direccion} - {userDivisionZona[1].toUpperCase()} - {datos.telefono} </Text>
+                            </>
+                            :
+                            <>
+                                <Text>COMISARÍA {userDivisionZona[1].toUpperCase()}</Text>
+                                <Text>{datos.direccion} - {userDivisionZona[1].toUpperCase()} - {datos.telefono} </Text>
+                            </>
+
+
+
+                    }
+                </View>
+                <Image src="Escudo_Policia_Chaco_Transparente.png" style={styles.images} />
+            </View>
+        )
+    }
+
+    const Footer = () => {
+        return (
+            <>
+                <Text>_____________________________________________________</Text>
+                <View style={styles.sectionSignatureEnd}>
+                    <Text>Firma</Text>
+                    <Text>Aclaración</Text>
+                    <Text>DNI</Text>
+                </View>
+                <View style={styles.sectionSignatureEndContainer}>
+                    <View style={styles.sectionSignatureEndSecretario}>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
+                        <Text style={styles.boldText}>-SECRETARIO-</Text>
+                    </View>
+                    <View style={styles.sectionSignatureEndText}>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_instructor}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_instructor} </Text>
+                        <Text style={styles.boldText}>-INSTRUCTOR-</Text>
+                    </View>
+                </View>
+
+            </>
+        )
+    }
+
     // Create Document Component
     if (tipoDenuncia == "mujer" || tipoDenuncia == "hombre") {
         return (
             <Document>
                 <Page style={styles.page}>
-                    <View style={styles.header}>
-                        <Image src="EscudoProvinciaDelChaco.png" style={styles.images} />
-                        <View style={styles.sectionCenter}>
-                            <Text style={styles.textBold}>POLICIA DE LA PROVINCIA DEL</Text>
-                            <Text style={styles.textBold}>CHACO</Text>
-                            <Text>DIVISION VIOLENCIA FAMILIAR Y DE GENERO</Text>
-                            <Text>{direccionDivision[0].division.toUpperCase()}</Text>
-                            <Text>{direccionDivision[0].direccion} - {direccionDivision[0].division} - Chaco; Tel. {direccionDivision[0].telefono}</Text>
-                        </View>
-                        <Image src="Escudo_Policia_Chaco_Transparente.png" style={styles.images} />
-                    </View>
+                    <Header />
                     <View style={styles.section}>
                         <View style={styles.sectionRight}>
                             <Text>Expediente {datos.PrefijoExpediente + datos.numero_de_expediente + datos.Expediente + datos.SufijoExpediente}</Text>
@@ -183,7 +242,11 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                         <Text style={styles.subheader}>- DENUNCIA -</Text>
                         <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ DENUNCIA:--------------------------------------------------------/</Text>
                         <Text style={styles.longText}>
-                            En la División Violencia Familiar y de Género {userDivisionZona[0]}, con asiento en la ciudad de {userDivisionZona[1]}, {userDivisionZona[1] == "Resistencia" ? "capital de la" : ""} Provincia del
+                            {isDivision ?
+                                `En la División Violencia Familiar y de Género ${userDivisionZona[0]}, con asiento en la ciudad de ${userDivisionZona[0] == "Metropolitana" ? "Resistencia, capital de la " : userDivisionZona[0]} `
+                                :
+                                `En la ${userDivisionZona[2] ? userDivisionZona[2] : "Comisaría " + userDivisionZona[1]} de la ciudad de ${userDivisionZona[1]}`
+                            }   Provincia del
                             Chaco, a los {dia} del mes de {mes} del año {año}, siendo la hora {horaActual} comparece a despacho la persona de mención en el título,
                             quien interrogado por sus datos personales de identidad DIJO: Llamarse como consta en el titulo, Ser de nacionalidad: {datos.nacionalidad_victima},
                             de {datos.edad_victima} años de edad, Estado civil {datos.estado_civil_victima}, ocupación: {datos.ocupacion_victima}, {datos.SabeLeerYEscribir == "Sí" ? "con " : "sin "} instrucción, domiciliada {datos.direccion_victima} -, Teléfono Celular Nº {datos.telefono_victima},
@@ -203,24 +266,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                         </Text>
 
                     </View>
-                    <Text>_____________________________________________________</Text>
-                    <View style={styles.sectionSignatureEnd}>
-                        <Text>Firma</Text>
-                        <Text>Aclaración</Text>
-                        <Text>DNI</Text>
-                    </View>
-                    <View style={styles.sectionSignatureEndContainer}>
-                        <View style={styles.sectionSignatureEndSecretario}>
-                            <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario}</Text>
-                            <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
-                            <Text style={styles.boldText}>-SECRETARIO-</Text>
-                        </View>
-                        <View style={styles.sectionSignatureEndText}>
-                            <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_instructor}</Text>
-                            <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_instructor} </Text>
-                            <Text style={styles.boldText}>-INSTRUCTOR-</Text>
-                        </View>
-                    </View>
+                    <Footer />
                 </Page>
             </Document>
         )
@@ -229,17 +275,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
         return (
             <Document>
                 <Page style={styles.page}>
-                    <View style={styles.header}>
-                        <Image src="EscudoProvinciaDelChaco.png" style={styles.images} />
-                        <View style={styles.sectionCenter}>
-                            <Text style={styles.textBold}>POLICIA DE LA PROVINCIA DEL</Text>
-                            <Text style={styles.textBold}>CHACO</Text>
-                            <Text>DIVISION VIOLENCIA FAMILIAR Y DE GENERO</Text>
-                            <Text>{direccionDivision[0].division.toUpperCase()}</Text>
-                            <Text>{direccionDivision[0].direccion} - {direccionDivision[0].division} - Chaco; Tel. {direccionDivision[0].telefono}</Text>
-                        </View>
-                        <Image src="Escudo_Policia_Chaco_Transparente.png" style={styles.images} />
-                    </View>
+                    <Header />
                     <View style={styles.section}>
                         <View style={styles.sectionRight}>
                             <Text>Expediente {datos.PrefijoExpediente + datos.numero_de_expediente + datos.Expediente + datos.SufijoExpediente}</Text>
@@ -247,8 +283,13 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                         <Text style={styles.subheader}>- EXPOSICIÓN -</Text>
                         <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ EXPOSICIÓN:--------------------------------------------------------/</Text>
                         <Text style={styles.longText}>
-                            En la Division Violencia Familiar Y De Genero {userDivisionZona[0]}, con asiento en la ciudad de {userDivisionZona[1]}, {userDivisionZona[1] == "Resistencia" ? "capital de la" : ""} Provincia del
-                            Chaco, a los {dia} del mes de {mes} del año {año}, siendo la hora {horaActual} comparece a despacho la persona de mención en el título,
+                            {isDivision ?
+                                `En la División Violencia Familiar y de Género ${userDivisionZona[0]}, con asiento en la ciudad de ${userDivisionZona[0] == "Metropolitana" ? "Resistencia, capital de la " : userDivisionZona[0]} `
+                                :
+                                `En la ${userDivisionZona[2] ? userDivisionZona[2] : "Comisaría " + userDivisionZona[1]} de la ciudad de ${userDivisionZona[1]}`
+                            }  Provincia del
+                            Chaco
+                            , a los {dia} del mes de {mes} del año {año}, siendo la hora {horaActual} comparece a despacho la persona de mención en el título,
                             quien interrogado por sus datos personales de identidad <Text style={styles.boldText}>DIJO LLAMARSE:</Text> <Text style={styles.boldText}>{datos.nombre_victima} {datos.apellido_victima}, ser de nacionalidad: {datos.nacionalidad_victima},
                                 de {datos.edad_victima} años de edad, Estado civil {datos.estado_civil_victima}, ocupación: {datos.ocupacion_victima}, {datos.SabeLeerYEscribir == "Sí" ? "con " : "sin "} instrucción, domiciliada {datos.direccion_victima} -, Teléfono Celular Nº {datos.telefono_victima},
                                 Identidad que acredita con Juramento de Ley, aduciendo tener DNI Nº {datos.dni_victima}.</Text> Abierto el acto y cedida que le fuere la palabra y en uso del a misma. EXPONE: {datos.observaciones} <Text style={styles.boldText}> PREGUNTANDO:</Text> Si desea agregar, quitar o enmendar
@@ -256,24 +297,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                         </Text>
 
                     </View>
-                    <Text>_____________________________________________________</Text>
-                    <View style={styles.sectionSignatureEnd}>
-                        <Text>Firma</Text>
-                        <Text>Aclaración</Text>
-                        <Text>DNI</Text>
-                    </View>
-                    <View style={styles.sectionSignatureEndContainer}>
-                        <View style={styles.sectionSignatureEndSecretario}>
-                            <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario}</Text>
-                            <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
-                            <Text style={styles.boldText}>-SECRETARIO-</Text>
-                        </View>
-                        <View style={styles.sectionSignatureEndText}>
-                            <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_instructor}</Text>
-                            <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_instructor} </Text>
-                            <Text style={styles.boldText}>-INSTRUCTOR-</Text>
-                        </View>
-                    </View>
+                    <Footer />
                 </Page>
             </Document>
         )

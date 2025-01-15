@@ -4,12 +4,13 @@ type ModalAddUserProps = {
 
 // Hooks
 import { useForm } from 'react-hook-form'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 // Componentes
-import SelectRegister from '../Select/SelectRegister'
+import SelectRegisterUser from '../Select/SelectRegisterUser'
 import InputNumber from '../InputComponents/InputNumber'
 import SelectRegisterSingle from '../Select/SelectRegisterSingle'
+import InputRadio from '../InputComponents/InputRadio'
 // Dependencias
 import Swal from 'sweetalert2'
 
@@ -22,8 +23,9 @@ import { jerarquiaCampos } from '../../GlobalConst/jerarquiaCampos'
 import { zonaCampos } from '../../GlobalConst/zonaCampos'
 import { useCampos } from '../../context/campos'
 import { XCircleIcon } from '@heroicons/react/24/outline'
+import SelectRegister from '../Select/SelectRegister'
 function ModalAddUser({ setOpenModal }: ModalAddUserProps) {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const { watch, register, handleSubmit, setValue, formState: { errors } } = useForm();
   useEffect(() => {
     // Al presionar esc del teclado se cierra el modal
     const cerrarModal = (e: any) => {
@@ -39,6 +41,13 @@ function ModalAddUser({ setOpenModal }: ModalAddUserProps) {
       window.removeEventListener('keydown', cerrarModal);
     };
   }, []);
+
+  const [division, setDivision] = useState(false);
+
+  const opcionesRadio = [
+    { value: "si", nombre: "Sí" },
+    { value: "no", nombre: "No" },
+  ]
 
   const rolesCampos = [
     { nombre: 'Admin', value: 'admin' },
@@ -116,7 +125,14 @@ function ModalAddUser({ setOpenModal }: ModalAddUserProps) {
             <SelectRegisterSingle campo="Rol" nombre="rol" setValue={setValue} error={errors.rol} opciones={rolesCampos} />
             <SelectRegisterSingle campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} setValue={setValue} error={errors.jerarquia} />
             <SelectRegisterSingle campo="Zona" nombre="zona" opciones={zonaCampos} setValue={setValue} error={errors.zona} />
-            <SelectRegister notComisaria campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
+            <span>¿División Violencia Familiar y de Género?</span>
+            <InputRadio watch={watch} defaultValue={1} handleChange={setDivision} campo="violencia_familiar" nombre="violencia_familiar" register={register} type="radio" opciones={opcionesRadio} />
+           
+           {division ? 
+            <SelectRegister notMunicipio notComisaria campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
+            :
+          <SelectRegisterUser campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
+          }
 
             <button type='submit' className='bg-sky-900 hover:bg-sky-700 text-white w-4/10 h-10 rounded-md my-2'>Agregar</button>
 

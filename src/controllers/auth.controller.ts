@@ -1,6 +1,5 @@
 // Modelos
 import usuarios from '../models/usuarios'
-
 // Token y autenticación
 import { createAccessToken } from '../libs/jwt'
 import bcrypt from 'bcrypt'
@@ -193,6 +192,7 @@ export const registroDNIV1 = async (req, res) => {
 export const altaUsuario = async (req, res) => {
     try {
         const { dni, rol, jerarquia, zona, unidad } = req.body
+
         const guardar = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/usuarioSistema/${dni}`)
 
         if (guardar.data.msg === "sin contenido") {

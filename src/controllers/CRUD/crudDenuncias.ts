@@ -30,6 +30,7 @@ export const getDenuncias = async (req, res) => {
     // Obtener los parámetros de la URL
     const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, manual } = req.params;
     // Crear el objeto de consulta
+    console.log(numero_de_expediente)
     const query: Query = { };
 
     // Si se ingresó un valor, se agrega a la consulta
@@ -66,6 +67,8 @@ export const getDenuncias = async (req, res) => {
     }
     // Obtener las denuncias
     try {
+        console.log(query)
+
         const denuncias = await denuncia.find(query);
         if(manual){
             // Agrega a la actividad reciente
@@ -81,6 +84,7 @@ export const getDenuncias = async (req, res) => {
 
 // Obtener denuncias del usuario para mostrarlos
 export const getMisDenuncias = async (req, res) => {
+
     // Query con consultas opcionales para filtrar
     interface Query {
         denunciada_cargada_por: string;
@@ -93,6 +97,7 @@ export const getMisDenuncias = async (req, res) => {
     }
     // Obtener los parámetros de la URL
     const { desde, hasta, numero_de_expediente, is_expediente_completo } = req.params;
+
     // Crear el objeto de consulta
     const query: Query = { denunciada_cargada_por: req.user.id };
   
