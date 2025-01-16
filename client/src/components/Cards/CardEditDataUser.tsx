@@ -17,18 +17,26 @@ import { useCampos } from '../../context/campos';
 
 // Librerías
 import Swal from 'sweetalert2'
+import InputRadio from '../InputComponents/InputRadio';
 interface InputRegisterProps {
     user: any
     setIsEditing: any
 }
 
 function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
+    const divisionZona = user.unidad.split(",")
+    const [isDivision, setIsDivision] = useState(!(divisionZona.length > 1));
 
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+    const {watch, register, handleSubmit, setValue, formState: { errors } } = useForm();
     const [mensajeError, setMensajeError] = useState('')
 
     const { editProfile } = useAuth()
     const { unidades: unidadCampos } = useCampos();
+
+    const opcionesRadio = [
+        { value: "si", nombre: "Sí" },
+        { value: "no", nombre: "No" },
+    ]
     
     return (
         <div className="bg-white shadow-lg rounded-lg md:w-8/10 p-4 scale-up-center">
@@ -75,14 +83,23 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
                     <InputRegister disabled campo="Apellido" nombre="apellido" register={register} setValue={setValue} type="text" error={errors.apellido} valor={user.apellido} />
                 </div>
                 <div className='flex flex-col md:flex-row'>
-                    <InputNumber  campo="Teléfono" nombre="telefono" placeholder={user.telefono} register={register} setValue={setValue} type="text" error={errors.telefono} valor={user.telefono} maxLenght={14} />
+                    <InputNumber  require={false} campo="Teléfono" nombre="telefono" placeholder={user.telefono} register={register} setValue={setValue} type="text" error={errors.telefono} valor={user.telefono} maxLenght={14} />
                     <InputRegister disabled campo="Nombre de usuario" nombre="nombre_de_usuario" register={register} setValue={setValue} type="text" error={errors.nombre_de_usuario} valor={user.username} />
                 </div>
                 <div className='flex flex-col md:flex-row'>
                     <SelectRegisterSingle mid isRequired={false} valor={user.jerarquia} campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} setValue={setValue} error={errors.jerarquia} />
                     <SelectRegisterSingle mid isRequired={false} valor={user.zona} campo="Zona" nombre="zona" opciones={zonaCampos}  setValue={setValue}  error={errors.zona} />
                 </div>
+                <span>¿División Violencia Familiar y de Género?</span>
+            <InputRadio watch={watch} defaultValue={isDivision ? 0 : 1} handleChange={setIsDivision} campo="violencia_familiar" nombre="violencia_familiar" register={register} type="radio" opciones={opcionesRadio} />
+           
+            {isDivision ?
                 <SelectRegister notMunicipio notComisaria isRequired={false} valor={user.unidad} campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
+                :
+                <SelectRegister  isRequired={false} valor={user.unidad} campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
+            }
+
+
                 <span className='text-red-400 pl-3'> {mensajeError} </span>
 
                 <div className="flex gap-2 px-2 py-2">
