@@ -189,6 +189,7 @@ function expandedComponentsUnidades({ municipio, data }: expandedComponentsUnida
                 highlightOnHover={true}
                 noDataComponent="No hay cuadrículas para mostrar"
                 defaultSortFieldId={"Fecha"}
+                defaultSortAsc={false}
                 expandableIcon={expandableIcon}
             />
         </div>

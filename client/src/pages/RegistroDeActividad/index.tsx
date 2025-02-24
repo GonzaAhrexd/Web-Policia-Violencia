@@ -78,8 +78,8 @@ function index() {
                             striped={true}
                             highlightOnHover={true}
                             noDataComponent="No hay denuncias para mostrar"
-                            defaultSortFieldId={"Fecha"}
-                            defaultSortAsc={false}
+                            // defaultSortFieldId={"Fecha"}
+                            // defaultSortAsc={false}
                         />
                     </div>
                 }

@@ -5,7 +5,6 @@
 */
 // Hooks
 import { useState } from 'react';
-import InputRadio from '../InputComponents/InputRadio';
 
 interface Opcion {
     value?: string;
@@ -31,13 +30,6 @@ interface Props {
 
 
 function SelectRegisterUser({notMunicipio, notComisaria, mid, setTipoDenuncia, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
-
-    const opcionesRadio = [
-        { value: "si", nombre: "Sí" },
-        { value: "no", nombre: "No" },
-    ]
-
-
     // Estados
     const [requiredInput, ] = useState(isRequired!=null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');

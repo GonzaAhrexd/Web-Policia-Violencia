@@ -84,7 +84,7 @@ function MisDenunciasAgente() {
                     highlightOnHover={true} // Resaltar al pasar el mouse
                     noDataComponent="No hay denuncias para mostrar" // Mensaje si no hay datos
                     defaultSortFieldId={"fecha"} // Campo por defecto para ordenar
-                    defaultSortAsc={true} // Orden ascendente
+                    defaultSortAsc={false} // Orden ascendente
                     expandableIcon={expandableIcon} // Iconos de expandir y colapsar
                 />}
             </div>

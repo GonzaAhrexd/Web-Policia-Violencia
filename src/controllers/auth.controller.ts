@@ -101,10 +101,6 @@ export const loginRepoV1 = async (req, res) => {
                 return res.status(400).json({ message: 'Usuario no encontrado o contraseña incorrecta' })
             }
 
-            // const isPassMatched = await bcrypt.compare(pass, usuarioEncontrado.pass)
-
-            // if (!isPassMatched) return res.status(400).json({ message: 'Contraseña incorrecta' })
-
             // Guardar el usuario en la base de datos
             //Token 
             const token = await createAccessToken({ id: usuarioEncontrado._id })

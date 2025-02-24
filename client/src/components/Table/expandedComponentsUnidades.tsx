@@ -150,6 +150,7 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
                     highlightOnHover={true}
                     noDataComponent="No hay denuncias para mostrar"
                     defaultSortFieldId={"Fecha"}
+                    defaultSortAsc={false}
                     expandableIcon={expandableIcon}
                 />
             </div>
