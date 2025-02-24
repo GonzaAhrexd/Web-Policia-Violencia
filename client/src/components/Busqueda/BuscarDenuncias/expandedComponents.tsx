@@ -204,6 +204,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     const hechoDatosMostrar = [
         { nombre: "ID", valor: data._id },
         { nombre: "Número de expediente", valor: data.numero_de_expediente },
+        { nombre: "Modo de actuación", valor: data.modo_actuacion },
         { nombre: "Género", valor: data.genero },
         { nombre: "Fecha", valor: `${new Date(data.fecha).getUTCDate().toString().padStart(2, '0')}/${(new Date(data.fecha).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(data.fecha).getUTCFullYear()}` },
         { nombre: "Empleo de armas", valor: data.empleo_de_armas },

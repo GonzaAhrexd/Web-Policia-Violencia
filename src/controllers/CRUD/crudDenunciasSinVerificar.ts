@@ -9,7 +9,7 @@ export const createDenunciaSinVerificar = async (req, res) => {
         const usuario = await usuarios.findById(req.user.id)
         const division = usuario?.unidad
         // Obtener los datos de la denuncia
-        const { nombre_victima, numero_de_expediente, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
+        const { nombre_victima, numero_de_expediente, apellido_victima, edad_victima, dni_victima, estado_civil_victima, modo_actuacion, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
         // Crear la denuncia
         const newDenunciaSinVerificar = new denunciaSinVerificar({
             estado: "En verificación",
@@ -25,6 +25,7 @@ export const createDenunciaSinVerificar = async (req, res) => {
             nacionalidad_victima: nacionalidad_victima,
             direccion_victima: direccion_victima,
             telefono_victima: telefono_victima,
+            modo_actuacion: modo_actuacion,
             sabe_leer_y_escribir_victima: SabeLeerYEscribir == "Sí" ? true : false,
             observaciones: observaciones,
             preguntas: {

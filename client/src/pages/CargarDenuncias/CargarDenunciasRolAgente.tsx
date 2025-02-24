@@ -16,6 +16,7 @@ import CargarTipoDeDenuncia from '../../components/Cargar/CargarAgente/CargarTip
 import PDF from './PDF';
 import InputExpediente from '../../components/InputComponents/InputExpediente';
 import InputRegister from '../../components/InputComponents/InputRegister';
+import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle';
 
 interface CargarDenunciasRolCargaProps {
   user: any;
@@ -43,12 +44,15 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
     window.open(url);
   }
 
+  
+
   return (
     <div className='min-h-screen sm:h-full p-2 sm:p-10'>
       <h2 className='text-3xl my-5'>Cargar nueva denuncia</h2>
       <div>
         <form onSubmit={
           handleSubmit(async (values) => {
+            console.log(values)
             Swal.fire({
               title: '¿Estás seguro?',
               text: "Una vez enviado, debe ser verificado.",
@@ -86,9 +90,9 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
           })}
         >
           <h1 className='text-2xl my-5'>Tipo de denuncia</h1>
-          <div className='flex justify-center'>
+          <div className='flex flex-col items-center justify-center'>
             <CargarTipoDeDenuncia setTipoDenuncia={setTipoDenuncia} register={register} setValue={setValue} errors={errors} />
-          </div>
+             </div>
           {(tipoDenuncia == "mujer" || tipoDenuncia == "hombre") && (
             <>
               <h1 className='text-2xl my-5'>Expediente</h1>

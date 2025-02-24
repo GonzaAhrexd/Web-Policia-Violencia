@@ -148,6 +148,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
             values.user_id = user.id
             values.numero_de_expediente = values.PrefijoExpediente + values.numero_expediente + values.Expediente + values.SufijoExpediente
             
+            values.modo_actuacion = values.modo_actuacion ? values.modo_actuacion : datos.modo_actuacion 
 
            
             try {
@@ -156,6 +157,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
                 ...values,
               };
 
+              console.log(denuncia)
               await crearDenuncia(denuncia) 
               await aprobarDenuncia(datos._id)
 
@@ -199,7 +201,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
         }
         <h1 className='text-2xl my-5'>Hecho</h1>
         <div className='flex justify-center'>
-          <CargarDenuncia setOpenModalTercero={setOpenModalTercero} setTercero={terceroCargar} expediente={expedienteDividido} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
+          <CargarDenuncia modoActuacion={datos.modo_actuacion} setOpenModalTercero={setOpenModalTercero} setTercero={terceroCargar} expediente={expedienteDividido} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
         </div>
         <h1 className='text-2xl my-5'>Observaciones</h1>
         <div className='flex flex-col justify-center items-center h-80 w-full'>

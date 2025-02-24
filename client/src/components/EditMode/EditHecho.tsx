@@ -126,6 +126,12 @@ useEffect(() => {
       });
     }
   };
+  const tipoDenunciaV2 = [
+    { nombre: "Denuncia", value: "Denuncia" },
+    { nombre: "Actuado por oficio", value: "Actuado por oficio" },
+  ]
+  
+
 
 
   return (
@@ -136,6 +142,7 @@ useEffect(() => {
       <div className='flex flex-col xl:flex-row'>
         <SelectRegisterSingle isRequired={false} campo="Género" nombre="genero" opciones={generos} setValue={setValue} error={errors.genero} valor={datos.genero} />
         <InputDate valor={new Date(datos.fecha).toISOString().slice(0, 10)} campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
+        <SelectRegisterSingle valor={datos.modo_actuacion} campo="Actuación" nombre="modo_actuacion" opciones={tipoDenunciaV2} setValue={setValue} error={errors.ocupacion_victima} />
       </div>
 
       <div className='flex flex-col my-2'>

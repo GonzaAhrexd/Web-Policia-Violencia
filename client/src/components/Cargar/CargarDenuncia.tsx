@@ -44,9 +44,10 @@ interface denunciaProps {
   expediente?: any
   setTercero?: any
   setOpenModalTercero?: any
+  modoActuacion?: string
 }
 
-function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors, expediente, setTercero, setOpenModalTercero }: denunciaProps) {
+function CargarDenuncia({modoActuacion, setTitulo, handleOpenModal, register, setValue, errors, expediente, setTercero, setOpenModalTercero }: denunciaProps) {
 
   const [comisariaPertenece, setComisariaPertenece] = useState('')
   const [isArmas, setIsArmas] = useState(false)
@@ -73,6 +74,11 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
   useEffect(() => {
     setSolicitudAprehension(isSolicitud)
   },[isSolicitud])
+
+  const tipoDenunciaV2 = [
+    { nombre: "Denuncia", value: "Denuncia" },
+    { nombre: "Actuado por oficio", value: "Actuado por oficio" },
+  ]
   
 
   const consultarCoordenadas = async () => {
@@ -125,6 +131,7 @@ function CargarDenuncia({ setTitulo, handleOpenModal, register, setValue, errors
       <div className='flex flex-col xl:flex-row'>
         <SelectRegisterSingle campo="Género" nombre="genero" opciones={generos} setValue={setValue} error={errors.genero} />
         <InputDate campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
+        <SelectRegisterSingle isRequired={ modoActuacion ? false : true} valor={ modoActuacion } campo="Actuación" nombre="modo_actuacion" opciones={tipoDenunciaV2} setValue={setValue} error={errors.modo_actuacion} />
       </div>
       <div className='flex flex-col my-2'>
         <SelectCargaDenuncias consultarCoordenadas={consultarCoordenadas} direccion={direccion} barrio={barrio} setBarrio={setBarrio} setDireccion={setDireccion} coordenadas={coordenadas} setCoordenadas={setCoordenadas} errors={errors} setMunicipio={setMunicipio} campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />

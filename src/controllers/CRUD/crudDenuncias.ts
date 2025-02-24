@@ -30,7 +30,6 @@ export const getDenuncias = async (req, res) => {
     // Obtener los parámetros de la URL
     const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, manual } = req.params;
     // Crear el objeto de consulta
-    console.log(numero_de_expediente)
     const query: Query = { };
 
     // Si se ingresó un valor, se agrega a la consulta
@@ -137,11 +136,17 @@ export const createDenuncia = async (req, res) => {
         form.parse(req, async (err, fields, files) => {
 
         // Obtener los datos de la denuncia
-        const { user_id, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, convivencia, dependencia_economica, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
+
+        console.log(fields)
+
+         
+        const { user_id, modo_actuacion, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, convivencia, dependencia_economica, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
             derecho_de_comunicacion, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, ninguna} = fields
             // Buscar si la victima y victimario ya existen        
         const findVictima = await victimas.findOne({ DNI: dni_victima[0] })
         let findVictimario
+
+        console.log("Modo actuación: " + modo_actuacion[0])
 
         // Si el DNI del victimario es S/N, se asigna el ID del victimario
         if (dni_victimario == "S/N") {
@@ -164,6 +169,7 @@ export const createDenuncia = async (req, res) => {
             victimario_nombre: findVictimario ? (findVictimario.nombre[0] + ' ' + findVictimario.apellido[0]) : (nombre_victimario[0] + ' ' + apellido_victimario[0]),
             relacion_victima_victimario: vinculo_con_agresor_victima[0],
             hijos_victima_con_victimario: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor[0] : 0,
+            modo_actuacion: modo_actuacion[0],
             convivencia: convivencia[0] === "Sí" ? true : false,
             dependencia_economica: dependencia_economica[0] === "Sí" ? true : false,
             genero: genero[0],
@@ -328,7 +334,7 @@ export const updateDenuncia = async (req, res) => {
     try {
         //Edita los parametros de la denuncia salvo los id de la victima y victimario
         const { id } = req.params
-        const { nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor, convivencia, dependencia_economica,  genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto, aprehension, ninguna} = req.body
+        const { nombre_victima, apellido_victima, modo_actuacion, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor, convivencia, dependencia_economica,  genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto, aprehension, ninguna} = req.body
         // Buscar al tercero si se agregó
          
         let findTercero
@@ -345,6 +351,7 @@ export const updateDenuncia = async (req, res) => {
             convivencia: convivencia === "Sí" ? true : false,
             dependencia_economica: dependencia_economica === "Sí" ? true : false,
             genero,
+            modo_actuacion,
             fecha,
             direccion,
             GIS,
