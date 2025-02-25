@@ -264,6 +264,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Botón antipánico", valor: data.medida_dispuesta.boton_antipanico },
         { nombre: "Solicitud de Aprehensión", valor: data.medida_dispuesta.solicitud_de_aprehension },
         { nombre: "Expediente con cautelar", valor: data.medida_dispuesta.expedientes_con_cautelar },
+        { nombre: "Dado en libertad", valor: data.medida_dispuesta.en_libertad },
         { nombre: "Ninguna", valor: data.medida_dispuesta.ninguna }
     ]
 

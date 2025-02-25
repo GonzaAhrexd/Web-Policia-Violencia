@@ -74,9 +74,11 @@ function EditHecho({ setIsSolicitudAprehension, datosTerceros, datosGeograficos,
   const [isExclusion, setIsExclusion] = useState(datos.medida_dispuesta.exclusion_de_hogar)
   const [isSolicitud, setIsSolicitud] = useState(datos.medida_dispuesta.solicitud_de_aprehension)
   const [isExpedientes, setIsExpedientes] = useState(datos.medida_dispuesta.expedientes_con_cautelar)
+  const [isLibertad, setIsLibertad] = useState(datos.medida_dispuesta.en_libertad  )
 
   const { juzgadoIntervinente, vinculo, tiposDeArmas: opcionesTiposDeArma, unidades: unidadCampos } = useCampos()
 useEffect(() => {
+  console.log(datos)
   setIsSolicitudAprehension(isSolicitud)
 }, [isSolicitud])
 
@@ -142,7 +144,7 @@ useEffect(() => {
       <div className='flex flex-col xl:flex-row'>
         <SelectRegisterSingle isRequired={false} campo="Género" nombre="genero" opciones={generos} setValue={setValue} error={errors.genero} valor={datos.genero} />
         <InputDate valor={new Date(datos.fecha).toISOString().slice(0, 10)} campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
-        <SelectRegisterSingle valor={datos.modo_actuacion} campo="Actuación" nombre="modo_actuacion" opciones={tipoDenunciaV2} setValue={setValue} error={errors.ocupacion_victima} />
+        <SelectRegisterSingle isRequired={false} valor={datos.modo_actuacion} campo="Actuación" nombre="modo_actuacion" opciones={tipoDenunciaV2} setValue={setValue} error={errors.modo_actuacion} />
       </div>
 
       <div className='flex flex-col my-2'>
@@ -162,7 +164,7 @@ useEffect(() => {
 
       <div className='flex flex-col md:flex-row my-2'>
         <SelectCargaDenuncias isRequired={false} valor={datos.juzgado_interviniente} campo="Organismo judicial interviniente" nombre="juzgado_interviniente" opciones={juzgadoIntervinente} register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente} />
-        <InputRegister valor={datos.juzgado_interviniente_numero} campo="Número del organismo judicial" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero} />
+        <InputRegister require={false} valor={datos.juzgado_interviniente_numero} campo="Número del organismo judicial" nombre="juzgado_interviniente_numero" register={register} setValue={setValue} type="text" error={errors.juzgado_interviniente_numero} />
         <InputRegister notMid={true} campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} valor={datos.dependencia_derivada} />
       </div>
       <div className='flex flex-col md:flex-row my-2' >
@@ -220,7 +222,8 @@ useEffect(() => {
         <InputCheckbox setHook={setIsExclusion} disabled={isNinguna} state={datos.medida_dispuesta.exclusion_de_hogar} campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
         <InputCheckbox setHook={setIsSolicitud} disabled={isNinguna} state={datos.medida_dispuesta.solicitud_de_aprehension} campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue} type="checkbox" id="solicitud_de_aprehension_dispuesta" />
         <InputCheckbox setHook={setIsExpedientes} disabled={isNinguna} state={datos.medida_dispuesta.expedientes_con_cautelar} campo="Expedientes c/cautelar" nombre="expedientes_con_cautelar_dispuesta" register={register} setValue={setValue} type="checkbox" id="expedientes_con_cautelar_dispuesta" />
-        <InputCheckbox setHook={setIsNinguna} disabled={(isProhibicion || isBoton || isExclusion || isSolicitud || isExpedientes)} state={datos.medida_dispuesta.ninguna} campo="Ninguna" nombre="ninguna" register={register} setValue={setValue} type="checkbox" id="ninguna" />
+        <InputCheckbox setHook={setIsLibertad} state={datos.medida_dispuesta.en_libertad} disabled={isNinguna} campo="Dado en libertad" nombre="en_libertad" register={register} setValue={setValue} type="checkbox" id="en_libertad" />
+        <InputCheckbox setHook={setIsNinguna} disabled={(isProhibicion || isBoton || isExclusion || isSolicitud || isExpedientes || isLibertad)} state={datos.medida_dispuesta.ninguna} campo="Ninguna" nombre="ninguna" register={register} setValue={setValue} type="checkbox" id="ninguna" />
       </div>
      
       <div className='flex flex-col '>

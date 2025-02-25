@@ -64,6 +64,7 @@ function CargarDenuncia({modoActuacion, setTitulo, handleOpenModal, register, se
   const [isExclusion, setIsExclusion] = useState(false)
   const [isSolicitud, setIsSolicitud] = useState(false)
   const [isExpedientes, setIsExpedientes] = useState(false)
+  const [isLibertad, setIsLibertad] = useState(false)
   
   const { juzgadoIntervinente, vinculo, tiposDeArmas: opcionesTiposDeArma, unidades: unidadCampos } = useCampos()
 
@@ -197,7 +198,8 @@ function CargarDenuncia({modoActuacion, setTitulo, handleOpenModal, register, se
         <InputCheckbox setHook={setIsExclusion} disabled={isNinguna} campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} type="checkbox" id="exclusion_dispuesta" />
         <InputCheckbox setHook={setIsSolicitud } disabled={isNinguna} campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue} type="checkbox" id="solicitud_de_aprehension_dispuesta" />
         <InputCheckbox setHook={setIsExpedientes} disabled={isNinguna} campo="Expedientes c/cautelar" nombre="expedientes_con_cautelar_dispuesta" register={register} setValue={setValue} type="checkbox" id="expedientes_con_cautelar_dispuesta" />
-        <InputCheckbox setHook={setIsNinguna} disabled={(isProhibicion || isBoton || isExclusion || isSolicitud || isExpedientes)} campo="Ninguna" nombre="ninguna" register={register} setValue={setValue} type="checkbox" id="ninguna" />
+        <InputCheckbox setHook={setIsLibertad} disabled={isNinguna} campo="Dado en libertad" nombre="en_libertad" register={register} setValue={setValue} type="checkbox" id="en_libertad" />
+        <InputCheckbox setHook={setIsNinguna} disabled={(isProhibicion || isBoton || isExclusion || isSolicitud || isExpedientes || isLibertad)} campo="Ninguna" nombre="ninguna" register={register} setValue={setValue} type="checkbox" id="ninguna" />
       </div>
           <InputRegister notMid campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} />
       <div className='flex flex-col '>

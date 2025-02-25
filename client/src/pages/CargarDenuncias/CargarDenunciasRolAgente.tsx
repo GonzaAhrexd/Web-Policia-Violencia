@@ -16,7 +16,6 @@ import CargarTipoDeDenuncia from '../../components/Cargar/CargarAgente/CargarTip
 import PDF from './PDF';
 import InputExpediente from '../../components/InputComponents/InputExpediente';
 import InputRegister from '../../components/InputComponents/InputRegister';
-import SelectRegisterSingle from '../../components/Select/SelectRegisterSingle';
 
 interface CargarDenunciasRolCargaProps {
   user: any;
