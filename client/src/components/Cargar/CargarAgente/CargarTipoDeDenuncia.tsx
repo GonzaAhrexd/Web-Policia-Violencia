@@ -24,6 +24,7 @@ function CargarTipoDeDenuncia({setTipoDenuncia, register, setValue, errors}: Tip
     const tipoDenunciaV2 = [
       { nombre: "Denuncia", value: "Denuncia" },
       { nombre: "Actuado por oficio", value: "Actuado por oficio" },
+      { nombre: "Desobediencia judicial", value: "Desobediencia judicial" },
     ]
     
 
