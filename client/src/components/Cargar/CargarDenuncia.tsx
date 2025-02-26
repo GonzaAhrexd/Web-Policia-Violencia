@@ -79,6 +79,7 @@ function CargarDenuncia({modoActuacion, setTitulo, handleOpenModal, register, se
   const tipoDenunciaV2 = [
     { nombre: "Denuncia", value: "Denuncia" },
     { nombre: "Actuado por oficio", value: "Actuado por oficio" },
+    { nombre: "Desobediencia judicial", value: "Desobediencia judicial" },
   ]
   
 
