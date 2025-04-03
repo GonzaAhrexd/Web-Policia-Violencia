@@ -156,7 +156,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
         },
         signaturesNameAndJerarquia: {
             fontFamily: 'Times-Bold',
-            fontSize: 14,
+            fontSize: 12,
             fontWeight: 'bold',
         },
         signaturesEndEnd: {
@@ -164,7 +164,10 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
             fontSize: 12,
             fontWeight: 'bold',
             textDecoration: 'underline',
-        }
+        },
+        footer: {
+            marginTop: 20,
+          },
 
     });
 
@@ -205,7 +208,7 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
 
     const Footer = () => {
         return (
-            <>
+            <View minPresenceAhead={150} wrap={false}>
                 <Text>_____________________________________________________</Text>
                 <View style={styles.sectionSignatureEnd}>
                     <Text>Firma</Text>
@@ -220,14 +223,13 @@ function PDF({ tipoDenuncia, datos, user }: PDFProps) {
                     </View>
                     <View style={styles.sectionSignatureEndText}>
                         <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_instructor}</Text>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_instructor} </Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_instructor}</Text>
                         <Text style={styles.boldText}>-INSTRUCTOR-</Text>
                     </View>
                 </View>
-
-            </>
-        )
-    }
+            </View>
+        );
+    };
 
     // Create Document Component
     if (tipoDenuncia == "mujer" || tipoDenuncia == "hombre") {

@@ -17,7 +17,7 @@ import PDF from './PDF';
 import InputExpediente from '../../components/InputComponents/InputExpediente';
 import InputRegister from '../../components/InputComponents/InputRegister';
 
-interface CargarDenunciasRolCargaProps {
+type CargarDenunciasRolCargaProps = {
   user: any;
 }
 

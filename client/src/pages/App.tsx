@@ -37,7 +37,7 @@ import '../App.css'
 
 const AppRoutes = () => {
   // Rutas de la aplicación
-  let routes = useRoutes([
+  const routes = useRoutes([
     // Global
     { path: '/', element: <Home /> },
     { path: '/mi-perfil', element: <Perfil /> },
