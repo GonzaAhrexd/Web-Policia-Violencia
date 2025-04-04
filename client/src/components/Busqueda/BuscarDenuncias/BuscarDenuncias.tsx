@@ -14,6 +14,7 @@ import DataTable from 'react-data-table-component';
 import { columnsDenuncia } from './columnsDataTableDenuncias'
 import expandedComponents from './expandedComponents'
 import { customStyles } from '../../../GlobalConst/customStyles'
+import { useAuth } from '../../../context/auth';
 
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
@@ -50,6 +51,9 @@ function BuscarDenuncias() {
 
     const [showExcel, setShowExcel] = useState(false);
     const { unidades: unidadCampos } = useCampos();
+    const { user } = useAuth()
+    const userDivisionZona = user.unidad.split(",")
+
 
     return (
         <>
@@ -57,10 +61,14 @@ function BuscarDenuncias() {
                 onSubmit={
                     handleSubmit(async (values) => {
                         // Separa la unidad en division, municipio y comisaria siempre que tenga una , para separar, sino no
-                        if (values.unidad) {
+                        if (values.unidad && user.rol != "agente") {
                             values.unidad = values.unidad.split(',')
                             values.municipio = values.unidad[1]
                             values.comisaria = values.unidad[2]
+                        }else if (user.rol == "agente") {
+                            values.division = userDivisionZona[0]
+                            values.municipio = userDivisionZona[1]
+                            values.comisaria = userDivisionZona[2]
                         }
                         handleBusqueda(values)
                     }
@@ -68,10 +76,12 @@ function BuscarDenuncias() {
                 <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} />
                 <InputRegister busqueda={true} campo="ID" nombre="id_denuncia" register={register} type="text" error={errors.id_denuncia} require={false} />
                 <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
-
+                
+                {user.rol != "agente" &&
                 <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
                     <SelectDivisionMunicipios isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />
                 </div>
+                }
                 <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
                 <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
             </form>

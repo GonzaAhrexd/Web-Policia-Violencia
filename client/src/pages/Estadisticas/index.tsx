@@ -34,6 +34,7 @@ function index() {
     const { user, isAuthenticated, isLoading } = useAuth();
     // Formulario
     const { register, setValue, handleSubmit, formState: {
+        
     } } = useForm()
 
     const [fecha, setFecha] = useState({ desde: '', hasta: '' });

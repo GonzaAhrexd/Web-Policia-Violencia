@@ -102,6 +102,8 @@ function SeccionCondicionesVictimario({ victimarios, denunciasAMostrar }: Seccio
                 return 'Entrenamiento en combate'
             case 'empleo_de_armas':
                 return 'Empleo de armas'
+            case 'antecedentes_contravencionales':
+                return 'Antecedentes contravencionales'
             default:
                 return key
         }
