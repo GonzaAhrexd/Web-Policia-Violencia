@@ -17,6 +17,7 @@ import EstadisticasMedidasCautelares from '../../components/EstadisticasSeccione
 import EstadisticasVictimasSeccion from '../../components/EstadisticasSecciones/EstadisticasVictimasSeccion';
 import EstadisticasVictimarioSeccion from '../../components/EstadisticasSecciones/EstadisticasVictimarioSeccion';
 import EstadisticaGenerarInformeSeccion from '../../components/EstadisticasSecciones/EstadisticasInforme/EstadisticasGenerarInformeSeccion';
+import EstadisticasModoActuacionSeccion from '../../components/EstadisticasSecciones/EstadisticasModoActuacionSeccion';
 import DenunciasMes from '../../components/Graficos/DenunciasMes';
 import Modal from '../../components/Modal';
 import Footer from '../../components/Footer/Footer';
@@ -42,6 +43,7 @@ function index() {
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
     const [showLocalidadesStats, setShowLocalidadesStats] = useState(false);
     const [showDivionesStats, setShowDivionesStats] = useState(false);
+    const [showModoActuacion, setShowModoActuacion] = useState(false);
     const [showAprehensionesStats, setShowAprehensionesStats] = useState(false);
     const [showTipoDeViolencia, setShowTipoDeViolencia] = useState(false);
     const [showModalidades, setShowModalidades] = useState(false);
@@ -63,6 +65,7 @@ function index() {
         setShowLocalidadesStats(false)
         setShowDivionesStats(false)
         setShowAprehensionesStats(false)
+        setShowModoActuacion(false)
         setShowTipoDeViolencia(false)
         setShowModalidades(false)
         setShowMedidasCautelares(false)
@@ -78,6 +81,15 @@ function index() {
         if (showLocalidadesStats) return setShowAll(true)
         handleReset()
         setShowLocalidadesStats(true)
+        setShowAll(false)
+    }
+
+    // Modos de actuación
+    const handleModoActuacion = () => {
+        if (showAll && showModoActuacion) return setShowAll(false)
+        if (showModoActuacion) return setShowAll(true)
+        handleReset()
+        setShowModoActuacion(true)
         setShowAll(false)
     }
 
@@ -222,10 +234,11 @@ function index() {
                 {denunciasAMostrar?.length > 0 &&
                     <>
                         <div className='mt-5 flex flex-col items-center justify-center '>
-                            <div className={`flex flex-col  ${showAll && 'border-blue-800 border-2 rounded-lg bg-blue-50 '} p-5 w-full items-center justify-center md:w-3/10 `}>
+                            <div className={`flex flex-col  ${showAll && 'transition-all duration-500 ease-in-out border-blue-800 border-2 rounded-lg bg-blue-50 '} p-5 w-full items-center justify-center md:w-3/10 `}>
                                 <div className={`w-full flex  ${!showAll ? 'flex-row' : "flex-col"} justify-center items-center `}>
                                     {(showAll || showLocalidadesStats) && <button className={`my-2 ${showLocalidadesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleLocalidadesStats()}>Localidades</button>}
                                     {(showAll || showDivionesStats) && <button className={`my-2 ${showDivionesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleDivisionesStats()}>Divisiones</button>}
+                                    {(showAll || showModoActuacion) && <button className={`my-2 ${showModoActuacion ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleModoActuacion()}>Modo de Actuación</button>}
                                     {(showAll || showAprehensionesStats) && <button className={`my-2 ${showAprehensionesStats ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleAprehensiones()}>Aprehensiones</button>}
                                     {(showAll || showTipoDeViolencia) && <button className={`my-2 ${showTipoDeViolencia ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleTipoDeViolencia()}>Tipo de Violencia</button>}
                                     {(showAll || showModalidades) && <button className={`my-2 ${showModalidades ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full `} onClick={() => handleModalidades()}>Modalidades</button>}
@@ -241,6 +254,7 @@ function index() {
                         </div>
                         {(showLocalidadesStats || mostrarTodo) && <EstadisticasMunicipiosSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                         {(showDivionesStats || mostrarTodo) && <EstadisticasDivisionesSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
+                        {(showModoActuacion || mostrarTodo) && <EstadisticasModoActuacionSeccion denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                         {(showAprehensionesStats || mostrarTodo) && <EstadisticasAprehensiones denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                         {(showTipoDeViolencia  || mostrarTodo) && <EstadisticasTiposDeViolencia handleOpenModal={handleOpenModal} setTitulo={setTitulo} denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}
                         {(showModalidades  || mostrarTodo) && <EstadisticasModalidades handleOpenModal={handleOpenModal} setTitulo={setTitulo} denunciasAMostrar={denunciasAMostrar ? denunciasAMostrar : {}} />}

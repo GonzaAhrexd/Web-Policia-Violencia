@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 
 type EstadisticasTiposDeViolenciaProps = {
   tipos_de_violencia: { [tipo: string]: number }
@@ -7,6 +8,12 @@ type EstadisticasTiposDeViolenciaProps = {
 
 
 function EstadisticasTiposDeViolencia({ texto, tipos_de_violencia, format }: EstadisticasTiposDeViolenciaProps) {
+
+  useEffect(() => {
+    console.log(tipos_de_violencia)
+  })
+  
+
 
   return (
     <div className="table w-full my-4 md:mx-4 border-2 border-sky-800">

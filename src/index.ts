@@ -20,7 +20,7 @@ import denunciasSinVerificarRoutes from './routes/denuncias-sin-verificar.routes
 import actividadRecienteRoutes from './routes/actividadReciente.routes' // Rutas de actividad reciente
 import camposRoutes from './routes/campos.routes' // Rutas de campos
 import unidadesRoutes from './routes/unidades.routes' // Rutas de unidades
-import https from 'https';
+
 
 // Crear aplicación de express
 const app:express.Application = express()

@@ -55,6 +55,8 @@ const EstadisticasTiposDeViolencia = ({ denunciasAMostrar, setTitulo, handleOpen
       return estadisticas;
     };
     setEstadisticas(calcularTiposDeViolencia(denunciasAMostrar));
+    
+    
   }, [denunciasAMostrar]);
 
 
@@ -78,7 +80,7 @@ const EstadisticasTiposDeViolencia = ({ denunciasAMostrar, setTitulo, handleOpen
           <EstadisticasTiposDeViolenciaTabla texto="Tipos de violencia" tipos_de_violencia={estadisticas} format={formatTipoViolencia} />
         </div>
         <div className='hidden md:block w-9/10 md:w-4/10 '>
-          <TiposDeViolenciaTorta tipos_de_violencia={estadisticas} aspect={2}/>
+          <TiposDeViolenciaTorta tipos_de_violencia={estadisticas} aspect={1}/>
         </div>
         <div className='block md:hidden w-9/10 md:w-4/10'>
           <TiposDeViolenciaTorta tipos_de_violencia={estadisticas} aspect={1}/>

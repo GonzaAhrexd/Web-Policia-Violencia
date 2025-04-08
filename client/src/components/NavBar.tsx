@@ -1,8 +1,6 @@
 // Hooks
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-// NEXT UI 
-import { Avatar, Navbar, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, NavbarBrand, NavbarContent, NavbarItem, Button, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu } from "@nextui-org/react";
 // Iconos
 import { ListBulletIcon, PencilSquareIcon, ChartPieIcon, UserPlusIcon, PresentationChartBarIcon, ArrowUpTrayIcon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline'
 
@@ -57,235 +55,126 @@ function NavBar({ user }: NavBarProps) {
     { titulo: 'Registro de actividad', href: '/registro-de-actividad', icon: <PresentationChartBarIcon className='h-6 w-6' /> },
     { titulo: 'Editar campos', href: '/editar-campos', icon: <ArrowUpTrayIcon className='h-6 w-6' /> },
   ]
+  const [isDropdownOpen, setIsDropdownOpen] = useState(null);
+
+  const toggleDropdown = (key) => {
+    setIsDropdownOpen(prev => (prev === key ? null : key));
+  };
 
   return (
-    <div className='flex flex-row'>
-      <Navbar
-        className='bg-sky-900 text-white font-medium leading-tight h-1/10 flex flex-row align-middle'
-        isBordered
-        as="div"
-        isMenuOpen={isMenuOpen}
-        onMenuOpenChange={setIsMenuOpen}
-      >
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-          className="sm:hidden"
-        />
-        <NavbarBrand>
-          <NavLink to='/'
-            className="flex flex-row items-center space-x-2"
-          >
-            <figure className='w-full h-full flex flex-row items-center justify-center'>
-              <img className='w-10' src="Escudo_Policia_Chaco_Transparente.png" alt="" />
-            </figure>
-          </NavLink>
-        </NavbarBrand>
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+    <div className='flex flex-row w-full bg-sky-900 text-white font-medium h-16 '>
+      <div className="flex flex-row items-center justify-between w-full p-4">
+        <div className='flex flex-row items-center'>
+        <button className="sm:hidden mr-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>☰</button>
+        <NavLink to='/' className="flex items-center space-x-2">
+          <img className='w-10' src="Escudo_Policia_Chaco_Transparente.png" alt="Escudo" />
+        </NavLink>
+        </div>
+
+        <div className="hidden sm:flex gap-6">
           {(isAgente && !isCarga) && (
-            <Dropdown>
-              <NavbarItem>
-                <DropdownTrigger>
-                  <Button
-                    disableRipple
-                    className="p-0 bg-transparent font-medium data-[hover=true]:bg-transparent "
-                    endContent={"🚀"}
-                    radius="sm"
-                    variant="light"
-                  >
-                    Denuncias
-                  </Button>
-                </DropdownTrigger>
-              </NavbarItem>
-              <DropdownMenu
-                aria-label="ACME features"
-                className="bg-white border-teal-500 w-[340px]"
-                itemClasses={{
-                  base: "gap-4",
-                }}
-              >
-                {seccionDenunciasAgentes.map((item, index) => (
-                  <DropdownItem
-                    className='bg-white'
-                    key={index}
-                    startContent={
-                      item.icon
-                    }
-                    >
-                    {item.titulo}
-                  </DropdownItem>
-                    
-                ))
-                }
-              </DropdownMenu>
-            </Dropdown>
+            <div className="relative">
+              <button onClick={() => toggleDropdown('denunciasAgentes')} className="hover:underline">Denuncias</button>
+              {isDropdownOpen === 'denunciasAgentes' && (
+                <div className="absolute mt-2 w-80 bg-white text-black border rounded shadow p-2 z-10">
+                  {seccionDenunciasAgentes.map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 py-1">
+                      {item.icon} {item.titulo}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
+
           {isCarga && (
-
-            <Dropdown>
-
-              <NavbarItem>
-                <DropdownTrigger>
-                  <Button
-                    disableRipple
-                    className="p-0 bg-transparent font-medium data-[hover=true]:bg-transparent "
-                    endContent={"🚀"}
-                    radius="sm"
-                    variant="light"
-                  >
-                    Denuncias
-                  </Button>
-                </DropdownTrigger>
-              </NavbarItem>
-              <DropdownMenu
-                aria-label="ACME features"
-                className="bg-white border-teal-500 w-[340px]"
-                itemClasses={{
-                  base: "gap-4",
-                }}
-              >
-                {SeccionDenunciasCarga.map((item, index) => (
-
-                  <DropdownItem
-                    className='bg-white'
-                    key={index}
-                    startContent={
-                      item.icon
-                    }
-                  >
-              <NavLink to={item.href} aria-current="page">
-                    {item.titulo}
-              </NavLink>
-                  </DropdownItem>
-                ))
-                }
-              </DropdownMenu>
-            </Dropdown>
+            <div className="relative">
+              <button onClick={() => toggleDropdown('denunciasCarga')} className="hover:underline">Denuncias</button>
+              {isDropdownOpen === 'denunciasCarga' && (
+                <div className="absolute mt-2 w-80 bg-white text-black border rounded shadow p-2 z-10">
+                  {SeccionDenunciasCarga.map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 py-1">
+                      {item.icon}
+                      <NavLink to={item.href}>{item.titulo}</NavLink>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
-          {isAgente && (
-            <NavbarItem>
-              <NavLink to="/búsqueda" aria-current="page">
-                Búsqueda
-              
-              </NavLink>
-            </NavbarItem>
-          )}
+
+          {isAgente && <NavLink to="/búsqueda">Búsqueda</NavLink>}
+
           {isAdmin && (
-            <Dropdown>
-              <NavbarItem>
-                <DropdownTrigger>
-                  <Button
-                    disableRipple
-                    className="p-0 bg-transparent font-medium data-[hover=true]:bg-transparent justify-start "
-                    endContent={"🚀"}
-                    radius="sm"
-                    variant="light"
-                  >
-                    Admin
-                  </Button>
-                </DropdownTrigger>
-              </NavbarItem>
-              <DropdownMenu
-                aria-label="ACME features"
-                className="bg-white border-teal-500 w-[340px]"
-                itemClasses={{
-                  base: "gap-4",
-                }}
-              >
-                {SeccionAdmin.map((item, index) => (
-                  <DropdownItem
-                    className='bg-white'
-                    key={index}
-                    startContent={
-                      item.icon
-                    }
-                    >
-                      <NavLink to={item.href} aria-current="page">
-                    {item.titulo}
-                    </NavLink>
-                  </DropdownItem>
-                ))
-                }
-              </DropdownMenu>
-            </Dropdown>
+            <div className="relative">
+              <button onClick={() => toggleDropdown('admin')} className="hover:underline">Admin</button>
+              {isDropdownOpen === 'admin' && (
+                <div className="absolute mt-2 w-80 bg-white text-black border rounded shadow p-2 z-10">
+                  {SeccionAdmin.map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 py-1">
+                      {item.icon}
+                      <NavLink to={item.href}>{item.titulo}</NavLink>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
-        </NavbarContent>
-        <NavbarContent as="div" className="items-center" justify="end">
-          <Dropdown placement="bottom-end">
-            <DropdownTrigger>
-              <Avatar
-                isBordered
-                as="button"
-                className="transition-transform"
-                color="secondary"
-                name={user.nombre + " " + user.apellido}
-                size="sm"
-                src={user.imagen != "sin_definir" ? `${APIURL}/users/${user.id}/image` : "/user.png"}
-              />
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Profilef Actions" variant="flat" className='bg-white'>
-              <DropdownItem key="user" className="h-14 gap-2 ">
-                <p className="font-semibold">Sesión iniciada como</p>
-                <p className="font-semibold">{user.nombre + " " + user.apellido} </p>
-              </DropdownItem>
-              <DropdownItem key="profile" color="danger">
-              <NavLink to="/mi-perfil" aria-current="page">
-                Mi Perfil
-                </NavLink>
-              </DropdownItem>
-              <DropdownItem key="logout" color="danger">
-              <NavLink to="/logout"> 
-                Cerrar sesión
-              </NavLink>
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </NavbarContent>
-        <NavbarMenu className='flex flex-col items-center bg-sky-900'>
-          {isCarga && menuCargaItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <NavLink
-                color={
-                  index === 2 ? "primary" : index === menuAdminItems.length - 1 ? "danger" : "foreground"
-                }
-                className="w-full text-2xl text-white"
-                to={`/${item.toLowerCase().replace(" ", "-")}`}
-              >
-                {item}
-              </NavLink>
-            </NavbarMenuItem>
-          ))}
-          {isAgente && menuAgenteItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <NavLink
-                color={
-                  index === 2 ? "primary" : index === menuAdminItems.length - 1 ? "danger" : "foreground"
-                }
-                className="w-full text-2xl text-white"
-                to={`/${item.toLowerCase().replace(" ", "-")}`}
-              >
-                {item}
-              </NavLink>
-            </NavbarMenuItem>
-          ))}
-          {isAdmin && menuAdminItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <NavLink
-                color={
-                  index === 2 ? "primary" : index === menuAdminItems.length - 1 ? "danger" : "foreground"
-                }
-                className="w-full text-2xl text-white"
-                to={`/${item.toLowerCase().replace(/ /g, "-")}`}
-              >
-                {item}
-              </NavLink>
-            </NavbarMenuItem>
-          ))}
-        </NavbarMenu>
-      </Navbar>
+        </div>
+
+        <div className="flex items-center space-x-4">
+          <div className="relative">
+            <img
+              onClick={() => toggleDropdown('profile')}
+              src={user.imagen !== "sin_definir" ? `${APIURL}/users/${user.id}/image` : "/user.png"}
+              alt="Avatar"
+              className="w-10 h-10 rounded-full border-2 border-white cursor-pointer"
+            />
+            {isDropdownOpen === 'profile' && (
+              <div className="absolute right-0 mt-2 w-60 bg-white text-black border rounded shadow p-2 z-10">
+                <div className="mb-2">
+                  <p className="font-semibold">Sesión iniciada como</p>
+                  <p className="font-semibold">{user.nombre + " " + user.apellido}</p>
+                </div>
+                <NavLink to="/mi-perfil" className="block py-1 text-gray-700">Mi Perfil</NavLink>
+                <NavLink to="/logout" className="block py-1 text-gray-700">Cerrar sesión</NavLink>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {isMenuOpen && (
+  <div
+    className={`fixed inset-0 z-50 sm:hidden flex flex-col items-center bg-sky-900 py-8 space-y-6
+      transition-transform duration-300 ease-in-out transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+  >
+    {/* Botón para cerrar el menú */}
+    <button
+      className="absolute top-4 left-4 text-white text-3xl"
+      onClick={() => setIsMenuOpen(false)}
+    >
+      ×
+    </button>
+
+    {/* Ícono y menú */}
+    <img className="w-12 mb-4" src="Escudo_Policia_Chaco_Transparente.png" alt="Escudo" />
+
+    {isCarga && menuCargaItems.map((item, i) => (
+      <NavLink key={i} to={`/${item.toLowerCase().replace(/ /g, '-')}`} className="text-2xl text-white">{item}</NavLink>
+    ))}
+    {isAgente && menuAgenteItems.map((item, i) => (
+      <NavLink key={i} to={`/${item.toLowerCase().replace(/ /g, '-')}`} className="text-2xl text-white">{item}</NavLink>
+    ))}
+    {isAdmin && menuAdminItems.map((item, i) => (
+      <NavLink key={i} to={`/${item.toLowerCase().replace(/ /g, '-')}`} className="text-2xl text-white">{item}</NavLink>
+    ))}
+  </div>
+)}
+
     </div>
-  )
-
-
+  );
 }
+
 
 export default NavBar
