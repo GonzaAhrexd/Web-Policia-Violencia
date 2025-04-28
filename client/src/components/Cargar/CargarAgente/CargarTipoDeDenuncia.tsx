@@ -5,8 +5,6 @@ import SelectRegister from '../../Select/SelectRegister'
 import SelectRegisterSingle from '../../Select/SelectRegisterSingle';
 // Usuario
 import { useAuth } from '../../../context/auth'
-import { useEffect } from 'react';
-// Campos 
 
 // Props
 interface TipoDenunciaProps{
@@ -46,7 +44,7 @@ if (userRol === 'carga' || userRol === 'admin') {
     
 
   return (
-    <div className='w-full lg:w-6/10'>
+    <div className='w-full lg:w-8/10 xl:w-6/10'>
      
       <div className='flex flex-col xl:flex-row my-2'>
         <SelectRegister setTipoDenuncia={setTipoDenuncia} campo="Tipo de Actuación" nombre="modo_actuacion" opciones={tipoDeDenuncia} register={register} setValue={setValue} type="text" error={errors.modo_actuacion} />

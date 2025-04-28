@@ -143,7 +143,7 @@ const denunciaSinVerificarSchema = new mongoose.Schema({
         },
         plaza_secretario: {
             type: String, // Tipo de dato String
-            required: true, // Campo requerido
+            required: false, // Campo no requerido
             trim: true // Trim para que no se guarden espacios en blanco
         }
     },

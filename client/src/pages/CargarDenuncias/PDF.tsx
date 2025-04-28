@@ -59,7 +59,7 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
             alignItems: 'center',
             justifyContent: 'space-between',
             alignContent: 'center',
-            marginBottom: 20,
+            marginBottom: 10,
             display: 'flex',
             flexDirection: 'row',
             paddingLeft: 30,
@@ -114,8 +114,8 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
         longText: {
             fontWeight: 'bold',
             fontSize: 10,
-            textAlign: 'justify',
-
+            textAlign: 'justify',   
+            lineHeight: 1.5, // Aumenta el espacio entre líneas
         },
         boldText: {
             fontFamily: 'Times-Bold',
@@ -132,42 +132,42 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
         },
         sectionSignatureEndContainer: {
             display: 'flex',
-            fontSize: 12,
+            fontSize: 11,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginTop: 20,
+            marginTop: 10,
         },
         sectionSignatureEndText: {
             display: 'flex',
-            fontSize: 12,
+            fontSize: 11,
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: 20,
-            marginRight: 20
+            marginTop: 10,
+            marginRight: 10
         },
         sectionSignatureEndSecretario: {
             display: 'flex',
-            fontSize: 12,
+            fontSize: 11,
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: 100,
+            marginTop: 80,
             marginLeft: 30
         },
         signaturesNameAndJerarquia: {
             fontFamily: 'Times-Bold',
-            fontSize: 12,
+            fontSize: 11,
             fontWeight: 'bold',
         },
         signaturesEndEnd: {
             fontFamily: 'Times-Bold',
-            fontSize: 12,
+            fontSize: 11,
             fontWeight: 'bold',
             textDecoration: 'underline',
         },
         footer: {
-            marginTop: 20,
+            marginTop: 5,
           },
 
     });

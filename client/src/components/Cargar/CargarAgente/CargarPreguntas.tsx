@@ -41,7 +41,7 @@ function CargarPreguntas({genero, watch, tipoDenuncia, register }: CargarVictima
   ]
   if (tipoDenuncia != "Exposición") {
     return (
-      <div className='w-full lg:w-6/10'>
+      <div className='w-full lg:w-8/10 xl:w-6/10'>
         {genero == "Femenino" &&
           <div className='flex flex-col my-2'>
             <p> Se le hace saber que existe la Línea 137, ubicado en Calle Mitre N° 171 en la Ciudad de Resistencia, donde se brinda asesoramiento legal y

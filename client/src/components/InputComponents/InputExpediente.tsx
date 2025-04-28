@@ -27,7 +27,7 @@ function InputExpediente({campo, nombre, register, type, error, placeholder, com
         return "-E/" + year
     }
     return (
-        <div className={`flex flex-col ${cargaAgente && "lg:w-6/10" }`}>
+        <div className={`flex flex-col ${cargaAgente && "lg:w-8/10 xl:w-6/10" }`}>
             <span className={`font-medium ml-4 `}> {nombre === "id" ? "" : campo} {error && <span className='text-red-500'>Requerido</span>} </span> 
             {expediente && <span className='ml-4'>Pendiente de verificación: {expediente } </span> }
             <div className="grid grid-cols-4">

@@ -39,7 +39,7 @@ export const createDenunciaSinVerificar = async (req, res) => {
             secretario: {
                 nombre_completo_secretario: nombre_completo_secretario,
                 jerarquia_secretario: jerarquia_secretario,
-                plaza_secretario: plaza_secretario
+                plaza_secretario: plaza_secretario ? plaza_secretario : 'Sin plaza',
             },
             instructor: {
                 nombre_completo_instructor: nombre_completo_instructor,

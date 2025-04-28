@@ -110,7 +110,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               </div>
               {!isDivision &&
                 <div className='flex flex-row w-full justify-center'>
-                  <div className='flex flex-row w-full lg:w-6/10'>
+                  <div className='flex flex-row w-full lg:w-8/10 xl:w-6/10'>
                     <InputRegister campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
                     <InputRegister campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
                   </div>

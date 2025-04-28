@@ -16,11 +16,15 @@ interface CargarVictimaProps {
 
 function CargarInstructorYSecretario({ register, setValue, errors }: CargarVictimaProps) {
 
+  // Toma jerarquiaCampos, pero elimina "Civil"
+  const jerarquiaCamposSinCivil = jerarquiaCampos.filter((campo) => campo.value !== 'Civil')
+
+
   return (
     <>
       <h1 className='text-2xl my-5'>Instructor</h1>
       <div className='flex justify-center'>
-        <div className='w-full lg:w-6/10'>
+        <div className='w-full lg:w-8/10 xl:w-6/10'>
           <div className='flex flex-col lg:flex-row my-2'>
             <InputRegister notMidMD campo="Nombre y apellido" nombre="nombre_completo_instructor" register={register} setValue={setValue} type="text" error={errors.nombre_completo_instructor} />
             <SelectRegisterSingle campo='Jerarquía' nombre="jerarquia_instructor" opciones={jerarquiaCampos} setValue={setValue}  error={errors.jerarquia_instructor} />
@@ -29,11 +33,11 @@ function CargarInstructorYSecretario({ register, setValue, errors }: CargarVicti
       </div>
       <h1 className='text-2xl my-5'>Secretario</h1>
       <div className='flex justify-center'>
-        <div className='w-full lg:w-6/10'>
+        <div className='w-full lg:w-8/10 xl:w-6/10'>
           <div className='flex flex-col lg:flex-row my-2'>
             <InputRegister notMidMD campo="Nombre y apellido" nombre="nombre_completo_secretario" register={register} setValue={setValue} type="text" error={errors.nombre_completo_instructor} />
-            <SelectRegisterSingle campo='Jerarquía' nombre="jerarquia_secretario" opciones={jerarquiaCampos} setValue={setValue}  error={errors.jerarquia_instructor} />
-            <InputRegister notMidMD campo="Plaza" nombre="plaza_secretario" register={register} setValue={setValue} type="text" error={errors.plaza} />
+            <SelectRegisterSingle campo='Jerarquía' nombre="jerarquia_secretario" opciones={jerarquiaCamposSinCivil} setValue={setValue}  error={errors.jerarquia_instructor} />
+            <InputRegister require={false} notMidMD campo="Plaza" nombre="plaza_secretario" register={register} setValue={setValue} type="text" error={errors.plaza} />
           </div>
         </div>
       </div>
