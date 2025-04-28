@@ -3,6 +3,11 @@
     Este componente se utiliza para ingresar el número de expediente, que consta de 4 partes 
     (PrefijoExpediente, Comisaría, Expediente y SufijoExpediente).
 */
+
+import { useEffect } from "react";
+import { AuthContext } from "../../context/auth";
+
+
 // Props
 interface InputExpedienteProps {
     campo: string;

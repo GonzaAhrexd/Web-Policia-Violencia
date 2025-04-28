@@ -1,6 +1,6 @@
 // Hooks
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // Conexión con BackEnd
 import { crearDenunciaSinVerificar } from '../../api/CRUD/denunciasSinVerificar.crud';
 import { crearExposicion } from '../../api/CRUD/exposicion.crud';
@@ -16,6 +16,8 @@ import CargarTipoDeDenuncia from '../../components/Cargar/CargarAgente/CargarTip
 import PDF from './PDF';
 import InputExpediente from '../../components/InputComponents/InputExpediente';
 import InputRegister from '../../components/InputComponents/InputRegister';
+import { useCampos } from '../../context/campos';
+
 import { useStore } from './store';
 type CargarDenunciasRolCargaProps = {
   user: any;
@@ -29,7 +31,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
 
   // Estados
   const [tipoDenuncia, setTipoDenuncia] = useState('')
-  const [comisariaPertenece,] = useState('')
+  const [comisariaPertenece, setComisariaPertenece] = useState('')
   const userDivisionZona = user.unidad.split(",")
   const [isDivision,] = useState(!(userDivisionZona.length > 1));
 
@@ -37,6 +39,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
     genero: state.genero,
   }))
 
+  const { unidades } = useCampos()
 
   // Función para imprimir
   const handleImprimir = async () => {
@@ -47,6 +50,70 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
     // Abre la URL en una nueva pestaña
     window.open(url);
   }
+
+  const getNumeroUnidad = (unidad: string) => {
+    switch (unidad) {
+      case "Metropolitana":
+        setComisariaPertenece("381-")
+        break;
+      case "Lapachito":
+        setComisariaPertenece("125-")
+        break;
+      case "La Leonesa":
+        setComisariaPertenece("108-")
+        break;
+      case "Villa Ángela":
+        setComisariaPertenece("261-")
+        break;
+      case "Charata":
+        setComisariaPertenece("262-")
+        break;
+      case "San Martín":
+        setComisariaPertenece("260-")
+        break;
+      case "Juan José Castelli":
+        setComisariaPertenece("258-")
+        break;
+      case "Presidencia Roque Sáenz Peña":
+        setComisariaPertenece("235-")
+        break;
+    }
+  }
+
+  useEffect(() => {
+    const unidadesSeparadas = user.unidad.split(",")
+    const unidadViolencia = "División Violencia Familiar y Género " + unidadesSeparadas[0]
+    const municipio = unidadesSeparadas[1]?.trim()
+    const comisaria = unidadesSeparadas[2]?.trim()
+    // Busca la unidad en el array de unidad    es
+    // Haz un find para encontrar la unidad que coincida con la unidadViolencia
+    if (municipio == undefined && comisaria == undefined) {
+      getNumeroUnidad(unidadesSeparadas[0])
+
+    } else if (comisaria == undefined) {
+      
+      const unidadEncontrada = unidades.find((unidad: any) => unidad.nombre === unidadViolencia);
+    console.log(municipio)
+    const municipioEncontrado = unidadEncontrada && Array.isArray(unidadEncontrada.subdivisiones)
+    ? unidadEncontrada.subdivisiones.find((subdivision: any) => subdivision?.nombre === municipio)
+    : null;
+      
+   setComisariaPertenece(municipioEncontrado?.prefijo + '-')
+    } else {
+      const unidadEncontrada = unidades.find((unidad: any) => unidad.nombre === unidadViolencia);
+      const municipioEncontrado = unidadEncontrada && Array.isArray(unidadEncontrada.subdivisiones)
+      ? unidadEncontrada.subdivisiones.find((subdivision: any) => subdivision?.nombre === municipio)
+      : null;
+      
+      const comisariaEncontrada = municipioEncontrado && Array.isArray(municipioEncontrado.subdivisiones)
+      ? municipioEncontrado.subdivisiones.find((subdivision: any) => subdivision?.value === comisaria)
+      : null;
+      
+      setComisariaPertenece(comisariaEncontrada?.prefijo + '-')
+
+    }
+
+  }, [user, unidades])
 
   return (
     <div className='min-h-screen sm:h-full p-2 sm:p-10'>
@@ -74,7 +141,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
                   crearExposicion(values)
                 }
                 else {
-                  if( values.modo_actuacion == "Denuncia"){
+                  if (values.modo_actuacion == "Denuncia") {
                     values.modo_actuacion = values.modo_actuacion_2
                   }
 
