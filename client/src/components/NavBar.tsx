@@ -79,7 +79,8 @@ function NavBar({ user }: NavBarProps) {
                 <div className="absolute mt-2 w-80 bg-white text-black border rounded shadow p-2 z-10">
                   {seccionDenunciasAgentes.map((item, i) => (
                     <div key={i} className="flex items-center gap-2 py-1">
-                      {item.icon} {item.titulo}
+                      {item.icon} 
+                      <NavLink to={item.href}> {item.titulo} </NavLink>
                     </div>
                   ))}
                 </div>

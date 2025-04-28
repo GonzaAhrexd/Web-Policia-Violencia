@@ -80,7 +80,7 @@ function index() {
                             noDataComponent="No hay denuncias para mostrar"
                             // defaultSortFieldId={"Fecha"}
                             // defaultSortAsc={false}
-                        />                                                                                    0
+                        />
                     </div>
                 }
             </div>

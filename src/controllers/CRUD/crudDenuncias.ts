@@ -26,9 +26,11 @@ export const getDenuncias = async (req, res) => {
         unidad_de_carga?: string;
         municipio?: string;
         jurisdiccion_policial?: string
+        relacion_victima_victimario?: string
+        aprehension?: boolean
     }
     // Obtener los parámetros de la URL
-    const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, manual } = req.params;
+    const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, manual, relacion_victima_victimario, aprehension } = req.params;
     // Crear el objeto de consulta
     const query: Query = { };
 
@@ -63,6 +65,12 @@ export const getDenuncias = async (req, res) => {
     }
     if(comisaria !== 'no_ingresado'){
         query.jurisdiccion_policial = comisaria
+    }
+    if(relacion_victima_victimario !== 'no_ingresado'){
+        query.relacion_victima_victimario = relacion_victima_victimario
+    }
+    if(aprehension !== 'no_ingresado'){
+        query.aprehension = aprehension === 'true' ? true : false
     }
     // Obtener las denuncias
     try {
@@ -172,7 +180,6 @@ export const createDenuncia = async (req, res) => {
             modo_actuacion: modo_actuacion[0],
             convivencia: convivencia[0] === "Sí" ? true : false,
             dependencia_economica: dependencia_economica[0] === "Sí" ? true : false,
-            genero: genero[0],
             fecha: fecha[0],
             direccion: direccion[0],
             GIS: GIS ? GIS[0] : "No específicado",
@@ -351,7 +358,6 @@ export const updateDenuncia = async (req, res) => {
             hijos_victima_con_victimario: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor : 0,
             convivencia: convivencia === "Sí" ? true : false,
             dependencia_economica: dependencia_economica === "Sí" ? true : false,
-            genero,
             modo_actuacion,
             fecha,
             direccion,

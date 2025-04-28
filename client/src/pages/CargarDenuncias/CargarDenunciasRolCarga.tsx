@@ -119,10 +119,14 @@ function CargarDenunciasRolCarga({ setTitulo, user, handleOpenModal }: CargarDen
                   // Si está completo el expediente, se asigna true
                   values.is_expediente_completo = true;
                 }
+                if(values.esta_aprehendido){
+                  values.aprehension = true;
+                }
                 // Asignar el id del usuario a la denuncia
                 values.user_id = user.id;
                 // Crear el número de expediente en base a los datos ingresados
                 values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente;
+                
                 try {
                   // Crear la denuncia
                   const denuncia = {

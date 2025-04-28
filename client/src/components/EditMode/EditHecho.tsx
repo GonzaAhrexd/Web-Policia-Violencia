@@ -6,8 +6,6 @@ ______________________________________________________________________________
 ______________________________________________________________________________ */
 // Hooks
 import {  useEffect, useState } from 'react'
-// Campos
-import { generos } from '../../GlobalConst/generosCampos'
 // import { unidadCampos } from '../../GlobalConst/unidadCampos'
 import { opcionesViolencia } from '../../GlobalConst/violenciaCampos'
 import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
@@ -144,7 +142,6 @@ useEffect(() => {
       <InputRegister campo="" nombre="tercero_ID" register={register} setValue={setValue} type="hidden" error={errors.tercero_ID} valor={datos.tercero_ID ? datos.tercero_ID : "No hay tercero"} />
       <h1 className='text-2xl my-5'>Hecho</h1>
       <div className='flex flex-col xl:flex-row'>
-        <SelectRegisterSingle isRequired={false} campo="Género" nombre="genero" opciones={generos} setValue={setValue} error={errors.genero} valor={datos.genero} />
         <InputDate valor={new Date(datos.fecha).toISOString().slice(0, 10)} campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
         <SelectRegisterSingle isRequired={false} valor={datos.modo_actuacion} campo="Actuación" nombre="modo_actuacion" opciones={tipoDenunciaV2} setValue={setValue} error={errors.modo_actuacion} />
       </div>

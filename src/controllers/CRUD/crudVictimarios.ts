@@ -1,74 +1,77 @@
 import victimario from '../../models/victimario'
 import denuncias from '../../models/denuncias'
 import { agregarActividadReciente } from './crudActividadReciente'
-
 // Crear victimario
 export const createVictimario = async (req, res) => {
     try {
-        // Extraemos los datos del body
-        const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, antecedentes_psicologicos, entrenamiento_en_combate, aprehension, solicitud_de_aprehension_dispuesta  } = req.body
-        // Buscar si ya existe un víctimario con el DNI ingresado
-        let victimarioExistente
+        const { 
+            nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, 
+            estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, 
+            antecedentes_penales, antecedentes_contravencionales, antecedentes_psicologicos, 
+            entrenamiento_en_combate, aprehension, solicitud_de_aprehension_dispuesta, esta_aprehendido 
+        } = req.body;
 
-        console.log("Aprehensión: " + aprehension)
-        console.log("Solicitud de aprehensión: " + solicitud_de_aprehension_dispuesta)
-
-        console.log(req.body)
-        if (dni_victimario != "S/N") {
-            victimarioExistente = await victimario.findOne({ DNI: dni_victimario })
-        } else {
-            victimarioExistente = null
+        // No permitir avanzar si no se mandaron los campos básicos
+        if (!nombre_victimario || !apellido_victimario || !direccion_victimario || !edad_victimario) {
+            return res.status(400).send('Faltan datos obligatorios');
         }
-        // Si no existe un víctimario con el DNI ingresado, crear uno nuevo
-        if (req.body.dni_victimario && !victimarioExistente) {
-            const newVictimario = new victimario({
-                nombre: nombre_victimario,
-                apellido: apellido_victimario,
-                direccion: direccion_victimario,
-                edad: edad_victimario,
-                DNI: dni_victimario,
-                estado_civil: estado_civil_victimario,
-                ocupacion: ocupacion_victimario,
-                abuso_de_alcohol: abuso_de_alcohol ? abuso_de_alcohol : false,
-                antecedentes_toxicologicos: antecedentes_toxicologicos ? antecedentes_toxicologicos : false,
-                antecedentes_psicologicos: antecedentes_psicologicos ? antecedentes_psicologicos : false,
-                antecedentes_penales: antecedentes_penales ? antecedentes_penales : false,
-                antecedentes_contravencionales: antecedentes_contravencionales ? antecedentes_contravencionales : false,
-                entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,
-                esta_aprehendido: (aprehension !== null && solicitud_de_aprehension_dispuesta) ? aprehension : false,
-            })
-            const victimarioSaved = await newVictimario.save()
-            await agregarActividadReciente(`Se ha creado un nuevo victimario: ${nombre_victimario} ${apellido_victimario}`, 'Victimario', victimarioSaved._id, req.cookies)
-            res.json({ message: 'Victimario creado con exito', id: victimarioSaved._id })
 
+        let victimarioExistente = null;
+
+        if (dni_victimario && dni_victimario !== "S/N") {
+            victimarioExistente = await victimario.findOne({ DNI: dni_victimario });
+        }
+
+        // Objeto base para crear o actualizar
+        const datosVictimario = {
+            nombre: nombre_victimario,
+            apellido: apellido_victimario,
+            direccion: direccion_victimario,
+            edad: edad_victimario,
+            DNI: dni_victimario,
+            estado_civil: estado_civil_victimario,
+            ocupacion: ocupacion_victimario,
+            abuso_de_alcohol: !!abuso_de_alcohol,
+            antecedentes_toxicologicos: !!antecedentes_toxicologicos,
+            antecedentes_psicologicos: !!antecedentes_psicologicos,
+            antecedentes_penales: !!antecedentes_penales,
+            antecedentes_contravencionales: !!antecedentes_contravencionales,
+            entrenamiento_en_combate: !!entrenamiento_en_combate,
+            esta_aprehendido: esta_aprehendido 
+                ? esta_aprehendido 
+                : (aprehension !== null && solicitud_de_aprehension_dispuesta) 
+                    ? aprehension 
+                    : false,
+        };
+
+        if (!victimarioExistente) {
+            // Crear nuevo victimario
+            const newVictimario = new victimario(datosVictimario);
+            const victimarioSaved = await newVictimario.save();
+            await agregarActividadReciente(`Se ha creado un nuevo victimario: ${nombre_victimario} ${apellido_victimario}`, 'Victimario', victimarioSaved._id, req.cookies);
+            return res.status(201).json({ message: 'Victimario creado con éxito', id: victimarioSaved._id });
         } else {
-            res.send('Victimario ya existe')
-            //Actualiza al victimario existente y agrega a cantida de denuncias previas una más
-            if (dni_victimario != "S/N") {
-                const victimarioUpdated = await victimario.findOneAndUpdate({ DNI: dni_victimario }, {
-                    nombre: nombre_victimario,
-                    apellido: apellido_victimario,
-                    direccion: direccion_victimario,
-                    edad: edad_victimario,
-                    DNI: dni_victimario,
-                    estado_civil: estado_civil_victimario,
-                    ocupacion: ocupacion_victimario,
-                    abuso_de_alcohol: abuso_de_alcohol ? abuso_de_alcohol : false,
-                    antecedentes_toxicologicos: antecedentes_toxicologicos ? antecedentes_toxicologicos : false,
-                    antecedentes_psicologicos: antecedentes_psicologicos ? antecedentes_psicologicos : false,
-                    antecedentes_penales: antecedentes_penales ? antecedentes_penales : false,
-                    antecedentes_contravencionales: antecedentes_contravencionales ? antecedentes_contravencionales : false,
-                    entrenamiento_en_combate: entrenamiento_en_combate ? entrenamiento_en_combate : false,
-                    esta_aprehendido: (aprehension !== null && solicitud_de_aprehension_dispuesta) ? aprehension : false,    
-                }, { new: true })
-                victimarioUpdated && await agregarActividadReciente(`Se ha agregado una denuncia al victimario: ${nombre_victimario} ${apellido_victimario}`, 'Victimario', victimarioUpdated._id, req.cookies)
+            // Actualizar victimario existente
+            const victimarioUpdated = await victimario.findOneAndUpdate(
+                { DNI: dni_victimario },
+                datosVictimario,
+                { new: true }
+            );
+
+            if (victimarioUpdated) {
+                await agregarActividadReciente(`Se ha agregado una denuncia al victimario: ${nombre_victimario} ${apellido_victimario}`, 'Victimario', victimarioUpdated._id, req.cookies);
+                return res.status(200).json({ message: 'Victimario actualizado con éxito', id: victimarioUpdated._id });
+            } else {
+                return res.status(404).send('No se pudo actualizar el victimario');
             }
         }
+
     } catch (error) {
-        console.log(error)
-        res.send('Victima ya existe o no se ingresaron datos')
+        console.error(error);
+        return res.status(500).send('Error al procesar la solicitud');
     }
 }
+
 
 // Listar victimario
 export const getVictimario = async (req, res) => {
@@ -120,11 +123,20 @@ export const deleteVictimario = async (id, denunciaId, req) => {
 
 // Editar victimario
 export const updateVictimario = async (req, res) => {
-    const { id } = req.params
-    const { nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, esta_aprehendido, fue_liberado } = req.body
-
     try {
-        const victimarioUpdated = await victimario.findByIdAndUpdate(req.params.id, {
+        const { id } = req.params;
+        const { 
+            nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, 
+            estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, 
+            antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, 
+            esta_aprehendido, fue_liberado 
+        } = req.body;
+
+        if (!id) {
+            return res.status(400).send('ID de victimario no proporcionado');
+        }
+
+        const datosVictimario = {
             nombre: nombre_victimario,
             apellido: apellido_victimario,
             direccion: direccion_victimario,
@@ -132,30 +144,41 @@ export const updateVictimario = async (req, res) => {
             DNI: dni_victimario,
             estado_civil: estado_civil_victimario,
             ocupacion: ocupacion_victimario,
-            abuso_de_alcohol,
-            antecedentes_toxicologicos,
-            antecedentes_penales,
-            antecedentes_contravencionales,
-            entrenamiento_en_combate,
-            esta_aprehendido: esta_aprehendido ? esta_aprehendido : false, 
-            fue_liberado: fue_liberado ? fue_liberado : false
-        }, { new: true })
+            abuso_de_alcohol: !!abuso_de_alcohol,
+            antecedentes_toxicologicos: !!antecedentes_toxicologicos,
+            antecedentes_penales: !!antecedentes_penales,
+            antecedentes_contravencionales: !!antecedentes_contravencionales,
+            entrenamiento_en_combate: !!entrenamiento_en_combate,
+            esta_aprehendido: !!esta_aprehendido,
+            fue_liberado: !!fue_liberado,
+        };
 
-        // Actualizar victima_nombre de las denuncias que tenga la víctima en caso de que se haya modificado
-        await denuncias.updateMany({
-            victimario_ID: id
-        }, {
-            victimario_nombre: `${nombre_victimario} ${apellido_victimario}`
-        });
+        const victimarioUpdated = await victimario.findByIdAndUpdate(
+            id,
+            datosVictimario,
+            { new: true }
+        );
 
-        await agregarActividadReciente("Edición de victimario", "Victimario", id, req.cookies )
-        res.json(victimarioUpdated)
+        if (!victimarioUpdated) {
+            return res.status(404).send('Victimario no encontrado');
+        }
+
+        // Actualizar victimario_nombre en las denuncias relacionadas
+        await denuncias.updateMany(
+            { victimario_ID: id },
+            { victimario_nombre: `${nombre_victimario} ${apellido_victimario}` }
+        );
+
+        await agregarActividadReciente("Edición de victimario", "Victimario", id, req.cookies);
+
+        return res.status(200).json(victimarioUpdated);
 
     } catch (error) {
-        console.log(error)
+        console.error(error);
+        return res.status(500).send('Error al editar el victimario');
     }
-
 }
+
 
 // Buscar victimario
 export const buscarVictimario = async (req, res) => {

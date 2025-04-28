@@ -17,15 +17,15 @@ interface observacionesProps {
 }
 
 function CargarObservaciones({fileInputRef, rolAgenteHidden, register, setValue}: observacionesProps) {
-  const { isSolicitudAprehension } = useStore();
+  const { isSolicitudAprehension, isAprehendido  } = useStore();
   const [observacionRequired, setObservacionRequired] = useState(true);
+
 
   return (
     <div className='flex flex-col items-center w-full'>
         {(rolAgenteHidden !== null) && (!rolAgenteHidden) &&
         <div className='w-full lg:w-6/10'>
-          
-        <InputCheckbox disabled={!isSolicitudAprehension} campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue} type="checkbox" id="aprehension" />
+        <InputCheckbox disabled={!isSolicitudAprehension || isAprehendido } campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue} type="checkbox" id="aprehension" />
         {fileInputRef && 
         <>
         <h1 className='font-medium ml-4'>Subir foto de la denuncia (opcional)</h1>

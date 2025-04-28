@@ -59,12 +59,6 @@ const denunciaSchema = new mongoose.Schema({
         trim: true, // Trim para que no se guarden espacios en blanco
         default: false // Default en false
     },
-    // Definición del genero de la victima
-    genero: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
     // Definición de la fecha de la denuncia
     fecha: {
         type: Date, // Tipo de dato Date

@@ -16,7 +16,7 @@ import CargarTipoDeDenuncia from '../../components/Cargar/CargarAgente/CargarTip
 import PDF from './PDF';
 import InputExpediente from '../../components/InputComponents/InputExpediente';
 import InputRegister from '../../components/InputComponents/InputRegister';
-
+import { useStore } from './store';
 type CargarDenunciasRolCargaProps = {
   user: any;
 }
@@ -33,17 +33,20 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
   const userDivisionZona = user.unidad.split(",")
   const [isDivision,] = useState(!(userDivisionZona.length > 1));
 
+  const { genero } = useStore((state) => ({
+    genero: state.genero,
+  }))
+
+
   // Función para imprimir
   const handleImprimir = async () => {
     const datos = getValues()
-    const blob = await pdf(<PDF tipoDenuncia={tipoDenuncia} datos={datos} user={user} />).toBlob();
+    const blob = await pdf(<PDF genero={genero} tipoDenuncia={tipoDenuncia} datos={datos} user={user} />).toBlob();
     // Crea una URL de objeto a partir del blob
     const url = URL.createObjectURL(blob);
     // Abre la URL en una nueva pestaña
     window.open(url);
   }
-
-  
 
   return (
     <div className='min-h-screen sm:h-full p-2 sm:p-10'>
@@ -64,15 +67,22 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
             }).then(async (result) => {
               // Si el usuario confirma
               if (result.isConfirmed) {
-                // Se fija si la denuncia es de tipo mujer o hombre o si es una exposición
-                if (values.tipo_denuncia == "mujer" || values.tipo_denuncia == "hombre") {
-                  values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
-                  crearDenunciaSinVerificar(values)
-                } else if (values.tipo_denuncia == "exposicion") {
+
+                console.log("Actuación" + values.modo_actuacion)
+
+                if (values.modo_actuacion == "Exposición") {
                   crearExposicion(values)
                 }
+                else {
+                  if( values.modo_actuacion == "Denuncia"){
+                    values.modo_actuacion = values.modo_actuacion_2
+                  }
+
+                  values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
+                  crearDenunciaSinVerificar(values)
+                }
                 Swal.fire({
-                  title: `${values.tipo_denuncia == "exposicion" ? "Exposición" : "Denuncia"} cargada`,
+                  title: `${values.modo_actuacion == "Exposición" ? "Exposición" : "Denuncia"} cargada`,
                   icon: 'success',
                   confirmButtonText: 'Ok',
                   confirmButtonColor: '#0C4A6E',
@@ -90,21 +100,21 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
         >
           <h1 className='text-2xl my-5'>Tipo de denuncia</h1>
           <div className='flex flex-col items-center justify-center'>
-            <CargarTipoDeDenuncia setTipoDenuncia={setTipoDenuncia} register={register} setValue={setValue} errors={errors} />
-             </div>
-          {(tipoDenuncia == "mujer" || tipoDenuncia == "hombre") && (
+            <CargarTipoDeDenuncia tipoDenuncia={tipoDenuncia} setTipoDenuncia={setTipoDenuncia} register={register} setValue={setValue} errors={errors} />
+          </div>
+          {(tipoDenuncia != "Exposición" && tipoDenuncia != "") && (
             <>
               <h1 className='text-2xl my-5'>Expediente</h1>
               <div className='flex justify-center'>
                 <InputExpediente cargaAgente={true} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
               </div>
-              {!isDivision && 
-              <div className='flex flex-row w-full justify-center'>
-                <div className='flex flex-row w-full lg:w-6/10'>
-                  <InputRegister campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
-                  <InputRegister campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
+              {!isDivision &&
+                <div className='flex flex-row w-full justify-center'>
+                  <div className='flex flex-row w-full lg:w-6/10'>
+                    <InputRegister campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
+                    <InputRegister campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
+                  </div>
                 </div>
-              </div>
               }
               <h1 className='text-2xl my-5'>Denunciante</h1>
               <div className='flex justify-center'>
@@ -116,7 +126,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               </div>
               <h1 className='text-2xl my-5'>Preguntas</h1>
               <div className='flex justify-center'>
-                <CargarPreguntas watch={watch} tipoDenuncia={tipoDenuncia} register={register} setValue={setValue} errors={errors} />
+                <CargarPreguntas watch={watch} genero={genero} tipoDenuncia={tipoDenuncia} register={register} setValue={setValue} errors={errors} />
               </div>
               <CargarInstructorYSecretario register={register} setValue={setValue} errors={errors} />
               <div className="flex justify-center my-3">
@@ -125,15 +135,15 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               </div>
             </>
           )}
-          {tipoDenuncia == "exposicion" && (
+          {tipoDenuncia == "Exposición" && (
             <>
-              {!isDivision && 
-              <div className='flex flex-row w-full justify-center'>
-                <div className='flex flex-row w-full lg:w-6/10'>
-                  <InputRegister campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
-                  <InputRegister campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
+              {!isDivision &&
+                <div className='flex flex-row w-full justify-center'>
+                  <div className='flex flex-row w-full lg:w-6/10'>
+                    <InputRegister campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
+                    <InputRegister campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
+                  </div>
                 </div>
-              </div>
               }
               <h1 className='text-2xl my-5'>Expositor</h1>
               <div className='flex justify-center'>

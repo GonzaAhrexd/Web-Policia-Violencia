@@ -12,6 +12,9 @@ import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 import { useEffect, useState } from 'react';
 // Contexto
 import { useCampos } from '../../context/campos'
+// Store
+import { useStore } from '../../pages/CargarDenuncias/store'
+
 // Props
 interface CargarVictimarioProps {
   register: UseFormRegister<any>;
@@ -24,9 +27,12 @@ function CargarVictimario({watch, register, setValue, errors }: CargarVictimario
 
 
   const [entrenamiento_en_combate, setEntrenamiento_en_combate] = useState(false)
+  const [ isAprehendido, setIsAprehendido ] = useState(false)
 
   const ocupacionVictimario = watch('ocupacion_victimario');
   const { ocupaciones } = useCampos();
+
+  const {setAprehendido} = useStore()
 
 
   useEffect(() => {
@@ -36,7 +42,17 @@ function CargarVictimario({watch, register, setValue, errors }: CargarVictimario
       // Opcional: establecer en false si se desea resetear el estado para otras ocupaciones
       setEntrenamiento_en_combate(false);
     }
-  }, [ocupacionVictimario]); // Dependencia del efecto
+
+    if(isAprehendido){
+      // Utiliza el useStore
+        setAprehendido(true)
+    }
+    if(!isAprehendido){
+      setAprehendido(false)
+    }
+
+
+  }, [ocupacionVictimario, isAprehendido]); // Dependencia del efecto
 
 
 
@@ -66,6 +82,12 @@ function CargarVictimario({watch, register, setValue, errors }: CargarVictimario
           <InputCheckboxExternalCondition campo="Entrenamiento en combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" state={entrenamiento_en_combate}/>
         </div>
       </>
+      <span 
+        className='ml-4 font-medium '>Detalles de aprehensión</span>
+      {/* Haz que sean dos inputs de tipo radio que sean excluyentes, uno con aprehension y otro con en libertad */}
+          <div>
+            <InputCheckbox setHook={setIsAprehendido} campo="Aprehensión" nombre="esta_aprehendido" register={register} setValue={setValue} type="checkbox" id="aprehendido"  />
+      </div>
     </div>
   )
 }

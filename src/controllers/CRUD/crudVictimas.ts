@@ -1,90 +1,100 @@
 import victimas from '../../models/victimas'
 import denuncias from '../../models/denuncias'
 import { agregarActividadReciente } from './crudActividadReciente'
- 
+
 // Crear víctima
 export const createVictima = async (req, res) => {
-    //Victima nueva
     try {
-        const { nombre_victima, apellido_victima, direccion_victima,  edad_victima, dni_victima, 
-                estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad, 
-                embarazo, periodo_post_parto, periodo_de_lactancia, discapacidad, enfermedad_cronica, adulto_mayor, menor_de_edad, tratamiento_psicologico,
-                convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
-        let victimaExistente 
-        if (dni_victima != "S/N") {
-            victimaExistente = await victimas.findOne({ DNI: dni_victima })
-        } else {
-            victimaExistente = null
-        }
-        
-        if (req.body.dni_victima && !victimaExistente) {
-            const newVictima = new victimas({
-                nombre: nombre_victima,
-                apellido: apellido_victima,
-                edad: edad_victima,
-                direccion: direccion_victima,
-                DNI: dni_victima,
-                estado_civil: estado_civil_victima,
-                ocupacion: ocupacion_victima,
-                condicion_de_vulnerabilidad: condicion_de_vulnerabilidad == "Sí" ? true : false,
-                condiciones_de_vulnerabilidad: {
-                    embarazo: embarazo ? embarazo : false,
-                    periodo_post_parto: periodo_post_parto ? periodo_post_parto : false,
-                    periodo_de_lactancia: periodo_de_lactancia ? periodo_de_lactancia : false,
-                    discapacidad: discapacidad ? discapacidad : false,
-                    enfermedad_cronica: enfermedad_cronica ? enfermedad_cronica : false,
-                    adulto_mayor: adulto_mayor ? adulto_mayor : false,
-                    menor_de_edad: menor_de_edad ? menor_de_edad : false,
-                    tratamiento_psicologico: tratamiento_psicologico ? tratamiento_psicologico : false,
-                },
-                hijos: {
-                    tiene_hijos: hijos === "Sí" ? true : false,
-                    dependencia_economica: (hijos && dependencia_economica) ? dependencia_economica : false,
-                    mayores_de_edad: (hijos && mayor_de_18) ? mayor_de_18 : false,
-                    menores_de_edad: (hijos && menor_de_18) ? menor_de_18 : false,
-                    menores_discapacitados: (hijos && menores_discapacitados) ? menores_discapacitados : false,
-                },
-            })
-            const victimaSaved = await newVictima.save()
-            agregarActividadReciente(`Se ha creado nueva víctima ${nombre_victima + apellido_victima} `, "Víctima", victimaSaved._id, req.cookies)
-            res.json({ message: 'Victima creado con exito', id: victimaSaved._id })
-        } else {
-            const victimaUpdated = await victimas.findOneAndUpdate({ DNI: dni_victima }, {
-                $set: {
-                    nombre: nombre_victima,
-                    apellido: apellido_victima,
-                    direccion: direccion_victima,
-                    edad: edad_victima,
-                    DNI: dni_victima,
-                    estado_civil: estado_civil_victima,
-                    ocupacion: ocupacion_victima,
-                    condicion_de_vulnerabilidad: condicion_de_vulnerabilidad == "Sí" ? true : false,
-                    condiciones_de_vulnerabilidad: {
-                        embarazo: embarazo ? embarazo : false,
-                        periodo_post_parto: periodo_post_parto ? periodo_post_parto : false,
-                        periodo_de_lactancia: periodo_de_lactancia ? periodo_de_lactancia : false,
-                        discapacidad: discapacidad ? discapacidad : false,
-                        enfermedad_cronica: enfermedad_cronica ? enfermedad_cronica : false,
-                        adulto_mayor: adulto_mayor ? adulto_mayor : false,
-                        menor_de_edad: menor_de_edad ? menor_de_edad : false,
-                        tratamiento_psicologico: tratamiento_psicologico ? tratamiento_psicologico : false
-                    },
-                    "hijos.tiene_hijos": hijos === "Sí" ? true : false,
-                    "hijos.mayores_de_edad": mayor_de_18 ? mayor_de_18 : false,
-                    "hijos.menores_de_edad": menor_de_18 ? menor_de_18 : false,
-                    "hijos.menores_discapacitados": menores_discapacitados ? menores_discapacitados : false,
-                }
-            }, { new: true })
-            
-            victimaUpdated ? agregarActividadReciente(`Se ha agregado una denuncia a la víctima ${nombre_victima + apellido_victima}`, "Víctima", victimaUpdated._id, req.cookies) : null
-            res.send('Victima ya existe')
+        const {
+            nombre_victima, apellido_victima, direccion_victima, edad_victima, dni_victima,
+            estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad,
+            embarazo, periodo_post_parto, periodo_de_lactancia, discapacidad,
+            enfermedad_cronica, adulto_mayor, menor_de_edad, tratamiento_psicologico,
+            genero_victima, hijos, dependencia_economica,
+            mayor_de_18, menor_de_18, menores_discapacitados
+        } = req.body;
+
+        // Armar objetos auxiliares
+        const condicionesDeVulnerabilidad = {
+            embarazo: !!embarazo,
+            periodo_post_parto: !!periodo_post_parto,
+            periodo_de_lactancia: !!periodo_de_lactancia,
+            discapacidad: !!discapacidad,
+            enfermedad_cronica: !!enfermedad_cronica,
+            adulto_mayor: !!adulto_mayor,
+            menor_de_edad: !!menor_de_edad,
+            tratamiento_psicologico: !!tratamiento_psicologico,
+        };
+
+        const datosHijos = {
+            tiene_hijos: hijos === "Sí",
+            dependencia_economica: hijos === "Sí" ? dependencia_economica || false : false,
+            mayores_de_edad: hijos === "Sí" ? mayor_de_18 || false : false,
+            menores_de_edad: hijos === "Sí" ? menor_de_18 || false : false,
+            menores_discapacitados: hijos === "Sí" ? menores_discapacitados || false : false,
+        };
+
+        const datosVictima = {
+            nombre: nombre_victima,
+            apellido: apellido_victima,
+            direccion: direccion_victima,
+            edad: edad_victima,
+            DNI: dni_victima,
+            estado_civil: estado_civil_victima,
+            genero: genero_victima,
+            ocupacion: ocupacion_victima,
+            condicion_de_vulnerabilidad: condicion_de_vulnerabilidad === "Sí",
+            condiciones_de_vulnerabilidad: condicionesDeVulnerabilidad,
+            hijos: datosHijos,
+        };
+
+        console.log(datosVictima)
+
+        let victimaExistente = null;
+        if (dni_victima && dni_victima !== "S/N") {
+            victimaExistente = await victimas.findOne({ DNI: dni_victima });
         }
 
+        if (!victimaExistente) {
+            const nuevaVictima = new victimas(datosVictima);
+            const victimaGuardada = await nuevaVictima.save();
+        
+            if (victimaGuardada && victimaGuardada._id) {
+                await agregarActividadReciente(
+                    `Se ha creado nueva víctima ${nombre_victima} ${apellido_victima}`,
+                    "Víctima",
+                    victimaGuardada._id,
+                    req.cookies
+                );
+            }
+        
+            return res.json({ message: 'Víctima creada con éxito', id: victimaGuardada._id });
+        } else {
+            const victimaActualizada = await victimas.findOneAndUpdate(
+                { DNI: dni_victima },
+                { $set: datosVictima },
+                { new: true }
+            );
+        
+            if (victimaActualizada && victimaActualizada._id) {
+                await agregarActividadReciente(
+                    `Se ha agregado una denuncia a la víctima ${nombre_victima} ${apellido_victima}`,
+                    "Víctima",
+                    victimaActualizada._id,
+                    req.cookies
+                );
+            }
+        
+            return res.send('Víctima ya existe');
+        }
+        
+
     } catch (error) {
-        console.log(error)
-        res.send('Victima ya existe o no se ingresaron datos')
+        console.error(error);
+        return res.status(500).send('Error al crear o actualizar la víctima');
     }
-}
+};
+
 // Obtener víctima  
 export const getVictima = async (req, res) => {
     try {
@@ -129,55 +139,77 @@ export const deleteVictima = async (id, denunciaId, req) => {
         console.log(error);
     }
 }
-
 // Editar víctima
 export const updateVictima = async (req, res) => {
     try {
-        const { id } = req.params
-        const { nombre_victima, apellido_victima, direccion_victima, edad_victima,
-                dni_victima, estado_civil_victima, ocupacion_victima,
-                condicion_de_vulnerabilidad, embarazo, periodo_post_parto, periodo_de_lactancia, discapacidad, enfermedad_cronica, adulto_mayor, menor_de_edad, tratamiento_psicologico, 
-                convivencia, hijos, dependencia_economica, mayor_de_18, menor_de_18, menores_discapacitados } = req.body
+        const { id } = req.params;
+        const {
+            nombre_victima, apellido_victima, direccion_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima,
+            condicion_de_vulnerabilidad, genero_victima, embarazo, periodo_post_parto, periodo_de_lactancia, discapacidad, enfermedad_cronica,
+            adulto_mayor, menor_de_edad, tratamiento_psicologico, hijos,
+            mayor_de_18, menor_de_18, menores_discapacitados
+        } = req.body;
 
-        const victimaUpdated = await victimas.findByIdAndUpdate(id, {
+        if (!id) {
+            return res.status(400).json({ message: 'ID de víctima no proporcionado' });
+        }
+
+        const datosVictima = {
             nombre: nombre_victima,
             apellido: apellido_victima,
             direccion: direccion_victima,
+            genero: genero_victima,
             edad: edad_victima,
             DNI: dni_victima,
             estado_civil: estado_civil_victima,
             ocupacion: ocupacion_victima,
-            condicion_de_vulnerabilidad: condicion_de_vulnerabilidad == "Sí" ? true : false,
+            condicion_de_vulnerabilidad: condicion_de_vulnerabilidad === "Sí",
             condiciones_de_vulnerabilidad: {
-                embarazo: (embarazo && condicion_de_vulnerabilidad == "Sí") ? embarazo : false,
-                periodo_post_parto: (periodo_post_parto && condicion_de_vulnerabilidad == "Sí") ? periodo_post_parto : false,
-                periodo_de_lactancia: (periodo_de_lactancia && condicion_de_vulnerabilidad == "Sí") ? periodo_de_lactancia : false,
-                discapacidad: (discapacidad && condicion_de_vulnerabilidad == "Sí") ? discapacidad : false,
-                enfermedad_cronica: (enfermedad_cronica && condicion_de_vulnerabilidad == "Sí") ? enfermedad_cronica : false,
-                adulto_mayor: (adulto_mayor && condicion_de_vulnerabilidad == "Sí") ? adulto_mayor : false,
-                menor_de_edad: (menor_de_edad && condicion_de_vulnerabilidad == "Sí") ? menor_de_edad : false,
-                tratamiento_psicologico: (tratamiento_psicologico && condicion_de_vulnerabilidad == "Sí") ? tratamiento_psicologico : false
+                embarazo: (embarazo && condicion_de_vulnerabilidad === "Sí") ? embarazo : false,
+                periodo_post_parto: (periodo_post_parto && condicion_de_vulnerabilidad === "Sí") ? periodo_post_parto : false,
+                periodo_de_lactancia: (periodo_de_lactancia && condicion_de_vulnerabilidad === "Sí") ? periodo_de_lactancia : false,
+                discapacidad: (discapacidad && condicion_de_vulnerabilidad === "Sí") ? discapacidad : false,
+                enfermedad_cronica: (enfermedad_cronica && condicion_de_vulnerabilidad === "Sí") ? enfermedad_cronica : false,
+                adulto_mayor: (adulto_mayor && condicion_de_vulnerabilidad === "Sí") ? adulto_mayor : false,
+                menor_de_edad: (menor_de_edad && condicion_de_vulnerabilidad === "Sí") ? menor_de_edad : false,
+                tratamiento_psicologico: (tratamiento_psicologico && condicion_de_vulnerabilidad === "Sí") ? tratamiento_psicologico : false
             },
             hijos: {
-                tiene_hijos: hijos === "Sí" ? true : false,
-                mayores_de_edad: mayor_de_18 ? mayor_de_18 : false,
-                menores_de_edad: menor_de_18 ? menor_de_18 : false,
-                menores_discapacitados: menores_discapacitados ? menores_discapacitados : false,
+                tiene_hijos: hijos === "Sí",
+                mayores_de_edad: mayor_de_18 || false,
+                menores_de_edad: menor_de_18 || false,
+                menores_discapacitados: menores_discapacitados || false
             }
-        }, { new: true })
-        res.json(victimaUpdated)
-        // Actualizar victima_nombre de las denuncias que tenga la víctima en caso de que se haya modificado
-        await agregarActividadReciente("Edición de víctima", "Víctima", id, req.cookies )
-        await denuncias.updateMany({
-            victima_ID: id
-        }, {
-            victima_nombre: `${nombre_victima} ${apellido_victima}`
-        });
-    } catch (error) {
-        console.log(error)
-    }
+        };
 
-}
+        const victimaUpdated = await victimas.findByIdAndUpdate(id, { $set: datosVictima }, { new: true });
+
+        if (!victimaUpdated) {
+            return res.status(404).json({ message: 'Víctima no encontrada' });
+        }
+
+        // Registrar actividad reciente
+        await agregarActividadReciente(
+            `Se editó a la víctima ${nombre_victima} ${apellido_victima}`,
+            "Víctima",
+            id,
+            req.cookies
+        );
+
+        // Actualizar nombre en todas las denuncias relacionadas
+        await denuncias.updateMany(
+            { victima_ID: id },
+            { victima_nombre: `${nombre_victima} ${apellido_victima}` }
+        );
+
+        return res.json(victimaUpdated);
+
+    } catch (error) {
+        console.error('Error al actualizar víctima:', error);
+        return res.status(500).json({ message: 'Error al actualizar víctima' });
+    }
+};
+
 // Buscar víctima
 export const buscarVictima = async (req, res) => {
     interface Query {

@@ -77,6 +77,11 @@ const denunciaSinVerificarSchema = new mongoose.Schema({
         required: false, // Campo no requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    genero_victima: {
+        type: String, // Tipo de dato String
+        required: true, // Campo no requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     direccion_victima: {
         type: String, // Tipo de dato String
         required: false, // Campo no requerido

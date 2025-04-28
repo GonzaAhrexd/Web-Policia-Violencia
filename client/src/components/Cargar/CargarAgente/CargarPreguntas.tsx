@@ -13,9 +13,10 @@ interface CargarVictimaProps {
   errors: FieldErrors;
   tipoDenuncia: string;
   watch?: any;
+  genero?: string;
 }
 
-function CargarPreguntas({watch, tipoDenuncia, register }: CargarVictimaProps) {
+function CargarPreguntas({genero, watch, tipoDenuncia, register }: CargarVictimaProps) {
 
   const [isAgregado, setIsAgregado] = useState(false)
 
@@ -38,20 +39,20 @@ function CargarPreguntas({watch, tipoDenuncia, register }: CargarVictimaProps) {
     { nombre: 'Sí', value: 'si', id: "si_agregado" },
     { nombre: 'No', value: 'no', id: "no_agregado" },
   ]
-  if (tipoDenuncia != "exposicion") {
+  if (tipoDenuncia != "Exposición") {
     return (
       <div className='w-full lg:w-6/10'>
-        {tipoDenuncia == "mujer" &&
+        {genero == "Femenino" &&
           <div className='flex flex-col my-2'>
             <p> Se le hace saber que existe la Línea 137, ubicado en Calle Mitre N° 171 en la Ciudad de Resistencia, donde se brinda asesoramiento legal y
               asistencia psicológica las 24 horas del día de manera GRATUITA, y la Línea 102 ubicado en Avenida Sarmiento
               N° 1675, Ciudad de Resistencia.</p>
-            <span className='ml-4 font-medium  my-2'> ¿Desea ser asistid{tipoDenuncia == "mujer" ? "a" : "o"} por dicho organismo? </span>
+            <span className='ml-4 font-medium  my-2'> ¿Desea ser asistid{genero == "Femenino" ? "a" : "o"} por dicho organismo? </span>
             <InputRadio campo="AsistidaPorDichoOrganismo" nombre="AsistidaPorDichoOrganismo" register={register}  type="radio" opciones={opcionesAsistidaPorDichoOrganismo} defaultValue={3} />
           </div>
         }
         <div className='flex flex-col my-2'>
-          <span className='ml-4 font-medium  my-2'> ¿Desea ser examinad{tipoDenuncia == "mujer" ? "a" : "o"} por el medico policial en turno? </span>
+          <span className='ml-4 font-medium  my-2'> ¿Desea ser examinad{genero == "Femenino" ? "a" : "o"} por el medico policial en turno? </span>
           <InputRadio campo="ExaminadaMedicoPolicial" nombre="ExaminadaMedicoPolicial" register={register}  type="radio" opciones={opcionesExaminadaMedicoPolicial} defaultValue={3} />
         </div>
         <div className='flex flex-col my-2'>

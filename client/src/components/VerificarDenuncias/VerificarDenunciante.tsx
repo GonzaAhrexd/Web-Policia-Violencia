@@ -16,6 +16,7 @@ import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 import InputNumber from '../InputComponents/InputNumber'
 
 import { useCampos } from '../../context/campos'
+import { generos } from '../../GlobalConst/generosCampos'
 
 interface CargarVictimaProps {
   datos: any;
@@ -58,11 +59,12 @@ function VerificarDenunciante({ watch, datos, register, setValue, errors }: Carg
       <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Nombre" nombre="nombre_victima" register={register} setValue={setValue} type="text" error={errors.nombre_victima} valor={datos.nombre} />
         <InputRegister campo="Apellido" nombre="apellido_victima" register={register} setValue={setValue} type="text" error={errors.apellido_victima} valor={datos.apellido} />
+        <InputNumber campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} valor={datos.edad} maxLenght={2} />
       </div>
       <div className='flex flex-col md:flex-row my-2'>
-        <InputNumber campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} valor={datos.edad} maxLenght={2} />
         <InputNumber campo="DNI" nombre="dni_victima" register={register} setValue={setValue} type="text" error={errors.dni_victima} valor={datos.DNI} maxLenght={8} />
         <InputRegister campo="Domicilio" nombre="direccion_victima" require={false} register={register} setValue={setValue} type="text" error={errors.direccion_victima} valor={datos.direccion} />
+        <SelectRegister campo="Género" nombre="genero_victima" opciones={generos} register={register} setValue={setValue} type="text" error={errors.genero} isRequired={false} valor={datos.genero} />
       </div>
       <div className='flex flex-col xl:flex-row my-2'>
         <SelectRegister campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil} register={register} setValue={setValue} type="text" error={errors.estado_civil_victima} isRequired={false} valor={datos.estado_civil} />

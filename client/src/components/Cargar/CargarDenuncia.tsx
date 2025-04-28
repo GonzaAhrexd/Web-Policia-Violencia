@@ -13,11 +13,6 @@ import EditExpediente from '../EditMode/EditExpediente';
 import InputNumber from '../InputComponents/InputNumber'
 // Apis y BackEnd
 import { getCoords } from '../../api/coordinates'
-
-// Campos
-import { generos } from '../../GlobalConst/generosCampos'
-// import { unidadCampos } from '../../GlobalConst/unidadCampos'
-// import { vinculo } from '../../GlobalConst/vinculoCampos'
 import { opcionesViolencia } from '../../GlobalConst/violenciaCampos'
 import { opcionesModalidades } from '../../GlobalConst/modalidadesCampos'
 // import { opcionesTiposDeArma } from '../../GlobalConst/tiposDeArmasCampos'
@@ -132,7 +127,6 @@ function CargarDenuncia({modoActuacion, setTitulo, handleOpenModal, register, se
   return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col xl:flex-row'>
-        <SelectRegisterSingle campo="Género" nombre="genero" opciones={generos} setValue={setValue} error={errors.genero} />
         <InputDate campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
         <SelectRegisterSingle isRequired={ modoActuacion ? false : true} valor={ modoActuacion } campo="Actuación" nombre="modo_actuacion" opciones={tipoDenunciaV2} setValue={setValue} error={errors.modo_actuacion} />
       </div>

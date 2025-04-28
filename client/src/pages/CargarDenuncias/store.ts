@@ -8,6 +8,8 @@ interface State {
   victimarioCargar: any;
   terceroCargar: any;
   isSolicitudAprehension: boolean;
+  isAprehendido: boolean;
+  genero: string;
   setOpenModalVictima: (open: boolean) => void;
   setOpenModalVictimario: (open: boolean) => void;
   setOpenModalTercero: (open: boolean) => void;
@@ -15,6 +17,8 @@ interface State {
   setVictimarioCargar: (data: any) => void;
   setTerceroCargar: (data: any) => void;
   setSolicitudAprehension: (solicitud: boolean) => void;
+  setAprehendido: (aprehension: boolean) => void;
+  setGenero: (genero: string) => void;
 }
 
 export const useStore = create<State>((set) => ({
@@ -25,6 +29,8 @@ export const useStore = create<State>((set) => ({
   victimarioCargar: null,
   terceroCargar: null,
   isSolicitudAprehension: false,
+  isAprehendido: false,
+  genero: '',
   setOpenModalVictima: (open) => set({ openModalVictima: open }),
   setOpenModalVictimario: (open) => set({ openModalVictimario: open }),
   setOpenModalTercero: (open) => set({ openModalTercero: open }),
@@ -32,4 +38,6 @@ export const useStore = create<State>((set) => ({
   setVictimarioCargar: (data) => set({ victimarioCargar: data }),
   setTerceroCargar: (data) => set({ terceroCargar: data }),
   setSolicitudAprehension: (solicitud) => set({ isSolicitudAprehension: solicitud }),
+  setAprehendido: (aprehension) => set({ isAprehendido: aprehension }),
+  setGenero: (genero) => set({ genero: genero }),
 }));

@@ -41,7 +41,7 @@ export const CamposProvider = ({ children }: CamposProviderProps) => {
     const [tiposDeLugar, setTiposDeLugar] = useState<any>([]);
     const [unidades, setUnidades] = useState<any>([]); 
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    
+   
     const obtenerDatos = async () => {
         setIsLoading(true);  // Activa el estado de carga al iniciar las llamadas.
         try {

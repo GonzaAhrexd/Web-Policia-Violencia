@@ -50,6 +50,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "ID", valor: data._id },
         { nombre: "Nombre", valor: data.nombre ? data.nombre : "No especificado" },
         { nombre: "Apellido", valor: data.apellido ? data.apellido : "No especificado" },
+        { nombre: "Género", valor: data.genero ? data.genero : "No especificado" },
         { nombre: "Domicilio de la víctima", valor: data.direccion ? data.direccion : "No especificado" },
         { nombre: "Edad", valor: data.edad ? data.edad : "No especificado" },
         { nombre: "DNI", valor: (data.DNI && data.DNI != "S/N") ? data.DNI : "No especificado" },

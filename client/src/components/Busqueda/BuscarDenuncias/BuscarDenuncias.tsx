@@ -23,6 +23,7 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 // import { unidadCampos } from '../../../GlobalConst/unidadCampos';
 import { useCampos } from '../../../context/campos';
 import Excel from './Excel';
+import SelectRegisterSingle from '../../Select/SelectRegisterSingle';
 
 function BuscarDenuncias() {
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
@@ -50,7 +51,7 @@ function BuscarDenuncias() {
     }
 
     const [showExcel, setShowExcel] = useState(false);
-    const { unidades: unidadCampos } = useCampos();
+    const { unidades: unidadCampos, vinculo:vinculoCampos  } = useCampos();
     const { user } = useAuth()
     const userDivisionZona = user.unidad.split(",")
 
@@ -60,6 +61,7 @@ function BuscarDenuncias() {
             <form className="w-full flex flex-col items-center"
                 onSubmit={
                     handleSubmit(async (values) => {
+                        console.log(values)
                         // Separa la unidad en division, municipio y comisaria siempre que tenga una , para separar, sino no
                         if (values.unidad && user.rol != "agente") {
                             values.unidad = values.unidad.split(',')
@@ -76,13 +78,18 @@ function BuscarDenuncias() {
                 <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} />
                 <InputRegister busqueda={true} campo="ID" nombre="id_denuncia" register={register} type="text" error={errors.id_denuncia} require={false} />
                 <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
-                
+                <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
+                    <SelectRegisterSingle isRequired={false} campo="Relación entre víctima y victimario" nombre="relacion_victima_victimario" opciones={vinculoCampos}  setValue={setValue} error={errors.relacion_victima_victimario} />
+                </div>
                 {user.rol != "agente" &&
                 <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
                     <SelectDivisionMunicipios isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />
                 </div>
                 }
+                <div>
+                <InputCheckbox campo="Aprehensión" nombre="aprehension" register={register} error={errors.aprehension} id="aprehension_busqueda" type="checkbox" setValue={setValue}></InputCheckbox>
                 <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
+                </div>
                 <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
             </form>
             <div className="flex flex-col w-full">

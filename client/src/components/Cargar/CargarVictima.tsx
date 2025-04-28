@@ -13,7 +13,7 @@ import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
 
 // Context
 import {useCampos } from '../../context/campos'
-
+import { generos } from '../../GlobalConst/generosCampos'
 // Props
 interface CargarVictimaProps {
   register: UseFormRegister<any>;
@@ -63,6 +63,7 @@ function CargarVictima({watch, register, setValue, errors }: CargarVictimaProps)
       <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Nombre" nombre="nombre_victima" register={register} setValue={setValue} type="text" error={errors.nombre_victima} />
         <InputRegister campo="Apellido" nombre="apellido_victima" register={register} setValue={setValue} type="text" error={errors.apellido_victima} />
+        <SelectRegisterSingle campo="Género" nombre="genero_victima" opciones={generos} setValue={setValue} error={errors.genero_victima} />
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>

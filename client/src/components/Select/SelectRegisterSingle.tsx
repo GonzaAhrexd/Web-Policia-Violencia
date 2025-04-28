@@ -14,9 +14,10 @@ interface Props {
     isRequired?: any
     valor?: any
     mid?: boolean
+    setState?: (string) => void
 }
 
-function SelectRegister({ campo, nombre, opciones, setValue, error, isRequired, valor, mid }: Props) {
+function SelectRegister({setState, campo, nombre, opciones, setValue, error, isRequired, valor, mid }: Props) {
     // Estados
     const [requiredInput,] = useState(isRequired != null ? isRequired : true)
     const [selectedOpcion, setSelectedOpcion] = useState('');
@@ -29,6 +30,7 @@ function SelectRegister({ campo, nombre, opciones, setValue, error, isRequired, 
             setIsEmpty(false);
         }
         const value = event.target.value;
+        setState && setState(value)
         setSelectedOpcion(value);
         // Actualiza el valor en react-hook-form
         setValue(nombre, value)
@@ -55,7 +57,7 @@ function SelectRegister({ campo, nombre, opciones, setValue, error, isRequired, 
                     </option>
                 ))}
             </select>
-            {/* {error && <span className='text-red-500 text-xs'>Este campo es requerido</span>}                  */}
+            {error && <span className='text-red-500 text-xs'>Este campo es requerido</span>}                 
         </div>
         </div>
     </div>

@@ -29,6 +29,12 @@ const victimasSchema = new mongoose.Schema({
         required: false, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    genero: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true, // Trim para que no se guarden espacios en blanco
+        uppercase: true //Uppercase para que se guarde en mayúsculas
+    },
     // Definición del DNI de la victima
     DNI: {
         type: String, // Tipo de dato String

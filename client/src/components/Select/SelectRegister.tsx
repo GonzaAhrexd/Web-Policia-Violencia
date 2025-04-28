@@ -68,6 +68,8 @@ function SelectRegister({notMunicipio, notComisaria, mid, setTipoDenuncia, campo
         nombre == "apartado" && setValue('apartado', value)
         nombre == "juzgado_interviniente" && setValue('juzgado_interviniente', value)
         nombre == "rol" && setValue('rol', value)
+        nombre == "modo_actuacion" && setValue('modo_actuacion', value)
+        nombre == "genero_victima" && setValue('genero_victima', value)
     };
       
     const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

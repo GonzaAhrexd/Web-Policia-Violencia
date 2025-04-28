@@ -10,6 +10,9 @@ import { estadoCivil } from '../../../GlobalConst/estadoCivilCampos'
 
 // Contexto
 import { useCampos } from '../../../context/campos'
+import { useStore } from '../../../pages/CargarDenuncias/store'
+
+import { generos } from '../../../GlobalConst/generosCampos'
 
 // Props
 interface CargarVictimaProps {
@@ -22,12 +25,17 @@ function CargarVictimaAgente({ register, setValue, errors }: CargarVictimaProps)
 
 
   const { ocupaciones } = useCampos();
+  
+  const { setGenero } = useStore((state) => ({
+    setGenero: state.setGenero,
+  }))
 
 
   const opcionesSabeLeerYEscribir = [
     { nombre: 'Sí', value: 'si', id: "si_leer_escribir" },
     { nombre: 'No', value: 'no', id: "no_leer_escribir" },
   ]
+
 
 
   return (
@@ -40,6 +48,8 @@ function CargarVictimaAgente({ register, setValue, errors }: CargarVictimaProps)
       <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Nacionalidad" nombre="nacionalidad_victima" register={register} setValue={setValue} type="text" error={errors.nacionalidad_victima} />
         <InputNumber campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} maxLenght={2} />
+        <SelectRegisterSingle setState={setGenero} campo="Género" nombre="genero" opciones={generos}  setValue={setValue} error={errors.genero} />
+
       </div>
 
       <div className='flex flex-col xl:flex-row my-2'>

@@ -9,13 +9,14 @@ import { useEffect, useState } from 'react'
 //Componentes
 import InputRegister from '../InputComponents/InputRegister'
 import SelectRegister from '../Select/SelectRegister'
+import SelectRegisterSingle from '../Select/SelectRegisterSingle'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputNumber from '../InputComponents/InputNumber'
 import InputRadio from '../InputComponents/InputRadio'
 
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
-
+import { generos } from '../../GlobalConst/generosCampos'
 // Contexto
 import { useCampos } from '../../context/campos'
 
@@ -91,6 +92,8 @@ function EditVictima({onlyVictima, watch, editarConDenuncia, existente, hijos_co
             <div className='flex flex-col md:flex-row my-2'>
                 <InputRegister campo="Nombre" nombre="nombre_victima" register={register} setValue={setValue} type="text" error={errors.nombre_victima} valor={datos.nombre} />
                 <InputRegister campo="Apellido" nombre="apellido_victima" register={register} setValue={setValue} type="text" error={errors.apellido_victima} valor={datos.apellido} />
+                <SelectRegisterSingle campo="Género" nombre="genero_victima" opciones={generos} setValue={setValue}  error={errors.genero_victima} valor={datos.genero} isRequired={false} />
+                
             </div>
             <div className='flex flex-col md:flex-row my-2'>
                 <InputNumber require={false} campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} valor={datos.edad != null ? datos.edad : ""} maxLenght={2} />

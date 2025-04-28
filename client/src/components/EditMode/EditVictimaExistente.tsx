@@ -12,14 +12,13 @@ import SelectRegister from '../Select/SelectRegister'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputNumber from '../InputComponents/InputNumber'
 import InputRadio from '../InputComponents/InputRadio'
-
+import SelectRegisterSingle from '../Select/SelectRegisterSingle'
 // Campos
 import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
-
-import { useStore } from '../../pages/CargarDenuncias/store'
-
+import { generos } from '../../GlobalConst/generosCampos'
 // Contexto
 import { useCampos } from '../../context/campos'
+import { useStore } from '../../pages/CargarDenuncias/store'
 
 // Props
 interface CargarVictimaProps {
@@ -52,12 +51,6 @@ function EditVictimaExistente({ watch, editarConDenuncia, existente, hijos_con_a
 
     const { ocupaciones, vinculo } = useCampos();
     
-
-    // const [isHijos, setIsHijos] = useState(false)
-    // const [isHijosConAgresor, setIsHijosConAgresor] = useState(false)
-    // const [isCondicionVulnerabilidad, setIsCondicionVulnerabilidad] = useState(false) // Para mostrar o no el campo de condición de vulnerabilidad si es seleccionado el checkbox condición de vulnerabilidad
-    // const [isAdultoMayor, setIsAdultoMayor] = useState(false) // Para mostrar o no el campo de adulto mayor si es seleccionado el checkbox adulto mayor
-    // const [isMenorEdad, setIsMenorEdad] = useState(false) // Para mostrar o no el campo de menor de edad si es seleccionado el checkbox menor de edad
     // Actualiza de los state con los datos usando un useEffect, pero que de un timeout para darle tiempo de actualizar los datos
     useEffect(() => {
         setTimeout(() => {
@@ -96,6 +89,8 @@ function EditVictimaExistente({ watch, editarConDenuncia, existente, hijos_con_a
             <div className='flex flex-col md:flex-row my-2'>
                 <InputRegister campo="Nombre" nombre="nombre_victima" register={register} setValue={setValue} type="text" error={errors.nombre_victima} valor={datos.nombre} />
                 <InputRegister campo="Apellido" nombre="apellido_victima" register={register} setValue={setValue} type="text" error={errors.apellido_victima} valor={datos.apellido} />
+                <SelectRegisterSingle campo="Género" nombre="genero_victima" opciones={generos} setValue={setValue} error={errors.genero_victima} />
+
             </div>
             <div className='flex flex-col md:flex-row my-2'>
                 <InputNumber require={false} campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} valor={datos.edad != null ? datos.edad : ""} maxLenght={2} />

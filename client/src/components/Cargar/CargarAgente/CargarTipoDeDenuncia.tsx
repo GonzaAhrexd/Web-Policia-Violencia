@@ -3,38 +3,56 @@ import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 // Componentes
 import SelectRegister from '../../Select/SelectRegister'
 import SelectRegisterSingle from '../../Select/SelectRegisterSingle';
-
+// Usuario
+import { useAuth } from '../../../context/auth'
+import { useEffect } from 'react';
 // Campos 
 
 // Props
 interface TipoDenunciaProps{
   setTipoDenuncia: any;
+  tipoDenuncia: string;
     register: UseFormRegister<any>;
     setValue: UseFormSetValue<any>;
     errors: FieldErrors;
     }
 
-function CargarTipoDeDenuncia({setTipoDenuncia, register, setValue, errors}: TipoDenunciaProps) {
+function CargarTipoDeDenuncia({setTipoDenuncia, tipoDenuncia, register, setValue, errors}: TipoDenunciaProps) {
 
-    const tipoDeDenuncia = [
-        { nombre: 'Mujer', value: 'mujer' },
-        { nombre: 'Hombre', value: 'hombre' },
-        { nombre: 'Exposición', value: 'exposicion' },
-    ]
+  const { user } = useAuth()
+  const userRol = user.rol
+
+let tipoDeDenuncia = [
+    { nombre: 'Denuncia', value: 'Denuncia' },
+    { nombre: 'Ampliación de denuncia', value: 'Ampliación de Denuncia' },
+    { nombre: 'Exposición', value: 'Exposición' },
+];
+
+// Verificamos si el userRol es carga o admin
+if (userRol === 'carga' || userRol === 'admin') {
+    tipoDeDenuncia = [
+        ...tipoDeDenuncia,
+        { nombre: 'Actuación por Oficio', value: 'Actuación por Oficio' },
+        { nombre: 'Desobediencia Judicial', value: 'Desobediencia Judicial' }
+    ];
+}
+
+
     const tipoDenunciaV2 = [
-      { nombre: "Denuncia", value: "Denuncia" },
-      { nombre: "Actuado por oficio", value: "Actuado por oficio" },
-      { nombre: "Desobediencia judicial", value: "Desobediencia judicial" },
-      { nombre: "Denuncia convencional", value: "Denuncia convencional" },
-    ]
+      { nombre: "Denuncia Penal", value: "Denuncia Penal" },
+      { nombre: "Denuncia Contravencional", value: "Denuncia Contravencional" },
+      ]
+
     
 
   return (
     <div className='w-full lg:w-6/10'>
      
       <div className='flex flex-col xl:flex-row my-2'>
-        <SelectRegister setTipoDenuncia={setTipoDenuncia} campo="Tipo de Denuncia" nombre="tipo_denuncia" opciones={tipoDeDenuncia} register={register} setValue={setValue} type="text" error={errors.estado_civil_victima} />
-        <SelectRegisterSingle campo="Actuación" nombre="modo_actuacion" opciones={tipoDenunciaV2} setValue={setValue} error={errors.ocupacion_victima} />
+        <SelectRegister setTipoDenuncia={setTipoDenuncia} campo="Tipo de Actuación" nombre="modo_actuacion" opciones={tipoDeDenuncia} register={register} setValue={setValue} type="text" error={errors.modo_actuacion} />
+      { tipoDenuncia === "Denuncia" && 
+        <SelectRegisterSingle campo="Tipo de Denuncia" nombre="modo_actuacion_2" opciones={tipoDenunciaV2} setValue={setValue} error={errors.modo_actuacionV2} />
+      }
 
       </div>
 
