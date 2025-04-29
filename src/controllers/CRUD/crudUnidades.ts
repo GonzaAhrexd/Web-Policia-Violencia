@@ -58,12 +58,14 @@ export const deleteUnidad = async (req, res) => {
 export const addMunicipio = async (req, res) => {
     try {
         const { id } = req.params
-        const { nombre_municipio, valor_municipio, prefijo_municipio } = req.body
+        const { nombre_municipio, valor_municipio, prefijo_municipio, direccion_municipio, telefono_municipio } = req.body
         const unidad = await unidades.findById(id)
         unidad?.subdivisiones.push({
             nombre: nombre_municipio,
             value: valor_municipio,
-            prefijo: prefijo_municipio
+            prefijo: prefijo_municipio,
+            direccion: direccion_municipio,
+            telefono: telefono_municipio,
         }
         )
         await unidad?.save()
@@ -77,12 +79,12 @@ export const addMunicipio = async (req, res) => {
 export const updateMunicipio = async (req, res) => {
     // Cómo podría buscar donde se encuentra el municipio entre todas las unidades y actualizarlo?
     try{
-        const { nombre_original, nombre_municipio, valor_municipio, prefijo_municipio } = req.body
+        const { nombre_original, nombre_municipio, valor_municipio, prefijo_municipio, direccion_municipio, telefono_municipio } = req.body
 
         // Busca el municipio en todas las unidades y actualiza en todas 
         await unidades.updateMany(
             { "subdivisiones.nombre": nombre_original },
-            { $set: { "subdivisiones.$.nombre": nombre_municipio, "subdivisiones.$.value": valor_municipio, "subdivisiones.$.prefijo": prefijo_municipio } }
+            { $set: { "subdivisiones.$.nombre": nombre_municipio, "subdivisiones.$.value": valor_municipio, "subdivisiones.$.prefijo": prefijo_municipio, "subdivisiones.$.direccion": direccion_municipio, "subdivisiones.$.telefono": telefono_municipio } }
         )
 
         res.json({ message: "Municipio actualizado" })
@@ -111,11 +113,11 @@ export const deleteMunicipio = async (req, res) => {
 export const addComisaria = async (req, res) => {
     try{
 
-        const { nombre_municipio, nombre_comisaria, valor_comisaria, prefijo_comisaria } = req.body
+        const { nombre_municipio, nombre_comisaria, valor_comisaria, prefijo_comisaria, telefono_comisaria, direccion_comisaria } = req.body
        // Actualiza todos los municipios que tengan el nombre del municipio
         await unidades.updateMany(
             { "subdivisiones.nombre": nombre_municipio },
-            { $push: { "subdivisiones.$.subdivisiones": { nombre: nombre_comisaria, value: valor_comisaria, prefijo: prefijo_comisaria } } }
+            { $push: { "subdivisiones.$.subdivisiones": { nombre: nombre_comisaria, value: valor_comisaria, prefijo: prefijo_comisaria, telefono: telefono_comisaria, direccion: direccion_comisaria } } }
         )
         res.json({ message: "Comisaria agregada" })
         
@@ -126,7 +128,7 @@ export const addComisaria = async (req, res) => {
 
 export const updateComisaria = async (req, res) => {
     try {
-        const { nombre_municipio, nombre_comisaria, nombre_original, valor_comisaria, prefijo_comisaria } = req.body;
+        const { nombre_municipio, nombre_comisaria, nombre_original, valor_comisaria, prefijo_comisaria, telefono_comisaria, direccion_comisaria } = req.body;
 
         // Encuentra el índice del municipio
         const municipio = await unidades.findOne({ "subdivisiones.nombre": nombre_municipio });
@@ -149,11 +151,12 @@ export const updateComisaria = async (req, res) => {
         const updatePathNombre = `subdivisiones.${municipioIndex}.subdivisiones.${comisariaIndex}.nombre`;
         const updatePathValue = `subdivisiones.${municipioIndex}.subdivisiones.${comisariaIndex}.value`;
         const updatePathPrefijo = `subdivisiones.${municipioIndex}.subdivisiones.${comisariaIndex}.prefijo`;
-        
+        const updatePathTelefono = `subdivisiones.${municipioIndex}.subdivisiones.${comisariaIndex}.telefono`;
+        const updatePathDireccion = `subdivisiones.${municipioIndex}.subdivisiones.${comisariaIndex}.direccion`;
         // Realiza la actualización
         await unidades.updateMany(
             { "subdivisiones.nombre": nombre_municipio, "subdivisiones.subdivisiones.nombre": nombre_original },
-            { $set: { [updatePathNombre]: nombre_comisaria, [updatePathValue]: valor_comisaria, [updatePathPrefijo]: prefijo_comisaria } }
+            { $set: { [updatePathNombre]: nombre_comisaria, [updatePathValue]: valor_comisaria, [updatePathPrefijo]: prefijo_comisaria, [updatePathTelefono]: telefono_comisaria, [updatePathDireccion]: direccion_comisaria } }
         );
 
         res.json({ message: "Comisaría actualizada" });

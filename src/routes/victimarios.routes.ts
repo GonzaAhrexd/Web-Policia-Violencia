@@ -19,4 +19,5 @@ router.put('/editar-victimario/:id', authRequired, updateVictimario)
 router.get('/buscar-victimario/:victimario_id/:nombre_victimario/:apellido_victimario/:dni_victimario/:numero_de_expediente', authRequired, buscarVictimario)
 // Victimario DNI
 router.get('/victimario-dni/:dni_victimario', buscarVictimarioPorDni)
+
 export default router;

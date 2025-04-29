@@ -4,8 +4,6 @@
     (PrefijoExpediente, Comisaría, Expediente y SufijoExpediente).
 */
 
-import { useEffect } from "react";
-import { AuthContext } from "../../context/auth";
 
 
 // Props

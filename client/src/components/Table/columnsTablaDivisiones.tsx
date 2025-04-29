@@ -41,30 +41,6 @@ type Row = {
             fontWeight: 500,
         },
     },
-    {
-        name: 'Prefijo',
-        selector: (row:Row) => row.prefijo ? row.prefijo : 'Sin prefijo',
-        style: {
-            fontSize: '14px',
-            fontWeight: 500,
-        }
-    },
-    {
-        name: 'Dirección',
-        selector: (row:Row) => row.direccion ? row.direccion : 'Sin dirección',
-        style: {
-            fontSize: '14px',
-            fontWeight: 500,
-        },
-    },
-    {
-        name: 'Teléfono',
-        selector: (row:Row) => row.telefono ? row.telefono : 'Sin teléfono',
-        style: {
-            fontSize: '14px',
-            fontWeight: 500,
-        },
-    }
 
 
 ];

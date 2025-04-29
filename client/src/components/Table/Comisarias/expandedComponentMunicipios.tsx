@@ -119,13 +119,11 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
                             <InputRegister busqueda campo="Nombre" nombre="nombre_municipio" register={register} type="text" error={errors.nombre_municipio} valor={data.nombre} setValue={setValue} />
                             <InputRegister busqueda campo="Valor" nombre="valor_municipio" register={register} type="text" error={errors.valor_municipio} valor={data.value} setValue={setValue} />
                             <InputRegister busqueda campo="Prefijo" nombre="prefijo_municipio" register={register} type="text" error={errors.prefijo_municipio} valor={data.prefijo} setValue={setValue} require={false} />
+                            <InputRegister busqueda campo="Teléfono" nombre="telefono_municipio" register={register} type="text" error={errors.telefono_municipio} valor={data.telefono}  setValue={setValue} require={false} />
+                            <InputRegister busqueda campo="Dirección" nombre="direccion_municipio" register={register} type="text" error={errors.direccion_municipio} valor={data.direccion}  setValue={setValue} require={false} />
 
                             <div className='flex items-center justify-center w-1/2'>
                                 <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                    </svg>
-
                                     Editar Municipio
                                 </button>
                                 <div className='flex items-center justify-center bg-sky-950 hover:bg-sky-700 cursor-pointer text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2'
@@ -186,6 +184,9 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
                             <InputRegister campo="Nombre" nombre="nombre_comisaria" register={register} type="text" error={errors.nombre_comisaria} />
                             <InputRegister campo="Valor" nombre="valor_comisaria" register={register} type="text" error={errors.valor_comisaria} />
                             <InputRegister campo="Prefijo" nombre="prefijo_comisaria" register={register} type="text" error={errors.prefijo_comisaria} />
+                            <InputRegister campo="Teléfono" nombre="telefono_comisaria" register={register} type="text" error={errors.nombre_comisaria} />
+                            <InputRegister campo="Dirección" nombre="direccion_comisaria" register={register} type="text" error={errors.nombre_comisaria} />
+
                             <div className='flex flex-row items-center w-full justify-center'>
                                 <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 xl:w-3/10 mr-2'>
                                     Agregar Comisaría

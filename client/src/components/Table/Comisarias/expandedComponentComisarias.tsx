@@ -111,6 +111,9 @@ function expandedComponentsUnidades({ municipio, data }: expandedComponentsUnida
                         <InputRegister busqueda campo="Nombre" nombre="nombre_comisaria" register={register} type="text" error={errors.nombre_comisaria} valor={data.nombre} setValue={setValue} />
                         <InputRegister busqueda campo="Valor" nombre="valor_comisaria" register={register} type="text" error={errors.valor_comisaria} valor={data.value} setValue={setValue} />
                         <InputRegister busqueda campo="Prefijo" nombre="prefijo_comisaria" register={register} type="text" error={errors.prefijo_comisaria} valor={data.prefijo} setValue={setValue} />
+                        <InputRegister busqueda campo="Teléfono" nombre="telefono_comisaria" register={register} type="text" error={errors.telefono_comisaria} valor={data.telefono} setValue={setValue} require={false} />
+                        <InputRegister busqueda campo="Dirección" nombre="direccion_comisaria" register={register} type="text" error={errors.direccion_comisaria} valor={data.direccion} setValue={setValue} require={false}/>
+
                         <div className='flex items-center justify-center w-1/2'>
                             <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 md:w-3/10 mr-2'>
                                 Editar Comisaría

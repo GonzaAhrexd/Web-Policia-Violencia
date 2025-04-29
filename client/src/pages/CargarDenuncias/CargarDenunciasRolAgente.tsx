@@ -32,6 +32,9 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
   // Estados
   const [tipoDenuncia, setTipoDenuncia] = useState('')
   const [comisariaPertenece, setComisariaPertenece] = useState('')
+  const [direccionValor, setDireccionValor] = useState('')
+  const [telefonoValor, setTelefonoValor] = useState('')
+
   const userDivisionZona = user.unidad.split(",")
   const [isDivision,] = useState(!(userDivisionZona.length > 1));
 
@@ -99,6 +102,9 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
     : null;
       
    setComisariaPertenece(municipioEncontrado?.prefijo + '-')
+   setDireccionValor(municipioEncontrado?.direccion)
+   setTelefonoValor(municipioEncontrado?.telefono)
+   
     } else {
       const unidadEncontrada = unidades.find((unidad: any) => unidad.nombre === unidadViolencia);
       const municipioEncontrado = unidadEncontrada && Array.isArray(unidadEncontrada.subdivisiones)
@@ -110,7 +116,8 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
       : null;
       
       setComisariaPertenece(comisariaEncontrada?.prefijo + '-')
-
+      setDireccionValor(comisariaEncontrada?.direccion)
+      setTelefonoValor(comisariaEncontrada?.telefono)
     }
 
   }, [user, unidades])
@@ -178,8 +185,8 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               {!isDivision &&
                 <div className='flex flex-row w-full justify-center'>
                   <div className='flex flex-row w-full lg:w-8/10 xl:w-6/10'>
-                    <InputRegister campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
-                    <InputRegister campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
+                    <InputRegister valor={direccionValor} campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
+                    <InputRegister valor={telefonoValor} campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
                   </div>
                 </div>
               }

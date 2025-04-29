@@ -26,7 +26,7 @@ function TablaUnidades() {
         pagination
         expandableRows
         expandableRowsComponent={expandedComponentsUnidades}
-        customStyles={customStyles}
+        customStyles={customStyles} 
         responsive={true}
         striped={true}
         highlightOnHover={true}

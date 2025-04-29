@@ -90,6 +90,9 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
                     <SelectRegisterSingle mid isRequired={false} valor={user.jerarquia} campo="Jerarquía" nombre="jerarquia" opciones={jerarquiaCampos} setValue={setValue} error={errors.jerarquia} />
                     <SelectRegisterSingle mid isRequired={false} valor={user.zona} campo="Zona" nombre="zona" opciones={zonaCampos}  setValue={setValue}  error={errors.zona} />
                 </div>
+
+                { user.rol === 'admin' && 
+                <>
                 <span>¿División Violencia Familiar y de Género?</span>
             <InputRadio watch={watch} defaultValue={isDivision ? 0 : 1} handleChange={setIsDivision} campo="violencia_familiar" nombre="violencia_familiar" register={register} type="radio" opciones={opcionesRadio} />
            
@@ -98,7 +101,8 @@ function CardEditDataUser({ user, setIsEditing }: InputRegisterProps) {
                 :
                 <SelectRegister  isRequired={false} valor={user.unidad} campo="Unidad" nombre="unidad" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} />
             }
-
+            </>
+        }
 
                 <span className='text-red-400 pl-3'> {mensajeError} </span>
 

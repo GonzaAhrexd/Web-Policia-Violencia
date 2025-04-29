@@ -58,7 +58,7 @@ export const createVictima = async (req, res) => {
         if (!victimaExistente) {
             const nuevaVictima = new victimas(datosVictima);
             const victimaGuardada = await nuevaVictima.save();
-        
+
             if (victimaGuardada && victimaGuardada._id) {
                 await agregarActividadReciente(
                     `Se ha creado nueva víctima ${nombre_victima} ${apellido_victima}`,
@@ -67,7 +67,7 @@ export const createVictima = async (req, res) => {
                     req.cookies
                 );
             }
-        
+
             return res.json({ message: 'Víctima creada con éxito', id: victimaGuardada._id });
         } else {
             const victimaActualizada = await victimas.findOneAndUpdate(
@@ -75,7 +75,7 @@ export const createVictima = async (req, res) => {
                 { $set: datosVictima },
                 { new: true }
             );
-        
+
             if (victimaActualizada && victimaActualizada._id) {
                 await agregarActividadReciente(
                     `Se ha agregado una denuncia a la víctima ${nombre_victima} ${apellido_victima}`,
@@ -84,10 +84,10 @@ export const createVictima = async (req, res) => {
                     req.cookies
                 );
             }
-        
+
             return res.send('Víctima ya existe');
         }
-        
+
 
     } catch (error) {
         console.error(error);
@@ -99,10 +99,10 @@ export const createVictima = async (req, res) => {
 export const getVictima = async (req, res) => {
     try {
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
-        if(req.params.id != "Sin victima"){
+        if (req.params.id != "Sin victima") {
             const victima = await victimas.findOne({ _id: req.params.id })
             res.json(victima)
-        }else{
+        } else {
             res.json("Sin resultados")
         }
     } catch (error) {
@@ -223,12 +223,12 @@ export const buscarVictima = async (req, res) => {
     // Crear el objeto de consulta    
     const query: Query = {};
 
-    function normalizarLetras(caracter:string) {
+    function normalizarLetras(caracter: string) {
         if (caracter === 's' || caracter === 'z') return '[sz]';
         if (caracter === 'i' || caracter === 'y') return '[iy]';
-        if ( caracter === 'k' || caracter === 'q') return '[kq]';
-        if ( caracter === 'v' || caracter === 'b') return '[vb]';
-        if ( caracter === 'g' || caracter === 'j') return '[gj]';
+        if (caracter === 'k' || caracter === 'q') return '[kq]';
+        if (caracter === 'v' || caracter === 'b') return '[vb]';
+        if (caracter === 'g' || caracter === 'j') return '[gj]';
         if (caracter === 'á' || caracter === 'a') return '[áa]';
         if (caracter === 'é' || caracter === 'e') return '[ée]';
         if (caracter === 'í' || caracter === 'i') return '[íi]';
@@ -258,8 +258,8 @@ export const buscarVictima = async (req, res) => {
             // Si no se ha ingresado el nombre/apellido, devolver null
             return null;
         }
-    }        
-    if(id_victima !== 'no_ingresado'){
+    }
+    if (id_victima !== 'no_ingresado') {
         query._id = id_victima;
     }
     if (nombre_victima !== 'no_ingresado') {
@@ -272,26 +272,119 @@ export const buscarVictima = async (req, res) => {
     }
     if (dni_victima !== 'no_ingresado') {
         //Haz que se eliminen . si que se ingresan en el dni
-        query.DNI =  dni_victima.replace(/\./g, '');
+        query.DNI = dni_victima.replace(/\./g, '');
     }
     if (numero_de_expediente !== 'no_ingresado') {
         const denuncia = await denuncias.findOne({ numero_de_expediente: numero_de_expediente });
-        
+
         if (denuncia != null) {
             query._id = denuncia.victima_ID;
-        }else {
+        } else {
             query._id = "Sin victima";
         }
     }
     // Obtener las víctimas
-    try {        
+    try {
         const victimasBuscar = await victimas.find(query);
 
         await agregarActividadReciente("Búsqueda de víctima", "Víctima", "Varias", req.cookies)
         res.json(victimasBuscar);
-        
+
     } catch (error) {
         // Error al obtener las denuncias
         res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
     }
+}
+
+export const buscarVictimaV2 = async (req, res) => {
+    interface Query {
+        nombre?: RegExp;
+        apellido?: RegExp;
+        DNI?: string;
+        _id?: string;
+    }
+    // Obtener los parámetros de la URL
+    const { nombre_victima, dni_victima } = req.params;
+
+    // Crear el objeto de consulta    
+    const query: Query = {};
+
+    function normalizarLetras(caracter: string) {
+        if (caracter === 's' || caracter === 'z') return '[sz]';
+        if (caracter === 'i' || caracter === 'y') return '[iy]';
+        if (caracter === 'k' || caracter === 'q') return '[kq]';
+        if (caracter === 'v' || caracter === 'b') return '[vb]';
+        if (caracter === 'g' || caracter === 'j') return '[gj]';
+        if (caracter === 'á' || caracter === 'a') return '[áa]';
+        if (caracter === 'é' || caracter === 'e') return '[ée]';
+        if (caracter === 'í' || caracter === 'i') return '[íi]';
+        if (caracter === 'ó' || caracter === 'o') return '[óo]';
+        if (caracter === 'ú' || caracter === 'u') return '[úu]';
+        if (caracter === 'ü') return '[üu]';
+        return caracter;
+    }
+
+    function construirExpresionRegular(cadena) {
+        if (cadena !== 'no_ingresado') {
+            // Convertir la cadena a minúsculas
+            const cadena_lower = cadena.toLowerCase();
+            // Separar los nombres/apellidos y eliminar espacios en blanco adicionales
+            const partes = cadena_lower.trim().split(/\s+/);
+            // Crear la expresión regular
+            const regexPattern = partes
+                .map(part => part.split('').map(normalizarLetras).join(''))
+                .join('.*');
+            // Crear expresión regular para buscar todas las combinaciones de nombres/apellidos
+            const regexCombinaciones = partes
+                .map(part => `(?=.*${part.split('').map(normalizarLetras).join('')})`)
+                .join('');
+            // Devolver la expresión regular
+            return new RegExp(regexCombinaciones, 'i');
+        } else {
+            // Si no se ha ingresado el nombre/apellido, devolver null
+            return null;
+        }
+    }
+
+    if (nombre_victima !== 'no_ingresado') {
+        // @ts-ignore
+        query.nombre = new RegExp(construirExpresionRegular(nombre_victima));
+    }
+    if (dni_victima !== 'no_ingresado') {
+        //Haz que se eliminen . si que se ingresan en el dni
+        query.DNI = dni_victima.replace(/\./g, '');
+    }
+
+    // Obtener las víctimas
+    try {
+        const victimasBuscar: any = await victimas.find(query);
+    
+        const victimasConDenuncias:any = [];
+    
+        for (const victima of victimasBuscar) {
+            const denuncias_detalles = [];
+    
+            for (const denunciaId of victima.denuncias_realizadas) {
+                const denuncia_encontrada:any = await denuncias.findById(denunciaId);
+    
+                if (denuncia_encontrada) {
+                    // @ts-ignore
+                    denuncias_detalles.push(denuncia_encontrada);
+                }
+            }
+    
+            victimasConDenuncias.push({
+                ...victima._doc, // para sacar los datos planos de Mongoose
+                denuncias_detalles
+            });
+        }
+    
+        res.json(victimasConDenuncias);
+    
+    } catch (error) {
+        console.error("Error al buscar víctimas:", error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
+    
+
 }

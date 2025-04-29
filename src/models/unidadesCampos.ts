@@ -23,6 +23,16 @@ const unidadesCamposSchema = new mongoose.Schema({
                 required: true,
                 trim: true
             },
+            direccion: {
+                type: String,
+                required: false,
+                trim: true
+            },
+            telefono: {
+                type: String,
+                required: false,
+                trim: true
+            },
             cuadriculas: [
                 {
                     nombre: {
@@ -31,6 +41,16 @@ const unidadesCamposSchema = new mongoose.Schema({
                         trim: true,
                     },
                     value: {
+                        type: String,
+                        required: false,
+                        trim: true
+                    },
+                    direccion: {
+                        type: String,
+                        required: false,
+                        trim: true
+                    },
+                    telefono: {
                         type: String,
                         required: false,
                         trim: true
@@ -56,6 +76,16 @@ const unidadesCamposSchema = new mongoose.Schema({
                         trim: true
                     },
                     prefijo: {
+                        type: String,
+                        required: false,
+                        trim: true
+                    },
+                    direccion: {
+                        type: String,
+                        required: false,
+                        trim: true
+                    },
+                    telefono: {
                         type: String,
                         required: false,
                         trim: true
