@@ -11,6 +11,10 @@ export default {
         vw: '0.9vw',
         "10xl": '10rem'
       },
+      // Haz que el z index agregar 9999
+      zIndex: {
+        '9999': '9999',
+      },
       height:{
         "1/10": '10%',
         "12/100": '12%',

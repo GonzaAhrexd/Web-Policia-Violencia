@@ -4,12 +4,18 @@ interface State {
   openModalVictima: boolean;
   openModalVictimario: boolean;
   openModalTercero: boolean;
+  isModalOpen: boolean;
   victimaCargar: any;
   victimarioCargar: any;
   terceroCargar: any;
   isSolicitudAprehension: boolean;
   isAprehendido: boolean;
   genero: string;
+  titulo: string;
+  texto: string[];
+  setTitulo: (titulo: string) => void;
+  setTexto: (texto: string[]) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
   setOpenModalVictima: (open: boolean) => void;
   setOpenModalVictimario: (open: boolean) => void;
   setOpenModalTercero: (open: boolean) => void;
@@ -22,6 +28,8 @@ interface State {
 }
 
 export const useStore = create<State>((set) => ({
+  titulo: '',
+  texto: [''],
   openModalVictima: false,
   openModalVictimario: false,
   openModalTercero: false,
@@ -31,6 +39,10 @@ export const useStore = create<State>((set) => ({
   isSolicitudAprehension: false,
   isAprehendido: false,
   genero: '',
+  isModalOpen: false,
+  setTitulo: (titulo) => set({ titulo }),
+  setTexto: (texto) => set({ texto }),
+  setIsModalOpen: (isOpen) => set({ isModalOpen: isOpen }),
   setOpenModalVictima: (open) => set({ openModalVictima: open }),
   setOpenModalVictimario: (open) => set({ openModalVictimario: open }),
   setOpenModalTercero: (open) => set({ openModalTercero: open }),

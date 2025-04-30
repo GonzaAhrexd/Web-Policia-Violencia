@@ -3,7 +3,7 @@
 import { useCampos } from '../../context/campos';
 import DataTable from 'react-data-table-component';
 import { customStyles } from '../../GlobalConst/customStyles';
-import columnsUnidades  from './columnsTablaUnidades';
+import columnsTablaDivisiones from './columnsTablaDivisiones'
 import expandedComponentsUnidades from './expandedComponentsUnidades'
 // Iconos
 import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outline'
@@ -21,7 +21,7 @@ function TablaUnidades() {
   return (
     <>
       <DataTable
-        columns={columnsUnidades}
+        columns={columnsTablaDivisiones}
         data={unidades}
         pagination
         expandableRows

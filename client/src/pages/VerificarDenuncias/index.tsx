@@ -22,6 +22,10 @@ import { customStyles } from '../../GlobalConst/customStyles'
 import { columnsDataTableVerificar } from './columnsDataTableVerificar'
 import expandedComponents from './expandedComponents'
 
+import { useStore } from '../CargarDenuncias/store' // Store de Zustand para manejar el estado global
+import Modal from '../../components/Modal';
+import BuscarExistenteModal from '../../components/ModalBusqueda/BuscarExistenteModal';
+
 
 function VerificarDenuncias() {
 
@@ -50,6 +54,32 @@ function VerificarDenuncias() {
     expanded: <ArrowUpCircleIcon className='h-6 w-6' />
   }
 
+  const { isModalOpen, titulo,texto, setIsModalOpen, openModalVictima, openModalVictimario, openModalTercero, setOpenModalVictima, setOpenModalVictimario, setOpenModalTercero, setVictimaCargar, setVictimarioCargar, setTerceroCargar } = useStore((state) => ({
+    isModalOpen: state.isModalOpen,
+    titulo: state.titulo,
+    texto: state.texto,
+    setIsModalOpen: state.setIsModalOpen,
+    setTitulo: state.setTitulo,
+    setTexto: state.setTexto,
+    openModalVictima: state.openModalVictima,
+    openModalVictimario: state.openModalVictimario,
+    openModalTercero: state.openModalTercero,
+    setOpenModalVictima: state.setOpenModalVictima,
+    setOpenModalVictimario: state.setOpenModalVictimario,
+    setOpenModalTercero: state.setOpenModalTercero,
+    setVictimaCargar: state.setVictimaCargar,
+    setVictimarioCargar: state.setVictimarioCargar,
+    setTerceroCargar: state.setTerceroCargar
+  }))
+
+  const handleCloseModal = () => {
+    setOpenModalVictima(false)
+    setOpenModalVictimario(false)
+    setOpenModalTercero(false)
+    setIsModalOpen(false)
+  }
+
+
   // Si está cargando muestra la pantalla de carga
   if (isLoading) return <LoadingScreen />
 
@@ -62,6 +92,11 @@ function VerificarDenuncias() {
   return (
     <div className='h-full flex flex-grow flex-col'>
       <NavBar user={user} />
+      {isModalOpen && <Modal titulo={titulo} texto={texto} onClose={handleCloseModal} />}
+      {openModalVictima && <BuscarExistenteModal variante={"Víctima"} setOpenModal={setOpenModalVictima} setVictimaCargar={setVictimaCargar} />}
+      {openModalVictimario && <BuscarExistenteModal variante={"Victimario"} setOpenModal={setOpenModalVictimario} setVictimaCargar={setVictimarioCargar} />}
+      {openModalTercero && <BuscarExistenteModal variante={"Tercero"} setOpenModal={setOpenModalTercero} setVictimaCargar={setTerceroCargar} />}
+
       <div className='min-h-screen sm:h-full p-2 sm:p-10'>
         <h1 className='text-3xl my-5'>Denuncias sin verificar</h1>
         <div className="flex flex-col w-full">

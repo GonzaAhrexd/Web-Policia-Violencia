@@ -91,8 +91,8 @@ function BuscarExistenteModal({  variante, setOpenModal, setVictimaCargar }: Bus
     }
 
     return (
-        <div>
-            <div className="fixed inset-0 flex items-center justify-center z-50">
+        <>
+            <div className="fixed inset-0 flex items-center justify-center z-9999">
                 <div className="absolute inset-0 bg-black opacity-50"></div>
                 <div className="bg-white w-9/10 md:w-6/10 h-9/10 rounded p-5 relative overflow-auto scale-up-center">
                     <h2 className="text-2xl mb-4">Buscar {variante} Existente</h2>
@@ -137,7 +137,7 @@ function BuscarExistenteModal({  variante, setOpenModal, setVictimaCargar }: Bus
                     </table>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

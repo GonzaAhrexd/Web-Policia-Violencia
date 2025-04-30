@@ -19,10 +19,8 @@ import VerificarDenunciante from '../VerificarDenuncias/VerificarDenunciante'
 import CargarVictimario from '../Cargar/CargarVictimario'
 import CargarDenuncia from '../Cargar/CargarDenuncia'
 import EditVictimario from './EditVictimario'
-import Modal from '../Modal'
 import Swal from 'sweetalert2'
 import { useAuth } from '../../context/auth';
-import BuscarExistenteModal from '../ModalBusqueda/BuscarExistenteModal'
 import InputCheckbox from '../InputComponents/InputCheckbox'
 import InputTextArea from '../InputComponents/InputTextArea'
 // Iconos
@@ -46,17 +44,6 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
     errors
   } } = useForm()
 
-  // Estados
-  const [titulo, setTitulo] = useState('')
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [texto, setTexto] = useState([''])
-  const [openModalVictima, setOpenModalVictima] = useState(false)
-  const [openModalVictimario, setOpenModalVictimario] = useState(false)
-  const [openModalTercero, setOpenModalTercero] = useState(false)
-  const [victimaCargar, setVictimaCargar] = useState(null)
-  const [victimarioCargar, setVictimarioCargar] = useState(null)
-  const [terceroCargar, setTerceroCargar] = useState(null)
-
 
   // Función para abrir el modal
   const handleOpenModal = (text: string[]) => {
@@ -65,9 +52,7 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
   }
 
   // Función para cerrar el modal
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  }
+
 
   const datosVictima = {
     nombre: datos.nombre_victima,
@@ -96,7 +81,21 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
   const [expedienteDividido] = useState(dividirExpediente(datos.numero_de_expediente))
 
   const {
-    isSolicitudAprehension
+ 
+    isSolicitudAprehension,
+
+    victimaCargar,
+    victimarioCargar,
+    terceroCargar,
+
+    setTexto,
+    setTitulo,
+    setIsModalOpen,
+    setOpenModalVictima,
+    setOpenModalVictimario,
+    setOpenModalTercero,
+
+    
   } = useStore();
 
   useEffect(() => {
@@ -106,11 +105,6 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
 
   return (
     <div>
-      {isModalOpen && <Modal titulo={titulo} texto={texto} onClose={handleCloseModal} />}
-      {openModalVictima && <BuscarExistenteModal variante={"Víctima"} setOpenModal={setOpenModalVictima} setVictimaCargar={setVictimaCargar} />}
-      {openModalVictimario && <BuscarExistenteModal variante={"Victimario"} setOpenModal={setOpenModalVictimario} setVictimaCargar={setVictimarioCargar} />}
-      {openModalTercero && <BuscarExistenteModal variante={"Tercero"} setOpenModal={setOpenModalTercero} setVictimaCargar={setTerceroCargar} />}
-
 
       <form
         encType="multipart/form-data"
@@ -162,7 +156,6 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
                     ...values,
                   };
 
-                  console.log(denuncia)
                   await crearDenuncia(denuncia)
                   await aprobarDenuncia(datos._id)
 
