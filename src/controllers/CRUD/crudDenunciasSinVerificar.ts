@@ -9,12 +9,13 @@ export const createDenunciaSinVerificar = async (req, res) => {
         const usuario = await usuarios.findById(req.user.id)
         const division = usuario?.unidad
         // Obtener los datos de la denuncia
-        const { nombre_victima, numero_de_expediente, apellido_victima, genero, edad_victima, dni_victima, estado_civil_victima, modo_actuacion, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
+        const { nombre_victima, numero_de_expediente, fecha, apellido_victima, genero, edad_victima, dni_victima, estado_civil_victima, modo_actuacion, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
         // Crear la denuncia
         const newDenunciaSinVerificar = new denunciaSinVerificar({
             estado: "En verificación",
             cargado_por: req.user.id,
             numero_de_expediente: numero_de_expediente,
+            fecha: fecha,
             division: division,
             nombre_victima: nombre_victima,
             apellido_victima: apellido_victima,
@@ -60,6 +61,41 @@ export const getDenunciasSinVerificar = async (req, res) => {
         // Haz el find solamente de los que tengan como estado "En verificación"
         const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ estado: "En verificación" })
         res.json(obtenerDenunciasSinVerificar);
+    } catch (error) {
+        res.status(500).json({ message: 'Hubo un error al obtener las denuncias.' });
+    }
+
+}
+
+export const getDenunciasSinVerificarAvanzado = async (req, res) => {
+    try {
+        const { division, desde, hasta, id, expediente } = req.params
+        
+        console.log(division)
+        if(id != "no_ingresado"){
+            // Busca por id
+            const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ division:division, _id: id })
+            res.json(obtenerDenunciasSinVerificar);
+            return
+        }
+        if(expediente != "no_ingresado"){
+            // Busca por expediente
+            const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ division:division, numero_de_expediente: expediente })
+            res.json(obtenerDenunciasSinVerificar);
+            return 
+        }
+        if(desde != "no_ingresado" && hasta != "no_ingresado"){
+            // Busca por fecha
+            const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ fecha: { $gte: desde, $lte: hasta } })
+            
+            console.log(obtenerDenunciasSinVerificar)
+
+            res.json(obtenerDenunciasSinVerificar);
+            return 
+        }
+
+
+
     } catch (error) {
         res.status(500).json({ message: 'Hubo un error al obtener las denuncias.' });
     }

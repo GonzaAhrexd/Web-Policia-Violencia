@@ -29,6 +29,10 @@ function expandedComponents({ data }: expandedComponentsProps) {
     // Estado para controlar si se está editando
     const [editGlobal, setEditGlobal] = useState(false)
     // Datos para mostrar en la tabla
+    const datosDenuncia = [
+        {nombre: "Número de expediente", valor: data.numero_de_expediente},
+        {nombre: "Fecha de denuncia", valor: data.fecha},
+    ]
     // Datos del denunciante
     const denuncianteDatos = [
         { nombre: "Nombre", valor: data.nombre_victima },
@@ -90,7 +94,12 @@ function expandedComponents({ data }: expandedComponentsProps) {
         })
     }
 
-    return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">    <h2 className='text-2xl my-5'>Datos de la denuncia</h2>
+    return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full">
+    
+       <h1 className='text-3xl my-5 font-sans'>Datos de la denuncia</h1>
+            <div className='flex flex-col'>
+                <SimpleTableCheckorX campo="" datos={datosDenuncia} />
+            </div>
         <h1 className='text-3xl my-5 font-sans	'>Datos del denunciante</h1>
         <div className='flex flex-col'>
             <SimpleTableCheckorX campo="" datos={denuncianteDatos} />

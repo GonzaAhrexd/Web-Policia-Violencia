@@ -16,6 +16,7 @@ import CargarTipoDeDenuncia from '../../components/Cargar/CargarAgente/CargarTip
 import PDF from './PDF';
 import InputExpediente from '../../components/InputComponents/InputExpediente';
 import InputRegister from '../../components/InputComponents/InputRegister';
+import InputDate from '../../components/InputComponents/InputDate';
 import { useCampos } from '../../context/campos';
 
 import { useStore } from './store';
@@ -185,6 +186,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               {!isDivision &&
                 <div className='flex flex-row w-full justify-center'>
                   <div className='flex flex-row w-full lg:w-8/10 xl:w-6/10'>
+                  <InputDate campo="Fecha" nombre="fecha" register={register}  error={errors.fecha} type="date" /> 
                     <InputRegister valor={direccionValor} campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
                     <InputRegister valor={telefonoValor} campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
                   </div>

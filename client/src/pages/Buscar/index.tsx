@@ -17,6 +17,7 @@ import BuscarVictimas from '../../components/Busqueda/BuscarVictimas/BuscarVicti
 import BuscarVictimario from '../../components/Busqueda/BuscarVictimarios/BuscarVictimario';
 import BuscarTerceros from '../../components/Busqueda/BuscarTerceros/BuscarTerceros';
 import BuscarExposiciones from '../../components/Busqueda/BuscarExposiciones/BuscarExposiciones';
+import BuscarDenunciasSinVerificar from '../../components/Busqueda/BuscarDenunciasSinVerificar/BuscarDenunciasSinVerificar';
 import Footer from '../../components/Footer/Footer';
 import LoadingScreen from '../../components/LoadingScreen';
 import { useStore } from '../MisDenuncias/store';
@@ -79,8 +80,8 @@ function Buscar() {
         setMostrarExposiciones(true)
         setButtonSelected('exposicion')
     }
-    
-    if (isLoading) return <LoadingScreen/>
+
+    if (isLoading) return <LoadingScreen />
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
     if (user?.rol === "sin_definir") return <Navigate to="/login" replace />
     return (
@@ -90,23 +91,35 @@ function Buscar() {
                 {openModal && <Modal titulo={title} texto={text} onClose={() => setOpenModal(false)} />}
             </div>
             <div className='min-h-screen flex flex-grow flex-col'>
-                <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
-                    <button className={`${buttonSelected == "victima" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700   text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarVictimas()}> Víctima </button>
-                    <button className={`${buttonSelected == "victimario" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarVictimarios()}> Victimario </button>
-                    <button className={`${buttonSelected == "terceros" ? "bg-sky-700" : "bg-sky-950"}  hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarTerceros()}> Terceros </button>
-                    <button className={`${buttonSelected == "denuncias" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarDenuncias()}> Denuncias</button>
-                    <button className={`${buttonSelected == "exposicion" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarExposiciones()}> Exposiciones</button>
-                </div>
+                {((user?.rol === "admin") || (user?.rol == "carga")) &&
+                    <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
+                        <button className={`${buttonSelected == "victima" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700   text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarVictimas()}> Víctima </button>
+                        <button className={`${buttonSelected == "victimario" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarVictimarios()}> Victimario </button>
+                        <button className={`${buttonSelected == "terceros" ? "bg-sky-700" : "bg-sky-950"}  hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarTerceros()}> Terceros </button>
+                        <button className={`${buttonSelected == "denuncias" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarDenuncias()}> Denuncias</button>
+                        <button className={`${buttonSelected == "exposicion" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarExposiciones()}> Exposiciones</button>
+                    </div>
+                }
                 <div className='h-full p-2 sm:p-10'>
-                    <h1 className='text-3xl my-5'>Búsqueda</h1>
-                    {mostrarVictimas && <BuscarVictimas />}
-                    {mostrarVictimarios && <BuscarVictimario />}
-                    {mostrarTerceros && <BuscarTerceros />}
-                    {mostrarDenuncias && <BuscarDenuncias />}
-                    {mostrarExposiciones && <BuscarExposiciones />}
+                    {((user?.rol === "admin") || (user?.rol == "carga")) &&
+                        <>
+                            <h1 className='text-3xl my-5'>Búsqueda</h1>
+                            {mostrarVictimas && <BuscarVictimas />}
+                            {mostrarVictimarios && <BuscarVictimario />}
+                            {mostrarTerceros && <BuscarTerceros />}
+                            {mostrarDenuncias && <BuscarDenuncias />}
+                            {mostrarExposiciones && <BuscarExposiciones />}
+                        </>
+                    }
+                    {user?.rol === "agente" &&
+                        <>
+                            <h1 className='text-3xl my-5'>Búsqueda</h1>
+                            <BuscarDenunciasSinVerificar />
+                        </>
+                    }
                 </div>
             </div>
-                <Footer />
+            <Footer />
         </div>
     )
 }

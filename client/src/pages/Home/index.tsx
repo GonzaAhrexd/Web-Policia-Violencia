@@ -30,8 +30,8 @@ function Home() {
   const [showAdminSection, setShowAdminSection] = useState<boolean>(false);
 
   // Validación de cargando y si está logeado
-  if (isLoading) return <LoadingScreen/>
-  
+  if (isLoading) return <LoadingScreen />
+
   if (!isLoading && !isAuthenticated) return <Navigate to="/login" replace />
 
 
@@ -106,21 +106,21 @@ function Home() {
             </div>
           </div>
 
-          
-            <div>
-              <h2 className='text-3xl my-5 '>Resumen</h2>
-              <div className='grid gap-1 grid-cols-1 sm:grid-cols-1 sm:gap-5 md:grid-cols-3 xl:grid-cols-5 w-full p-2'>
-                <CardProfile title="Mi cuenta" description="Mis datos" usuario={user} />
-                {(user?.rol === 'admin' || user?.rol === 'carga') && (
-                  <>
+
+          <div>
+            <h2 className='text-3xl my-5 '>Resumen</h2>
+            <div className='grid gap-1 grid-cols-1 sm:grid-cols-1 sm:gap-5 md:grid-cols-3 xl:grid-cols-5 w-full p-2'>
+              <CardProfile title="Mi cuenta" description="Mis datos" usuario={user} />
+              {(user?.rol === 'admin' || user?.rol === 'carga') && (
+                <>
                   <CardDenunciasRecientes title="Denuncias recientes" />
-                <CardDenunciasPendientesValidacion />
-                <CardDenunciasTotales />
-                <CardDenunciasGrafico />
-                  </>
+                  <CardDenunciasPendientesValidacion />
+                  <CardDenunciasTotales />
+                  <CardDenunciasGrafico />
+                </>
               )}
-              </div>
             </div>
+          </div>
         </div>
         <Footer />
       </div>

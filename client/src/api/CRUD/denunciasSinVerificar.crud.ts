@@ -50,3 +50,13 @@ export const misDenunciasSinVerificar = async (values: any) => {
         console.log(error)
     }
 }
+
+export const buscarDenunciasSinVerificar = async (values: any) => {
+    try {
+        const response = await axios.get(`/denuncias-sin-verificar/${values.division}/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.id ? encodeURIComponent(values.id) : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}`)
+       console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

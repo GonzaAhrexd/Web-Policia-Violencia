@@ -8,20 +8,19 @@
 ----------------------------------------------------------------------------------------------------------
 */
 
+
 // Datos que se mostrarán en la tabla de denuncias
 type Row = {
     numero_de_expediente: string;
     fecha: string;
-    estado: string;
-    createdAt: string;
     nombre_victima: string;
+    apellido_victima: string;
     DNI_victima: string;
-    direccion_victima: string;
-    telefono_victima: string;
-    ocupacion_victima: string;
+    division: string;
+    createdAt: string;
 }
 
-export const columns = [
+export const columnsDataTableVerificar:Array<Object> = [
     {
         // Número de expediente de la denuncia
         name: 'Número de Expediente',
@@ -32,12 +31,13 @@ export const columns = [
         },
 
     },
+    
     {
         // Fecha en la que se cargó la denuncia, puede diferir de la fecha de la denuncia
-        name: 'Fecha',
-        selector: (row:Row) => row.fecha,
+        name: 'Fecha carga',
+        selector: (row:Row) => row.createdAt,
         sortable: true,
-        format: (row:Row) => `${new Date(row.fecha).getUTCDate().toString().padStart(2, '0')}/${(new Date(row.fecha).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(row.fecha).getUTCFullYear()}`,
+        format: (row:Row) => `${new Date(row.createdAt).getUTCDate().toString().padStart(2, '0')}/${(new Date(row.createdAt).getUTCMonth() + 1).toString().padStart(2, '0')}/${new Date(row.createdAt).getUTCFullYear()}`,
         style: {
             fontSize: '14px',
             fontWeight: 500,
@@ -45,23 +45,13 @@ export const columns = [
     },
     {
         // Nombre de la víctima
-        name: 'Estado',
-        selector: (row:Row) => row.estado,
-        sortable: true,
+        name: 'Denunciante',
+        selector: (row:Row) => row.nombre_victima + ' ' + row.apellido_victima,
         style: {
             fontSize: '14px',
             fontWeight: 500,
         },
 
-    },
-    {
-        // Nombre de la víctima
-        name: 'Víctima',
-        selector: (row:Row) => row.nombre_victima,
-        style: {
-            fontSize: '14px',
-            fontWeight: 500,
-        },
     },
     {
         // Municipio dónde sucedió el hecho
@@ -72,35 +62,17 @@ export const columns = [
             fontSize: '14px',
             fontWeight: 500,
         },
-    },
-    {
-        // Dirección dónde sucedió el hecho
-        name: 'Dirección',
-        selector: (row:Row) => row.direccion_victima,
-        style: {
-            fontSize: '14px',
-            fontWeight: 500,
-        },
 
     },
     {
-        // Jurisdicción policial a la que pertenece la denuncia
-        name: 'Teléfono víctima',
-        selector: (row:Row) => row.telefono_victima,
-        style: {
-            fontSize: '14px',
-            fontWeight: 500,
-        },
-    },
-    {
-        // Tipo de violencia
-        name: 'Ocupación víctima',
-        selector: (row:Row) => row.ocupacion_victima,
+        // Dirección dónde sucedió el hecho
+        name: 'Unidad que lo emitió',
+        selector: (row:Row) => row.division?.split(',')[row.division?.split(',').length - 1],
         sortable: true,
         style: {
-            fontSize: '14px',
+            fontSize: '12px',
             fontWeight: 500,
+            wrap: true,
         },
     },
-    
 ];

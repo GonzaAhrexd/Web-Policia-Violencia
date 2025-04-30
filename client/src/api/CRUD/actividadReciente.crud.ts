@@ -10,6 +10,7 @@ export const listarActividadesRecientes = async (values: any) => {
     }
 }
 
+// Obtener actividad reciente por userId
 export const obtenerMiActividad = async (id: string) => {
     try {
         const response = await axios.get(`/mi-actividad/${id}`)

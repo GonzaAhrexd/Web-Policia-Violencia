@@ -22,7 +22,6 @@ function CargarTipoDeDenuncia({setTipoDenuncia, tipoDenuncia, register, setValue
 
 let tipoDeDenuncia = [
     { nombre: 'Denuncia', value: 'Denuncia' },
-    { nombre: 'Ampliación de denuncia', value: 'Ampliación de Denuncia' },
     { nombre: 'Exposición', value: 'Exposición' },
 ];
 

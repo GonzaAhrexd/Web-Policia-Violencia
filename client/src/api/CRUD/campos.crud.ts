@@ -1,5 +1,8 @@
 import axios from '../axios'
 
+// Funciones CRUD para los campos de la base de datos
+
+// Agregar un campo
 export const agregarCampo = async (campo: any) => {
     try {
         const response = await axios.post('/agregar-campo', campo)
@@ -9,6 +12,7 @@ export const agregarCampo = async (campo: any) => {
     }
 }
 
+// Listar todos los campos
 export const obtenerCampo = async (tipo: string) => {
     try {
         const response = await axios.get(`/obtener-campo/${tipo}`)
@@ -18,6 +22,7 @@ export const obtenerCampo = async (tipo: string) => {
     }
 }
 
+// Editar un campo
 export const editarCampo = async (campo: any) => {
     try {
         const response = await axios.put(`/editar-campo/${campo._id}`, campo)
@@ -27,6 +32,7 @@ export const editarCampo = async (campo: any) => {
     }
 }
 
+// Eliminar un campo
 export const eliminarCampo = async (id: string) => {
     try {
         const response = await axios.delete(`/eliminar-campo/${id}`)

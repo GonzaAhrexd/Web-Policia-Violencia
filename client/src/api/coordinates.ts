@@ -10,7 +10,6 @@ export const getCoords = async (direccion: any) => {
     try{
         const response = await axios.get(`https://geocode.maps.co/search?q=${direccion}, Chaco&api_key=${APIKEY}`)
         const coordinates = response.data[0]
-        console.log(`https://geocode.maps.co/search?q=${direccion}, Chaco&api_key=${APIKEY}`)
         
         return coordinates
     }catch(error){

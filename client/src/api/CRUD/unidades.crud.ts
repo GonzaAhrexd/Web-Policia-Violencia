@@ -1,5 +1,6 @@
 import axios from '../axios'
 
+// Agregar unidad
 export const agregarUnidad = async (unidad: any) => {
     try {
         const response = await axios.post('/agregar-unidad', unidad)
@@ -9,6 +10,7 @@ export const agregarUnidad = async (unidad: any) => {
     }
 }
 
+// Obtener unidades
 export const obtenerUnidades = async () => {
     try {
         const response = await axios.get('/mostrar-unidades')
@@ -18,6 +20,7 @@ export const obtenerUnidades = async () => {
     }
 }
 
+// Editar unidades
 export const editarUnidad = async (unidad: any) => {
     try {
         const response = await axios.put(`/editar-unidad/${unidad.id}`, unidad)
@@ -27,6 +30,7 @@ export const editarUnidad = async (unidad: any) => {
     }
 }
 
+// Agregar municipio
 export const agregarMunicipio = async (unidad: any) => {
     try {
         const response = await axios.put(`/agregar-municipio/${unidad.id}`, unidad)
@@ -36,6 +40,7 @@ export const agregarMunicipio = async (unidad: any) => {
     }
 }
 
+// Editar municipio
 export const editarMunicipio = async (municipio: any) => {
     try {
         const response = await axios.put(`/editar-municipio/`, municipio)
@@ -44,6 +49,8 @@ export const editarMunicipio = async (municipio: any) => {
         console.log(error)
     }
 }
+
+// Agregar comisaria
 export const agregarComisaria = async (comisaria: any) => {
     try {
         const response = await axios.put(`/agregar-comisaria/`, comisaria)
@@ -53,7 +60,7 @@ export const agregarComisaria = async (comisaria: any) => {
     }
 }
 
-
+// Editar comisaría
 export const editarComisaria = async (comisaria: any) => {
     try {
         const response = await axios.put(`/editar-comisaria/`, comisaria)
@@ -63,6 +70,7 @@ export const editarComisaria = async (comisaria: any) => {
     }
 }
 
+// Eliminar cuadricula desde comisaria
 export const eliminarCuadriculaDesdeComisaria = async (cuadricula: string, comisaria: string, municipio: string ) => {
     try {
         const response = await axios.put(`/eliminar-cuadricula/${cuadricula}/${comisaria}/${municipio}`,)
@@ -72,7 +80,7 @@ export const eliminarCuadriculaDesdeComisaria = async (cuadricula: string, comis
     }
 }
 
-
+// Agregar cuadricula
 export const agregarCuadricula = async (cuadricula: any) => {
     try {
         const response = await axios.put(`/agregar-cuadricula/`, cuadricula)
@@ -82,6 +90,7 @@ export const agregarCuadricula = async (cuadricula: any) => {
     }
 }
 
+// Editar cuadricula
 export const editarCuadriculaDesdeComisaria = async (cuadricula: any) => {
     try {
         const response = await axios.put(`/editar-cuadricula-desde-comisaria/`, cuadricula)
@@ -91,6 +100,7 @@ export const editarCuadriculaDesdeComisaria = async (cuadricula: any) => {
     }
 }
 
+// Eliminar municipio
 export const eliminarMunicipio = async (nombre: any) => {
     try {
         const response = await axios.put(`/eliminar-municipio/${nombre}`)
@@ -100,7 +110,7 @@ export const eliminarMunicipio = async (nombre: any) => {
     }
 }
 
-
+// Eliminar comisaria
 export const eliminarComisaria = async (nombre: any, municipio: any) => {
     try {
         const response = await axios.put(`/eliminar-comisaria/${nombre}/${municipio}`)
@@ -110,6 +120,7 @@ export const eliminarComisaria = async (nombre: any, municipio: any) => {
     }
 }
 
+// Agregar cuadricula desde municipio
 export const agregarCuadriculaDesdeMunicipio = async (cuadricula: any) => {
     try {
         const response = await axios.put(`/agregar-cuadricula-desde-municipio/`, cuadricula)
@@ -119,6 +130,7 @@ export const agregarCuadriculaDesdeMunicipio = async (cuadricula: any) => {
     }
 }
 
+// Editar cuadricula desde municipio
 export const editarCuadriculaDesdeMunicipio = async (cuadricula: any) => {
     try {
         const response = await axios.put(`/editar-cuadricula-desde-municipio/`, cuadricula)
@@ -128,6 +140,7 @@ export const editarCuadriculaDesdeMunicipio = async (cuadricula: any) => {
     }
 }
 
+// Eliminar cuadricula desde municipio
 export const eliminarCuadriculaDesdeMunicipio = async (cuadricula: string, municipio: string ) => {
     try{
         const response = await axios.put(`/eliminar-cuadricula-desde-municipio/${cuadricula}/${municipio}`,)

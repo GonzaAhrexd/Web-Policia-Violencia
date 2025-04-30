@@ -19,6 +19,10 @@ const denunciaSinVerificarSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    fecha: {
+        type: Date, // Tipo de dato Date
+        default: Date.now // Fecha por defecto es la fecha actual
+    },
     // División donde se cargó
     division: {
         type: String, // Tipo de dato String
