@@ -20,7 +20,7 @@ import denunciasSinVerificarRoutes from './routes/denuncias-sin-verificar.routes
 import actividadRecienteRoutes from './routes/actividadReciente.routes' // Rutas de actividad reciente
 import camposRoutes from './routes/campos.routes' // Rutas de campos
 import unidadesRoutes from './routes/unidades.routes' // Rutas de unidades
-
+import preventivoRoutes from './routes/preventivo.routes'
 
 // Crear aplicación de express
 const app:express.Application = express()
@@ -67,6 +67,7 @@ app.use('/api', actividadRecienteRoutes) // Rutas de actividad reciente
 app.use('/api', camposRoutes) // Rutas de campos
 app.use('/api', unidadesRoutes) // Rutas de unidades
 app.use('/api', tercerosRoutes) // Rutas de terceros
+app.use('/api', preventivoRoutes)
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor funcionando en puerto ${port} ✅`)

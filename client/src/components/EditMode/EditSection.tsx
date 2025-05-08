@@ -120,7 +120,7 @@ function EditSection({  datosTerceros, datosGeograficos, datosVictima, datosVict
                 
                 <>
                     <h1 className='text-2xl my-5'>Observaciones</h1>
-                    <InputCheckbox disabled={!isSolicitudAprehension} state={datosHecho.aprehension} campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue} type="checkbox" id="aprehension" />
+                    <InputCheckbox disabled={!isSolicitudAprehension} state={datosHecho.aprehension} campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue}  id="aprehension" />
                     <InputTextArea variante={"edit"} valor={datosHecho.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" />
                 </>
                 <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>

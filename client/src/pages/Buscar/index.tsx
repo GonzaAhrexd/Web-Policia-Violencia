@@ -32,51 +32,44 @@ function Buscar() {
     const [mostrarDenuncias, setMostrarDenuncias] = useState(true)
     const [mostrarTerceros, setMostrarTerceros] = useState(false)
     const [mostrarExposiciones, setMostrarExposiciones] = useState(false)
+    const [mostrarDenunciasSinVerificar, setMostrarDenunciasSinVerificar] = useState(false)
     const [buttonSelected, setButtonSelected] = useState('denuncias')
+
+    const resetHooks = () => {
+        setMostrarVictimas(false)
+        setMostrarVictimarios(false)
+        setMostrarDenuncias(false)
+        setMostrarTerceros(false)
+        setMostrarExposiciones(false)
+    }
 
     // Mostrar denuncias y ocultar los demás
     const handleMostrarDenuncias = () => {
+        resetHooks()
         setMostrarDenuncias(true)
-        setMostrarVictimarios(false)
-        setMostrarVictimas(false)
-        setMostrarTerceros(false)
-        setMostrarExposiciones(false)
         setButtonSelected('denuncias')
     }
     // Mostrar víctimas y ocultar los demás
     const handleMostrarVictimas = () => {
-        setMostrarDenuncias(false)
-        setMostrarVictimarios(false)
+        resetHooks()
         setMostrarVictimas(true)
-        setMostrarTerceros(false)
-        setMostrarExposiciones(false)
         setButtonSelected('victima')
     }
     // Mostrar victimarios y ocultar los demás
     const handleMostrarVictimarios = () => {
-        setMostrarDenuncias(false)
+        resetHooks()
         setMostrarVictimarios(true)
-        setMostrarVictimas(false)
-        setMostrarTerceros(false)
-        setMostrarExposiciones(false)
         setButtonSelected('victimario')
     }
     // Mostrar terceros y ocultar los demás
     const handleMostrarTerceros = () => {
-        setMostrarDenuncias(false)
-        setMostrarVictimarios(false)
-        setMostrarVictimas(false)
+        resetHooks()
         setMostrarTerceros(true)
-        setMostrarExposiciones(false)
-
         setButtonSelected('terceros')
     }
     // Mostrar exposiciones y ocultar los demás
     const handleMostrarExposiciones = () => {
-        setMostrarDenuncias(false)
-        setMostrarVictimarios(false)
-        setMostrarVictimas(false)
-        setMostrarTerceros(false)
+        resetHooks()
         setMostrarExposiciones(true)
         setButtonSelected('exposicion')
     }
@@ -97,6 +90,7 @@ function Buscar() {
                         <button className={`${buttonSelected == "victimario" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarVictimarios()}> Victimario </button>
                         <button className={`${buttonSelected == "terceros" ? "bg-sky-700" : "bg-sky-950"}  hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarTerceros()}> Terceros </button>
                         <button className={`${buttonSelected == "denuncias" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarDenuncias()}> Denuncias</button>
+                        <button className={`${buttonSelected == "exposicion" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarExposiciones()}> Preventivo </button>
                         <button className={`${buttonSelected == "exposicion" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarExposiciones()}> Exposiciones</button>
                     </div>
                 }
@@ -107,7 +101,17 @@ function Buscar() {
                             {mostrarVictimas && <BuscarVictimas />}
                             {mostrarVictimarios && <BuscarVictimario />}
                             {mostrarTerceros && <BuscarTerceros />}
-                            {mostrarDenuncias && <BuscarDenuncias />}
+                            {mostrarDenuncias && <>
+                            <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
+                                <button className={`${mostrarDenunciasSinVerificar ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => setMostrarDenunciasSinVerificar(!mostrarDenunciasSinVerificar)}> {mostrarDenunciasSinVerificar ?  "Denuncias sin verificar" : "Denuncias verificadas"}</button>
+                            </div>
+                            { mostrarDenunciasSinVerificar ? <>
+                                <BuscarDenunciasSinVerificar />
+                            </> : 
+                                <BuscarDenuncias />
+                            }
+                            </>
+                            }
                             {mostrarExposiciones && <BuscarExposiciones />}
                         </>
                     }

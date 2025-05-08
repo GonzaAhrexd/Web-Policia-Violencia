@@ -54,6 +54,16 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
     // Abre la URL en una nueva pestaña
     window.open(url);
   }
+  const direccionDivisiones: any[] = [
+    { division: "Metropolitana", direccion: "Avenida Alvear Nº 126", telefono: "362461832" },
+    { division: "La Leonesa", direccion: "Santiago del Estero y Entre Ríos", telefono: "3624644562" },
+    { division: "Lapachito", direccion: "25 de Mayo S/N", telefono: "3624605783" },
+    { division: "Roque Saenz Peña", direccion: "Calle 7e/12 y 14", telefono: "3644431835" },
+    { division: "Villa Ángela", direccion: "Echeverría N° 35", telefono: "3735 431438" },
+    { division: "General San Martín", direccion: "Esq. Maipú y Urquiza", telefono: "3725422202" },
+    { division: "Charata", direccion: "9 de Julio N° 575", telefono: "3624222322" },
+    { division: "Juan José Castelli", direccion: "Av. Perón N° 470", telefono: "3624702665" }
+]
 
   const getNumeroUnidad = (unidad: string) => {
     switch (unidad) {
@@ -93,11 +103,12 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
     // Haz un find para encontrar la unidad que coincida con la unidadViolencia
     if (municipio == undefined && comisaria == undefined) {
       getNumeroUnidad(unidadesSeparadas[0])
-
+      setDireccionValor(direccionDivisiones.find((division) => division.division === unidadesSeparadas[0])?.direccion)
+      setTelefonoValor(direccionDivisiones.find((division) => division.division === unidadesSeparadas[0])?.telefono)
     } else if (comisaria == undefined) {
       
       const unidadEncontrada = unidades.find((unidad: any) => unidad.nombre === unidadViolencia);
-    console.log(municipio)
+
     const municipioEncontrado = unidadEncontrada && Array.isArray(unidadEncontrada.subdivisiones)
     ? unidadEncontrada.subdivisiones.find((subdivision: any) => subdivision?.nombre === municipio)
     : null;
@@ -129,7 +140,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
       <div>
         <form onSubmit={
           handleSubmit(async (values) => {
-            console.log(values)
+     
             Swal.fire({
               title: '¿Estás seguro?',
               text: "Una vez enviado, debe ser verificado.",
@@ -142,8 +153,6 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
             }).then(async (result) => {
               // Si el usuario confirma
               if (result.isConfirmed) {
-
-                console.log("Actuación" + values.modo_actuacion)
 
                 if (values.modo_actuacion == "Exposición") {
                   crearExposicion(values)
@@ -183,7 +192,6 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               <div className='flex justify-center'>
                 <InputExpediente cargaAgente={true} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
               </div>
-              {!isDivision &&
                 <div className='flex flex-row w-full justify-center'>
                   <div className='flex flex-row w-full lg:w-8/10 xl:w-6/10'>
                   <InputDate campo="Fecha" nombre="fecha" register={register}  error={errors.fecha} type="date" /> 
@@ -191,7 +199,6 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
                     <InputRegister valor={telefonoValor} campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
                   </div>
                 </div>
-              }
               <h1 className='text-2xl my-5'>Denunciante</h1>
               <div className='flex justify-center'>
                 <CargarVictimaAgente register={register} setValue={setValue} errors={errors} />

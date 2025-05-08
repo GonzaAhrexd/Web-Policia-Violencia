@@ -1,5 +1,5 @@
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface PDFProps {
     datos: any;
@@ -13,11 +13,7 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
     const userDivisionZona = user.unidad.split(",")
 
     const [isDivision,] = useState(!(userDivisionZona.length > 1));
- 
-    useEffect(() => {
-        console.log(userDivisionZona.length)
-        console.log(isDivision)
-    }, [])
+
     const fecha: Date = new Date()
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
     // Obtener día, mes y año por separado
@@ -114,7 +110,7 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
         longText: {
             fontWeight: 'bold',
             fontSize: 10,
-            textAlign: 'justify',   
+            textAlign: 'justify',
             lineHeight: 1.5, // Aumenta el espacio entre líneas
         },
         boldText: {
@@ -168,7 +164,7 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
         },
         footer: {
             marginTop: 5,
-          },
+        },
 
     });
 
@@ -184,22 +180,13 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
                         <>
                             <Text>DIVISION VIOLENCIA FAMILIAR Y DE GENERO</Text>
                             <Text>{direccionDivision[0].division.toUpperCase()}</Text>
-                            <Text>{direccionDivision[0].direccion} - {direccionDivision[0].division == "Metropolitana" ? "Resistencia" : direccionDivision[0].division} - Chaco; Tel. {direccionDivision[0].telefono}</Text>
+                            <Text>{datos.direccion} - {direccionDivision[0].division == "Metropolitana" ? "Resistencia" : direccionDivision[0].division} - Chaco; Tel. {datos.telefono}</Text>
                         </>
                         :
-                        userDivisionZona[2] ?
-                            <>
-                                <Text>{userDivisionZona[2].toUpperCase()}</Text>
-                                <Text>{datos.direccion} - {userDivisionZona[1].toUpperCase()} - {datos.telefono} </Text>
-                            </>
-                            :
-                            <>
-                                <Text>COMISARÍA {userDivisionZona[1].toUpperCase()}</Text>
-                                <Text>{datos.direccion} - {userDivisionZona[1].toUpperCase()} - {datos.telefono} </Text>
-                            </>
-
-
-
+                        <>
+                            <Text>COMISARÍA {userDivisionZona[1].toUpperCase()}</Text>
+                            <Text>{datos.direccion} - {userDivisionZona[1].toUpperCase()} - {datos.telefono} </Text>
+                        </>
                     }
                 </View>
                 <Image src="Escudo_Policia_Chaco_Transparente.png" style={styles.images} />
@@ -233,14 +220,14 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
     };
 
     // Create Document Component
-    if(tipoDenuncia == "Exposición") {
+    if (tipoDenuncia == "Exposición") {
         return (
             <Document>
                 <Page style={styles.page}>
                     <Header />
                     <View style={styles.section}>
                         <View style={styles.sectionRight}>
-                        <Text>Expediente {datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____")  + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>
+                            <Text>Expediente {datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____") + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>
                         </View>
                         <Text style={styles.subheader}>- EXPOSICIÓN -</Text>
                         <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ EXPOSICIÓN:--------------------------------------------------------/</Text>
@@ -271,7 +258,7 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
                     <Header />
                     <View style={styles.section}>
                         <View style={styles.sectionRight}>
-                            <Text>Expediente {datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____")  + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>
+                            <Text>Expediente {datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____") + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>
                         </View>
                         <Text style={styles.subheader}>- DENUNCIA -</Text>
                         <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ DENUNCIA:--------------------------------------------------------/</Text>

@@ -69,8 +69,8 @@ export const getDenunciasSinVerificar = async (req, res) => {
 
 export const getDenunciasSinVerificarAvanzado = async (req, res) => {
     try {
-        const { division, desde, hasta, id, expediente } = req.params
-        
+        const { division, municipio, comisaria, desde, hasta, id, expediente } = req.params
+        const divisionJunto = division + ", " + municipio + ", " + comisaria
         console.log(division)
         if(id != "no_ingresado"){
             // Busca por id
@@ -78,6 +78,7 @@ export const getDenunciasSinVerificarAvanzado = async (req, res) => {
             res.json(obtenerDenunciasSinVerificar);
             return
         }
+        
         if(expediente != "no_ingresado"){
             // Busca por expediente
             const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ division:division, numero_de_expediente: expediente })
@@ -87,12 +88,16 @@ export const getDenunciasSinVerificarAvanzado = async (req, res) => {
         if(desde != "no_ingresado" && hasta != "no_ingresado"){
             // Busca por fecha
             const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ fecha: { $gte: desde, $lte: hasta } })
-            
-            console.log(obtenerDenunciasSinVerificar)
-
+            if(division != "no_ingresado"){
+                // Busca por division, municipio y comisaria
+                const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ division: divisionJunto })
+                res.json(obtenerDenunciasSinVerificar);
+                return 
+            }
             res.json(obtenerDenunciasSinVerificar);
             return 
         }
+      
 
 
 

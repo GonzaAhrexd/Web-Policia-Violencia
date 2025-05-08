@@ -199,12 +199,12 @@ function EditSectionSinVerificar({ datos, setEditSection, editSection }: EditSec
         }
         <h1 className='text-2xl my-5'>Hecho</h1>
         <div className='flex justify-center'>
-          <CargarDenuncia modoActuacion={datos.modo_actuacion} setOpenModalTercero={setOpenModalTercero} setTercero={terceroCargar} expediente={expedienteDividido} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
+          <CargarDenuncia fecha={new Date(datos.fecha).toISOString().slice(0, 10)} modoActuacion={datos.modo_actuacion} setOpenModalTercero={setOpenModalTercero} setTercero={terceroCargar} expediente={expedienteDividido} setTitulo={setTitulo} register={register} setValue={setValue} errors={errors} handleOpenModal={handleOpenModal} />
         </div>
         <h1 className='text-2xl my-5'>Observaciones</h1>
         <div className='flex flex-col justify-center items-center h-80 w-full'>
           <div className='flex flex-col items-start justify-start'>
-            <InputCheckbox disabled={!isSolicitudAprehension} campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue} type="checkbox" id="aprehension" />
+            <InputCheckbox disabled={!isSolicitudAprehension} campo="Aprehensión" nombre="aprehension" register={register} setValue={setValue}  id="aprehension" />
           </div>
           <div className='flex flex-col items-center w-6/10'>
             <InputTextArea variante={"edit"} valor={datos.observaciones} campo="" nombre="observaciones" setValue={setValue} register={register} type="text" />

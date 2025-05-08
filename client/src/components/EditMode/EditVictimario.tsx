@@ -50,19 +50,19 @@ function EditVictimario({ existente, md, datos, register, setValue, errors }: Ca
       <>
         <span className='ml-4 font-medium '>Detalles</span>
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-2`}>
-          <InputCheckbox campo="Abuso de Alcohol" nombre="abuso_de_alcohol" register={register} setValue={setValue} type="checkbox" id="abusoAlcohol" state={datos.abuso_de_alcohol} />
-          <InputCheckbox campo="Antecedentes toxicológicos" nombre="antecedentes_toxicologicos" register={register} setValue={setValue} type="checkbox" id="antecedentesToxicologicos" state={datos.antecedentes_toxicologicos} />
-          <InputCheckbox campo="Antecedentes psicológicos" nombre="antecedentes_psicologicos" register={register} setValue={setValue} type="checkbox" id="antecedentesPsicologicos"  state={datos.antecedentes_psicologicos} />
-          <InputCheckbox campo="Antecedentes penales" nombre="antecedentes_penales" register={register} setValue={setValue} type="checkbox" id="antecedentesPenales" state={datos.antecedentes_penales} />
-          <InputCheckbox campo="Antecedentes contravencionales" nombre="antecedentes_contravencionales" register={register} setValue={setValue} type="checkbox" id="antecedentesConvencionales" state={datos.antecedentes_contravencionales} />
-          <InputCheckbox campo="Entrenamiento en  combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue} type="checkbox" id="entrenamientoCombate" state={datos.entrenamiento_en_combate} />
+          <InputCheckbox campo="Abuso de Alcohol" nombre="abuso_de_alcohol" register={register} setValue={setValue}  id="abusoAlcohol" state={datos.abuso_de_alcohol} />
+          <InputCheckbox campo="Antecedentes toxicológicos" nombre="antecedentes_toxicologicos" register={register} setValue={setValue}  id="antecedentesToxicologicos" state={datos.antecedentes_toxicologicos} />
+          <InputCheckbox campo="Antecedentes psicológicos" nombre="antecedentes_psicologicos" register={register} setValue={setValue}  id="antecedentesPsicologicos"  state={datos.antecedentes_psicologicos} />
+          <InputCheckbox campo="Antecedentes penales" nombre="antecedentes_penales" register={register} setValue={setValue}  id="antecedentesPenales" state={datos.antecedentes_penales} />
+          <InputCheckbox campo="Antecedentes contravencionales" nombre="antecedentes_contravencionales" register={register} setValue={setValue}  id="antecedentesConvencionales" state={datos.antecedentes_contravencionales} />
+          <InputCheckbox campo="Entrenamiento en  combate" nombre="entrenamiento_en_combate" register={register} setValue={setValue}  id="entrenamientoCombate" state={datos.entrenamiento_en_combate} />
         </div>
         <span 
         className='ml-4 font-medium '>Detalles de aprehensión</span>
       {/* Haz que sean dos inputs de tipo radio que sean excluyentes, uno con aprehension y otro con en libertad */}
           <div>
-            <InputCheckbox setHook={setIsAprehendido} disabled={isLiberado} campo="Aprehensión" nombre="esta_aprehendido" register={register} setValue={setValue} type="checkbox" id="aprehendido" state={datos.esta_aprehendido} />
-            <InputCheckbox setHook={setIsLiberado} disabled={isAprehendido} campo="En libertad" nombre="fue_liberado" register={register} setValue={setValue} type="checkbox" id="liberado" state={datos.fue_liberado} />
+            <InputCheckbox setHook={setIsAprehendido} disabled={isLiberado} campo="Aprehensión" nombre="esta_aprehendido" register={register} setValue={setValue}  id="aprehendido" state={datos.esta_aprehendido} />
+            <InputCheckbox setHook={setIsLiberado} disabled={isAprehendido} campo="En libertad" nombre="fue_liberado" register={register} setValue={setValue}  id="liberado" state={datos.fue_liberado} />
           </div>
       </>
 

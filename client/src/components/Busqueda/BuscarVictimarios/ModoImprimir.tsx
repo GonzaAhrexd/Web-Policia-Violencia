@@ -63,7 +63,7 @@ function modoImprimir({ modoImprimir, setModoImprimir, denunciasAMostrar, user, 
                     {!isListarTodo &&
                         <SelectRegisterSingle mid={true} campo="Listar denuncias de" nombre="denuncias_de" setValue={setValue} error={errors} opciones={opcionesVictimarios} />
                     }
-                    <InputCheckbox setHook={setIsListarTodo} state={isListarTodo} campo="Listar todo" nombre="listar_todo" register={register} error={errors.listarTodo} id="listarTodo" type="checkbox" setValue={setValue} />
+                    <InputCheckbox setHook={setIsListarTodo} state={isListarTodo} campo="Listar todo" nombre="listar_todo" register={register} error={errors.listarTodo} id="listarTodo"  setValue={setValue} />
                 </div>
                 <div className='my-5 flex flex-col md:flex-row sm:items-center md:justify-center w-full '>
                     <button className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-full sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' >

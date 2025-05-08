@@ -19,9 +19,10 @@ interface CargarVictimaProps {
   register: UseFormRegister<any>;
   setValue: UseFormSetValue<any>;
   errors: FieldErrors;
+  valores?: any;
 }
 
-function CargarVictimaAgente({ register, setValue, errors }: CargarVictimaProps) {
+function CargarVictimaAgente({valores, register, setValue, errors }: CargarVictimaProps) {
 
 
   const { ocupaciones } = useCampos();
@@ -48,13 +49,13 @@ function CargarVictimaAgente({ register, setValue, errors }: CargarVictimaProps)
       <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Nacionalidad" nombre="nacionalidad_victima" register={register} setValue={setValue} type="text" error={errors.nacionalidad_victima} />
         <InputNumber campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} maxLenght={2} />
-        <SelectRegisterSingle setState={setGenero} campo="Género" nombre="genero" opciones={generos}  setValue={setValue} error={errors.genero} />
+        <SelectRegisterSingle valor={valores?.genero_victima && valores.genero_victima} setState={setGenero} campo="Género" nombre="genero" opciones={generos}  setValue={setValue} error={errors.genero} />
 
       </div>
 
       <div className='flex flex-col xl:flex-row my-2'>
-        <SelectRegisterSingle campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil}  setValue={setValue} error={errors.estado_civil_victima} />
-        <SelectRegisterSingle campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} setValue={setValue} error={errors.ocupacion_victima} />
+        <SelectRegisterSingle valor={valores?.estado_civil_victima && valores.estado_civil_victima} campo="Estado Civil" nombre="estado_civil_victima" opciones={estadoCivil}  setValue={setValue} error={errors.estado_civil_victima} />
+        <SelectRegisterSingle valor={valores?.ocupacion_victima && valores.ocupacion_victima} campo="Ocupación" nombre="ocupacion_victima" opciones={ocupaciones} setValue={setValue} error={errors.ocupacion_victima} />
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>
@@ -63,10 +64,12 @@ function CargarVictimaAgente({ register, setValue, errors }: CargarVictimaProps)
         <InputRegister campo="Domicilio" nombre="direccion_victima" register={register} setValue={setValue} type="text" error={errors.nacionalidad_victima} />
       </div>
 
+      {!valores && 
       <div className='flex flex-col my-2'>
         <span className='ml-4 font-medium my-2'> ¿Sabe leer y escribir?</span>
         <InputRadio campo="SabeLeerYEscribir" nombre="SabeLeerYEscribir" register={register} type="radio" opciones={opcionesSabeLeerYEscribir} defaultValue={3} />
       </div>
+      }
 
     </div>
   )

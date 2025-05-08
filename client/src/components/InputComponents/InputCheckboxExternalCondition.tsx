@@ -13,14 +13,13 @@ interface Props {
     nombre: string;
     setValue: any;
     register: any;
-    type: string;
     error?: any;
     setHook?: any;
     state?: any;
     id: any;
 }
 
-function InputCheckbox({ campo, nombre, setValue, type, setHook, state, id }: Props) {
+function InputCheckbox({ campo, nombre, setValue, setHook, state, id }: Props) {
   // Estado local para manejar el estado del checkbox
   const [isChecked, setIsChecked] = useState(state);
 
@@ -45,7 +44,7 @@ function InputCheckbox({ campo, nombre, setValue, type, setHook, state, id }: Pr
       <div>
         <input
           className="border open-sans border-gray-300 rounded-md h-6 xl:h-6 xl:w-5 2xl:h-6 my-2 xl:my-1 xl:m-2 m-4 pl-2"
-          type={type}
+          type="checkbox"
           onChange={handleChange}
           checked={isChecked} // Controla el estado del checkbox
           id={id}

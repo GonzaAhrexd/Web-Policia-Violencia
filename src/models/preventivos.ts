@@ -1,35 +1,50 @@
-// Importamos mongoose para poder crear el modelo de la base de datos
-import mongoose, { Model, Mongoose } from 'mongoose'
+/*
+PREVENTIVO:
+- Agrega supervisión 
+- Número de nota
+- Fecha - Igual a la denuncia
+- Caratula de Causa
+- Mostrar de nuevo víctima y denuncia 
+- Resolución tomada
+- Instructor y secretario
+- Autoridades 
+- Imprimir
+*/
 
-// Creamos el esquema de Victimas en la base de datos
-const denunciaSinVerificarSchema = new mongoose.Schema({
-    // Definciión del estado
-    estado: {
+import mongoose from 'mongoose'
+
+const preventivoSchema = new mongoose.Schema({
+    supervision: {
         type: String, // Tipo de dato String
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
-    },
-    cargado_por: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
-    numero_de_expediente: {
+    }, 
+    numero_nota: {
         type: String, // Tipo de dato String
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
     fecha: {
         type: Date, // Tipo de dato Date
-        default: Date.now // Fecha por defecto es la fecha actual
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
     },
-    // División donde se cargó
-    division: {
+    caratula_causa: {
         type: String, // Tipo de dato String
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
-    }, 
-    // Definición del nombre de la victima
+    },
+    // - Resolución tomada
+    resolucion: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    autoridades: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     nombre_victima: {
         type: String, // Tipo de dato String
         required: true, // Campo requerido
@@ -64,12 +79,6 @@ const denunciaSinVerificarSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
-    modo_actuacion: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
-    // Definición de la ocupación de la victima
     ocupacion_victima: {
         type: String,  // Tipo de dato String
         required: true, // Campo requerido
@@ -94,44 +103,6 @@ const denunciaSinVerificarSchema = new mongoose.Schema({
     telefono_victima: {
         type: String, // Tipo de dato String
         required: false, // Campo no requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
-    sabe_leer_y_escribir_victima: {
-        type: Boolean, // Tipo de dato Boolean
-        required: false, // Campo no requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
-    observaciones: {
-        type: String, // Tipo de dato String
-        required: false, // Campo no requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
-    // Preguntas
-    preguntas: {
-        desea_ser_asistida: {
-            type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
-        },
-        desea_ser_examinada_por_medico: {
-            type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
-        },
-        desea_accionar_penalmente: {
-            type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
-        },
-        desea_agregar_quitar_o_enmendar: {
-            type: Boolean, // Tipo de dato Boolean
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
-        },
-    },
-    resolucion: {
-        type: String, // Tipo de dato String
-        required: true, // Campo no requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
     secretario: {
@@ -163,11 +134,8 @@ const denunciaSinVerificarSchema = new mongoose.Schema({
             trim: true // Trim para que no se guarden espacios en blanco
         }
     },
-},
-    {
-        timestamps: true // Timestamps para que guarde la fecha de creación y actualización
-    })
+})
 
-// Exportamos el modelo de victimas
-const denunciaSinVerificar = mongoose.model('denuncias_sin_verificar', denunciaSinVerificarSchema)
-export default denunciaSinVerificar;
+
+const preventivo = mongoose.model('preventivo', preventivoSchema)
+export default preventivo

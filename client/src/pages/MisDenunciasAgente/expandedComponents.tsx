@@ -9,11 +9,18 @@ ________________________________________________________________________________
 // Componentes
 import SimpleTableCheckorX from '../../components/ShowData/SimpleTableCheckorX';
 import ShowTextArea from '../../components/ShowData/ShowTextArea';
+import { useState } from 'react';
+
+import CargarAmpliacion from '../../components/Cargar/CargarAmpliacion/CargarAmpliacion';
+import CargarPreventivo from '../../components/Cargar/CargarPreventivo/CargarPreventivo';
+
 interface expandedComponentsProps {
     data: any
 }
 function expandedComponents({ data }: expandedComponentsProps) {
 
+    const [ampliarDenuncia, setAmpliarDenuncia] = useState(false)
+    const [crearPreventivo, setCrearPreventivo] = useState(false)
 
     const datosDenuncia = [
         {nombre: "Número de expediente", valor: data.numero_de_expediente},
@@ -57,18 +64,28 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Jerarquía instructor", valor: data.instructor.jerarquia_instructor },
     ]
 
+  
+    if(ampliarDenuncia) { 
+        return <CargarAmpliacion data={data} setAmpliarDenuncia={setAmpliarDenuncia} />
+    }
+
+    if(crearPreventivo) { 
+        return <CargarPreventivo data={data} setCrearPreventivo={setCrearPreventivo} />
+    }
+      if((!ampliarDenuncia) && (!crearPreventivo)) { 
     return <div className="flex flex-col p-1 sm:p-10 max-w-2xl sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-full scale-up-ver-top">
-        <>
+        <> 
+       
             <h1 className='text-5xl my-5 font-sans'> Estado de la denuncia: {data.estado == "En verificación" && "En verificación ⏸️"} {data.estado == "Aprobada" && "Aprobado ✅"} {data.estado == "Rechazada" && "Rechazado ❌"}  </h1>
             <h1 className='text-3xl my-5 font-sans'>Acciones</h1>
             <div className='flex flex-col md:flex-row gap-2 w-full items-center justify-center '>  
                 <div
                 className='flex flex-col items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10'
-                >Ampliar denuncia</div>
+                onClick={() => setAmpliarDenuncia(true)}>Ampliar denuncia</div>
                 
                 <div
                 className='flex flex-col items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10'
-                >Crear preventivo</div>
+                onClick={() => setCrearPreventivo(true)}>Crear preventivo</div>
             </div>
             
             <h1 className='text-3xl my-5 font-sans'>Datos de la denuncia</h1>
@@ -105,7 +122,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
             <SimpleTableCheckorX campo="" datos={instructorDatosMostrar} />
         </div>
     </div>
-
+}
 }
 
 export default expandedComponents

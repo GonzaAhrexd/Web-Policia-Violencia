@@ -18,7 +18,7 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 
 // Campos
 import { useCampos } from '../../../context/campos';
-import { columnsDataTableVerificar} from './columnsDataTableVerificar'
+import { columnsDataTableVerificar } from './columnsDataTableVerificar'
 
 function BuscarDenunciasSinVerificar() {
     const [denunciasAMostrar, setDenunciasAMostrar] = useState([]);
@@ -44,7 +44,7 @@ function BuscarDenunciasSinVerificar() {
         expanded: <ArrowUpCircleIcon className='h-6 w-6' />
     }
 
-    const { unidades: unidadCampos  } = useCampos();
+    const { unidades: unidadCampos } = useCampos();
     const { user } = useAuth()
 
 
@@ -58,7 +58,7 @@ function BuscarDenunciasSinVerificar() {
                             values.unidad = values.unidad.split(',')
                             values.municipio = values.unidad[1]
                             values.comisaria = values.unidad[2]
-                        }else if (user.rol == "agente") {
+                        } else if (user.rol == "agente") {
                             values.division = user.unidad
                         }
                         handleBusqueda(values)
@@ -68,31 +68,31 @@ function BuscarDenunciasSinVerificar() {
                 <InputRegister busqueda={true} campo="ID" nombre="id_denuncia" register={register} type="text" error={errors.id_denuncia} require={false} />
                 <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                 {user.rol != "agente" &&
-                <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
-                    <SelectDivisionMunicipios isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />
-                </div>
+                    <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
+                        <SelectDivisionMunicipios isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />
+                    </div>
                 }
                 <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
             </form>
             <div className="flex flex-col w-full">
                 <h2 className='text-2xl my-5'>Denuncias</h2>
                 <div className="overflow-x-auto">
-                <DataTable
-                    columns={columnsDataTableVerificar}
-                    data={denunciasAMostrar}
-                    pagination
-                    expandableRows
-                    expandableRowsComponent={expandedComponents}
-                    customStyles={customStyles}
-                    responsive={true}
-                    striped={true}
-                    highlightOnHover={true}
-                    noDataComponent="No hay denuncias para mostrar"
-                    defaultSortFieldId={"Fecha"}
-                    defaultSortAsc={false}
-                    expandableIcon={expandableIcon}
+                    <DataTable
+                        columns={columnsDataTableVerificar}
+                        data={denunciasAMostrar}
+                        pagination
+                        expandableRows
+                        expandableRowsComponent={expandedComponents}
+                        customStyles={customStyles}
+                        responsive={true}
+                        striped={true}
+                        highlightOnHover={true}
+                        noDataComponent="No hay denuncias para mostrar"
+                        defaultSortFieldId={"Fecha"}
+                        defaultSortAsc={false}
+                        expandableIcon={expandableIcon}
                     />
-                    </div>
+                </div>
             </div>
         </>
     )

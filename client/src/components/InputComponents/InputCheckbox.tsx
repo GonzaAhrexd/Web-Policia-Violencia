@@ -13,7 +13,6 @@ interface Props {
   nombre: string;
   setValue: any;
   register: any;
-  type: string;
   error?: any;
   setHook?: any;
   state?: any;
@@ -21,7 +20,7 @@ interface Props {
   id: any;
 }
 
-function InputCheckbox({disabled, campo, nombre, setValue, type, setHook, state, id }: Props) {
+function InputCheckbox({disabled, campo, nombre, setValue, setHook, state, id }: Props) {
   
   // Si el estado cambia, se actualiza el valor del input
   useEffect(() => {
@@ -41,7 +40,7 @@ function InputCheckbox({disabled, campo, nombre, setValue, type, setHook, state,
       <div>
         <input
           className="cursor-pointer border open-sans border-gray-300 rounded-md h-6 xl:h-6 xl:w-5 2xl:h-6 my-2 xl:my-1 xl:m-2 m-4 pl-2"
-          type={type}
+          type="checkbox"
           onChange={handleChange}
           defaultChecked={state}
           id={id}

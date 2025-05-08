@@ -87,8 +87,8 @@ function BuscarDenuncias() {
                 </div>
                 }
                 <div>
-                <InputCheckbox campo="Aprehensión" nombre="aprehension" register={register} error={errors.aprehension} id="aprehension_busqueda" type="checkbox" setValue={setValue}></InputCheckbox>
-                <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" type="checkbox" setValue={setValue}></InputCheckbox>
+                <InputCheckbox campo="Aprehensión" nombre="aprehension" register={register} error={errors.aprehension} id="aprehension_busqueda" setValue={setValue}></InputCheckbox>
+                <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" setValue={setValue}></InputCheckbox>
                 </div>
                 <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
             </form>
