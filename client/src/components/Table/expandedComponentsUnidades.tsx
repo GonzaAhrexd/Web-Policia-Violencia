@@ -128,6 +128,7 @@ function expandedComponentsUnidades({ data }: expandedComponentsUnidadesProps) {
                         <InputRegister campo="Prefijo" nombre="prefijo_municipio" register={register} type="text" error={errors.prefijo_municipio} require={false} />
                         <InputRegister campo="Teléfono" nombre="telefono_municipio" register={register} type="text" error={errors.telefono_municipio} require={false} />
                         <InputRegister campo="Dirección" nombre="direccion_municipio" register={register} type="text" error={errors.direccion_municipio} require={false} />
+                        <InputRegister campo="Supervisión" nombre="supervision_municipio" register={register} type="text" error={errors.supervision_municipio} require={false} />
 
                         <div className='flex flex-row w-full items-center justify-center'>
                             <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-4/10 xl:w-3/10 mr-2'>

@@ -1,16 +1,3 @@
-/*
-PREVENTIVO:
-- Agrega supervisión 
-- Número de nota
-- Fecha - Igual a la denuncia
-- Caratula de Causa
-- Mostrar de nuevo víctima y denuncia 
-- Resolución tomada
-- Instructor y secretario
-- Autoridades 
-- Imprimir
-*/
-
 import mongoose from 'mongoose'
 
 const preventivoSchema = new mongoose.Schema({

@@ -10,9 +10,7 @@ import PDF from './PDF';
 import { useAuth } from '../../../context/auth'
 import { useEffect, useState } from 'react';
 import { useCampos } from '../../../context/campos';
-import InputCheckbox from '../../InputComponents/InputCheckbox';
 import InputCheckboxAcumulador from '../../InputComponents/InputCheckboxAcumulador';
-import SelectRegister from '../../Select/SelectRegister';
 
 
 type CargarPreventivoProps = {
@@ -49,6 +47,7 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
 
     const [direccionValor, setDireccionValor] = useState('')
     const [telefonoValor, setTelefonoValor] = useState('')
+    const [supervisionValor, setSupervisionValor] = useState('')
     const { unidades } = useCampos()
 
     const direccionDivisiones: any[] = [
@@ -71,6 +70,7 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
         if (municipio == undefined && comisaria == undefined) {
             setDireccionValor(direccionDivisiones.find((division) => division.division === unidadesSeparadas[0])?.direccion)
             setTelefonoValor(direccionDivisiones.find((division) => division.division === unidadesSeparadas[0])?.telefono)
+            setSupervisionValor("Dpto. de Violencia Familiar y Género")
         } else if (comisaria == undefined) {
 
             const unidadEncontrada = unidades.find((unidad: any) => unidad.nombre === unidadViolencia);
@@ -81,7 +81,7 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
 
             setDireccionValor(municipioEncontrado?.direccion)
             setTelefonoValor(municipioEncontrado?.telefono)
-
+            setSupervisionValor(municipioEncontrado?.supervision)
         } else {
             const unidadEncontrada = unidades.find((unidad: any) => unidad.nombre === unidadViolencia);
             const municipioEncontrado = unidadEncontrada && Array.isArray(unidadEncontrada.subdivisiones)
@@ -94,6 +94,7 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
 
             setDireccionValor(comisariaEncontrada?.direccion)
             setTelefonoValor(comisariaEncontrada?.telefono)
+            setSupervisionValor(comisariaEncontrada?.supervision)
         }
 
     })
@@ -187,7 +188,7 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
                     })}
             >
                 <div className='flex flex-col items-center justify-center'>
-                    <InputRegister notMidMD campo="Supervisión" nombre="supervision" register={register} type="text" error={errors.supervision} require placeholder="Supervisión" setValue={setValue} />
+                    <InputRegister notMidMD campo="Supervisión" nombre="supervision" register={register} type="text" error={errors.supervision} require placeholder="Supervisión" setValue={setValue} valor={supervisionValor} />
                     <InputDate campo="Fecha" nombre="fecha_preventivo" register={register} error={errors.fecha} type="date" />
                     <div className='flex flex-row w-full  xl:w-5/10'>
                         <InputRegister valor={direccionValor} campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />

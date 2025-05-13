@@ -74,6 +74,13 @@ function Buscar() {
         setButtonSelected('exposicion')
     }
 
+    const handleMostrarPreventivo = () => {
+        resetHooks()
+        setMostrarVictimas(true)
+        setButtonSelected('preventivo')
+    }
+    
+
     if (isLoading) return <LoadingScreen />
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
     if (user?.rol === "sin_definir") return <Navigate to="/login" replace />
@@ -90,7 +97,7 @@ function Buscar() {
                         <button className={`${buttonSelected == "victimario" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarVictimarios()}> Victimario </button>
                         <button className={`${buttonSelected == "terceros" ? "bg-sky-700" : "bg-sky-950"}  hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarTerceros()}> Terceros </button>
                         <button className={`${buttonSelected == "denuncias" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarDenuncias()}> Denuncias</button>
-                        <button className={`${buttonSelected == "exposicion" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarExposiciones()}> Preventivo </button>
+                        <button className={`${buttonSelected == "preventivo" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarPreventivo()}> Preventivo </button>
                         <button className={`${buttonSelected == "exposicion" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarExposiciones()}> Exposiciones</button>
                     </div>
                 }

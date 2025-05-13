@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Opcion {
     value?: string;
@@ -23,6 +23,16 @@ function SelectRegister({setState, campo, nombre, opciones, setValue, error, isR
     const [selectedOpcion, setSelectedOpcion] = useState('');
     const [, setIsEmpty] = useState(false);
 
+    useEffect(() => {
+        if (valor) {
+            setSelectedOpcion(valor);
+            setValue(nombre, valor)
+
+        } else {
+            setSelectedOpcion('');
+        }
+    }, [valor]);
+
     const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (event.target.value === '') {
             setIsEmpty(true);
@@ -34,7 +44,7 @@ function SelectRegister({setState, campo, nombre, opciones, setValue, error, isR
         setSelectedOpcion(value);
         // Actualiza el valor en react-hook-form
         setValue(nombre, value)
-        console.log(error)
+       
         // mid ? setValue(campo, value) : setValue(nombre, value)
     }
 

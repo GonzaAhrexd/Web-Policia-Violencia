@@ -4,11 +4,10 @@ import { useState } from 'react';
 interface PDFProps {
     datos: any;
     user: any;
-    tipoDenuncia: string;
     genero: string;
 }
 
-function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
+function PDF({ genero, datos, user }: PDFProps) {
 
     const userDivisionZona = user.unidad.split(",")
 
@@ -70,7 +69,7 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
         text: {
             marginBottom: 10,
             fontSize: 12,
-            textAlign: 'justify',
+            // textAlign: 'left',
         },
         signature: {
             marginTop: 40,
@@ -218,7 +217,6 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
     };
 
     // Create Document Component
-    if (tipoDenuncia == "Exposición") {
         return (
             <Document>
                 <Page style={styles.page}>
@@ -227,46 +225,14 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
                         <View style={styles.sectionRight}>
                             <Text>Expediente {datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____") + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>
                         </View>
-                        <Text style={styles.subheader}>- EXPOSICIÓN -</Text>
-                        <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ EXPOSICIÓN:--------------------------------------------------------/</Text>
+                        <Text style={styles.subheader}>- AMPLIACIÓN DE DENUNCIA -</Text>
+                        <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ AMPLIACIÓN DE DENUNCIA: ---------------------------------------/</Text>
                         <Text style={styles.longText}>
                             {isDivision ?
                                 `En la División Violencia Familiar y de Género ${userDivisionZona[0]}, con asiento en la ciudad de ${userDivisionZona[0] == "Metropolitana" ? "Resistencia, capital de la " : userDivisionZona[0]} `
                                 :
                                 `En la ${userDivisionZona[2] ? userDivisionZona[2] : "Comisaría " + userDivisionZona[1]} de la ciudad de ${userDivisionZona[1]}`
-                            }  Provincia del
-                            Chaco
-                            , a los {dia} del mes de {mes} del año {año}, siendo la hora {horaActual} comparece a despacho la persona de mención en el título,
-                            quien interrogado por sus datos personales de identidad <Text style={styles.boldText}>DIJO LLAMARSE:</Text> <Text style={styles.boldText}>{datos.nombre_victima} {datos.apellido_victima}, ser de nacionalidad: {datos.nacionalidad_victima},
-                                de {datos.edad_victima} años de edad, Estado civil {datos.estado_civil_victima}, ocupación: {datos.ocupacion_victima}, {datos.SabeLeerYEscribir == "Sí" ? "con " : "sin "} instrucción, domiciliada {datos.direccion_victima} -, Teléfono Celular Nº {datos.telefono_victima},
-                                Identidad que acredita con Juramento de Ley, aduciendo tener DNI Nº {datos.dni_victima}.</Text> Abierto el acto y cedida que le fuere la palabra y en uso del a misma. EXPONE: {datos.observaciones} <Text style={styles.boldText}> PREGUNTANDO:</Text> Si desea agregar, quitar o enmendar
-                            algo a lo expuesto precedentemente….” <Text style={styles.boldText}>RESPONDE:</Text> Que {datos.AgregarQuitarOEnmendarAlgo == "Sí" ? "SÍ" : "NO"} {datos.AgregarQuitarOEnmendarAlgo == "Sí" && ", AGREGA " + datos.agrega}. Con lo que no siendo para más, se da por finalizado el acto, previa integra lectura efectuada por el compareciente y para constancia legal de su conformidad firma al pie ante Mí y secretaria que <Text style={styles.boldText}> CERTIFICA. </Text>
-                        </Text>
-
-                    </View>
-                    <Footer />
-                </Page>
-            </Document>
-        )
-    }
-    else {
-        return (
-            <Document>
-                <Page style={styles.page}>
-                    <Header />
-                    <View style={styles.section}>
-                        <View style={styles.sectionRight}>
-                            <Text>Expediente {datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____") + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>
-                        </View>
-                        <Text style={styles.subheader}>- DENUNCIA -</Text>
-                        <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ DENUNCIA:--------------------------------------------------------/</Text>
-                        <Text style={styles.longText}>
-                            {isDivision ?
-                                `En la División Violencia Familiar y de Género ${userDivisionZona[0]}, con asiento en la ciudad de ${userDivisionZona[0] == "Metropolitana" ? "Resistencia, capital de la " : userDivisionZona[0]} `
-                                :
-                                `En la ${userDivisionZona[2] ? userDivisionZona[2] : "Comisaría " + userDivisionZona[1]} de la ciudad de ${userDivisionZona[1]}`
-                            }   Provincia del
-                            Chaco, a los {dia} del mes de {mes} del año {año}, siendo la hora {horaActual} comparece a despacho la persona de mención en el título,
+                            }   Provincia del Chaco, a los {dia} del mes de {mes} del año {año}, siendo la hora {horaActual} comparece a despacho la persona de mención en el título,
                             quien interrogado por sus datos personales de identidad DIJO: Llamarse como consta en el titulo, Ser de nacionalidad: {datos.nacionalidad_victima},
                             de {datos.edad_victima} años de edad, Estado civil {datos.estado_civil_victima}, ocupación: {datos.ocupacion_victima}, {datos.SabeLeerYEscribir == "Sí" ? "con " : "sin "} instrucción, domiciliada {datos.direccion_victima} -, Teléfono Celular Nº {datos.telefono_victima},
                             Identidad que acredita con Juramento de Ley, aduciendo tener DNI Nº {datos.dni_victima} Quien es notificado del contenido del Artículo 245°
@@ -277,7 +243,7 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
                                 INCAPAZ SE AUTORIZARA A QUE DURANTE LOS ACTOS PROCESALES SEA ACOMPAÑADA POR PERSONA DE
                                 SU CONFIANZA, SIEMPRE QUE ELLO NO PERJUDIQUEN LA DEFENSA DEL IMPUTADO O LOS RESULTADOS
                                 DE LA INVESTIGACIÓN..."</Text>{genero == "Femenino" && "y Ley Nacional Nº 26.485, (Ley de Protección Integral para prevenir sancionar y erradicar la violencia contra las mujeres en los ámbitos en que desarrolla sus relaciones interpersonales)"} y los términos de la Ley Provincial Nº
-                            836-N (Ley de Violencia Familiar). Abierto el acto y cedida que le fuere la palabra y en uso de la misma <Text style={styles.boldText}>DENUNCIA:</Text> {datos.observaciones} {genero == "Femenino" && "Seguidamente se le hace saber que existe la Línea 137, ubicado en Calle Mitre N° 171 -Resistencia-, donde se brinda asesoramiento legal y asistencia psicológica las 24 horas del dia de manera GRATUITA, y la Línea 102 ubicado en Avenida Sarmiento N° 1675-Resistencia-. "} {genero == "Femenino" && (
+                            836-N (Ley de Violencia Familiar). Abierto el acto y cedida que le fuere la palabra y en uso de la misma <Text style={styles.boldText}>AMPLIO:</Text> {datos.observaciones} {genero == "Femenino" && "Seguidamente se le hace saber que existe la Línea 137, ubicado en Calle Mitre N° 171 -Resistencia-, donde se brinda asesoramiento legal y asistencia psicológica las 24 horas del dia de manera GRATUITA, y la Línea 102 ubicado en Avenida Sarmiento N° 1675-Resistencia-. "} {genero == "Femenino" && (
                                 <Text style={styles.boldText}>PREGUNTANDO:</Text>)} {genero == "Femenino" && "“…Si desea ser asistida por dicho organismo."} {genero == "Femenino" && <Text style={styles.boldText}>RESPONDE:</Text>} {genero == "Femenino" && `“${datos.AsistidaPorDichoOrganismo == "Sí" ? "SÍ" : "NO"} `}
                             <Text style={styles.boldText}>PREGUNTANDO:</Text> Si desea ser examinad{genero == "Femenino" ? "a" : "o"} por el medico policial en turno…”. <Text style={styles.boldText}>RESPONDE:</Text>{datos.ExaminadaMedicoPolicial == "Sí" ? "SÍ" : "NO"}. <Text style={styles.boldText}>PREGUNTANDO:</Text> “…Si desea
                             accionar penalmente por el delito que diera lugar…”. <Text style={styles.boldText}>RESPONDE:</Text> {datos.AccionarPenalmente == "Sí" ? "SÍ" : "NO"}. <Text style={styles.boldText}>PREGUNTANDO:</Text> Si desea agregar, quitar o enmendar
@@ -289,6 +255,6 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
                 </Page>
             </Document>
         )
-    }
+    
 }
 export default PDF;

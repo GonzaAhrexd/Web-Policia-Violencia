@@ -146,10 +146,8 @@ function PDF({ datos, user}: PDFProps) {
                 <View style={styles.header}>
                     <Image src="EscudoProvinciaDelChaco.png" style={styles.images} />
                     <View style={styles.sectionCenter}>
-                        <Text style={styles.textBold}>POLICÍA DE LA PROVINCIA DEL</Text>
-                        <Text style={styles.textBold}>CHACO</Text>
-                        <Text>DIVISIÓN VIOLENCIA FAMILIAR Y DE GÉNERO</Text>
-                        <Text>{direccionDivision[0].division.toUpperCase()}</Text>
+                        <Text style={styles.textBold}>POLICÍA DE LA PROVINCIA DEL CHACO</Text>
+                        <Text>DIVISIÓN VIOLENCIA FAMILIAR Y DE GÉNERO {direccionDivision[0].division.toUpperCase()}</Text>
                         <Text>{direccionDivision[0].direccion} - {direccionDivision[0].division} - Chaco; Tel. {direccionDivision[0].telefono}</Text>
                     </View>
                     <Image src="Escudo_Policia_Chaco_Transparente.png" style={styles.images} />

@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-import InputCheckbox from "./InputCheckbox"
-import { useForm } from "react-hook-form"
+
 
 type OpcionesCheckboxAcumulador = {
     opciones: any;

@@ -129,11 +129,6 @@ const denunciaSinVerificarSchema = new mongoose.Schema({
             trim: true // Trim para que no se guarden espacios en blanco
         },
     },
-    resolucion: {
-        type: String, // Tipo de dato String
-        required: true, // Campo no requerido
-        trim: true // Trim para que no se guarden espacios en blanco
-    },
     secretario: {
         nombre_completo_secretario: {
             type: String, // Tipo de dato String

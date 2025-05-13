@@ -21,10 +21,6 @@ function InputDate({valor, campo, nombre, register, placeholder, error, require}
   // Estado 
   const [avisoRequerido, setAvisoRequerido] = useState(false)
 
-  useState(() => {
-    console.log(valor)
-  })
-
   return (
         <div className={`flex flex-col w-full xl:w-1/2`}>
             <span className={`flex font-medium ml-4 `}> {campo} {error && <ExclamationCircleIcon className='w-6 text-red-600 cursor-pointer' onMouseEnter={() => setAvisoRequerido(true)} onMouseLeave={() => setAvisoRequerido(false)} />} {avisoRequerido && <span className="text-red-600">Requerido</span>} </span>

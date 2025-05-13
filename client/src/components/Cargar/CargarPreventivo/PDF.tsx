@@ -1,5 +1,5 @@
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type PDFProps = {
     datos: any;
@@ -13,7 +13,6 @@ function PDF({ datos, user }: PDFProps) {
 
     const [isDivision,] = useState(!(userDivisionZona.length > 1));
 
-    const fecha: Date = new Date()
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
     // Obtener día, mes y año por separado
     const dividirDivision = userDivisionZona[0].split(" ");
@@ -200,6 +199,22 @@ function PDF({ datos, user }: PDFProps) {
             marginLeft: 40,
             marginTop: 10,
           },
+          headerText: {
+            fontSize: 10,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginBottom: 5,
+          },
+          headerText2: {
+            fontSize: 11,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginBottom: 5,
+          },
+          textBoldHeader: {
+            fontWeight: 'bold',
+            fontSize: 14
+          }
 
     });
 
@@ -212,19 +227,18 @@ function PDF({ datos, user }: PDFProps) {
             <View style={styles.header}>
                 <Image src="EscudoProvinciaDelChaco.png" style={styles.images} />
                 <View style={styles.sectionCenter}>
-                    <Text style={styles.textBold}>POLICIA DE LA PROVINCIA DEL CHACO
+                    <Text style={styles.textBoldHeader}>POLICIA DE LA PROVINCIA DEL CHACO
 
                     </Text>
                     {isDivision ?
                         <>                            
-                            <Text>DPTO. VIOLENCIA FAMILIAR Y DE GÉNERO</Text>
-                            <Text>DIVISION VIOLENCIA FAMILIAR Y DE GENERO</Text>
-                            <Text>{direccionDivision[0].division.toUpperCase()}</Text>
+                            <Text style={styles.headerText2}>DPTO. VIOLENCIA FAMILIAR Y DE GÉNERO</Text>
+                            <Text style={styles.headerText}>DIVISION VIOLENCIA FAMILIAR Y DE GENERO {direccionDivision[0].division.toUpperCase()}</Text>
                         </>
                         :
                         <>
-                            <Text>{datos.supervision}</Text>
-                            <Text>COMISARÍA {userDivisionZona[1].toUpperCase()}</Text>
+                            <Text style={styles.headerText2}>{datos.supervision}</Text>
+                            <Text style={styles.headerText}>COMISARÍA {userDivisionZona[1].toUpperCase()}</Text>
                         </>
                     }
                 </View>
@@ -236,12 +250,6 @@ function PDF({ datos, user }: PDFProps) {
     const Footer = () => {
         return (
             <View minPresenceAhead={150} wrap={false}>
-                <Text>_____________________________________________________</Text>
-                <View style={styles.sectionSignatureEnd}>
-                    <Text>Firma</Text>
-                    <Text>Aclaración</Text>
-                    <Text>DNI</Text>
-                </View>
                 <View style={styles.sectionSignatureEndContainer}>
                     <View style={styles.sectionSignatureEndSecretario}>
                         <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario}</Text>
@@ -273,13 +281,11 @@ function PDF({ datos, user }: PDFProps) {
                     <Text style={styles.text}>SRES: {datos.autoridades}</Text>
                     <Text style={styles.text}>**********************************************************************************************************</Text>
                     <Text style={styles.text}>{datos.numero_nota}</Text>
-
-                    <Text style={styles.longText}>{espacioEnBlanco(80)}OBJETO: </Text> 
-                    <Text style={styles.longText}>{espacioEnBlanco(80)}{datos.caratula_causa}</Text>
-                    <Text style={styles.longText}>{espacioEnBlanco(80)}Cumplo en dirigirme a Ud. llevando a su conocimiento que en la fecha {new Date(datos.fecha).getUTCDate()} de {meses[new Date(datos.fecha).getUTCMonth() + 1]} de {new Date(datos.fecha).getUTCFullYear()} radicó denuncia en esta unidad el ciudadano quien se identificó como {datos.nombre_victima} {datos.apellido_victima} de {datos.edad_victima} años de edad, nacionalidad {datos.nacionalidad_victima}, {datos.estado_civil_victima}, {datos.sabe_leer_y_escribir_victima ? "con instrucción" : "sin instrucción"}, {datos.ocupacion_victima}, con domicilio en {datos.direccion_victima}, DNI N° {datos.DNI_victima}, teléfono N° {datos.telefono_victima}. Quien radicó denuncia dando que cuenta: 
-                    </Text>
-                    <Text style={styles.longText}>{espacioEnBlanco(80)}{datos.observaciones}</Text>
-                    <Text style={styles.longText}>{espacioEnBlanco(80)}Efectuando consulta con {datos.consulta}; Dispuso: {datos.resolucion} 
+                    <Text style={styles.text}>{espacioEnBlanco(75)}OBJETO: Com. Inicio Sum. Policia Judicial</Text> 
+                    <Text style={styles.text}>{espacioEnBlanco(75)}"{datos.caratula_causa}"</Text>
+                    <Text style={styles.text}>{espacioEnBlanco(68)}Cumplo en dirigirme a Ud. llevando a su conocimiento que en la fecha {new Date(datos.fecha).getUTCDate()} de {meses[new Date(datos.fecha).getUTCMonth() + 1]} de {new Date(datos.fecha).getUTCFullYear()} radicó denuncia en esta unidad el ciudadano quien se identificó como {datos.nombre_victima} {datos.apellido_victima} de {datos.edad_victima} años de edad, nacionalidad {datos.nacionalidad_victima}, {datos.estado_civil_victima}, {datos.sabe_leer_y_escribir_victima ? "con instrucción" : "sin instrucción"}, {datos.ocupacion_victima}, con domicilio en {datos.direccion_victima}, DNI N° {datos.DNI_victima}, teléfono N° {datos.telefono_victima}. Quien radicó denuncia dando que cuenta: </Text>
+                    <Text style={styles.text}>{espacioEnBlanco(75)}{datos.observaciones}</Text>
+                    <Text style={styles.text}>{espacioEnBlanco(75)}Efectuando consulta con {datos.consulta}; Dispuso: {datos.resolucion} 
                     </Text>
 
                 </View>

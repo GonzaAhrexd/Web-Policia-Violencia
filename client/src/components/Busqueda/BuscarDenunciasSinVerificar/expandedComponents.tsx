@@ -10,7 +10,7 @@ ________________________________________________________________________________
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 import ShowTextArea from '../../../components/ShowData/ShowTextArea';
 
-interface expandedComponentsProps {
+type expandedComponentsProps = {
     data: any
 }
 

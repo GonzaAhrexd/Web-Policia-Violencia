@@ -14,7 +14,8 @@ import { useState } from 'react';
 import CargarAmpliacion from '../../components/Cargar/CargarAmpliacion/CargarAmpliacion';
 import CargarPreventivo from '../../components/Cargar/CargarPreventivo/CargarPreventivo';
 
-interface expandedComponentsProps {
+
+type expandedComponentsProps = {
     data: any
 }
 function expandedComponents({ data }: expandedComponentsProps) {
@@ -22,10 +23,12 @@ function expandedComponents({ data }: expandedComponentsProps) {
     const [ampliarDenuncia, setAmpliarDenuncia] = useState(false)
     const [crearPreventivo, setCrearPreventivo] = useState(false)
 
+
     const datosDenuncia = [
         {nombre: "Número de expediente", valor: data.numero_de_expediente},
-        {nombre: "Fecha de denuncia", valor: data.fecha},
-
+        {nombre: "Fecha de denuncia", valor: data.fecha}, 
+        {nombre: "División", valor: data.division},
+        {nombre: "Tipo de denuncia", valor: data.modo_actuacion},
     ]
 
     // Mostrar datos de los hijos
