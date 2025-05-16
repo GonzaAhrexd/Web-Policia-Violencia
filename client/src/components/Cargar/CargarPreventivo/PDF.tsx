@@ -252,13 +252,13 @@ function PDF({ datos, user }: PDFProps) {
             <View minPresenceAhead={150} wrap={false}>
                 <View style={styles.sectionSignatureEndContainer}>
                     <View style={styles.sectionSignatureEndSecretario}>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario}</Text>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario || datos.secretario.nombre_completo_secretario}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario || datos.secretario.jerarquia_secretario} {datos.plaza_secretario}</Text>
                         <Text style={styles.boldText}>-SECRETARIO-</Text>
                     </View>
                     <View style={styles.sectionSignatureEndText}>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_instructor}</Text>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_instructor}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_instructor || datos.instructor.nombre_completo_instructor}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_instructor || datos.instructor.jerarquia_instructor}</Text>
                         <Text style={styles.boldText}>-INSTRUCTOR-</Text>
                     </View>
                 </View>
@@ -282,11 +282,13 @@ function PDF({ datos, user }: PDFProps) {
                     <Text style={styles.text}>**********************************************************************************************************</Text>
                     <Text style={styles.text}>{datos.numero_nota}</Text>
                     <Text style={styles.text}>{espacioEnBlanco(75)}OBJETO: Com. Inicio Sum. Policia Judicial</Text> 
-                    <Text style={styles.text}>{espacioEnBlanco(75)}"{datos.caratula_causa}"</Text>
+                    <Text style={styles.text}>{espacioEnBlanco(75)}"{datos.objeto}"</Text>
                     <Text style={styles.text}>{espacioEnBlanco(68)}Cumplo en dirigirme a Ud. llevando a su conocimiento que en la fecha {new Date(datos.fecha).getUTCDate()} de {meses[new Date(datos.fecha).getUTCMonth() + 1]} de {new Date(datos.fecha).getUTCFullYear()} radicó denuncia en esta unidad el ciudadano quien se identificó como {datos.nombre_victima} {datos.apellido_victima} de {datos.edad_victima} años de edad, nacionalidad {datos.nacionalidad_victima}, {datos.estado_civil_victima}, {datos.sabe_leer_y_escribir_victima ? "con instrucción" : "sin instrucción"}, {datos.ocupacion_victima}, con domicilio en {datos.direccion_victima}, DNI N° {datos.DNI_victima}, teléfono N° {datos.telefono_victima}. Quien radicó denuncia dando que cuenta: </Text>
                     <Text style={styles.text}>{espacioEnBlanco(75)}{datos.observaciones}</Text>
-                    <Text style={styles.text}>{espacioEnBlanco(75)}Efectuando consulta con {datos.consulta}; Dispuso: {datos.resolucion} 
+                    <Text style={styles.text}>{espacioEnBlanco(75)}Efectuando consulta con {datos.consulta}; Dispuso: 
                     </Text>
+                    <Text style={styles.text}>{espacioEnBlanco(75)}{datos.resolucion}</Text>
+                    
 
                 </View>
                 <Footer />

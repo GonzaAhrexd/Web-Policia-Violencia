@@ -90,7 +90,6 @@ export const getDenunciasSinVerificarAvanzado = async (req, res) => {
             const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ fecha: { $gte: desde, $lte: hasta } })
             if(division != "no_ingresado"){
                 // Busca por division, municipio y comisaria
-                console.log(divisionJunto)
                 const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ division: divisionJunto })
 
                 

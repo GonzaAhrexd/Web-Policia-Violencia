@@ -1,50 +1,138 @@
 import preventivo from '../../models/preventivos'
 
+const mapPreventivoData = (body) => ({
+    supervision: body.supervision,
+    numero_nota: body.numero_nota,
+    fecha: body.fecha_preventivo,
+    division: body.division,
+    resolucion: body.resolucion,
+    objeto: body.objeto,
+    consultado: body.consultado,
+    autoridades: body.autoridades,
+    nombre_victima: body.nombre_victima,
+    apellido_victima: body.apellido_victima,
+    genero_victima: body.genero_victima || 'No especificado',
+    edad_victima: body.edad_victima,
+    DNI_victima: body.DNI_victima,
+    estado_civil_victima: body.estado_civil_victima,
+    ocupacion_victima: body.ocupacion_victima,
+    nacionalidad_victima: body.nacionalidad_victima,
+    direccion_victima: body.direccion_victima,
+    telefono_victima: body.telefono_victima,
+    sabe_leer_y_escribir_victima: body.sabe_leer_y_escribir_victima === 'Sí',
+    observaciones: body.observaciones + (body.agrega ? `\n${body.agrega}` : ''),
+    secretario: {
+        nombre_completo_secretario: body.nombre_completo_secretario,
+        jerarquia_secretario: body.jerarquia_secretario,
+        plaza_secretario: body.plaza_secretario
+    },
+    instructor: {
+        nombre_completo_instructor: body.nombre_completo_instructor,
+        jerarquia_instructor: body.jerarquia_instructor
+    }
+});
 
 export const createPreventivo = async (req, res) => {
-    try{
+    try {
+        const newPreventivo = new preventivo(mapPreventivoData(req.body));
+        await newPreventivo.save();
+        res.json({ message: 'Preventivo creado con éxito' });
+    } catch (error: any) {
+        console.error('Error creando preventivo:', error);
+        res.status(500).json({ message: 'Error al crear el preventivo', error: error.message });
+    }
+};
+
+export const editPreventivo = async (req, res) => {
+    console.log("Probando")
+    try {
+
+        const { id_preventivo } = req.params;
+        
+
+        const updatedPreventivo = await preventivo.findByIdAndUpdate(
+            id_preventivo,
+            mapPreventivoData(req.body),
+            { new: true }
+        );
+
+        if (!updatedPreventivo) {
+            return res.status(404).json({ message: 'Preventivo no encontrado' });
+        }
+        res.json(updatedPreventivo);
+    } catch (error:any) {
+        console.error('Error editando preventivo:', error);
+        res.status(500).json({ message: 'Error al editar el preventivo', error: error.message });
+    }
+};
+
+
+export const buscarPreventivo = async (req, res) => {
+    try {
         // Obtener los datos del cuerpo de la solicitud
-        const { nombre_victima, apellido_victima, edad_victima, DNI_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, sabe_leer_y_escribir_victima, observaciones, agrega, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, supervision, numero_nota, fecha_preventivo, caratula_causa,  resolucion, genero_victima, autoridades  } = req.body
-        console.log(req.body)
-        // Crear un nuevo objeto con los datos a insertar
-        const newPreventivo = new preventivo({
-            supervision: supervision,
-            numero_nota: numero_nota,
-            fecha: fecha_preventivo,
-            resolucion: resolucion,
-            caratula_causa: caratula_causa,
-            autoridades: autoridades,
-            nombre_victima: nombre_victima,
-            apellido_victima: apellido_victima,
-            genero_victima: genero_victima ? genero_victima : 'No especificado', 
-            edad_victima: edad_victima,
-            DNI_victima: DNI_victima, 
-            estado_civil_victima: estado_civil_victima,
-            ocupacion_victima: ocupacion_victima,
-            nacionalidad_victima: nacionalidad_victima,
-            direccion_victima: direccion_victima,
-            telefono_victima: telefono_victima,
-            sabe_leer_y_escribir_victima: sabe_leer_y_escribir_victima == "Sí" ? true : false,
-            observaciones: observaciones + (agrega != '' && `\n${agrega}`),
-        
-            secretario: {
-                nombre_completo_secretario: nombre_completo_secretario,
-                jerarquia_secretario: jerarquia_secretario,
-                plaza_secretario: plaza_secretario
-            },
-            instructor: {
-                nombre_completo_instructor: nombre_completo_instructor,
-                jerarquia_instructor: jerarquia_instructor
+        const { id_preventivo, numero_nota, desde, hasta, division } = req.params
+
+        // Si se ingresa el ID, buscar solo por ID
+        if (id_preventivo != "no_ingresado") {
+            const foundPreventivo = await preventivo.findById(id_preventivo)
+            if (!foundPreventivo) {
+                return res.status(404).json({ message: 'Preventivo no encontrado' })
             }
-        })
+            return res.json(foundPreventivo)
+        }
+        // Si se ingresa número de nota, buscar solo por número de nota
+        if (numero_nota  != "no_ingresado") {
+            const foundPreventivo = await preventivo.find({ 
+                numero_nota: numero_nota
+             })
+            if (!preventivo) {
+                return res.status(404).json({ message: 'Preventivo no encontrado' })
+            }
+            return res.json(foundPreventivo)
+        }
+        // Si se ingresa fecha, buscar por fecha
+        if ((desde  != "no_ingresado") && (hasta  != "no_ingresado"))  {
+            const foundPreventivo = await preventivo.find({ 
+                fecha: { $gte: desde, $lte: hasta } 
+            })
+            if (division != "no_ingresado") {
+                // Busca por division, municipio y comisaria
+                const foundPreventivo = await preventivo.find({
+                     fecha: { $gte: desde, $lte: hasta }, 
+                     division: division 
+                    })
 
-        // Guardar el nuevo objeto en la base de datos
-        const preventivoSave = await newPreventivo.save()
-        
-        // Respuesta del servidor
-        res.send('Preventivo creado con exito')
 
-    }catch (error) {
+                res.json(foundPreventivo);
+                return
+            }
+
+            if (!preventivo) {
+                return res.status(404).json({ message: 'Preventivo no encontrado' })
+            }
+            return res.json(foundPreventivo)
+        }
+
+
+
+    } catch (error) {
         console.log(error)
+    }
+
+}
+
+export const deletePreventivo = async (req, res) => {
+    try {
+        const { id_preventivo } = req.params
+        const deletedPreventivo = await preventivo.findByIdAndDelete(id_preventivo)
+        if (!deletedPreventivo) {
+            return res.status(404).json({ 
+                message: 'Preventivo no encontrado' 
+            })
+        }
+        res.json({ message: 'Preventivo eliminado con éxito' })
+    } catch (error: any) {
+        console.error('Error eliminando preventivo:', error)
+        res.status(500).json({ message: 'Error al eliminar el preventivo', error: error.message })
     }
 }

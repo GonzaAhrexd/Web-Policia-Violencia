@@ -16,7 +16,21 @@ const preventivoSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
-    caratula_causa: {
+    division: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    objeto: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    consultado: {
+        type: String, // Tipo de dato Boolean
+        required: true, // Campo requerido
+    },
+    observaciones: {
         type: String, // Tipo de dato String
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco

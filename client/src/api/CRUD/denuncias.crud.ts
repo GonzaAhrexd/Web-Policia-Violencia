@@ -97,3 +97,12 @@ export const cantidadDenuncias = async (values: any) => {
         console.log(error)
     }
 }
+
+export const getDenunciasEstadisticaAnual = async () => {
+    try {
+        const response = await axios.get(`/denuncias-estadistica-anual`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

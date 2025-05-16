@@ -7,7 +7,7 @@
 
 import { Router } from 'express'
 import { authRequired } from '../middlewares/validateToken'
-import { getMisDenuncias, getDenuncias, updateDenuncia, createDenuncia, deleteDenuncia, getDenunciasId, getCantidadDenuncias, editarImagenDenuncia } from '../controllers/CRUD/crudDenuncias'
+import { getMisDenuncias, getDenuncias, updateDenuncia, createDenuncia, deleteDenuncia, getDenunciasId, getCantidadDenuncias, editarImagenDenuncia, getDenunciasFullYear  } from '../controllers/CRUD/crudDenuncias'
 import path from 'path';
 
 const router: Router = Router()
@@ -41,6 +41,6 @@ router.get('/denuncias/:denunciaId/image', (req, res) => {
 })
 // Editar imagen de denuncia
 router.put('/editar-imagen-denuncia/', authRequired, editarImagenDenuncia)
-
+router.get("/denuncias-estadistica-anual", authRequired, getDenunciasFullYear)
 
 export default router

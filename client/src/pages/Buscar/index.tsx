@@ -8,6 +8,7 @@ import { useAuth } from '../../context/auth';
 // Hooks
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { useStore } from '../MisDenuncias/store';
 
 // Componentes
 import NavBar from '../../components/NavBar';
@@ -20,7 +21,7 @@ import BuscarExposiciones from '../../components/Busqueda/BuscarExposiciones/Bus
 import BuscarDenunciasSinVerificar from '../../components/Busqueda/BuscarDenunciasSinVerificar/BuscarDenunciasSinVerificar';
 import Footer from '../../components/Footer/Footer';
 import LoadingScreen from '../../components/LoadingScreen';
-import { useStore } from '../MisDenuncias/store';
+import BuscarPreventivos from '../../components/Busqueda/BuscarPreventivo/BuscarPreventivos';
 import Modal from '../../components/Modal';
 function Buscar() {
     // Autenticación
@@ -32,6 +33,7 @@ function Buscar() {
     const [mostrarDenuncias, setMostrarDenuncias] = useState(true)
     const [mostrarTerceros, setMostrarTerceros] = useState(false)
     const [mostrarExposiciones, setMostrarExposiciones] = useState(false)
+    const [mostrarPreventivo, setMostrarPreventivo] = useState(false)
     const [mostrarDenunciasSinVerificar, setMostrarDenunciasSinVerificar] = useState(false)
     const [buttonSelected, setButtonSelected] = useState('denuncias')
 
@@ -41,6 +43,7 @@ function Buscar() {
         setMostrarDenuncias(false)
         setMostrarTerceros(false)
         setMostrarExposiciones(false)
+        setMostrarPreventivo(false)
     }
 
     // Mostrar denuncias y ocultar los demás
@@ -76,10 +79,10 @@ function Buscar() {
 
     const handleMostrarPreventivo = () => {
         resetHooks()
-        setMostrarVictimas(true)
+        setMostrarPreventivo(true)
         setButtonSelected('preventivo')
     }
-    
+
 
     if (isLoading) return <LoadingScreen />
     if ((!isLoading) && (!isAuthenticated)) return <Navigate to="/login" replace />
@@ -101,6 +104,13 @@ function Buscar() {
                         <button className={`${buttonSelected == "exposicion" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarExposiciones()}> Exposiciones</button>
                     </div>
                 }
+                {
+                    (user?.rol === "agente") &&
+                    <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
+                           <button className={`${buttonSelected == "denuncias" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarDenuncias()}> Denuncias</button>
+                        <button className={`${buttonSelected == "preventivo" ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => handleMostrarPreventivo()}> Preventivo </button>
+                    </div>  
+                }
                 <div className='h-full p-2 sm:p-10'>
                     {((user?.rol === "admin") || (user?.rol == "carga")) &&
                         <>
@@ -109,23 +119,25 @@ function Buscar() {
                             {mostrarVictimarios && <BuscarVictimario />}
                             {mostrarTerceros && <BuscarTerceros />}
                             {mostrarDenuncias && <>
-                            <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
-                                <button className={`${mostrarDenunciasSinVerificar ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => setMostrarDenunciasSinVerificar(!mostrarDenunciasSinVerificar)}> {mostrarDenunciasSinVerificar ?  "Denuncias sin verificar" : "Denuncias verificadas"}</button>
-                            </div>
-                            { mostrarDenunciasSinVerificar ? <>
-                                <BuscarDenunciasSinVerificar />
-                            </> : 
-                                <BuscarDenuncias />
-                            }
+                                <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
+                                    <button className={`${mostrarDenunciasSinVerificar ? "bg-sky-700" : "bg-sky-950"} hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-2/10 lg:w-1/10 m-2 transform transition-transform duration-300 ease-in-out hover:scale-105`} onClick={() => setMostrarDenunciasSinVerificar(!mostrarDenunciasSinVerificar)}> {mostrarDenunciasSinVerificar ? "Denuncias sin verificar" : "Denuncias verificadas"}</button>
+                                </div>
+                                {mostrarDenunciasSinVerificar ? <>
+                                    <BuscarDenunciasSinVerificar />
+                                </> :
+                                    <BuscarDenuncias />
+                                }
                             </>
                             }
+                            {mostrarPreventivo && <BuscarPreventivos />}
                             {mostrarExposiciones && <BuscarExposiciones />}
                         </>
                     }
                     {user?.rol === "agente" &&
                         <>
                             <h1 className='text-3xl my-5'>Búsqueda</h1>
-                            <BuscarDenunciasSinVerificar />
+                            {mostrarDenuncias && <BuscarDenunciasSinVerificar />}
+                            {mostrarPreventivo && <BuscarPreventivos />}
                         </>
                     }
                 </div>
