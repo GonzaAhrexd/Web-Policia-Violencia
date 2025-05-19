@@ -6,9 +6,10 @@ interface PDFProps {
     user: any;
     tipoDenuncia: string;
     genero: string;
+    isBusqueda?: boolean;
 }
 
-function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
+function PDF({ genero, tipoDenuncia, datos, user, isBusqueda }: PDFProps) {
 
     const userDivisionZona = user.unidad.split(",")
 
@@ -17,10 +18,10 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
     const fecha: Date = new Date()
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
     // Obtener día, mes y año por separado
-    const dia = fecha.getDate()
-    const mes = meses[fecha.getMonth()]
-    const año = fecha.getFullYear()
-    const horaActual = fecha.getHours().toString().padStart(2, '0') + ":" + fecha.getMinutes().toString().padStart(2, '0')
+    const dia = isBusqueda ? new Date(datos.fecha).getDate() : fecha.getDate()
+    const mes = isBusqueda ? meses[new Date(datos.fecha).getMonth()] : meses[fecha.getMonth()]
+    const año = isBusqueda ? new Date(datos.fecha).getFullYear() : fecha.getFullYear()
+    const horaActual = isBusqueda ? datos.hora : fecha.getHours().toString().padStart(2, '0') + ":" + fecha.getMinutes().toString().padStart(2, '0')
 
     type division = {
         division: string,
@@ -203,13 +204,13 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
                 </View>
                 <View style={styles.sectionSignatureEndContainer}>
                     <View style={styles.sectionSignatureEndSecretario}>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario}</Text>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}> {!isBusqueda ? datos.nombre_completo_secretario : datos?.secretario?.nombre_completo_secretario}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}> {!isBusqueda ? datos.jerarquia_secretario : datos?.secretario?.jerarquia_secretario} {!isBusqueda ? datos.plaza_secretario : (datos?.secretario?.plaza_secretario != "Sin plaza" ? datos?.secretario?.plaza_secretario : "")}</Text>
                         <Text style={styles.boldText}>-SECRETARIO-</Text>
                     </View>
                     <View style={styles.sectionSignatureEndText}>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_instructor}</Text>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_instructor}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{!isBusqueda ? datos.nombre_completo_instructor : datos?.instructor?.nombre_completo_instructor}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{!isBusqueda ? datos.jerarquia_instructor : datos?.instructor?.jerarquia_instructor}</Text>
                         <Text style={styles.boldText}>-INSTRUCTOR-</Text>
                     </View>
                 </View>
@@ -225,7 +226,8 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
                     <Header />
                     <View style={styles.section}>
                         <View style={styles.sectionRight}>
-                            <Text>Expediente {datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____") + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>
+                            <Text>Expediente
+                                {isBusqueda ? datos.numero_de_expediente : datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____") + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>
                         </View>
                         <Text style={styles.subheader}>- EXPOSICIÓN -</Text>
                         <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ EXPOSICIÓN:--------------------------------------------------------/</Text>
@@ -256,7 +258,7 @@ function PDF({ genero, tipoDenuncia, datos, user }: PDFProps) {
                     <Header />
                     <View style={styles.section}>
                         <View style={styles.sectionRight}>
-                            <Text>Expediente {datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____") + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>
+                            <Text>Expediente {isBusqueda ? datos.numero_de_expediente : datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____") + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>  
                         </View>
                         <Text style={styles.subheader}>- DENUNCIA -</Text>
                         <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ DENUNCIA:--------------------------------------------------------/</Text>

@@ -3,18 +3,22 @@ import Swal from "sweetalert2";
 import InputRegister from "../InputComponents/InputRegister";
 import InputDate from "../InputComponents/InputDate";
 import InputCheckboxAcumulador from "../InputComponents/InputCheckboxAcumulador";
-import { editPreventivo } from "../../api/CRUD/preventivo.crud";
+import { editPreventivo, crearPreventivo } from "../../api/CRUD/preventivo.crud";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/auth";
 import { useCampos } from "../../context/campos";
 import InputTextArea from "../InputComponents/InputTextArea";
+import CargarInstructorYSecretario from "../Cargar/CargarAgente/CargarInstructor";
+import { pdf } from "@react-pdf/renderer";
+import PDF from "../Cargar/CargarPreventivo/PDF";
 
 type EditPrevencionProps = {
     data: any
+    modoExpandir: boolean
 }
 
-function EditPrevencion({ data }: EditPrevencionProps) {
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+function EditPrevencion({ data, modoExpandir }: EditPrevencionProps) {
+    const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm();
 
     const [stringAcumulador, setStringAcumulador] = useState("")
     const { user } = useAuth()
@@ -121,8 +125,103 @@ function EditPrevencion({ data }: EditPrevencionProps) {
         { id: 39, nombre: "Expte. y Archivo Dependencia", valor: "Expte. y Archivo Dependencia" }
     ];
 
+    const handlePrint = async () => {
+
+        const values = getValues()
 
 
+        const nuevosValores = {
+            ...data, // esto sobrescribe claves duplicadas con las de `data`
+            ...values,
+            autoridades: stringAcumulador
+        };
+
+        const blob = await pdf(<PDF datos={nuevosValores} user={user} />).toBlob();
+
+        // Crea una URL de objeto a partir del blob
+        const url = URL.createObjectURL(blob);
+        // Abre la URL en una nueva pestaña
+        window.open(url);
+
+    }
+
+
+    const editarPreventivo = (values) => {
+        Swal.fire({
+            title: '¿Está seguro de que desea editar el preventivo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0C4A6E',
+            cancelButtonColor: '#FF554C',
+            confirmButtonText: 'Sí, editar preventivo!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Preventivo editado!',
+                    text: 'El preventivo ha sido editado correctamente.',
+                    icon: 'success',
+                    confirmButtonColor: '#0C4A6E',
+                    cancelButtonColor: '#FF554C',
+                    confirmButtonText: 'Aceptar'
+                }
+                )
+
+                const instructor = {
+                    nombre_completo_instructor: data.instructor.nombre_completo_instructor,
+                    jerarquia_instructor: data.instructor.jerarquia_instructor
+                }
+                const secretario = {
+                    nombre_completo_secretario: data.secretario.nombre_completo_secretario,
+                    jerarquia_secretario: data.secretario.jerarquia_secretario,
+                    plaza_secretario: data.secretario.plaza_secretario
+                }
+
+                const nuevosValores = {
+                    ...data,
+                    ...instructor,
+                    ...secretario,
+                    ...values,
+                    autoridades: stringAcumulador
+                };
+
+                await editPreventivo(data._id, nuevosValores)
+
+            }
+        })
+    }
+
+    const expandirPreventivo = (values) => {
+        Swal.fire({
+            title: '¿Está seguro de que desea expandir el preventivo?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0C4A6E',
+            cancelButtonColor: '#FF554C',
+            confirmButtonText: 'Sí, editar preventivo!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Preventivo editado!',
+                    text: 'El preventivo ha sido editado correctamente.',
+                    icon: 'success',
+                    confirmButtonColor: '#0C4A6E',
+                    cancelButtonColor: '#FF554C',
+                    confirmButtonText: 'Aceptar'
+                }
+                )
+
+
+                const nuevosValores = {
+                    ...data,
+                    ...values,
+                    autoridades: stringAcumulador
+                };
+
+                await crearPreventivo(nuevosValores)
+
+            }
+        })
+    }
 
 
     return (
@@ -132,46 +231,11 @@ function EditPrevencion({ data }: EditPrevencionProps) {
                 className='flex flex-col w-full'
                 onSubmit={
                     handleSubmit(async (values) => {
-                        Swal.fire({
-                            title: '¿Está seguro de que desea editar el preventivo?',
-                            text: "No podrá modificarlo después.",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#0C4A6E',
-                            cancelButtonColor: '#FF554C',
-                            confirmButtonText: 'Sí, editar preventivo!'
-                        }).then(async (result) => {
-                            if (result.isConfirmed) {
-                                Swal.fire({
-                                    title: 'Preventivo editado!',
-                                    text: 'El preventivo ha sido editado correctamente.',
-                                    icon: 'success',
-                                    confirmButtonColor: '#0C4A6E',
-                                    cancelButtonColor: '#FF554C',
-                                    confirmButtonText: 'Aceptar'
-                                }
-                                )
-
-                                const instructor = {
-                                    nombre_completo_instructor: data.instructor.nombre_completo_instructor,
-                                    jerarquia_instructor: data.instructor.jerarquia_instructor
-                                }
-                                const secretario = {
-                                    nombre_completo_secretario: data.secretario.nombre_completo_secretario,
-                                    jerarquia_secretario: data.secretario.jerarquia_secretario,
-                                    plaza_secretario: data.secretario.plaza_secretario
-                                }
-
-                                const nuevosValores = {
-                                    ...data,
-                                    ...instructor,
-                                    ...secretario,
-                                    ...values,
-                                    autoridades: stringAcumulador
-                                };
-                                await editPreventivo(data._id, nuevosValores)
-                            }
-                        })
+                        if (modoExpandir) {
+                            expandirPreventivo(values)
+                        } else {
+                            editarPreventivo(values)
+                        }
                     })
                 }>
                 <div className='flex flex-col items-center justify-center'>
@@ -194,11 +258,21 @@ function EditPrevencion({ data }: EditPrevencionProps) {
                         <InputCheckboxAcumulador defaultSelected={stringSeparado} opciones={autoridadesOpciones} stringAcumulador={stringAcumulador} setStringAcumulador={setStringAcumulador} />
                     </div>
                 </div>
+                {modoExpandir &&
+                    <div className='flex flex-col'>
+                        <CargarInstructorYSecretario register={register} setValue={setValue} errors={errors} />
+                    </div>
+                }
 
                 <div className='flex flex-row items-center justify-center'>
                     <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10'>
-                        Editar preventivo
+                        {modoExpandir ? "Crear preventivo" : "Editar preventivo"}
                     </button>
+                    {modoExpandir && 
+                    <div className="bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0" onClick={() => handlePrint()}>
+                         Imprimir
+                    </div>
+                    }
                 </div>
 
             </form >

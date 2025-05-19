@@ -9,14 +9,17 @@ export const createDenunciaSinVerificar = async (req, res) => {
         const usuario = await usuarios.findById(req.user.id)
         const division = usuario?.unidad
         // Obtener los datos de la denuncia
-        const { nombre_victima, numero_de_expediente, fecha, apellido_victima, genero, edad_victima, dni_victima, estado_civil_victima, modo_actuacion, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
+        const { nombre_victima, numero_de_expediente, fecha, hora, apellido_victima, genero, edad_victima, dni_victima, estado_civil_victima, modo_actuacion, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega, direccion, telefono } = req.body
         // Crear la denuncia
         const newDenunciaSinVerificar = new denunciaSinVerificar({
             estado: "En verificación",
             cargado_por: req.user.id,
             numero_de_expediente: numero_de_expediente,
             fecha: fecha,
+            hora: hora,
             division: division,
+            direccion: direccion,
+            telefono: telefono,
             nombre_victima: nombre_victima,
             apellido_victima: apellido_victima,
             edad_victima: edad_victima,

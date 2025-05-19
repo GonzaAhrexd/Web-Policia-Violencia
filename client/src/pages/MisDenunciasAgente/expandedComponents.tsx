@@ -13,8 +13,10 @@ import { useState } from 'react';
 
 import CargarAmpliacion from '../../components/Cargar/CargarAmpliacion/CargarAmpliacion';
 import CargarPreventivo from '../../components/Cargar/CargarPreventivo/CargarPreventivo';
+import { pdf } from '@react-pdf/renderer';
+import PDF from '../../pages/CargarDenuncias/PDF'
 
-
+import { useAuth } from '../../context/auth';
 type expandedComponentsProps = {
     data: any
 }
@@ -23,6 +25,15 @@ function expandedComponents({ data }: expandedComponentsProps) {
     const [ampliarDenuncia, setAmpliarDenuncia] = useState(false)
     const [crearPreventivo, setCrearPreventivo] = useState(false)
 
+    const { user } = useAuth()
+    
+  const handleImprimir = async () => {
+    const blob = await pdf(<PDF isBusqueda={true} genero={data.genero_victima} tipoDenuncia={data.modo_actuacion} datos={data} user={user} />).toBlob();
+    // Crea una URL de objeto a partir del blob
+    const url = URL.createObjectURL(blob);
+    // Abre la URL en una nueva pestaña
+    window.open(url);
+  }
 
     const datosDenuncia = [
         {nombre: "Número de expediente", valor: data.numero_de_expediente},
@@ -123,6 +134,11 @@ function expandedComponents({ data }: expandedComponentsProps) {
         <h2 className='text-3xl my-5 font-sans'>Instructor</h2>
         <div className='flex flex-row'>
             <SimpleTableCheckorX campo="" datos={instructorDatosMostrar} />
+        </div>
+
+        {/* Botón de imprimir */}
+        <div className='flex flex-col items-center justify-center'>
+            <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10" onClick={() => handleImprimir()}> Imprimir </button>
         </div>
     </div>
 }

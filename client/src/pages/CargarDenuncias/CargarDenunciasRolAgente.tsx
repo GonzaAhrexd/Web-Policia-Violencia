@@ -16,7 +16,6 @@ import CargarTipoDeDenuncia from '../../components/Cargar/CargarAgente/CargarTip
 import PDF from './PDF';
 import InputExpediente from '../../components/InputComponents/InputExpediente';
 import InputRegister from '../../components/InputComponents/InputRegister';
-import InputDate from '../../components/InputComponents/InputDate';
 import { useCampos } from '../../context/campos';
 
 import { useStore } from './store';
@@ -48,7 +47,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
   // Función para imprimir
   const handleImprimir = async () => {
     const datos = getValues()
-    const blob = await pdf(<PDF genero={genero} tipoDenuncia={tipoDenuncia} datos={datos} user={user} />).toBlob();
+    const blob = await pdf(<PDF isBusqueda={false} genero={genero} tipoDenuncia={tipoDenuncia} datos={datos} user={user} />).toBlob();
     // Crea una URL de objeto a partir del blob
     const url = URL.createObjectURL(blob);
     // Abre la URL en una nueva pestaña
@@ -162,6 +161,17 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
                     values.modo_actuacion = values.modo_actuacion_2
                   }
 
+                  // Crea un date con la fecha actual, pero haz que quede siempre guardado como hora 00:00
+                  const fecha = new Date().setHours(0, 0, 0, 0)
+
+                  const horaActual = new Date().getHours().toString().padStart(2, '0') + ":" + new Date().getMinutes().toString().padStart(2, '0')
+
+                  values.fecha = fecha
+                  values.hora = horaActual
+
+
+
+
                   values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
                   crearDenunciaSinVerificar(values)
                 }
@@ -194,7 +204,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               </div>
                 <div className='flex flex-row w-full justify-center'>
                   <div className='flex flex-row w-full lg:w-8/10 xl:w-6/10'>
-                  <InputDate campo="Fecha" nombre="fecha" register={register}  error={errors.fecha} type="date" /> 
+                  {/* <InputDate campo="Fecha" nombre="fecha" register={register}  error={errors.fecha} type="date" />  */}
                     <InputRegister valor={direccionValor} campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
                     <InputRegister valor={telefonoValor} campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
                   </div>

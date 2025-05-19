@@ -5,11 +5,10 @@ import Swal from "sweetalert2";
 // Iconos
 import { TrashIcon } from '@heroicons/react/24/solid'
 import { PencilSquareIcon } from '@heroicons/react/24/outline'
-import { PrinterIcon } from "@heroicons/react/24/outline";
+import { PrinterIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 import EditPrevencion from "../../EditMode/EditPrevencion";
-
 // Context
 import { useAuth } from "../../../context/auth"
 // BackEnd
@@ -25,6 +24,7 @@ type expandedComponentProps = {
 function expandedComponent({ data }: expandedComponentProps) {
 
     const [editGlobal, setEditGlobal] = useState(false)
+    const [modoPreventivo, setModoPreventivo] = useState(false)
     const { user } = useAuth();
 
     const handlePrint = async () => {
@@ -88,13 +88,25 @@ function expandedComponent({ data }: expandedComponentProps) {
         }
     }
 
+    const expandirPreventivo = () => {
+        setModoPreventivo(true)
+    }
+    
+
     if(editGlobal) {
         return (
-                <EditPrevencion data={data} />
+                <EditPrevencion modoExpandir={false} data={data} />
         )
     }
     else {
+        if(modoPreventivo){
+            return (
+                <EditPrevencion modoExpandir={true} data={data}/>
+            )
+        }else{
+        
     return (
+        
         <div>
             <div className='flex items-center'>
                 <h1 className='text-3xl my-5 font-sans mr-4'>Datos preventivo</h1>
@@ -128,6 +140,9 @@ function expandedComponent({ data }: expandedComponentProps) {
             </div>
 
             <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
+                <div className="bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0" onClick={() => expandirPreventivo()}>
+                    <PlusCircleIcon className="w-7" /> 
+                </div> 
                 <div className="bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0" onClick={() => handlePrint()}>
                     <PrinterIcon className="w-7" /> 
                 </div>
@@ -148,7 +163,7 @@ function expandedComponent({ data }: expandedComponentProps) {
 
 
     )
-    }
+    }}
 }
 
 export default expandedComponent
