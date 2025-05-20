@@ -2,12 +2,13 @@ import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/render
 import { useState } from 'react';
 
 interface PDFProps {
+    isBusqueda: boolean;   
     datos: any;
     user: any;
     genero: string;
 }
 
-function PDF({ genero, datos, user }: PDFProps) {
+function PDF({isBusqueda, genero, datos, user }: PDFProps) {
 
     const userDivisionZona = user.unidad.split(",")
 
@@ -223,8 +224,8 @@ function PDF({ genero, datos, user }: PDFProps) {
                     <Header />
                     <View style={styles.section}>
                         <View style={styles.sectionRight}>
-                            <Text>Expediente {datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____") + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>
-                        </View>
+                           <Text>Expediente {isBusqueda ? datos.numero_de_expediente : datos.PrefijoExpediente + (datos.numero_de_expediente ? datos.numero_de_expediente : "_____") + (datos.Expediente ? datos.Expediente : "_____") + datos.SufijoExpediente}</Text>
+                           </View>
                         <Text style={styles.subheader}>- AMPLIACIÓN DE DENUNCIA -</Text>
                         <Text style={styles.text}>{datos.nombre_victima} {datos.apellido_victima} S/ AMPLIACIÓN DE DENUNCIA: ---------------------------------------/</Text>
                         <Text style={styles.longText}>

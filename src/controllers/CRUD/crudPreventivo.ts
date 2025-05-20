@@ -1,5 +1,5 @@
 import preventivo from '../../models/preventivos'
-
+import denunciaSinVerificar from '../../models/denunciaSinVerificar'
 const mapPreventivoData = (body) => ({
     supervision: body.supervision,
     numero_nota: body.numero_nota,
@@ -35,7 +35,16 @@ const mapPreventivoData = (body) => ({
 export const createPreventivo = async (req, res) => {
     try {
         const newPreventivo = new preventivo(mapPreventivoData(req.body));
+        // Busca el ID de la denuncia en la base de datos y agregale en preventivoID el id recién creado
+        const foundDenuncia = await denunciaSinVerificar.findById(req.body._id);
+        if (!foundDenuncia) {
+            return res.status(404).json({ message: 'Denuncia no encontrada' });
+        }
+        // Agrega el ID del preventivo a la denuncia
+        foundDenuncia.preventivo_ID = newPreventivo._id.toString();
+        // Guarda la denuncia con el ID del preventivo
         await newPreventivo.save();
+        await foundDenuncia.save();
         res.json({ message: 'Preventivo creado con éxito' });
     } catch (error: any) {
         console.error('Error creando preventivo:', error);
@@ -120,6 +129,20 @@ export const buscarPreventivo = async (req, res) => {
     }
 
 }
+
+export const buscarPreventivoID = async (req, res) => {
+    try {
+        const { id_preventivo } = req.params
+        const foundPreventivo = await preventivo.findById(id_preventivo)
+        if (!foundPreventivo) {
+            return res.status(404).json({ message: 'Preventivo no encontrado' })
+        }
+        res.json(foundPreventivo)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 export const deletePreventivo = async (req, res) => {
     try {

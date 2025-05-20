@@ -52,7 +52,7 @@ function MisDenunciasAgente() {
     // Se obtiene el usuario y se verifica si está autenticado
     const { user, isAuthenticated, isLoading } = useAuth();
     // Si está cargando, mostrar una pantalla de carga
-    if (isLoading) return <LoadingScreen/>
+    if (isLoading) return <LoadingScreen />
     // Si no está autenticado, redirigir a la página de login
     if (!isLoading && !isAuthenticated && user.rol == "sin_definir") return <Navigate to="/login" replace />
 
@@ -66,7 +66,7 @@ function MisDenunciasAgente() {
                     })}>
                 <InputDateRange register={register} setValue={setValue} isRequired={false} />
                 <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
-                <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo"  setValue={setValue}></InputCheckbox>
+                <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" setValue={setValue}></InputCheckbox>
                 <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-3/10"> Buscar</button>
             </form>
 

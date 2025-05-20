@@ -173,6 +173,22 @@ const denunciaSinVerificarSchema = new mongoose.Schema({
             trim: true // Trim para que no se guarden espacios en blanco
         }
     },
+    ampliaciones_IDs: {
+        // Array de Strings con ids
+        type: [String], // Tipo de dato Array de String
+        required: false, // Campo no requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    preventivo_ID: {
+        type: String, // Tipo de dato String
+        required: false, // Campo no requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    radiograma_ID: {
+        type: String, // Tipo de dato String
+        required: false, // Campo no requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    }
 },
     {
         timestamps: true // Timestamps para que guarde la fecha de creación y actualización

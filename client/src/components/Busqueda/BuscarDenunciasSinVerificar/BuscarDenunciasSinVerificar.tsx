@@ -61,7 +61,7 @@ function BuscarDenunciasSinVerificar() {
                         } else if (user.rol == "agente") {
                             values.division = user.unidad
                         }
-                        handleBusqueda(values)
+                        await handleBusqueda(values)
                     }
                     )}>
                 <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} />

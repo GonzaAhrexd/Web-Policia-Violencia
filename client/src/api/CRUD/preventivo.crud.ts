@@ -46,3 +46,11 @@ export const deletePreventivo = async (id: string) => {
     }
 }
 
+export const getPreventivo = async (id: string) => {
+    try {
+        const response = await axios.get(`/buscar-preventivo/${id}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

@@ -18,7 +18,7 @@ import InputDate from "../../InputComponents/InputDate"
 import InputRegister from "../../InputComponents/InputRegister"
 import InputTextArea from "../../InputComponents/InputTextArea"
 import PDF from "./PDF"
-import { crearDenunciaSinVerificar } from "../../../api/CRUD/denunciasSinVerificar.crud"
+import { crearDenunciaSinVerificar, agregarAmpliacionDenuncia } from "../../../api/CRUD/denunciasSinVerificar.crud"
 type CargarAmpliacionProps = {
   data: any;
   setAmpliarDenuncia: any;
@@ -142,22 +142,33 @@ function CargarAmpliacion({ data, setAmpliarDenuncia }: CargarAmpliacionProps) {
     <div>
       <div className='flex flex-col items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full ' onClick={() => setAmpliarDenuncia(false)} >Cancelar</div>
       <h1 className='text-3xl my-5 font-sans'>Ampliación de denuncias </h1>
-      <form action="" onSubmit={handleSubmit(async (data) => {
+      <form action="" onSubmit={handleSubmit(async (values) => {
         Swal.fire({
           title: '¿Está seguro de que desea enviar la ampliación de denuncia?',
-          showDenyButton: true,
+          icon: 'warning',
           showCancelButton: true,
-          confirmButtonText: 'Enviar',
-          denyButtonText: `No enviar`,
-        }).then((result) => {
+          confirmButtonColor: '#0C4A6E',
+          cancelButtonColor: '#FF554C',
+          confirmButtonText: 'Sí, enviar!'
+        }).then(async (result) => {
           if (result.isConfirmed) {
-            data.modo_actuacion = "Ampliación de denuncia"
-            data.numero_de_expediente = data.PrefijoExpediente + data.numero_de_expediente + data.Expediente + data.SufijoExpediente
-            
-            crearDenunciaSinVerificar(data)
-            
+            values.modo_actuacion = "Ampliación de denuncia"
+            values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
+            const fecha = new Date().setHours(0, 0, 0, 0)
+
+            const horaActual = new Date().getHours().toString().padStart(2, '0') + ":" + new Date().getMinutes().toString().padStart(2, '0')
+
+            values.fecha = fecha
+            values.hora = horaActual
+
+
+            const denunciaAmpliada: any = await crearDenunciaSinVerificar(values)
+            console.log( data._id)
+
+            console.log("ID:" + denunciaAmpliada._id)
+            await agregarAmpliacionDenuncia(data._id, denunciaAmpliada._id)
             Swal.fire('Enviada!', '', 'success')
-            setAmpliarDenuncia(false)
+            // setAmpliarDenuncia(false)
           } else if (result.isDenied) {
             Swal.fire('No se envió la ampliación', '', 'info')
           }

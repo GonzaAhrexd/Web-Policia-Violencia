@@ -173,7 +173,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
 
 
                   values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
-                  crearDenunciaSinVerificar(values)
+                  await crearDenunciaSinVerificar(values)
                 }
                 Swal.fire({
                   title: `${values.modo_actuacion == "Exposición" ? "Exposición" : "Denuncia"} cargada`,

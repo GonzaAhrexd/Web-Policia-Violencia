@@ -11,7 +11,7 @@ import { Router } from 'express';
 // Importamos los middlewares que vamos a utilizar
 import { authRequired } from '../middlewares/validateToken';
 // Importamos los controladores que vamos a utilizar
-import { createDenunciaSinVerificar, validarDenuncia, getDenunciasSinVerificar,  deleteDenunciaSinVerificar, listarMisDenunciasSinVerificar, getDenunciasSinVerificarAvanzado  } from '../controllers/CRUD/crudDenunciasSinVerificar' 
+import { createDenunciaSinVerificar, validarDenuncia, getDenunciasSinVerificar,  deleteDenunciaSinVerificar, listarMisDenunciasSinVerificar, getDenunciasSinVerificarAvanzado, getDenunciasSinVerificarByIdArray, agregarAmpliacionDenuncia  } from '../controllers/CRUD/crudDenunciasSinVerificar' 
 
 // Llamamos a router para definir las rutas del api
 const router:Router = Router();
@@ -28,5 +28,6 @@ router.delete('/eliminar-denuncias-sin-verificar/:id', authRequired,  deleteDenu
 router.put('/validar-denuncia/:id', authRequired,validarDenuncia )
 // Buscar denuncias sin verificar por el id del usuario
 router.get('/mis-denuncias-sin-verificar/:desde/:hasta/:numero_de_expediente/', authRequired, listarMisDenunciasSinVerificar)
-
+router.get('/buscar-ampliaciones/:id', authRequired, getDenunciasSinVerificarByIdArray)
+router.put('/agregar-ampliacion/:id/:idAmpliacion', authRequired, agregarAmpliacionDenuncia)
 export default router

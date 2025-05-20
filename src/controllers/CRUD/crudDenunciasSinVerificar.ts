@@ -52,7 +52,7 @@ export const createDenunciaSinVerificar = async (req, res) => {
         })
         // Guardar la denuncia
         const denunciaSinVerificarSaved = await newDenunciaSinVerificar.save()
-        res.send('Denuncia creada con exito')
+        res.json(denunciaSinVerificarSaved)
 
     } catch (error) {
         console.log(error)
@@ -73,40 +73,69 @@ export const getDenunciasSinVerificar = async (req, res) => {
 export const getDenunciasSinVerificarAvanzado = async (req, res) => {
     try {
         const { division, municipio, comisaria, desde, hasta, id, expediente } = req.params
-        const divisionJunto = division + (municipio != "no_ingresado" ? ", " + municipio + (comisaria != "no_ingresado" ? ", " + comisaria : "") : "") 
+        const divisionJunto = division + (municipio != "no_ingresado" ? ", " + municipio + (comisaria != "no_ingresado" ? ", " + comisaria : "") : "")
 
-        if(id != "no_ingresado"){
+        if (id != "no_ingresado") {
             // Busca por id
-            const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ division:division, _id: id })
+            const obtenerDenunciasSinVerificar = await denunciaSinVerificar.findById(id)
+            // Convierte a un array con ese único elemento
+            res.json([obtenerDenunciasSinVerificar]);
+            return
+        }
+
+        if (expediente != "no_ingresado") {
+            // Busca por expediente
+            const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ division: division, numero_de_expediente: expediente })
             res.json(obtenerDenunciasSinVerificar);
             return
         }
-        
-        if(expediente != "no_ingresado"){
-            // Busca por expediente
-            const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ division:division, numero_de_expediente: expediente })
-            res.json(obtenerDenunciasSinVerificar);
-            return 
-        }
-        if(desde != "no_ingresado" && hasta != "no_ingresado"){
+        if (desde != "no_ingresado" && hasta != "no_ingresado") {
             // Busca por fecha
             const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ fecha: { $gte: desde, $lte: hasta } })
-            if(division != "no_ingresado"){
+            if (division != "no_ingresado") {
                 // Busca por division, municipio y comisaria
                 const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ division: divisionJunto })
 
-                
+
                 res.json(obtenerDenunciasSinVerificar);
-                return 
+                return
             }
             res.json(obtenerDenunciasSinVerificar);
-            return 
+            return
         }
-      
+
     } catch (error) {
         res.status(500).json({ message: 'Hubo un error al obtener las denuncias.' });
     }
 
+}
+
+export const getDenunciasSinVerificarByIdArray = async (req, res) => {
+
+    try {
+        let listaDenunciasArray: any = []
+        const { id } = req.params
+        // Busca por id a la denuncia
+        const denunciaFound = await denunciaSinVerificar.findById(id)
+
+        // Ahora itera sobre el array de id de ampliaciones y devuelvelelo
+
+        if (!denunciaFound) {
+            res.status(404).json({ message: 'No se encontró la denuncia.' });
+            return
+        }
+
+        // @ts-ignore
+        for (const id of denunciaFound?.ampliaciones_IDs) {
+            const denunciaAmpliadaFound = await denunciaSinVerificar.findById(id)
+            listaDenunciasArray.push(denunciaAmpliadaFound)
+        }
+
+        res.json(listaDenunciasArray)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: 'Hubo un error al obtener las denuncias.' });
+    }
 }
 
 // Editar denuncias sin verificar y que cambie a estado Aprobado
@@ -137,6 +166,20 @@ export const listarMisDenunciasSinVerificar = async (req, res) => {
     try {
         const misDenunciasSinVerificar = await denunciaSinVerificar.find({ cargado_por: req.user.id })
         res.json(misDenunciasSinVerificar)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const agregarAmpliacionDenuncia = async (req, res) => {
+    try {
+        const { id, idAmpliacion } = req.params
+
+        console.log(id)
+        console.log(idAmpliacion)
+
+        const denunciaSinVerificarUpdate = await denunciaSinVerificar.findByIdAndUpdate(id, { $push: { ampliaciones_IDs: idAmpliacion } })
+        res.json(denunciaSinVerificarUpdate)
     } catch (error) {
         console.log(error)
     }
