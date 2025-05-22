@@ -1,151 +1,138 @@
-import { useForm } from 'react-hook-form';
-import InputRegister from '../../../components/InputComponents/InputRegister'
-import InputDate from '../../../components/InputComponents/InputDate'
-import InputTextArea from '../../InputComponents/InputTextArea';
-import CargarInstructorYSecretario from '../../Cargar/CargarAgente/CargarInstructor'
-import Swal from 'sweetalert2';
-import { crearPreventivo } from '../../../api/CRUD/preventivo.crud';
-import { pdf } from '@react-pdf/renderer';
-import PDF from './PDF';
-import { useAuth } from '../../../context/auth'
-import { useEffect, useState } from 'react';
-import { useCampos } from '../../../context/campos';
-import InputCheckboxAcumulador from '../../InputComponents/InputCheckboxAcumulador';
+/*
+_____________________________________________________________________________________________
+Uso del componente:
+  CargarPreventivo se utiliza para crear un preventivo asociado a una denuncia en /MisDenuncias.
+  Permite completar un formulario con datos del preventivo, generar un PDF y confirmar la creación
+  del preventivo mediante una API. También carga información de dirección y supervisión según la
+  unidad del usuario autenticado.
+_____________________________________________________________________________________________
+*/
 
+// Importaciones
+// Librerías y utilidades
+import { useForm } from 'react-hook-form'; // Hook para manejar formularios
+import { pdf } from '@react-pdf/renderer'; // Utilidad para generar documentos PDF
+import { useAuth } from '../../../context/auth'; // Hook para obtener el usuario autenticado
+import { useEffect, useState } from 'react'; // Hooks para efectos secundarios y estado
+import Swal from 'sweetalert2'; // Librería para mostrar alertas interactivas
 
+// Componentes personalizados
+import InputRegister from '../../../components/InputComponents/InputRegister'; // Componente para campos de texto
+import InputDate from '../../../components/InputComponents/InputDate'; // Componente para campos de fecha
+import InputTextArea from '../../InputComponents/InputTextArea'; // Componente para áreas de texto
+import InputCheckboxAcumulador from '../../InputComponents/InputCheckboxAcumulador'; // Componente para checkboxes acumuladores
+import CargarInstructorYSecretario from '../../Cargar/CargarAgente/CargarInstructor'; // Componente para cargar datos de instructor y secretario
+import PDF from './PDF'; // Componente para generar el PDF del preventivo
+
+// Funciones de API
+import { crearPreventivo } from '../../../api/CRUD/preventivo.crud'; // Función para crear un preventivo
+import { getPreventivo } from '../../../api/CRUD/preventivo.crud'; // Función para obtener datos de un preventivo
+import { mostrarDenunciasSinVerificarID } from '../../../api/CRUD/denunciasSinVerificar.crud'; // Función para obtener una denuncia por ID
+import { useCampos } from '../../../context/campos'; // Hook para obtener datos de unidades
+
+// Componentes y contexto
+import autoridadesOpciones from '../../../GlobalConst/autoridadesCampos';
+
+// Tipos
+// Define las propiedades del componente
 type CargarPreventivoProps = {
-    setCrearPreventivo: any;
-    data: any;
-}
-
+    setCrearPreventivo: any; // Función para cerrar el formulario
+    data: any; // Datos de la denuncia asociada
+};
+const direccionDivisiones: any[] = [
+    { division: "Metropolitana", direccion: "Avenida Alvear Nº 126", telefono: "362461832" },
+    { division: "La Leonesa", direccion: "Santiago del Estero y Entre Ríos", telefono: "3624644562" },
+    { division: "Lapachito", direccion: "25 de Mayo S/N", telefono: "3624605783" },
+    { division: "Roque Saenz Peña", direccion: "Calle 7e/12 y 14", telefono: "3644431835" },
+    { division: "Villa Ángela", direccion: "Echeverría N° 35", telefono: "3735 431438" },
+    { division: "General San Martín", direccion: "Esq. Maipú y Urquiza", telefono: "3725422202" },
+    { division: "Charata", direccion: "9 de Julio N° 575", telefono: "3624222322" },
+    { division: "Juan José Castelli", direccion: "Av. Perón N° 470", telefono: "3624702665" }
+]
 
 function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
+    const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm(); // Hook para manejar el formulario
+    const { user } = useAuth(); // Obtiene el usuario autenticado
+    const { unidades } = useCampos(); // Obtiene las unidades desde el contexto
+    const [numeroNotaAnterior, setNumeroNotaAnterior] = useState(''); // Número de nota del preventivo base (para ampliaciones)
+    const [objetoAnterior, setObjetoAnterior] = useState(''); // Objeto del preventivo base (para ampliaciones)
+    const [direccionValor, setDireccionValor] = useState(''); // Dirección de la unidad
+    const [telefonoValor, setTelefonoValor] = useState(''); // Teléfono de la unidad
+    const [supervisionValor, setSupervisionValor] = useState(''); // Supervisión de la unidad
+    const [stringAcumulador, setStringAcumulador] = useState(''); // Acumula las autoridades seleccionadas
 
-    const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm();
-    const { user } = useAuth()
-
-    const handlePrint = async () => {
-
-        const values = getValues()
-
-
-        const nuevosValores = {
-            ...data, // esto sobrescribe claves duplicadas con las de `data`
-            ...values,
-            autoridades: stringAcumulador
-        };
-
-        const blob = await pdf(<PDF datos={nuevosValores} user={user} />).toBlob();
-
-        // Crea una URL de objeto a partir del blob
-        const url = URL.createObjectURL(blob);
-        // Abre la URL en una nueva pestaña
-        window.open(url);
-
-    }
-
-
-    const [direccionValor, setDireccionValor] = useState('')
-    const [telefonoValor, setTelefonoValor] = useState('')
-    const [supervisionValor, setSupervisionValor] = useState('')
-    const { unidades } = useCampos()
-
-    const direccionDivisiones: any[] = [
-        { division: "Metropolitana", direccion: "Avenida Alvear Nº 126", telefono: "362461832" },
-        { division: "La Leonesa", direccion: "Santiago del Estero y Entre Ríos", telefono: "3624644562" },
-        { division: "Lapachito", direccion: "25 de Mayo S/N", telefono: "3624605783" },
-        { division: "Roque Saenz Peña", direccion: "Calle 7e/12 y 14", telefono: "3644431835" },
-        { division: "Villa Ángela", direccion: "Echeverría N° 35", telefono: "3735 431438" },
-        { division: "General San Martín", direccion: "Esq. Maipú y Urquiza", telefono: "3725422202" },
-        { division: "Charata", direccion: "9 de Julio N° 575", telefono: "3624222322" },
-        { division: "Juan José Castelli", direccion: "Av. Perón N° 470", telefono: "3624702665" }
-    ]
-
+    // Efecto para cargar dirección, teléfono y supervisión según la unidad del usuario
     useEffect(() => {
-        const unidadesSeparadas = user.unidad.split(",")
-        const unidadViolencia = "División Violencia Familiar y Género " + unidadesSeparadas[0]
-        const municipio = unidadesSeparadas[1]?.trim()
-        const comisaria = unidadesSeparadas[2]?.trim()
+        const unidadesSeparadas = user.unidad.split(','); // Divide la unidad del usuario en partes
+        const unidadViolencia = `División Violencia Familiar y Género ${unidadesSeparadas[0]}`; // Construye el nombre de la unidad
+        const municipio = unidadesSeparadas[1]?.trim(); // Municipio (si existe)
+        const comisaria = unidadesSeparadas[2]?.trim(); // Comisaría (si existe)
 
-        if (municipio == undefined && comisaria == undefined) {
-            setDireccionValor(direccionDivisiones.find((division) => division.division === unidadesSeparadas[0])?.direccion)
-            setTelefonoValor(direccionDivisiones.find((division) => division.division === unidadesSeparadas[0])?.telefono)
-            setSupervisionValor("Dpto. de Violencia Familiar y Género")
-        } else if (comisaria == undefined) {
-
+        // Caso 1: Solo división (sin municipio ni comisaría)
+        if (!municipio && !comisaria) {
+            const division = direccionDivisiones.find((div) => div.division === unidadesSeparadas[0]);
+            setDireccionValor(division?.direccion || '');
+            setTelefonoValor(division?.telefono || '');
+            setSupervisionValor('Dpto. de Violencia Familiar y Género');
+        }
+        // Caso 2: División y municipio (sin comisaría)
+        else if (!comisaria) {
             const unidadEncontrada = unidades.find((unidad: any) => unidad.nombre === unidadViolencia);
-
-            const municipioEncontrado = unidadEncontrada && Array.isArray(unidadEncontrada.subdivisiones)
-                ? unidadEncontrada.subdivisiones.find((subdivision: any) => subdivision?.nombre === municipio)
-                : null;
-
-            setDireccionValor(municipioEncontrado?.direccion)
-            setTelefonoValor(municipioEncontrado?.telefono)
-            setSupervisionValor(municipioEncontrado?.supervision)
-        } else {
+            const municipioEncontrado = unidadEncontrada?.subdivisiones?.find(
+                (subdivision: any) => subdivision?.nombre === municipio
+            );
+            setDireccionValor(municipioEncontrado?.direccion || '');
+            setTelefonoValor(municipioEncontrado?.telefono || '');
+            setSupervisionValor(municipioEncontrado?.supervision || '');
+        }
+        // Caso 3: División, municipio y comisaría
+        else {
             const unidadEncontrada = unidades.find((unidad: any) => unidad.nombre === unidadViolencia);
-            const municipioEncontrado = unidadEncontrada && Array.isArray(unidadEncontrada.subdivisiones)
-                ? unidadEncontrada.subdivisiones.find((subdivision: any) => subdivision?.nombre === municipio)
-                : null;
+            const municipioEncontrado = unidadEncontrada?.subdivisiones?.find(
+                (subdivision: any) => subdivision?.nombre === municipio
+            );
+            const comisariaEncontrada = municipioEncontrado?.subdivisiones?.find(
+                (subdivision: any) => subdivision?.value === comisaria
+            );
+            setDireccionValor(comisariaEncontrada?.direccion || '');
+            setTelefonoValor(comisariaEncontrada?.telefono || '');
+            setSupervisionValor(comisariaEncontrada?.supervision || '');
+        }
+    }, [user, unidades]); // Ejecuta el efecto cuando cambian user o unidades
 
-            const comisariaEncontrada = municipioEncontrado && Array.isArray(municipioEncontrado.subdivisiones)
-                ? municipioEncontrado.subdivisiones.find((subdivision: any) => subdivision?.value === comisaria)
-                : null;
+    // Función para generar y abrir el PDF del preventivo
+    const handlePrint = async () => {
+        const values = getValues(); // Obtiene los valores actuales del formulario
 
-            setDireccionValor(comisariaEncontrada?.direccion)
-            setTelefonoValor(comisariaEncontrada?.telefono)
-            setSupervisionValor(comisariaEncontrada?.supervision)
+        // Si es una ampliación, carga los datos del preventivo base
+        if (data.modo_actuacion === 'Ampliación de denuncia') {
+            const denunciaBase = await mostrarDenunciasSinVerificarID(data.ampliado_de); // Obtiene la denuncia base
+            const preventivoBase = await getPreventivo(denunciaBase.preventivo_ID); // Obtiene el preventivo base
+            setNumeroNotaAnterior(preventivoBase.numero_nota); // Establece el número de nota anterior
+            setObjetoAnterior(preventivoBase.objeto); // Establece el objeto anterior
         }
 
-    })
+        // Combina los datos del formulario con los datos de la denuncia
+        const nuevosValores = {
+            ...data,
+            ...values,
+            autoridades: stringAcumulador,
+            numero_nota_anterior: numeroNotaAnterior,
+            objetoAnterior: objetoAnterior,
+        };
 
-    const [stringAcumulador, setStringAcumulador] = useState("")
+        // Genera el PDF según el tipo de denuncia
+        const blob = await pdf(
+            data.modo_actuacion === 'Ampliación de denuncia' ? (
+                <PDF datos={nuevosValores} user={user} ampliacion={true} />
+            ) : (
+                <PDF datos={nuevosValores} user={user} />
+            )
+        ).toBlob();
 
-    const autoridadesOpciones = [
-        { id: 1, nombre: "Jefe Policía", valor: "Jefe Policía" },
-        { id: 2, nombre: "Subjefe", valor: "Subjefe" },
-        { id: 3, nombre: "S.U.E.D.", valor: "S.U.E.D." },
-        { id: 4, nombre: "Dirección General Investigaciones Complejas", valor: "Dirección General Investigaciones Complejas" },
-        { id: 5, nombre: "Dirección Policía de Investigaciones", valor: "Dirección Policía de Investigaciones" },
-        { id: 6, nombre: "Jefe Dpto Investigaciones Complejas", valor: "Jefe Dpto Investigaciones Complejas" },
-        { id: 7, nombre: "Dirección Gral. Seguridad Metropolitana", valor: "Dirección Gral. Seguridad Metropolitana" },
-        { id: 8, nombre: "Director de Operación Metropolitana", valor: "Director de Operación Metropolitana" },
-        { id: 9, nombre: "Director del C.E.A.C.", valor: "Director del C.E.A.C." },
-        { id: 10, nombre: "Fiscalía Investigación Penal en Turno", valor: "Fiscalía Investigación Penal en Turno" },
-        { id: 11, nombre: "Fiscalía Investigación Penal Nro 1", valor: "Fiscalía Investigación Penal Nro 1" },
-        { id: 12, nombre: "Fiscalía Investigación Penal Nro 2", valor: "Fiscalía Investigación Penal Nro 2" },
-        { id: 13, nombre: "Fiscalía Investigación Penal Nro 3", valor: "Fiscalía Investigación Penal Nro 3" },
-        { id: 14, nombre: "Fiscalía Investigación Penal Nro 4", valor: "Fiscalía Investigación Penal Nro 4" },
-        { id: 15, nombre: "Fiscalía Investigación Penal Nro 5", valor: "Fiscalía Investigación Penal Nro 5" },
-        { id: 16, nombre: "Fiscalía Investigación Penal Nro 6", valor: "Fiscalía Investigación Penal Nro 6" },
-        { id: 17, nombre: "Fiscalía Investigación Penal Nro 7", valor: "Fiscalía Investigación Penal Nro 7" },
-        { id: 18, nombre: "Fiscalía Investigación Penal Nro 8", valor: "Fiscalía Investigación Penal Nro 8" },
-        { id: 19, nombre: "Fiscalía Investigación Penal Nro 9", valor: "Fiscalía Investigación Penal Nro 9" },
-        { id: 20, nombre: "Fiscalía Investigación Penal Nro 10", valor: "Fiscalía Investigación Penal Nro 10" },
-        { id: 21, nombre: "Fiscalía Investigación Penal Nro 11", valor: "Fiscalía Investigación Penal Nro 11" },
-        { id: 22, nombre: "Fiscalía Investigación Penal Nro 12", valor: "Fiscalía Investigación Penal Nro 12" },
-        { id: 23, nombre: "Fiscalía Investigación Penal Nro 13", valor: "Fiscalía Investigación Penal Nro 13" },
-        { id: 24, nombre: "Fiscalía Investigación Penal Nro 14", valor: "Fiscalía Investigación Penal Nro 14" },
-        { id: 25, nombre: "Fiscalía Investigación Penal Nro 15", valor: "Fiscalía Investigación Penal Nro 15" },
-        { id: 26, nombre: "Juzgado del Menor de Edad y la Familia Nro 1", valor: "Juzgado del Menor de Edad y la Familia Nro 1" },
-        { id: 27, nombre: "Juzgado del Menor de Edad y la Familia Nro 2", valor: "Juzgado del Menor de Edad y la Familia Nro 2" },
-        { id: 28, nombre: "Juzgado del Menor de Edad y la Familia Nro 3", valor: "Juzgado del Menor de Edad y la Familia Nro 3" },
-        { id: 29, nombre: "Juzgado del Menor de Edad y la Familia Nro 4", valor: "Juzgado del Menor de Edad y la Familia Nro 4" },
-        { id: 30, nombre: "Juzgado del Menor de Edad y la Familia Nro 5", valor: "Juzgado del Menor de Edad y la Familia Nro 5" },
-        { id: 31, nombre: "Juzgado del Menor de Edad y la Familia Nro 6", valor: "Juzgado del Menor de Edad y la Familia Nro 6" },
-        { id: 32, nombre: "Supervisión Zona I Metropolitana", valor: "Supervisión Zona I Metropolitana" },
-        { id: 33, nombre: "Supervisión Zona II Metropolitana", valor: "Supervisión Zona II Metropolitana" },
-        { id: 34, nombre: "Supervisión Zona III Metropolitana", valor: "Supervisión Zona III Metropolitana" },
-        { id: 35, nombre: "Supervisión Zona IV Metropolitana", valor: "Supervisión Zona IV Metropolitana" },
-        { id: 36, nombre: "Supervisión Zona V Metropolitana", valor: "Supervisión Zona V Metropolitana" },
-        { id: 37, nombre: "Supervisión Zona VI Metropolitana", valor: "Supervisión Zona VI Metropolitana" },
-        { id: 38, nombre: "Supervisión Zona XXII Metropolitana", valor: "Supervisión Zona XXII Metropolitana" },
-        { id: 39, nombre: "Expte. y Archivo Dependencia", valor: "Expte. y Archivo Dependencia" }
-
-    ];
-
-
-
+        // Abre el PDF en una nueva pestaña
+        window.open(URL.createObjectURL(blob));
+    };
 
     return (
         <>
@@ -155,11 +142,21 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
                 className='flex flex-col w-full'
                 onSubmit={
                     handleSubmit(async (values) => {
+
+                        if (data.modo_actuacion == "Ampliación de denuncia") {
+                            // const denunciaBase =
+                        }
+
+                        console.log(data.modo_actuacion)
                         const nuevosValores = {
                             ...data, // esto sobrescribe claves duplicadas con las de `data`
                             ...values,
-                            autoridades: stringAcumulador
+                            numero_expediente: data.numero_de_expediente,
+                            autoridades: stringAcumulador,
+                            tipo_preventivo: data.modo_actuacion == "Ampliación de denuncia" ? "Ampliación de preventivo" : "Preventivo",
                         };
+
+                        console.log(nuevosValores)
 
                         Swal.fire({
                             title: '¿Está seguro de que desea crear el preventivo?',
@@ -194,7 +191,7 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
                         <InputRegister valor={direccionValor} campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
                         <InputRegister valor={telefonoValor} campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
                     </div>
-                   
+
                     <InputRegister notMidMD campo="Número de nota" nombre="numero_nota" register={register} type="text" error={errors.numero_nota} require placeholder="Número de nota" valor={`N°-CSPJ/${new Date().getFullYear()}`} setValue={setValue} />
                     <InputRegister notMidMD campo="Objeto" nombre="objeto" register={register} type="text" error={errors.objeto} require placeholder="Objeto" setValue={setValue} />
                     <InputRegister notMidMD campo="Consultado a" nombre="consultado" register={register} type="text" error={errors.consultado} require placeholder="Consultado a" setValue={setValue} />

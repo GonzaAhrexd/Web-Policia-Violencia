@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import InputRegister from "../InputComponents/InputRegister";
 import InputDate from "../InputComponents/InputDate";
 import InputCheckboxAcumulador from "../InputComponents/InputCheckboxAcumulador";
-import { editPreventivo, crearPreventivo } from "../../api/CRUD/preventivo.crud";
+import { editPreventivo, crearPreventivo, ampliarPreventivo } from "../../api/CRUD/preventivo.crud";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/auth";
 import { useCampos } from "../../context/campos";
@@ -135,9 +135,16 @@ function EditPrevencion({ data, modoExpandir }: EditPrevencionProps) {
             ...values,
             autoridades: stringAcumulador
         };
+        let blob;
 
-        const blob = await pdf(<PDF datos={nuevosValores} user={user} />).toBlob();
-
+        if(modoExpandir || data.tipo_preventivo == "Ampliación de preventivo"){
+             
+            
+            // Preguntar y continuar luego
+            blob = await pdf(<PDF datosAnteriores={data} datos={nuevosValores} user={user} ampliacion />).toBlob();
+        }else{
+             blob = await pdf(<PDF datos={data} user={user} />).toBlob();
+        }
         // Crea una URL de objeto a partir del blob
         const url = URL.createObjectURL(blob);
         // Abre la URL en una nueva pestaña
@@ -210,14 +217,14 @@ function EditPrevencion({ data, modoExpandir }: EditPrevencionProps) {
                 }
                 )
 
-
                 const nuevosValores = {
                     ...data,
                     ...values,
+                    tipo_preventivo: "Ampliación de preventivo",
                     autoridades: stringAcumulador
                 };
 
-                await crearPreventivo(nuevosValores)
+                await ampliarPreventivo(data._id, nuevosValores)
 
             }
         })

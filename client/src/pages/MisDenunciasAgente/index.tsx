@@ -22,7 +22,7 @@ import InputDateRange from '../../components/InputComponents/InputDateRange';
 import LoadingScreen from '../../components/LoadingScreen';
 // Dependencias de la misma carpeta
 import { columns } from './columnsDataTable'
-import expandedComponents from './expandedComponents'
+import expandedComponents from './expandedComponentsDenunciasSinVerificar'
 import { customStyles } from '../../GlobalConst/customStyles'
 
 function MisDenunciasAgente() {

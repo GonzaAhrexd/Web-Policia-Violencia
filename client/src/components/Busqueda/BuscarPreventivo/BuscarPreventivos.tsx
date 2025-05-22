@@ -19,6 +19,7 @@ import { ArrowDownCircleIcon, ArrowUpCircleIcon } from '@heroicons/react/24/outl
 
 import columnsPreventivos from "./columnsPreventivo"
 import expandedComponent from "./expandedComponent"
+import InputCheckbox from "../../InputComponents/InputCheckbox"
 type ValoresBusqueda = {
     numero_nota: string
     id_preventivo: string
@@ -28,6 +29,7 @@ type ValoresBusqueda = {
     unidad: string
     municipio: string
     comisaria: string
+    mostrar_ampliaciones: boolean
 }
 
 
@@ -65,6 +67,7 @@ function BuscarPreventivos() {
                         } else if (user.rol == "agente") {
                             values.division = user.unidad
                         }
+                        console.log(values)
                         const preventivosFound = await buscarPreventivo(values)
                         setPreventivosLista(preventivosFound)
                     }
@@ -72,6 +75,7 @@ function BuscarPreventivos() {
                 <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} />
                 <InputRegister busqueda={true} campo="ID" nombre="id_preventivo" register={register} type="text" error={errors.id_preventivo} require={false} />
                 <InputRegister busqueda={true} campo="Número de nota" nombre="numero_nota" register={register} type="text" error={errors.numero_nota} require={false} />
+                <InputCheckbox campo="Mostrar ampliaciones" nombre="mostrar_ampliaciones" register={register} setValue={setValue} id="mostrar_ampliaciones" />
                 {user.rol != "agente" &&
                     <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
                         <SelectDivisionMunicipios isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />

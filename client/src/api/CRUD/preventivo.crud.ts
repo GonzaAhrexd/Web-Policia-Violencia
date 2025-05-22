@@ -6,6 +6,7 @@ type ValoresBusqueda = {
     desde: Date,
     hasta: Date,
     division: string
+    mostrar_ampliaciones: boolean
 }
 
 export const crearPreventivo = async (preventivo: any) => {
@@ -18,10 +19,7 @@ export const crearPreventivo = async (preventivo: any) => {
 
 export const buscarPreventivo = async (valores: ValoresBusqueda) => {
     try {
-        const response = await axios.get(`/buscar-preventivo/${valores.id_preventivo ? valores.id_preventivo : "no_ingresado"}/${valores.numero_nota ? valores.numero_nota : "no_ingresado"}/${valores.desde ? valores.desde : "no_ingresado"}/${valores.hasta ? valores.hasta : "no_ingresado"}/${valores.division ? valores.division : "no_ingresado"}`)
-        
-        console.log(response.data)
-
+        const response = await axios.get(`/buscar-preventivo/${valores.id_preventivo ? valores.id_preventivo : "no_ingresado"}/${valores.numero_nota ? valores.numero_nota : "no_ingresado"}/${valores.desde ? valores.desde : "no_ingresado"}/${valores.hasta ? valores.hasta : "no_ingresado"}/${valores.division ? valores.division : "no_ingresado"}/${valores.mostrar_ampliaciones ? valores.mostrar_ampliaciones : "no_ingresado"}`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -49,6 +47,24 @@ export const deletePreventivo = async (id: string) => {
 export const getPreventivo = async (id: string) => {
     try {
         const response = await axios.get(`/buscar-preventivo/${id}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const ampliarPreventivo = async (id: string, preventivo: any) => {
+    try {
+        const response = await axios.post(`/ampliar-preventivo/${id}`, preventivo)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getAmpliacionesPreventivo = async (id: string) => {
+    try {
+        const response = await axios.get(`/buscar-ampliaciones-preventivo/${id}`)
         return response.data
     } catch (error) {
         console.log(error)

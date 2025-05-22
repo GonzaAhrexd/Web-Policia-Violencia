@@ -54,6 +54,9 @@ import PDF from './PDF';
 interface expandedComponentsProps {
     data: any
 }
+
+
+// Expanded component DENUNCIA
 function expandedComponents({ data }: expandedComponentsProps) {
     const APIURL = import.meta.env.VITE_BASE_URL
 

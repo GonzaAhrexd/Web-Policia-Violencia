@@ -4,10 +4,12 @@ import { useState } from 'react';
 type PDFProps = {
     datos: any;
     user: any;
+    ampliacion?: boolean;
+    datosAnteriores?: any;
 }
 
 
-function PDF({ datos, user }: PDFProps) {
+function PDF({ datos, user, ampliacion, datosAnteriores }: PDFProps) {
 
     const userDivisionZona = user.unidad.split(",")
 
@@ -267,6 +269,8 @@ function PDF({ datos, user }: PDFProps) {
     };
 
     // Create Document Component
+    if(!ampliacion) {
+
     return (
         <Document>
             <Page style={styles.page}>
@@ -295,6 +299,36 @@ function PDF({ datos, user }: PDFProps) {
             </Page>
         </Document>
     )
+}else{
+    return (
+        <Document>
+            <Page style={styles.page}>
+                <Header />
+                <View style={styles.section}>
+                    <View style={styles.sectionRight}>
+
+                    <Text style={styles.sectionRight}>{municipio}, {new Date(datos.fecha).getUTCDate()} de {meses[new Date(datos.fecha).getUTCMonth() + 1]} de {new Date(datos.fecha).getUTCFullYear()}</Text>
+                    
+                    </View>
+                    <Text style={styles.text}>**********************************************************************************************************</Text>
+                    <Text style={styles.text}>SRES: {datos.autoridades}</Text>
+                    <Text style={styles.text}>**********************************************************************************************************</Text>
+                    <Text style={styles.text}>{datos.numero_nota}</Text>
+                    <Text style={styles.text}>{espacioEnBlanco(75)}OBJETO: Com. Inicio Sum. Policia Judicial</Text> 
+                    <Text style={styles.text}>{espacioEnBlanco(75)}"{datos.objeto}"</Text>
+                    <Text style={styles.text}>{espacioEnBlanco(75)}Ampliando anterior {datos.numero_nota_anterior}, {datos.objetoAnterior}, expediente {datosAnteriores.numero_de_expediente} que damnifica a {datos.apellido_victima} {datos.nombre_victima} {`(${datos.edad_victima})`}, domiciliado {datos.direccion_victima}, DNI {datos.DNI_victima}. Cumplo en dirigirme a usted, llevando a su conocimiento que en fecha {datos.fecha} se amplió sumario de Policía Judicial por el delito de mención en rubro en virtud a las siguientes circunstancias: . </Text>
+                    <Text style={styles.text}>{espacioEnBlanco(75)}{datos.observaciones}</Text> 
+                    <Text style={styles.text}>{espacioEnBlanco(75)}Efectuando consulta con {datos.consultado}; Dispuso: 
+                    </Text>
+                    <Text style={styles.text}>{espacioEnBlanco(75)}{datos.resolucion}</Text>
+                    
+
+                </View>
+                <Footer />
+            </Page>
+        </Document>
+    )
+}
 }
 
 

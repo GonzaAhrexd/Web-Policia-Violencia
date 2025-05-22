@@ -14,6 +14,7 @@ type expandedComponentsProps = {
     data: any
 }
 
+// Expanded component DENUNCIAS SIN VERIFICAR
 function expandedComponents({ data }: expandedComponentsProps) {
 
     // Mostrar datos de los hijos

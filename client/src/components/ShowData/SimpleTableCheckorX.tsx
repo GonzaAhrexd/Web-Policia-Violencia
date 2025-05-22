@@ -1,7 +1,7 @@
 import { CheckIcon, XMarkIcon } from '@heroicons/react/20/solid'
 
 interface simpleTableCheckorXProps {
-    campo: string;
+    campo?: string;
     datos: any;
     icono?: any;
 }
@@ -13,7 +13,7 @@ function SimpleTableCheckorX({ campo, datos, icono }: simpleTableCheckorXProps) 
 
                 <div className="flex flex-row bg-sky-900 text-white font-medium h-10 p-3">
                     <div className='mr-2'>
-                        {campo ? campo : null}
+                        {campo ? campo : ""}
                     </div>
                     <div>
                         {icono}

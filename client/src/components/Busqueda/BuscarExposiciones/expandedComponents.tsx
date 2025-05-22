@@ -26,6 +26,7 @@ import { useAuth } from '../../../context/auth';
 type expandedComponentsProps = {
     data: any
 }
+// Expanded component EXPOSICION
 function expandedComponents({ data }: expandedComponentsProps) {
 
     // Estado de editar global

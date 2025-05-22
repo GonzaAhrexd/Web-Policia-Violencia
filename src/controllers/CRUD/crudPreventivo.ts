@@ -1,14 +1,27 @@
 import preventivo from '../../models/preventivos'
 import denunciaSinVerificar from '../../models/denunciaSinVerificar'
+
+type Query = {
+    _id?: string,
+    numero_nota?: string,
+    fecha?: { $gte: Date, $lte: Date },
+    division?: string,
+    ampliado_de?: { $exists: boolean, $ne: null }
+}
+
 const mapPreventivoData = (body) => ({
     supervision: body.supervision,
     numero_nota: body.numero_nota,
+    numero_nota_anterior: body.numero_nota_anterior,
+    tipo_preventivo: body.tipo_preventivo,
+    tipo_ampliacion: body.tipo_ampliacion,
     fecha: body.fecha_preventivo,
     division: body.division,
     resolucion: body.resolucion,
     objeto: body.objeto,
     consultado: body.consultado,
     autoridades: body.autoridades,
+    numero_de_expediente: body.numero_de_expediente,
     nombre_victima: body.nombre_victima,
     apellido_victima: body.apellido_victima,
     genero_victima: body.genero_victima || 'No especificado',
@@ -42,6 +55,7 @@ export const createPreventivo = async (req, res) => {
         }
         // Agrega el ID del preventivo a la denuncia
         foundDenuncia.preventivo_ID = newPreventivo._id.toString();
+
         // Guarda la denuncia con el ID del preventivo
         await newPreventivo.save();
         await foundDenuncia.save();
@@ -52,13 +66,12 @@ export const createPreventivo = async (req, res) => {
     }
 };
 
+
+
+
 export const editPreventivo = async (req, res) => {
-    console.log("Probando")
     try {
-
         const { id_preventivo } = req.params;
-        
-
         const updatedPreventivo = await preventivo.findByIdAndUpdate(
             id_preventivo,
             mapPreventivoData(req.body),
@@ -78,57 +91,42 @@ export const editPreventivo = async (req, res) => {
 
 export const buscarPreventivo = async (req, res) => {
     try {
-        // Obtener los datos del cuerpo de la solicitud
-        const { id_preventivo, numero_nota, desde, hasta, division } = req.params
+        const { id_preventivo, numero_nota, desde, hasta, division, mostrar_ampliaciones } = req.params;
 
-        // Si se ingresa el ID, buscar solo por ID
-        if (id_preventivo != "no_ingresado") {
-            const foundPreventivo = await preventivo.findById(id_preventivo)
-            if (!foundPreventivo) {
-                return res.status(404).json({ message: 'Preventivo no encontrado' })
-            }
-            return res.json(foundPreventivo)
-        }
-        // Si se ingresa número de nota, buscar solo por número de nota
-        if (numero_nota  != "no_ingresado") {
-            const foundPreventivo = await preventivo.find({ 
-                numero_nota: numero_nota
-             })
-            if (!preventivo) {
-                return res.status(404).json({ message: 'Preventivo no encontrado' })
-            }
-            return res.json(foundPreventivo)
-        }
-        // Si se ingresa fecha, buscar por fecha
-        if ((desde  != "no_ingresado") && (hasta  != "no_ingresado"))  {
-            const foundPreventivo = await preventivo.find({ 
-                fecha: { $gte: desde, $lte: hasta } 
-            })
-            if (division != "no_ingresado") {
-                // Busca por division, municipio y comisaria
-                const foundPreventivo = await preventivo.find({
-                     fecha: { $gte: desde, $lte: hasta }, 
-                     division: division 
-                    })
+        // Base query object
+        let query: Query = {};
 
-
-                res.json(foundPreventivo);
-                return
+        if (id_preventivo !== "no_ingresado") {
+            query._id = id_preventivo;
+        } else if (numero_nota !== "no_ingresado") {
+            query.numero_nota = numero_nota;
+        } else if (desde !== "no_ingresado" && hasta !== "no_ingresado") {
+            query.fecha = { $gte: desde, $lte: hasta };
+            
+            if (division !== "no_ingresado") {
+                query.division = division;
             }
-
-            if (!preventivo) {
-                return res.status(404).json({ message: 'Preventivo no encontrado' })
+                
+            if (mostrar_ampliaciones === "true") {
+                query.ampliado_de = { $exists: true, $ne: null };
             }
-            return res.json(foundPreventivo)
         }
 
+        // Execute the query
+        const foundPreventivo = await preventivo.find(query);
 
+        // Check if results were found
+        if (!foundPreventivo || foundPreventivo.length === 0) {
+            return res.status(404).json({ message: 'Preventivo no encontrado' });
+        }
+
+        return res.json(foundPreventivo);
 
     } catch (error) {
-        console.log(error)
+        console.error(error);
+        return res.status(500).json({ message: 'Error en el servidor' });
     }
-
-}
+};
 
 export const buscarPreventivoID = async (req, res) => {
     try {

@@ -9,7 +9,7 @@ export const createDenunciaSinVerificar = async (req, res) => {
         const usuario = await usuarios.findById(req.user.id)
         const division = usuario?.unidad
         // Obtener los datos de la denuncia
-        const { nombre_victima, numero_de_expediente, fecha, hora, apellido_victima, genero, edad_victima, dni_victima, estado_civil_victima, modo_actuacion, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega, direccion, telefono } = req.body
+        const { nombre_victima, numero_de_expediente, fecha, hora, ampliado_de, apellido_victima, genero, edad_victima, dni_victima, estado_civil_victima, modo_actuacion, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega, direccion, telefono } = req.body
         // Crear la denuncia
         const newDenunciaSinVerificar = new denunciaSinVerificar({
             estado: "En verificación",
@@ -20,6 +20,7 @@ export const createDenunciaSinVerificar = async (req, res) => {
             division: division,
             direccion: direccion,
             telefono: telefono,
+            ampliado_de: ampliado_de ? ampliado_de : "",
             nombre_victima: nombre_victima,
             apellido_victima: apellido_victima,
             edad_victima: edad_victima,
@@ -70,45 +71,71 @@ export const getDenunciasSinVerificar = async (req, res) => {
 
 }
 
-export const getDenunciasSinVerificarAvanzado = async (req, res) => {
+export const getDenunciasSinVerificarId = async (req, res) => {
     try {
-        const { division, municipio, comisaria, desde, hasta, id, expediente } = req.params
-        const divisionJunto = division + (municipio != "no_ingresado" ? ", " + municipio + (comisaria != "no_ingresado" ? ", " + comisaria : "") : "")
-
-        if (id != "no_ingresado") {
-            // Busca por id
-            const obtenerDenunciasSinVerificar = await denunciaSinVerificar.findById(id)
-            // Convierte a un array con ese único elemento
-            res.json([obtenerDenunciasSinVerificar]);
-            return
-        }
-
-        if (expediente != "no_ingresado") {
-            // Busca por expediente
-            const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ division: division, numero_de_expediente: expediente })
-            res.json(obtenerDenunciasSinVerificar);
-            return
-        }
-        if (desde != "no_ingresado" && hasta != "no_ingresado") {
-            // Busca por fecha
-            const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ fecha: { $gte: desde, $lte: hasta } })
-            if (division != "no_ingresado") {
-                // Busca por division, municipio y comisaria
-                const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find({ division: divisionJunto })
-
-
-                res.json(obtenerDenunciasSinVerificar);
-                return
-            }
-            res.json(obtenerDenunciasSinVerificar);
-            return
-        }
-
+        const { id } = req.params
+        // Haz el find solamente de los que tengan como estado "En verificación"
+        const obtenerDenunciasSinVerificar = await denunciaSinVerificar.findById(id)
+        res.json(obtenerDenunciasSinVerificar);
     } catch (error) {
         res.status(500).json({ message: 'Hubo un error al obtener las denuncias.' });
     }
 
 }
+type Query = {
+    _id?: string,
+    numero_de_expediente?: string,
+    fecha?: { $gte: Date, $lte: Date },
+    division?: string,
+    ampliado_de?: { $exists: boolean, $ne: null }
+    modo_actuacion?: string
+}
+export const getDenunciasSinVerificarAvanzado = async (req, res) => {
+    try {
+        const { division, municipio, comisaria, desde, hasta, id, expediente, mostrar_ampliaciones } = req.params;
+
+        // Build divisionJunto string
+        const divisionJunto = division + (municipio !== "no_ingresado" ? ", " + municipio + (comisaria !== "no_ingresado" ? ", " + comisaria : "") : "");
+
+        // Base query object
+        let query: Query = {};
+
+        // Add conditions to query based on provided parameters
+        if (id !== "no_ingresado") {
+            query._id = id;
+        } else if (expediente !== "no_ingresado") {
+            query.numero_de_expediente = expediente;
+            query.division = division;
+        } else if (desde !== "no_ingresado" && hasta !== "no_ingresado") {
+            query.fecha = { $gte: desde, $lte: hasta };
+            if (division !== "no_ingresado") {
+                query.division = divisionJunto;
+            }
+            if(mostrar_ampliaciones === "true") {
+                query.modo_actuacion = "Ampliación de denuncia";
+            }// Si mostrar_ampliaciones es false que no muestre cuando dice "Ampliación de denuncia"
+            else {
+                // @ts-ignore
+                query.modo_actuacion = { $ne: "Ampliación de denuncia" };
+            }   
+        }
+
+        // Execute the query
+        const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find(query);
+
+        // Check if results were found
+        if (!obtenerDenunciasSinVerificar || obtenerDenunciasSinVerificar.length === 0) {
+            return res.status(404).json({ message: 'Denuncias no encontradas' });
+        }
+
+        // Ensure single ID result is returned as an array for consistency
+        res.json(id !== "no_ingresado" ? [obtenerDenunciasSinVerificar[0]] : obtenerDenunciasSinVerificar);
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Hubo un error al obtener las denuncias.' });
+    }
+};
 
 export const getDenunciasSinVerificarByIdArray = async (req, res) => {
 
@@ -174,9 +201,6 @@ export const listarMisDenunciasSinVerificar = async (req, res) => {
 export const agregarAmpliacionDenuncia = async (req, res) => {
     try {
         const { id, idAmpliacion } = req.params
-
-        console.log(id)
-        console.log(idAmpliacion)
 
         const denunciaSinVerificarUpdate = await denunciaSinVerificar.findByIdAndUpdate(id, { $push: { ampliaciones_IDs: idAmpliacion } })
         res.json(denunciaSinVerificarUpdate)

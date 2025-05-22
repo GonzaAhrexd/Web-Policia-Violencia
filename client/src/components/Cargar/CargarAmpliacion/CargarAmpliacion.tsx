@@ -51,7 +51,7 @@ function CargarAmpliacion({ data, setAmpliarDenuncia }: CargarAmpliacionProps) {
     , [])
   const handlePrint = async () => {
     const datos = getValues()
-    const blob = await pdf(<PDF genero={genero} datos={datos} user={user} />).toBlob();
+    const blob = await pdf(<PDF isBusqueda={false} genero={genero} datos={datos} user={user} />).toBlob();
     // Crea una URL de objeto a partir del blob
     const url = URL.createObjectURL(blob);
     // Abre la URL en una nueva pestaña
@@ -160,12 +160,10 @@ function CargarAmpliacion({ data, setAmpliarDenuncia }: CargarAmpliacionProps) {
 
             values.fecha = fecha
             values.hora = horaActual
-
+            values.ampliado_de = data._id
 
             const denunciaAmpliada: any = await crearDenunciaSinVerificar(values)
-            console.log( data._id)
 
-            console.log("ID:" + denunciaAmpliada._id)
             await agregarAmpliacionDenuncia(data._id, denunciaAmpliada._id)
             Swal.fire('Enviada!', '', 'success')
             // setAmpliarDenuncia(false)

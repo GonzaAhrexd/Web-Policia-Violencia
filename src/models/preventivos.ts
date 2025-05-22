@@ -11,9 +11,30 @@ const preventivoSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    numero_nota_anterior: {
+        type: String, // Tipo de dato String
+        required: false, // Campo no requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    numero_de_expediente: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     fecha: {
         type: Date, // Tipo de dato Date
         required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    tipo_preventivo: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true, // Trim para que no se guarden espacios en blanco
+        default: "Preventivo"
+    },
+    tipo_ampliacion: {
+        type: String, // Tipo de dato String
+        required: false, // Campo no requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
     division: {
