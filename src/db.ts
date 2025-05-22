@@ -17,7 +17,7 @@ if(process.env.BD_mode == "cloud"){
 }
 
 //Función que realiza la conexión  a la base de datos de MongoDB
-export const connectDB = async (): Promise<void> => {
+ const connectDB = async (): Promise<void> => {
     try {
         // Conecta a la base de datos con mongoose
         await mongoose.connect(uri)
@@ -26,3 +26,5 @@ export const connectDB = async (): Promise<void> => {
         console.log('Error conectando a la base de datos.')
     }
 }
+
+export default connectDB

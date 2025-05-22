@@ -3,7 +3,7 @@ import axios from '../axios'
 // Buscar usuario
 export const buscarUsuario = async (values: any) => {
     try {
-        const response = await axios.get(`/buscar-usuario/${values.nombre_de_usuario ? values.nombre_de_usuario : "no_ingresado"}/${values.nombre ? values.nombre : "no_ingresado"}/${values.apellido ? values.apellido : "no_ingresado"}/${values.rol ? values.rol : "no_ingresado"}`)
+        const response = await axios.get(`/usuarios/buscar-usuario/${values.nombre_de_usuario ? values.nombre_de_usuario : "no_ingresado"}/${values.nombre ? values.nombre : "no_ingresado"}/${values.apellido ? values.apellido : "no_ingresado"}/${values.rol ? values.rol : "no_ingresado"}`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -12,7 +12,7 @@ export const buscarUsuario = async (values: any) => {
 // Cambiar rol
 export const cambiarRol = async (values: any) => {
     try {
-        const response = await axios.put(`/cambiar-rol/`, values)
+        const response = await axios.put(`/usuarios/cambiar-rol/`, values)
         return response.data
     } catch (error) {
         console.log(error)  
@@ -21,7 +21,7 @@ export const cambiarRol = async (values: any) => {
 // Modificar datos usuario
 export const editUser = async (values: any) => {
     try {
-        const response = await axios.put(`/editar-usuario/${values.id}`, values)
+        const response = await axios.put(`/usuarios/editar-usuario/${values.id}`, values)
         return response.data
     } catch (error) {
         console.log(error)
