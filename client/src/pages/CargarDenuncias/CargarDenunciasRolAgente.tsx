@@ -62,7 +62,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
     { division: "General San Martín", direccion: "Esq. Maipú y Urquiza", telefono: "3725422202" },
     { division: "Charata", direccion: "9 de Julio N° 575", telefono: "3624222322" },
     { division: "Juan José Castelli", direccion: "Av. Perón N° 470", telefono: "3624702665" }
-]
+  ]
 
   const getNumeroUnidad = (unidad: string) => {
     switch (unidad) {
@@ -105,27 +105,27 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
       setDireccionValor(direccionDivisiones.find((division) => division.division === unidadesSeparadas[0])?.direccion)
       setTelefonoValor(direccionDivisiones.find((division) => division.division === unidadesSeparadas[0])?.telefono)
     } else if (comisaria == undefined) {
-      
+
       const unidadEncontrada = unidades.find((unidad: any) => unidad.nombre === unidadViolencia);
 
-    const municipioEncontrado = unidadEncontrada && Array.isArray(unidadEncontrada.subdivisiones)
-    ? unidadEncontrada.subdivisiones.find((subdivision: any) => subdivision?.nombre === municipio)
-    : null;
-      
-   setComisariaPertenece(municipioEncontrado?.prefijo + '-')
-   setDireccionValor(municipioEncontrado?.direccion)
-   setTelefonoValor(municipioEncontrado?.telefono)
-   
+      const municipioEncontrado = unidadEncontrada && Array.isArray(unidadEncontrada.subdivisiones)
+        ? unidadEncontrada.subdivisiones.find((subdivision: any) => subdivision?.nombre === municipio)
+        : null;
+
+      setComisariaPertenece(municipioEncontrado?.prefijo + '-')
+      setDireccionValor(municipioEncontrado?.direccion)
+      setTelefonoValor(municipioEncontrado?.telefono)
+
     } else {
       const unidadEncontrada = unidades.find((unidad: any) => unidad.nombre === unidadViolencia);
       const municipioEncontrado = unidadEncontrada && Array.isArray(unidadEncontrada.subdivisiones)
-      ? unidadEncontrada.subdivisiones.find((subdivision: any) => subdivision?.nombre === municipio)
-      : null;
-      
+        ? unidadEncontrada.subdivisiones.find((subdivision: any) => subdivision?.nombre === municipio)
+        : null;
+
       const comisariaEncontrada = municipioEncontrado && Array.isArray(municipioEncontrado.subdivisiones)
-      ? municipioEncontrado.subdivisiones.find((subdivision: any) => subdivision?.value === comisaria)
-      : null;
-      
+        ? municipioEncontrado.subdivisiones.find((subdivision: any) => subdivision?.value === comisaria)
+        : null;
+
       setComisariaPertenece(comisariaEncontrada?.prefijo + '-')
       setDireccionValor(comisariaEncontrada?.direccion)
       setTelefonoValor(comisariaEncontrada?.telefono)
@@ -139,7 +139,7 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
       <div>
         <form onSubmit={
           handleSubmit(async (values) => {
-     
+
             Swal.fire({
               title: '¿Estás seguro?',
               text: "Una vez enviado, debe ser verificado.",
@@ -162,14 +162,14 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
                   }
 
                   // Crea un date con la fecha actual, pero haz que quede siempre guardado como hora 00:00
-                  const fecha = new Date().setHours(0, 0, 0, 0)
+                  const now = new Date();
+                  const fecha = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+
 
                   const horaActual = new Date().getHours().toString().padStart(2, '0') + ":" + new Date().getMinutes().toString().padStart(2, '0')
 
                   values.fecha = fecha
                   values.hora = horaActual
-
-
 
 
                   values.numero_de_expediente = values.PrefijoExpediente + values.numero_de_expediente + values.Expediente + values.SufijoExpediente
@@ -202,13 +202,13 @@ function CargarDenunciasRolAgente({ user }: CargarDenunciasRolCargaProps) {
               <div className='flex justify-center'>
                 <InputExpediente cargaAgente={true} campo="Número de Expediente" comisariaPertenece={comisariaPertenece} nombre="numero_de_expediente" register={register} setValue={setValue} type="text" error={errors.expediente} />
               </div>
-                <div className='flex flex-row w-full justify-center'>
-                  <div className='flex flex-row w-full lg:w-8/10 xl:w-6/10'>
+              <div className='flex flex-row w-full justify-center'>
+                <div className='flex flex-row w-full lg:w-8/10 xl:w-6/10'>
                   {/* <InputDate campo="Fecha" nombre="fecha" register={register}  error={errors.fecha} type="date" />  */}
-                    <InputRegister valor={direccionValor} campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
-                    <InputRegister valor={telefonoValor} campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
-                  </div>
+                  <InputRegister valor={direccionValor} campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
+                  <InputRegister valor={telefonoValor} campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
                 </div>
+              </div>
               <h1 className='text-2xl my-5'>Denunciante</h1>
               <div className='flex justify-center'>
                 <CargarVictimaAgente register={register} setValue={setValue} errors={errors} />

@@ -23,12 +23,20 @@ type expandedComponentProps = {
 function expandedComponent({ data }: expandedComponentProps) {
 
     const [editGlobal, setEditGlobal] = useState(false)
+    const [ampliarPreventivo, setAmpliarPreventivo] = useState(false)
     const { user } = useAuth();
 
     const handlePrint = async () => {
 
+        let blob
 
-        const blob = await pdf(<PDF datos={data} user={user} />).toBlob();
+  
+        if (data.tipo_preventivo === "Ampliación de preventivo") {
+
+            blob = await pdf(<PDF datos={data} user={user} ampliacion={true} />).toBlob();
+        } else {
+            blob = await pdf(<PDF datos={data} user={user} />).toBlob();
+        }
 
         // Crea una URL de objeto a partir del blob
         const url = URL.createObjectURL(blob);
@@ -86,72 +94,82 @@ function expandedComponent({ data }: expandedComponentProps) {
         }
     }
 
-   
-   
-    if (editGlobal) {
+    if (ampliarPreventivo) {
+        return (
+            <EditPrevencion modoExpandir={true} data={data} />
+        )
+    }
+
+    else if (editGlobal) {
         return (
             <EditPrevencion modoExpandir={false} data={data} />
         )
     }
     else {
-            return (
+        return (
 
-                <div>
-                   
-                    <div className='flex items-center'>
-                        <h1 className='text-3xl my-5 font-sans mr-4'>Datos preventivo</h1>
-                    </div>
-                    <div className='flex flex-col'>
-                        <SimpleTableCheckorX campo="" datos={datosPreventivo} />
-                    </div>
-                    <div className='flex items-center'>
-                        <h1 className='text-3xl my-5 font-sans mr-4'>Datos de la víctima</h1>
-                    </div>
-                    <div className='flex flex-col'>
-                        <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
-                    </div>
-                    <div className='flex flex-col items-center'>
-                        <h1 className='text-3xl my-5 font-sans mr-4'>Autoridades</h1>
-                        <ul className="flex flex-col">
-                            <li>{data.autoridades}</li>
-                        </ul>
-                    </div>
-                    <div className='flex items-center'>
-                        <h1 className='text-3xl my-5 font-sans mr-4'>Datos del secretario</h1>
-                    </div>
-                    <div className='flex flex-col'>
-                        <SimpleTableCheckorX campo="" datos={secretarioDatosMostrar} />
-                    </div>
-                    <div className='flex items-center'>
-                        <h1 className='text-3xl my-5 font-sans mr-4'>Datos del instructor</h1>
-                    </div>
-                    <div className='flex flex-col'>
-                        <SimpleTableCheckorX campo="" datos={instructorDatosMostrar} />
-                    </div>
+            <div>
+                <button
+                    className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full "
+                    onClick={() => setAmpliarPreventivo(true)}
+                >
+                    Ampliar preventivo
+                </button>
 
-                    <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
-                        <div className="bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0" onClick={() => handlePrint()}>
-                            <PrinterIcon className="w-7" />
-                        </div>
-                        {((user.rol === "admin") || (user.rol === "carga")) &&
-                            <>
-                                <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
-                                    <PencilSquareIcon className="w-7" />
-                                </div>
-                                <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
-                                    <TrashIcon className="w-7" />
-                                </div>
-                            </>
-                        }
+                <div className='flex items-center'>
+                    <h1 className='text-3xl my-5 font-sans mr-4'>Datos preventivo</h1>
+                </div>
+                <div className='flex flex-col'>
+                    <SimpleTableCheckorX campo="" datos={datosPreventivo} />
+                </div>
+                <div className='flex items-center'>
+                    <h1 className='text-3xl my-5 font-sans mr-4'>Datos de la víctima</h1>
+                </div>
+                <div className='flex flex-col'>
+                    <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
+                </div>
+                <div className='flex flex-col items-center'>
+                    <h1 className='text-3xl my-5 font-sans mr-4'>Autoridades</h1>
+                    <ul className="flex flex-col">
+                        <li>{data.autoridades}</li>
+                    </ul>
+                </div>
+                <div className='flex items-center'>
+                    <h1 className='text-3xl my-5 font-sans mr-4'>Datos del secretario</h1>
+                </div>
+                <div className='flex flex-col'>
+                    <SimpleTableCheckorX campo="" datos={secretarioDatosMostrar} />
+                </div>
+                <div className='flex items-center'>
+                    <h1 className='text-3xl my-5 font-sans mr-4'>Datos del instructor</h1>
+                </div>
+                <div className='flex flex-col'>
+                    <SimpleTableCheckorX campo="" datos={instructorDatosMostrar} />
+                </div>
+
+                <div className='flex flex-col md:flex-row items-center justify-center m-2 md:m-0'>
+                    <div className="bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0" onClick={() => handlePrint()}>
+                        <PrinterIcon className="w-7" />
                     </div>
-
-
+                    {((user.rol === "admin") || (user.rol === "carga")) &&
+                        <>
+                            <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
+                                <PencilSquareIcon className="w-7" />
+                            </div>
+                            <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
+                                <TrashIcon className="w-7" />
+                            </div>
+                        </>
+                    }
                 </div>
 
 
-            )
-        }
+            </div>
+
+
+        )
     }
+}
 
 
 export default expandedComponent

@@ -1,9 +1,11 @@
+const allowedOrigins = [
+  process.env.corsOrigin, // Origen desde la variable de entorno
+  'http://localhost:4200', // Origen adicional
+];
+
+
 const corsOptions = {
     origin: (origin, callback) => {
-        const allowedOrigins = [
-            process.env.CORS_ORIGIN,
-            'http://localhost:4200',
-        ];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {

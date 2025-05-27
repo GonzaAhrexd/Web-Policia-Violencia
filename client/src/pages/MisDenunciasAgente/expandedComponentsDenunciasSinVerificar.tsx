@@ -10,7 +10,7 @@ ________________________________________________________________________________
 
 // Importaciones
 // Librerías de React y utilidades
-import { useState } from 'react'; // Hook para manejar el estado del componente
+import { useEffect, useState } from 'react'; // Hook para manejar el estado del componente
 import { pdf } from '@react-pdf/renderer'; // Utilidad para generar documentos PDF
 import { useAuth } from '../../context/auth'; // Hook para obtener el contexto de autenticación
 import DataTable from 'react-data-table-component'; // Componente para tablas dinámicas
@@ -31,7 +31,7 @@ import { getPreventivo } from '../../api/CRUD/preventivo.crud'; // Función para
 import { buscarAmpliaciones } from '../../api/CRUD/denunciasSinVerificar.crud'; // Función para obtener ampliaciones de una denuncia
 import { columns } from './columnsDataTable'; // Configuración de columnas para DataTable
 import { customStyles } from '../../GlobalConst/customStyles'; // Estilos personalizados para DataTable
-
+import { mostrarDenunciasSinVerificarID } from '../../api/CRUD/denunciasSinVerificar.crud';
 // Tipos
 // Define el tipo de las propiedades del componente
 type ExpandedComponentsProps = {
@@ -59,7 +59,7 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
     const [PreventivoData, setPreventivoData] = useState(null); // Almacena los datos del preventivo
     const [listaAmpliaciones, setListaAmpliaciones] = useState([]); // Almacena la lista de ampliaciones
     const { user } = useAuth(); // Obtiene el usuario autenticado desde el contexto
-
+    const [tienePreventivoPrevio, setTienePreventivoPrevio] = useState(false); // Controla si hay un preventivo previo
     // Datos para mostrar en tablas
     // Información general de la denuncia
     const datosDenuncia = [
@@ -104,9 +104,29 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
         { nombre: 'Jerarquía instructor', valor: data.instructor.jerarquia_instructor },
     ];
 
+    const buscarDenunciaOriginal = async () => {
+        try {
+            const denunciaOriginal = await mostrarDenunciasSinVerificarID(data.ampliado_de)
+            if (denunciaOriginal.preventivo_ID) {
+                setTienePreventivoPrevio(denunciaOriginal.preventivo_ID);
+            } else {
+                setTienePreventivoPrevio(false);
+            }
+        } catch (error) {
+            console.error("Error al buscar la denuncia original:", error);
+        }
+    }
+
+    useEffect(() => {
+        buscarDenunciaOriginal();
+    }, [data.ampliado_de])
+
+
     // Funciones
     // Genera y abre un PDF de la denuncia o ampliación en una nueva pestaña
     const handleImprimir = async () => {
+
+
         const blob = await pdf(
             data.modo_actuacion === 'Ampliación de denuncia' ? (
                 <PDFAmpliacion isBusqueda genero={data.genero_victima} user={user} datos={data} />
@@ -132,7 +152,7 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
     };
 
     // Renderizado condicional
-    // Muestra la lista de ampliaciones en una tabla
+
     if (verAmpliaciones) {
         return (
             <div className="flex flex-col w-full border-2 border-sky-950 rounded-lg p-5">
@@ -262,18 +282,25 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
                             Crear radiograma
                         </button>
                     </>
-                ) : (
-                    /* Botón para crear un nuevo preventivo */
-                    <button
-                        className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"
-                        onClick={() => setCrearPreventivo(true)}
-                    >
-                        Crear preventivo
-                    </button>
-                )}
+                ) :
+                    ((data.modo_actuacion == "Ampliación de denuncia" && tienePreventivoPrevio) || (data.modo_actuacion != "Ampliación de denuncia")) &&
+                    (
+                        /* Botón para crear un nuevo preventivo */
+                        <button
+                            className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"
+                            onClick={() => setCrearPreventivo(true)}
+                        >
+                            Crear preventivo
+                        </button>
+                    )}
             </div>
-
             {/* Sección de datos generales de la denuncia */}
+            {(!(tienePreventivoPrevio) && (data.modo_actuacion == "Ampliación de denuncia")) && (
+                <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
+                    <p className="font-bold">Advertencia:</p>
+                    <p>La denuncia base NO tiene un preventivo asociado.</p>
+                </div>
+            )}
             <h2 className="text-3xl my-5 font-sans">Datos de la denuncia</h2>
             <SimpleTableCheckorX datos={datosDenuncia} />
 
@@ -301,7 +328,6 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
             <h2 className="text-3xl my-5 font-sans">Secretario</h2>
             <SimpleTableCheckorX datos={secretarioDatosMostrar} />
 
-            /* Sección de datos del instructor */
             <h2 className="text-3xl my-5 font-sans">Instructor</h2>
             <SimpleTableCheckorX datos={instructorDatosMostrar} />
 

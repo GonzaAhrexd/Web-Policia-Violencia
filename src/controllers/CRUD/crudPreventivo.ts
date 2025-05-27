@@ -19,6 +19,8 @@ const mapPreventivoData = (body) => ({
     division: body.division,
     resolucion: body.resolucion,
     objeto: body.objeto,
+    objeto_anterior: body.objeto_anterior,
+    con_denuncia_ampliada: body.con_denuncia_ampliada ? body.con_denuncia_ampliada : false,
     consultado: body.consultado,
     autoridades: body.autoridades,
     numero_de_expediente: body.numero_de_expediente,
@@ -48,6 +50,8 @@ const mapPreventivoData = (body) => ({
 export const createPreventivo = async (req, res) => {
     try {
         const newPreventivo = new preventivo(mapPreventivoData(req.body));
+
+        console.log(req.body)
         // Busca el ID de la denuncia en la base de datos y agregale en preventivoID el id recién creado
         const foundDenuncia = await denunciaSinVerificar.findById(req.body._id);
         if (!foundDenuncia) {
@@ -67,7 +71,18 @@ export const createPreventivo = async (req, res) => {
 };
 
 
-
+export const ampliarPreventivo = async (req, res) => {
+    try {
+        const newPreventivo = new preventivo(mapPreventivoData(req.body));
+      
+        await newPreventivo.save();
+        // await foundDenuncia.save();
+        res.json({ message: 'Preventivo creado con éxito' });
+    } catch (error: any) {
+        console.error('Error creando preventivo:', error);
+        res.status(500).json({ message: 'Error al crear el preventivo', error: error.message });
+    }
+};
 
 export const editPreventivo = async (req, res) => {
     try {

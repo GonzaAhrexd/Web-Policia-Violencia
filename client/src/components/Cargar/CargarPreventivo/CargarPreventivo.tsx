@@ -25,8 +25,7 @@ import CargarInstructorYSecretario from '../../Cargar/CargarAgente/CargarInstruc
 import PDF from './PDF'; // Componente para generar el PDF del preventivo
 
 // Funciones de API
-import { crearPreventivo } from '../../../api/CRUD/preventivo.crud'; // Función para crear un preventivo
-import { getPreventivo } from '../../../api/CRUD/preventivo.crud'; // Función para obtener datos de un preventivo
+import { crearPreventivo, getPreventivo } from '../../../api/CRUD/preventivo.crud'; // Función para crear un preventivo
 import { mostrarDenunciasSinVerificarID } from '../../../api/CRUD/denunciasSinVerificar.crud'; // Función para obtener una denuncia por ID
 import { useCampos } from '../../../context/campos'; // Hook para obtener datos de unidades
 
@@ -56,6 +55,7 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
     const { unidades } = useCampos(); // Obtiene las unidades desde el contexto
     const [numeroNotaAnterior, setNumeroNotaAnterior] = useState(''); // Número de nota del preventivo base (para ampliaciones)
     const [objetoAnterior, setObjetoAnterior] = useState(''); // Objeto del preventivo base (para ampliaciones)
+    const [numeroDeExpedienteDenuncia, setNumeroDeExpedienteDenuncia] = useState(data.numero_de_expediente); // Número de expediente de la denuncia
     const [direccionValor, setDireccionValor] = useState(''); // Dirección de la unidad
     const [telefonoValor, setTelefonoValor] = useState(''); // Teléfono de la unidad
     const [supervisionValor, setSupervisionValor] = useState(''); // Supervisión de la unidad
@@ -107,7 +107,11 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
         // Si es una ampliación, carga los datos del preventivo base
         if (data.modo_actuacion === 'Ampliación de denuncia') {
             const denunciaBase = await mostrarDenunciasSinVerificarID(data.ampliado_de); // Obtiene la denuncia base
+
+
             const preventivoBase = await getPreventivo(denunciaBase.preventivo_ID); // Obtiene el preventivo base
+
+            setNumeroDeExpedienteDenuncia(preventivoBase.numero_expediente); // Establece el número de expediente de la denuncia
             setNumeroNotaAnterior(preventivoBase.numero_nota); // Establece el número de nota anterior
             setObjetoAnterior(preventivoBase.objeto); // Establece el objeto anterior
         }
@@ -118,7 +122,8 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
             ...values,
             autoridades: stringAcumulador,
             numero_nota_anterior: numeroNotaAnterior,
-            objetoAnterior: objetoAnterior,
+            objeto_anterior: objetoAnterior,
+            numero_de_expediente: numeroDeExpedienteDenuncia,
         };
 
         // Genera el PDF según el tipo de denuncia
@@ -130,7 +135,7 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
             )
         ).toBlob();
 
-        // Abre el PDF en una nueva pestaña
+        // // Abre el PDF en una nueva pestaña
         window.open(URL.createObjectURL(blob));
     };
 
@@ -142,21 +147,27 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
                 className='flex flex-col w-full'
                 onSubmit={
                     handleSubmit(async (values) => {
+                        if (data.modo_actuacion === 'Ampliación de denuncia') {
+                            const denunciaBase = await mostrarDenunciasSinVerificarID(data.ampliado_de); // Obtiene la denuncia base
+                            const preventivoBase = await getPreventivo(denunciaBase.preventivo_ID); // Obtiene el preventivo base
 
-                        if (data.modo_actuacion == "Ampliación de denuncia") {
-                            // const denunciaBase =
+                            
+                            setNumeroDeExpedienteDenuncia(preventivoBase.numero_expediente); // Establece el número de expediente de la denuncia
+                            setNumeroNotaAnterior(preventivoBase.numero_nota); // Establece el número de nota anterior
+                            setObjetoAnterior(preventivoBase.objeto); // Establece el objeto anterior
                         }
 
-                        console.log(data.modo_actuacion)
+
                         const nuevosValores = {
                             ...data, // esto sobrescribe claves duplicadas con las de `data`
                             ...values,
                             numero_expediente: data.numero_de_expediente,
                             autoridades: stringAcumulador,
+                            numero_nota_anterior: numeroNotaAnterior,
+                            objeto_anterior: objetoAnterior,
                             tipo_preventivo: data.modo_actuacion == "Ampliación de denuncia" ? "Ampliación de preventivo" : "Preventivo",
                         };
 
-                        console.log(nuevosValores)
 
                         Swal.fire({
                             title: '¿Está seguro de que desea crear el preventivo?',

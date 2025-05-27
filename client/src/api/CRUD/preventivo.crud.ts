@@ -53,9 +53,9 @@ export const getPreventivo = async (id: string) => {
     }
 }
 
-export const ampliarPreventivo = async (id: string, preventivo: any) => {
+export const ampliarPreventivo = async (preventivo: any) => {
     try {
-        const response = await axios.post(`/preventivo/ampliar-preventivo/${id}`, preventivo)
+        const response = await axios.post(`/preventivo/ampliar-preventivo`, preventivo)
         return response.data
     } catch (error) {
         console.log(error)

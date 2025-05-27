@@ -23,7 +23,7 @@ export const mostrarDenunciasSinVerificar = async () => {
 
 export const mostrarDenunciasSinVerificarID = async (id: string) => {
     try {
-        const response = await axios.get(`/denuncias-sin-verificar/${id}`)
+        const response = await axios.get(`/denuncias-sin-verificar/buscar-denuncias-sin-verificar-por-id/${id}`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -65,10 +65,7 @@ export const misDenunciasSinVerificar = async (values: any) => {
 
 export const buscarDenunciasSinVerificar = async (values: any) => {
     try {
-        console.log(values)
         const response = await axios.get(`/denuncias-sin-verificar/buscar-denuncias-sin-verificar/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.id_denuncia ? encodeURIComponent(values.id_denuncia) : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}/${values.division ? values.division : "no_ingresado"}/${values.municipio ? values.municipio : "no_ingresado"}/${values.comisaria ? values.comisaria : "no_ingresado"}/${values.mostrar_ampliaciones ? values.mostrar_ampliaciones : "no_ingresado"}`)
-        console.log(response.data)
-        
         return response.data
     } catch (error) {
         console.log(error)

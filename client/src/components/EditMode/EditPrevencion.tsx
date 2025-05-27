@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 import InputRegister from "../InputComponents/InputRegister";
 import InputDate from "../InputComponents/InputDate";
 import InputCheckboxAcumulador from "../InputComponents/InputCheckboxAcumulador";
-import { editPreventivo, crearPreventivo, ampliarPreventivo } from "../../api/CRUD/preventivo.crud";
+import { editPreventivo, ampliarPreventivo } from "../../api/CRUD/preventivo.crud";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/auth";
 import { useCampos } from "../../context/campos";
@@ -126,30 +126,27 @@ function EditPrevencion({ data, modoExpandir }: EditPrevencionProps) {
     ];
 
     const handlePrint = async () => {
-
         const values = getValues()
-
-
         const nuevosValores = {
             ...data, // esto sobrescribe claves duplicadas con las de `data`
             ...values,
+            numero_nota_anterior: data.numero_nota,
+            objeto_anterior: data.objeto,
             autoridades: stringAcumulador
         };
         let blob;
-
-        if(modoExpandir || data.tipo_preventivo == "Ampliación de preventivo"){
-             
-            
+        // console.log(data.numero_nota)
+        console.log(values.numero_nota)
+        if (modoExpandir || data.tipo_preventivo == "Ampliación de preventivo") {
             // Preguntar y continuar luego
             blob = await pdf(<PDF datosAnteriores={data} datos={nuevosValores} user={user} ampliacion />).toBlob();
-        }else{
-             blob = await pdf(<PDF datos={data} user={user} />).toBlob();
+        } else {
+            blob = await pdf(<PDF datos={data} user={user} />).toBlob();
         }
         // Crea una URL de objeto a partir del blob
         const url = URL.createObjectURL(blob);
         // Abre la URL en una nueva pestaña
         window.open(url);
-
     }
 
 
@@ -190,7 +187,7 @@ function EditPrevencion({ data, modoExpandir }: EditPrevencionProps) {
                     ...values,
                     autoridades: stringAcumulador
                 };
-
+                
                 await editPreventivo(data._id, nuevosValores)
 
             }
@@ -216,15 +213,17 @@ function EditPrevencion({ data, modoExpandir }: EditPrevencionProps) {
                     confirmButtonText: 'Aceptar'
                 }
                 )
-
                 const nuevosValores = {
                     ...data,
                     ...values,
+                    numero_nota_anterior: data.numero_nota,
+                    objeto_anterior: data.objeto,
+                    con_denuncia_ampliada: true,
                     tipo_preventivo: "Ampliación de preventivo",
                     autoridades: stringAcumulador
                 };
-
-                await ampliarPreventivo(data._id, nuevosValores)
+                await ampliarPreventivo(nuevosValores)
+                // await ampliarPreventivo(data._id, nuevosValores)
 
             }
         })
@@ -256,6 +255,9 @@ function EditPrevencion({ data, modoExpandir }: EditPrevencionProps) {
                     <InputRegister notMidMD campo="Número de nota" nombre="numero_nota" register={register} type="text" error={errors.numero_nota} require placeholder="Número de nota" valor={`N°-CSPJ/${new Date().getFullYear()}`} setValue={setValue} />
                     <InputRegister valor={data.objeto} notMidMD campo="Objeto" nombre="objeto" register={register} type="text" error={errors.objeto} require placeholder="Objeto" setValue={setValue} />
                     <InputRegister valor={data.consultado} notMidMD campo="Consultado a" nombre="consulta" register={register} type="text" error={errors.consulta} require placeholder="Consultado a" setValue={setValue} />
+                    {modoExpandir && 
+                    <InputTextArea valor={data.observaciones} campo="Observaciones" nombre="observaciones" register={register} type="text" required placeholder="Observaciones" setValue={setValue} /> 
+                    }
                     <InputTextArea valor={data.resolucion} campo="Resolución" nombre="resolucion" register={register} type="text" required placeholder="Descripción" setValue={setValue} />
                 </div>
                 <h1 className='text-2xl'>Autoridades</h1>
@@ -275,10 +277,10 @@ function EditPrevencion({ data, modoExpandir }: EditPrevencionProps) {
                     <button className='bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10'>
                         {modoExpandir ? "Crear preventivo" : "Editar preventivo"}
                     </button>
-                    {modoExpandir && 
-                    <div className="bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0" onClick={() => handlePrint()}>
-                         Imprimir
-                    </div>
+                    {modoExpandir &&
+                        <div className="bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0" onClick={() => handlePrint()}>
+                            Imprimir
+                        </div>
                     }
                 </div>
 

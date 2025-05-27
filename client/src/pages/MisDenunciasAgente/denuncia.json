@@ -1,0 +1,47 @@
+{
+    "preguntas": {
+        "desea_ser_asistida": false,
+        "desea_ser_examinada_por_medico": false,
+        "desea_accionar_penalmente": true,
+        "desea_agregar_quitar_o_enmendar": false
+    },
+    "secretario": {
+        "nombre_completo_secretario": "Probando Prueba",
+        "jerarquia_secretario": "Sargento",
+        "plaza_secretario": "Sin plaza"
+    },
+    "instructor": {
+        "nombre_completo_instructor": "Probando Prueba",
+        "jerarquia_instructor": "Cabo"
+    },
+    "_id": "68308bb17a570a99d90a8e19",
+    "estado": "En verificación",
+    "cargado_por": "674dcc1c623c6e8eb0278440",
+    "numero_de_expediente": "130/381-123-E/2025",
+    "fecha": "2025-05-23T00:00:00.000Z",
+    "hora": "11:52",
+    "direccion": "Avenida Alvear Nº 126",
+    "telefono": "362461832",
+    "division": "Metropolitana",
+    "ampliado_de": "",
+    "nombre_victima": "PROBANDO",
+    "apellido_victima": "PRUEBA",
+    "edad_victima": 34,
+    "DNI_victima": "29384982",
+    "estado_civil_victima": "Divorciado/a",
+    "modo_actuacion": "Denuncia Penal",
+    "ocupacion_victima": "Servicio Penitenciario Provincial",
+    "nacionalidad_victima": "Argentina",
+    "genero_victima": "Femenino",
+    "direccion_victima": "Av. Hernandarias N° 2990",
+    "telefono_victima": "4392843928",
+    "sabe_leer_y_escribir_victima": false,
+    "observaciones": "DENUNCIA ORIGINAL. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in tristique purus. In hac habitasse platea dictumst. Nam id diam molestie magna suscipit laoreet. Donec sodales arcu vehicula nisi tempus, non viverra lectus aliquam. Pellentesque rutrum urna ante. Quisque elementum porta tortor nec ullamcorper. Quisque id lorem nunc. Cras semper nibh neque, at vehicula ligula blandit a.\n\nEtiam dictum venenatis libero. Vivamus nec mi a nibh tristique fermentum. Sed tortor arcu, condimentum porttitor aliquet vitae, pulvinar sit amet lorem. Nam dignissim neque vel dui bibendum ullamcorper. Proin gravida mauris commodo aliquam convallis. Proin rhoncus rhoncus ultricies. Suspendisse non tellus nec turpis hendrerit porttitor. Donec suscipit lacinia ante, eget consectetur ante tincidunt ut. Nullam viverra dictum egestas. Donec nec dolor sed nisi dignissim faucibus eget ac tellus. Etiam eu mattis neque. Nunc dignissim, ligula non finibus suscipit, turpis metus sollicitudin quam, at efficitur libero ligula ac velit.\n\nMauris tristique placerat fringilla. Donec lacinia laoreet lacus vel aliquet. Etiam ornare elit non enim aliquam, sit amet tempus dolor elementum. Phasellus tincidunt, odio vel eleifend vestibulum, odio magna eleifend quam, sed interdum enim augue feugiat tortor. Donec facilisis finibus malesuada. Morbi commodo consequat justo suscipit vehicula. Vestibulum feugiat augue ac enim dapibus faucibus ac eu ex.",
+    "ampliaciones_IDs": [
+        "68308c377a570a99d90a9165"
+    ],
+    "createdAt": "2025-05-23T14:52:33.924Z",
+    "updatedAt": "2025-05-23T14:59:32.906Z",
+    "__v": 0,
+    "preventivo_ID": "68308d547a570a99d90a9199"
+}

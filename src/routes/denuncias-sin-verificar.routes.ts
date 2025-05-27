@@ -20,9 +20,9 @@ const router:Router = Router();
 router.post('/crear-denuncia-sin-verificar/', authRequired, createDenunciaSinVerificar)
 // Buscar denuncias sin verificar
 router.get('/denuncias-sin-verificar/', authRequired, getDenunciasSinVerificar)
-router.get('/denuncias-sin-verificar/:id', authRequired, getDenunciasSinVerificarId)
+router.get('/buscar-denuncias-sin-verificar-por-id/:id', authRequired, getDenunciasSinVerificarId)
 // Buscar denuncias sin verificar 
-router.get('/denuncias-sin-verificar/:desde/:hasta/:id/:expediente/:division/:municipio/:comisaria/:mostrar_ampliaciones', authRequired, getDenunciasSinVerificarAvanzado)
+router.get('/buscar-denuncias-sin-verificar/:desde/:hasta/:id/:expediente/:division/:municipio/:comisaria/:mostrar_ampliaciones', authRequired, getDenunciasSinVerificarAvanzado)
 // Eliminar denuncia sin verificar por id
 router.delete('/eliminar-denuncias-sin-verificar/:id', authRequired,  deleteDenunciaSinVerificar)
 // Validar denuncia sin verificar

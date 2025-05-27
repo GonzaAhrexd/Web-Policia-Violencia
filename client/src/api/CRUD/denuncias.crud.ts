@@ -34,8 +34,7 @@ export const misDenuncias = async (values: any) => {
 // Listar denuncias del usuario actual
 export const buscarDenuncias = async (values: any, manual: boolean) => {
     try {
-        console.log(`/denuncias/buscar-denuncias/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.id_denuncia ? values.id_denuncia : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}/${values.is_expediente_completo ? values.is_expediente_completo : "no_ingresado"}/${values.division ? values.division : "no_ingresado"}/${values.municipio ? values.municipio : "no_ingresado"}/${values.comisaria ? values.comisaria : "no_ingresado"}/${values.relacion_victima_victimario ? values.relacion_victima_victimario : "no_ingresado" }/${values.aprehension ? values.aprehension : "no_ingresado" }/${manual}`)
-        const response = await axios.get(`/buscar-denuncias/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.id_denuncia ? values.id_denuncia : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}/${values.is_expediente_completo ? values.is_expediente_completo : "no_ingresado"}/${values.division ? values.division : "no_ingresado"}/${values.municipio ? values.municipio : "no_ingresado"}/${values.comisaria ? values.comisaria : "no_ingresado"}/${values.relacion_victima_victimario ? encodeURIComponent(values.relacion_victima_victimario) : "no_ingresado" }/${values.aprehension ? values.aprehension : "no_ingresado" }/${manual}`)
+        const response = await axios.get(`/denuncias/buscar-denuncias/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.id_denuncia ? values.id_denuncia : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}/${values.is_expediente_completo ? values.is_expediente_completo : "no_ingresado"}/${values.division ? values.division : "no_ingresado"}/${values.municipio ? values.municipio : "no_ingresado"}/${values.comisaria ? values.comisaria : "no_ingresado"}/${values.relacion_victima_victimario ? encodeURIComponent(values.relacion_victima_victimario) : "no_ingresado" }/${values.aprehension ? values.aprehension : "no_ingresado" }/${manual}`)
         return response.data
     } catch (error) {
         console.log(error)
@@ -64,7 +63,7 @@ export const editarDenuncia = async (denuncia: any) => {
 // Eliminar denuncias
 export const eliminarDenuncia = async (id: string) => {
     try {
-        const response = await axios.delete(`/eliminar-denuncias/${id}`)
+        const response = await axios.delete(`/denuncias/eliminar-denuncias/${id}`)
         return response.data
     } catch (error) {
         console.log(error)

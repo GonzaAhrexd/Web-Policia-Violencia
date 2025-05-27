@@ -67,7 +67,7 @@ function BuscarPreventivos() {
                         } else if (user.rol == "agente") {
                             values.division = user.unidad
                         }
-                        console.log(values)
+                
                         const preventivosFound = await buscarPreventivo(values)
                         setPreventivosLista(preventivosFound)
                     }
@@ -96,7 +96,7 @@ function BuscarPreventivos() {
                     responsive={true}
                     striped={true}
                     highlightOnHover={true}
-                    noDataComponent="No hay denuncias para mostrar"
+                    noDataComponent="No hay preventivos para mostrar"
                     defaultSortFieldId={"Fecha"}
                     expandableIcon={expandableIcon}
                 />

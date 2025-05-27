@@ -316,7 +316,7 @@ function PDF({ datos, user, ampliacion, datosAnteriores }: PDFProps) {
                     <Text style={styles.text}>{datos.numero_nota}</Text>
                     <Text style={styles.text}>{espacioEnBlanco(75)}OBJETO: Com. Inicio Sum. Policia Judicial</Text> 
                     <Text style={styles.text}>{espacioEnBlanco(75)}"{datos.objeto}"</Text>
-                    <Text style={styles.text}>{espacioEnBlanco(75)}Ampliando anterior {datos.numero_nota_anterior}, {datos.objetoAnterior}, expediente {datosAnteriores.numero_de_expediente} que damnifica a {datos.apellido_victima} {datos.nombre_victima} {`(${datos.edad_victima})`}, domiciliado {datos.direccion_victima}, DNI {datos.DNI_victima}. Cumplo en dirigirme a usted, llevando a su conocimiento que en fecha {datos.fecha} se amplió sumario de Policía Judicial por el delito de mención en rubro en virtud a las siguientes circunstancias: . </Text>
+                    <Text style={styles.text}>{espacioEnBlanco(75)}Ampliando anterior {datos.numero_nota_anterior} , {datos.objeto_anterior} , expediente {datos.numero_de_expediente} que damnifica a {datos.apellido_victima} {datos.nombre_victima} {`(${datos.edad_victima})`}, domiciliado {datos.direccion_victima}, DNI {datos.DNI_victima}. Cumplo en dirigirme a usted, llevando a su conocimiento que en fecha {datos.fecha} se amplió sumario de Policía Judicial por el delito de mención en rubro en virtud a las siguientes circunstancias: . </Text>
                     <Text style={styles.text}>{espacioEnBlanco(75)}{datos.observaciones}</Text> 
                     <Text style={styles.text}>{espacioEnBlanco(75)}Efectuando consulta con {datos.consultado}; Dispuso: 
                     </Text>

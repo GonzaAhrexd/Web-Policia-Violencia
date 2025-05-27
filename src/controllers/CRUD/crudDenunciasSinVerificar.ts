@@ -1,4 +1,4 @@
-// Importa los modelos de la base de datos
+    // Importa los modelos de la base de datos
 import denunciaSinVerificar from '../../models/denunciaSinVerificar'
 import usuarios from '../../models/usuarios'
 
