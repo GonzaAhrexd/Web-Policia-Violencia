@@ -40,8 +40,8 @@ function Buscar() {
       user?.rol === 'agente'
         ? BuscarDenunciasSinVerificar
         : showUnverified
-        ? BuscarDenunciasSinVerificar
-        : BuscarDenuncias,
+          ? BuscarDenunciasSinVerificar
+          : BuscarDenuncias,
     preventivo: BuscarPreventivos,
     exposicion: BuscarExposiciones,
   };
@@ -59,7 +59,7 @@ function Buscar() {
     agente: [
       { label: 'Denuncias', type: 'denuncias' },
       { label: 'Preventivo', type: 'preventivo' },
-      {label: 'Exposiciones', type: 'exposicion' },
+      { label: 'Exposiciones', type: 'exposicion' },
     ],
   };
 
@@ -88,6 +88,7 @@ function Buscar() {
         <div className="flex flex-col md:flex-row items-center justify-center m-2 md:m-0">
           {buttonConfig[configKey]?.map(({ label, type }) => (
             <BotonBusqueda
+              width="w-full md:w-2/10 lg:w-3/10 xl:w-1/10"
               key={type}
               label={label}
               isSelected={activeSearch === type}
@@ -101,6 +102,7 @@ function Buscar() {
           {(user?.rol === 'admin' || user?.rol === 'carga') && activeSearch === 'denuncias' && (
             <div className="flex flex-col md:flex-row items-center justify-center m-2 md:m-0">
               <BotonBusqueda
+                width="w-full md:w-3/10"
                 label={showUnverified ? 'Denuncias sin verificar' : 'Denuncias verificadas'}
                 isSelected={showUnverified}
                 onClick={() => setShowUnverified(!showUnverified)}

@@ -60,6 +60,7 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
     const [listaAmpliaciones, setListaAmpliaciones] = useState([]); // Almacena la lista de ampliaciones
     const { user } = useAuth(); // Obtiene el usuario autenticado desde el contexto
     const [tienePreventivoPrevio, setTienePreventivoPrevio] = useState(false); // Controla si hay un preventivo previo
+   
     // Datos para mostrar en tablas
     // Información general de la denuncia
     const datosDenuncia = [
