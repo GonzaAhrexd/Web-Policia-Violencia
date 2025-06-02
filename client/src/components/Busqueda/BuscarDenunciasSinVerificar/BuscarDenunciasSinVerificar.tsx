@@ -18,7 +18,6 @@ import InputCheckbox from '../../InputComponents/InputCheckbox';
 import { columnsDataTableVerificar } from './columnsDataTableVerificar';
 import { customStyles } from '../../../GlobalConst/customStyles';
 import expandedComponentDenunciasSinVerificar from '../../../pages/MisDenunciasAgente/expandedComponentsDenunciasSinVerificar';
-
 // Define los íconos para expandir/contraer filas en la DataTable
 const expandableIcon = {
     collapsed: <ArrowDownCircleIcon className='h-6 w-6' />,

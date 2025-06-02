@@ -18,9 +18,10 @@ interface InputRegisterProps {
     notMidMD?: boolean;
     busqueda?: boolean;
     disabled?: boolean;
+    customSize?: string;
 }
 
-function InputRegister({ busqueda, disabled, notMidMD, notMid, campo, nombre, register, type, error, require, valor, placeholder, setValue }: InputRegisterProps) {
+function InputRegister({customSize, busqueda, disabled, notMidMD, notMid, campo, nombre, register, type, error, require, valor, placeholder, setValue }: InputRegisterProps) {
     // Estados
     const [avisoRequerido, setAvisoRequerido] = useState(false)
     // Si no se recibe un placeholder, se setea como string vacío
@@ -33,8 +34,11 @@ function InputRegister({ busqueda, disabled, notMidMD, notMid, campo, nombre, re
     }, [setValue, nombre, valor]);
 
     // Función para obtener el nombre de la clase dependiendo del campo
-    function getClassName(campo:String, nombre:String, notMid:any, notMidMD:any) {
-        if (campo === 'Barrio' || nombre === 'numero_de_expediente') {
+    function getClassName(campo:String, nombre:String, notMid:any, notMidMD:any, customSize:string) {
+        if(customSize != ""){
+            return customSize;
+        }
+        else if (campo === 'Barrio' || nombre === 'numero_de_expediente') {
             return "flex flex-col w-full xl:w-1/2";
         } else if (notMid) {
             return "flex flex-col w-full md:w-full";
@@ -48,7 +52,7 @@ function InputRegister({ busqueda, disabled, notMidMD, notMid, campo, nombre, re
     }
 
     return (
-        <div className={getClassName(campo, nombre, notMid, notMidMD)}>
+        <div className={getClassName(campo, nombre, notMid, notMidMD, customSize ? customSize : "")}>
             <span className={`flex font-medium ml-4`}> {nombre === "id" ? "" : campo} {error && <ExclamationCircleIcon className='w-6 text-red-600 cursor-pointer' onMouseEnter={() => setAvisoRequerido(true)} onMouseLeave={() => setAvisoRequerido(false)} />} {avisoRequerido && <span className="text-red-600">Requerido</span>} </span>
             <input disabled={disabled ? disabled : false} className={`border open-sans border-gray-300 rounded-md h-10 xl:h-8 ${campo === "Cantidad" && "xl:w-12"} 2xl:h-10 my-2 xl:my-1 xl:m-2 m-4 pl-2`} type={(type == "text" || type == "number") ? "text" : type}
                 {...register(nombre, { required: require === false ? false : true })} placeholder={placeholder} min={0} max={(nombre == "edad_victima") || (nombre == "edad_victimario") ? "130" : "null"}

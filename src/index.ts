@@ -23,7 +23,7 @@ import actividadRecienteRoutes from './routes/actividadReciente.routes' // Rutas
 import camposRoutes from './routes/campos.routes' // Rutas de campos
 import unidadesRoutes from './routes/unidades.routes' // Rutas de unidades
 import preventivoRoutes from './routes/preventivo.routes' // Rutas de preventivo
-
+import radiogramaRoutes from './routes/radiograma.routes'
 // DotEnv para leer las variables de entorno
 dotenv.config()
 
@@ -56,7 +56,7 @@ app.use('/api/actividad-reciente', actividadRecienteRoutes) // Rutas de activida
 app.use('/api/campos', camposRoutes) // Rutas de campos
 app.use('/api/unidades', unidadesRoutes) // Rutas de unidades
 app.use('/api/preventivo', preventivoRoutes) // Rutas de preventivo
-
+app.use('/api/radiograma', radiogramaRoutes) // Rutas de radiograma
 
 // Puerto de la aplicación
 const port = process.env.PORT || 4000

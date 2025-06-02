@@ -196,7 +196,7 @@ function CargarPreventivo({ data, setCrearPreventivo }: CargarPreventivoProps) {
                     })}
             >
                 <div className='flex flex-col items-center justify-center'>
-                    <InputRegister notMidMD campo="Supervisión" nombre="supervision" register={register} type="text" error={errors.supervision} require placeholder="Supervisión" setValue={setValue} valor={supervisionValor} />
+                    <InputRegister campo="Supervisión" nombre="supervision" register={register} type="text" error={errors.supervision} require placeholder="Supervisión" setValue={setValue} valor={supervisionValor} />
                     <InputDate campo="Fecha" nombre="fecha_preventivo" register={register} error={errors.fecha} type="date" />
                     <div className='flex flex-row w-full  xl:w-5/10'>
                         <InputRegister valor={direccionValor} campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />

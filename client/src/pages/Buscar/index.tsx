@@ -23,7 +23,7 @@ import BuscarTerceros from '../../components/Busqueda/BuscarTerceros/BuscarTerce
 import BuscarExposiciones from '../../components/Busqueda/BuscarExposiciones/BuscarExposiciones';
 import BuscarDenunciasSinVerificar from '../../components/Busqueda/BuscarDenunciasSinVerificar/BuscarDenunciasSinVerificar';
 import BuscarPreventivos from '../../components/Busqueda/BuscarPreventivo/BuscarPreventivos';
-
+import BuscarRadiograma from '../../components/Busqueda/BuscarRadiograma/BuscarRadiograma';
 
 function Buscar() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -43,6 +43,7 @@ function Buscar() {
           ? BuscarDenunciasSinVerificar
           : BuscarDenuncias,
     preventivo: BuscarPreventivos,
+    radiograma: BuscarRadiograma,
     exposicion: BuscarExposiciones,
   };
 
@@ -54,11 +55,12 @@ function Buscar() {
       { label: 'Terceros', type: 'terceros' },
       { label: 'Denuncias', type: 'denuncias' },
       { label: 'Preventivo', type: 'preventivo' },
+      { label: 'Radiograma', type: 'radiograma' },
       { label: 'Exposiciones', type: 'exposicion' },
     ],
     agente: [
       { label: 'Denuncias', type: 'denuncias' },
-      { label: 'Preventivo', type: 'preventivo' },
+      { label: 'Radiograma', type: 'radiograma' },
       { label: 'Exposiciones', type: 'exposicion' },
     ],
   };

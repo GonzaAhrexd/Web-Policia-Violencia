@@ -25,13 +25,14 @@ import CargarRadiograma from '../../components/Cargar/CargarRadiograma/CargarRad
 import ExpandedComponent from '../../components/Busqueda/BuscarPreventivo/expandedComponent'; // Componente para mostrar detalles de preventivos
 import PDF from '../CargarDenuncias/PDF'; // Componente para generar PDF de denuncias
 import PDFAmpliacion from '../../components/Cargar/CargarAmpliacion/PDF'; // Componente para generar PDF de ampliaciones
-
+import ExpandedComponentRadiograma from '../../components/Busqueda/BuscarRadiograma/expandedComponent';
 // Funciones de API
 import { getPreventivo } from '../../api/CRUD/preventivo.crud'; // Función para obtener datos de un preventivo
 import { buscarAmpliaciones } from '../../api/CRUD/denunciasSinVerificar.crud'; // Función para obtener ampliaciones de una denuncia
 import { columns } from './columnsDataTable'; // Configuración de columnas para DataTable
 import { customStyles } from '../../GlobalConst/customStyles'; // Estilos personalizados para DataTable
 import { mostrarDenunciasSinVerificarID } from '../../api/CRUD/denunciasSinVerificar.crud';
+import { getRadiogramaById } from '../../api/CRUD/radiograma.crud'; // Función para obtener datos de un radiograma
 // Tipos
 // Define el tipo de las propiedades del componente
 type ExpandedComponentsProps = {
@@ -57,6 +58,7 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
     const [verRadiograma, setVerRadiograma] = useState(false); // Controla la visualización de radiogramas
     const [verAmpliaciones, setVerAmpliaciones] = useState(false); // Controla la visualización de ampliaciones
     const [PreventivoData, setPreventivoData] = useState(null); // Almacena los datos del preventivo
+    const [radiogramaData, setRadiogramaData] = useState(null); // Almacena los datos del radiograma
     const [listaAmpliaciones, setListaAmpliaciones] = useState([]); // Almacena la lista de ampliaciones
     const { user } = useAuth(); // Obtiene el usuario autenticado desde el contexto
     const [tienePreventivoPrevio, setTienePreventivoPrevio] = useState(false); // Controla si hay un preventivo previo
@@ -152,6 +154,12 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
         setVerAmpliaciones(true);
     };
 
+    const handleVerRadiograma = async () => {
+        const radiogramaData = await getRadiogramaById(data.radiograma_ID);
+        setRadiogramaData(radiogramaData);
+        setVerRadiograma(true);
+    }
+
     // Renderizado condicional
 
     if (verAmpliaciones) {
@@ -214,7 +222,7 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
                 >
                     Ver denuncia
                 </button>
-                {/* TODO: Implementar componente para radiograma */}
+                <ExpandedComponentRadiograma data={radiogramaData} />
             </>
         );
     }
@@ -276,12 +284,21 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
                             Ver preventivo
                         </button>
                         {/* Botón para crear un radiograma */}
+                        {data.radiograma_ID ? ( 
                         <button
+                            className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"
+                            onClick={() => handleVerRadiograma()}
+                        >
+                            Ver radiograma
+                        </button>   
+                        ) : (   
+                            <button
                             className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"
                             onClick={() => setCrearRadiograma(true)}
                         >
                             Crear radiograma
                         </button>
+                        )}
                     </>
                 ) :
                     ((data.modo_actuacion == "Ampliación de denuncia" && tienePreventivoPrevio) || (data.modo_actuacion != "Ampliación de denuncia")) &&

@@ -1,5 +1,5 @@
 // Hooks
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // Librerías React
 import Swal from "sweetalert2";
 // Iconos
@@ -8,36 +8,33 @@ import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import { PrinterIcon } from "@heroicons/react/24/outline";
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
-import EditPrevencion from "../../EditMode/EditPrevencion";
+import EditRadiograma from "../../EditMode/EditRadiograma";
 // Context
 import { useAuth } from "../../../context/auth"
 // BackEnd
 import { deletePreventivo } from "../../../api/CRUD/preventivo.crud";
 import { pdf } from "@react-pdf/renderer";
-import PDF from "../../Cargar/CargarPreventivo/PDF";
+import PDFRadiograma from "../../Cargar/CargarRadiograma/PDFRadiograma";
 import ShowTextArea from "../../ShowData/ShowTextArea";
+
 
 type expandedComponentProps = {
     data: any
 }
-// Expanded component PREVENTIVO
-function expandedComponent({ data }: expandedComponentProps) {
+// Expanded component RADIOGRAMA
+function expandedComponentRadiograma({ data }: expandedComponentProps) {
 
     const [editGlobal, setEditGlobal] = useState(false)
     const [ampliarPreventivo, setAmpliarPreventivo] = useState(false)
     const { user } = useAuth();
 
-    const handlePrint = async () => {
+   
+
+    const handlePrint = async () => {   
 
         let blob
 
-  
-        if (data.tipo_preventivo === "Ampliación de preventivo") {
-
-            blob = await pdf(<PDF datos={data} user={user} ampliacion={true} />).toBlob();
-        } else {
-            blob = await pdf(<PDF datos={data} user={user} />).toBlob();
-        }
+        blob = await pdf(<PDFRadiograma datos={data} user={user} />).toBlob();
 
         // Crea una URL de objeto a partir del blob
         const url = URL.createObjectURL(blob);
@@ -48,8 +45,11 @@ function expandedComponent({ data }: expandedComponentProps) {
 
     // Datos del preventivo
     const datosPreventivo = [
-        { nombre: "Número de nota", valor: data.numero_nota ? data.numero_nota : "No ingresado" },
-        { nombre: "ID preventivo", valor: data._id ? data._id : "No ingresado" },
+        { nombre: "Número de nota", valor: data.nro_nota_preventivo ? data.nro_nota_preventivo : "No ingresado" },
+        { nombre: "Número de expediente", valor: data.nro_expediente ? data.nro_expediente : "No ingresado" },
+        { nombre: "ID radiograma", valor: data._id ? data._id : "No ingresado" },
+        { nombre: "Solicita", valor: data.solicita ? data.solicita : "No ingresado" },
+        { nombre: "Consultado", valor: data.consultado_preventivo ? data.consultado_preventivo : "No ingresado" },
         { nombre: "Fecha", valor: data.fecha ? data.fecha : "No ingresado" },
         { nombre: "Objeto", valor: data.objeto ? data.objeto : "No ingresado" },
 
@@ -67,12 +67,7 @@ function expandedComponent({ data }: expandedComponentProps) {
         { nombre: "Domicilio de la víctima", valor: data.direccion_victima ? data.direccion_victima : "No ingresado" },
         { nombre: "Teléfono víctima", valor: data.telefono_victima ? data.telefono_victima : "No ingresado" },
     ]
-    // Datos del secretario
-    const secretarioDatosMostrar = [
-        { nombre: "Nombre del secretario", valor: data.secretario?.nombre_completo_secretario ? data.secretario.nombre_completo_secretario : "No ingresado" },
-        { nombre: "Jerarquía secretario", valor: data.secretario?.jerarquia_secretario ? data.secretario.jerarquia_secretario : "No ingresado" },
-        { nombre: "Plaza secretario", valor: data.secretario?.plaza_secretario ? data.secretario.plaza_secretario : "No ingresado" },
-    ]
+   
     // Datos del instructor
     const instructorDatosMostrar = [
         { nombre: "Nombre del instructor", valor: data.instructor?.nombre_completo_instructor ? data.instructor.nombre_completo_instructor : "No ingresado" },
@@ -97,13 +92,13 @@ function expandedComponent({ data }: expandedComponentProps) {
 
     if (ampliarPreventivo) {
         return (
-            <EditPrevencion modoExpandir={true} data={data} />
+            <EditRadiograma modoExpandir={true} data={data} />
         )
     }
 
     else if (editGlobal) {
         return (
-            <EditPrevencion modoExpandir={false} data={data} />
+            <EditRadiograma data={data} />
         )
     }
     else {
@@ -114,11 +109,11 @@ function expandedComponent({ data }: expandedComponentProps) {
                     className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full "
                     onClick={() => setAmpliarPreventivo(true)}
                 >
-                    Ampliar preventivo
+                    Ampliar radiograma
                 </button>
 
                 <div className='flex items-center'>
-                    <h1 className='text-3xl my-5 font-sans mr-4'>Datos preventivo</h1>
+                    <h1 className='text-3xl my-5 font-sans mr-4'>Datos radiograma</h1>
                 </div>
                 <div className='flex flex-col'>
                     <SimpleTableCheckorX campo="" datos={datosPreventivo} />
@@ -130,24 +125,15 @@ function expandedComponent({ data }: expandedComponentProps) {
                     <SimpleTableCheckorX campo="" datos={victimaDatosMostrar} />
                 </div>
                 <div className='flex flex-col items-center'>
-                    <h1 className='text-3xl my-5 font-sans mr-4'>Autoridades</h1>
+                    <h1 className='text-3xl my-5 font-sans mr-4'>Destinatario</h1>
                     <ul className="flex flex-col">
-                        <li>{data.autoridades}</li>
+                        <li>{data.destinatario}</li>
                     </ul>
                 </div>
-                <div>
-                    <h1 className='text-3xl my-5 font-sans mr-4'>Observaciones</h1>
-                    <ShowTextArea dato={data.observaciones} />
-                </div>
-                <div>
-                    <h1 className='text-3xl my-5 font-sans mr-4'>Resolución</h1>
-                    <ShowTextArea dato={data.resolucion} />
-                </div>
-                <div className='flex items-center'>
-                    <h1 className='text-3xl my-5 font-sans mr-4'>Datos del secretario</h1>
-                </div>
-                <div className='flex flex-col'>
-                    <SimpleTableCheckorX campo="" datos={secretarioDatosMostrar} />
+                <div className="flex flex-col">
+                    <h1 className="text-3xl my-4 font-sans mr-4">Resolución</h1>
+                    <ShowTextArea  dato={data.resolucion_preventivo}  />
+
                 </div>
                 <div className='flex items-center'>
                     <h1 className='text-3xl my-5 font-sans mr-4'>Datos del instructor</h1>
@@ -181,4 +167,4 @@ function expandedComponent({ data }: expandedComponentProps) {
 }
 
 
-export default expandedComponent
+export default expandedComponentRadiograma
