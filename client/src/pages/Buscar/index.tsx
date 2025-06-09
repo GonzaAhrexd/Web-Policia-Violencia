@@ -42,8 +42,8 @@ function Buscar() {
         : showUnverified
           ? BuscarDenunciasSinVerificar
           : BuscarDenuncias,
-    preventivo: BuscarPreventivos,
-    radiograma: BuscarRadiograma,
+    // preventivo: BuscarPreventivos,
+    // radiograma: BuscarRadiograma,
     exposicion: BuscarExposiciones,
   };
 
@@ -54,13 +54,13 @@ function Buscar() {
       { label: 'Victimario', type: 'victimario' },
       { label: 'Terceros', type: 'terceros' },
       { label: 'Denuncias', type: 'denuncias' },
-      { label: 'Preventivo', type: 'preventivo' },
-      { label: 'Radiograma', type: 'radiograma' },
+      // { label: 'Preventivo', type: 'preventivo' },
+      // { label: 'Radiograma', type: 'radiograma' },
       { label: 'Exposiciones', type: 'exposicion' },
     ],
     agente: [
       { label: 'Denuncias', type: 'denuncias' },
-      { label: 'Radiograma', type: 'radiograma' },
+      // { label: 'Radiograma', type: 'radiograma' },
       { label: 'Exposiciones', type: 'exposicion' },
     ],
   };

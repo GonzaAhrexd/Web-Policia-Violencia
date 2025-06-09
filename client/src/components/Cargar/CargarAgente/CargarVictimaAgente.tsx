@@ -49,7 +49,7 @@ function CargarVictimaAgente({valores, register, setValue, errors }: CargarVicti
       <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Nacionalidad" nombre="nacionalidad_victima" register={register} setValue={setValue} type="text" error={errors.nacionalidad_victima}  valor={valores?.nacionalidad_victima} />
         <InputNumber campo="Edad" nombre="edad_victima" register={register} setValue={setValue} type="text" error={errors.edad_victima} maxLenght={2} valor={valores?.edad_victima}/>
-        <SelectRegisterSingle  isRequired={valores != '' ? false : true} valor={valores?.genero_victima && valores.genero_victima} setState={setGenero} campo="Género" nombre="genero" opciones={generos}  setValue={setValue} error={errors.genero} />
+        <SelectRegisterSingle  isRequired={((valores != '') && (valores != null)) ? false : true} valor={valores?.genero_victima && valores.genero_victima} setState={setGenero} campo="Género" nombre="genero" opciones={generos}  setValue={setValue} error={errors.genero} />
 
       </div>
 

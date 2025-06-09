@@ -3,10 +3,9 @@ import { UseFormRegister, UseFormSetValue, FieldErrors } from 'react-hook-form';
 // Componentes
 import InputRegister from '../../InputComponents/InputRegister'
 import SelectRegisterSingle from '../../Select/SelectRegisterSingle'
-
 // Campos 
-
 import { jerarquiaCampos } from '../../../GlobalConst/jerarquiaCampos';
+
 // Props
 interface CargarVictimaProps {
   register: UseFormRegister<any>;

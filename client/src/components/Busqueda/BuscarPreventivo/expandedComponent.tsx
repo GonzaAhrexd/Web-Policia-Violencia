@@ -4,7 +4,6 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 // Iconos
 import { TrashIcon } from '@heroicons/react/24/solid'
-import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import { PrinterIcon } from "@heroicons/react/24/outline";
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
@@ -16,29 +15,25 @@ import { deletePreventivo } from "../../../api/CRUD/preventivo.crud";
 import { pdf } from "@react-pdf/renderer";
 import PDF from "../../Cargar/CargarPreventivo/PDF";
 import ShowTextArea from "../../ShowData/ShowTextArea";
-
+import { getPreventivo } from "../../../api/CRUD/preventivo.crud";
 type expandedComponentProps = {
     data: any
 }
 // Expanded component PREVENTIVO
 function expandedComponent({ data }: expandedComponentProps) {
 
-    const [editGlobal, setEditGlobal] = useState(false)
     const [ampliarPreventivo, setAmpliarPreventivo] = useState(false)
+    const [dataPreventivo, setDataPreventivo] = useState(data);
     const { user } = useAuth();
 
+    const handleVerAmpliación = async () => {
+        const ampliacionPreventivo = await  getPreventivo(dataPreventivo.preventivo_ampliado_ID);
+        setDataPreventivo(ampliacionPreventivo);
+
+
+    }
     const handlePrint = async () => {
-
-        let blob
-
-  
-        if (data.tipo_preventivo === "Ampliación de preventivo") {
-
-            blob = await pdf(<PDF datos={data} user={user} ampliacion={true} />).toBlob();
-        } else {
-            blob = await pdf(<PDF datos={data} user={user} />).toBlob();
-        }
-
+        const blob = await pdf(<PDF datos={dataPreventivo} user={user} ampliacion={dataPreventivo.tipo_preventivo === "Ampliación de preventivo"} />).toBlob();
         // Crea una URL de objeto a partir del blob
         const url = URL.createObjectURL(blob);
         // Abre la URL en una nueva pestaña
@@ -48,38 +43,38 @@ function expandedComponent({ data }: expandedComponentProps) {
 
     // Datos del preventivo
     const datosPreventivo = [
-        { nombre: "Número de nota", valor: data.numero_nota ? data.numero_nota : "No ingresado" },
-        { nombre: "ID preventivo", valor: data._id ? data._id : "No ingresado" },
-        { nombre: "Fecha", valor: data.fecha ? data.fecha : "No ingresado" },
-        { nombre: "Objeto", valor: data.objeto ? data.objeto : "No ingresado" },
+        { nombre: "Número de nota", valor: dataPreventivo.numero_nota ? dataPreventivo.numero_nota : "No ingresado" },
+        { nombre: "ID preventivo", valor: dataPreventivo._id ? dataPreventivo._id : "No ingresado" },
+        { nombre: "Fecha", valor: dataPreventivo.fecha ? dataPreventivo.fecha : "No ingresado" },
+        { nombre: "Objeto", valor: dataPreventivo.objeto ? dataPreventivo.objeto : "No ingresado" },
 
     ]
     // Datos de la víctima
     const victimaDatosMostrar = [
-        { nombre: "Nombre de la víctima", valor: data.nombre_victima ? data.nombre_victima : "No ingresado" },
-        { nombre: "Apellido de la víctima", valor: data.apellido_victima ? data.apellido_victima : "No ingresado" },
-        { nombre: "Edad víctima", valor: data.edad_victima ? data.edad_victima : "No ingresado" },
-        { nombre: "DNI víctima", valor: data.DNI_victima ? data.DNI_victima : "No ingresado" },
-        { nombre: "Estado civil víctima", valor: data.estado_civil_victima ? data.estado_civil_victima : "No ingresado" },
-        { nombre: "Ocupación víctima", valor: data.ocupacion_victima ? data.ocupacion_victima : "No ingresado" },
-        { nombre: "Nacionalidad de la víctima", valor: data.nacionalidad_victima ? data.nacionalidad_victima : "No ingresado" },
-        { nombre: "Género de la víctima", valor: data.genero_victima ? data.genero_victima : "No ingresado" },
-        { nombre: "Domicilio de la víctima", valor: data.direccion_victima ? data.direccion_victima : "No ingresado" },
-        { nombre: "Teléfono víctima", valor: data.telefono_victima ? data.telefono_victima : "No ingresado" },
+        { nombre: "Nombre de la víctima", valor: dataPreventivo.nombre_victima ? dataPreventivo.nombre_victima : "No ingresado" },
+        { nombre: "Apellido de la víctima", valor: dataPreventivo.apellido_victima ? dataPreventivo.apellido_victima : "No ingresado" },
+        { nombre: "Edad víctima", valor: dataPreventivo.edad_victima ? dataPreventivo.edad_victima : "No ingresado" },
+        { nombre: "DNI víctima", valor: dataPreventivo.DNI_victima ? dataPreventivo.DNI_victima : "No ingresado" },
+        { nombre: "Estado civil víctima", valor: dataPreventivo.estado_civil_victima ? dataPreventivo.estado_civil_victima : "No ingresado" },
+        { nombre: "Ocupación víctima", valor: dataPreventivo.ocupacion_victima ? dataPreventivo.ocupacion_victima : "No ingresado" },
+        { nombre: "Nacionalidad de la víctima", valor: dataPreventivo.nacionalidad_victima ? dataPreventivo.nacionalidad_victima : "No ingresado" },
+        { nombre: "Género de la víctima", valor: dataPreventivo.genero_victima ? dataPreventivo.genero_victima : "No ingresado" },
+        { nombre: "Domicilio de la víctima", valor: dataPreventivo.direccion_victima ? dataPreventivo.direccion_victima : "No ingresado" },
+        { nombre: "Teléfono víctima", valor: dataPreventivo.telefono_victima ? dataPreventivo.telefono_victima : "No ingresado" },
     ]
     // Datos del secretario
     const secretarioDatosMostrar = [
-        { nombre: "Nombre del secretario", valor: data.secretario?.nombre_completo_secretario ? data.secretario.nombre_completo_secretario : "No ingresado" },
-        { nombre: "Jerarquía secretario", valor: data.secretario?.jerarquia_secretario ? data.secretario.jerarquia_secretario : "No ingresado" },
-        { nombre: "Plaza secretario", valor: data.secretario?.plaza_secretario ? data.secretario.plaza_secretario : "No ingresado" },
+        { nombre: "Nombre del secretario", valor: dataPreventivo.secretario?.nombre_completo_secretario ? dataPreventivo.secretario.nombre_completo_secretario : "No ingresado" },
+        { nombre: "Jerarquía secretario", valor: dataPreventivo.secretario?.jerarquia_secretario ? dataPreventivo.secretario.jerarquia_secretario : "No ingresado" },
+        { nombre: "Plaza secretario", valor: dataPreventivo.secretario?.plaza_secretario ? dataPreventivo.secretario.plaza_secretario : "No ingresado" },
     ]
     // Datos del instructor
     const instructorDatosMostrar = [
-        { nombre: "Nombre del instructor", valor: data.instructor?.nombre_completo_instructor ? data.instructor.nombre_completo_instructor : "No ingresado" },
-        { nombre: "Jerarquía instructor", valor: data.instructor?.jerarquia_instructor ? data.instructor.jerarquia_instructor : "No ingresado" },
+        { nombre: "Nombre del instructor", valor: dataPreventivo.instructor?.nombre_completo_instructor ? dataPreventivo.instructor.nombre_completo_instructor : "No ingresado" },
+        { nombre: "Jerarquía instructor", valor: dataPreventivo.instructor?.jerarquia_instructor ? dataPreventivo.instructor.jerarquia_instructor : "No ingresado" },
     ]
 
-    const handleDelete = async (data: any) => {
+    const handleDelete = async (dataPreventivo: any) => {
         const result = await Swal.fire({
             title: '¿Está seguro de que desea eliminar el preventivo?',
             text: "No podrá revertir esta acción",
@@ -91,32 +86,45 @@ function expandedComponent({ data }: expandedComponentProps) {
         })
 
         if (result.isConfirmed) {
-            await deletePreventivo(data._id)
+            await deletePreventivo(dataPreventivo._id)
         }
     }
 
     if (ampliarPreventivo) {
         return (
-            <EditPrevencion modoExpandir={true} data={data} />
+            <EditPrevencion modoExpandir={true} data={dataPreventivo} />
         )
     }
 
-    else if (editGlobal) {
-        return (
-            <EditPrevencion modoExpandir={false} data={data} />
-        )
-    }
+    // else if (editGlobal) {
+    //     return (
+    //         <EditPrevencion modoExpandir={false} data={dataPreventivo} />
+    //     )
+    // }
     else {
         return (
 
             <div>
-                <button
-                    className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full "
-                    onClick={() => setAmpliarPreventivo(true)}
-                >
-                    Ampliar preventivo
-                </button>
+                {(dataPreventivo.preventivo_ampliado_ID)  ?
+                    <button
+                        className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full "
+                        onClick={() => handleVerAmpliación()}
+                    >
+                        Ver ampliación
+                    </button>
 
+                    : (
+                        (dataPreventivo.tipo_preventivo !== "Ampliación de preventivo") && (
+                            <button
+                            className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full "
+                            onClick={() => setAmpliarPreventivo(true)}
+                            >
+                            Ampliar preventivo
+                        </button>
+                        )
+                    )
+
+                }
                 <div className='flex items-center'>
                     <h1 className='text-3xl my-5 font-sans mr-4'>Datos preventivo</h1>
                 </div>
@@ -132,16 +140,16 @@ function expandedComponent({ data }: expandedComponentProps) {
                 <div className='flex flex-col items-center'>
                     <h1 className='text-3xl my-5 font-sans mr-4'>Autoridades</h1>
                     <ul className="flex flex-col">
-                        <li>{data.autoridades}</li>
+                        <li>{dataPreventivo.autoridades}</li>
                     </ul>
                 </div>
                 <div>
                     <h1 className='text-3xl my-5 font-sans mr-4'>Observaciones</h1>
-                    <ShowTextArea dato={data.observaciones} />
+                    <ShowTextArea dato={dataPreventivo.observaciones} />
                 </div>
                 <div>
                     <h1 className='text-3xl my-5 font-sans mr-4'>Resolución</h1>
-                    <ShowTextArea dato={data.resolucion} />
+                    <ShowTextArea dato={dataPreventivo.resolucion} />
                 </div>
                 <div className='flex items-center'>
                     <h1 className='text-3xl my-5 font-sans mr-4'>Datos del secretario</h1>
@@ -162,10 +170,10 @@ function expandedComponent({ data }: expandedComponentProps) {
                     </div>
                     {((user.rol === "admin") || (user.rol === "carga")) &&
                         <>
-                            <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
+                            {/* <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
                                 <PencilSquareIcon className="w-7" />
-                            </div>
-                            <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(data)}>
+                            </div> */}
+                            <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(dataPreventivo)}>
                                 <TrashIcon className="w-7" />
                             </div>
                         </>

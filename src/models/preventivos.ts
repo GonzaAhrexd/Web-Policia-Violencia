@@ -32,6 +32,16 @@ const preventivoSchema = new mongoose.Schema({
         trim: true, // Trim para que no se guarden espacios en blanco
         default: "Preventivo"
     },
+    ampliado_de: {
+        type: String, // Tipo de dato String
+        required: false, // Campo no requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    preventivo_ampliado_ID: {
+        type: String, // Tipo de dato String
+        required: false, // Campo no requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     con_denuncia_ampliada: {
         type: Boolean, // Tipo de dato Boolean
         required: false, // Campo no requerido

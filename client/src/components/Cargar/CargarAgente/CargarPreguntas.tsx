@@ -4,7 +4,6 @@ import { useState } from 'react';
 // Componentes
 import InputRadio from '../../InputComponents/InputRadio'
 import InputTextArea from '../../InputComponents/InputTextArea'
-// Campos 
 
 // Props
 interface CargarVictimaProps {

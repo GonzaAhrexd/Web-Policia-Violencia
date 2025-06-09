@@ -1,8 +1,11 @@
 import radiograma from '../../models/radiograma'
 import denunciaSinVerificar from '../../models/denunciaSinVerificar'
 const mapRadiogramaData = (body) => ({
+    supervision: body.supervision,
     nro_expediente: body.nro_expediente,
     nro_nota_preventivo: body.nro_nota_preventivo,
+    nro_nota_preventivo_anterior: body.nro_nota_preventivo_anterior || null,
+    ampliado_de: body.ampliado_de || null,
     solicita: body.solicita,
     consultado_preventivo: body.consultado_preventivo,
     resolucion_preventivo: body.resolucion_preventivo,
@@ -10,7 +13,9 @@ const mapRadiogramaData = (body) => ({
     observaciones: body.observaciones,
     objeto: body.objeto,
     destinatario: body.destinatario,
+    tipo_radiograma: body.tipo_radiograma || "Radiograma",
     fecha: body.fecha ? new Date(body.fecha) : new Date(),
+    fecha_anterior: body.fecha_anterior ? new Date(body.fecha_anterior) : null,
     hora: body.hora,
     direccion: body.direccion,
     telefono: body.telefono,
@@ -30,10 +35,9 @@ const mapRadiogramaData = (body) => ({
     },
 });
 
+// Controlador para crear un radiograma
 export const createRadiograma = async (req, res) => {
     try {
-
-        console.log(req.body)
 
         const radiogramaData = new radiograma(mapRadiogramaData(req.body));
         await radiogramaData.save();
@@ -54,6 +58,7 @@ export const createRadiograma = async (req, res) => {
     }
 };
 
+// Controlador para radiograma por ID
 export const buscarRadiogramaID = async (req, res) => {
     const { id_radiograma } = req.params;
     try {
@@ -67,6 +72,8 @@ export const buscarRadiogramaID = async (req, res) => {
     }
 }
 
+
+// Controlador para editar un radiograma
 export const editRadiograma = async (req, res) => {
     const { id_radiograma } = req.params;
     try {
@@ -74,6 +81,26 @@ export const editRadiograma = async (req, res) => {
         if (!radiogramaData) {
             return res.status(404).json({ message: 'Radiograma no encontrado' });
         }
+        res.status(200).json(radiogramaData);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+// Controlador para ampliar un radiograma
+export const ampliarRadiograma = async (req, res) => {
+    const { id_radiograma_anterior, id_radiograma_nuevo } = req.params;
+    try {
+        const radiogramaData = await radiograma.findByIdAndUpdate(id_radiograma_anterior, { ampliacion_ID: id_radiograma_nuevo }, { new: true });
+        if (!radiogramaData) {
+            return res.status(404).json({ message: 'Radiograma no encontrado' });
+        }
+        // Actualiza el campo ampliado_de del nuevo radiograma
+        const nuevoRadiograma = await radiograma.findByIdAndUpdate(id_radiograma_nuevo, { ampliado_de: id_radiograma_anterior }, { new: true });
+        if (!nuevoRadiograma) {
+            return res.status(404).json({ message: 'Nuevo radiograma no encontrado' });
+        }
+
         res.status(200).json(radiogramaData);
     } catch (error: any) {
         res.status(500).json({ message: error.message });

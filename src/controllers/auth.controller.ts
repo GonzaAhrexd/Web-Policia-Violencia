@@ -81,18 +81,13 @@ export const register = async (req, res) => {
 }
 
 export const loginRepoV1 = async (req, res) => {
-    try {
-
-
+   
         try {
-            // const { usuario,  } = req.body
-
+                        
             const usuario = req.body.nombre_de_usuario
             const clave = req.body.pass
-
-
+            
             const loginDevuelve = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/loginSistemas`, { usuario, clave })
-
 
             // const usuarioExiste = 
             const usuarioEncontrado = await usuarios.findOne({ usuario_repo: loginDevuelve.data.data })
@@ -150,11 +145,6 @@ export const loginRepoV1 = async (req, res) => {
         }
 
 
-
-    } catch (error) {
-        console.log(error)
-        res.send('error')
-    }
 }
 
 export const registroDNIV1 = async (req, res) => {

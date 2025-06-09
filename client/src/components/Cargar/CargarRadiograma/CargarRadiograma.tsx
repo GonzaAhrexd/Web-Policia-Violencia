@@ -1,18 +1,22 @@
+// Hooks
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
+// Librerías
 import Swal from 'sweetalert2';
-import { crearRadiograma } from '../../../api/CRUD/radiograma.crud';
-import { getPreventivo } from '../../../api/CRUD/preventivo.crud';
+import { pdf } from '@react-pdf/renderer';
+// Componentes
 import InputDate from '../../InputComponents/InputDate';
 import InputRegister from '../../InputComponents/InputRegister';
-
-import { useAuth } from '../../../context/auth'; // Hook para obtener el usuario autenticado
-import { useCampos } from '../../../context/campos';
 import InputTextArea from '../../InputComponents/InputTextArea';
 import SelectRegisterSingle from '../../Select/SelectRegisterSingle';
-import { jerarquiaCampos } from '../../../GlobalConst/jerarquiaCampos';
-import { pdf } from '@react-pdf/renderer';
 import PDFRadiograma from './PDFRadiograma';
+// API
+import { crearRadiograma } from '../../../api/CRUD/radiograma.crud';
+import { getPreventivo } from '../../../api/CRUD/preventivo.crud';
+// Contexto
+import { jerarquiaCampos } from '../../../GlobalConst/jerarquiaCampos';
+import { useAuth } from '../../../context/auth'; // Hook para obtener el usuario autenticado
+import { useCampos } from '../../../context/campos';
 
 type CargarRadiogramaProps = {
   // Define the props for the CargarRadiograma component here
@@ -28,7 +32,7 @@ function CargarRadiograma({ data, setCrearRadiograma }: CargarRadiogramaProps) {
   const [direccionValor, setDireccionValor] = useState(''); // Dirección de la unidad
   const [telefonoValor, setTelefonoValor] = useState(''); // Teléfono de la unidad
   const [supervisionValor, setSupervisionValor] = useState(''); // Supervisión de la unidad
-  const [stringAcumulador, setStringAcumulador] = useState(''); // Acumula las autoridades seleccionadas
+  const [stringAcumulador, ] = useState(''); // Acumula las autoridades seleccionadas
 
   const direccionDivisiones: any[] = [
     { division: "Metropolitana", direccion: "Avenida Alvear Nº 126", telefono: "362461832" },
@@ -45,12 +49,11 @@ function CargarRadiograma({ data, setCrearRadiograma }: CargarRadiogramaProps) {
     try {
 
       const preventivoData = await getPreventivo(data.preventivo_ID);
-      console.log(preventivoData.numero_nota)
+
       if (preventivoData) {
-        // setValue('nro_nota_preventivo', preventivoData.numero_nota); // Establece el número de nota preventivo en el formulario
         return preventivoData; // Retorna el número de nota preventivo
-        // setValue('fecha_preventivo', preventivoData.fecha); // Establece la fecha del preventivo en el formulario
       }
+
     } catch (error) {
       console.log(error)
     }
@@ -82,8 +85,6 @@ function CargarRadiograma({ data, setCrearRadiograma }: CargarRadiogramaProps) {
 
     // // Abre el PDF en una nueva pestaña
     window.open(URL.createObjectURL(blob));
-
-    console.log(nuevosValores)
 
   };
 
@@ -128,7 +129,7 @@ function CargarRadiograma({ data, setCrearRadiograma }: CargarRadiogramaProps) {
 
 
   return (
-<div className="max-w-md md:max-w-none">
+    <div className="max-w-md md:max-w-none">
       <button className='flex flex-col items-center justify-center cursor-pointer bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full ' onClick={() => setCrearRadiograma(false)}>Cancelar</button>
       <h2 className='text-3xl my-5 font-sans'> Radiograma</h2>
       <form
@@ -140,13 +141,13 @@ function CargarRadiograma({ data, setCrearRadiograma }: CargarRadiogramaProps) {
             text: "¿Deseas crear el radiograma?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
+            confirmButtonColor: '#0C4A6E',
+            cancelButtonColor: '#FF554C',
             confirmButtonText: 'Sí, crear radiograma'
           }).then(async (result) => {
             if (result.isConfirmed) {
-           
-          const Preventivo = await obtenerNroPreventivo();
+
+              const Preventivo = await obtenerNroPreventivo();
 
               const valoresParaEnviar = {
                 ...data,
@@ -158,16 +159,18 @@ function CargarRadiograma({ data, setCrearRadiograma }: CargarRadiogramaProps) {
                 resolucion_preventivo: Preventivo.resolucion,
                 preventivo_ID: data.preventivo_ID,
                 objeto: Preventivo.objeto,
-                id_denuncia_sin_verificar: data._id, 
+                id_denuncia_sin_verificar: data._id,
               }
 
-              crearRadiograma(valoresParaEnviar);
+              await crearRadiograma(valoresParaEnviar);
               // setCrearRadiograma(false);
-              Swal.fire(
-                '¡Creado!',
-                'El radiograma ha sido creado.',
-                'success'
-              )
+              Swal.fire({
+                title: `Creado`,
+                text: "El radiograma ha sido creado correctamente.",
+                icon: 'success',
+                confirmButtonText: 'Ok',
+                allowOutsideClick: false
+              })
             }
           })
         })}
@@ -175,8 +178,8 @@ function CargarRadiograma({ data, setCrearRadiograma }: CargarRadiogramaProps) {
         <div className='flex flex-col md:items-center justify-start md:justify-center'>
           <InputRegister notMidMD campo="Supervisión" nombre="supervision" register={register} type="text" error={errors.supervision} require placeholder="Supervisión" setValue={setValue} valor={supervisionValor} />
           <InputDate campo="Fecha" nombre="fecha_preventivo" register={register} error={errors.fecha} type="date" />
-            <InputRegister notMidMD valor={direccionValor} campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
-            <InputRegister notMidMD valor={telefonoValor} campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
+          <InputRegister notMidMD valor={direccionValor} campo="Dirección" nombre="direccion" register={register} setValue={setValue} error={errors.direccion} type="text" />
+          <InputRegister notMidMD valor={telefonoValor} campo="Teléfono" nombre="telefono" register={register} setValue={setValue} error={errors.telefono} type="text" />
           <InputTextArea campo="Solicita" nombre="solicita" register={register} type="text" required placeholder="Solicita" setValue={setValue} />
         </div>
         <h1 className='text-2xl'>Destinatario</h1>

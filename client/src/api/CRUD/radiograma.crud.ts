@@ -26,3 +26,12 @@ export const editRadiograma = async (id: string, radiograma: any) => {
         console.log(error)
     }
 }
+
+export const ampliarRadiograma = async (id_radiograma_original: string, id_radiograma_ampliado: string) => {
+    try {
+        const response = await axios.put(`/radiograma/ampliar-radiograma/${id_radiograma_original}/${id_radiograma_ampliado}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

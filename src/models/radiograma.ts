@@ -1,156 +1,169 @@
-import mongoose, { Model, Mongoose } from 'mongoose'
+import mongoose from 'mongoose';
 
 const radiogramaSchema = new mongoose.Schema({
+
+    // --- Datos generales ---
+    supervision: {
+        type: String,
+        required: true,
+        trim: true
+    },
     nro_expediente: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+        type: String,
+        required: true,
+        trim: true
     },
     nro_nota_preventivo: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+        type: String,
+        required: true,
+        trim: true
+    },
+    nro_nota_preventivo_anterior: {
+        type: String,
+        trim: true,
+        default: null
     },
     tipo_radiograma: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true, // Trim para que no se guarden espacios en blanco
-        default: "Radiograma" // Valor por defecto
-    },
-    preventivo_ID: {
         type: String,
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+        required: true,
+        trim: true,
+        default: "Radiograma"
     },
-    ampliacion_ID: {
-        type: String, // Tipo de dato String
-        required: false, // Campo no requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+    fecha: {
+        type: Date,
+        default: Date.now
     },
-    solicita: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+    fecha_anterior: {
+        type: Date,
+        default: null
     },
-    consultado_preventivo: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+    hora: {
+        type: String,
+        required: true,
+        trim: true
     },
-    resolucion_preventivo: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+    direccion: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    telefono: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    destinatario: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    objeto: {
+        type: String,
+        required: true,
+        trim: true
     },
     observaciones: {
         type: String,
-        required: false, // Campo no requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+        trim: true
     },
-    objeto: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+
+    // --- Relaciones con otros documentos ---
+    preventivo_ID: {
+        type: String,
+        required: true,
+        trim: true
     },
-    fecha: {
-        type: Date, // Tipo de dato Date
-        default: Date.now // Fecha por defecto es la fecha actual
+    ampliado_de: {
+        type: String,
+        trim: true
     },
-    hora: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+    ampliacion_ID: {
+        type: String,
+        trim: true
     },
-    direccion: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+
+    // --- Consultas y resolución ---
+    solicita: {
+        type: String,
+        required: true,
+        trim: true
     },
-    telefono: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+    consultado_preventivo: {
+        type: String,
+        required: true,
+        trim: true
     },
-    destinatario: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+    resolucion_preventivo: {
+        type: String,
+        required: true,
+        trim: true
     },
-     nombre_victima: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true, // Trim para que no se guarden espacios en blanco
-        uppercase: true //Uppercase para que se guarde en mayúsculas
+
+    // --- Datos de la víctima ---
+    nombre_victima: {
+        type: String,
+        required: true,
+        trim: true,
+        uppercase: true
     },
-    // Definición del apellido de la victima
     apellido_victima: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true, // Trim para que no se guarden espacios en blanco
-        uppercase: true //Uppercase para que se guarde en mayúsculas
+        type: String,
+        required: true,
+        trim: true,
+        uppercase: true
     },
-    // Definciión de la edad de la victima
     edad_victima: {
-        type: Number, // Tipo de dato Number
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+        type: Number,
+        required: true
     },
-    // Definición del DNI de la victima
     DNI_victima: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true, // Trim para que no se guarden espacios en blanco
-        set: function (value: string) { // Función para remplazar los puntos y espacios del DNI
-            return value.replace(/\./g, '').replace(/\s/g, '');
-        }
+        type: String,
+        required: true,
+        trim: true,
+        set: (value: string) => value.replace(/\./g, '').replace(/\s/g, '')
     },
-    // Definición del estado civil de la victima
     estado_civil_victima: {
-        type: String, // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+        type: String,
+        required: true,
+        trim: true
     },
     ocupacion_victima: {
-        type: String,  // Tipo de dato String
-        required: true, // Campo requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+        type: String,
+        required: true,
+        trim: true
     },
-    // Estos campos solo los cargan los agentes
     nacionalidad_victima: {
-        type: String, // Tipo de dato String
-        required: false, // Campo no requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+        type: String,
+        trim: true
     },
     genero_victima: {
-        type: String, // Tipo de dato String
-        required: true, // Campo no requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+        type: String,
+        required: true,
+        trim: true
     },
     direccion_victima: {
-        type: String, // Tipo de dato String
-        required: false, // Campo no requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+        type: String,
+        trim: true
     },
     telefono_victima: {
-        type: String, // Tipo de dato String
-        required: false, // Campo no requerido
-        trim: true // Trim para que no se guarden espacios en blanco
+        type: String,
+        trim: true
     },
+
+    // --- Instructor ---
     instructor: {
         nombre_completo_instructor: {
-            type: String, // Tipo de dato String
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
+            type: String,
+            required: true,
+            trim: true
         },
         jerarquia_instructor: {
-            type: String, // Tipo de dato String
-            required: true, // Campo requerido
-            trim: true // Trim para que no se guarden espacios en blanco
+            type: String,
+            required: true,
+            trim: true
         }
-    },
+    }
+});
 
-
-})
-
-const radiograma = mongoose.model('radiograma', radiogramaSchema)
+const radiograma = mongoose.model('radiograma', radiogramaSchema);
 export default radiograma;

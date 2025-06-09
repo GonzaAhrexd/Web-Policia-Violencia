@@ -1,30 +1,32 @@
+// Componentes
 import InputNumber from "../InputComponents/InputNumber"
 import InputRadio from "../InputComponents/InputRadio"
 import InputRegister from "../InputComponents/InputRegister"
 import SelectRegisterSingle from "../Select/SelectRegisterSingle"
+// Contexto
+import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
+import { useCampos } from '../../context/campos'
 
+// Tipos
 type EditVictimaExposicionProps = {
-    datos: any,
-    register: any,
-    setValue: any,
-    errors: any
+  datos: any,
+  register: any,
+  setValue: any,
+  errors: any
 }
 
-import { estadoCivil } from '../../GlobalConst/estadoCivilCampos'
-import {useCampos } from '../../context/campos'
- 
 
-function EditVictimaExposicion({datos, register, setValue, errors}: EditVictimaExposicionProps) {
-  
-    const { ocupaciones } = useCampos();
-    
+function EditVictimaExposicion({ datos, register, setValue, errors }: EditVictimaExposicionProps) {
+  // Obtiene las ocupaciones del contexto 
+  const { ocupaciones } = useCampos();
+
+  // Opciones para el campo "Sabe leer y escribir"
   const opcionesSabeLeerYEscribir = [
     { nombre: 'Sí', value: 'si', id: "si_leer_escribir" },
     { nombre: 'No', value: 'no', id: "no_leer_escribir" },
   ]
 
-
-    return (
+  return (
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col md:flex-row my-2'>
         <InputRegister campo="Nombre" nombre="nombre_victima" valor={datos.nombre_victima} register={register} setValue={setValue} type="text" error={errors.nombre_victima} />
@@ -37,8 +39,8 @@ function EditVictimaExposicion({datos, register, setValue, errors}: EditVictimaE
       </div>
 
       <div className='flex flex-col xl:flex-row my-2'>
-        <SelectRegisterSingle isRequired={false} campo="Estado Civil" nombre="estado_civil_victima" valor={datos.estado_civil_victima} opciones={estadoCivil}  setValue={setValue} error={errors.estado_civil_victima} />
-        <SelectRegisterSingle isRequired={false} campo="Ocupación" nombre="ocupacion_victima" valor={datos.ocupacion_victima}  opciones={ocupaciones} setValue={setValue} error={errors.ocupacion_victima} />
+        <SelectRegisterSingle isRequired={false} campo="Estado Civil" nombre="estado_civil_victima" valor={datos.estado_civil_victima} opciones={estadoCivil} setValue={setValue} error={errors.estado_civil_victima} />
+        <SelectRegisterSingle isRequired={false} campo="Ocupación" nombre="ocupacion_victima" valor={datos.ocupacion_victima} opciones={ocupaciones} setValue={setValue} error={errors.ocupacion_victima} />
       </div>
 
       <div className='flex flex-col md:flex-row my-2'>

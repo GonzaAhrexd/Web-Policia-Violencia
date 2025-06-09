@@ -18,6 +18,7 @@ import InputDate from "../../InputComponents/InputDate"
 import InputRegister from "../../InputComponents/InputRegister"
 import InputTextArea from "../../InputComponents/InputTextArea"
 import PDF from "./PDF"
+// API
 import { crearDenunciaSinVerificar, agregarAmpliacionDenuncia } from "../../../api/CRUD/denunciasSinVerificar.crud"
 type CargarAmpliacionProps = {
   data: any;
@@ -165,7 +166,12 @@ function CargarAmpliacion({ data, setAmpliarDenuncia }: CargarAmpliacionProps) {
             const denunciaAmpliada: any = await crearDenunciaSinVerificar(values)
 
             await agregarAmpliacionDenuncia(data._id, denunciaAmpliada._id)
-            Swal.fire('Enviada!', '', 'success')
+            Swal.fire({
+                  title: `Enviado`,
+                  icon: 'success',
+                  confirmButtonText: 'Ok',            
+                  allowOutsideClick: false
+                })
             // setAmpliarDenuncia(false)
           } else if (result.isDenied) {
             Swal.fire('No se envió la ampliación', '', 'info')

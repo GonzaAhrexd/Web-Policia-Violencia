@@ -80,6 +80,9 @@ function PDF({ datos, user, ampliacion }: PDFProps) {
             marginBottom: 10,
             fontSize: 12,
             textAlign: 'justify',
+            flexWrap: 'wrap', 
+                width: '100%', // Asegúrate de que el contenedor use el ancho disponible
+
         },
         signature: {
             marginTop: 40,
@@ -278,24 +281,19 @@ function PDF({ datos, user, ampliacion }: PDFProps) {
                     <View style={styles.section}>
                         <View style={styles.sectionRight}>
 
-                            <Text style={styles.sectionRight}>{municipio}, {new Date(datos.fecha).getUTCDate()} de {meses[new Date(datos.fecha).getUTCMonth() + 1]} de {new Date(datos.fecha).getUTCFullYear()}</Text>
+                            <Text style={styles.sectionRight}>{municipio}, {new Date(datos.fecha).getUTCDate()} de {meses[new Date(datos.fecha).getUTCMonth() - 1]} de {new Date(datos.fecha).getUTCFullYear()}</Text>
                         </View>
                         <Text style={styles.headerText2}>-RADIOGRAMA-</Text>
                         <Text style={styles.text}>**********************************************************************************************************</Text>
-                        <Text style={styles.text}>{datos.destinatario}</Text>
+                        <Text style={styles.headerText}>{datos.destinatario}</Text>
                         <Text style={styles.text}>**********************************************************************************************************</Text>
                         <Text style={styles.text}>{datos.nro_nota_preventivo}</Text>
                          <Text style={styles.text}>{espacioEnBlanco(68)} 
                             Cumple en dirigirme a Ud., llevando a su conocimiento que en la fecha, se hizo presente {datos.nombre_victima} {datos.apellido_victima} de {datos.edad_victima} años, {datos.ocupacion_victima}, domiciliado {datos.direccion_victima}, DNI {datos.DNI_victima}, quien radicó denuncia dando cuenta:
+                            {datos.observaciones}. Efectuando consulta con {datos.consultado_preventivo} , dispuso : {datos.resolucion_preventivo} .
                         </Text>                        
                         <Text style={styles.text}>{espacioEnBlanco(68)} 
-                            {datos.observaciones}. Efectuando consulta con {datos.consultado_preventivo}, dispuso: {datos.resolucion_preventivo}.
-                        </Text>
-                       
-                        
-                        <Text style={styles.text}>{espacioEnBlanco(68)} 
                             Por ello SOLICITO: {datos.solicita}
-
                         </Text> 
 
 
@@ -312,20 +310,23 @@ function PDF({ datos, user, ampliacion }: PDFProps) {
                     <View style={styles.section}>
                         <View style={styles.sectionRight}>
 
-                            <Text style={styles.sectionRight}>{municipio}, {new Date(datos.fecha).getUTCDate()} de {meses[new Date(datos.fecha).getUTCMonth() + 1]} de {new Date(datos.fecha).getUTCFullYear()}</Text>
+                            <Text style={styles.sectionRight}>{municipio}, {new Date(datos.fecha).getUTCDate()} de {meses[new Date(datos.fecha).getUTCMonth()]} de {new Date(datos.fecha).getUTCFullYear()}</Text>
 
                         </View>
+                            <Text style={styles.headerText2}>-RADIOGRAMA-</Text>
                         <Text style={styles.text}>**********************************************************************************************************</Text>
-                        <Text style={styles.text}>SRES: {datos.autoridades}</Text>
+                        <Text style={styles.headerText}>{datos.destinatario}</Text>
                         <Text style={styles.text}>**********************************************************************************************************</Text>
-                        <Text style={styles.text}>{datos.numero_nota}</Text>
-                        <Text style={styles.text}>{espacioEnBlanco(75)}OBJETO: Com. Inicio Sum. Policia Judicial</Text>
-                        <Text style={styles.text}>{espacioEnBlanco(75)}"{datos.objeto}"</Text>
-                        <Text style={styles.text}>{espacioEnBlanco(75)}Ampliando anterior {datos.numero_nota_anterior} , {datos.objeto_anterior} , expediente {datos.numero_de_expediente} que damnifica a {datos.apellido_victima} {datos.nombre_victima} {`(${datos.edad_victima})`}, domiciliado {datos.direccion_victima}, DNI {datos.DNI_victima}. Cumplo en dirigirme a usted, llevando a su conocimiento que en fecha {datos.fecha} se amplió sumario de Policía Judicial por el delito de mención en rubro en virtud a las siguientes circunstancias: . </Text>
-                        <Text style={styles.text}>{espacioEnBlanco(75)}{datos.observaciones}</Text>
-                        <Text style={styles.text}>{espacioEnBlanco(75)}Efectuando consulta con {datos.consultado}; Dispuso:
+                        <Text style={styles.text}>{datos.nro_nota_preventivo}</Text>
+                        <Text style={styles.text}>{espacioEnBlanco(75)}Ampliando anterior {datos.nro_nota_preventivo} , causa {datos.objeto} , expediente {datos.numero_de_expediente} que damnifica a {datos.apellido_victima} {datos.nombre_victima} {`(${datos.edad_victima})`}, domiciliado {datos.direccion_victima}, DNI {datos.DNI_victima}. Cumplo en dirigirme a usted, llevando a su conocimiento que en fecha {new Date(datos.fecha).getUTCDate()} de {meses[new Date(datos.fecha).getUTCMonth()]} de {new Date(datos.fecha).getUTCFullYear()} se amplió sumario de Policía Judicial por el delito de mención en rubro en virtud a las siguientes circunstancias: . 
+                            {datos.observaciones}. Efectuando consulta con {datos.consultado_preventivo}, dispuso: {datos.resolucion_preventivo}.
                         </Text>
-                        <Text style={styles.text}>{espacioEnBlanco(75)}{datos.resolucion}</Text>
+        
+                        
+                        <Text style={styles.text}>{espacioEnBlanco(68)} 
+                            Por ello SOLICITO: {datos.solicita}
+
+                        </Text> 
 
 
                     </View>

@@ -289,7 +289,7 @@ function PDF({ datos, user, ampliacion, datosAnteriores }: PDFProps) {
                     <Text style={styles.text}>{espacioEnBlanco(75)}"{datos.objeto}"</Text>
                     <Text style={styles.text}>{espacioEnBlanco(68)}Cumplo en dirigirme a Ud. llevando a su conocimiento que en la fecha {new Date(datos.fecha).getUTCDate()} de {meses[new Date(datos.fecha).getUTCMonth() + 1]} de {new Date(datos.fecha).getUTCFullYear()} radicó denuncia en esta unidad el ciudadano quien se identificó como {datos.nombre_victima} {datos.apellido_victima} de {datos.edad_victima} años de edad, nacionalidad {datos.nacionalidad_victima}, {datos.estado_civil_victima}, {datos.sabe_leer_y_escribir_victima ? "con instrucción" : "sin instrucción"}, {datos.ocupacion_victima}, con domicilio en {datos.direccion_victima}, DNI N° {datos.DNI_victima}, teléfono N° {datos.telefono_victima}. Quien radicó denuncia dando que cuenta: </Text>
                     <Text style={styles.text}>{espacioEnBlanco(75)}{datos.observaciones}</Text>
-                    <Text style={styles.text}>{espacioEnBlanco(75)}Efectuando consulta con {datos.consulta}; Dispuso: 
+                    <Text style={styles.text}>{espacioEnBlanco(75)}Efectuando consulta con {datos.consultado}; Dispuso: 
                     </Text>
                     <Text style={styles.text}>{espacioEnBlanco(75)}{datos.resolucion}</Text>
                     
@@ -318,7 +318,7 @@ function PDF({ datos, user, ampliacion, datosAnteriores }: PDFProps) {
                     <Text style={styles.text}>{espacioEnBlanco(75)}"{datos.objeto}"</Text>
                     <Text style={styles.text}>{espacioEnBlanco(75)}Ampliando anterior {datos.numero_nota_anterior} , {datos.objeto_anterior} , expediente {datos.numero_de_expediente} que damnifica a {datos.apellido_victima} {datos.nombre_victima} {`(${datos.edad_victima})`}, domiciliado {datos.direccion_victima}, DNI {datos.DNI_victima}. Cumplo en dirigirme a usted, llevando a su conocimiento que en fecha {datos.fecha} se amplió sumario de Policía Judicial por el delito de mención en rubro en virtud a las siguientes circunstancias: . </Text>
                     <Text style={styles.text}>{espacioEnBlanco(75)}{datos.observaciones}</Text> 
-                    <Text style={styles.text}>{espacioEnBlanco(75)}Efectuando consulta con {datos.consultado}; Dispuso: 
+                    <Text style={styles.text}>{espacioEnBlanco(75)}Efectuando consulta con {datos.consultado} ; Dispuso: 
                     </Text>
                     <Text style={styles.text}>{espacioEnBlanco(75)}{datos.resolucion}</Text>
                     

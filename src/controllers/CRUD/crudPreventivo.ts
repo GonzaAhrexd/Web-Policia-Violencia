@@ -74,9 +74,18 @@ export const createPreventivo = async (req, res) => {
 export const ampliarPreventivo = async (req, res) => {
     try {
         const newPreventivo = new preventivo(mapPreventivoData(req.body));
-      
+        // En el preventivo ID agregale el id del preventivo ampliado
+        newPreventivo.ampliado_de = req.body._id;
         await newPreventivo.save();
-        // await foundDenuncia.save();
+
+        const preventivoOriginal = await preventivo.findByIdAndUpdate(req.body._id, {preventivo_ampliado_ID: newPreventivo._id.toString()}, {new: true});
+        
+        if(!preventivoOriginal) {
+            return res.status(404).json({ message: 'Preventivo original no encontrado' });
+        }
+        
+        await preventivoOriginal.save();
+
         res.json({ message: 'Preventivo creado con éxito' });
     } catch (error: any) {
         console.error('Error creando preventivo:', error);
