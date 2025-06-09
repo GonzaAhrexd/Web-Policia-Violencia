@@ -23,17 +23,20 @@ interface Props {
     valor?: any
     mid?: boolean
     setTipoDenuncia?: any
+    selectDivisiones?: boolean;
 }
 
 
 
-function SelectDivisionMunicipios({ campo, opciones, nombre, setValue, isRequired, valor }: Props) {
+function SelectDivisionMunicipios({selectDivisiones, campo, opciones, nombre, setValue, isRequired, valor }: Props) {
 
     // Estados
     const [requiredInput,] = useState(isRequired != null ? isRequired : true)
     const [selectedUnidad, setSelectedUnidad] = useState('');
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
+     const [municipiosTodo, setMunicipiosTodo] = useState([]);
+    const [showAllMunicipios, setShowAllMunicipios] = useState(false);
     const [, setIsEmpty] = useState(false);
 
     const handleUnidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -51,6 +54,26 @@ function SelectDivisionMunicipios({ campo, opciones, nombre, setValue, isRequire
         setValue('division', value);
 
     };
+     const getAllMunicipios = () => {
+        // Obtiene todos los municipios de las opciones
+        const municipios: string[] = [];
+        opciones.forEach((unidad: Opcion) => {
+            unidad.subdivisiones?.forEach((subunidad: Opcion) => {
+                if (subunidad.value) {
+                    municipios.push(subunidad.value);
+                }
+            });
+        });
+        // Elimina los duplicados y ordena alfabéticamente
+        return Array.from(new Set(municipios)).sort();
+    }
+
+    const handleMostrarTodo = () => {
+        setShowAllMunicipios(!showAllMunicipios)
+        setMunicipiosTodo(getAllMunicipios());
+    }
+
+
 
     const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
@@ -85,6 +108,11 @@ function SelectDivisionMunicipios({ campo, opciones, nombre, setValue, isRequire
                             </option>
                         ))}
                     </select>
+                      {selectDivisiones &&
+                    <div className='flex flex-col items-center justify-center'>
+                    <div className=' hover:cursor-pointer bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/2 flex items-center justify-center mt-2 md:mt-0' onClick={() => handleMostrarTodo()}>{showAllMunicipios ? "Mostrar reducido" : "Mostrar todos los municipios"}</div>
+                    </div>
+                    }
                     {selectedUnidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones && (
                         <div className='flex flex-row xl:h-full 2xl:h-full xl:w-full'>
                             <select
@@ -93,11 +121,18 @@ function SelectDivisionMunicipios({ campo, opciones, nombre, setValue, isRequire
                                 value={selectedSubunidad}
                                 onChange={handleSubunidadChange}>
                                 <option value="">Seleccione el municipio</option>
-                                {opciones.find((unidad) => unidad.value === selectedUnidad)?.subdivisiones?.map((subunidad) => (
+                                { !showAllMunicipios ?
+                                 opciones.find((unidad) => unidad.value === selectedUnidad)?.subdivisiones?.map((subunidad) => (
                                     <option key={subunidad.value} value={subunidad.value}>
                                         {subunidad.nombre}
                                     </option>
-                                ))}
+                                )) : 
+                                 municipiosTodo.map((municipio: string) => (
+                                    <option key={municipio} value={municipio}>
+                                        {municipio}
+                                    </option>
+                                ))
+                                }
                             </select>
                             {selectedSubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones && (
                                 <select

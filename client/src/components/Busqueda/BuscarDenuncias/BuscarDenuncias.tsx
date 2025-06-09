@@ -83,7 +83,7 @@ function BuscarDenuncias() {
                 </div>
                 {user.rol != "agente" &&
                 <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
-                    <SelectDivisionMunicipios isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />
+                    <SelectDivisionMunicipios selectDivisiones isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />
                 </div>
                 }
                 <div>

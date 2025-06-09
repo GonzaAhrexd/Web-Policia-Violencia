@@ -22,8 +22,7 @@ import BuscarVictimario from '../../components/Busqueda/BuscarVictimarios/Buscar
 import BuscarTerceros from '../../components/Busqueda/BuscarTerceros/BuscarTerceros';
 import BuscarExposiciones from '../../components/Busqueda/BuscarExposiciones/BuscarExposiciones';
 import BuscarDenunciasSinVerificar from '../../components/Busqueda/BuscarDenunciasSinVerificar/BuscarDenunciasSinVerificar';
-import BuscarPreventivos from '../../components/Busqueda/BuscarPreventivo/BuscarPreventivos';
-import BuscarRadiograma from '../../components/Busqueda/BuscarRadiograma/BuscarRadiograma';
+// import BuscarPreventivos from '../../components/Busqueda/BuscarPreventivo/BuscarPreventivos';
 
 function Buscar() {
   const { user, isAuthenticated, isLoading } = useAuth();

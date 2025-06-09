@@ -35,3 +35,12 @@ export const ampliarRadiograma = async (id_radiograma_original: string, id_radio
         console.log(error)
     }
 }
+
+export const deleteRadiograma = async (id: string) => {
+    try {
+        const response = await axios.delete(`/radiograma/eliminar-radiograma/${id}`)
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

@@ -139,7 +139,7 @@ function EditPrevencion({ data, modoExpandir }: EditPrevencionProps) {
         console.log(values.numero_nota)
         if (modoExpandir || data.tipo_preventivo == "Ampliación de preventivo") {
             // Preguntar y continuar luego
-            blob = await pdf(<PDF datosAnteriores={data} datos={nuevosValores} user={user} ampliacion />).toBlob();
+            blob = await pdf(<PDF datos={nuevosValores} user={user} ampliacion />).toBlob();
         } else {
             blob = await pdf(<PDF datos={data} user={user} />).toBlob();
         }

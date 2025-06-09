@@ -10,9 +10,9 @@ import InputDireccion from '../InputComponents/InputDireccion';
 import { QuestionMarkCircleIcon, MapPinIcon } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 // Campos
-// import { opcionesTipoDeLugar } from '../../GlobalConst/opcionesTipoDeLugar';
 import { useCampos } from '../../context/campos';
-interface Opcion {
+
+type Opcion = {
     value?: string;
     nombre?: string;
     subdivisiones?: Opcion[];
@@ -20,7 +20,7 @@ interface Opcion {
     cuadriculas?: Opcion[];
 }
 
-interface Props {
+type Props = {
     campo: string;
     opciones: Opcion[];
     register: any
@@ -44,10 +44,11 @@ interface Props {
     setTitulo?: any
     valor?: any
     isRequired?: any
+    selectDivisiones?: boolean
 }
 
 
-function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, barrio, setBarrio, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, setComisariaPertenece, state, info, setTitulo }: Props) {
+function SelectCargaDenuncias({selectDivisiones, isRequired, valor, handleOpenModal, consultarCoordenadas, direccion, setDireccion, barrio, setBarrio, coordenadas, setCoordenadas, errors, setMunicipio, campo, opciones, nombre, register, setValue, setComisariaPertenece, state, info, setTitulo }: Props) {
 
     // Estados para guardar las opciones seleccionadas
     const [requiredInput,] = useState(isRequired != null ? isRequired : true)
@@ -55,9 +56,29 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
     const [selectedSubunidad, setSelectedSubunidad] = useState('');
     const [selectedSubsubunidad, setSelectedSubsubunidad] = useState('');
     const [selectedCuadricula, setSelectedCuadricula] = useState('');
-
+    const [municipiosTodo, setMunicipiosTodo] = useState([]);
+    const [showAllMunicipios, setShowAllMunicipios] = useState(false);
+    
     const { tiposDeLugar: opcionesTipoDeLugar } = useCampos()
+    
+    const getAllMunicipios = () => {
+        // Obtiene todos los municipios de las opciones
+        const municipios: string[] = [];
+        opciones.forEach((unidad: Opcion) => {
+            unidad.subdivisiones?.forEach((subunidad: Opcion) => {
+                if (subunidad.value) {
+                    municipios.push(subunidad.value);
+                }
+            });
+        });
+        // Elimina los duplicados y ordena alfabéticamente
+        return Array.from(new Set(municipios)).sort();
+    }
 
+    const handleMostrarTodo = () => {
+        setShowAllMunicipios(!showAllMunicipios)
+        setMunicipiosTodo(getAllMunicipios());
+    }
     const handleBuscarPrefijo = (comisaria: String) => {
         //Busca el prefijo de la comisaria entre las opciones, tiene que coincidir con el valor de la comisaria
         let prefijo = ''
@@ -133,8 +154,8 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
         setSelectedCuadricula('');
         // Actualiza el valor en react-hook-form       
         campo == "Unidad de carga" && setValue('unidad_de_carga', value)
-        nombre=="modalidades" && setValue('modalidades', value)
-        
+        nombre == "modalidades" && setValue('modalidades', value)
+
     };
 
     const handleSubunidadChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -215,8 +236,13 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
                             </option>
                         ))}
                     </select>
-                </div>
+                    {selectDivisiones &&
+                    <div className='flex flex-col items-center justify-center'>
+                    <div className=' hover:cursor-pointer bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-1/2 flex items-center justify-center mt-2 md:mt-0' onClick={() => handleMostrarTodo()}>{showAllMunicipios ? "Mostrar reducido" : "Mostrar todos los municipios"}</div>
+                    </div>
+                    }
 
+                </div>
                 {selectedUnidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones && (
                     <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
                         <span className='ml-4 font-medium '> Municipio  <span className='text-red-500'> </span> </span>
@@ -227,12 +253,19 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
                             required={requiredInput}
                             onChange={handleSubunidadChange}>
                             <option value="">Seleccione municipio</option>
-                            {
+                            {!showAllMunicipios ?
                                 opciones.find((unidad) => unidad.value === selectedUnidad)?.subdivisiones?.map((subunidad) => (
                                     <option key={subunidad.value} value={subunidad.value}>
                                         {subunidad.nombre}
                                     </option>
-                                ))}
+                                )):
+                                // Utilza el contenido en municipiosTodo para mostrar todos los municipios
+                                municipiosTodo.map((municipio: string) => (
+                                    <option key={municipio} value={municipio}>
+                                        {municipio}
+                                    </option>
+                                ))
+                                }
                         </select>
                     </div>
                 )}
@@ -274,7 +307,7 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
                     </>
                 }
                 {selectedSubunidad &&
-                // @ts-ignore
+                    // @ts-ignore
                     opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) =>
                         subunidad.value === selectedSubunidad
                     )?.subdivisiones?.length > 0 && (
@@ -321,7 +354,7 @@ function SelectCargaDenuncias({ isRequired, valor, handleOpenModal, consultarCoo
                             </select>
                         </div>
                     )}
-                    {/* @ts-ignore */}
+                {/* @ts-ignore */}
                 {selectedSubsubunidad && opciones.find((unidad: Opcion) => unidad.value === selectedUnidad)?.subdivisiones?.find((subunidad: Opcion) => subunidad.value === selectedSubunidad)?.subdivisiones?.find((subsubunidad: Opcion) => subsubunidad.value === selectedSubsubunidad)?.cuadriculas?.length > 0 && (
                     <div className='flex flex-col xl:h-full 2xl:h-full xl:w-full'>
                         <span className='ml-4 font-medium '> Cuadricula </span>

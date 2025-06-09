@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 // Iconos
 import { TrashIcon } from '@heroicons/react/24/solid'
-import { PencilSquareIcon } from '@heroicons/react/24/outline'
+// import { PencilSquareIcon } from '@heroicons/react/24/outline'
 import { PrinterIcon } from "@heroicons/react/24/outline";
 // Componentes
 import SimpleTableCheckorX from '../../../components/ShowData/SimpleTableCheckorX';
 import EditRadiograma from "../../EditMode/ExpandirRadiograma";
+import PDFRadiograma from "../../Cargar/CargarRadiograma/PDFRadiograma";
+import ShowTextArea from "../../ShowData/ShowTextArea";
 // Context
 import { useAuth } from "../../../context/auth"
 // BackEnd
 import { pdf } from "@react-pdf/renderer";
-import PDFRadiograma from "../../Cargar/CargarRadiograma/PDFRadiograma";
-import ShowTextArea from "../../ShowData/ShowTextArea";
 import { getPreventivo } from "../../../api/CRUD/preventivo.crud";
-import { getRadiogramaById } from "../../../api/CRUD/radiograma.crud";
+import { getRadiogramaById, deleteRadiograma } from "../../../api/CRUD/radiograma.crud";
 
 type expandedComponentProps = {
     data: any
@@ -24,7 +24,7 @@ type expandedComponentProps = {
 // Expanded component RADIOGRAMA
 function expandedComponentRadiograma({ data }: expandedComponentProps) {
 
-    const [editGlobal, setEditGlobal] = useState(false)
+    // const [editGlobal, setEditGlobal] = useState(false)
     const [ampliarRadiograma, setAmpliarRadiograma] = useState(false)
     const [dataRadiograma, setDataRadiograma] = useState(data);
     const { user } = useAuth();
@@ -91,7 +91,7 @@ function expandedComponentRadiograma({ data }: expandedComponentProps) {
         })
 
         if (result.isConfirmed) {
-            // await deletePreventivo(dataRadiograma._id)
+            await deleteRadiograma(dataRadiograma._id)
         }
     }
     // Datos del preventivo
@@ -133,11 +133,11 @@ function expandedComponentRadiograma({ data }: expandedComponentProps) {
         )
     }
 
-    else if (editGlobal) {
-        return (
-            <EditRadiograma data={dataRadiograma} />
-        )
-    }
+    // else if (editGlobal) {
+    //     return (
+    //         <EditRadiograma data={dataRadiograma} />
+    //     )
+    // }
     else {
         return (
 
@@ -200,9 +200,6 @@ function expandedComponentRadiograma({ data }: expandedComponentProps) {
                     </div>
                     {((user.rol === "admin") || (user.rol === "carga")) &&
                         <>
-                            {/* <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => setEditGlobal(!editGlobal)}>
-                                <PencilSquareIcon className="w-7" />
-                            </div> */}
                             <div className='bg-sky-950 hover:bg-sky-700 text-white cursor-pointer font-bold py-2 px-4 rounded w-8/10 sm:w-6/10 md:w-2/10 flex items-center justify-center mx-2 mt-2 md:mt-0' onClick={() => handleDelete(dataRadiograma)}>
                                 <TrashIcon className="w-7" />
                             </div>

@@ -5,11 +5,10 @@ type PDFProps = {
     datos: any;
     user: any;
     ampliacion?: boolean;
-    datosAnteriores?: any;
 }
 
 
-function PDF({ datos, user, ampliacion, datosAnteriores }: PDFProps) {
+function PDF({ datos, user, ampliacion }: PDFProps) {
 
     const userDivisionZona = user.unidad.split(",")
 

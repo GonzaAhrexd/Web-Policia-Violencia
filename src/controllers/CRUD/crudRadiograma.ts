@@ -106,3 +106,20 @@ export const ampliarRadiograma = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+export const deleteRadiograma = async (req, res) => {
+    const { id_radiograma } = req.params;
+    try{
+        const radiogramaData = await radiograma.findByIdAndDelete(id_radiograma);
+        if (!radiogramaData) {
+            return res.status(404).json({ message: 'Radiograma no encontrado' });
+        }
+        // Elimina la referencia al radiograma en la denuncia sin verificar si existe
+        await denunciaSinVerificar.updateMany({ radiograma_ID: id_radiograma }, { $unset: { radiograma_ID: "" } });
+
+        res.status(200).json({ message: 'Radiograma eliminado correctamente' });
+    }catch(error){
+        console.log(error);
+        res.status(500).json({ message: 'Error al eliminar el radiograma' });
+    }
+}
