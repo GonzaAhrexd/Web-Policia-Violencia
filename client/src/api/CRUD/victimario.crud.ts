@@ -40,3 +40,12 @@ export const buscarVictimario = async (values: any) => {
         console.log(error)
     }
 }
+
+export const getVictimariosArray = async (ids: string[]) => {
+    try {
+        const response = await axios.post(`/victimarios/victimarios-array`, { victimariosIds: ids })
+        return response.data
+    } catch (error) {
+        console.log(error)
+    }
+}

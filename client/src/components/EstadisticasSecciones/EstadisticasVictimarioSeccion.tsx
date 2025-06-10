@@ -5,7 +5,7 @@ import SeccionCondicionesVictimario from './EstadisticasVictimario/SeccionCondic
 // Hooks
 import { useState, useEffect } from 'react'
 // Backend
-import { getVictimario } from '../../api/CRUD/victimario.crud'
+import { getVictimariosArray } from '../../api/CRUD/victimario.crud'
 
 type EstadisticasVictimarioSeccionProps = {
     denunciasAMostrar: any
@@ -23,19 +23,22 @@ function EstadisticasVictimarioSeccion({denunciasAMostrar}: EstadisticasVictimar
         const fetchVictimarios = async () => {
             // Set para guardar los victimarios
             const victimarioSet = new Set();
-        
-            // Usamos un bucle for...of para iterar sobre las denuncias
+            const arrayIds: string[] = [];
+
+
             for (const denuncia of denunciasAMostrar) {
-                try {
-                    const victima = await getVictimario(denuncia.victimario_ID);
-                    if (victima != null) {
-                        victimarioSet.add(JSON.stringify(victima));
-                    }
-                } catch (error) {
-                    console.error("Error al obtener el victimario:", error);
-                }
+                arrayIds.push(denuncia.victimario_ID);
             }
-        
+
+            try{
+                const victimariosArray = await getVictimariosArray(arrayIds);
+                victimariosArray.forEach((victimario: any) => {
+                    victimarioSet.add(JSON.stringify(victimario));
+                });
+            } catch (error) {
+                console.error("Error al obtener los victimarios:", error);
+            }
+
             // Convertimos el Set a un arreglo de objetos
             const victimarioArray: any = Array.from(victimarioSet).map((victimarioString: any) => JSON.parse(victimarioString));
             setVictimarios(victimarioArray);

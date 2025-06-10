@@ -388,3 +388,38 @@ export const buscarVictimaV2 = async (req, res) => {
     
 
 }
+
+
+export const getVictimasWithArray = async (req, res) => {
+    try {
+        // Desde el body viene un array de Ids con las victimas y esta función debe devolver un array de objetos con las víctimas obtenidas con esos IDs sin cometer repeticiones
+        const { victimasIds } = req.body;
+
+        if (!Array.isArray(victimasIds) || victimasIds.length === 0) {
+            return res.status(400).json({ message: 'Debe proporcionar un array de IDs de víctimas.' });
+        }
+
+        // Usamos un Set para evitar repeticiones
+        const victimasSet = new Set();
+        for (const id of victimasIds) {
+            try {
+                const victima = await victimas.findById(id);
+                if (victima) {
+                    // Convertimos el objeto a string para evitar repeticiones
+                    victimasSet.add(JSON.stringify(victima));
+                }
+            } catch (error) {
+                console.error(`Error al obtener la víctima con ID ${id}:`, error);
+            }
+        }
+        // Convertimos el Set a un arreglo de objetos
+        // @ts-ignore
+        const victimasArray = Array.from(victimasSet).map((victimaString) => JSON.parse(victimaString));
+        res.json(victimasArray);
+    } catch (error) {
+        console.error('Error al obtener las víctimas:', error);
+        res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
+
+    }
+
+}

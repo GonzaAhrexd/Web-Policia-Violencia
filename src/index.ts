@@ -38,7 +38,9 @@ app.use(cors(corsOptions))
 // Middleware para ver las peticiones HTTP en la consola
 app.use(morgan('dev'))
 // Middleware para parsear el body de las peticiones
-app.use(express.json())
+// app.use(express.json())
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // Middleware para manejar cookies
 app.use(cookieParser())
 
@@ -57,6 +59,7 @@ app.use('/api/campos', camposRoutes) // Rutas de campos
 app.use('/api/unidades', unidadesRoutes) // Rutas de unidades
 app.use('/api/preventivo', preventivoRoutes) // Rutas de preventivo
 app.use('/api/radiograma', radiogramaRoutes) // Rutas de radiograma
+
 
 // Puerto de la aplicación
 const port = process.env.PORT || 4000

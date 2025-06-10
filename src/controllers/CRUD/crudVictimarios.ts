@@ -308,3 +308,35 @@ export const buscarVictimarioPorDni = async (req, res) => {
 }
 
 
+
+export const buscarVictimariosArray = async (req: any, res: any) => {
+    try {
+        const { victimariosIds } = req.body;
+        if (!Array.isArray(victimariosIds) || victimariosIds.length === 0) {
+            return res.status(400).json({ message: 'Debe proporcionar un array de IDs de victimarios.' });
+        }
+
+        const victimariosSet = new Set();
+        for (const id of victimariosIds) {
+            try {
+                const victimarioData = await victimario.findById(id);
+                if (victimarioData) {
+                    // Convertimos el objeto a string para evitar repeticiones
+                    victimariosSet.add(JSON.stringify(victimarioData));
+                }
+            } catch (error) {
+                console.error(`Error al obtener el victimario con ID ${id}:`, error);
+            }
+        }
+        // Convertimos el Set a un arreglo de objetos
+        // @ts-ignore
+        const victimariosArray = Array.from(victimariosSet).map((victimarioString) => JSON.parse(victimarioString));
+        res.json(victimariosArray);
+
+
+    }catch(error){
+        console.error('Error al obtener las estadísticas de victimarios:', error);
+        res.status(500).json({ message: 'Hubo un error al obtener las estadísticas de victimarios.' });
+    }
+
+}

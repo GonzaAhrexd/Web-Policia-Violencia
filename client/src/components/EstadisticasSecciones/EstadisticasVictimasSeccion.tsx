@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 // BackEnd
-import { getVictima } from '../../api/CRUD/victimas.crud'
+import { getVictimasArray } from '../../api/CRUD/victimas.crud'
+
 // Componentes
 import SeccionOcupacion from './EstadisticasVictima/SeccionOcupacion'
 import SeccionCondicion from './EstadisticasVictima/SeccionCondicion'
@@ -23,19 +24,23 @@ function EstadisticasVictimasSeccion({ denunciasAMostrar }: EstadisticasVictimas
         const fetchVictimas = async () => {
             // Set para guardar las víctimas
             const victimasSet = new Set();
-
+            const arrayIds: string[] = [];
             // Usamos un bucle for...of para iterar sobre las denuncias
+            console.log(denunciasAMostrar)
+
             for (const denuncia of denunciasAMostrar) {
-                try {
-                    const victima = await getVictima(denuncia.victima_ID);
-                    if (victima != null) {
-                        victimasSet.add(JSON.stringify(victima));
-                    }
-                } catch (error) {
-                    console.error("Error al obtener la víctima:", error);
-                }
+                    arrayIds.push(denuncia.victima_ID);
             }
 
+            try{
+                const victimasArray = await getVictimasArray(arrayIds);
+                victimasArray.forEach((victima: any) => {
+                    victimasSet.add(JSON.stringify(victima));
+                });
+            }catch (error) {
+                console.error('Error al obtener las víctimas:', error);
+            }
+            
             // Convertimos el Set a un arreglo de objetos
             const victimasArray: any = Array.from(victimasSet).map((victimaString: any) => JSON.parse(victimaString));
             setVictimas(victimasArray);
