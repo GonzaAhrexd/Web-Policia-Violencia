@@ -287,6 +287,16 @@ const denunciaSchema = new mongoose.Schema({
             required: true, // Campo requerido
             trim: true // Trim para que no se guarden espacios en blanco
         },
+        cese_de_hostigamiento: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
+        },
+        notificacion_expediente: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
+        },
         ninguna: {
             type: Boolean, // Tipo de dato Boolean
             required: true, // Campo requerido

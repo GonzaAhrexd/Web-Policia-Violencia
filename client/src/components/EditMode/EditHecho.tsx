@@ -73,7 +73,9 @@ function EditHecho({ setIsSolicitudAprehension, datosTerceros, datosGeograficos,
   const [isSolicitud, setIsSolicitud] = useState(datos.medida_dispuesta.solicitud_de_aprehension)
   const [isExpedientes, setIsExpedientes] = useState(datos.medida_dispuesta.expedientes_con_cautelar)
   const [isLibertad, setIsLibertad] = useState(datos.medida_dispuesta.en_libertad  )
-
+  const [isCeseDeHostigamiento, setIsCeseDeHostigamiento] = useState(datos?.medida_dispuesta?.cese_de_hostigamiento? datos?.medida_dispuesta?.cese_de_hostigamiento : false)
+  const [isNotificacionExpediente, setIsNotificacionExpediente] = useState(datos?.medida_dispuesta?.notificacion_expediente ? datos?.medida_dispuesta?.notificacion_expediente : false) 
+  
   const { juzgadoIntervinente, vinculo, tiposDeArmas: opcionesTiposDeArma, unidades: unidadCampos } = useCampos()
 useEffect(() => {
   console.log(datos)
@@ -222,7 +224,9 @@ useEffect(() => {
         <InputCheckbox setHook={setIsSolicitud} disabled={isNinguna} state={datos.medida_dispuesta.solicitud_de_aprehension} campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue}  id="solicitud_de_aprehension_dispuesta" />
         <InputCheckbox setHook={setIsExpedientes} disabled={isNinguna} state={datos.medida_dispuesta.expedientes_con_cautelar} campo="Expedientes c/cautelar" nombre="expedientes_con_cautelar_dispuesta" register={register} setValue={setValue}  id="expedientes_con_cautelar_dispuesta" />
         <InputCheckbox setHook={setIsLibertad} state={datos.medida_dispuesta.en_libertad} disabled={isNinguna} campo="Dado en libertad" nombre="en_libertad" register={register} setValue={setValue}  id="en_libertad" />
-        <InputCheckbox setHook={setIsNinguna} disabled={(isProhibicion || isBoton || isExclusion || isSolicitud || isExpedientes || isLibertad)} state={datos.medida_dispuesta.ninguna} campo="Ninguna" nombre="ninguna" register={register} setValue={setValue}  id="ninguna" />
+        <InputCheckbox setHook={setIsCeseDeHostigamiento} state={datos.medida_dispuesta.cese_de_hostigamiento} disabled={isNinguna} campo="Cese de hostigamiento" nombre="cese_de_hostigamiento" register={register} setValue={setValue} id="cese_de_hostigamiento" />
+        <InputCheckbox setHook={setIsNotificacionExpediente} state={datos.medida_dispuesta.notificacion_expediente} disabled={isNinguna} campo="Notificación expediente" nombre="notificacion_expediente" register={register} setValue={setValue} id="notificacion_expediente" />
+        <InputCheckbox setHook={setIsNinguna} disabled={(isProhibicion || isBoton || isExclusion || isSolicitud || isExpedientes || isLibertad || isCeseDeHostigamiento || isNotificacionExpediente)} state={datos.medida_dispuesta.ninguna} campo="Ninguna" nombre="ninguna" register={register} setValue={setValue}  id="ninguna" />
       </div>
      
       <div className='flex flex-col '>

@@ -60,6 +60,7 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
     const [PreventivoData, setPreventivoData] = useState(null); // Almacena los datos del preventivo
     const [radiogramaData, setRadiogramaData] = useState(null); // Almacena los datos del radiograma
     const [listaAmpliaciones, setListaAmpliaciones] = useState([]); // Almacena la lista de ampliaciones
+    
     const { user } = useAuth(); // Obtiene el usuario autenticado desde el contexto
     const [tienePreventivoPrevio, setTienePreventivoPrevio] = useState(false); // Controla si hay un preventivo previo
    

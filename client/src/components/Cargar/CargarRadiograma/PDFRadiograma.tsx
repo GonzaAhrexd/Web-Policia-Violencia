@@ -288,8 +288,7 @@ function PDF({ datos, user, ampliacion }: PDFProps) {
                         <Text style={styles.headerText}>{datos.destinatario}</Text>
                         <Text style={styles.text}>**********************************************************************************************************</Text>
                         <Text style={styles.text}>{datos.nro_nota_preventivo}</Text>
-                         <Text style={styles.text}>{espacioEnBlanco(68)} 
-                            Cumple en dirigirme a Ud., llevando a su conocimiento que en la fecha, se hizo presente {datos.nombre_victima} {datos.apellido_victima} de {datos.edad_victima} años, {datos.ocupacion_victima}, domiciliado {datos.direccion_victima}, DNI {datos.DNI_victima}, quien radicó denuncia dando cuenta:
+                         <Text style={styles.text}>{espacioEnBlanco(68)}Cumple en dirigirme a Ud., llevando a su conocimiento que en la fecha, se hizo presente {datos.nombre_victima} {datos.apellido_victima} de {datos.edad_victima} años, {datos.ocupacion_victima}, domiciliado {datos.direccion_victima}, DNI {datos.DNI_victima}, quien radicó denuncia dando cuenta:
                             {datos.observaciones}. Efectuando consulta con {datos.consultado_preventivo} , dispuso : {datos.resolucion_preventivo} .
                         </Text>                        
                         <Text style={styles.text}>{espacioEnBlanco(68)} 

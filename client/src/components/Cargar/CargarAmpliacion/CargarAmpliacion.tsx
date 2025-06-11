@@ -73,7 +73,7 @@ function CargarAmpliacion({ data, setAmpliarDenuncia }: CargarAmpliacionProps) {
   const getNumeroUnidad = (unidad: string) => {
     switch (unidad) {
       case "Metropolitana":
-        setComisariaPertenece("381-")
+        setComisariaPertenece("371-")
         break;
       case "Lapachito":
         setComisariaPertenece("125-")

@@ -75,7 +75,7 @@ function expandedComponents({ data }: expandedComponentsProps) {
     // State para guardar los datos del victimario
     const [victimarioDatos, setVictimarioDatos]: any = useState([])
     // Estado de editar global
-    const [editGlobal, setEditGlobal] = useState(false)
+    const [editGlobal,  setEditGlobal] = useState(false)
     // Guardar terceros
     const [terceroDatosObtener, setTerceroDatosObtener]: any = useState([])
     // Estado de carga
@@ -286,6 +286,8 @@ function expandedComponents({ data }: expandedComponentsProps) {
         { nombre: "Solicitud de Aprehensión", valor: data.medida_dispuesta.solicitud_de_aprehension },
         { nombre: "Expediente con cautelar", valor: data.medida_dispuesta.expedientes_con_cautelar },
         { nombre: "Dado en libertad", valor: data.medida_dispuesta.en_libertad },
+        { nombre: "Cese de hostigamiento", valor: data?.medida_dispuesta?.cese_de_hostigamiento ? data.medida_dispuesta.cese_de_hostigamiento : false },
+        { nombre: "Notificación Expediente", valor: data?.medida_dispuesta?.notificacion_expediente ? data.medida_dispuesta.notificacion_expediente : false },
         { nombre: "Ninguna", valor: data.medida_dispuesta.ninguna }
     ]
 

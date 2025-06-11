@@ -43,7 +43,7 @@ interface denunciaProps {
   fecha?: string
 }
 
-function CargarDenuncia({fecha, modoActuacion, setTitulo, handleOpenModal, register, setValue, errors, expediente, setTercero, setOpenModalTercero }: denunciaProps) {
+function CargarDenuncia({ fecha, modoActuacion, setTitulo, handleOpenModal, register, setValue, errors, expediente, setTercero, setOpenModalTercero }: denunciaProps) {
 
   const [comisariaPertenece, setComisariaPertenece] = useState('')
   const [isArmas, setIsArmas] = useState(false)
@@ -61,7 +61,9 @@ function CargarDenuncia({fecha, modoActuacion, setTitulo, handleOpenModal, regis
   const [isSolicitud, setIsSolicitud] = useState(false)
   const [isExpedientes, setIsExpedientes] = useState(false)
   const [isLibertad, setIsLibertad] = useState(false)
-  
+  const [isCeseDeHostigamiento, setIsCeseDeHostigamiento] = useState(false)
+  const [isNotificacionExpediente, setIsNotificacionExpediente] = useState(false)
+
   const { juzgadoIntervinente, vinculo, tiposDeArmas: opcionesTiposDeArma, unidades: unidadCampos } = useCampos()
 
   const {
@@ -70,15 +72,16 @@ function CargarDenuncia({fecha, modoActuacion, setTitulo, handleOpenModal, regis
 
   useEffect(() => {
     setSolicitudAprehension(isSolicitud)
-  },[isSolicitud])
+  }, [isSolicitud])
 
   const tipoDenunciaV2 = [
     { nombre: "Denuncia", value: "Denuncia" },
-    { nombre: "Actuado por oficio", value: "Actuado por oficio" },
+    { nombre: 'Intervención Policial', value: 'Intervención Policial' },
+    { nombre: "Actuado por oficio", value: "Actuado por oficio" },  
     { nombre: "Desobediencia judicial", value: "Desobediencia judicial" },
     { nombre: "Denuncia convencional", value: "Denuncia convencional" },
   ]
-  
+
 
   const consultarCoordenadas = async () => {
     let buscarDir = direccion + "," + barrio + "," + municipio;
@@ -129,7 +132,7 @@ function CargarDenuncia({fecha, modoActuacion, setTitulo, handleOpenModal, regis
     <div className='w-full lg:w-6/10'>
       <div className='flex flex-col xl:flex-row'>
         <InputDate valor={fecha} campo="Fecha" nombre="fecha" register={register} type="text" error={errors.fecha} />
-        <SelectRegisterSingle isRequired={ modoActuacion ? false : true} valor={ modoActuacion } campo="Actuación" nombre="modo_actuacion" opciones={tipoDenunciaV2} setValue={setValue} error={errors.modo_actuacion} />
+        <SelectRegisterSingle isRequired={modoActuacion ? false : true} valor={modoActuacion} campo="Actuación" nombre="modo_actuacion" opciones={tipoDenunciaV2} setValue={setValue} error={errors.modo_actuacion} />
       </div>
       <div className='flex flex-col my-2'>
         <SelectCargaDenuncias selectDivisiones consultarCoordenadas={consultarCoordenadas} direccion={direccion} barrio={barrio} setBarrio={setBarrio} setDireccion={setDireccion} coordenadas={coordenadas} setCoordenadas={setCoordenadas} errors={errors} setMunicipio={setMunicipio} campo="Unidad de carga" setComisariaPertenece={setComisariaPertenece} nombre="unidad_de_carga" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.unidad} state={isDivision} />
@@ -148,11 +151,11 @@ function CargarDenuncia({fecha, modoActuacion, setTitulo, handleOpenModal, regis
       <div className='flex flex-col md:flex-row my-2' >
         <SelectRegisterSingle campo="Violencia" nombre="violencia" opciones={opcionesViolencia} setValue={setValue} error={errors.violencia} />
         <SelectCargaDenuncias setTitulo={setTitulo} info={tiposModalidades} campo="Modalidades" nombre="modalidades" opciones={opcionesModalidades} register={register} setValue={setValue} type="text" error={errors.modalidades} handleOpenModal={handleOpenModal} />
-        
+
       </div>
       <>
         <span className='ml-4 font-medium flex flex-row my-2'> Tipo de Violencia
-          <QuestionMarkCircleIcon className="w-6 cursor-pointer" onClick={() => (setTitulo("Tipos de Violencia"),handleOpenModal(tiposDeViolenciaText) )}/>
+          <QuestionMarkCircleIcon className="w-6 cursor-pointer" onClick={() => (setTitulo("Tipos de Violencia"), handleOpenModal(tiposDeViolenciaText))} />
         </span>
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 my-2`}>
           <InputCheckbox campo="Física" nombre="fisica" register={register} setValue={setValue} id="fisica" />
@@ -193,12 +196,14 @@ function CargarDenuncia({fecha, modoActuacion, setTitulo, handleOpenModal, regis
         <InputCheckbox setHook={setIsProhibicion} disabled={isNinguna} campo="Prohibición de Acercamiento" nombre="prohibicion_de_acercamiento_dispuesta" register={register} setValue={setValue} id="prohibicion_dispuesta" />
         <InputCheckbox setHook={setIsBoton} disabled={isNinguna} campo="Botón Antipánico" nombre="boton_antipanico_dispuesta" register={register} setValue={setValue} id="botonAntipanico_dispuesta" />
         <InputCheckbox setHook={setIsExclusion} disabled={isNinguna} campo="Exclusión Hogar" nombre="exclusion_de_hogar_dispuesta" register={register} setValue={setValue} id="exclusion_dispuesta" />
-        <InputCheckbox setHook={setIsSolicitud } disabled={isNinguna} campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue} id="solicitud_de_aprehension_dispuesta" />
+        <InputCheckbox setHook={setIsSolicitud} disabled={isNinguna} campo="Solicitud de Aprehensión" nombre="solicitud_de_aprehension_dispuesta" register={register} setValue={setValue} id="solicitud_de_aprehension_dispuesta" />
         <InputCheckbox setHook={setIsExpedientes} disabled={isNinguna} campo="Expedientes c/cautelar" nombre="expedientes_con_cautelar_dispuesta" register={register} setValue={setValue} id="expedientes_con_cautelar_dispuesta" />
         <InputCheckbox setHook={setIsLibertad} disabled={isNinguna} campo="Dado en libertad" nombre="en_libertad" register={register} setValue={setValue} id="en_libertad" />
-        <InputCheckbox setHook={setIsNinguna} disabled={(isProhibicion || isBoton || isExclusion || isSolicitud || isExpedientes || isLibertad)} campo="Ninguna" nombre="ninguna" register={register} setValue={setValue} id="ninguna" />
+        <InputCheckbox setHook={setIsNotificacionExpediente} disabled={isNinguna} campo="Notificación expediente" nombre="notificacion_expediente" register={register} setValue={setValue} id="notificacion_expediente" />
+        <InputCheckbox setHook={setIsCeseDeHostigamiento} disabled={isNinguna} campo="Cese de hostigamiento" nombre="cese_de_hostigamiento" register={register} setValue={setValue} id="cese_de_hostigamiento" />
+        <InputCheckbox setHook={setIsNinguna} disabled={(isProhibicion || isBoton || isExclusion || isSolicitud || isExpedientes || isLibertad || isCeseDeHostigamiento || isNotificacionExpediente)} campo="Ninguna" nombre="ninguna" register={register} setValue={setValue} id="ninguna" />
       </div>
-          <InputRegister notMid campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} />
+      <InputRegister notMid campo="Dependencia Derivada" nombre="dependencia_derivada" register={register} setValue={setValue} type="text" error={errors.dependencia_derivada} />
       <div className='flex flex-col '>
         <span className='ml-4 font-medium'> Denunciado por tercero</span>
         <div className='flex flex-col md:flex-row'>
@@ -208,7 +213,7 @@ function CargarDenuncia({fecha, modoActuacion, setTitulo, handleOpenModal, regis
           <>
             <div className='flex flex-row items-center'>
               <h1 className='text-2xl my-5'>Datos del Tercero</h1>
-              <MagnifyingGlassIcon className='bg-sky-950 hover:bg-sky-700 flex items-center text-white justify-center cursor-pointer font-bold py-2 mx-5 rounded w-10 h-10'  onClick={() => setOpenModalTercero(true)} />
+              <MagnifyingGlassIcon className='bg-sky-950 hover:bg-sky-700 flex items-center text-white justify-center cursor-pointer font-bold py-2 mx-5 rounded w-10 h-10' onClick={() => setOpenModalTercero(true)} />
             </div>
             {!setTercero ?
               <div className='flex flex-col md:flex-row'>
@@ -224,7 +229,7 @@ function CargarDenuncia({fecha, modoActuacion, setTitulo, handleOpenModal, regis
               </div>
             }
             <div className='flex flex-col'>
-              <SelectRegisterSingle campo="Vínculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} setValue={setValue}  error={errors.vinculo_con_agresor} />
+              <SelectRegisterSingle campo="Vínculo con la víctima" nombre="vinculo_con_la_victima" opciones={vinculo} setValue={setValue} error={errors.vinculo_con_agresor} />
             </div>
           </>
         }

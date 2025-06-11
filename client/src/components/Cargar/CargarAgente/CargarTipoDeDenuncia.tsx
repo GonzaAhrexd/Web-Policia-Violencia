@@ -29,6 +29,7 @@ let tipoDeDenuncia = [
 if (userRol === 'carga' || userRol === 'admin') {
     tipoDeDenuncia = [
         ...tipoDeDenuncia,
+        { nombre: 'Intervención Policial', value: 'Intervención Policial' },
         { nombre: 'Actuación por Oficio', value: 'Actuación por Oficio' },
         { nombre: 'Desobediencia Judicial', value: 'Desobediencia Judicial' }
     ];

@@ -32,13 +32,13 @@ export const getDenuncias = async (req, res) => {
     // Obtener los parámetros de la URL
     const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, manual, relacion_victima_victimario, aprehension } = req.params;
     // Crear el objeto de consulta
-    const query: Query = { };
+    const query: Query = {};
 
     // Si se ingresó un valor, se agrega a la consulta
     if (desde !== 'no_ingresado') {
         query.fecha = { $gte: desde };
     }
-    
+
     // Si se ingresó un valor, se agrega a la consulta
     if (hasta !== 'no_ingresado') {
         query.fecha = query.fecha || {};
@@ -57,19 +57,19 @@ export const getDenuncias = async (req, res) => {
     if (is_expediente_completo !== 'no_ingresado') {
         query.is_expediente_completo = !is_expediente_completo;
     }
-    if (division !== 'no_ingresado'){
+    if (division !== 'no_ingresado') {
         query.unidad_de_carga = division
     }
-    if(municipio !== 'no_ingresado'){ 
+    if (municipio !== 'no_ingresado') {
         query.municipio = municipio
     }
-    if(comisaria !== 'no_ingresado'){
+    if (comisaria !== 'no_ingresado') {
         query.jurisdiccion_policial = comisaria
     }
-    if(relacion_victima_victimario !== 'no_ingresado'){
+    if (relacion_victima_victimario !== 'no_ingresado') {
         query.relacion_victima_victimario = relacion_victima_victimario
     }
-    if(aprehension !== 'no_ingresado'){
+    if (aprehension !== 'no_ingresado') {
         query.aprehension = aprehension === 'true' ? true : false
     }
     // Obtener las denuncias
@@ -77,7 +77,7 @@ export const getDenuncias = async (req, res) => {
         console.log(query)
 
         const denuncias = await denuncia.find(query);
-        if(manual){
+        if (manual) {
             // Agrega a la actividad reciente
             await agregarActividadReciente(`Búsqueda de denuncias`, "Denuncia", `Varias`, req.cookies)
         }
@@ -107,7 +107,7 @@ export const getMisDenuncias = async (req, res) => {
 
     // Crear el objeto de consulta
     const query: Query = { denunciada_cargada_por: req.user.id };
-  
+
     // Si se ingresó un valor, se agrega a la consulta
     if (desde !== 'no_ingresado') {
         query.fecha = { $gte: desde };
@@ -143,165 +143,167 @@ export const createDenuncia = async (req, res) => {
     try {
         form.parse(req, async (err, fields, files) => {
 
-        // Obtener los datos de la denuncia
+            // Obtener los datos de la denuncia
 
-        console.log(fields)
+            console.log(fields)
 
-         
-        const { user_id, modo_actuacion, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, convivencia, dependencia_economica, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
-            derecho_de_comunicacion, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, en_libertad, ninguna} = fields
+
+            const { user_id, modo_actuacion, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, convivencia, dependencia_economica, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
+                derecho_de_comunicacion, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, en_libertad, cese_de_hostigamiento, notificacion_expediente, ninguna } = fields
             // Buscar si la victima y victimario ya existen        
-        const findVictima = await victimas.findOne({ DNI: dni_victima[0] })
-        let findVictimario
+            const findVictima = await victimas.findOne({ DNI: dni_victima[0] })
+            let findVictimario
 
-        console.log("Modo actuación: " + modo_actuacion[0])
+            console.log("Modo actuación: " + modo_actuacion[0])
 
-        // Si el DNI del victimario es S/N, se asigna el ID del victimario
-        if (dni_victimario == "S/N") {
-            findVictimario = await victimario.findById(victimario_ID[0])
-        } else {
-            findVictimario = await victimario.findOne({ DNI: dni_victimario[0] })
-        }
-        // Busca al tercero por dni si este ya existe
-        let findTercero, IdTercero
-        if(denunciado_por_tercero){
-        findTercero = await terceros.findOne({ DNI: dni_tercero })
-        IdTercero = findTercero?._id ? findTercero._id : tercero_ID
-        }
-        // Si el tercero no existe, se crea uno nuevo
-        // Crear la denuncia
-        const newDenuncia = new denuncia({
-            victima_ID: findVictima?._id ? findVictima._id : victima_ID[0],
-            victimario_ID: findVictimario?._id ? findVictimario._id : victimario_ID[0],
-            victima_nombre: findVictima ? (findVictima.nombre[0] + ' ' + findVictima.apellido[0]) : (nombre_victima[0] + ' ' + apellido_victima[0]),
-            victimario_nombre: findVictimario ? (findVictimario.nombre[0] + ' ' + findVictimario.apellido[0]) : (nombre_victimario[0] + ' ' + apellido_victimario[0]),
-            relacion_victima_victimario: vinculo_con_agresor_victima[0],
-            hijos_victima_con_victimario: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor[0] : 0,
-            modo_actuacion: modo_actuacion[0],
-            convivencia: convivencia[0] === "Sí" ? true : false,
-            dependencia_economica: dependencia_economica[0] === "Sí" ? true : false,
-            fecha: fecha[0],
-            direccion: direccion[0],
-            GIS: GIS ? GIS[0] : "No específicado",
-            barrio: barrio ? barrio[0] : 'No específicado',
-            tipo_de_lugar: tipo_de_lugar[0],
-            unidad_de_carga: unidad_de_carga[0],
-            municipio: municipio[0],
-            jurisdiccion_policial: jurisdiccion_policial ? jurisdiccion_policial[0] : 'No existe',
-            cuadricula: cuadricula ? cuadricula[0] : 'No existe',
-            isDivision: isDivision[0],
-            numero_de_expediente: numero_de_expediente[0],
-            is_expediente_completo: is_expediente_completo[0],
-            juzgado_interviniente: juzgado_interviniente[0],
-            juzgado_interviniente_numero: juzgado_interviniente_numero[0],
-            dependencia_derivada: dependencia_derivada[0],
-            violencia: violencia[0],
-            modalidades: modalidades[0],
-            tipo_de_violencia: {
-                Fisica: fisica[0],
-                Psicologica: psicologica[0],
-                Sexual: sexual[0],
-                Economica_y_patrimonial: economica_y_patrimonial[0],
-                Simbolica: simbolica[0],
-                Politica: politica[0],
-            },
-            empleo_de_armas: empleo_de_armas ? empleo_de_armas[0] : false,
-            arma_empleada: (arma_empleada && empleo_de_armas) ? arma_empleada[0] : 'Sin armas',
-            medida: {
-                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined ) ? prohibicion_de_acercamiento[0] : false,
-                restitucion_de_menor: (restitucion_de_menor !== undefined ) ? restitucion_de_menor[0] : false,
-                exclusion_de_hogar: (exclusion_de_hogar !== undefined ) ? exclusion_de_hogar[0] : false,
-                alimento_provisorio: (alimento_provisorio !== undefined ) ? alimento_provisorio[0] : false,
-                derecho_de_comunicacion: (derecho_de_comunicacion !== undefined ) ? derecho_de_comunicacion[0] : false,
-                boton_antipanico: (boton_antipanico !== undefined) ? boton_antipanico[0] : false,
-            },
-            medida_dispuesta: {
-                prohibicion_de_acercamiento: (prohibicion_de_acercamiento_dispuesta !== undefined ) ? prohibicion_de_acercamiento_dispuesta[0] : false,
-                exclusion_de_hogar: (exclusion_de_hogar_dispuesta !== undefined) ? exclusion_de_hogar_dispuesta[0] : false,
-                boton_antipanico: (boton_antipanico_dispuesta !== undefined) ? boton_antipanico_dispuesta[0] : false,
-                solicitud_de_aprehension: (solicitud_de_aprehension_dispuesta !== undefined) ? solicitud_de_aprehension_dispuesta[0] : false,
-                expedientes_con_cautelar: (expedientes_con_cautelar_dispuesta !== undefined) ? expedientes_con_cautelar_dispuesta[0] : false,
-                en_libertad: (en_libertad !== undefined) ? en_libertad[0] : false, 
-                ninguna: (ninguna !== undefined) ? ninguna[0] : false
-            },
-            tercero_ID: (denunciado_por_tercero && IdTercero) ? IdTercero[0] : 'Sin tercero',
-            vinculo_con_la_victima_tercero: (denunciado_por_tercero && vinculo_con_la_victima) ? vinculo_con_la_victima[0] : 'Sin vínculo',
-            denunciado_por_tercero: denunciado_por_tercero ? denunciado_por_tercero[0] : false,
-            aprehension: (aprehension !== null && solicitud_de_aprehension_dispuesta) ? aprehension[0] : false,
-            observaciones: observaciones[0],
-            denunciada_cargada_por: user_id[0]
-            
-            
-        })
-       
-        // Guardar la denuncia
-        const denunciaSaved = await newDenuncia.save()
+            // Si el DNI del victimario es S/N, se asigna el ID del victimario
+            if (dni_victimario == "S/N") {
+                findVictimario = await victimario.findById(victimario_ID[0])
+            } else {
+                findVictimario = await victimario.findOne({ DNI: dni_victimario[0] })
+            }
+            // Busca al tercero por dni si este ya existe
+            let findTercero, IdTercero
+            if (denunciado_por_tercero) {
+                findTercero = await terceros.findOne({ DNI: dni_tercero })
+                IdTercero = findTercero?._id ? findTercero._id : tercero_ID
+            }
+            // Si el tercero no existe, se crea uno nuevo
+            // Crear la denuncia
+            const newDenuncia = new denuncia({
+                victima_ID: findVictima?._id ? findVictima._id : victima_ID[0],
+                victimario_ID: findVictimario?._id ? findVictimario._id : victimario_ID[0],
+                victima_nombre: findVictima ? (findVictima.nombre[0] + ' ' + findVictima.apellido[0]) : (nombre_victima[0] + ' ' + apellido_victima[0]),
+                victimario_nombre: findVictimario ? (findVictimario.nombre[0] + ' ' + findVictimario.apellido[0]) : (nombre_victimario[0] + ' ' + apellido_victimario[0]),
+                relacion_victima_victimario: vinculo_con_agresor_victima[0],
+                hijos_victima_con_victimario: cantidad_hijos_con_agresor ? cantidad_hijos_con_agresor[0] : 0,
+                modo_actuacion: modo_actuacion[0],
+                convivencia: convivencia[0] === "Sí" ? true : false,
+                dependencia_economica: dependencia_economica[0] === "Sí" ? true : false,
+                fecha: fecha[0],
+                direccion: direccion[0],
+                GIS: GIS ? GIS[0] : "No específicado",
+                barrio: barrio ? barrio[0] : 'No específicado',
+                tipo_de_lugar: tipo_de_lugar[0],
+                unidad_de_carga: unidad_de_carga[0],
+                municipio: municipio[0],
+                jurisdiccion_policial: jurisdiccion_policial ? jurisdiccion_policial[0] : 'No existe',
+                cuadricula: cuadricula ? cuadricula[0] : 'No existe',
+                isDivision: isDivision[0],
+                numero_de_expediente: numero_de_expediente[0],
+                is_expediente_completo: is_expediente_completo[0],
+                juzgado_interviniente: juzgado_interviniente[0],
+                juzgado_interviniente_numero: juzgado_interviniente_numero[0],
+                dependencia_derivada: dependencia_derivada[0],
+                violencia: violencia[0],
+                modalidades: modalidades[0],
+                tipo_de_violencia: {
+                    Fisica: fisica[0],
+                    Psicologica: psicologica[0],
+                    Sexual: sexual[0],
+                    Economica_y_patrimonial: economica_y_patrimonial[0],
+                    Simbolica: simbolica[0],
+                    Politica: politica[0],
+                },
+                empleo_de_armas: empleo_de_armas ? empleo_de_armas[0] : false,
+                arma_empleada: (arma_empleada && empleo_de_armas) ? arma_empleada[0] : 'Sin armas',
+                medida: {
+                    prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined) ? prohibicion_de_acercamiento[0] : false,
+                    restitucion_de_menor: (restitucion_de_menor !== undefined) ? restitucion_de_menor[0] : false,
+                    exclusion_de_hogar: (exclusion_de_hogar !== undefined) ? exclusion_de_hogar[0] : false,
+                    alimento_provisorio: (alimento_provisorio !== undefined) ? alimento_provisorio[0] : false,
+                    derecho_de_comunicacion: (derecho_de_comunicacion !== undefined) ? derecho_de_comunicacion[0] : false,
+                    boton_antipanico: (boton_antipanico !== undefined) ? boton_antipanico[0] : false,
+                },
+                medida_dispuesta: {
+                    prohibicion_de_acercamiento: (prohibicion_de_acercamiento_dispuesta !== undefined) ? prohibicion_de_acercamiento_dispuesta[0] : false,
+                    exclusion_de_hogar: (exclusion_de_hogar_dispuesta !== undefined) ? exclusion_de_hogar_dispuesta[0] : false,
+                    boton_antipanico: (boton_antipanico_dispuesta !== undefined) ? boton_antipanico_dispuesta[0] : false,
+                    solicitud_de_aprehension: (solicitud_de_aprehension_dispuesta !== undefined) ? solicitud_de_aprehension_dispuesta[0] : false,
+                    expedientes_con_cautelar: (expedientes_con_cautelar_dispuesta !== undefined) ? expedientes_con_cautelar_dispuesta[0] : false,
+                    en_libertad: (en_libertad !== undefined) ? en_libertad[0] : false,
+                    cese_de_hostigamiento: (cese_de_hostigamiento !== undefined) ? cese_de_hostigamiento[0] : false,
+                    notificacion_expediente: (notificacion_expediente !== undefined) ? notificacion_expediente[0] : false,
+                    ninguna: (ninguna !== undefined) ? ninguna[0] : false
+                },
+                tercero_ID: (denunciado_por_tercero && IdTercero) ? IdTercero[0] : 'Sin tercero',
+                vinculo_con_la_victima_tercero: (denunciado_por_tercero && vinculo_con_la_victima) ? vinculo_con_la_victima[0] : 'Sin vínculo',
+                denunciado_por_tercero: denunciado_por_tercero ? denunciado_por_tercero[0] : false,
+                aprehension: (aprehension !== null && solicitud_de_aprehension_dispuesta) ? aprehension[0] : false,
+                observaciones: observaciones[0],
+                denunciada_cargada_por: user_id[0]
 
-        if (err) {
-            console.error("Error parsing the form: ", err);
-            return res.status(500).send({ error: "Error procesando el formulario: " + err.message });
-        }
-        if(files.imagen != undefined){
-        const file = files?.imagen[0]
 
-        if (file.originalFilename === "") { //Validación si no se sube archivos
-            throw new Error("Agrega una imagen para continuar")
-        }
-        // if (!(file.mimetype === "image/jpeg" || file.mimetype === "image/png")) { //Formatos válidos
-        //     throw new Error("Formato no válido, prueba con .png o .jpg")
-        // }
+            })
 
-        if (file.size > 50 * 1024 * 1024) { //Tamaño máximo de 50mb
-            throw new Error("Ingrese un archivo de menos de 50mb")
-        }
+            // Guardar la denuncia
+            const denunciaSaved = await newDenuncia.save()
 
-        let separado = file?.mimetype?.split("/");
-        let formato = separado[1];
+            if (err) {
+                console.error("Error parsing the form: ", err);
+                return res.status(500).send({ error: "Error procesando el formulario: " + err.message });
+            }
+            if (files.imagen != undefined) {
+                const file = files?.imagen[0]
 
-        let dirFile = path.join(__dirname, `../../imagesFromDB/Denuncias/${denunciaSaved._id}.${formato}`) //crear la  ruta para guardar la imagen    
-        // Crear la carpeta si no existe
-        const dirPath = path.dirname(dirFile);
-        if (!fs.existsSync(dirPath)) {
-            fs.mkdirSync(dirPath, { recursive: true });
-        }
-        fs.copyFile(file.filepath, dirFile, function (err) {
-            if (err) throw err;
-        }); //Copiar archivo desde la ruta original al servidor
+                if (file.originalFilename === "") { //Validación si no se sube archivos
+                    throw new Error("Agrega una imagen para continuar")
+                }
+                // if (!(file.mimetype === "image/jpeg" || file.mimetype === "image/png")) { //Formatos válidos
+                //     throw new Error("Formato no válido, prueba con .png o .jpg")
+                // }
 
-        let nuevo = denunciaSaved._id + '.' + formato //Guardar nombre de la imagen para pasarlo a la base de datos
+                if (file.size > 50 * 1024 * 1024) { //Tamaño máximo de 50mb
+                    throw new Error("Ingrese un archivo de menos de 50mb")
+                }
 
-        denunciaSaved.imagen = nuevo //Guardar el nombre de la imagen en la base de datos
+                let separado = file?.mimetype?.split("/");
+                let formato = separado[1];
 
-        await denunciaSaved.save()
-    }
+                let dirFile = path.join(__dirname, `../../imagesFromDB/Denuncias/${denunciaSaved._id}.${formato}`) //crear la  ruta para guardar la imagen    
+                // Crear la carpeta si no existe
+                const dirPath = path.dirname(dirFile);
+                if (!fs.existsSync(dirPath)) {
+                    fs.mkdirSync(dirPath, { recursive: true });
+                }
+                fs.copyFile(file.filepath, dirFile, function (err) {
+                    if (err) throw err;
+                }); //Copiar archivo desde la ruta original al servidor
 
-        // Agrega el ID de la denuncia nueva al array que tiene la victima con sus denuncias cargadas
-        await victimas.findByIdAndUpdate(findVictima?._id ? findVictima._id : victima_ID, { $push: { denuncias_realizadas: denunciaSaved._id } })
-       
-        // Agrega el ID de la denuncia nueva al array que tiene el victimario con sus denuncias cargadas
-        await victimario.findByIdAndUpdate(findVictimario?._id ? findVictimario._id : victimario_ID, { $push: { denuncias_en_contra: denunciaSaved._id } })        
-        
-        // Agrega esta denuncia al tercero
-        await terceros.findByIdAndUpdate(findTercero?._id, { $push: { denuncias_realizadas: denunciaSaved._id } })
-        
-        // Actualiza el nombre de la victima en todas las denuncias que tengan el mismo ID
-        await denuncia.updateMany({
-            victima_ID: findVictima?._id ? findVictima._id : victima_ID
-        }, {
-            victima_nombre: `${nombre_victima} ${apellido_victima}`
-        });
+                let nuevo = denunciaSaved._id + '.' + formato //Guardar nombre de la imagen para pasarlo a la base de datos
 
-        // Actualiza el nombre del victimario en todas las denuncias que tengan el mismo ID
-        await denuncia.updateMany({
-            victimario_ID: findVictimario?._id ? findVictimario._id : victima_ID
-        }, {
-            victimario_nombre: `${nombre_victimario} ${apellido_victimario}`
-        });
-        // Agrega a la actividad reciente
-        await agregarActividadReciente(`Carga de denuncia`, "Denuncia", denunciaSaved._id, req.cookies )
-      
-        // Respuesta de la API
-        res.send('Denuncia creada con exito')
+                denunciaSaved.imagen = nuevo //Guardar el nombre de la imagen en la base de datos
+
+                await denunciaSaved.save()
+            }
+
+            // Agrega el ID de la denuncia nueva al array que tiene la victima con sus denuncias cargadas
+            await victimas.findByIdAndUpdate(findVictima?._id ? findVictima._id : victima_ID, { $push: { denuncias_realizadas: denunciaSaved._id } })
+
+            // Agrega el ID de la denuncia nueva al array que tiene el victimario con sus denuncias cargadas
+            await victimario.findByIdAndUpdate(findVictimario?._id ? findVictimario._id : victimario_ID, { $push: { denuncias_en_contra: denunciaSaved._id } })
+
+            // Agrega esta denuncia al tercero
+            await terceros.findByIdAndUpdate(findTercero?._id, { $push: { denuncias_realizadas: denunciaSaved._id } })
+
+            // Actualiza el nombre de la victima en todas las denuncias que tengan el mismo ID
+            await denuncia.updateMany({
+                victima_ID: findVictima?._id ? findVictima._id : victima_ID
+            }, {
+                victima_nombre: `${nombre_victima} ${apellido_victima}`
+            });
+
+            // Actualiza el nombre del victimario en todas las denuncias que tengan el mismo ID
+            await denuncia.updateMany({
+                victimario_ID: findVictimario?._id ? findVictimario._id : victima_ID
+            }, {
+                victimario_nombre: `${nombre_victimario} ${apellido_victimario}`
+            });
+            // Agrega a la actividad reciente
+            await agregarActividadReciente(`Carga de denuncia`, "Denuncia", denunciaSaved._id, req.cookies)
+
+            // Respuesta de la API
+            res.send('Denuncia creada con exito')
         })
     } catch (error) {
         console.log(error)
@@ -342,14 +344,14 @@ export const updateDenuncia = async (req, res) => {
     try {
         //Edita los parametros de la denuncia salvo los id de la victima y victimario
         const { id } = req.params
-        const { nombre_victima, apellido_victima, modo_actuacion, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor, convivencia, dependencia_economica,  genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto, aprehension, en_libertad, ninguna} = req.body
+        const { nombre_victima, apellido_victima, modo_actuacion, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor, convivencia, dependencia_economica, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto, aprehension, en_libertad, cese_de_hostigamiento, notificacion_expediente, ninguna } = req.body
         // Buscar al tercero si se agregó
-         
+
         let findTercero
         // Busca si hay tercero
-       /* if(denunciado_por_tercero && tercero_ID !== "Sin tercero"){
-            findTercero = await terceros.findById(tercero_ID)
-        }*/ 
+        /* if(denunciado_por_tercero && tercero_ID !== "Sin tercero"){
+             findTercero = await terceros.findById(tercero_ID)
+         }*/
         // Actualiza la denuncia        
         const denunciaUpdated = await denuncia.findByIdAndUpdate(id, {
             victima_nombre: nombre_victima + ' ' + apellido_victima,
@@ -389,26 +391,28 @@ export const updateDenuncia = async (req, res) => {
             medida_solicitada_por_la_victima: medida_solicitada_por_la_victima,
             medida_dispuesta_por_autoridad_judicial: medida_dispuesta_por_autoridad_judicial,
             medida: {
-                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined ) ? prohibicion_de_acercamiento : false,
-                restitucion_de_menor: (restitucion_de_menor !== undefined ) ? restitucion_de_menor : false,
-                exclusion_de_hogar: (exclusion_de_hogar !== undefined ) ? exclusion_de_hogar : false,
-                alimento_provisorio: (alimento_provisorio !== undefined ) ? alimento_provisorio : false,
-                derecho_de_comunicacion: (derecho_de_comunicacion !== undefined ) ? derecho_de_comunicacion : false,
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento !== undefined) ? prohibicion_de_acercamiento : false,
+                restitucion_de_menor: (restitucion_de_menor !== undefined) ? restitucion_de_menor : false,
+                exclusion_de_hogar: (exclusion_de_hogar !== undefined) ? exclusion_de_hogar : false,
+                alimento_provisorio: (alimento_provisorio !== undefined) ? alimento_provisorio : false,
+                derecho_de_comunicacion: (derecho_de_comunicacion !== undefined) ? derecho_de_comunicacion : false,
                 boton_antipanico: (boton_antipanico !== undefined) ? boton_antipanico : false,
             },
             medida_dispuesta: {
-                prohibicion_de_acercamiento: (prohibicion_de_acercamiento_dispuesta !== undefined ) ? prohibicion_de_acercamiento_dispuesta : false,
+                prohibicion_de_acercamiento: (prohibicion_de_acercamiento_dispuesta !== undefined) ? prohibicion_de_acercamiento_dispuesta : false,
                 exclusion_de_hogar: (exclusion_de_hogar_dispuesta !== undefined) ? exclusion_de_hogar_dispuesta : false,
                 boton_antipanico: (boton_antipanico_dispuesta !== undefined) ? boton_antipanico_dispuesta : false,
                 solicitud_de_aprehension: (solicitud_de_aprehension_dispuesta !== undefined) ? solicitud_de_aprehension_dispuesta : false,
                 expedientes_con_cautelar: (expedientes_con_cautelar_dispuesta !== undefined) ? expedientes_con_cautelar_dispuesta : false,
                 en_libertad: (en_libertad !== undefined) ? en_libertad : false,
+                cese_de_hostigamiento: (cese_de_hostigamiento !== undefined) ? cese_de_hostigamiento : false ,
+                notificacion_expediente: (notificacion_expediente !== undefined) ? notificacion_expediente : false,
                 ninguna: (ninguna !== undefined) ? ninguna : false
             },
             denunciado_por_tercero: denunciado_por_tercero,
-            tercero_ID: (denunciado_por_tercero)? tercero_ID  : ('Sin tercero'),
+            tercero_ID: (denunciado_por_tercero) ? tercero_ID : ('Sin tercero'),
             vinculo_con_la_victima_tercero: (denunciado_por_tercero) ? vinculo_con_la_victima : 'Sin vínculo',
-            aprehension: (aprehension !==undefined && solicitud_de_aprehension_dispuesta) ? aprehension : false,
+            aprehension: (aprehension !== undefined && solicitud_de_aprehension_dispuesta) ? aprehension : false,
             observaciones: observaciones,
         }, { new: true })
 
@@ -418,19 +422,19 @@ export const updateDenuncia = async (req, res) => {
         }, {
             victima_nombre: `${nombre_victima} ${apellido_victima}`
         });
-        
+
         // Actualiza el nombre del victimario en todas las denuncias que tengan el mismo ID
         await denuncia.updateMany({
             victimario_ID: denunciaUpdated?.victimario_ID
         }, {
             victimario_nombre: `${nombre_victimario} ${apellido_victimario}`
         });
-        
+
         // Si se agrega un tercero, se le agrega la denuncia
-        if(denunciado_por_tercero){
-        await terceros.findByIdAndUpdate(tercero_ID, { $push: { denuncias_realizadas: denunciaUpdated?._id } })
+        if (denunciado_por_tercero) {
+            await terceros.findByIdAndUpdate(tercero_ID, { $push: { denuncias_realizadas: denunciaUpdated?._id } })
         }
-        
+
         // Agrega a la actividad reciente
         await agregarActividadReciente(`Edición de denuncia`, "Denuncia", id, req.cookies)
 
@@ -463,18 +467,18 @@ export const getCantidadDenuncias = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-    
+
 }
 
 // Editar imagen de la denuncia
 export const editarImagenDenuncia = async (req, res) => {
-    try{
+    try {
         const form = new formidable.IncomingForm()
 
         form.parse(req, async (err, fields, files) => {
             const { id } = fields
             const file = files?.imagen[0]
-        
+
             if (file.originalFilename === "") { //Validación si no se sube archivos
                 throw new Error("Agrega una imagen para continuar")
             }
@@ -496,7 +500,7 @@ export const editarImagenDenuncia = async (req, res) => {
             await denuncia.findByIdAndUpdate(id, { imagen: nuevo })
             res.send('Imagen actualizada')
         })
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 
@@ -541,7 +545,7 @@ export const getDenunciasFullYear = async (req, res) => {
     ];
 
         */
-    
+
         const denunciasPorMes = await Promise.all(meses.map(async (mes) => {
             const denuncias = await denuncia.find({
                 fecha: {
