@@ -130,6 +130,9 @@ function ExpandedComponentDenunciasSinVerificar({ data }: ExpandedComponentsProp
     // Genera y abre un PDF de la denuncia o ampliación en una nueva pestaña
     const handleImprimir = async () => {
 
+        if(data.modo_actuacion === 'Ampliación de denuncia') {
+            console.log(data)
+        }
 
         const blob = await pdf(
             data.modo_actuacion === 'Ampliación de denuncia' ? (

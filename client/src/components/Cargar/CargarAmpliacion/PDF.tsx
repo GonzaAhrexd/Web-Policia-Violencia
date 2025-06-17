@@ -108,7 +108,6 @@ function PDF({isBusqueda, genero, datos, user }: PDFProps) {
             fontWeight: 'bold',
         },
         longText: {
-            fontWeight: 'bold',
             fontSize: 10,
             textAlign: 'justify',
             lineHeight: 1.5, // Aumenta el espacio entre líneas
@@ -152,9 +151,7 @@ function PDF({isBusqueda, genero, datos, user }: PDFProps) {
             marginLeft: 30
         },
         signaturesNameAndJerarquia: {
-            fontFamily: 'Times-Bold',
             fontSize: 11,
-            fontWeight: 'bold',
         },
         signaturesEndEnd: {
             fontFamily: 'Times-Bold',
@@ -203,13 +200,13 @@ function PDF({isBusqueda, genero, datos, user }: PDFProps) {
                 </View>
                 <View style={styles.sectionSignatureEndContainer}>
                     <View style={styles.sectionSignatureEndSecretario}>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario}</Text>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario} {datos.plaza_secretario}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_secretario ? datos.nombre_completo_secretario : datos.secretario.nombre_completo_secretario}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_secretario ? datos.jerarquia_secretario : datos.secretario.jerarquia_secretario} {datos.plaza_secretario}</Text>
                         <Text style={styles.boldText}>-SECRETARIO-</Text>
                     </View>
                     <View style={styles.sectionSignatureEndText}>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_instructor}</Text>
-                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_instructor}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.nombre_completo_instructor ? datos.nombre_completo_instructor : datos.instructor.nombre_completo_instructor}</Text>
+                        <Text style={styles.signaturesNameAndJerarquia}>{datos.jerarquia_instructor ? datos.jerarquia_instructor : datos.instructor.jerarquia_instructor} {datos.plaza_instructor}</Text>
                         <Text style={styles.boldText}>-INSTRUCTOR-</Text>
                     </View>
                 </View>

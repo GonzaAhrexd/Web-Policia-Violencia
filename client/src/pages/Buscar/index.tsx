@@ -53,8 +53,6 @@ function Buscar() {
       { label: 'Victimario', type: 'victimario' },
       { label: 'Terceros', type: 'terceros' },
       { label: 'Denuncias', type: 'denuncias' },
-      // { label: 'Preventivo', type: 'preventivo' },
-      // { label: 'Radiograma', type: 'radiograma' },
       { label: 'Exposiciones', type: 'exposicion' },
     ],
     agente: [

@@ -201,12 +201,12 @@ function EditPrevencion({ data, modoExpandir }: EditPrevencionProps) {
             showCancelButton: true,
             confirmButtonColor: '#0C4A6E',
             cancelButtonColor: '#FF554C',
-            confirmButtonText: 'Sí, editar preventivo!'
+            confirmButtonText: 'Sí, ampliar preventivo!'
         }).then(async (result) => {
             if (result.isConfirmed) {
                 Swal.fire({
-                    title: 'Preventivo editado!',
-                    text: 'El preventivo ha sido editado correctamente.',
+                    title: "¡Preventivo ampliado!",
+                    text:  "El preventivo ha sido ampliado correctamente." ,
                     icon: 'success',
                     confirmButtonColor: '#0C4A6E',
                     cancelButtonColor: '#FF554C',
@@ -223,8 +223,6 @@ function EditPrevencion({ data, modoExpandir }: EditPrevencionProps) {
                     autoridades: stringAcumulador
                 };
                 await ampliarPreventivo(nuevosValores)
-                // await ampliarPreventivo(data._id, nuevosValores)
-
             }
         })
     }

@@ -109,7 +109,6 @@ function PDF({ genero, tipoDenuncia, datos, user, isBusqueda }: PDFProps) {
             fontWeight: 'bold',
         },
         longText: {
-            fontWeight: 'bold',
             fontSize: 10,
             textAlign: 'justify',
             lineHeight: 1.5, // Aumenta el espacio entre líneas
@@ -153,12 +152,9 @@ function PDF({ genero, tipoDenuncia, datos, user, isBusqueda }: PDFProps) {
             marginLeft: 30
         },
         signaturesNameAndJerarquia: {
-            fontFamily: 'Times-Bold',
             fontSize: 11,
-            fontWeight: 'bold',
         },
         signaturesEndEnd: {
-            fontFamily: 'Times-Bold',
             fontSize: 11,
             fontWeight: 'bold',
             textDecoration: 'underline',
