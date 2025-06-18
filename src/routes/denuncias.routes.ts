@@ -7,7 +7,7 @@
 
 import { Router } from 'express'
 import { authRequired } from '../middlewares/validateToken'
-import { getMisDenuncias, getDenuncias, updateDenuncia, createDenuncia, deleteDenuncia, getDenunciasId, getCantidadDenuncias, editarImagenDenuncia, getDenunciasFullYear  } from '../controllers/CRUD/crudDenuncias'
+import { getMisDenuncias, getDenuncias, updateDenuncia, createDenuncia, deleteDenuncia, getDenunciasId, getCantidadDenuncias, editarImagenDenuncia, getDenunciasFullYear, getDenunciasPlus  } from '../controllers/CRUD/crudDenuncias'
 import path from 'path';
 
 const router: Router = Router()
@@ -16,6 +16,8 @@ const router: Router = Router()
 router.get('/mis-denuncias/:desde/:hasta/:numero_de_expediente/:is_expediente_completo', authRequired, getMisDenuncias)
 // Buscar entre todas las denuncias
 router.get('/buscar-denuncias/:desde/:hasta/:id_denuncia/:numero_de_expediente/:is_expediente_completo/:division/:municipio/:comisaria/:relacion_victima_victimario/:aprehension/:manual', authRequired, getDenuncias)
+// Generar Excel
+router.get('/generar-excel-denuncias/:desde/:hasta/:id_denuncia/:numero_de_expediente/:is_expediente_completo/:division/:municipio/:comisaria/:relacion_victima_victimario/:aprehension/', authRequired, getDenunciasPlus)
 // Editar denuncia por id
 router.put('/editar-denuncias/:id', authRequired, updateDenuncia)
 // Crear denuncia

@@ -51,10 +51,10 @@ function BuscarDenuncias() {
     }
 
     const [showExcel, setShowExcel] = useState(false);
-    const { unidades: unidadCampos, vinculo:vinculoCampos  } = useCampos();
+    const { unidades: unidadCampos, vinculo: vinculoCampos } = useCampos();
     const { user } = useAuth()
     const userDivisionZona = user.unidad.split(",")
-
+    const [valuesGlobal, setValuesGlobal] = useState({})
 
     return (
         <>
@@ -67,55 +67,56 @@ function BuscarDenuncias() {
                             values.unidad = values.unidad.split(',')
                             values.municipio = values.unidad[1]
                             values.comisaria = values.unidad[2]
-                        }else if (user.rol == "agente") {
+                        } else if (user.rol == "agente") {
                             values.division = userDivisionZona[0]
                             values.municipio = userDivisionZona[1]
                             values.comisaria = userDivisionZona[2]
                         }
                         handleBusqueda(values)
+                        setValuesGlobal(values);
                     }
                     )}>
                 <InputDateRange register={register} setValue={setValue} isRequired={isDateRangeRequired} />
                 <InputRegister busqueda={true} campo="ID" nombre="id_denuncia" register={register} type="text" error={errors.id_denuncia} require={false} />
                 <InputRegister campo="Número de expediente" nombre="numero_de_expediente" register={register} type="text" error={errors.numero_de_expediente} require={false}></InputRegister>
                 <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
-                    <SelectRegisterSingle isRequired={false} campo="Relación entre víctima y victimario" nombre="relacion_victima_victimario" opciones={vinculoCampos}  setValue={setValue} error={errors.relacion_victima_victimario} />
+                    <SelectRegisterSingle isRequired={false} campo="Relación entre víctima y victimario" nombre="relacion_victima_victimario" opciones={vinculoCampos} setValue={setValue} error={errors.relacion_victima_victimario} />
                 </div>
                 {user.rol != "agente" &&
-                <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
-                    <SelectDivisionMunicipios selectDivisiones isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />
-                </div>
+                    <div className='flex flex-col xl:flex-row w-full items-center justify-center'>
+                        <SelectDivisionMunicipios selectDivisiones isRequired={false} campo="División, Municipio y Comisaría" nombre="division" opciones={unidadCampos} register={register} setValue={setValue} type="text" error={errors.division} />
+                    </div>
                 }
                 <div>
-                <InputCheckbox campo="Aprehensión" nombre="aprehension" register={register} error={errors.aprehension} id="aprehension_busqueda" setValue={setValue}></InputCheckbox>
-                <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" setValue={setValue}></InputCheckbox>
+                    <InputCheckbox campo="Aprehensión" nombre="aprehension" register={register} error={errors.aprehension} id="aprehension_busqueda" setValue={setValue}></InputCheckbox>
+                    <InputCheckbox campo="Falta rellenar el expediente" nombre="is_expediente_completo" register={register} error={errors.is_expediente_completo} id="is_expediente_completo" setValue={setValue}></InputCheckbox>
                 </div>
                 <button className="bg-sky-950 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded w-full md:w-3/10"> Buscar</button>
             </form>
             <div className="flex flex-col w-full">
                 <h2 className='text-2xl my-5'>Denuncias</h2>
                 <div className="w-full flex flex-col items-center my-2">
-                    {showExcel && 
-                    <Excel denunciasAMostrar={denunciasAMostrar} />
+                    {showExcel &&
+                        <Excel filtros={valuesGlobal} />
                     }
                 </div>
                 <div className="overflow-x-auto">
-                <DataTable
-                    columns={columnsDenuncia}
-                    data={denunciasAMostrar}
-                    pagination
-                    expandableRows
-                    expandableRowsComponent={expandedComponents}
-                    customStyles={customStyles}
-                    responsive={true}
-                    striped={true}
-                    highlightOnHover={true}
-                    noDataComponent="No hay denuncias para mostrar"
-                    defaultSortFieldId={"Fecha"}
-                    defaultSortAsc={false}
-                    expandableIcon={expandableIcon}
+                    <DataTable
+                        columns={columnsDenuncia}
+                        data={denunciasAMostrar}
+                        pagination
+                        expandableRows
+                        expandableRowsComponent={expandedComponents}
+                        customStyles={customStyles}
+                        responsive={true}
+                        striped={true}
+                        highlightOnHover={true}
+                        noDataComponent="No hay denuncias para mostrar"
+                        defaultSortFieldId={"Fecha"}
+                        defaultSortAsc={false}
+                        expandableIcon={expandableIcon}
                     />
-                    </div>
+                </div>
             </div>
         </>
     )

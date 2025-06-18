@@ -11,7 +11,7 @@ const denunciaSchema = new mongoose.Schema({
         trim: true // Trim para que no se guarden espacios en blanco
     },
     // Definición del nombre de la victima
-    victima_nombre: { 
+    victima_nombre: {
         type: String, // Tipo de dato String
         required: true, // Campo requerido
         trim: true, // Trim para que no se guarden espacios en blanco
@@ -24,7 +24,7 @@ const denunciaSchema = new mongoose.Schema({
         trim: true, // Trim para que no se guarden espacios en blanco
     },
     // Definición del nombre del victimario
-    victimario_nombre: { 
+    victimario_nombre: {
         type: String, // Tipo de dato String
         required: true, // Campo requerido
         trim: true, // Trim para que no se guarden espacios en blanco
@@ -36,8 +36,8 @@ const denunciaSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
-     // Definición de la convivencia con el agresor
-     convivencia: {
+    // Definición de la convivencia con el agresor
+    convivencia: {
         type: Boolean, // Tipo de dato Boolean
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
@@ -66,7 +66,7 @@ const denunciaSchema = new mongoose.Schema({
         trim: true // Trim para que no se guarden espacios en blanco
     },
     // Definición de la dirección de la denuncia
-    direccion: { 
+    direccion: {
         type: String, // Tipo de dato String
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
@@ -77,10 +77,10 @@ const denunciaSchema = new mongoose.Schema({
         required: false, // Campo requerido
         trim: true, // Trim para que no se guarden espacios en blanco      
         default: 'No asignado',
-        set: function(value) {
+        set: function (value) {
             // Remover caracteres no deseados usando una expresión regular
             return value ? value.replace(/[^\d\-. ]/g, '').replace(/\s+/g, ' ').trim() : value;
-        }  
+        }
     },
     // Definición del barrio de la denuncia
     barrio: {
@@ -303,7 +303,7 @@ const denunciaSchema = new mongoose.Schema({
             trim: true // Trim para que no se guarden espacios en blanco
         }
     },
-    
+
     // Definición de la denuncia realizada por tercero
     denunciado_por_tercero: {
         type: Boolean, // Tipo de dato Boolean

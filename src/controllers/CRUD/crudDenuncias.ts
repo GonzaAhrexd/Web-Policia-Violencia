@@ -89,6 +89,101 @@ export const getDenuncias = async (req, res) => {
 
 }
 
+// Obtener denuncias
+export const getDenunciasPlus = async (req, res) => {
+    interface Query {
+        fecha?: {
+            $gte?: string;
+            $lte?: string;
+        };
+        _id?: string;
+        numero_de_expediente?: string;
+        is_expediente_completo?: boolean;
+        unidad_de_carga?: string;
+        municipio?: string;
+        jurisdiccion_policial?: string
+        relacion_victima_victimario?: string
+        aprehension?: boolean
+    }
+    // Obtener los parámetros de la URL
+    const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, relacion_victima_victimario, aprehension } = req.params;
+    
+        console.log(req.params)
+    // Crear el objeto de consulta
+    const query: Query = {};
+
+    // Si se ingresó un valor, se agrega a la consulta
+    if (desde !== 'no_ingresado') {
+        query.fecha = { $gte: desde };
+    }
+
+    // Si se ingresó un valor, se agrega a la consulta
+    if (hasta !== 'no_ingresado') {
+        query.fecha = query.fecha || {};
+        query.fecha.$lte = hasta;
+    }
+
+    // Si se ingresó un valor, se agrega a la consulta
+    if (id_denuncia !== 'no_ingresado') {
+        query._id = id_denuncia;
+    }
+
+    if (numero_de_expediente !== 'no_ingresado') {
+        query.numero_de_expediente = numero_de_expediente;
+    }
+
+    if (is_expediente_completo !== 'no_ingresado') {
+        query.is_expediente_completo = !is_expediente_completo;
+    }
+    if (division !== 'no_ingresado') {
+        query.unidad_de_carga = division
+    }
+    if (municipio !== 'no_ingresado') {
+        query.municipio = municipio
+    }
+    if (comisaria !== 'no_ingresado') {
+        query.jurisdiccion_policial = comisaria
+    }
+    if (relacion_victima_victimario !== 'no_ingresado') {
+        query.relacion_victima_victimario = relacion_victima_victimario
+    }
+    if (aprehension !== 'no_ingresado') {
+        query.aprehension = aprehension === 'true' ? true : false
+    }
+    // Obtener las denuncias
+  try {
+
+    let denuncias: any[] = await denuncia.find(query);
+
+    // Usamos map para procesar todo en paralelo
+    denuncias = await Promise.all(
+        denuncias.map(async (den) => {
+            const victimaFind = await victimas.findById(den.victima_ID);
+            const victimarioFind = await victimario.findById(den.victimario_ID);
+
+            let tercero = null;
+            if (den.tercero_ID != "Sin tercero") {
+                tercero = await terceros.findById(den.tercero_ID);
+            }
+
+            return {
+                ...den.toObject(), // importante si es un doc de Mongoose
+                Victima: victimaFind,
+                Victimario: victimarioFind,
+                Tercero: tercero,
+            };
+        })
+    );
+
+    res.json(denuncias);
+
+} catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Ocurrió un error' });
+}
+
+}
+
 // Obtener denuncias del usuario para mostrarlos
 export const getMisDenuncias = async (req, res) => {
 
@@ -527,24 +622,6 @@ export const getDenunciasFullYear = async (req, res) => {
             { mes: 'Diciembre', desde: `${currentYear}-12-01`, hasta: `${currentYear}-12-31` },
         ];
 
-        // Tiene que devolver en este formato 
-        /*
-        const data = [
-        { name: "Enero", total: denuncias[0] },
-        { name: "Febrero", total: denuncias[1] },
-        { name: "Marzo", total: denuncias[2] },
-        { name: "Abril", total: denuncias[3] },
-        { name: "Mayo", total: denuncias[4] },
-        { name: "Junio", total: denuncias[5] },
-        { name: "Julio", total: denuncias[6] },
-        { name: "Agosto", total: denuncias[7] },
-        { name: "Septiembre", total: denuncias[8] },
-        { name: "Octubre", total: denuncias[9] },
-        { name: "Noviembre", total: denuncias[10] },
-        { name: "Diciembre", total: denuncias[11] },
-    ];
-
-        */
 
         const denunciasPorMes = await Promise.all(meses.map(async (mes) => {
             const denuncias = await denuncia.find({
