@@ -41,6 +41,7 @@ export const buscarDenuncias = async (values: any, manual: boolean) => {
     }
 }
 
+// Listar las denuncias para generar un excel
 export const buscarDenunciasPlus = async (values: any ) => {
     try {
         const response = await axios.get(`/denuncias/generar-excel-denuncias/${values.desde ? values.desde : "no_ingresado"}/${values.hasta ? values.hasta : "no_ingresado"}/${values.id_denuncia ? values.id_denuncia : "no_ingresado"}/${values.numero_de_expediente ? encodeURIComponent(values.numero_de_expediente) : "no_ingresado"}/${values.is_expediente_completo ? values.is_expediente_completo : "no_ingresado"}/${values.division ? values.division : "no_ingresado"}/${values.municipio ? values.municipio : "no_ingresado"}/${values.comisaria ? values.comisaria : "no_ingresado"}/${values.relacion_victima_victimario ? encodeURIComponent(values.relacion_victima_victimario) : "no_ingresado" }/${values.aprehension ? values.aprehension : "no_ingresado" }`)
