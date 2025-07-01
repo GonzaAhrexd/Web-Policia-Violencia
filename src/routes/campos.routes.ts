@@ -4,13 +4,13 @@ import { createCampo, obtenerCampo, editarCampo, eliminarCampo } from '../contro
 import { authAdmin } from '../middlewares/validateToken';
 const router:Router = Router();
 
-// Crear campo
-router.post('/agregar-campo/', authAdmin, createCampo)
-// Obtener campos
-router.get('/obtener-campo/:tipo', obtenerCampo)
-// Editar campo
-router.put('/editar-campo/:id', authAdmin, editarCampo)    
-// Eliminar campo
-router.delete('/eliminar-campo/:id', authAdmin, eliminarCampo)
+// POST: Crear campo
+router.post('/', authAdmin, createCampo)
+// GET: Obtener campos
+router.get('/:tipo', obtenerCampo)
+// PUT: Editar campo
+router.put('/:id', authAdmin, editarCampo)
+// DELETE: Eliminar campo
+router.delete('/:id', authAdmin, eliminarCampo)
 
 export default router;

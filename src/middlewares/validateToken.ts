@@ -26,9 +26,8 @@ export const authAdmin = async (req, res, next) => {
             const usuario = await usuarios.findById(req.user.id)
             //Verifica si el usuario es admin
             const isAdmin = usuario?.rol == "admin";
-            const isAdminDoubleCheck = usuario?.admin;
             //Si no es admin, devuelve el siguiente mensaje
-            if (!isAdmin && !isAdminDoubleCheck) return res.status(403).json({ message: "You are not an admin" })
+            if (!isAdmin) return res.status(403).json({ message: "You are not an admin" })
             //Si lo es, continúa a la página solicitada
             next()
         } catch (err) {
@@ -44,7 +43,7 @@ export const authCarga = async (req, res, next) => {
             //Buscamos al usuario en la Base de Datos
             const usuario = await usuarios.findById(req.user.id)
             //Verificamos si tiene el rol de carga
-            const isCarga = usuario?.rol == "carga";
+            const isCarga = (usuario?.rol == "carga" || usuario?.rol == "admin");
             //Si no lo tiene, devuelve el siguiente mensaje
             if (!isCarga) return res.status(403).json({ message: "You don't have permission to do this action" })
             // Si lo tiene, continúa a la página solicitada

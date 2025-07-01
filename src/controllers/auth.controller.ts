@@ -12,180 +12,84 @@ const formidable = require('formidable'); //Módulo para formularios
 const fs = require('fs') //Módulo para guardar imagenes
 // Otras dependencias
 import { agregarActividadReciente } from './CRUD/crudActividadReciente'
-import { FieldAlreadyExistsError } from 'pdf-lib'
 import axios from 'axios'
 // Variables de entorno
 const produccion = process.env.produccion
 const urlPoliciaDigital = process.env.URL_POLICIA_DIGITAL
 
-//Registro de usuarios
-export const register = async (req, res) => {
-    // Obtención de los datos del formulario de registro
+
+
+export const loginRepoV1 = async (req, res) => {
+
     try {
-        const { nombre, apellido, telefono, pass, nombre_de_usuario, credencial, unidad, jerarquia, plaza, zona } = req.body
-        //Validación en mongodb si ya existe el usuario
-        console.log(nombre_de_usuario)
-        let userExistente = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario })
-        // Creación de un nuevo usuario como objeto
+        // Obtener los datos
 
-        if (req.body.nombre_de_usuario && !userExistente) {
-            const newUser = new usuarios({
-                nombre,
-                apellido,
-                telefono,
-                pass,
-                nombre_de_usuario,
-                credencial,
-                unidad,
-                jerarquia,
-                imagen: 'sin_definir',
-                plaza: plaza ? plaza : 'Sin definir',
-                zona,
-            })
-            // Guardar el usuario en la base de datos
-            const userSaved = await newUser.save()
+        const { nombre_de_usuario: usuario , pass: clave } = req.body
 
-            //Token 
-            const token = await createAccessToken({ id: userSaved._id })
-            res.cookie('token', token)
+        // Consulta a la API de Policía Digital para verificar el usuario
+        const loginDevuelve = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/loginSistemas`, { usuario, clave })
 
-            await agregarActividadReciente("Registro de usuario", "Registros", userSaved._id, nombre_de_usuario)
+        // Se busca el usuario en la base de datos local
+        const usuarioEncontrado = await usuarios.findOne({ usuario_repo: loginDevuelve.data.data })
 
-            //Envio al frontend de los datos del usuario registrado
-            res.json({
-                id: userSaved._id,
-                username: userSaved.nombre_de_usuario,
-                nombre: userSaved.nombre,
-                apellido: userSaved.apellido,
-                telefono: userSaved.telefono,
-                unidad: userSaved.unidad,
-                jerarquia: userSaved.jerarquia,
-                zona: userSaved.zona,
-                rol: userSaved.rol,
-                imagen: userSaved.imagen ? userSaved.imagen : 'sin_definir',
-                createdAt: userSaved.createdAt
-
-            })
-
-        } else {
-            // Error si el usuario ya existe  o no se ingresaron datos
-            throw new Error('Usuario ya existe o no se ingresaron datos.')
+        // Si no se encuentra el usuario o la contraseña es incorrecta, se devuelve un error
+        if (!usuarioEncontrado) {
+            return res.status(400).json({ message: 'Usuario no encontrado o contraseña incorrecta' })
         }
-        // Respuesta de que el usuario fue registrado
+
+        // Se genera un token de acceso para el usuario
+        const token = await createAccessToken({ id: usuarioEncontrado._id })
+
+        // Configuración del tiempo de vida del token
+        let configs: {} = {
+            maxAge: 24 * 60 * 60 * 1000
+        }
+       
+        // Se agrega el token a las cookies de la respuesta
+        res.cookie('token', token, {
+            configs
+        });
+
+        //Envio al frontend de los datos del usuario registrado
+        await agregarActividadReciente("Inicio de sesión", "Inicios", usuarioEncontrado._id, usuarioEncontrado.nombre_de_usuario)
+
+        res.json({
+            id: usuarioEncontrado._id,
+            username: usuarioEncontrado.nombre_de_usuario,
+            nombre: usuarioEncontrado.nombre,
+            apellido: usuarioEncontrado.apellido,
+            telefono: usuarioEncontrado.telefono,
+            unidad: usuarioEncontrado.unidad,
+            jerarquia: usuarioEncontrado.jerarquia,
+            zona: usuarioEncontrado.zona,
+            rol: usuarioEncontrado.rol,
+            createdAt: usuarioEncontrado.createdAt
+        })
 
     } catch (error) {
         // Respuesta de error
         console.log(error)
-        res.send('Usuario ya existe o no se ingresaron datos')
-    }
-}
-
-export const loginRepoV1 = async (req, res) => {
-   
-        try {
-                        
-            const usuario = req.body.nombre_de_usuario
-            const clave = req.body.pass
-            
-            const loginDevuelve = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/loginSistemas`, { usuario, clave })
-
-            // const usuarioExiste = 
-            const usuarioEncontrado = await usuarios.findOne({ usuario_repo: loginDevuelve.data.data })
-
-            if (!usuarioEncontrado) {
-                return res.status(400).json({ message: 'Usuario no encontrado o contraseña incorrecta' })
-            }
-
-            // Guardar el usuario en la base de datos
-            //Token 
-            const token = await createAccessToken({ id: usuarioEncontrado._id })
-
-            let configs: {} = {
-                maxAge: 24 * 60 * 60 * 1000
-            }
-            /* Esto debe estar activado en producción */
-            if (produccion == "true") {
-                configs = {
-                    domain: '.gonzaloebel.tech',
-                    secure: process.env.NODE_ENV === 'production',
-                    httpOnly: true,
-                    sameSite: 'none', // Permite el envío entre sitios
-
-                }
-            }
-
-            res.cookie('token', token, {
-                configs
-            });
-
-            //Envio al frontend de los datos del usuario registrado
-            await agregarActividadReciente("Inicio de sesión", "Inicios", usuarioEncontrado._id, usuarioEncontrado.nombre_de_usuario)
-
-
-
-            res.json({
-                id: usuarioEncontrado._id,
-                username: usuarioEncontrado.nombre_de_usuario,
-                nombre: usuarioEncontrado.nombre,
-                apellido: usuarioEncontrado.apellido,
-                telefono: usuarioEncontrado.telefono,
-                unidad: usuarioEncontrado.unidad,
-                jerarquia: usuarioEncontrado.jerarquia,
-                zona: usuarioEncontrado.zona,
-                rol: usuarioEncontrado.rol,
-                createdAt: usuarioEncontrado.createdAt
-
-            })
-
-
-        } catch (error) {
-            // Respuesta de error
-            console.log(error)
-            res.send('error')
-        }
-
-
-}
-
-export const registroDNIV1 = async (req, res) => {
-    try {
-        const { dni } = req.body
-
-        const guardar = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/usuarioSistema/${dni}`)
-
-        // console.log(guardar.data)
-
-        console.log("ID" + guardar.data.data.id)
-        console.log(guardar.data.data)
-        return guardar.data.data
-
-        // const usuarioGuardado = await usuarios.findOneAndUpdate({ "nombre_de_usuario": "gonzaahre" }, {  //Editar campos del perfil
-        //     usuario_repo: guardar.data.data.id,
-        // })
-
-        // console.log(usuarioGuardado)
-
-
-        // return usuarioGuardado;
-
-        // return guardar.data
-
-    } catch (error) {
-        console.log(error)
         res.send('error')
     }
+
+
 }
+
 export const altaUsuario = async (req, res) => {
     try {
+        // Se extraen los datos del cuerpo de la solicitud
         const { dni, rol, jerarquia, zona, unidad } = req.body
 
+        // Validación de los datos recibidos
         const guardar = await axios.post(`${urlPoliciaDigital}/api_registroUsuario/usuario/find/usuarioSistema/${dni}`)
 
+        // Si no se encuentra el usuario, se devuelve un mensaje de error
         if (guardar.data.msg === "sin contenido") {
             return res.json({ mensaje: "No se encontró el usuario" })
 
         }
 
+        // Se crea un nuevo usuario con los datos obtenidos
         const crearUsuarioConDatos = await new usuarios({
             nombre: jerarquia != "Civil" ? guardar.data.data.persona.nombre : guardar.data.data.civil.nombre,
             apellido: jerarquia != "Civil" ? guardar.data.data.persona.apellido : guardar.data.data.civil.apellido,
@@ -200,11 +104,12 @@ export const altaUsuario = async (req, res) => {
             usuario_repo: guardar.data.data.id
         })
 
+        // Se verifica si el usuario ya existe en la base de datos
         const usuarioExistente = await usuarios.findOne({ nombre_de_usuario: guardar.data.data.usuario })
         if (usuarioExistente) {
             return res.json({ mensaje: "Ya está dado de alta" })
         }
-
+        // Se guarda el nuevo usuario en la base de datos
         const usuarioGuardado = await crearUsuarioConDatos.save()
 
         return res.json({ mensaje: "Usuario creado con éxito" })
@@ -214,86 +119,11 @@ export const altaUsuario = async (req, res) => {
     }
 }
 
-//Login de usuarios
-export const login = async (req, res) => {
-    // Obtención de los datos del formulario de registro
-    const { nombre_de_usuario, pass } = req.body
-    try {
-        const usuarioEncontrado = await usuarios.findOne({ nombre_de_usuario: nombre_de_usuario })
-        if (!usuarioEncontrado) {
-            return res.status(400).json({ message: 'Usuario no encontrado' })
-        }
-
-        const isPassMatched = await bcrypt.compare(pass, usuarioEncontrado.pass)
-
-        if (!isPassMatched) return res.status(400).json({ message: 'Contraseña incorrecta' })
-
-        // Guardar el usuario en la base de datos
-        //Token 
-        const token = await createAccessToken({ id: usuarioEncontrado._id })
-
-        let configs: {} = {
-            maxAge: 24 * 60 * 60 * 1000
-        }
-        /* Esto debe estar activado en producción */
-        if (produccion == "true") {
-            configs = {
-                domain: '.gonzaloebel.tech',
-                secure: process.env.NODE_ENV === 'production',
-                httpOnly: true,
-                sameSite: 'none', // Permite el envío entre sitios
-
-            }
-        }
-
-        res.cookie('token', token, {
-            configs
-        });
-
-        //Envio al frontend de los datos del usuario registrado
-        await agregarActividadReciente("Inicio de sesión", "Inicios", usuarioEncontrado._id, usuarioEncontrado.nombre_de_usuario)
-
-        const { usuario_repo } = usuarioEncontrado
-
-        const loginRepo = await axios.post(`https://policiadigital.chaco.gob.ar:9090/api_registroUsuario/usuario/find/loginSistemas`,)
-
-
-        res.json({
-            id: usuarioEncontrado._id,
-            username: usuarioEncontrado.nombre_de_usuario,
-            nombre: usuarioEncontrado.nombre,
-            apellido: usuarioEncontrado.apellido,
-            telefono: usuarioEncontrado.telefono,
-            unidad: usuarioEncontrado.unidad,
-            jerarquia: usuarioEncontrado.jerarquia,
-
-            zona: usuarioEncontrado.zona,
-            rol: usuarioEncontrado.rol,
-            createdAt: usuarioEncontrado.createdAt
-
-        })
-
-
-    } catch (error) {
-        // Respuesta de error
-        console.log(error)
-        res.send('error')
-    }
-}
 
 //Logout 
 export const logout = async (req, res) => {
     let configs: {} = {
         expires: new Date(0)
-    }
-    if (produccion == "true") {
-        configs = {
-            domain: '.gonzaloebel.tech',
-            secure: process.env.NODE_ENV === 'production',
-            httpOnly: true,
-            sameSite: 'none', // Permite el envío entre sitios
-            expires: new Date(0)
-        }
     }
     res.cookie('token', "", {
         configs
@@ -301,28 +131,6 @@ export const logout = async (req, res) => {
     return res.sendStatus(200)
 }
 
-//Perfil  de usuario
-export const profile = async (req, res) => {
-    const usuarioEncontrado = await usuarios.findById(req.user.id)
-    if (!usuarioEncontrado) return res.status(400).json(
-        { message: "User not found" }
-    )
-    return res.json({
-        id: usuarioEncontrado._id,
-        username: usuarioEncontrado.nombre_de_usuario,
-        nombre: usuarioEncontrado.nombre,
-        apellido: usuarioEncontrado.apellido,
-        telefono: usuarioEncontrado.telefono,
-        unidad: usuarioEncontrado.unidad,
-        jerarquia: usuarioEncontrado.jerarquia,
-        zona: usuarioEncontrado.zona,
-        rol: usuarioEncontrado.rol,
-        createdAt: usuarioEncontrado.createdAt
-
-    })
-
-
-}
 
 export const verifyToken = async (req, res) => {
     const { token } = req.cookies
@@ -382,6 +190,18 @@ export const editUser = async (req, res) => {
         console.log(error)
         res.status(500).json({ message: 'Hubo un error al actualizar el usuario' });
     }
+}
+
+
+// Obtener imagen de usuario
+export const getUserImage = (req, res) => {
+    const userId = req.params.userId;
+    const imagePath = path.resolve(__dirname, `../imagesFromDB/perfiles/${userId}.png`);
+    res.sendFile(imagePath, (err) => {
+        if (err) {
+            res.status(404).send('Imagen no encontrada');
+        }
+    });
 }
 
 // Cargar imagen
