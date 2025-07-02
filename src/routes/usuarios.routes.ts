@@ -8,8 +8,11 @@ import { editUser } from '../controllers/auth.controller';
 const router:Router = Router();
 
 // Rutas de usuarios
-
-router.get('/buscar-usuario/:nombre_de_usuario/:nombre/:apellido/:rol', authAdmin, getUsuarios)
+// GET: Buscar usuarios por nombre de usuario, nombre, apellido y rol
+router.get('/:nombre_de_usuario/:nombre/:apellido/:rol', authAdmin, getUsuarios)
+// PUT: Editar usuario
+router.put('/:id', authAdmin, editUser)
+// PUT: Cambiar rol de usuario
 router.put('/cambiar-rol/', authAdmin, changeUserRole)
-router.put('/editar-usuario/:id', authAdmin, editUser)
+
 export default router;

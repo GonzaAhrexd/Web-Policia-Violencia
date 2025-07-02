@@ -10,12 +10,12 @@ import { createExposicion, buscarExposicion, deleteExposicion, editExposicion } 
 */
 const router:Router = Router()
 
-// Crear exposición
-router.post('/crear-exposicion/', authRequired, createExposicion)
-// Buscar exposición
-router.get('/buscar-exposicion/:desde/:hasta/:id_exposicion/:nombre_victima/:apellido_victima/:dni_victima/', authRequired, buscarExposicion)
-// Eliminar exposición por id
-router.delete('/eliminar-exposicion/:id', authRequired,  deleteExposicion)
-// Editar exposición por id
-router.put('/editar-exposicion/:id', authRequired,  editExposicion)
+// POST: Crear exposición
+router.post('/', authRequired, createExposicion)
+// GET: Buscar exposición
+router.get('/:desde/:hasta/:id_exposicion/:nombre_victima/:apellido_victima/:dni_victima/', authRequired, buscarExposicion)
+// PUT: Editar exposición por id
+router.put('/:id', authRequired,  editExposicion)
+// DELETE: Eliminar exposición por id
+router.delete('/:id', authRequired,  deleteExposicion)
 export default router

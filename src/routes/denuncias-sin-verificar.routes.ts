@@ -18,10 +18,6 @@ const router:Router = Router();
 
 // POST: Crear denuncia sin verificar
 router.post('/', authRequired, createDenunciaSinVerificar)
-// PUT: Validar denuncia sin verificar (id)
-router.put('/:id', authCarga,validarDenuncia )
-// DELETE: Eliminar denuncia sin verificar por id (id)
-router.delete('/:id', authRequired,  deleteDenunciaSinVerificar)
 // GET: Buscar denuncias sin verificar
 router.get('/', authRequired, getDenunciasSinVerificar)
 // GET: Buscar denuncias sin verificar por id (id)
@@ -30,11 +26,14 @@ router.get('/:id', authRequired, getDenunciasSinVerificarId)
 router.get('/:desde/:hasta/:id/:expediente/:division/:municipio/:comisaria/:mostrar_ampliaciones', authRequired, getDenunciasSinVerificarAvanzado)
 // GET: Buscar mis denuncias sin verificar (desde, hasta, numero_de_expediente)
 router.get('/mis-denuncias/:desde/:hasta/:numero_de_expediente/', authRequired, listarMisDenunciasSinVerificar)
-
 // AMPLIACIONES
 // GET: Buscar ampliaciones de denuncia por id (id)
 router.get('/ampliaciones/:id', authRequired, getDenunciasSinVerificarByIdArray)
 // PUT: Agregar ampliación a denuncia sin verificar (id, idAmpliacion)
 router.put('/ampliacion/:id/:idAmpliacion', authRequired, agregarAmpliacionDenuncia)
+// PUT: Validar denuncia sin verificar (id)
+router.put('/:id', authCarga,validarDenuncia )
+// DELETE: Eliminar denuncia sin verificar por id (id)
+router.delete('/:id', authRequired,  deleteDenunciaSinVerificar)
 
 export default router

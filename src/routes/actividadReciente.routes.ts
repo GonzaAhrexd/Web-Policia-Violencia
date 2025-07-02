@@ -4,9 +4,9 @@ import { buscarActividadReciente, buscasActividadPorIdUsuario } from '../control
 
 const router:Router = Router()
 
-// Buscar actividad reciente
-router.get('/buscar-actividad-reciente/:desde/:hasta/:seccion/:usuario', authAdmin, buscarActividadReciente)
-// Buscar actividad reciente por id de usuario
-router.get('/mi-actividad/:id', authRequired, buscasActividadPorIdUsuario )
+// GET: Buscar actividad reciente
+router.get('/:desde/:hasta/:seccion/:usuario', authAdmin, buscarActividadReciente)
+// GET: Buscar actividad reciente por id de usuario
+router.get('/:id', authRequired, buscasActividadPorIdUsuario )
 
 export default router

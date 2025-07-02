@@ -5,45 +5,45 @@ import { createUnidad, getUnidades, updateUnidad, deleteUnidad, addMunicipio, up
 
 const router:Router = Router();
 
-// Mostrar todas las unidades
-router.get('/mostrar-unidades/', getUnidades)
-// Agregar una unidad
-router.post('/agregar-unidad/', authAdmin, createUnidad)
-// Eliminar una unidad
-router.delete('/eliminar-unidad/:id', authAdmin, deleteUnidad)
-// Editar una unidad 
-router.put('/editar-unidad/:id', authAdmin, updateUnidad)
+// GET: Mostrar todas las unidades
+router.get('/unidad/', authRequired, getUnidades)
+// POST: Agregar una unidad
+router.post('/unidad/', authAdmin, createUnidad)
+// PUT: Editar una unidad 
+router.put('/unidad/:id', authAdmin, updateUnidad)
+// DELETE: Eliminar una unidad
+router.delete('/unidad/:id', authAdmin, deleteUnidad)
 
 // MUNICIPIO
-// Agregar municipio
+// PUT: Agregar municipio
 router.put('/agregar-municipio/:id', authAdmin, addMunicipio)
-// Editar un municipio
+// PUT: Editar un municipio
 router.put('/editar-municipio/', authAdmin, updateMunicipio)
-// Eliminar municipio
+// PUT: Eliminar municipio
 router.put('/eliminar-municipio/:nombre', authAdmin, deleteMunicipio)
 
 // COMISARÍA
-// Agregar una comisaría
+// PUT: Agregar una comisaría
 router.put('/agregar-comisaria/', authAdmin, addComisaria)
-// Editar una comisaría
+// PUT: Editar una comisaría
 router.put('/editar-comisaria/', authAdmin, updateComisaria)
-// Eliminar una comisaría
+// PUT: Eliminar una comisaría
 router.put('/eliminar-comisaria/:nombre/:municipio', authAdmin, deleteComisaria)
 
 // CUADRICULAS
 // Cuadriculas comisaría
-// Agregar cuadriculas
+// PUT: Agregar cuadriculas
 router.put('/agregar-cuadricula/', authAdmin, addCuadriculaFromComisaria)
-// Editar cuadriculas
+// PUT: Editar cuadriculas
 router.put('/editar-cuadricula-desde-comisaria/', authAdmin, updateCuadriculaFromComisaria)
-// Eliminar cuadriculas
+// PUT: Eliminar cuadriculas
 router.put('/eliminar-cuadricula/:cuadricula/:comisaria/:municipio', authAdmin, deleteCuadriculaFromComisaria)
 
 // Cuadriculas municipio
-// Agregar cuadriculas
+// PUT: Agregar cuadriculas
 router.put('/agregar-cuadricula-desde-municipio', authAdmin, addCuadriculaFromMunicipio)
-// Editar cuadriculas
+// PUT: Editar cuadriculas
 router.put('/editar-cuadricula-desde-municipio', authAdmin, updateCuadriculaFromMunicipio)
-// Eliminar cuadriculas
+// PUT: Eliminar cuadriculas
 router.put('/eliminar-cuadricula-desde-municipio/:cuadricula/:municipio', authAdmin, deleteCuadriculaFromMunicipio)
 export default router

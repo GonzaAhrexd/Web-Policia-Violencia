@@ -7,25 +7,23 @@
 // Importamos Router desde express
 import { Router } from 'express';
 // Importamos los middlewares que vamos a utilizar
-import { authRequired } from '../middlewares/validateToken';
+import { authCarga } from '../middlewares/validateToken';
 
 // VICTIMAS
 import { getVictima, createVictima, updateVictima, buscarVictima, buscarVictimaV2, getVictimasWithArray } from '../controllers/CRUD/crudVictimas'
 
 
 const router:Router = Router();
-// Crear víctima
-router.post('/crear-victima/', authRequired, createVictima)
-// Buscar víctima
-router.get('/victima/:id', authRequired, getVictima)
-// Editar víctima
-router.put('/editar-victima/:id', authRequired, updateVictima)
-// Buscar víctima
-router.get('/buscar-victima/:id_victima/:nombre_victima/:apellido_victima/:dni_victima/:numero_de_expediente', authRequired, buscarVictima)
-// Victima DNI
-router.get('/victima-busqueda/:dni_victima/:nombre_victima', buscarVictimaV2 )
-// Victimas con Array de Ids
-router.post('/victimas-array', authRequired, getVictimasWithArray);
+// POST: Crear víctima
+router.post('/', authCarga, createVictima)
+// POST: Victimas con Array de Ids
+router.post('/array', authCarga, getVictimasWithArray);
+// GET: Buscar víctima
+router.get('/:id', authCarga, getVictima)
+// GET: Buscar víctima
+router.get('/:id_victima/:nombre_victima/:apellido_victima/:dni_victima/:numero_de_expediente', authCarga, buscarVictima)
+// PUT: Editar víctima
+router.put('/:id', authCarga, updateVictima)
 
 
 export default router;

@@ -4,18 +4,18 @@
     -----------------------------------------------------------------------------------------------------------------
 */
 import { Router } from 'express'
-import { authRequired } from '../middlewares/validateToken'
+import { authCarga } from '../middlewares/validateToken'
 import { getTercero, createTercero, updateTercero, buscarTercero } from '../controllers/CRUD/crudTerceros'
 
 const router:Router = Router()
 
-// Buscar tercero por id
-router.get('/tercero/:id', authRequired, getTercero)
-// Crear tercero
-router.post('/crear-tercero/', authRequired, createTercero)
-// Editar tercero
-router.put('/editar-tercero/:id', authRequired, updateTercero)
-// Buscar tercero
-router.get('/buscar-tercero/:id_tercero/:nombre_tercero/:apellido_tercero/:dni_tercero/:numero_de_expediente', authRequired, buscarTercero)
+// GET: Buscar tercero por id
+router.get('/:id', authCarga, getTercero)
+// GET: Buscar tercero
+router.get('/:id_tercero/:nombre_tercero/:apellido_tercero/:dni_tercero/:numero_de_expediente', authCarga, buscarTercero)
+// POST: Crear tercero
+router.post('/', authCarga, createTercero)
+// PUT: Editar tercero
+router.put('/:id', authCarga, updateTercero)
 
 export default router

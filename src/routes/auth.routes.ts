@@ -9,19 +9,19 @@ import { validateSchema } from '../middlewares/validator.middleware';
 import { loginSchema } from '../schemas/auth.schema'
 // Uso de Router de express
 const router: Router = Router()
-// Inicio de sesión
+// POST: Inicio de sesión
 router.post('/login', validateSchema(loginSchema), loginRepoV1)
-// Cierre de sesión
+// POST: Cierre de sesión
 router.post('/logout', logout)
-// Verificación de token
-router.get('/verify', verifyToken)
-// Editar usuario
-router.put('/editar-usuario/:id', authRequired, editUser)
-// Editar imagen de usuario
+// POST: Editar imagen de usuario
 router.post('/editar-imagen-usuario/:id', authRequired, editUserImg)
-// Obtener imagen de usuario
-router.get('/users/:userId/image', authRequired, getUserImage);
-// Dar de alta a un usuario
+// POST: Dar de alta a un usuario
 router.post('/alta-usuario', authAdmin, altaUsuario)
+// GET: Verificación de token
+router.get('/verify', verifyToken)
+// GET: Obtener imagen de usuario
+router.get('/usuario/:userId/image', authRequired, getUserImage);
+// PUT: Editar usuario
+router.put('/usuario/:id', authRequired, editUser)
 
 export default router

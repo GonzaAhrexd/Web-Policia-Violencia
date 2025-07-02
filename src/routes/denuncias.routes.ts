@@ -12,23 +12,21 @@ import path from 'path';
 
 const router: Router = Router()
 
-// Denuncias del usuario logueado
-router.get('/mis-denuncias/:desde/:hasta/:numero_de_expediente/:is_expediente_completo', authRequired, getMisDenuncias)
-// Buscar entre todas las denuncias
-router.get('/buscar-denuncias/:desde/:hasta/:id_denuncia/:numero_de_expediente/:is_expediente_completo/:division/:municipio/:comisaria/:relacion_victima_victimario/:aprehension/:manual', authRequired, getDenuncias)
-// Generar Excel
-router.get('/generar-excel-denuncias/:desde/:hasta/:id_denuncia/:numero_de_expediente/:is_expediente_completo/:division/:municipio/:comisaria/:relacion_victima_victimario/:aprehension/', authRequired, getDenunciasPlus)
-// Editar denuncia por id
-router.put('/editar-denuncias/:id', authRequired, updateDenuncia)
-// Crear denuncia
-router.post('/crear-denuncia/', authRequired, createDenuncia)
-// Eliminar denuncia por id
-router.delete('/eliminar-denuncias/:id', authRequired, deleteDenuncia)
-// Buscar denuncia por id
-router.get('/buscar-denuncias-id/:id', authRequired, getDenunciasId)
-// Cantidad de denuncias
-router.get('/cantidad-denuncias/:desde/:hasta', authRequired, getCantidadDenuncias)
-// Imagenes de denuncias
+// POST: Crear denuncia
+router.post('/', authCarga, createDenuncia)
+// GET: Buscar entre todas las denuncias
+router.get('/:desde/:hasta/:id_denuncia/:numero_de_expediente/:is_expediente_completo/:division/:municipio/:comisaria/:relacion_victima_victimario/:aprehension/:manual', authRequired, getDenuncias)
+// GET: Buscar denuncia por id
+router.get('/:id', authCarga, getDenunciasId)
+// GET: Generar Excel
+router.get('/excel/:desde/:hasta/:id_denuncia/:numero_de_expediente/:is_expediente_completo/:division/:municipio/:comisaria/:relacion_victima_victimario/:aprehension/', authCarga, getDenunciasPlus)
+// GET: Cantidad de denuncias
+router.get('/cantidad/:desde/:hasta', authCarga, getCantidadDenuncias)
+// GET: Denuncias del usuario logueado
+router.get('/mis-denuncias/:desde/:hasta/:numero_de_expediente/:is_expediente_completo', authCarga, getMisDenuncias)
+// GET: Estadística anual de denuncias
+router.get("/estadistica-anual", authCarga, getDenunciasFullYear)
+// GET: Imagenes de denuncias
 router.get('/denuncias/:denunciaId/image', (req, res) => {
     const denunciaId = req.params.denunciaId;
     // Aquí iría tu lógica para encontrar la imagen basada en denunciaId
@@ -39,10 +37,12 @@ router.get('/denuncias/:denunciaId/image', (req, res) => {
             res.status(404).send('Imagen no encontrada');
         }
     });
-    
 })
-// Editar imagen de denuncia
-router.put('/editar-imagen-denuncia/', authRequired, editarImagenDenuncia)
-router.get("/denuncias-estadistica-anual", authRequired, getDenunciasFullYear)
+// PUT: Editar imagen de denuncia
+router.put('/imagen/', authCarga, editarImagenDenuncia)
+// PUT: Editar denuncia por id
+router.put('/:id', authCarga, updateDenuncia)
+// DELETE: Eliminar denuncia por id
+router.delete('/:id', authCarga, deleteDenuncia)
 
 export default router

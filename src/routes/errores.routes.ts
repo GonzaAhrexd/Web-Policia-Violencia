@@ -10,8 +10,10 @@ import { createReporteErrores } from '../controllers/CRUD/crudReportesErrores'
 const router:Router = Router();
 
 
-// Reporte de erores
-router.post('/reporte-errores/', authRequired, createReporteErrores)
+// POST: Reporte de erores
+router.post('/', authRequired, createReporteErrores)
+
+// GET: Endpoint de prueba
 router.get('/ping', (req, res) => {
     res.status(200).json({ message: 'Pong!' });
 }
