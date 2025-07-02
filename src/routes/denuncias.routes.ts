@@ -15,9 +15,9 @@ const router: Router = Router()
 // POST: Crear denuncia
 router.post('/', authCarga, createDenuncia)
 // GET: Buscar entre todas las denuncias
-router.get('/:desde/:hasta/:id_denuncia/:numero_de_expediente/:is_expediente_completo/:division/:municipio/:comisaria/:relacion_victima_victimario/:aprehension/:manual', authRequired, getDenuncias)
+router.get('/buscar/:desde/:hasta/:id_denuncia/:numero_de_expediente/:is_expediente_completo/:division/:municipio/:comisaria/:relacion_victima_victimario/:aprehension/:manual', authRequired, getDenuncias)
 // GET: Buscar denuncia por id
-router.get('/:id', authCarga, getDenunciasId)
+router.get('/buscar/:id', authCarga, getDenunciasId)
 // GET: Generar Excel
 router.get('/excel/:desde/:hasta/:id_denuncia/:numero_de_expediente/:is_expediente_completo/:division/:municipio/:comisaria/:relacion_victima_victimario/:aprehension/', authCarga, getDenunciasPlus)
 // GET: Cantidad de denuncias
