@@ -6,7 +6,7 @@
 */
 
 import { Router } from 'express'
-import { authRequired } from '../middlewares/validateToken'
+import { authRequired, authCarga } from '../middlewares/validateToken'
 import { getMisDenuncias, getDenuncias, updateDenuncia, createDenuncia, deleteDenuncia, getDenunciasId, getCantidadDenuncias, editarImagenDenuncia, getDenunciasFullYear, getDenunciasPlus  } from '../controllers/CRUD/crudDenuncias'
 import path from 'path';
 
