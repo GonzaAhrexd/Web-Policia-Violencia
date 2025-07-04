@@ -3,6 +3,41 @@ import mongoose, { Model, Mongoose } from 'mongoose'
 
 // Creamos el esquema de Victimas en la base de datos
 const exposicionSchema = new mongoose.Schema({
+    // Número de expediente
+    numero_de_expediente: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    // Fecha
+    fecha: {
+        type: Date, // Tipo de dato Date
+        default: Date.now // Fecha por defecto es la fecha actual
+    },
+    // Hora
+    hora: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    // Dirección
+    direccion: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    // Teléfono
+    telefono: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    // División donde se cargó
+    division: {
+        type: String, // Tipo de dato String
+        required: true, // Campo requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     // Definición del nombre de la victima
     nombre_victima: {
         type: String, // Tipo de dato String
@@ -77,41 +112,41 @@ const exposicionSchema = new mongoose.Schema({
             required: true, // Campo requerido
             trim: true // Trim para que no se guarden espacios en blanco
         }
-        },
-        agrega: {
+    },
+    agrega: {
+        type: String, // Tipo de dato String
+        required: false, // Campo no requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
+    secretario: {
+        nombre_completo_secretario: {
             type: String, // Tipo de dato String
-            required: false, // Campo no requerido
+            required: true, // Campo requerido
             trim: true // Trim para que no se guarden espacios en blanco
         },
-        secretario: {
-            nombre_completo_secretario: {
-                type: String, // Tipo de dato String
-                required: true, // Campo requerido
-                trim: true // Trim para que no se guarden espacios en blanco
-            },
-            jerarquia_secretario: {
-                type: String, // Tipo de dato String
-                required: true, // Campo requerido
-                trim: true // Trim para que no se guarden espacios en blanco
-            },
-            plaza_secretario: {
-                type: String, // Tipo de dato String
-                required: false, // Campo requerido
-                trim: true // Trim para que no se guarden espacios en blanco
-            }
+        jerarquia_secretario: {
+            type: String, // Tipo de dato String
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
         },
-        instructor: {
-            nombre_completo_instructor: {
-                type: String, // Tipo de dato String
-                required: true, // Campo requerido
-                trim: true // Trim para que no se guarden espacios en blanco
-            },
-            jerarquia_instructor: {
-                type: String, // Tipo de dato String
-                required: true, // Campo requerido
-                trim: true // Trim para que no se guarden espacios en blanco
-            }
+        plaza_secretario: {
+            type: String, // Tipo de dato String
+            required: false, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
+        }
+    },
+    instructor: {
+        nombre_completo_instructor: {
+            type: String, // Tipo de dato String
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
         },
+        jerarquia_instructor: {
+            type: String, // Tipo de dato String
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
+        }
+    },
 },
     {
         timestamps: true // Timestamps para que guarde la fecha de creación y actualización

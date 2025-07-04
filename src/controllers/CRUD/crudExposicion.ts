@@ -5,9 +5,15 @@ import { agregarActividadReciente } from './crudActividadReciente'
 export const createExposicion = async (req, res) => {
     try {
         // Obtener los datos del cuerpo de la solicitud
-        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, numero_de_expediente, fecha, hora, division, direccion, telefono, SabeLeerYEscribir, observaciones, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega } = req.body
         // Crear un nuevo objeto con los datos a insertar
         const newExposicion = new exposicion({
+            numero_de_expediente: numero_de_expediente,
+            fecha: fecha,
+            hora: hora,
+            division: division,
+            direccion: direccion,
+            telefono: telefono,
             nombre_victima: nombre_victima,
             apellido_victima: apellido_victima,
             edad_victima: edad_victima,
@@ -36,10 +42,10 @@ export const createExposicion = async (req, res) => {
 
         // Guardar el nuevo objeto en la base de datos
         const expoSave = await newExposicion.save()
-        
+
         // Agregar actividad reciente
         await agregarActividadReciente("Carga de exposición", "Exposición", expoSave._id, req.cookies)
-        
+
         // Respuesta del servidor
         res.send('Exposición creada con exito')
 
@@ -63,7 +69,7 @@ export const buscarExposicion = async (req, res) => {
     // Obtener los parámetros de la URL
     const { desde, hasta, id_exposicion, nombre_victima, apellido_victima, dni_victima } = req.params;
     // Crear el objeto de consulta
-    const query: Query = { };
+    const query: Query = {};
 
     // Si se ingresó un valor, se agrega a la consulta
     if (desde !== 'no_ingresado') {
@@ -78,13 +84,13 @@ export const buscarExposicion = async (req, res) => {
     if (id_exposicion !== 'no_ingresado') {
         query._id = id_exposicion;
     }
-    
-    function normalizarLetras(caracter:string) {
+
+    function normalizarLetras(caracter: string) {
         if (caracter === 's' || caracter === 'z') return '[sz]';
         if (caracter === 'i' || caracter === 'y') return '[iy]';
-        if ( caracter === 'k' || caracter === 'q') return '[kq]';
-        if ( caracter === 'v' || caracter === 'b') return '[vb]';
-        if ( caracter === 'g' || caracter === 'j') return '[gj]';
+        if (caracter === 'k' || caracter === 'q') return '[kq]';
+        if (caracter === 'v' || caracter === 'b') return '[vb]';
+        if (caracter === 'g' || caracter === 'j') return '[gj]';
         if (caracter === 'á' || caracter === 'a') return '[áa]';
         if (caracter === 'é' || caracter === 'e') return '[ée]';
         if (caracter === 'í' || caracter === 'i') return '[íi]';
@@ -114,7 +120,7 @@ export const buscarExposicion = async (req, res) => {
             // Si no se ha ingresado el nombre/apellido, devolver null
             return null;
         }
-    }        
+    }
     if (nombre_victima !== 'no_ingresado') {
         // @ts-ignore
         query.nombre_victima = new RegExp(construirExpresionRegular(nombre_victima));
@@ -125,11 +131,11 @@ export const buscarExposicion = async (req, res) => {
     }
     if (dni_victima !== 'no_ingresado') {
         //Haz que se eliminen . si que se ingresan en el dni
-        query.DNI_victima =  dni_victima.replace(/\./g, '');
+        query.DNI_victima = dni_victima.replace(/\./g, '');
     }
     // Obtener las denuncias
     try {
-        const exposiciones  = await exposicion.find(query);
+        const exposiciones = await exposicion.find(query);
         res.json(exposiciones);
     } catch (error) {
         // Error al obtener las denuncias
@@ -150,10 +156,16 @@ export const deleteExposicion = async (req, res) => {
 }
 
 export const editExposicion = async (req, res) => {
-    try{
+    try {
         const { id } = req.params
-        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones} = req.body
+        const { nombre_victima, apellido_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, numero_de_expediente, fecha, hora, division, direccion, telefono, SabeLeerYEscribir, observaciones } = req.body
         await exposicion.findByIdAndUpdate(id, {
+            numero_de_expediente: numero_de_expediente,
+            fecha: fecha,
+            hora: hora,
+            division: division,
+            direccion: direccion,
+            telefono: telefono,
             nombre_victima: nombre_victima,
             apellido_victima: apellido_victima,
             edad_victima: edad_victima,
@@ -168,7 +180,7 @@ export const editExposicion = async (req, res) => {
         })
         await agregarActividadReciente("Edición de exposición", "Exposición", id, req.cookies)
         res.send('Exposición editada con éxito')
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 }
