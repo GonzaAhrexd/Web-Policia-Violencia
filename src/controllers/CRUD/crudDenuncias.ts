@@ -74,7 +74,6 @@ export const getDenuncias = async (req, res) => {
     }
     // Obtener las denuncias
     try {
-        console.log(query)
 
         const denuncias = await denuncia.find(query);
         if (manual) {
@@ -108,7 +107,6 @@ export const getDenunciasPlus = async (req, res) => {
     // Obtener los parámetros de la URL
     const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, relacion_victima_victimario, aprehension } = req.params;
     
-        console.log(req.params)
     // Crear el objeto de consulta
     const query: Query = {};
 
@@ -240,16 +238,12 @@ export const createDenuncia = async (req, res) => {
 
             // Obtener los datos de la denuncia
 
-            console.log(fields)
-
-
-            const { user_id, modo_actuacion, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, convivencia, dependencia_economica, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
-                derecho_de_comunicacion, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, en_libertad, cese_de_hostigamiento, notificacion_expediente, ninguna } = fields
+            const { user_id, modo_actuacion, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, convivencia, dependencia_economica, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, empleo_de_armas, arma_empleada, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
+                derecho_de_comunicacion, ninguna_solicitada, restitucion_de_bienes,  boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, en_libertad, cese_de_hostigamiento, notificacion_expediente, ninguna } = fields
             // Buscar si la victima y victimario ya existen        
             const findVictima = await victimas.findOne({ DNI: dni_victima[0] })
             let findVictimario
 
-            console.log("Modo actuación: " + modo_actuacion[0])
 
             // Si el DNI del victimario es S/N, se asigna el ID del victimario
             if (dni_victimario == "S/N") {
@@ -309,6 +303,8 @@ export const createDenuncia = async (req, res) => {
                     alimento_provisorio: (alimento_provisorio !== undefined) ? alimento_provisorio[0] : false,
                     derecho_de_comunicacion: (derecho_de_comunicacion !== undefined) ? derecho_de_comunicacion[0] : false,
                     boton_antipanico: (boton_antipanico !== undefined) ? boton_antipanico[0] : false,
+                    restitucion_de_bienes: (restitucion_de_bienes !== undefined) ? restitucion_de_bienes[0] : false,
+                    ninguna_solicitada: (ninguna_solicitada !== undefined) ? ninguna_solicitada[0] : false
                 },
                 medida_dispuesta: {
                     prohibicion_de_acercamiento: (prohibicion_de_acercamiento_dispuesta !== undefined) ? prohibicion_de_acercamiento_dispuesta[0] : false,
@@ -327,13 +323,11 @@ export const createDenuncia = async (req, res) => {
                 aprehension: (aprehension !== null && solicitud_de_aprehension_dispuesta) ? aprehension[0] : false,
                 observaciones: observaciones[0],
                 denunciada_cargada_por: user_id[0]
-
-
             })
 
             // Guardar la denuncia
             const denunciaSaved = await newDenuncia.save()
-
+            
             if (err) {
                 console.error("Error parsing the form: ", err);
                 return res.status(500).send({ error: "Error procesando el formulario: " + err.message });
@@ -344,9 +338,7 @@ export const createDenuncia = async (req, res) => {
                 if (file.originalFilename === "") { //Validación si no se sube archivos
                     throw new Error("Agrega una imagen para continuar")
                 }
-                // if (!(file.mimetype === "image/jpeg" || file.mimetype === "image/png")) { //Formatos válidos
-                //     throw new Error("Formato no válido, prueba con .png o .jpg")
-                // }
+             
 
                 if (file.size > 50 * 1024 * 1024) { //Tamaño máximo de 50mb
                     throw new Error("Ingrese un archivo de menos de 50mb")
@@ -439,14 +431,9 @@ export const updateDenuncia = async (req, res) => {
     try {
         //Edita los parametros de la denuncia salvo los id de la victima y victimario
         const { id } = req.params
-        const { nombre_victima, apellido_victima, modo_actuacion, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor, convivencia, dependencia_economica, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, tipo_de_violencia, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto, aprehension, en_libertad, cese_de_hostigamiento, notificacion_expediente, ninguna } = req.body
+        const { nombre_victima, apellido_victima, modo_actuacion, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor, convivencia, dependencia_economica, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades,  empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, restitucion_de_bienes, ninguna_solicitada, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto, aprehension, en_libertad, cese_de_hostigamiento, notificacion_expediente, ninguna } = req.body
         // Buscar al tercero si se agregó
 
-        let findTercero
-        // Busca si hay tercero
-        /* if(denunciado_por_tercero && tercero_ID !== "Sin tercero"){
-             findTercero = await terceros.findById(tercero_ID)
-         }*/
         // Actualiza la denuncia        
         const denunciaUpdated = await denuncia.findByIdAndUpdate(id, {
             victima_nombre: nombre_victima + ' ' + apellido_victima,
@@ -492,6 +479,8 @@ export const updateDenuncia = async (req, res) => {
                 alimento_provisorio: (alimento_provisorio !== undefined) ? alimento_provisorio : false,
                 derecho_de_comunicacion: (derecho_de_comunicacion !== undefined) ? derecho_de_comunicacion : false,
                 boton_antipanico: (boton_antipanico !== undefined) ? boton_antipanico : false,
+                restitucion_de_bienes: (restitucion_de_bienes !== undefined) ? restitucion_de_bienes : false,
+                ninguna_solicitada: (ninguna_solicitada !== undefined) ? ninguna_solicitada : false
             },
             medida_dispuesta: {
                 prohibicion_de_acercamiento: (prohibicion_de_acercamiento_dispuesta !== undefined) ? prohibicion_de_acercamiento_dispuesta : false,

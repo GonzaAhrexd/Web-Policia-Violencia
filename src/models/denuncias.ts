@@ -255,6 +255,17 @@ const denunciaSchema = new mongoose.Schema({
             required: true, // Campo requerido
             trim: true // Trim para que no se guarden espacios en blanco
         },
+        restitucion_de_bienes: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
+        },
+        // Definición de ninguna medida
+        ninguna_solicitada: {
+            type: Boolean, // Tipo de dato Boolean
+            required: true, // Campo requerido
+            trim: true // Trim para que no se guarden espacios en blanco
+        }
     },
     medida_dispuesta: {
         prohibicion_de_acercamiento: {

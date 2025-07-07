@@ -274,7 +274,6 @@ export const buscarVictimarioPorDni = async (req, res) => {
     try 
     {
         const { dni_victimario } = req.params
-        console.log(dni_victimario)
         let respuesta = await victimario.findOne({ DNI: dni_victimario })
 
         // Agrega a la respuesta para cada elemento en denuncias_en_contra el objeto que devuelve con su id en denuncias

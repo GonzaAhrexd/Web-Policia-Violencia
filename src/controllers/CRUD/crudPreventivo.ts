@@ -51,7 +51,6 @@ export const createPreventivo = async (req, res) => {
     try {
         const newPreventivo = new preventivo(mapPreventivoData(req.body));
 
-        console.log(req.body)
         // Busca el ID de la denuncia en la base de datos y agregale en preventivoID el id recién creado
         const foundDenuncia = await denunciaSinVerificar.findById(req.body._id);
         if (!foundDenuncia) {
