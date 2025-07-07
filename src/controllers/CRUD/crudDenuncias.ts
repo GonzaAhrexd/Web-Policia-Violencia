@@ -627,3 +627,51 @@ export const getDenunciasFullYear = async (req, res) => {
         console.log(error)
     }
 }
+
+export const getDenunciasTotalesPeriodo = async (req, res) => {
+  // Obtener fecha actual
+  const ahora = new Date();
+
+  // Día de hoy (inicio y fin)
+  const inicioDia = new Date(ahora);
+  inicioDia.setUTCHours(0, 0, 0, 0);
+
+  const finDia = new Date(ahora);
+  finDia.setUTCHours(23, 59, 59, 999);
+
+  // Desde hace 7 días
+  const desde7Dias = new Date(ahora);
+  desde7Dias.setDate(ahora.getDate() - 7);
+  desde7Dias.setUTCHours(0 , 0, 0, 0);
+
+  // Desde hace 30 días
+  const desde30Dias = new Date(ahora);
+  desde30Dias.setDate(ahora.getDate() - 30);
+  desde30Dias.setUTCHours(0, 0, 0, 0);
+
+  // Desde el 1 de enero al 31 de diciembre del año actual
+  const desde1Enero = new Date(ahora.getFullYear(), 0, 1);
+  desde1Enero.setUTCHours(0, 0, 0, 0);
+
+  const hasta31Diciembre = new Date(ahora.getFullYear(), 11, 31);
+  hasta31Diciembre.setUTCHours(23, 59, 59, 999);
+
+  try {
+    const [denunciasHoy, denuncias7Dias, denuncias30Dias, denunciasAnioCompleto] = await Promise.all([
+      denuncia.find({ fecha: { $gte: inicioDia, $lte: finDia } }),
+      denuncia.find({ fecha: { $gte: desde7Dias, $lte: ahora } }),
+      denuncia.find({ fecha: { $gte: desde30Dias, $lte: ahora } }),
+      denuncia.find({ fecha: { $gte: desde1Enero, $lte: hasta31Diciembre } })
+    ]);
+
+    res.json({
+      hoy: denunciasHoy.length,
+      semana: denuncias7Dias.length,
+      mes: denuncias30Dias.length,
+      anio: denunciasAnioCompleto.length
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Error al obtener las denuncias' });
+  }
+};

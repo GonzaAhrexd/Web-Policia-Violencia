@@ -7,7 +7,7 @@
 
 import { Router } from 'express'
 import { authRequired, authCarga } from '../middlewares/validateToken'
-import { getMisDenuncias, getDenuncias, updateDenuncia, createDenuncia, deleteDenuncia, getDenunciasId, getCantidadDenuncias, editarImagenDenuncia, getDenunciasFullYear, getDenunciasPlus  } from '../controllers/CRUD/crudDenuncias'
+import { getMisDenuncias, getDenuncias, updateDenuncia, createDenuncia, deleteDenuncia, getDenunciasId, getCantidadDenuncias, editarImagenDenuncia, getDenunciasFullYear, getDenunciasTotalesPeriodo, getDenunciasPlus  } from '../controllers/CRUD/crudDenuncias'
 import path from 'path';
 
 const router: Router = Router()
@@ -26,6 +26,8 @@ router.get('/cantidad/:desde/:hasta', authCarga, getCantidadDenuncias)
 router.get('/mis-denuncias/:desde/:hasta/:numero_de_expediente/:is_expediente_completo', authCarga, getMisDenuncias)
 // GET: Estadística anual de denuncias
 router.get("/estadistica-anual", authCarga, getDenunciasFullYear)
+// GET: Estadistica diaria, semanal, mensual y anual
+router.get('/estadistica-periodos/', authCarga, getDenunciasTotalesPeriodo)
 // GET: Imagenes de denuncias
 router.get('/denuncias/:denunciaId/image', (req, res) => {
     const denunciaId = req.params.denunciaId;
