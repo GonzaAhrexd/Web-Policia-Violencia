@@ -127,7 +127,7 @@ export const updateVictimario = async (req, res) => {
         const { id } = req.params;
         const { 
             nombre_victimario, apellido_victimario, direccion_victimario, edad_victimario, dni_victimario, 
-            estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, 
+            estado_civil_victimario, ocupacion_victimario, abuso_de_alcohol, antecedentes_toxicologicos, antecedentes_psicologicos,
             antecedentes_penales, antecedentes_contravencionales, entrenamiento_en_combate, 
             esta_aprehendido, fue_liberado 
         } = req.body;
@@ -146,6 +146,7 @@ export const updateVictimario = async (req, res) => {
             ocupacion: ocupacion_victimario,
             abuso_de_alcohol: !!abuso_de_alcohol,
             antecedentes_toxicologicos: !!antecedentes_toxicologicos,
+            antecedes_psicologicos: !!antecedentes_psicologicos, // Asegurarse de que este campo también se maneje
             antecedentes_penales: !!antecedentes_penales,
             antecedentes_contravencionales: !!antecedentes_contravencionales,
             entrenamiento_en_combate: !!entrenamiento_en_combate,
