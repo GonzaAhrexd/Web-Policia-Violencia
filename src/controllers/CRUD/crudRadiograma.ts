@@ -1,5 +1,7 @@
 import radiograma from '../../models/radiograma'
 import denunciaSinVerificar from '../../models/denunciaSinVerificar'
+import { agregarActividadReciente } from './crudActividadReciente';
+
 const mapRadiogramaData = (body) => ({
     supervision: body.supervision,
     nro_expediente: body.nro_expediente,
@@ -35,7 +37,7 @@ const mapRadiogramaData = (body) => ({
     },
 });
 
-// Controlador para crear un radiograma
+// POST: Controlador para crear un radiograma
 export const createRadiograma = async (req, res) => {
     try {
 
@@ -50,6 +52,8 @@ export const createRadiograma = async (req, res) => {
                 await denuncia.save();
             }
         }
+        
+        await agregarActividadReciente("Se creó un radiograma", "Radiograma", radiogramaData._id.toString(), req.user?.id);
 
         res.status(201).json(radiogramaData);
     } catch (error: any) {
@@ -58,7 +62,7 @@ export const createRadiograma = async (req, res) => {
     }
 };
 
-// Controlador para radiograma por ID
+// GET: Controlador para radiograma por ID
 export const buscarRadiogramaID = async (req, res) => {
     const { id_radiograma } = req.params;
     try {
@@ -66,6 +70,7 @@ export const buscarRadiogramaID = async (req, res) => {
         if (!radiogramaData) {
             return res.status(404).json({ message: 'Radiograma no encontrado' });
         }
+        
         res.status(200).json(radiogramaData);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
@@ -73,7 +78,7 @@ export const buscarRadiogramaID = async (req, res) => {
 }
 
 
-// Controlador para editar un radiograma
+// PUT: Controlador para editar un radiograma
 export const editRadiograma = async (req, res) => {
     const { id_radiograma } = req.params;
     try {
@@ -81,13 +86,17 @@ export const editRadiograma = async (req, res) => {
         if (!radiogramaData) {
             return res.status(404).json({ message: 'Radiograma no encontrado' });
         }
+        
+        // Agregar actividad reciente
+        await agregarActividadReciente("Se editó un radiograma", "Radiograma", radiogramaData._id.toString(), req.user?.id);
+        
         res.status(200).json(radiogramaData);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }
 }
 
-// Controlador para ampliar un radiograma
+// POST: Controlador para ampliar un radiograma
 export const ampliarRadiograma = async (req, res) => {
     const { id_radiograma_anterior, id_radiograma_nuevo } = req.params;
     try {
@@ -101,12 +110,16 @@ export const ampliarRadiograma = async (req, res) => {
             return res.status(404).json({ message: 'Nuevo radiograma no encontrado' });
         }
 
+        // Agregar actividad reciente
+        await agregarActividadReciente("Se amplió un radiograma", "Radiograma", nuevoRadiograma._id.toString(), req.user?.id);
+
         res.status(200).json(radiogramaData);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }
 }
 
+// DELETE: Elimina un radiograma y su referencia en la denuncia sin verificar
 export const deleteRadiograma = async (req, res) => {
     const { id_radiograma } = req.params;
     try{
@@ -116,6 +129,9 @@ export const deleteRadiograma = async (req, res) => {
         }
         // Elimina la referencia al radiograma en la denuncia sin verificar si existe
         await denunciaSinVerificar.updateMany({ radiograma_ID: id_radiograma }, { $unset: { radiograma_ID: "" } });
+
+        // Agregar actividad reciente
+        await agregarActividadReciente("Se eliminó un radiograma", "Radiograma", id_radiograma, req.user?.id);
 
         res.status(200).json({ message: 'Radiograma eliminado correctamente' });
     }catch(error){

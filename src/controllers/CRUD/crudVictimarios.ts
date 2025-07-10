@@ -1,7 +1,8 @@
 import victimario from '../../models/victimario'
 import denuncias from '../../models/denuncias'
 import { agregarActividadReciente } from './crudActividadReciente'
-// Crear victimario
+
+// POST: Crear victimario
 export const createVictimario = async (req, res) => {
     try {
         const { 
@@ -59,7 +60,7 @@ export const createVictimario = async (req, res) => {
             );
 
             if (victimarioUpdated) {
-                await agregarActividadReciente(`Se ha agregado una denuncia al victimario: ${nombre_victimario} ${apellido_victimario}`, 'Victimario', victimarioUpdated._id, req.cookies);
+                await agregarActividadReciente(`Se agregó una denuncia al victimario: ${nombre_victimario} ${apellido_victimario}`, 'Victimario', victimarioUpdated._id, req.cookies);
                 return res.status(200).json({ message: 'Victimario actualizado con éxito', id: victimarioUpdated._id });
             } else {
                 return res.status(404).send('No se pudo actualizar el victimario');
@@ -73,7 +74,7 @@ export const createVictimario = async (req, res) => {
 }
 
 
-// Listar victimario
+// GET: Listar victimario
 export const getVictimario = async (req, res) => {
     try {
         // Obtener el víctimario por Id
@@ -89,7 +90,7 @@ export const getVictimario = async (req, res) => {
     }
 }
 
-// Eliminar victimario, solo accesible desde este archivo
+// DELETE: Eliminar victimario, solo accesible desde este archivo
 export const deleteVictimario = async (id, denunciaId, req) => {
     try {
         // Buscar la víctima por ID

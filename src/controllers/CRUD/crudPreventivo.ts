@@ -1,6 +1,6 @@
 import preventivo from '../../models/preventivos'
 import denunciaSinVerificar from '../../models/denunciaSinVerificar'
-
+import { agregarActividadReciente } from './crudActividadReciente';
 type Query = {
     _id?: string,
     numero_nota?: string,
@@ -47,6 +47,7 @@ const mapPreventivoData = (body) => ({
     }
 });
 
+// POST: Controlador para crear un preventivo
 export const createPreventivo = async (req, res) => {
     try {
         const newPreventivo = new preventivo(mapPreventivoData(req.body));
@@ -62,6 +63,7 @@ export const createPreventivo = async (req, res) => {
         // Guarda la denuncia con el ID del preventivo
         await newPreventivo.save();
         await foundDenuncia.save();
+        await agregarActividadReciente("Se creó un preventivo para una denuncia sin verificar", "Preventivo", foundDenuncia._id.toString(), req.user?.id);
         res.json({ message: 'Preventivo creado con éxito' });
     } catch (error: any) {
         console.error('Error creando preventivo:', error);
@@ -69,7 +71,7 @@ export const createPreventivo = async (req, res) => {
     }
 };
 
-
+// POST: Controlador para ampliar un preventivo
 export const ampliarPreventivo = async (req, res) => {
     try {
         const newPreventivo = new preventivo(mapPreventivoData(req.body));
@@ -84,7 +86,7 @@ export const ampliarPreventivo = async (req, res) => {
         }
         
         await preventivoOriginal.save();
-
+        await agregarActividadReciente("Se amplió un preventivo", "Preventivo", preventivoOriginal._id.toString(), req.user?.id);
         res.json({ message: 'Preventivo creado con éxito' });
     } catch (error: any) {
         console.error('Error creando preventivo:', error);
@@ -92,6 +94,7 @@ export const ampliarPreventivo = async (req, res) => {
     }
 };
 
+// PUT: Controlador para editar un preventivo
 export const editPreventivo = async (req, res) => {
     try {
         const { id_preventivo } = req.params;
@@ -104,6 +107,8 @@ export const editPreventivo = async (req, res) => {
         if (!updatedPreventivo) {
             return res.status(404).json({ message: 'Preventivo no encontrado' });
         }
+        // Agregar actividad reciente
+        await agregarActividadReciente("Se editó un preventivo", "Preventivo", updatedPreventivo._id.toString(), req.user?.id);
         res.json(updatedPreventivo);
     } catch (error:any) {
         console.error('Error editando preventivo:', error);
@@ -112,6 +117,7 @@ export const editPreventivo = async (req, res) => {
 };
 
 
+// GET: Controlador para buscar preventivos
 export const buscarPreventivo = async (req, res) => {
     try {
         const { id_preventivo, numero_nota, desde, hasta, division, mostrar_ampliaciones } = req.params;
@@ -151,6 +157,7 @@ export const buscarPreventivo = async (req, res) => {
     }
 };
 
+// GET: Controlador para buscar un preventivo por ID
 export const buscarPreventivoID = async (req, res) => {
     try {
         const { id_preventivo } = req.params
@@ -164,7 +171,7 @@ export const buscarPreventivoID = async (req, res) => {
     }
 }
 
-
+// DELETE: Controlador para eliminar un preventivo
 export const deletePreventivo = async (req, res) => {
     try {
         const { id_preventivo } = req.params
@@ -174,6 +181,8 @@ export const deletePreventivo = async (req, res) => {
                 message: 'Preventivo no encontrado' 
             })
         }
+        // Agregar actividad reciente
+        await agregarActividadReciente("Se eliminó un preventivo", "Preventivo", deletedPreventivo._id.toString(), req.user?.id);
         res.json({ message: 'Preventivo eliminado con éxito' })
     } catch (error: any) {
         console.error('Error eliminando preventivo:', error)

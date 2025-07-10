@@ -8,9 +8,9 @@ export async function agregarActividadReciente(descripcion: String, modelo_modif
     // Obtiene el token de los cookies
     const { token } = cookies
     // Si no hay token, se busca el usuario por el nombre de usuario
-    if(cookies && !token){
+    if (cookies && !token) {
         // Se busca el usuario por el nombre de usuario
-        const usuarioEncontrado = await usuario.findOne({nombre_de_usuario: cookies})
+        const usuarioEncontrado = await usuario.findOne({ nombre_de_usuario: cookies })
         // Se crea la actividad reciente
         const actividad = new actividadReciente({
             fecha: new Date(),
@@ -58,8 +58,8 @@ export const buscarActividadReciente = async (req, res) => {
         // Se busca la actividad reciente
         interface Query {
             fecha?: {
-                $gte?: string;
-                $lte?: string;
+                $gte?: Date;
+                $lte?: Date;
             };
             modelo_modificado?: string;
             usuario?: string;
@@ -67,15 +67,19 @@ export const buscarActividadReciente = async (req, res) => {
 
         const query: Query = {};
 
-        // Si se ingresó un valor, se agrega a la consulta
         if (desde !== 'no_ingresado') {
-            query.fecha = { $gte: desde };
+            // Crea una fecha en UTC directamente.
+            // Al añadir 'T00:00:00.000Z', forzamos que sea medianoche UTC.
+            const fechaDesde = new Date(`${desde}T00:00:00.000Z`);
+            query.fecha = { $gte: fechaDesde };
         }
 
-        // Si se ingresó un valor, se agrega a la consulta
-        if (hasta !== 'no_ingresado') {
+        if (hasta !== 'no_ingresado') {     
             query.fecha = query.fecha || {};
-            query.fecha.$lte = hasta;
+            // Crea una fecha en UTC directamente.
+            // Al añadir 'T23:59:59.999Z', forzamos que sea el último milisegundo del día UTC.
+            const fechaHasta = new Date(`${hasta}T23:59:59.999Z`);
+            query.fecha.$lte = fechaHasta;
         }
 
         // Si se ingresó un valor, se agrega a la consulta
@@ -88,8 +92,10 @@ export const buscarActividadReciente = async (req, res) => {
             query.usuario = usuario;
         }
 
+
+        console.log(query)
         // const actividad = await actividadReciente.find(query).sort({fecha: -1})
-        const actividad_reciente = await actividadReciente.find(query).sort({fecha: -1})
+        const actividad_reciente = await actividadReciente.find(query).sort({ fecha: -1 })
 
 
 

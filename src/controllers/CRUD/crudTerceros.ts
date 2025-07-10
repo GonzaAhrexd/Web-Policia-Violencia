@@ -1,6 +1,6 @@
 import terceros from '../../models/terceros'
 import denuncias from '../../models/denuncias'
-// Obtener tercero
+// GET: Obtener tercero
 export const getTercero = async (req, res) => {
     try {
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
@@ -10,7 +10,7 @@ export const getTercero = async (req, res) => {
         console.log(error)
     }
 }
-// Eliminar tercero, solo accesible desde este archivo
+// DELETE: Eliminar tercero, solo accesible desde este archivo
 export const deleteTercero = async (id, denunciaId) => {
     try {
         // Buscar la víctima por ID
@@ -43,7 +43,7 @@ export const deleteTercero = async (id, denunciaId) => {
     }
 }
 
-// Editar tercero
+// PUT: Editar tercero
 export const updateTercero = async (req, res) => {
     try {
         const { id } = req.params
@@ -62,6 +62,8 @@ export const updateTercero = async (req, res) => {
         console.log(error)
     }
 }
+
+// POST: Crear un nuevo tercero
 export const createTercero = async (req, res) => {
     //Tercero nuevo
     try {
@@ -96,6 +98,7 @@ export const createTercero = async (req, res) => {
     }
 }
 
+// GET: Buscar tercero por nombre, apellido, DNI o número de expediente
 export const buscarTercero = async (req, res) => {
     interface Query {
         nombre?: RegExp;

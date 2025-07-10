@@ -1,7 +1,7 @@
 import exposicion from '../../models/exposicion'
 import { agregarActividadReciente } from './crudActividadReciente'
 
-// Crear exposición
+// POST: Crear exposición
 export const createExposicion = async (req, res) => {
     try {
         // Obtener los datos del cuerpo de la solicitud
@@ -54,7 +54,7 @@ export const createExposicion = async (req, res) => {
     }
 }
 
-// Buscar exposición
+// GET: Buscar exposición
 export const buscarExposicion = async (req, res) => {
     interface Query {
         createdAt?: {
@@ -143,7 +143,7 @@ export const buscarExposicion = async (req, res) => {
     }
 }
 
-// Eliminar exposición
+// DELETE: Eliminar exposición
 export const deleteExposicion = async (req, res) => {
     try {
         const { id } = req.params
@@ -155,6 +155,7 @@ export const deleteExposicion = async (req, res) => {
     }
 }
 
+// PUT: Editar exposición
 export const editExposicion = async (req, res) => {
     try {
         const { id } = req.params

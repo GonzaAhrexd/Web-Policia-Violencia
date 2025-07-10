@@ -2,7 +2,7 @@ import victimas from '../../models/victimas'
 import denuncias from '../../models/denuncias'
 import { agregarActividadReciente } from './crudActividadReciente'
 
-// Crear víctima
+// POST: Crear víctima
 export const createVictima = async (req, res) => {
     try {
         const {
@@ -48,8 +48,6 @@ export const createVictima = async (req, res) => {
             hijos: datosHijos,
         };
 
-        console.log(datosVictima)
-
         let victimaExistente = null;
         if (dni_victima && dni_victima !== "S/N") {
             victimaExistente = await victimas.findOne({ DNI: dni_victima });
@@ -78,7 +76,7 @@ export const createVictima = async (req, res) => {
 
             if (victimaActualizada && victimaActualizada._id) {
                 await agregarActividadReciente(
-                    `Se ha agregado una denuncia a la víctima ${nombre_victima} ${apellido_victima}`,
+                    `Se agregó una denuncia a la víctima ${nombre_victima} ${apellido_victima}`,
                     "Víctima",
                     victimaActualizada._id,
                     req.cookies
@@ -95,7 +93,7 @@ export const createVictima = async (req, res) => {
     }
 };
 
-// Obtener víctima  
+// GET: Obtener víctima  
 export const getVictima = async (req, res) => {
     try {
         //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
@@ -110,7 +108,7 @@ export const getVictima = async (req, res) => {
     }
 }
 
-// Eliminar víctima, solo accesible desde este archivo
+// DELETE: Eliminar víctima, solo accesible desde este archivo
 export const deleteVictima = async (id, denunciaId, req) => {
     try {
         // Buscar la víctima por ID
@@ -139,7 +137,7 @@ export const deleteVictima = async (id, denunciaId, req) => {
         console.log(error);
     }
 }
-// Editar víctima
+// PUT: Editar víctima
 export const updateVictima = async (req, res) => {
     try {
         const { id } = req.params;
@@ -210,7 +208,7 @@ export const updateVictima = async (req, res) => {
     }
 };
 
-// Buscar víctima
+// GET: Buscar víctima
 export const buscarVictima = async (req, res) => {
     interface Query {
         nombre?: RegExp;
@@ -296,6 +294,7 @@ export const buscarVictima = async (req, res) => {
     }
 }
 
+// GET: Buscar víctima v2 (con denuncias)
 export const buscarVictimaV2 = async (req, res) => {
     interface Query {
         nombre?: RegExp;
@@ -389,7 +388,7 @@ export const buscarVictimaV2 = async (req, res) => {
 
 }
 
-
+// POST: Obtener víctimas con un array de IDs
 export const getVictimasWithArray = async (req, res) => {
     try {
         // Desde el body viene un array de Ids con las victimas y esta función debe devolver un array de objetos con las víctimas obtenidas con esos IDs sin cometer repeticiones

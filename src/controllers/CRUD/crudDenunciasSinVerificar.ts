@@ -1,8 +1,9 @@
-    // Importa los modelos de la base de datos
+// Importa los modelos de la base de datos
 import denunciaSinVerificar from '../../models/denunciaSinVerificar'
+import { agregarActividadReciente } from './crudActividadReciente'
 import usuarios from '../../models/usuarios'
 
-// Denuncias cargadas por agentes (Sin verificar)
+// POST: Denuncias cargadas por agentes (Sin verificar)
 export const createDenunciaSinVerificar = async (req, res) => {
     try {
         // Obtener la división del usuario
@@ -53,13 +54,18 @@ export const createDenunciaSinVerificar = async (req, res) => {
         })
         // Guardar la denuncia
         const denunciaSinVerificarSaved = await newDenunciaSinVerificar.save()
+
+        // Agregar actividad reciente
+        await agregarActividadReciente(`Se creó una denuncia sin verificar con el número de expediente ${denunciaSinVerificarSaved.numero_de_expediente}`, "Denuncia Sin Verificar", denunciaSinVerificarSaved._id, req.cookies)
+
+
         res.json(denunciaSinVerificarSaved)
 
     } catch (error) {
         console.log(error)
     }
 }
-// Obtener todas las denuncias sin verificar
+// GET: Obtener todas las denuncias sin verificar
 export const getDenunciasSinVerificar = async (req, res) => {
     try {
         // Haz el find solamente de los que tengan como estado "En verificación"
@@ -71,6 +77,7 @@ export const getDenunciasSinVerificar = async (req, res) => {
 
 }
 
+// GET: Obtener una denuncia sin verificar por ID
 export const getDenunciasSinVerificarId = async (req, res) => {
     try {
         const { id } = req.params
@@ -90,6 +97,8 @@ type Query = {
     ampliado_de?: { $exists: boolean, $ne: null }
     modo_actuacion?: string
 }
+
+// GET: Obtener denuncias sin verificar con filtros avanzados
 export const getDenunciasSinVerificarAvanzado = async (req, res) => {
     try {
         const { division, municipio, comisaria, desde, hasta, id, expediente, mostrar_ampliaciones } = req.params;
@@ -111,13 +120,13 @@ export const getDenunciasSinVerificarAvanzado = async (req, res) => {
             if (division !== "no_ingresado") {
                 query.division = divisionJunto;
             }
-            if(mostrar_ampliaciones === "true") {
+            if (mostrar_ampliaciones === "true") {
                 query.modo_actuacion = "Ampliación de denuncia";
             }// Si mostrar_ampliaciones es false que no muestre cuando dice "Ampliación de denuncia"
             else {
                 // @ts-ignore
                 query.modo_actuacion = { $ne: "Ampliación de denuncia" };
-            }   
+            }
         }
 
         // Execute the query
@@ -128,6 +137,7 @@ export const getDenunciasSinVerificarAvanzado = async (req, res) => {
             return res.status(404).json({ message: 'Denuncias no encontradas' });
         }
 
+        await agregarActividadReciente("Se realizó una búsqueda de denuncias sin verificar", "Denuncia Sin Verificar", "Varias", req.cookies);
         // Ensure single ID result is returned as an array for consistency
         res.json(id !== "no_ingresado" ? [obtenerDenunciasSinVerificar[0]] : obtenerDenunciasSinVerificar);
 
@@ -137,8 +147,8 @@ export const getDenunciasSinVerificarAvanzado = async (req, res) => {
     }
 };
 
+// GET: Obtener denuncias sin verificar por ID de ampliaciones
 export const getDenunciasSinVerificarByIdArray = async (req, res) => {
-
     try {
         let listaDenunciasArray: any = []
         const { id } = req.params
@@ -165,44 +175,57 @@ export const getDenunciasSinVerificarByIdArray = async (req, res) => {
     }
 }
 
-// Editar denuncias sin verificar y que cambie a estado Aprobado
+// POST: Editar denuncias sin verificar y que cambie a estado Aprobado
 export const validarDenuncia = async (req, res) => {
     try {
         const { id } = req.params
-        const denunciaSinVerificarUpdateState = await denunciaSinVerificar.findByIdAndUpdate(id, { estado: "Aprobada" })
+        const denunciaSinVerificarUpdateState: any = await denunciaSinVerificar.findByIdAndUpdate(id, { estado: "Aprobada" })
+
+        // Agregar actividad reciente
+        await agregarActividadReciente(`Se aprobó una denuncia sin verificar con el número de expediente ${denunciaSinVerificarUpdateState?.numero_de_expediente}`, "Denuncia Sin Verificar", denunciaSinVerificarUpdateState?._id, req.cookies)
+
         res.json(denunciaSinVerificarUpdateState)
     } catch (error) {
         console.log(error)
     }
 }
 
-// Eliminar denuncias sin verificar
+// DELETE: Eliminar denuncias sin verificar
 export const deleteDenunciaSinVerificar = async (req, res) => {
     try {
         // En lugar de eliminarlo, quiero que cambies el estado a "Rechazada"
         const { id } = req.params
-        const denunciaSinVerificarDeleted = await denunciaSinVerificar.findByIdAndUpdate(id, { estado: "Rechazada" })
+        const denunciaSinVerificarDeleted: any = await denunciaSinVerificar.findByIdAndUpdate(id, { estado: "Rechazada" })
+        // Agregar actividad reciente
+        await agregarActividadReciente(`Se rechazó una denuncia sin verificar con el número de expediente ${denunciaSinVerificarDeleted?.numero_de_expediente}`, "Denuncia Sin Verificar", denunciaSinVerificarDeleted?._id, req.cookies)
         res.json(denunciaSinVerificarDeleted)
     } catch (error) {
         console.log(error)
     }
 }
 
-// Listar mis denuncias sin verificar
+// GET: Listar mis denuncias sin verificar
 export const listarMisDenunciasSinVerificar = async (req, res) => {
     try {
         const misDenunciasSinVerificar = await denunciaSinVerificar.find({ cargado_por: req.user.id })
+
+        // Agregar actividad reciente
+        await agregarActividadReciente("Se listaron las denuncias sin verificar del usuario", "Denuncia Sin Verificar", "Varias", req.cookies)
         res.json(misDenunciasSinVerificar)
     } catch (error) {
         console.log(error)
     }
 }
 
+// POST: Agregar ampliación a una denuncia sin verificar
 export const agregarAmpliacionDenuncia = async (req, res) => {
     try {
         const { id, idAmpliacion } = req.params
 
-        const denunciaSinVerificarUpdate = await denunciaSinVerificar.findByIdAndUpdate(id, { $push: { ampliaciones_IDs: idAmpliacion } })
+        const denunciaSinVerificarUpdate: any = await denunciaSinVerificar.findByIdAndUpdate(id, { $push: { ampliaciones_IDs: idAmpliacion } })
+        
+        // Agregar actividad reciente
+        await agregarActividadReciente(`Se agregó una ampliación a la denuncia sin verificar con el número de expediente ${denunciaSinVerificarUpdate?.numero_de_expediente}`, "Denuncia Sin Verificar", denunciaSinVerificarUpdate?._id, req.cookies)
         res.json(denunciaSinVerificarUpdate)
     } catch (error) {
         console.log(error)

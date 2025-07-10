@@ -1,6 +1,6 @@
 import unidades from '../../models/unidadesCampos';
 
-// Función para crear una unidad
+// POST: Función para crear una unidad
 export const createUnidad = async (req, res) => {
     try {
         // Se crea la unidad
@@ -14,7 +14,7 @@ export const createUnidad = async (req, res) => {
     }
 }
 
-// Función para obtener todas las unidades
+// GET: Función para obtener todas las unidades
 export const getUnidades = async (req, res) => {
     try {
         const unidadesList = await unidades.find()
@@ -24,7 +24,7 @@ export const getUnidades = async (req, res) => {
     }
 }
 
-// Función para actualizar una unidad
+// PUT: Función para actualizar una unidad
 export const updateUnidad = async (req, res) => {
     try {
         const { id } = req.params
@@ -43,7 +43,7 @@ export const updateUnidad = async (req, res) => {
     }
 }
 
-// Función para eliminar una unidad
+// DELETE: Función para eliminar una unidad
 export const deleteUnidad = async (req, res) => {
     try {
         const { id } = req.params
@@ -53,7 +53,7 @@ export const deleteUnidad = async (req, res) => {
         console.log(error)
     }
 }
-// Municipio CRUD
+// PUT: Municipio CRUD
 // Agregar
 export const addMunicipio = async (req, res) => {
     try {
@@ -75,7 +75,7 @@ export const addMunicipio = async (req, res) => {
     }
 }
 
-// Editar
+// PUT: Editar
 export const updateMunicipio = async (req, res) => {
     // Cómo podría buscar donde se encuentra el municipio entre todas las unidades y actualizarlo?
     try{
@@ -94,7 +94,7 @@ export const updateMunicipio = async (req, res) => {
         console.log(error)
     }
 }
-// Eliminar
+// DELETE: Eliminar
 export const deleteMunicipio = async (req, res) => {
     try{
         const { nombre } = req.params
@@ -108,7 +108,7 @@ export const deleteMunicipio = async (req, res) => {
         console.log(error)
     }
 }
-// COMISARÍAS
+// PUT: COMISARÍAS
 // Agregar comisaría
 export const addComisaria = async (req, res) => {
     try{
@@ -126,6 +126,7 @@ export const addComisaria = async (req, res) => {
     }
 }
 
+// PUT: Actualizar comisaría
 export const updateComisaria = async (req, res) => {
     try {
         const { nombre_municipio, nombre_comisaria, nombre_original, valor_comisaria, prefijo_comisaria, telefono_comisaria, direccion_comisaria, supervision_comisaria } = req.body;
@@ -166,7 +167,7 @@ export const updateComisaria = async (req, res) => {
         res.status(500).json({ message: "Error al actualizar la comisaría" });
     }
 };
-// Eliminar comisarías
+// DELETE: Eliminar comisarías
 export const deleteComisaria = async (req, res) => {
     try {
         const { nombre, municipio } = req.params;
@@ -186,7 +187,7 @@ export const deleteComisaria = async (req, res) => {
     }
 }
 
-// Cuadrículas
+// PUT: Cuadrículas
 export const addCuadriculaFromComisaria = async (req, res) => {
     try {
         const { nombre_municipio, nombre_comisaria, nombre_cuadricula, valor_cuadricula } = req.body;
@@ -203,6 +204,7 @@ export const addCuadriculaFromComisaria = async (req, res) => {
         res.status(500).json({ message: "Error al agregar la cuadrícula" });
     }
 }
+// PUT: Actualizar cuadrícula de una comisaría
 export const updateCuadriculaFromComisaria = async (req, res) => {
     try {
         const { nombre_municipio, nombre_comisaria, nombre_cuadricula, nombre_original, valor_cuadricula } = req.body;
@@ -244,6 +246,8 @@ export const updateCuadriculaFromComisaria = async (req, res) => {
     }
 };
 
+
+// PUT: Eliminar cuadrícula de una comisaría
 export const deleteCuadriculaFromComisaria = async (req, res) => {
     try {
         const { cuadricula, comisaria, municipio } = req.params;
@@ -261,6 +265,7 @@ export const deleteCuadriculaFromComisaria = async (req, res) => {
     }
 }
 
+// PUT: Cuadrículas
 export const addCuadriculaFromMunicipio = async (req, res) => {
     try {
         const { nombre_municipio, nombre_cuadricula, valor_cuadricula } = req.body;
@@ -277,6 +282,7 @@ export const addCuadriculaFromMunicipio = async (req, res) => {
     }
 }
 
+// PUT: Actualizar cuadrícula de un municipio
 export const updateCuadriculaFromMunicipio = async (req, res) => {
     try{
         const { nombre_municipio, nombre_cuadricula, nombre_original, valor_cuadricula } = req.body;
@@ -311,6 +317,7 @@ export const updateCuadriculaFromMunicipio = async (req, res) => {
     }
 }
 
+// PUT: Eliminar cuadrícula de un municipio
 export const deleteCuadriculaFromMunicipio = async (req, res) => {
     try {
         const { cuadricula, municipio } = req.params;
