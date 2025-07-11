@@ -317,7 +317,7 @@ export const createDenuncia = async (req, res) => {
                     notificacion_expediente: (notificacion_expediente !== undefined) ? notificacion_expediente[0] : false,
                     ninguna: (ninguna !== undefined) ? ninguna[0] : false
                 },
-                tercero_ID: (denunciado_por_tercero && IdTercero) ? IdTercero[0] : 'Sin tercero',
+                tercero_ID: (denunciado_por_tercero && IdTercero) ? IdTercero : 'Sin tercero',
                 vinculo_con_la_victima_tercero: (denunciado_por_tercero && vinculo_con_la_victima) ? vinculo_con_la_victima[0] : 'Sin vínculo',
                 denunciado_por_tercero: denunciado_por_tercero ? denunciado_por_tercero[0] : false,
                 aprehension: (aprehension !== null && solicitud_de_aprehension_dispuesta) ? aprehension[0] : false,
