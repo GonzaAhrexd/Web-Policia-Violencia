@@ -92,8 +92,6 @@ export const buscarActividadReciente = async (req, res) => {
             query.usuario = usuario;
         }
 
-
-        console.log(query)
         // const actividad = await actividadReciente.find(query).sort({fecha: -1})
         const actividad_reciente = await actividadReciente.find(query).sort({ fecha: -1 })
 

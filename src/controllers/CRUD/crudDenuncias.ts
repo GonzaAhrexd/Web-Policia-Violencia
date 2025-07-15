@@ -407,12 +407,15 @@ export const deleteDenuncia = async (req, res) => {
         // Buscar la victima y victimario y restarle 1 denuncia para desvincular
         const denunciaABorrar = await denuncia.findById(id)
         // Elimina la denuncia de la victima y victimario
+        if( !denunciaABorrar) {
+            return res.status(404).json({ message: 'Denuncia no encontrada' });
+        }
         deleteVictima(denunciaABorrar?.victima_ID, id, req)
         // Elimina la denuncia del victimario
         deleteVictimario(denunciaABorrar?.victimario_ID, id, req)
 
         // Si la denuncia fue realizada por un tercero, se elimina
-        denunciaABorrar?.tercero_ID != "Sin tercero" && deleteTercero(denunciaABorrar?.tercero_ID, id)
+        denunciaABorrar?.tercero_ID != "Sin tercero" && deleteTercero(denunciaABorrar?.tercero_ID, id, req)
 
         // Elimina la denuncia
         const denunciaDeleted = await denuncia.findByIdAndDelete(id)

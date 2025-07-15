@@ -10,7 +10,7 @@ import { Router } from 'express';
 import { authCarga } from '../middlewares/validateToken';
 
 // VICTIMAS
-import { getVictima, createVictima, updateVictima, buscarVictima, buscarVictimaV2, getVictimasWithArray } from '../controllers/CRUD/crudVictimas'
+import { getVictima, createVictima, updateVictima, buscarVictima, getVictimasWithArray } from '../controllers/CRUD/crudVictimas'
 
 
 const router:Router = Router();

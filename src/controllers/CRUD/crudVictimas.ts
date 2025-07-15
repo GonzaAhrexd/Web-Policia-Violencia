@@ -1,424 +1,270 @@
-import victimas from '../../models/victimas'
-import denuncias from '../../models/denuncias'
-import { agregarActividadReciente } from './crudActividadReciente'
+import { Request, Response } from 'express';
+import victimas from '../../models/victimas';
+import denuncias from '../../models/denuncias';
+import { agregarActividadReciente } from './crudActividadReciente';
+import { construirExpresionRegular } from '../../utils/normalizarTexto';
+// Definición de interfaces para TypeScript
+interface CondicionesDeVulnerabilidad {
+  embarazo: boolean;
+  periodo_post_parto: boolean;
+  periodo_de_lactancia: boolean;
+  discapacidad: boolean;
+  enfermedad_cronica: boolean;
+  adulto_mayor: boolean;
+  menor_de_edad: boolean;
+  tratamiento_psicologico: boolean;
+}
 
-// POST: Crear víctima
-export const createVictima = async (req, res) => {
-    try {
-        const {
-            nombre_victima, apellido_victima, direccion_victima, edad_victima, dni_victima,
-            estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad,
-            embarazo, periodo_post_parto, periodo_de_lactancia, discapacidad,
-            enfermedad_cronica, adulto_mayor, menor_de_edad, tratamiento_psicologico,
-            genero_victima, hijos, dependencia_economica,
-            mayor_de_18, menor_de_18, menores_discapacitados
-        } = req.body;
+interface DatosHijos {
+  tiene_hijos: boolean;
+  dependencia_economica: boolean;
+  mayores_de_edad: boolean;
+  menores_de_edad: boolean;
+  menores_discapacitados: boolean;
+}
 
-        // Armar objetos auxiliares
-        const condicionesDeVulnerabilidad = {
-            embarazo: !!embarazo,
-            periodo_post_parto: !!periodo_post_parto,
-            periodo_de_lactancia: !!periodo_de_lactancia,
-            discapacidad: !!discapacidad,
-            enfermedad_cronica: !!enfermedad_cronica,
-            adulto_mayor: !!adulto_mayor,
-            menor_de_edad: !!menor_de_edad,
-            tratamiento_psicologico: !!tratamiento_psicologico,
-        };
+interface DatosVictima {
+  nombre: string;
+  apellido: string;
+  direccion: string;
+  edad: number;
+  DNI: string;
+  estado_civil: string;
+  genero: string;
+  ocupacion: string;
+  condicion_de_vulnerabilidad: boolean;
+  condiciones_de_vulnerabilidad: CondicionesDeVulnerabilidad;
+  hijos: DatosHijos;
+}
 
-        const datosHijos = {
-            tiene_hijos: hijos === "Sí",
-            dependencia_economica: hijos === "Sí" ? dependencia_economica || false : false,
-            mayores_de_edad: hijos === "Sí" ? mayor_de_18 || false : false,
-            menores_de_edad: hijos === "Sí" ? menor_de_18 || false : false,
-            menores_discapacitados: hijos === "Sí" ? menores_discapacitados || false : false,
-        };
+interface VictimaRequestBody {
+  nombre_victima: string;
+  apellido_victima: string;
+  direccion_victima: string;
+  edad_victima: number;
+  dni_victima: string;
+  estado_civil_victima: string;
+  ocupacion_victima: string;
+  condicion_de_vulnerabilidad: string;
+  genero_victima: string;
+  embarazo?: boolean;
+  periodo_post_parto?: boolean;
+  periodo_de_lactancia?: boolean;
+  discapacidad?: boolean;
+  enfermedad_cronica?: boolean;
+  adulto_mayor?: boolean;
+  menor_de_edad?: boolean;
+  tratamiento_psicologico?: boolean;
+  hijos: string;
+  dependencia_economica?: boolean;
+  mayor_de_18?: boolean;
+  menor_de_18?: boolean;
+  menores_discapacitados?: boolean;
+}
 
-        const datosVictima = {
-            nombre: nombre_victima,
-            apellido: apellido_victima,
-            direccion: direccion_victima,
-            edad: edad_victima,
-            DNI: dni_victima,
-            estado_civil: estado_civil_victima,
-            genero: genero_victima,
-            ocupacion: ocupacion_victima,
-            condicion_de_vulnerabilidad: condicion_de_vulnerabilidad === "Sí",
-            condiciones_de_vulnerabilidad: condicionesDeVulnerabilidad,
-            hijos: datosHijos,
-        };
+interface BuscarVictimaParams {
+  nombre_victima: string;
+  apellido_victima: string;
+  dni_victima: string;
+  numero_de_expediente: string;
+  id_victima: string;
+}
 
-        let victimaExistente = null;
-        if (dni_victima && dni_victima !== "S/N") {
-            victimaExistente = await victimas.findOne({ DNI: dni_victima });
-        }
+// Función auxiliar para construir el objeto datosVictima
+const construirDatosVictima = (body: VictimaRequestBody): DatosVictima => {
+  const {
+    nombre_victima, apellido_victima, direccion_victima, edad_victima, dni_victima,
+    estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad, genero_victima,
+    embarazo, periodo_post_parto, periodo_de_lactancia, discapacidad, enfermedad_cronica,
+    adulto_mayor, menor_de_edad, tratamiento_psicologico, hijos, dependencia_economica,
+    mayor_de_18, menor_de_18, menores_discapacitados,
+  } = body;
 
-        if (!victimaExistente) {
-            const nuevaVictima = new victimas(datosVictima);
-            const victimaGuardada = await nuevaVictima.save();
+  const condicionesDeVulnerabilidad: CondicionesDeVulnerabilidad = {
+    embarazo: !!embarazo && condicion_de_vulnerabilidad === 'Sí',
+    periodo_post_parto: !!periodo_post_parto && condicion_de_vulnerabilidad === 'Sí',
+    periodo_de_lactancia: !!periodo_de_lactancia && condicion_de_vulnerabilidad === 'Sí',
+    discapacidad: !!discapacidad && condicion_de_vulnerabilidad === 'Sí',
+    enfermedad_cronica: !!enfermedad_cronica && condicion_de_vulnerabilidad === 'Sí',
+    adulto_mayor: !!adulto_mayor && condicion_de_vulnerabilidad === 'Sí',
+    menor_de_edad: !!menor_de_edad && condicion_de_vulnerabilidad === 'Sí',
+    tratamiento_psicologico: !!tratamiento_psicologico && condicion_de_vulnerabilidad === 'Sí',
+  };
 
-            if (victimaGuardada && victimaGuardada._id) {
-                await agregarActividadReciente(
-                    `Se ha creado nueva víctima ${nombre_victima} ${apellido_victima}`,
-                    "Víctima",
-                    victimaGuardada._id,
-                    req.cookies
-                );
-            }
+  const datosHijos: DatosHijos = {
+    tiene_hijos: hijos === 'Sí',
+    dependencia_economica: hijos === 'Sí' ? !!dependencia_economica : false,
+    mayores_de_edad: hijos === 'Sí' ? !!mayor_de_18 : false,
+    menores_de_edad: hijos === 'Sí' ? !!menor_de_18 : false,
+    menores_discapacitados: hijos === 'Sí' ? !!menores_discapacitados : false,
+  };
 
-            return res.json({ message: 'Víctima creada con éxito', id: victimaGuardada._id });
-        } else {
-            const victimaActualizada = await victimas.findOneAndUpdate(
-                { DNI: dni_victima },
-                { $set: datosVictima },
-                { new: true }
-            );
-
-            if (victimaActualizada && victimaActualizada._id) {
-                await agregarActividadReciente(
-                    `Se agregó una denuncia a la víctima ${nombre_victima} ${apellido_victima}`,
-                    "Víctima",
-                    victimaActualizada._id,
-                    req.cookies
-                );
-            }
-
-            return res.send('Víctima ya existe');
-        }
-
-
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send('Error al crear o actualizar la víctima');
-    }
+  return {
+    nombre: nombre_victima,
+    apellido: apellido_victima,
+    direccion: direccion_victima,
+    edad: edad_victima,
+    DNI: dni_victima,
+    estado_civil: estado_civil_victima,
+    genero: genero_victima,
+    ocupacion: ocupacion_victima,
+    condicion_de_vulnerabilidad: condicion_de_vulnerabilidad === 'Sí',
+    condiciones_de_vulnerabilidad: condicionesDeVulnerabilidad,
+    hijos: datosHijos,
+  };
 };
 
-// GET: Obtener víctima  
-export const getVictima = async (req, res) => {
-    try {
-        //Obtener todas las denuncias donde el usuario sea el que cargó la denuncia
-        if (req.params.id != "Sin victima") {
-            const victima = await victimas.findOne({ _id: req.params.id })
-            res.json(victima)
-        } else {
-            res.json("Sin resultados")
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
+// POST: Crear víctima
+export const createVictima = async (req: Request<{}, {}, VictimaRequestBody>, res: Response) => {
+  try {
+    const datosVictima = construirDatosVictima(req.body);
+    const { DNI, nombre, apellido } = datosVictima;
 
-// DELETE: Eliminar víctima, solo accesible desde este archivo
-export const deleteVictima = async (id, denunciaId, req) => {
-    try {
-        // Buscar la víctima por ID
-        const victimaABorrar = await victimas.findById(id);
-        if (victimaABorrar) {
-            // Verificar la cantidad de denuncias previas
-            if (victimaABorrar.denuncias_realizadas?.length == 1) {
-                // Si solo tiene una denuncia previa, eliminar la víctima
-                await victimas.findByIdAndDelete(id);
-                await agregarActividadReciente("Eliminación de víctima", "Víctima", id, {});
-            } else {
-                // Si tiene más de una denuncia, restar una a la cantidad de denuncias previas
-                // y eliminar el ID de la denuncia del array denuncias_realizadas
-                const updatedDenunciasRealizadas = Array.isArray(victimaABorrar.denuncias_realizadas)
-                    ? victimaABorrar.denuncias_realizadas.filter(denuncia => denuncia !== denunciaId)
-                    : [];
-                await victimas.findByIdAndUpdate(id, {
-                    denuncias_realizadas: updatedDenunciasRealizadas
-                }, { new: true });
-                await agregarActividadReciente("Eliminación de denuncia de víctima", "Víctima", id, req.cookies);
-            }
-        } else {
-            console.log("Victima no encontrada");
-        }
-    } catch (error) {
-        console.log(error);
+    const victimaExistente = DNI && DNI !== 'S/N' ? await victimas.findOne({ DNI }) : null;
+
+    if (!victimaExistente) {
+      const nuevaVictima = new victimas(datosVictima);
+      const victimaGuardada = await nuevaVictima.save();
+
+      await agregarActividadReciente(
+        `Se ha creado nueva víctima ${nombre} ${apellido}`,
+        'Víctima',
+        victimaGuardada._id.toString(),
+        req.cookies
+      );
+
+      return res.json({ message: 'Víctima creada con éxito', id: victimaGuardada._id });
     }
-}
+
+    const victimaActualizada = await victimas.findOneAndUpdate(
+      { DNI },
+      { $set: datosVictima },
+      { new: true }
+    );
+
+    if (victimaActualizada) {
+      await agregarActividadReciente(
+        `Se agregó una denuncia a la víctima ${nombre} ${apellido}`,
+        'Víctima',
+        victimaActualizada._id.toString(),
+        req.cookies
+      );
+    }
+
+    return res.json({ message: 'Víctima ya existe', id: victimaActualizada?._id });
+  } catch (error) {
+    console.error('Error al crear o actualizar la víctima:', error);
+    return res.status(500).json({ message: 'Error al crear o actualizar la víctima' });
+  }
+};
+
+// GET: Obtener víctima
+export const getVictima = async (req: Request<{ id: string }>, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (id === 'Sin victima') return res.json('Sin resultados');
+
+    const victima = await victimas.findById(id);
+    if (!victima) return res.status(404).json({ message: 'Víctima no encontrada' });
+
+    res.json(victima);
+  } catch (error) {
+    console.error('Error al obtener víctima:', error);
+    res.status(500).json({ message: 'Error al obtener la víctima' });
+  }
+};
+
+// DELETE: Eliminar víctima
+export const deleteVictima = async (id: string, denunciaId: string, req: Request) => {
+  try {
+    const victima = await victimas.findById(id);
+    if (!victima) throw new Error('Víctima no encontrada');
+
+    if (!victima.denuncias_realizadas || !Array.isArray(victima.denuncias_realizadas)) {
+      throw new Error('La víctima no tiene denuncias asociadas');
+    }
+    if (victima.denuncias_realizadas?.length <= 1) {
+      await victimas.findByIdAndDelete(id);
+      await agregarActividadReciente('Eliminación de víctima', 'Víctima', id, req.cookies);
+    } else {
+      const updatedDenunciasRealizadas = victima.denuncias_realizadas.filter(
+        (denuncia) => denuncia !== denunciaId
+      );
+      await victimas.findByIdAndUpdate(id, { denuncias_realizadas: updatedDenunciasRealizadas });
+      await agregarActividadReciente('Eliminación de denuncia de víctima', 'Víctima', id, req.cookies);
+    }
+  } catch (error) {
+    console.error('Error al eliminar víctima:', error);
+    throw error;
+  }
+};
+
 // PUT: Editar víctima
-export const updateVictima = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const {
-            nombre_victima, apellido_victima, direccion_victima, edad_victima, dni_victima, estado_civil_victima, ocupacion_victima,
-            condicion_de_vulnerabilidad, genero_victima, embarazo, periodo_post_parto, periodo_de_lactancia, discapacidad, enfermedad_cronica,
-            adulto_mayor, menor_de_edad, tratamiento_psicologico, hijos,
-            mayor_de_18, menor_de_18, menores_discapacitados
-        } = req.body;
+export const updateVictima = async (req: Request<{ id: string }, {}, VictimaRequestBody>, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!id) return res.status(400).json({ message: 'ID de víctima no proporcionado' });
 
-        if (!id) {
-            return res.status(400).json({ message: 'ID de víctima no proporcionado' });
-        }
+    const datosVictima = construirDatosVictima(req.body);
+    const victimaUpdated = await victimas.findByIdAndUpdate(id, { $set: datosVictima }, { new: true });
 
-        const datosVictima = {
-            nombre: nombre_victima,
-            apellido: apellido_victima,
-            direccion: direccion_victima,
-            genero: genero_victima,
-            edad: edad_victima,
-            DNI: dni_victima,
-            estado_civil: estado_civil_victima,
-            ocupacion: ocupacion_victima,
-            condicion_de_vulnerabilidad: condicion_de_vulnerabilidad === "Sí",
-            condiciones_de_vulnerabilidad: {
-                embarazo: (embarazo && condicion_de_vulnerabilidad === "Sí") ? embarazo : false,
-                periodo_post_parto: (periodo_post_parto && condicion_de_vulnerabilidad === "Sí") ? periodo_post_parto : false,
-                periodo_de_lactancia: (periodo_de_lactancia && condicion_de_vulnerabilidad === "Sí") ? periodo_de_lactancia : false,
-                discapacidad: (discapacidad && condicion_de_vulnerabilidad === "Sí") ? discapacidad : false,
-                enfermedad_cronica: (enfermedad_cronica && condicion_de_vulnerabilidad === "Sí") ? enfermedad_cronica : false,
-                adulto_mayor: (adulto_mayor && condicion_de_vulnerabilidad === "Sí") ? adulto_mayor : false,
-                menor_de_edad: (menor_de_edad && condicion_de_vulnerabilidad === "Sí") ? menor_de_edad : false,
-                tratamiento_psicologico: (tratamiento_psicologico && condicion_de_vulnerabilidad === "Sí") ? tratamiento_psicologico : false
-            },
-            hijos: {
-                tiene_hijos: hijos === "Sí",
-                mayores_de_edad: mayor_de_18 || false,
-                menores_de_edad: menor_de_18 || false,
-                menores_discapacitados: menores_discapacitados || false
-            }
-        };
+    if (!victimaUpdated) return res.status(404).json({ message: 'Víctima no encontrada' });
 
-        const victimaUpdated = await victimas.findByIdAndUpdate(id, { $set: datosVictima }, { new: true });
+    await agregarActividadReciente(
+      `Se editó a la víctima ${datosVictima.nombre} ${datosVictima.apellido}`,
+      'Víctima',
+      id,
+      req.cookies
+    );
 
-        if (!victimaUpdated) {
-            return res.status(404).json({ message: 'Víctima no encontrada' });
-        }
+    await denuncias.updateMany(
+      { victima_ID: id },
+      { victima_nombre: `${datosVictima.nombre} ${datosVictima.apellido}` }
+    );
 
-        // Registrar actividad reciente
-        await agregarActividadReciente(
-            `Se editó a la víctima ${nombre_victima} ${apellido_victima}`,
-            "Víctima",
-            id,
-            req.cookies
-        );
-
-        // Actualizar nombre en todas las denuncias relacionadas
-        await denuncias.updateMany(
-            { victima_ID: id },
-            { victima_nombre: `${nombre_victima} ${apellido_victima}` }
-        );
-
-        return res.json(victimaUpdated);
-
-    } catch (error) {
-        console.error('Error al actualizar víctima:', error);
-        return res.status(500).json({ message: 'Error al actualizar víctima' });
-    }
+    return res.json(victimaUpdated);
+  } catch (error) {
+    console.error('Error al actualizar víctima:', error);
+    return res.status(500).json({ message: 'Error al actualizar víctima' });
+  }
 };
 
 // GET: Buscar víctima
-export const buscarVictima = async (req, res) => {
-    interface Query {
-        nombre?: RegExp;
-        apellido?: RegExp;
-        DNI?: string;
-        _id?: string;
-    }
-    // Obtener los parámetros de la URL
+export const buscarVictima = async (req: Request<BuscarVictimaParams>, res: Response) => {
+  try {
     const { nombre_victima, apellido_victima, dni_victima, numero_de_expediente, id_victima } = req.params;
-    // Crear el objeto de consulta    
-    const query: Query = {};
+    const query: { [key: string]: any } = {};
 
-    function normalizarLetras(caracter: string) {
-        if (caracter === 's' || caracter === 'z') return '[sz]';
-        if (caracter === 'i' || caracter === 'y') return '[iy]';
-        if (caracter === 'k' || caracter === 'q') return '[kq]';
-        if (caracter === 'v' || caracter === 'b') return '[vb]';
-        if (caracter === 'g' || caracter === 'j') return '[gj]';
-        if (caracter === 'á' || caracter === 'a') return '[áa]';
-        if (caracter === 'é' || caracter === 'e') return '[ée]';
-        if (caracter === 'í' || caracter === 'i') return '[íi]';
-        if (caracter === 'ó' || caracter === 'o') return '[óo]';
-        if (caracter === 'ú' || caracter === 'u') return '[úu]';
-        if (caracter === 'ü') return '[üu]';
-        return caracter;
-    }
-
-    function construirExpresionRegular(cadena) {
-        if (cadena !== 'no_ingresado') {
-            // Convertir la cadena a minúsculas
-            const cadena_lower = cadena.toLowerCase();
-            // Separar los nombres/apellidos y eliminar espacios en blanco adicionales
-            const partes = cadena_lower.trim().split(/\s+/);
-            // Crear la expresión regular
-            const regexPattern = partes
-                .map(part => part.split('').map(normalizarLetras).join(''))
-                .join('.*');
-            // Crear expresión regular para buscar todas las combinaciones de nombres/apellidos
-            const regexCombinaciones = partes
-                .map(part => `(?=.*${part.split('').map(normalizarLetras).join('')})`)
-                .join('');
-            // Devolver la expresión regular
-            return new RegExp(regexCombinaciones, 'i');
-        } else {
-            // Si no se ha ingresado el nombre/apellido, devolver null
-            return null;
-        }
-    }
-    if (id_victima !== 'no_ingresado') {
-        query._id = id_victima;
-    }
-    if (nombre_victima !== 'no_ingresado') {
-        // @ts-ignore
-        query.nombre = new RegExp(construirExpresionRegular(nombre_victima));
-    }
-    if (apellido_victima !== 'no_ingresado') {
-        // @ts-ignore
-        query.apellido = new RegExp(construirExpresionRegular(apellido_victima));
-    }
-    if (dni_victima !== 'no_ingresado') {
-        //Haz que se eliminen . si que se ingresan en el dni
-        query.DNI = dni_victima.replace(/\./g, '');
-    }
+    if (id_victima !== 'no_ingresado') query._id = id_victima;
+    if (nombre_victima !== 'no_ingresado') query.nombre = construirExpresionRegular(nombre_victima);
+    if (apellido_victima !== 'no_ingresado') query.apellido = construirExpresionRegular(apellido_victima);
+    if (dni_victima !== 'no_ingresado') query.DNI = dni_victima.replace(/\./g, '');
     if (numero_de_expediente !== 'no_ingresado') {
-        const denuncia = await denuncias.findOne({ numero_de_expediente: numero_de_expediente });
-
-        if (denuncia != null) {
-            query._id = denuncia.victima_ID;
-        } else {
-            query._id = "Sin victima";
-        }
-    }
-    // Obtener las víctimas
-    try {
-        const victimasBuscar = await victimas.find(query);
-
-        await agregarActividadReciente("Búsqueda de víctima", "Víctima", "Varias", req.cookies)
-        res.json(victimasBuscar);
-
-    } catch (error) {
-        // Error al obtener las denuncias
-        res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
-    }
-}
-
-// GET: Buscar víctima v2 (con denuncias)
-export const buscarVictimaV2 = async (req, res) => {
-    interface Query {
-        nombre?: RegExp;
-        apellido?: RegExp;
-        DNI?: string;
-        _id?: string;
-    }
-    // Obtener los parámetros de la URL
-    const { nombre_victima, dni_victima } = req.params;
-
-    // Crear el objeto de consulta    
-    const query: Query = {};
-
-    function normalizarLetras(caracter: string) {
-        if (caracter === 's' || caracter === 'z') return '[sz]';
-        if (caracter === 'i' || caracter === 'y') return '[iy]';
-        if (caracter === 'k' || caracter === 'q') return '[kq]';
-        if (caracter === 'v' || caracter === 'b') return '[vb]';
-        if (caracter === 'g' || caracter === 'j') return '[gj]';
-        if (caracter === 'á' || caracter === 'a') return '[áa]';
-        if (caracter === 'é' || caracter === 'e') return '[ée]';
-        if (caracter === 'í' || caracter === 'i') return '[íi]';
-        if (caracter === 'ó' || caracter === 'o') return '[óo]';
-        if (caracter === 'ú' || caracter === 'u') return '[úu]';
-        if (caracter === 'ü') return '[üu]';
-        return caracter;
+      const denuncia = await denuncias.findOne({ numero_de_expediente });
+      query._id = denuncia?.victima_ID || 'Sin victima';
     }
 
-    function construirExpresionRegular(cadena) {
-        if (cadena !== 'no_ingresado') {
-            // Convertir la cadena a minúsculas
-            const cadena_lower = cadena.toLowerCase();
-            // Separar los nombres/apellidos y eliminar espacios en blanco adicionales
-            const partes = cadena_lower.trim().split(/\s+/);
-            // Crear la expresión regular
-            const regexPattern = partes
-                .map(part => part.split('').map(normalizarLetras).join(''))
-                .join('.*');
-            // Crear expresión regular para buscar todas las combinaciones de nombres/apellidos
-            const regexCombinaciones = partes
-                .map(part => `(?=.*${part.split('').map(normalizarLetras).join('')})`)
-                .join('');
-            // Devolver la expresión regular
-            return new RegExp(regexCombinaciones, 'i');
-        } else {
-            // Si no se ha ingresado el nombre/apellido, devolver null
-            return null;
-        }
-    }
-
-    if (nombre_victima !== 'no_ingresado') {
-        // @ts-ignore
-        query.nombre = new RegExp(construirExpresionRegular(nombre_victima));
-    }
-    if (dni_victima !== 'no_ingresado') {
-        //Haz que se eliminen . si que se ingresan en el dni
-        query.DNI = dni_victima.replace(/\./g, '');
-    }
-
-    // Obtener las víctimas
-    try {
-        const victimasBuscar: any = await victimas.find(query);
-    
-        const victimasConDenuncias:any = [];
-    
-        for (const victima of victimasBuscar) {
-            const denuncias_detalles = [];
-    
-            for (const denunciaId of victima.denuncias_realizadas) {
-                const denuncia_encontrada:any = await denuncias.findById(denunciaId);
-    
-                if (denuncia_encontrada) {
-                    // @ts-ignore
-                    denuncias_detalles.push(denuncia_encontrada);
-                }
-            }
-    
-            victimasConDenuncias.push({
-                ...victima._doc, // para sacar los datos planos de Mongoose
-                denuncias_detalles
-            });
-        }
-    
-        res.json(victimasConDenuncias);
-    
-    } catch (error) {
-        console.error("Error al buscar víctimas:", error);
-        res.status(500).json({ error: "Error interno del servidor" });
-    }
-    
-
-}
+    const victimasBuscar = await victimas.find(query);
+    await agregarActividadReciente('Búsqueda de víctima', 'Víctima', 'Varias', req.cookies);
+    res.json(victimasBuscar);
+  } catch (error) {
+    console.error('Error al buscar víctimas:', error);
+    res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
+  }
+};
 
 // POST: Obtener víctimas con un array de IDs
-export const getVictimasWithArray = async (req, res) => {
-    try {
-        // Desde el body viene un array de Ids con las victimas y esta función debe devolver un array de objetos con las víctimas obtenidas con esos IDs sin cometer repeticiones
-        const { victimasIds } = req.body;
-
-        if (!Array.isArray(victimasIds) || victimasIds.length === 0) {
-            return res.status(400).json({ message: 'Debe proporcionar un array de IDs de víctimas.' });
-        }
-
-        // Usamos un Set para evitar repeticiones
-        const victimasSet = new Set();
-        for (const id of victimasIds) {
-            try {
-                const victima = await victimas.findById(id);
-                if (victima) {
-                    // Convertimos el objeto a string para evitar repeticiones
-                    victimasSet.add(JSON.stringify(victima));
-                }
-            } catch (error) {
-                console.error(`Error al obtener la víctima con ID ${id}:`, error);
-            }
-        }
-        // Convertimos el Set a un arreglo de objetos
-        // @ts-ignore
-        const victimasArray = Array.from(victimasSet).map((victimaString) => JSON.parse(victimaString));
-        res.json(victimasArray);
-    } catch (error) {
-        console.error('Error al obtener las víctimas:', error);
-        res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
-
+export const getVictimasWithArray = async (req: Request<{}, {}, { victimasIds: string[] }>, res: Response) => {
+  try {
+    const { victimasIds } = req.body;
+    if (!Array.isArray(victimasIds) || victimasIds.length === 0) {
+      return res.status(400).json({ message: 'Debe proporcionar un array de IDs de víctimas.' });
     }
 
-}
+    const victimasArray = await victimas.find({ _id: { $in: victimasIds } });
+    res.json(victimasArray); 
+  } catch (error) {
+    console.error('Error al obtener las víctimas:', error);
+    res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
+  }
+};

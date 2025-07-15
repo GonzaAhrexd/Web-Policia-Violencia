@@ -1,93 +1,85 @@
+import { Request, Response } from 'express';
 import usuarios from '../../models/usuarios';
+import { construirExpresionRegular } from '../../utils/normalizarTexto';
+import { agregarActividadReciente } from './crudActividadReciente';
 
-// Obtener usuario
-export const getUsuarios = async (req, res) => {
-    try {
-        const { nombre_de_usuario, nombre, apellido, rol} = req.params
-        interface Query {
-            nombre_de_usuario?: RegExp;
-            nombre?: RegExp;
-            apellido?: string;
-            rol?: string;
-        }
-        const query: Query = {};
-
-        function normalizarLetras(caracter:string) {
-            if (caracter === 's' || caracter === 'z') return '[sz]';
-            if (caracter === 'i' || caracter === 'y') return '[iy]';
-            if ( caracter === 'k' || caracter === 'q') return '[kq]';
-            if ( caracter === 'v' || caracter === 'b') return '[vb]';
-            if ( caracter === 'g' || caracter === 'j') return '[gj]';
-            if (caracter === 'á' || caracter === 'a') return '[áa]';
-            if (caracter === 'é' || caracter === 'e') return '[ée]';
-            if (caracter === 'í' || caracter === 'i') return '[íi]';
-            if (caracter === 'ó' || caracter === 'o') return '[óo]';
-            if (caracter === 'ú' || caracter === 'u') return '[úu]';
-            if (caracter === 'ü') return '[üu]';
-            return caracter;
-        }
-    
-        function construirExpresionRegular(cadena) {
-            if (cadena !== 'no_ingresado') {
-                // Convertir la cadena a minúsculas
-                const cadena_lower = cadena.toLowerCase();
-                // Separar los nombres/apellidos y eliminar espacios en blanco adicionales
-                const partes = cadena_lower.trim().split(/\s+/);
-                // Crear la expresión regular
-                const regexPattern = partes
-                    .map(part => part.split('').map(normalizarLetras).join(''))
-                    .join('.*');
-                // Crear expresión regular para buscar todas las combinaciones de nombres/apellidos
-                const regexCombinaciones = partes
-                    .map(part => `(?=.*${part.split('').map(normalizarLetras).join('')})`)
-                    .join('');
-                // Devolver la expresión regular
-                return new RegExp(regexCombinaciones, 'i');
-            } else {
-                // Si no se ha ingresado el nombre/apellido, devolver null
-                return null;
-            }
-        }        
-
-        if (nombre_de_usuario !== 'no_ingresado') {
-            // @ts-ignore
-            query.nombre_de_usuario = new RegExp(construirExpresionRegular(nombre_de_usuario));
-        }
-        if (nombre !== 'no_ingresado') {
-            // @ts-ignore
-            query.nombre = new RegExp(construirExpresionRegular(nombre));
-        }
-        if (apellido !== 'no_ingresado') {
-            // @ts-ignore
-            query.apellido = new RegExp(construirExpresionRegular(apellido));
-        }
-        if (rol !== 'no_ingresado') {
-            //Haz que se eliminen . si que se ingresan en el dni
-            query.rol = rol;
-        }
-        // Obtener las denuncias
-        try {
-            const usuariosABuscar = await usuarios.find(query);
-            res.json(usuariosABuscar);
-        } catch (error) {
-            // Error al obtener las denuncias
-            res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
-        }
-
-
-        // res.json(usuario)
-    } catch (error) {
-        console.log(error)
-    }
+// Interfaces para TypeScript
+interface BuscarUsuarioParams {
+  nombre_de_usuario?: string;
+  nombre?: string;
+  apellido?: string;
+  rol?: string;
 }
 
-// Cambiar rol de usuario
-export const changeUserRole = async (req, res) => {
-    const { _id, rol } = req.body
-    try {
-        const usuario = await usuarios.findByIdAndUpdate(_id, { rol: rol })
-        res.json(usuario)
-    } catch (error) {
-        console.log(error)
-    }
+interface Query {
+  nombre_de_usuario?: RegExp;
+  nombre?: RegExp;
+  apellido?: RegExp;
+  rol?: string;
 }
+
+interface ChangeUserRoleBody {
+  _id: string;
+  rol: string;
+}
+
+// GET: Obtener usuarios
+export const getUsuarios = async (req: Request<BuscarUsuarioParams>, res: Response) => {
+  try {
+    const { nombre_de_usuario, nombre, apellido, rol } = req.params;
+    const query: Query = {};
+
+    // Manejar expresiones regulares solo si el valor no es 'no_ingresado'
+    if (nombre_de_usuario && nombre_de_usuario !== 'no_ingresado') {
+      const regex = construirExpresionRegular(nombre_de_usuario);
+      if (regex) query.nombre_de_usuario = regex;
+    }
+    if (nombre && nombre !== 'no_ingresado') {
+      const regex = construirExpresionRegular(nombre);
+      if (regex) query.nombre = regex;
+    }
+    if (apellido && apellido !== 'no_ingresado') {
+      const regex = construirExpresionRegular(apellido);
+      if (regex) query.apellido = regex;
+    }
+    if (rol && rol !== 'no_ingresado') {
+      query.rol = rol;
+    }
+
+    const usuariosABuscar = await usuarios.find(query);
+    await agregarActividadReciente('Búsqueda de usuarios', 'Usuario', 'Varias', req.cookies);
+    res.json(usuariosABuscar);
+  } catch (error) {
+    console.error('Error al obtener usuarios:', error);
+    res.status(500).json({ message: 'Hubo un error al obtener los usuarios.' });
+  }
+};
+
+// PUT: Cambiar rol de usuario
+export const changeUserRole = async (req: Request<{}, {}, ChangeUserRoleBody>, res: Response) => {
+  try {
+    const { _id, rol } = req.body;
+
+    // Validar campos obligatorios
+    if (!_id || !rol) {
+      return res.status(400).json({ message: 'Faltan datos obligatorios: _id y rol' });
+    }
+
+    const usuario = await usuarios.findByIdAndUpdate(_id, { rol }, { new: true });
+    if (!usuario) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    await agregarActividadReciente(
+      `Cambio de rol del usuario con ID ${_id} a ${rol}`,
+      'Usuario',
+      _id,
+      req.cookies
+    );
+
+    res.json(usuario);
+  } catch (error) {
+    console.error('Error al cambiar el rol del usuario:', error);
+    res.status(500).json({ message: 'Error al cambiar el rol del usuario' });
+  }
+};
