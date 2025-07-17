@@ -13,7 +13,7 @@ const formidable = require('formidable'); //Módulo para formularios
 const fs = require('fs') //Módulo para guardar imagenes
 
 
-// Obtener denuncias
+// GET: Obtener denuncias
 export const getDenuncias = async (req, res) => {
     interface Query {
         fecha?: {
@@ -88,7 +88,7 @@ export const getDenuncias = async (req, res) => {
 
 }
 
-// Obtener denuncias
+// GET: Obtener denuncias
 export const getDenunciasPlus = async (req, res) => {
     interface Query {
         fecha?: {
@@ -106,7 +106,7 @@ export const getDenunciasPlus = async (req, res) => {
     }
     // Obtener los parámetros de la URL
     const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, relacion_victima_victimario, aprehension } = req.params;
-    
+
     // Crear el objeto de consulta
     const query: Query = {};
 
@@ -149,36 +149,47 @@ export const getDenunciasPlus = async (req, res) => {
         query.aprehension = aprehension === 'true' ? true : false
     }
     // Obtener las denuncias
-  try {
+    try {
 
-    let denuncias: any[] = await denuncia.find(query);
+        let denuncias: any[] = await denuncia.find(query);
 
-    // Usamos map para procesar todo en paralelo
-    denuncias = await Promise.all(
-        denuncias.map(async (den) => {
-            const victimaFind = await victimas.findById(den.victima_ID);
-            const victimarioFind = await victimario.findById(den.victimario_ID);
+        // Usamos map para procesar todo en paralelo
+        denuncias = await Promise.all(
+            denuncias.map(async (den) => {
+                try {
+                    const victimaFind = den.victima_ID ? await victimas.findById(den.victima_ID) : null;
+                    const victimarioFind = den.victimario_ID ? await victimario.findById(den.victimario_ID) : null;
 
-            let tercero = null;
-            if (den.tercero_ID != "Sin tercero") {
-                tercero = await terceros.findById(den.tercero_ID);
-            }
+                    let tercero = null;
+                    if (den.tercero_ID && den.tercero_ID !== 'Sin tercero') { // Añadimos den.tercero_ID para chequear que no sea nulo o indefinido
+                        tercero = await terceros.findById(den.tercero_ID);
+                    }
 
-            return {
-                ...den.toObject(), // importante si es un doc de Mongoose
-                Victima: victimaFind,
-                Victimario: victimarioFind,
-                Tercero: tercero,
-            };
-        })
-    );
+                    return {
+                        ...den.toObject(),
+                        Victima: victimaFind,
+                        Victimario: victimarioFind,
+                        Tercero: tercero,
+                    };
+                } catch (error) {
+                    console.error(`Error al procesar denuncia con ID ${den._id}:`, error);
+                    return {
+                        ...den.toObject(),
+                        Victima: null,
+                        Victimario: null,
+                        Tercero: null,
+                        error: 'No se pudieron cargar todos los datos relacionados'
+                    };
+                }
+            })
+        );
 
-    res.json(denuncias);
+        res.json(denuncias);
 
-} catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Ocurrió un error' });
-}
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Ocurrió un error' });
+    }
 
 }
 
@@ -199,7 +210,7 @@ export const getMisDenuncias = async (req, res) => {
     const { desde, hasta, numero_de_expediente, is_expediente_completo } = req.params;
 
     // Crear el objeto de consulta
-    const query: Query = { denunciada_cargada_por: req.user.id };
+    const query: Query = { denunciada_cargada_por: req.user._id };
 
     // Si se ingresó un valor, se agrega a la consulta
     if (desde !== 'no_ingresado') {
@@ -229,6 +240,25 @@ export const getMisDenuncias = async (req, res) => {
     }
 }
 
+// GET: Obtener las 5 denuncias más recientes
+export const getMisDenunciasRecientes5 = async (req, res) => {
+    // Busca las 5 denuncias más recientes del usuario
+    try {
+        
+        const denuncias = await denuncia.find({ denunciada_cargada_por: req.user._id })
+            .sort({ created_at: -1 }) // Ordena por fecha de creación, de más reciente a más antiguo
+            .limit(5) // Limita a las 5 más recientes
+            .select('numero_de_expediente'); // Selecciona solo los campos necesarios
+
+        res.json(denuncias);
+    } catch (error) {
+        console.error("Error al obtener las denuncias recientes:", error);
+        res.status(500).json({ message: 'Hubo un error al obtener las denuncias recientes.' });
+    }
+
+
+}
+
 // Crear denuncias
 export const createDenuncia = async (req, res) => {
     const form = new formidable.IncomingForm()
@@ -239,7 +269,7 @@ export const createDenuncia = async (req, res) => {
             // Obtener los datos de la denuncia
 
             const { user_id, modo_actuacion, victima_ID, victimario_ID, tercero_ID, nombre_victima, apellido_victima, nombre_victimario, apellido_victimario, dni_victima, dni_victimario, vinculo_con_agresor_victima, convivencia, dependencia_economica, genero, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, numero_de_expediente, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, empleo_de_armas, arma_empleada, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio,
-                derecho_de_comunicacion, ninguna_solicitada, restitucion_de_bienes,  boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, en_libertad, cese_de_hostigamiento, notificacion_expediente, ninguna } = fields
+                derecho_de_comunicacion, ninguna_solicitada, restitucion_de_bienes, boton_antipanico, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, aprehension, denunciado_por_tercero, dni_tercero, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, is_expediente_completo, politica, cantidad_hijos_con_agresor, en_libertad, cese_de_hostigamiento, notificacion_expediente, ninguna } = fields
             // Buscar si la victima y victimario ya existen        
             const findVictima = await victimas.findOne({ DNI: dni_victima[0] })
             let findVictimario
@@ -327,7 +357,7 @@ export const createDenuncia = async (req, res) => {
 
             // Guardar la denuncia
             const denunciaSaved = await newDenuncia.save()
-            
+
             if (err) {
                 console.error("Error parsing the form: ", err);
                 return res.status(500).send({ error: "Error procesando el formulario: " + err.message });
@@ -338,7 +368,7 @@ export const createDenuncia = async (req, res) => {
                 if (file.originalFilename === "") { //Validación si no se sube archivos
                     throw new Error("Agrega una imagen para continuar")
                 }
-             
+
 
                 if (file.size > 50 * 1024 * 1024) { //Tamaño máximo de 50mb
                     throw new Error("Ingrese un archivo de menos de 50mb")
@@ -402,12 +432,10 @@ export const createDenuncia = async (req, res) => {
 export const deleteDenuncia = async (req, res) => {
     try {
         const { id } = req.params
-        // Cómo obtengo el id si este está guardado en las cookies?
-        const user_id = req.cookies.token.id
         // Buscar la victima y victimario y restarle 1 denuncia para desvincular
         const denunciaABorrar = await denuncia.findById(id)
         // Elimina la denuncia de la victima y victimario
-        if( !denunciaABorrar) {
+        if (!denunciaABorrar) {
             return res.status(404).json({ message: 'Denuncia no encontrada' });
         }
         deleteVictima(denunciaABorrar?.victima_ID, id, req)
@@ -434,7 +462,7 @@ export const updateDenuncia = async (req, res) => {
     try {
         //Edita los parametros de la denuncia salvo los id de la victima y victimario
         const { id } = req.params
-        const { nombre_victima, apellido_victima, modo_actuacion, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor, convivencia, dependencia_economica, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades,  empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, restitucion_de_bienes, ninguna_solicitada, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto, aprehension, en_libertad, cese_de_hostigamiento, notificacion_expediente, ninguna } = req.body
+        const { nombre_victima, apellido_victima, modo_actuacion, nombre_victimario, apellido_victimario, vinculo_con_agresor_victima, cantidad_hijos_con_agresor, convivencia, dependencia_economica, fecha, direccion, GIS, barrio, tipo_de_lugar, unidad_de_carga, municipio, jurisdiccion_policial, cuadricula, isDivision, juzgado_interviniente, juzgado_interviniente_numero, dependencia_derivada, violencia, modalidades, empleo_de_armas, arma_empleada, medida_solicitada_por_la_victima, medida_dispuesta_por_autoridad_judicial, prohibicion_de_acercamiento, restitucion_de_menor, exclusion_de_hogar, alimento_provisorio, derecho_de_comunicacion, restitucion_de_bienes, ninguna_solicitada, prohibicion_de_acercamiento_dispuesta, exclusion_de_hogar_dispuesta, boton_antipanico_dispuesta, solicitud_de_aprehension_dispuesta, expedientes_con_cautelar_dispuesta, nuevoExpediente, boton_antipanico, denunciado_por_tercero, tercero_ID, vinculo_con_la_victima, observaciones, fisica, psicologica, sexual, economica_y_patrimonial, simbolica, politica, isExpedienteCompleto, aprehension, en_libertad, cese_de_hostigamiento, notificacion_expediente, ninguna } = req.body
         // Buscar al tercero si se agregó
 
         // Actualiza la denuncia        
@@ -492,7 +520,7 @@ export const updateDenuncia = async (req, res) => {
                 solicitud_de_aprehension: (solicitud_de_aprehension_dispuesta !== undefined) ? solicitud_de_aprehension_dispuesta : false,
                 expedientes_con_cautelar: (expedientes_con_cautelar_dispuesta !== undefined) ? expedientes_con_cautelar_dispuesta : false,
                 en_libertad: (en_libertad !== undefined) ? en_libertad : false,
-                cese_de_hostigamiento: (cese_de_hostigamiento !== undefined) ? cese_de_hostigamiento : false ,
+                cese_de_hostigamiento: (cese_de_hostigamiento !== undefined) ? cese_de_hostigamiento : false,
                 notificacion_expediente: (notificacion_expediente !== undefined) ? notificacion_expediente : false,
                 ninguna: (ninguna !== undefined) ? ninguna : false
             },
@@ -632,49 +660,49 @@ export const getDenunciasFullYear = async (req, res) => {
 }
 
 export const getDenunciasTotalesPeriodo = async (req, res) => {
-  // Obtener fecha actual
-  const ahora = new Date();
+    // Obtener fecha actual
+    const ahora = new Date();
 
-  // Día de hoy (inicio y fin)
-  const inicioDia = new Date(ahora);
-  inicioDia.setUTCHours(0, 0, 0, 0);
+    // Día de hoy (inicio y fin)
+    const inicioDia = new Date(ahora);
+    inicioDia.setUTCHours(0, 0, 0, 0);
 
-  const finDia = new Date(ahora);
-  finDia.setUTCHours(23, 59, 59, 999);
+    const finDia = new Date(ahora);
+    finDia.setUTCHours(23, 59, 59, 999);
 
-  // Desde hace 7 días
-  const desde7Dias = new Date(ahora);
-  desde7Dias.setDate(ahora.getDate() - 7);
-  desde7Dias.setUTCHours(0 , 0, 0, 0);
+    // Desde hace 7 días
+    const desde7Dias = new Date(ahora);
+    desde7Dias.setDate(ahora.getDate() - 7);
+    desde7Dias.setUTCHours(0, 0, 0, 0);
 
-  // Desde hace 30 días
-  const desde30Dias = new Date(ahora);
-  desde30Dias.setDate(ahora.getDate() - 30);
-  desde30Dias.setUTCHours(0, 0, 0, 0);
+    // Desde hace 30 días
+    const desde30Dias = new Date(ahora);
+    desde30Dias.setDate(ahora.getDate() - 30);
+    desde30Dias.setUTCHours(0, 0, 0, 0);
 
-  // Desde el 1 de enero al 31 de diciembre del año actual
-  const desde1Enero = new Date(ahora.getFullYear(), 0, 1);
-  desde1Enero.setUTCHours(0, 0, 0, 0);
+    // Desde el 1 de enero al 31 de diciembre del año actual
+    const desde1Enero = new Date(ahora.getFullYear(), 0, 1);
+    desde1Enero.setUTCHours(0, 0, 0, 0);
 
-  const hasta31Diciembre = new Date(ahora.getFullYear(), 11, 31);
-  hasta31Diciembre.setUTCHours(23, 59, 59, 999);
+    const hasta31Diciembre = new Date(ahora.getFullYear(), 11, 31);
+    hasta31Diciembre.setUTCHours(23, 59, 59, 999);
 
-  try {
-    const [denunciasHoy, denuncias7Dias, denuncias30Dias, denunciasAnioCompleto] = await Promise.all([
-      denuncia.find({ fecha: { $gte: inicioDia, $lte: finDia } }),
-      denuncia.find({ fecha: { $gte: desde7Dias, $lte: ahora } }),
-      denuncia.find({ fecha: { $gte: desde30Dias, $lte: ahora } }),
-      denuncia.find({ fecha: { $gte: desde1Enero, $lte: hasta31Diciembre } })
-    ]);
+    try {
+        const [denunciasHoy, denuncias7Dias, denuncias30Dias, denunciasAnioCompleto] = await Promise.all([
+            denuncia.find({ fecha: { $gte: inicioDia, $lte: finDia } }),
+            denuncia.find({ fecha: { $gte: desde7Dias, $lte: ahora } }),
+            denuncia.find({ fecha: { $gte: desde30Dias, $lte: ahora } }),
+            denuncia.find({ fecha: { $gte: desde1Enero, $lte: hasta31Diciembre } })
+        ]);
 
-    res.json({
-      hoy: denunciasHoy.length,
-      semana: denuncias7Dias.length,
-      mes: denuncias30Dias.length,
-      anio: denunciasAnioCompleto.length
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: 'Error al obtener las denuncias' });
-  }
+        res.json({
+            hoy: denunciasHoy.length,
+            semana: denuncias7Dias.length,
+            mes: denuncias30Dias.length,
+            anio: denunciasAnioCompleto.length
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'Error al obtener las denuncias' });
+    }
 };

@@ -38,7 +38,7 @@ export const loginRepoV1 = async (req, res) => {
         }
 
         // Se genera un token de acceso para el usuario
-        const token = await createAccessToken({ id: usuarioEncontrado._id })
+        const token = await createAccessToken({ _id: usuarioEncontrado._id })
 
         // Configuración del tiempo de vida del token
         let configs: {} = {
@@ -53,18 +53,7 @@ export const loginRepoV1 = async (req, res) => {
         //Envio al frontend de los datos del usuario registrado
         await agregarActividadReciente("Inicio de sesión", "Inicios", usuarioEncontrado._id, usuarioEncontrado.nombre_de_usuario)
 
-        res.json({
-            id: usuarioEncontrado._id,
-            username: usuarioEncontrado.nombre_de_usuario,
-            nombre: usuarioEncontrado.nombre,
-            apellido: usuarioEncontrado.apellido,
-            telefono: usuarioEncontrado.telefono,
-            unidad: usuarioEncontrado.unidad,
-            jerarquia: usuarioEncontrado.jerarquia,
-            zona: usuarioEncontrado.zona,
-            rol: usuarioEncontrado.rol,
-            createdAt: usuarioEncontrado.createdAt
-        })
+        res.json(usuarioEncontrado)
 
     } catch (error) {
         // Respuesta de error
@@ -142,22 +131,10 @@ export const verifyToken = async (req, res) => {
     jwt.verify(token, TOKEN_SECRET, async (err, user) => {
         if (err) return res.status(401).json({ message: "No autorizado" })
 
-        const userFound = await usuarios.findById(user.id)
+        const userFound = await usuarios.findById(user._id)
         if (!userFound) return res.status(401).json({ message: "No autorizado" })
 
-        return res.json({
-            id: userFound._id,
-            username: userFound.nombre_de_usuario,
-            nombre: userFound.nombre,
-            apellido: userFound.apellido,
-            telefono: userFound.telefono,
-            unidad: userFound.unidad,
-            jerarquia: userFound.jerarquia,
-            zona: userFound.zona,
-            rol: userFound.rol,
-            imagen: userFound.imagen ? userFound.imagen : 'sin_definir',
-            createdAt: userFound.createdAt
-        })
+        return res.json(userFound)
     })
 }
 
@@ -231,14 +208,14 @@ export const editUserImg = async (req, res) => {
 
             let separado = file?.mimetype?.split("/");
             let formato = separado[1];
-            let dirFile = path.join(__dirname, `../imagesFromDB/perfiles/${req.user.id}.${formato}`) //crear la  ruta para guardar la imagen
+            let dirFile = path.join(__dirname, `../imagesFromDB/perfiles/${req.user._id}.${formato}`) //crear la  ruta para guardar la imagen
 
             fs.copyFile(file.filepath, dirFile, function (err) {
                 if (err) throw err;
             }); //Copiar archivo desde la ruta original al servidor
 
-            let nuevo = req.user.id + '.' + formato //Guardar nombre de la imagen para pasarlo a la base de datos
-            await usuarios.findByIdAndUpdate(req.user.id, { //Guardar producto en mongodb
+            let nuevo = req.user._id + '.' + formato //Guardar nombre de la imagen para pasarlo a la base de datos
+            await usuarios.findByIdAndUpdate(req.user._id, { //Guardar producto en mongodb
                 imagen: nuevo,
             });
         }

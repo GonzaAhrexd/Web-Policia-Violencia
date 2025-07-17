@@ -23,7 +23,7 @@ export const authAdmin = async (req, res, next) => {
     authRequired(req, res, async () => {
         try {
             //Busca al usuario en la BD
-            const usuario = await usuarios.findById(req.user.id)
+            const usuario = await usuarios.findById(req.user._id)
             //Verifica si el usuario es admin
             const isAdmin = usuario?.rol == "admin";
             //Si no es admin, devuelve el siguiente mensaje
@@ -41,7 +41,7 @@ export const authCarga = async (req, res, next) => {
     authRequired(req, res, async () => {
         try {
             //Buscamos al usuario en la Base de Datos
-            const usuario = await usuarios.findById(req.user.id)
+            const usuario = await usuarios.findById(req.user._id)
             //Verificamos si tiene el rol de carga
             const isCarga = (usuario?.rol == "carga" || usuario?.rol == "admin");
             //Si no lo tiene, devuelve el siguiente mensaje

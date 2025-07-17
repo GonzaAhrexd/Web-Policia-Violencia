@@ -54,14 +54,14 @@ type denunciaSinVerificarType = {
 export const createDenunciaSinVerificar = async (req, res) => {
     try {
         // Obtener la división del usuario
-        const usuario = await usuarios.findById(req.user.id)
+        const usuario = await usuarios.findById(req.user._id)
         const division = usuario?.unidad
         // Obtener los datos de la denuncia
         const { nombre_victima, numero_de_expediente, fecha, hora, ampliado_de, apellido_victima, genero, edad_victima, dni_victima, estado_civil_victima, modo_actuacion, ocupacion_victima, nacionalidad_victima, direccion_victima, telefono_victima, SabeLeerYEscribir, observaciones, AsistidaPorDichoOrganismo, ExaminadaMedicoPolicial, AccionarPenalmente, AgregarQuitarOEnmendarAlgo, nombre_completo_secretario, jerarquia_secretario, plaza_secretario, nombre_completo_instructor, jerarquia_instructor, agrega, direccion, telefono } = req.body
         // Crear la denuncia
         const newDenunciaSinVerificar = new denunciaSinVerificar({
             estado: "En verificación",
-            cargado_por: req.user.id,
+            cargado_por: req.user._id,
             numero_de_expediente: numero_de_expediente,
             fecha: fecha,
             hora: hora,
@@ -257,7 +257,7 @@ export const deleteDenunciaSinVerificar = async (req, res) => {
 // GET: Listar mis denuncias sin verificar
 export const listarMisDenunciasSinVerificar = async (req, res) => {
     try {
-        const misDenunciasSinVerificar = await denunciaSinVerificar.find({ cargado_por: req.user.id })
+        const misDenunciasSinVerificar = await denunciaSinVerificar.find({ cargado_por: req.user._id })
 
         // Agregar actividad reciente
         await agregarActividadReciente("Se listaron las denuncias sin verificar del usuario", "Denuncia Sin Verificar", "Varias", req.cookies)

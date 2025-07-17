@@ -53,7 +53,7 @@ export const createRadiograma = async (req, res) => {
             }
         }
         
-        await agregarActividadReciente("Se creó un radiograma", "Radiograma", radiogramaData._id.toString(), req.user?.id);
+        await agregarActividadReciente("Se creó un radiograma", "Radiograma", radiogramaData._id.toString(), req.user?._id);
 
         res.status(201).json(radiogramaData);
     } catch (error: any) {
@@ -88,7 +88,7 @@ export const editRadiograma = async (req, res) => {
         }
         
         // Agregar actividad reciente
-        await agregarActividadReciente("Se editó un radiograma", "Radiograma", radiogramaData._id.toString(), req.user?.id);
+        await agregarActividadReciente("Se editó un radiograma", "Radiograma", radiogramaData._id.toString(), req.user?._id);
         
         res.status(200).json(radiogramaData);
     } catch (error: any) {
@@ -111,7 +111,7 @@ export const ampliarRadiograma = async (req, res) => {
         }
 
         // Agregar actividad reciente
-        await agregarActividadReciente("Se amplió un radiograma", "Radiograma", nuevoRadiograma._id.toString(), req.user?.id);
+        await agregarActividadReciente("Se amplió un radiograma", "Radiograma", nuevoRadiograma._id.toString(), req.user?._id);
 
         res.status(200).json(radiogramaData);
     } catch (error: any) {
@@ -131,7 +131,7 @@ export const deleteRadiograma = async (req, res) => {
         await denunciaSinVerificar.updateMany({ radiograma_ID: id_radiograma }, { $unset: { radiograma_ID: "" } });
 
         // Agregar actividad reciente
-        await agregarActividadReciente("Se eliminó un radiograma", "Radiograma", id_radiograma, req.user?.id);
+        await agregarActividadReciente("Se eliminó un radiograma", "Radiograma", id_radiograma, req.user?._id);
 
         res.status(200).json({ message: 'Radiograma eliminado correctamente' });
     }catch(error){

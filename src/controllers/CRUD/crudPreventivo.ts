@@ -63,7 +63,7 @@ export const createPreventivo = async (req, res) => {
         // Guarda la denuncia con el ID del preventivo
         await newPreventivo.save();
         await foundDenuncia.save();
-        await agregarActividadReciente("Se creó un preventivo para una denuncia sin verificar", "Preventivo", foundDenuncia._id.toString(), req.user?.id);
+        await agregarActividadReciente("Se creó un preventivo para una denuncia sin verificar", "Preventivo", foundDenuncia._id.toString(), req.user?._id);
         res.json({ message: 'Preventivo creado con éxito' });
     } catch (error: any) {
         console.error('Error creando preventivo:', error);
@@ -86,7 +86,7 @@ export const ampliarPreventivo = async (req, res) => {
         }
         
         await preventivoOriginal.save();
-        await agregarActividadReciente("Se amplió un preventivo", "Preventivo", preventivoOriginal._id.toString(), req.user?.id);
+        await agregarActividadReciente("Se amplió un preventivo", "Preventivo", preventivoOriginal._id.toString(), req.user?._id);
         res.json({ message: 'Preventivo creado con éxito' });
     } catch (error: any) {
         console.error('Error creando preventivo:', error);
@@ -108,7 +108,7 @@ export const editPreventivo = async (req, res) => {
             return res.status(404).json({ message: 'Preventivo no encontrado' });
         }
         // Agregar actividad reciente
-        await agregarActividadReciente("Se editó un preventivo", "Preventivo", updatedPreventivo._id.toString(), req.user?.id);
+        await agregarActividadReciente("Se editó un preventivo", "Preventivo", updatedPreventivo._id.toString(), req.user?._id);
         res.json(updatedPreventivo);
     } catch (error:any) {
         console.error('Error editando preventivo:', error);
@@ -182,7 +182,7 @@ export const deletePreventivo = async (req, res) => {
             })
         }
         // Agregar actividad reciente
-        await agregarActividadReciente("Se eliminó un preventivo", "Preventivo", deletedPreventivo._id.toString(), req.user?.id);
+        await agregarActividadReciente("Se eliminó un preventivo", "Preventivo", deletedPreventivo._id.toString(), req.user?._id);
         res.json({ message: 'Preventivo eliminado con éxito' })
     } catch (error: any) {
         console.error('Error eliminando preventivo:', error)

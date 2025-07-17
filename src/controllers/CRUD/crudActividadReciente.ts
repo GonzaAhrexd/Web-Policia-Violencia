@@ -32,7 +32,7 @@ export async function agregarActividadReciente(descripcion: String, modelo_modif
     // Se verifica el token
     jwt.verify(token, TOKEN_SECRET, async (err, user) => {
         // Se busca el usuario por el id
-        const usuarioEncontrado = await usuario.findById(user.id)
+        const usuarioEncontrado = await usuario.findById(user._id)
         // Se crea la actividad reciente
         var actividad = new actividadReciente({
             fecha: new Date(),
@@ -69,7 +69,6 @@ export const buscarActividadReciente = async (req, res) => {
 
         if (desde !== 'no_ingresado') {
             // Crea una fecha en UTC directamente.
-            // Al añadir 'T00:00:00.000Z', forzamos que sea medianoche UTC.
             const fechaDesde = new Date(`${desde}T00:00:00.000Z`);
             query.fecha = { $gte: fechaDesde };
         }
@@ -77,7 +76,6 @@ export const buscarActividadReciente = async (req, res) => {
         if (hasta !== 'no_ingresado') {     
             query.fecha = query.fecha || {};
             // Crea una fecha en UTC directamente.
-            // Al añadir 'T23:59:59.999Z', forzamos que sea el último milisegundo del día UTC.
             const fechaHasta = new Date(`${hasta}T23:59:59.999Z`);
             query.fecha.$lte = fechaHasta;
         }
@@ -92,7 +90,6 @@ export const buscarActividadReciente = async (req, res) => {
             query.usuario = usuario;
         }
 
-        // const actividad = await actividadReciente.find(query).sort({fecha: -1})
         const actividad_reciente = await actividadReciente.find(query).sort({ fecha: -1 })
 
 
