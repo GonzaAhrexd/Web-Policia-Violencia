@@ -80,6 +80,7 @@ export const buscarRadiogramaID = async (req, res) => {
 
 // PUT: Controlador para editar un radiograma
 export const editRadiograma = async (req, res) => {
+
     const { id_radiograma } = req.params;
     try {
         const radiogramaData = await radiograma.findByIdAndUpdate(id_radiograma, mapRadiogramaData(req.body), { new: true });
@@ -88,10 +89,11 @@ export const editRadiograma = async (req, res) => {
         }
         
         // Agregar actividad reciente
-        await agregarActividadReciente("Se editó un radiograma", "Radiograma", radiogramaData._id.toString(), req.user?._id);
+        await agregarActividadReciente("Se editó un radiograma", "Radiograma", radiogramaData._id.toString(), req.cookies);
         
         res.status(200).json(radiogramaData);
     } catch (error: any) {
+        console.log(error)
         res.status(500).json({ message: error.message });
     }
 }

@@ -88,7 +88,7 @@ export const createDenunciaSinVerificar = async (req, res) => {
                 desea_accionar_penalmente: AccionarPenalmente == "Sí" ? true : false,
                 desea_agregar_quitar_o_enmendar: AgregarQuitarOEnmendarAlgo == "Sí" ? true : false
             },
-            agrega: agrega ? agrega : 'No se agregó nada',
+            agrega: agrega ? agrega : '',
             secretario: {
                 nombre_completo_secretario: nombre_completo_secretario,
                 jerarquia_secretario: jerarquia_secretario,
