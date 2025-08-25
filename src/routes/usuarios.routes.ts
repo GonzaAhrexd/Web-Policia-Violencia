@@ -11,7 +11,7 @@ const router:Router = Router();
 // GET: Buscar usuarios por nombre de usuario, nombre, apellido y rol
 router.get('/:nombre_de_usuario/:nombre/:apellido/:rol', authAdmin, getUsuarios)
 // PUT: Editar usuario
-router.put('/:id', authAdmin, editUser)
+router.put('/editar-usuario/:id', authAdmin, editUser)
 // PUT: Cambiar rol de usuario
 router.put('/cambiar-rol/', authAdmin, changeUserRole)
 
