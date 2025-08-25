@@ -5,11 +5,15 @@ export const createReporteErrores = async (req, res) => {
     try {
         const { apartado, descripcion } = req.body
 
-        const { id } = req.user
+        const { _id } = req.user
+
+
+        console.log(_id)
+
         const newReporteErrores = new reporteErrores({
             apartado: apartado,
             descripcion: descripcion,
-            usuario: id
+            usuario: _id
         })
         // Guardar el nuevo objeto en la base de datos
         const reporteErroresSave = await newReporteErrores.save()
