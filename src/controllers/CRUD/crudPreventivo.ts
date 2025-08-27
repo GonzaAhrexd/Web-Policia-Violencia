@@ -34,6 +34,7 @@ const mapPreventivoData = (body) => ({
     nacionalidad_victima: body.nacionalidad_victima,
     direccion_victima: body.direccion_victima,
     telefono_victima: body.telefono_victima,
+    etnia_victima: body.etnia_victima,
     sabe_leer_y_escribir_victima: body.sabe_leer_y_escribir_victima === 'Sí',
     observaciones: body.observaciones + (body.agrega ? `\n${body.agrega}` : ''),
     secretario: {

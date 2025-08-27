@@ -50,6 +50,10 @@ const victimasSchema = new mongoose.Schema({
         required: true, // Campo requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    etnia: {
+        type: String,
+        trim: true
+    },
     // Definición de la ocupación de la victima
     ocupacion: {
         type: String,  // Tipo de dato String

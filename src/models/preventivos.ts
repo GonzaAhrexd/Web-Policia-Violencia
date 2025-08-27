@@ -141,6 +141,11 @@ const preventivoSchema = new mongoose.Schema({
         required: false, // Campo no requerido
         trim: true // Trim para que no se guarden espacios en blanco
     },
+    etnia_victima: {
+        type: String, // Tipo de dato String
+        required: false, // Campo no requerido
+        trim: true // Trim para que no se guarden espacios en blanco
+    },
     secretario: {
         nombre_completo_secretario: {
             type: String, // Tipo de dato String

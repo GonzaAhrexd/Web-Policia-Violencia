@@ -32,6 +32,7 @@ interface DatosVictima {
   estado_civil: string;
   genero: string;
   ocupacion: string;
+  etnia: string;
   condicion_de_vulnerabilidad: boolean;
   condiciones_de_vulnerabilidad: CondicionesDeVulnerabilidad;
   hijos: DatosHijos;
@@ -47,6 +48,7 @@ interface VictimaRequestBody {
   ocupacion_victima: string;
   condicion_de_vulnerabilidad: string;
   genero_victima: string;
+  etnia_victima: string;
   embarazo?: boolean;
   periodo_post_parto?: boolean;
   periodo_de_lactancia?: boolean;
@@ -74,7 +76,7 @@ interface BuscarVictimaParams {
 const construirDatosVictima = (body: VictimaRequestBody): DatosVictima => {
   const {
     nombre_victima, apellido_victima, direccion_victima, edad_victima, dni_victima,
-    estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad, genero_victima,
+    estado_civil_victima, ocupacion_victima, condicion_de_vulnerabilidad, genero_victima, etnia_victima,
     embarazo, periodo_post_parto, periodo_de_lactancia, discapacidad, enfermedad_cronica,
     adulto_mayor, menor_de_edad, tratamiento_psicologico, hijos, dependencia_economica,
     mayor_de_18, menor_de_18, menores_discapacitados,
@@ -111,6 +113,7 @@ const construirDatosVictima = (body: VictimaRequestBody): DatosVictima => {
     condicion_de_vulnerabilidad: condicion_de_vulnerabilidad === 'Sí',
     condiciones_de_vulnerabilidad: condicionesDeVulnerabilidad,
     hijos: datosHijos,
+    etnia: etnia_victima
   };
 };
 

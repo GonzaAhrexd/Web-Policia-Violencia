@@ -31,6 +31,7 @@ const mapRadiogramaData = (body) => ({
     genero_victima: body.genero_victima,
     direccion_victima: body.direccion_victima,
     telefono_victima: body.telefono_victima,
+    etnia_victima: body.etnia_victima,
     instructor: {
         nombre_completo_instructor: body.nombre_completo_instructor,
         jerarquia_instructor: body.jerarquia_instructor,

@@ -149,6 +149,10 @@ const radiogramaSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    etnia_victima: {
+        type: String,
+        trim: true
+    },
 
     // --- Instructor ---
     instructor: {
