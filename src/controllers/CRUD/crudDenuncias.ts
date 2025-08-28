@@ -15,6 +15,9 @@ const fs = require('fs') //Módulo para guardar imagenes
 
 // GET: Obtener denuncias
 export const getDenuncias = async (req, res) => {
+    
+    console.log("Here")
+    
     interface Query {
         fecha?: {
             $gte?: string;
@@ -30,7 +33,7 @@ export const getDenuncias = async (req, res) => {
         aprehension?: boolean
     }
     // Obtener los parámetros de la URL
-    const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, manual, relacion_victima_victimario, aprehension } = req.params;
+    const { desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, manual, relacion_victima_victimario, aprehension } = req.query;
     // Crear el objeto de consulta
     const query: Query = {};
 
@@ -72,6 +75,8 @@ export const getDenuncias = async (req, res) => {
     if (aprehension !== 'no_ingresado') {
         query.aprehension = aprehension === 'true' ? true : false
     }
+
+    console.log(query)
     // Obtener las denuncias
     try {
 

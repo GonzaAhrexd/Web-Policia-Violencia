@@ -145,20 +145,22 @@ type Query = {
     division?: { $regex: string, $options: string } | string,
     ampliado_de?: { $exists: boolean, $ne: null }
     modo_actuacion?: { $ne: string } | string,
+    relacion_victima_victimario?: { $regex: string, $options: string } | string
 }
 
 // GET: Obtener denuncias sin verificar con filtros avanzados
 export const getDenunciasSinVerificarAvanzado = async (req, res) => {
+
     try {
-        
-        const { division, municipio, comisaria, desde, hasta, id, expediente, mostrar_ampliaciones } = req.params;
-        
+        console.log("HERE")
+
+        const { division, municipio, comisaria, desde, hasta, id, expediente, mostrar_ampliaciones } = req.query;
+
         // DivisionJunto string
         const divisionJunto = division + (municipio !== "no_ingresado" ? "," + municipio + (comisaria !== "no_ingresado" ? "," + comisaria : "") : "");
-  
-        console.log(division)
+
         let query: Query = {};
-        
+
         // Add conditions to query based on provided parameters
         if (id !== "no_ingresado") {
             query._id = id;
@@ -168,21 +170,21 @@ export const getDenunciasSinVerificarAvanzado = async (req, res) => {
             query.fecha = { $gte: desde, $lte: hasta };
 
             if (division != "no_ingresado") {
-                query.division =  { $regex: divisionJunto, $options: 'i' };
+                query.division = { $regex: divisionJunto, $options: 'i' };
             }
             if (mostrar_ampliaciones === "true") {
                 query.modo_actuacion = "Ampliación de denuncia";
             }// Si mostrar_ampliaciones es false que no muestre cuando dice "Ampliación de denuncia"
             else {
-              
+
                 query.modo_actuacion = { $ne: "Ampliación de denuncia" };
             }
         }
-        
+
         console.log(query)
         // Busca las denuncias sin verificar según el query construido
         const obtenerDenunciasSinVerificar = await denunciaSinVerificar.find(query);
-        
+
         // Si no se encuentran denuncias, devuelve un mensaje de error
         if (!obtenerDenunciasSinVerificar || obtenerDenunciasSinVerificar.length === 0) {
             return res.status(404).json({ message: 'Denuncias no encontradas' });
@@ -193,6 +195,7 @@ export const getDenunciasSinVerificarAvanzado = async (req, res) => {
         res.json(id !== "no_ingresado" ? [obtenerDenunciasSinVerificar[0]] : obtenerDenunciasSinVerificar);
 
     } catch (error) {
+        console.log("HERE")
         console.error(error);
         return res.status(500).json({ message: 'Hubo un error al obtener las denuncias.' });
     }
@@ -213,12 +216,12 @@ export const getDenunciasSinVerificarByIdArray = async (req, res) => {
             return
         }
 
-        if(denunciaFound.ampliaciones_IDs) {
+        if (denunciaFound.ampliaciones_IDs) {
             for (const id of denunciaFound.ampliaciones_IDs) {
                 const denunciaAmpliadaFound = await denunciaSinVerificar.findById(id)
                 listaDenunciasArray.push(denunciaAmpliadaFound)
             }
-        }else{
+        } else {
             res.status(404).json({ message: 'No se encontraron ampliaciones para esta denuncia.' });
             return
         }
@@ -278,7 +281,7 @@ export const agregarAmpliacionDenuncia = async (req, res) => {
         const { id, idAmpliacion } = req.params
 
         const denunciaSinVerificarUpdate: any = await denunciaSinVerificar.findByIdAndUpdate(id, { $push: { ampliaciones_IDs: idAmpliacion } })
-        
+
         // Agregar actividad reciente
         await agregarActividadReciente(`Se agregó una ampliación a la denuncia sin verificar con el número de expediente ${denunciaSinVerificarUpdate?.numero_de_expediente}`, "Denuncia Sin Verificar", denunciaSinVerificarUpdate?._id, req.cookies)
         res.json(denunciaSinVerificarUpdate)

@@ -20,9 +20,10 @@ const router:Router = Router();
 router.post('/', authRequired, createDenunciaSinVerificar)
 // GET: Buscar denuncias sin verificar
 router.get('/', authRequired, getDenunciasSinVerificar)
-// GET: Buscar denuncias sin verificar por id (id)
-router.get('/:id', authRequired, getDenunciasSinVerificarId)
 // GET: Buscar denuncias sin verificar (desde, hasta, id, expediente, division, municipio, comisaria, mostrar_ampliaciones)
+router.get('/filtros', authRequired, getDenunciasSinVerificarAvanzado)
+// GET: Buscar denuncias sin verificar por id (id)
+router.get('/getId/:id', authRequired, getDenunciasSinVerificarId)
 router.get('/:desde/:hasta/:id/:expediente/:division/:municipio/:comisaria/:mostrar_ampliaciones', authRequired, getDenunciasSinVerificarAvanzado)
 // GET: Buscar mis denuncias sin verificar (desde, hasta, numero_de_expediente)
 router.get('/mis-denuncias/:desde/:hasta/:numero_de_expediente/', authRequired, listarMisDenunciasSinVerificar)
