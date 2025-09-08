@@ -79,8 +79,17 @@ export const buscarExposicion = async (req, res) => {
     const { desde, hasta, id_exposicion, nombre_victima, apellido_victima, dni_victima } = req.params;
     const query: Query = {};
 
-    if (desde !== 'no_ingresado') query.createdAt = { $gte: desde };
-    if (hasta !== 'no_ingresado') query.createdAt = { ...query.createdAt, $lte: hasta };
+    if (desde !== 'no_ingresado') {
+        const desdeUTC = new Date(desde);
+        desdeUTC.setUTCHours(0, 0, 0, 0);
+        query.createdAt = { $gte: desdeUTC.toISOString() };
+    }
+    if (hasta !== 'no_ingresado') {
+        const hastaUTC = new Date(hasta);
+        hastaUTC.setUTCHours(23, 59, 59, 999);
+        query.createdAt = { ...query.createdAt, $lte: hastaUTC.toISOString() };
+    }
+    
     if (id_exposicion !== 'no_ingresado') query._id = id_exposicion;
 
     if (nombre_victima !== 'no_ingresado') {
