@@ -17,6 +17,8 @@ router.post('/array', authCarga, buscarVictimariosArray);
 router.get('/:id', authCarga, getVictimario)
 // GET: Buscar victimario
 router.get('/:victimario_id/:nombre_victimario/:apellido_victimario/:dni_victimario/:numero_de_expediente', authCarga, buscarVictimario)
+// GET: Buscar victimario por DNI
+router.get('/dni/:dni_victimario', buscarVictimarioPorDni) 
 // PUT: Editar victimario
 router.put('/:id', authCarga, updateVictimario)
 

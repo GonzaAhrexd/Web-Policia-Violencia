@@ -711,3 +711,113 @@ export const getDenunciasTotalesPeriodo = async (req, res) => {
         res.status(500).json({ error: 'Error al obtener las denuncias' });
     }
 };
+
+export const getDenunciasSued = async (req, res) => {
+   interface Query {
+        fecha?: {
+            $gte?: string;
+            $lte?: string;
+        };
+        _id?: string;
+        numero_de_expediente?: string;
+        is_expediente_completo?: boolean;
+        unidad_de_carga?: string;
+        municipio?: string;
+        jurisdiccion_policial?: string
+        relacion_victima_victimario?: string
+        aprehension?: boolean
+    }
+    // Obtener los parámetros de la URL
+    const { token, desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, relacion_victima_victimario, aprehension } = req.params;
+
+    if (token !== process.env.TOKEN_API_SUED) {
+        return res.status(401).json({ error: 'Token inválido' });
+    }
+
+
+    console.log(desde)
+    console.log(hasta)
+    // Crear el objeto de consulta
+    const query: Query = {};
+
+    // Si se ingresó un valor, se agrega a la consulta
+    if (desde !== 'no_ingresado') {
+        query.fecha = { $gte: desde };
+    }
+
+    // Si se ingresó un valor, se agrega a la consulta
+    if (hasta !== 'no_ingresado') {
+        query.fecha = query.fecha || {};
+        query.fecha.$lte = hasta;
+    }
+
+    // Si se ingresó un valor, se agrega a la consulta
+    // if (id_denuncia !== 'no_ingresado') {
+    //     query._id = id_denuncia;
+    // }
+
+    // if (numero_de_expediente !== 'no_ingresado') {
+    //     query.numero_de_expediente = numero_de_expediente;
+    // }
+
+    // if (is_expediente_completo !== 'no_ingresado') {
+    //     query.is_expediente_completo = !is_expediente_completo;
+    // }
+    if (division !== 'no_ingresado') {
+        query.unidad_de_carga = division
+    }
+    if (municipio !== 'no_ingresado') {
+        query.municipio = municipio
+    }
+    if (comisaria !== 'no_ingresado') {
+        query.jurisdiccion_policial = comisaria
+    }
+    // if (relacion_victima_victimario !== 'no_ingresado') {
+    //     query.relacion_victima_victimario = relacion_victima_victimario
+    // }
+    // if (aprehension !== 'no_ingresado') {
+    //     query.aprehension = aprehension === 'true' ? true : false
+    // }
+    // Obtener las denuncias
+    try {
+
+        let denuncias: any[] = await denuncia.find(query);
+
+        // Usamos map para procesar todo en paralelo
+        denuncias = await Promise.all(
+            denuncias.map(async (den) => {
+                try {
+                    const victimaFind = den.victima_ID ? await victimas.findById(den.victima_ID) : null;
+                    const victimarioFind = den.victimario_ID ? await victimario.findById(den.victimario_ID) : null;
+
+                    let tercero = null;
+                    if (den.tercero_ID && den.tercero_ID !== 'Sin tercero') { // Añadimos den.tercero_ID para chequear que no sea nulo o indefinido
+                        tercero = await terceros.findById(den.tercero_ID);
+                    }
+
+                    return {
+                        ...den.toObject(),
+                        Victima: victimaFind,
+                        Victimario: victimarioFind,
+                        Tercero: tercero,
+                    };
+                } catch (error) {
+                    console.error(`Error al procesar denuncia con ID ${den._id}:`, error);
+                    return {
+                        ...den.toObject(),
+                        Victima: null,
+                        Victimario: null,
+                        Tercero: null,
+                        error: 'No se pudieron cargar todos los datos relacionados'
+                    };
+                }
+            })
+        );
+
+        res.json(denuncias);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Ocurrió un error' });
+    }
+}

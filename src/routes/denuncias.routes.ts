@@ -7,7 +7,7 @@
 
 import { Router } from 'express'
 import { authRequired, authCarga } from '../middlewares/validateToken'
-import { getMisDenuncias, getDenuncias, getMisDenunciasRecientes5, updateDenuncia, createDenuncia, deleteDenuncia, getDenunciasId, getCantidadDenuncias, editarImagenDenuncia, getDenunciasFullYear, getDenunciasTotalesPeriodo, getDenunciasPlus  } from '../controllers/CRUD/crudDenuncias'
+import { getMisDenuncias, getDenuncias, getMisDenunciasRecientes5, updateDenuncia, createDenuncia, deleteDenuncia, getDenunciasId, getCantidadDenuncias, editarImagenDenuncia, getDenunciasFullYear, getDenunciasTotalesPeriodo, getDenunciasPlus, getDenunciasSued  } from '../controllers/CRUD/crudDenuncias'
 import path from 'path';
 
 const router: Router = Router()
@@ -42,6 +42,8 @@ router.get('/denuncias/:denunciaId/image', (req, res) => {
         }
     });
 })
+// GET: Denuncias consultar por fecha y unidad para el SUED
+router.get('/sued/:token/:desde/:hasta/:division/:municipio/:comisaria/', getDenunciasSued)
 // PUT: Editar imagen de denuncia
 router.put('/imagen/', authCarga, editarImagenDenuncia)
 // PUT: Editar denuncia por id
