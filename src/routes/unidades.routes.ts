@@ -1,12 +1,14 @@
 import { Router } from 'express';
 import { authAdmin, authRequired } from '../middlewares/validateToken';
 
-import { createUnidad, getUnidades, updateUnidad, deleteUnidad, addMunicipio, updateMunicipio, addComisaria, updateComisaria, addCuadriculaFromComisaria, updateCuadriculaFromComisaria, deleteMunicipio, deleteComisaria, deleteCuadriculaFromComisaria, addCuadriculaFromMunicipio, updateCuadriculaFromMunicipio, deleteCuadriculaFromMunicipio } from '../controllers/CRUD/crudUnidades'
+import { createUnidad, getUnidades, getUnidadesSued, updateUnidad, deleteUnidad, addMunicipio, updateMunicipio, addComisaria, updateComisaria, addCuadriculaFromComisaria, updateCuadriculaFromComisaria, deleteMunicipio, deleteComisaria, deleteCuadriculaFromComisaria, addCuadriculaFromMunicipio, updateCuadriculaFromMunicipio, deleteCuadriculaFromMunicipio } from '../controllers/CRUD/crudUnidades'
 
 const router:Router = Router();
 
 // GET: Mostrar todas las unidades
 router.get('/unidad/', authRequired, getUnidades)
+// GET: Mostrar unidades SUED
+router.get('/unidades-sued/:token', getUnidadesSued)
 // POST: Agregar una unidad
 router.post('/unidad/', authAdmin, createUnidad)
 // PUT: Editar una unidad 
@@ -46,4 +48,5 @@ router.put('/agregar-cuadricula-desde-municipio', authAdmin, addCuadriculaFromMu
 router.put('/editar-cuadricula-desde-municipio', authAdmin, updateCuadriculaFromMunicipio)
 // PUT: Eliminar cuadriculas
 router.put('/eliminar-cuadricula-desde-municipio/:cuadricula/:municipio', authAdmin, deleteCuadriculaFromMunicipio)
+
 export default router

@@ -24,6 +24,22 @@ export const getUnidades = async (req, res) => {
     }
 }
 
+
+export const getUnidadesSued = async (req, res) => {
+    try{
+        const { token } = req.params
+        if(token !== process.env.TOKEN_API_SUED){
+            return res.status(401).json({ message: "Token inválido" })
+        }
+        const unidadesList = await unidades.find()
+
+        res.json(unidadesList)
+    } catch (error) {
+        console.log(error)  
+    }
+}
+
+
 // PUT: Función para actualizar una unidad
 export const updateUnidad = async (req, res) => {
     try {

@@ -265,9 +265,62 @@ export const getVictimasWithArray = async (req: Request<{}, {}, { victimasIds: s
     }
 
     const victimasArray = await victimas.find({ _id: { $in: victimasIds } });
-    res.json(victimasArray); 
+    res.json(victimasArray);
   } catch (error) {
     console.error('Error al obtener las víctimas:', error);
     res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
   }
 };
+
+
+export const getVictimasSued = async (req: Request, res: Response) => {
+
+  try {
+
+    const { token, nombre_victima, apellido_victima, dni_victima } = req.params;
+
+    if (token !== process.env.TOKEN_API_SUED) {
+      return res.status(401).json({ error: 'Token inválido' });
+    }
+
+    console.log(nombre_victima)
+
+
+    const query: { [key: string]: any } = {};
+
+    if (nombre_victima !== 'no_ingresado') query.nombre = construirExpresionRegular(nombre_victima);
+    if (apellido_victima !== 'no_ingresado') query.apellido = construirExpresionRegular(apellido_victima);
+    if (dni_victima !== 'no_ingresado') query.DNI = dni_victima.replace(/\./g, '');
+
+
+    let victimasBuscar: any[] = await victimas.find(query);
+
+    victimasBuscar = await Promise.all(
+      victimasBuscar.map(async (victima: any) => {
+        const denunciasIds: string[] = Array.isArray(victima?.denuncias_realizadas)
+          ? victima.denuncias_realizadas
+          : [];
+
+        const denunciasPromises = denunciasIds.map((id: string) => denuncias.findById(id));
+        const denunciasEncontradas = await Promise.all(denunciasPromises);
+
+        const victimaObj = victima.toObject?.() ?? { ...victima };
+        victimaObj.denuncias = denunciasEncontradas.filter(Boolean); // filtra nulos si hace falta
+
+        return victimaObj;
+      })
+    );
+
+    res.json(victimasBuscar);
+
+
+
+
+  } catch (error) {
+    console.error('Error al obtener las víctimas:', error);
+    res.status(500).json({ message: 'Hubo un error al obtener las víctimas.' });
+  }
+
+}
+
+

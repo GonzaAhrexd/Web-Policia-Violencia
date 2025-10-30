@@ -10,7 +10,7 @@ import { Router } from 'express';
 import { authCarga } from '../middlewares/validateToken';
 
 // VICTIMAS
-import { getVictima, createVictima, updateVictima, buscarVictima, getVictimasWithArray } from '../controllers/CRUD/crudVictimas'
+import { getVictima, createVictima, updateVictima, buscarVictima, getVictimasWithArray, getVictimasSued } from '../controllers/CRUD/crudVictimas'
 
 
 const router:Router = Router();
@@ -22,6 +22,8 @@ router.post('/array', authCarga, getVictimasWithArray);
 router.get('/:id', authCarga, getVictima)
 // GET: Buscar víctima
 router.get('/:id_victima/:nombre_victima/:apellido_victima/:dni_victima/:numero_de_expediente', authCarga, buscarVictima)
+// GET: Buscar victimas SUED
+router.get('/buscar/sued/:token/:nombre_victima/:apellido_victima/:dni_victima/', getVictimasSued)
 // PUT: Editar víctima
 router.put('/:id', authCarga, updateVictima)
 

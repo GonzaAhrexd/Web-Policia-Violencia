@@ -248,6 +248,46 @@ export const buscarVictimarioPorDni = async (req: Request<{ dni_victimario: stri
   }
 };
 
+
+// GET: Buscar victimarios SUED
+export const getVictimariosSued = async (req: Request<{ token: string; nombre_victimario: string; apellido_victimario: string; dni_victimario: string; numero_de_expediente: string }>, res: Response) => {
+ 
+  try {
+    const { token, nombre_victimario, apellido_victimario, dni_victimario } = req.params; 
+    
+  
+    if (token !== process.env.TOKEN_API_SUED) {
+      return res.status(401).json({ error: 'Token inválido' });
+    }
+
+    const query: { [key: string]: any } = {};
+
+    if (nombre_victimario !== 'no_ingresado') query.nombre = construirExpresionRegular(nombre_victimario);
+    if (apellido_victimario !== 'no_ingresado') query.apellido = construirExpresionRegular(apellido_victimario);
+    if (dni_victimario !== 'no_ingresado') query.DNI = dni_victimario.replace(/\./g, '');
+
+    let victimariosBuscar: any[] = await victimario.find(query); 
+
+    victimariosBuscar = await Promise.all(
+      victimariosBuscar.map(async (victimarioItem) => {
+        const denunciasDetalles = await denuncias.find({ _id: { $in: victimarioItem.denuncias_en_contra } });
+        return {
+          ...victimarioItem.toObject(),
+          denuncias_detalles: denunciasDetalles,
+        };
+      })
+    );
+
+    res.json(victimariosBuscar);
+
+
+
+  } catch (error) {
+    console.error('Error al buscar victimarios SUED:', error);
+    res.status(500).json({ message: 'Error al buscar victimarios SUED' });
+  }
+};
+
 // POST: Buscar victimarios por array de IDs
 export const buscarVictimariosArray = async (req: Request<{}, {}, { victimariosIds: string[] }>, res: Response) => {
   try {

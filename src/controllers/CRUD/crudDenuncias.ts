@@ -728,15 +728,13 @@ export const getDenunciasSued = async (req, res) => {
         aprehension?: boolean
     }
     // Obtener los parámetros de la URL
-    const { token, desde, hasta, numero_de_expediente, is_expediente_completo, id_denuncia, division, municipio, comisaria, relacion_victima_victimario, aprehension } = req.params;
+    const { token, desde, hasta, division, municipio, comisaria, relacion_victima_victimario, aprehension } = req.params;
 
     if (token !== process.env.TOKEN_API_SUED) {
         return res.status(401).json({ error: 'Token inválido' });
     }
 
 
-    console.log(desde)
-    console.log(hasta)
     // Crear el objeto de consulta
     const query: Query = {};
 
