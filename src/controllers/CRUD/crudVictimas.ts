@@ -283,9 +283,6 @@ export const getVictimasSued = async (req: Request, res: Response) => {
       return res.status(401).json({ error: 'Token inválido' });
     }
 
-    console.log(nombre_victima)
-
-
     const query: { [key: string]: any } = {};
 
     if (nombre_victima !== 'no_ingresado') query.nombre = construirExpresionRegular(nombre_victima);
@@ -295,21 +292,21 @@ export const getVictimasSued = async (req: Request, res: Response) => {
 
     let victimasBuscar: any[] = await victimas.find(query);
 
-    victimasBuscar = await Promise.all(
-      victimasBuscar.map(async (victima: any) => {
-        const denunciasIds: string[] = Array.isArray(victima?.denuncias_realizadas)
-          ? victima.denuncias_realizadas
-          : [];
+    // victimasBuscar = await Promise.all(
+    //   victimasBuscar.map(async (victima: any) => {
+    //     const denunciasIds: string[] = Array.isArray(victima?.denuncias_realizadas)
+    //       ? victima.denuncias_realizadas
+    //       : [];
 
-        const denunciasPromises = denunciasIds.map((id: string) => denuncias.findById(id));
-        const denunciasEncontradas = await Promise.all(denunciasPromises);
+    //     const denunciasPromises = denunciasIds.map((id: string) => denuncias.findById(id));
+    //     const denunciasEncontradas = await Promise.all(denunciasPromises);
 
-        const victimaObj = victima.toObject?.() ?? { ...victima };
-        victimaObj.denuncias = denunciasEncontradas.filter(Boolean); // filtra nulos si hace falta
+    //     const victimaObj = victima.toObject?.() ?? { ...victima };
+    //     victimaObj.denuncias = denunciasEncontradas.filter(Boolean); // filtra nulos si hace falta
 
-        return victimaObj;
-      })
-    );
+    //     return victimaObj;
+    //   })
+    // );
 
     res.json(victimasBuscar);
 
