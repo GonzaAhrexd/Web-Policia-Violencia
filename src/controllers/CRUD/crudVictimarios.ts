@@ -254,8 +254,7 @@ export const getVictimariosSued = async (req: Request<{ token: string; nombre_vi
  
   try {
     const { token, nombre_victimario, apellido_victimario, dni_victimario } = req.params; 
-    
-  
+
     if (token !== process.env.TOKEN_API_SUED) {
       return res.status(401).json({ error: 'Token inválido' });
     }
@@ -268,15 +267,6 @@ export const getVictimariosSued = async (req: Request<{ token: string; nombre_vi
 
     let victimariosBuscar: any[] = await victimario.find(query); 
 
-    victimariosBuscar = await Promise.all(
-      victimariosBuscar.map(async (victimarioItem) => {
-        const denunciasDetalles = await denuncias.find({ _id: { $in: victimarioItem.denuncias_en_contra } });
-        return {
-          ...victimarioItem.toObject(),
-          denuncias_detalles: denunciasDetalles,
-        };
-      })
-    );
 
     res.json(victimariosBuscar);
 
